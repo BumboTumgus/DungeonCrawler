@@ -1,0 +1,155 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5140993533421385375
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5140993533421385373}
+  - component: {fileID: 5140993533421385372}
+  m_Layer: 0
+  m_Name: FloorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5140993533421385373
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5140993533421385375}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5140993533421385372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5140993533421385375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec8ca3635d7597d4b901ffe2e6a436ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allRoomsTL:
+  - {fileID: 5812894263405371139, guid: f6b8f27a2c1269c4699063c290aeb137, type: 3}
+  - {fileID: 5812894263405371139, guid: f6b8f27a2c1269c4699063c290aeb137, type: 3}
+  - {fileID: 5812894263405371139, guid: f6b8f27a2c1269c4699063c290aeb137, type: 3}
+  - {fileID: 611638451047166738, guid: 0e9f0562bf3828949a59d6be67ed84c0, type: 3}
+  - {fileID: 611638451047166738, guid: 0e9f0562bf3828949a59d6be67ed84c0, type: 3}
+  - {fileID: 611638451047166738, guid: 0e9f0562bf3828949a59d6be67ed84c0, type: 3}
+  - {fileID: 3942494642573812279, guid: 4eaac5878d037d149bc7d145658a4548, type: 3}
+  - {fileID: 8320550717430243922, guid: f6282f2c0035b1147b61fd8249794830, type: 3}
+  - {fileID: 667816123798322540, guid: e910ea52358711446b5c87de99d82c91, type: 3}
+  - {fileID: 3846107312064131097, guid: ca61fd834be707d42b97106a102bd743, type: 3}
+  - {fileID: 3480330689110322718, guid: d49895c253562a649a6ee2e31fbfb3b1, type: 3}
+  - {fileID: 5777614054072858861, guid: 90f36a91ecdd739459cde953a266e467, type: 3}
+  - {fileID: 71042159762266031, guid: b1ec6918aa24e9a489389e658df38b1b, type: 3}
+  - {fileID: 4984336736002735169, guid: 52ac6c43d45422f4c900e0887c713423, type: 3}
+  - {fileID: 6607030768884351868, guid: c1c917cd3a38fe747856ea5417bf6bae, type: 3}
+  - {fileID: 2171626169180708812, guid: 43d3235842839e04f8face4a760e210f, type: 3}
+  - {fileID: 8168727276740103021, guid: 0f83870c3e67e6b469cc13082fb2dff8, type: 3}
+  - {fileID: 5812894263405371139, guid: f6b8f27a2c1269c4699063c290aeb137, type: 3}
+  - {fileID: 5812894263405371139, guid: f6b8f27a2c1269c4699063c290aeb137, type: 3}
+  - {fileID: 5812894263405371139, guid: f6b8f27a2c1269c4699063c290aeb137, type: 3}
+  - {fileID: 2773069437582963769, guid: 5a6d084a90b67724580a67568eee92a3, type: 3}
+  - {fileID: 8762789667242693791, guid: 1bd8615f7039985439ff680001496d4e, type: 3}
+  - {fileID: 3957757193836770474, guid: e1d25b54942ce984d8f5889fe4fea205, type: 3}
+  - {fileID: 1599863998423336447, guid: e7e31316b9777d446a56d4e8f3367440, type: 3}
+  - {fileID: 2564933916906453456, guid: 1f794430eccb1a44daf8e95886081915, type: 3}
+  allRoomsTR:
+  - {fileID: 836275029096204128, guid: 2327fcc1c96562b42a6767357199ae86, type: 3}
+  - {fileID: 836275029096204128, guid: 2327fcc1c96562b42a6767357199ae86, type: 3}
+  - {fileID: 836275029096204128, guid: 2327fcc1c96562b42a6767357199ae86, type: 3}
+  - {fileID: 8522389829347166106, guid: d63c89815b3d5354b92e3df2dc39b014, type: 3}
+  - {fileID: 8522389829347166106, guid: d63c89815b3d5354b92e3df2dc39b014, type: 3}
+  - {fileID: 8522389829347166106, guid: d63c89815b3d5354b92e3df2dc39b014, type: 3}
+  - {fileID: 8320550717430243922, guid: f6282f2c0035b1147b61fd8249794830, type: 3}
+  - {fileID: 735906806044441537, guid: 61b5473c2147efc4096c76b098448e52, type: 3}
+  - {fileID: 3480330689110322718, guid: d49895c253562a649a6ee2e31fbfb3b1, type: 3}
+  - {fileID: 667816123798322540, guid: e910ea52358711446b5c87de99d82c91, type: 3}
+  - {fileID: 7825315441160728267, guid: 004f7e60e8e069c4499461a044b2ba7a, type: 3}
+  - {fileID: 5777614054072858861, guid: 90f36a91ecdd739459cde953a266e467, type: 3}
+  - {fileID: 3968827970061612864, guid: be74cd5428a8a57489806eda12548d7d, type: 3}
+  - {fileID: 4832375248977174530, guid: 9433f45696011cb4692a08e829411369, type: 3}
+  - {fileID: 3345500834367191749, guid: c0fcf944a2c099a498cea8b07ac1df7f, type: 3}
+  - {fileID: 3345500834367191749, guid: c0fcf944a2c099a498cea8b07ac1df7f, type: 3}
+  - {fileID: 5601695528228514804, guid: 2da84adcd16040945ab7a1394f365cab, type: 3}
+  - {fileID: 836275029096204128, guid: 2327fcc1c96562b42a6767357199ae86, type: 3}
+  - {fileID: 836275029096204128, guid: 2327fcc1c96562b42a6767357199ae86, type: 3}
+  - {fileID: 836275029096204128, guid: 2327fcc1c96562b42a6767357199ae86, type: 3}
+  - {fileID: 813768502494248059, guid: 18801c9ee6fd8864c88ab05651315e17, type: 3}
+  - {fileID: 3957757193836770474, guid: e1d25b54942ce984d8f5889fe4fea205, type: 3}
+  - {fileID: 2564933916906453456, guid: 1f794430eccb1a44daf8e95886081915, type: 3}
+  - {fileID: 395875898706901202, guid: 75cafdd3084f27242808d3a1e4dfe16e, type: 3}
+  - {fileID: 5514903026154861229, guid: 66a08f4602e054b4e9b712d40ba82beb, type: 3}
+  allRoomsBL:
+  - {fileID: 431501031700437036, guid: ba212bb150061e64c946dc376be6e5bd, type: 3}
+  - {fileID: 431501031700437036, guid: ba212bb150061e64c946dc376be6e5bd, type: 3}
+  - {fileID: 431501031700437036, guid: ba212bb150061e64c946dc376be6e5bd, type: 3}
+  - {fileID: 8522389829347166106, guid: d63c89815b3d5354b92e3df2dc39b014, type: 3}
+  - {fileID: 8522389829347166106, guid: d63c89815b3d5354b92e3df2dc39b014, type: 3}
+  - {fileID: 8522389829347166106, guid: d63c89815b3d5354b92e3df2dc39b014, type: 3}
+  - {fileID: 3651633014220727926, guid: 8866d1dfc9265984caacba50dec96833, type: 3}
+  - {fileID: 3942494642573812279, guid: 4eaac5878d037d149bc7d145658a4548, type: 3}
+  - {fileID: 3846107312064131097, guid: ca61fd834be707d42b97106a102bd743, type: 3}
+  - {fileID: 3480330689110322718, guid: d49895c253562a649a6ee2e31fbfb3b1, type: 3}
+  - {fileID: 7825315441160728267, guid: 004f7e60e8e069c4499461a044b2ba7a, type: 3}
+  - {fileID: 5777614054072858861, guid: 90f36a91ecdd739459cde953a266e467, type: 3}
+  - {fileID: 3968827970061612864, guid: be74cd5428a8a57489806eda12548d7d, type: 3}
+  - {fileID: 4832375248977174530, guid: 9433f45696011cb4692a08e829411369, type: 3}
+  - {fileID: 3345500834367191749, guid: c0fcf944a2c099a498cea8b07ac1df7f, type: 3}
+  - {fileID: 2171626169180708812, guid: 43d3235842839e04f8face4a760e210f, type: 3}
+  - {fileID: 2056210197076166078, guid: be6cd697da697864c9318cf4132faa57, type: 3}
+  - {fileID: 431501031700437036, guid: ba212bb150061e64c946dc376be6e5bd, type: 3}
+  - {fileID: 431501031700437036, guid: ba212bb150061e64c946dc376be6e5bd, type: 3}
+  - {fileID: 431501031700437036, guid: ba212bb150061e64c946dc376be6e5bd, type: 3}
+  - {fileID: 813768502494248059, guid: 18801c9ee6fd8864c88ab05651315e17, type: 3}
+  - {fileID: 3957757193836770474, guid: e1d25b54942ce984d8f5889fe4fea205, type: 3}
+  - {fileID: 1599863998423336447, guid: e7e31316b9777d446a56d4e8f3367440, type: 3}
+  - {fileID: 8185416200539470047, guid: 13a13504fccb5404587f53ea87aaa5c5, type: 3}
+  - {fileID: 5514903026154861229, guid: 66a08f4602e054b4e9b712d40ba82beb, type: 3}
+  allRoomsBR:
+  - {fileID: 137034347624641120, guid: 3cdeb63d25b028b49830449a099c44f6, type: 3}
+  - {fileID: 137034347624641120, guid: 3cdeb63d25b028b49830449a099c44f6, type: 3}
+  - {fileID: 137034347624641120, guid: 3cdeb63d25b028b49830449a099c44f6, type: 3}
+  - {fileID: 611638451047166738, guid: 0e9f0562bf3828949a59d6be67ed84c0, type: 3}
+  - {fileID: 611638451047166738, guid: 0e9f0562bf3828949a59d6be67ed84c0, type: 3}
+  - {fileID: 611638451047166738, guid: 0e9f0562bf3828949a59d6be67ed84c0, type: 3}
+  - {fileID: 3651633014220727926, guid: 8866d1dfc9265984caacba50dec96833, type: 3}
+  - {fileID: 735906806044441537, guid: 61b5473c2147efc4096c76b098448e52, type: 3}
+  - {fileID: 3846107312064131097, guid: ca61fd834be707d42b97106a102bd743, type: 3}
+  - {fileID: 667816123798322540, guid: e910ea52358711446b5c87de99d82c91, type: 3}
+  - {fileID: 7825315441160728267, guid: 004f7e60e8e069c4499461a044b2ba7a, type: 3}
+  - {fileID: 5777614054072858861, guid: 90f36a91ecdd739459cde953a266e467, type: 3}
+  - {fileID: 71042159762266031, guid: b1ec6918aa24e9a489389e658df38b1b, type: 3}
+  - {fileID: 4984336736002735169, guid: 52ac6c43d45422f4c900e0887c713423, type: 3}
+  - {fileID: 6607030768884351868, guid: c1c917cd3a38fe747856ea5417bf6bae, type: 3}
+  - {fileID: 2171626169180708812, guid: 43d3235842839e04f8face4a760e210f, type: 3}
+  - {fileID: 4232177341900312463, guid: 9108d950f769b7842b8655ccb9137e32, type: 3}
+  - {fileID: 137034347624641120, guid: 3cdeb63d25b028b49830449a099c44f6, type: 3}
+  - {fileID: 137034347624641120, guid: 3cdeb63d25b028b49830449a099c44f6, type: 3}
+  - {fileID: 137034347624641120, guid: 3cdeb63d25b028b49830449a099c44f6, type: 3}
+  - {fileID: 2773069437582963769, guid: 5a6d084a90b67724580a67568eee92a3, type: 3}
+  - {fileID: 8762789667242693791, guid: 1bd8615f7039985439ff680001496d4e, type: 3}
+  - {fileID: 3957757193836770474, guid: e1d25b54942ce984d8f5889fe4fea205, type: 3}
+  - {fileID: 395875898706901202, guid: 75cafdd3084f27242808d3a1e4dfe16e, type: 3}
+  - {fileID: 8185416200539470047, guid: 13a13504fccb5404587f53ea87aaa5c5, type: 3}
+  startingRoom: {fileID: 1464328100, guid: e9726ffa5a4143148b95e7b393cb3817, type: 3}
+  enemies:
+  - {fileID: 1897199652270360018, guid: 2232593aadc1a32499ebaa65fce121e3, type: 3}
+  treasures:
+  - {fileID: 1815793927427729546, guid: 8f850980a4cf79945946cc3fe67f45d9, type: 3}
+  traps: []

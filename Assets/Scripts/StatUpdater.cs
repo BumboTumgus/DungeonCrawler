@@ -1,0 +1,240 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class StatUpdater : MonoBehaviour
+{
+    int Vit;
+    int Str;
+    int Dex;
+    int Spd;
+    int Int;
+    int Wis;
+    int Cha;
+    float healthMax;
+    float manaMax;
+    float healthRegen;
+    float manaRegen;
+    float armor;
+    float resistance;
+    float poise;
+    float weaponBaseHit;
+    float weaponMinHit;
+    float weaponMaxHit;
+    float vitMod;
+    float strMod;
+    float dexMod;
+    float spdMod;
+    float intMod;
+    float wisMod;
+    float chaMod;
+    float attackSpeed;
+    float stagger;
+    float critChance;
+    float critMod;
+    int weaponCount;
+
+    // This method is called at the start of the game to set up all the player's stats. It is also called whenever a player switches gear or the stats would ahve to change.
+    public void SetStatValues(PlayerStats stats)
+    {
+        transform.Find("Playername").GetComponent<Text>().text = stats.playerName + " the " + stats.playerTitle;
+        transform.Find("Level_Value").GetComponent<Text>().text = stats.level + "";
+        transform.Find("EXP_Value").GetComponent<Text>().text = stats.exp + " / " + stats.expTarget;
+
+        transform.Find("Vitality_Value").GetComponent<Text>().text = stats.Vit + "";
+        transform.Find("Strength_Value").GetComponent<Text>().text = stats.Str + "";
+        transform.Find("Dexterity_Value").GetComponent<Text>().text = stats.Dex + "";
+        transform.Find("Speed_Value").GetComponent<Text>().text = stats.Spd + "";
+        transform.Find("Intelligence_Value").GetComponent<Text>().text = stats.Int + "";
+        transform.Find("Wisdom_Value").GetComponent<Text>().text = stats.Wis + "";
+        transform.Find("Charisma_Value").GetComponent<Text>().text = stats.Cha + "";
+
+        transform.Find("Health_Value").GetComponent<Text>().text = string.Format("{0:0}",stats.health) + " / " + stats.healthMax;
+        transform.Find("Mana_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.mana) + " / " + stats.manaMax;
+        transform.Find("HealthRegen_Value").GetComponent<Text>().text = stats.healthRegen + "";
+        transform.Find("ManaRegen_Value").GetComponent<Text>().text = stats.manaRegen + "";
+        transform.Find("Armor_Value").GetComponent<Text>().text = stats.armor + "";
+        transform.Find("Resistance_Value").GetComponent<Text>().text = stats.magicResist + "";
+        transform.Find("Poise_Value").GetComponent<Text>().text = string.Format("{0:0.0}", stats.poise);
+
+        float statBasedDamaged = stats.Str * stats.weaponStrScaling + stats.Dex * stats.weaponDexScaling + stats.Vit * stats.weaponVitScaling + stats.Spd * stats.weaponSpdScaling
+                + stats.Int * stats.weaponIntScaling + stats.Wis * stats.weaponWisScaling + stats.Cha * stats.weaponChaScaling;
+        float averageDamage = stats.weaponHitbase + (stats.weaponHitMin + stats.weaponHitMax) / 2 + statBasedDamaged;
+        transform.Find("AttackDamage_Value").GetComponent<Text>().text = string.Format("{0:0}", (stats.weaponHitbase + stats.weaponHitMin + statBasedDamaged)) + " - " + string.Format("{0:0}", (stats.weaponHitbase + stats.weaponHitMax + statBasedDamaged));
+        transform.Find("AttackSpeed_Value").GetComponent<Text>().text = string.Format("{0:0.00}", stats.attackSpeed);
+        transform.Find("Stagger_Value").GetComponent<Text>().text = string.Format("{0:0.0}", (stats.weaponStaggerBase + stats.Str * stats.weaponStrScaling));
+        transform.Find("CritChance_Value").GetComponent<Text>().text = stats.weaponCritChance + "%";
+        transform.Find("CritMod_Value").GetComponent<Text>().text = stats.weaponCritMod * 100 + "%";
+        // average attack damage times avergae crit chance and damage times attack per second
+        transform.Find("DPS_Value").GetComponent<Text>().text = string.Format("{0:0.0}", averageDamage *  ( 1 + (stats.weaponCritChance / 100 * (stats.weaponCritMod - stats.weaponHitspeeds.Count))) * stats.attackSpeed);
+    }
+
+    // This method is used to update the health and mana values of the player.
+    public void SetHealthManaValues(PlayerStats stats)
+    {
+        transform.Find("Health_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.health) + " / " + stats.healthMax;
+        transform.Find("Mana_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.mana) + " / " + stats.manaMax;
+    }
+
+    // Used to compare stat values between the player stats.
+    public void CompareStatValues(PlayerStats stats)
+    {
+        DrawTextPlusStatChange(transform.Find("Vitality_Value").GetComponent<Text>(), stats.Vit, Vit);
+        DrawTextPlusStatChange(transform.Find("Strength_Value").GetComponent<Text>(), stats.Str, Str);
+        DrawTextPlusStatChange(transform.Find("Dexterity_Value").GetComponent<Text>(), stats.Dex, Dex);
+        DrawTextPlusStatChange(transform.Find("Speed_Value").GetComponent<Text>(), stats.Spd, Spd);
+        DrawTextPlusStatChange(transform.Find("Intelligence_Value").GetComponent<Text>(), stats.Int, Int);
+        DrawTextPlusStatChange(transform.Find("Wisdom_Value").GetComponent<Text>(), stats.Wis, Wis);
+        DrawTextPlusStatChange(transform.Find("Charisma_Value").GetComponent<Text>(), stats.Cha, Cha);
+
+        if(healthMax - stats.healthMax < 0)
+            transform.Find("Health_Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0} <color=red>{2:0}</color>", stats.health, stats.healthMax, healthMax - stats.healthMax);
+        else if (healthMax - stats.healthMax > 0)
+            transform.Find("Health_Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0} <color=green>+{2:0}</color>", stats.health, stats.healthMax, healthMax - stats.healthMax);
+        else
+            transform.Find("Health_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.health) + " / " + stats.healthMax;
+
+        if (manaMax - stats.manaMax < 0)
+            transform.Find("Mana_Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0} <color=red>{2:0}</color>", stats.mana, stats.manaMax, manaMax - stats.manaMax);
+        else if (manaMax - stats.manaMax > 0)
+            transform.Find("Mana_Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0} <color=green>+{2:0}</color>", stats.mana, stats.manaMax, manaMax - stats.manaMax);
+        else
+            transform.Find("Mana_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.mana) + " / " + stats.manaMax;
+
+        DrawTextPlusStatChange(transform.Find("HealthRegen_Value").GetComponent<Text>(), stats.healthRegen, healthRegen, 1);
+        DrawTextPlusStatChange(transform.Find("ManaRegen_Value").GetComponent<Text>(), stats.manaRegen, manaRegen, 1);
+        DrawTextPlusStatChange(transform.Find("Armor_Value").GetComponent<Text>(), stats.armor, armor, 0);
+        DrawTextPlusStatChange(transform.Find("Resistance_Value").GetComponent<Text>(), stats.magicResist, resistance, 0);
+        DrawTextPlusStatChange(transform.Find("Poise_Value").GetComponent<Text>(), stats.poise, poise, 1);
+
+        float oldStatBasedDamaged = stats.Str * stats.weaponStrScaling + stats.Dex * stats.weaponDexScaling + stats.Vit * stats.weaponVitScaling + stats.Spd * stats.weaponSpdScaling
+                + stats.Int * stats.weaponIntScaling + stats.Wis * stats.weaponWisScaling + stats.Cha * stats.weaponChaScaling;
+        float oldAverageDamage = stats.weaponHitbase + (stats.weaponHitMin + stats.weaponHitMax) / 2 + oldStatBasedDamaged;
+
+        float newStatBasedDamaged = Str * strMod + Dex * dexMod + Vit * vitMod + Spd * spdMod + Int * intMod + Wis * wisMod + Cha * chaMod;
+        float newAverageDamage = weaponBaseHit + (weaponMinHit + weaponMaxHit) / 2 + newStatBasedDamaged;
+        float oldUpperBound = stats.weaponHitbase + stats.weaponHitMax + oldStatBasedDamaged;
+        float oldLowerBound = stats.weaponHitbase + stats.weaponHitMin + oldStatBasedDamaged;
+        float newUpperBound = weaponBaseHit + weaponMaxHit + newStatBasedDamaged;
+        float newLowerBound = weaponBaseHit + weaponMinHit + newStatBasedDamaged;
+        string lowerBound = "";
+        string upperBound = "";
+
+        if (newUpperBound - oldUpperBound < 0)
+            upperBound = string.Format("{0:0}<color=red>{1:0}</color>", oldUpperBound, newUpperBound - oldUpperBound);
+        else if (newUpperBound - oldUpperBound > 0)
+            upperBound = string.Format("{0:0}<color=green>+{1:0}</color>", oldUpperBound, newUpperBound - oldUpperBound);
+        else
+            upperBound = string.Format("{0:0}", oldUpperBound);
+
+        if (newLowerBound - oldLowerBound < 0)
+            lowerBound = string.Format("{0:0}<color=red>{1:0}</color>", oldLowerBound, newLowerBound - oldLowerBound);
+        else if (newLowerBound - oldLowerBound > 0)
+            lowerBound = string.Format("{0:0}<color=green>+{1:0}</color>", oldLowerBound, newLowerBound - oldLowerBound);
+        else
+            lowerBound = string.Format("{0:0}", oldLowerBound);
+
+        transform.Find("AttackDamage_Value").GetComponent<Text>().text = lowerBound + "-" + upperBound;
+
+        DrawTextPlusStatChange(transform.Find("AttackSpeed_Value").GetComponent<Text>(), stats.attackSpeed, attackSpeed, 2);
+        DrawTextPlusStatChange(transform.Find("Stagger_Value").GetComponent<Text>(), stats.weaponStaggerBase + stats.Str * stats.weaponStrScaling, stagger + Str * strMod, 1);
+
+
+        if (critChance - stats.weaponCritChance < 0)
+            transform.Find("CritChance_Value").GetComponent<Text>().text = string.Format("{0:0}% <color=red>{1:0}%</color>", stats.weaponCritChance, critChance - stats.weaponCritChance);
+        else if (critChance - stats.weaponCritChance > 0)
+            transform.Find("CritChance_Value").GetComponent<Text>().text = string.Format("{0:0}% <color=green>+{1:0}%</color>", stats.weaponCritChance, critChance - stats.weaponCritChance);
+        else
+            transform.Find("CritChance_Value").GetComponent<Text>().text = stats.weaponCritChance + "%";
+
+        if (critMod - stats.weaponCritMod < 0)
+            transform.Find("CritMod_Value").GetComponent<Text>().text = string.Format("{0:0}% <color=red>{1:0}%</color>", stats.weaponCritMod * 100, critMod * 100 - stats.weaponCritMod * 100);
+        else if (critMod - stats.weaponCritChance > 0)
+            transform.Find("CritMod_Value").GetComponent<Text>().text = string.Format("{0:0}% <color=green>+{1:0}%</color>", stats.weaponCritMod * 100, critMod * 100- stats.weaponCritMod * 100);
+        else
+            transform.Find("CritMod_Value").GetComponent<Text>().text = stats.weaponCritMod * 100 + "%";
+
+        // average attack damage times avergae crit chance and damage times attack per second
+        float oldDPS = oldAverageDamage * (1 + (stats.weaponCritChance / 100 * (stats.weaponCritMod - stats.weaponHitspeeds.Count))) * stats.attackSpeed;
+        float newDPS = newAverageDamage * (1 + (critChance / 100 * (critMod - weaponCount))) * attackSpeed;
+        DrawTextPlusStatChange(transform.Find("DPS_Value").GetComponent<Text>(), oldDPS, newDPS, 1);
+    }
+
+    // USed to check if our value is above or below the original, and to write it down as such.
+    public void DrawTextPlusStatChange(Text text,float value, float newValue, int decimalPlaces)
+    {
+        if (decimalPlaces == 0)
+        {
+            if (newValue - value < 0)
+                text.text = string.Format("{0:0}<color=red>{1:0}</color>", value, (newValue - value));
+            else if (newValue - value > 0)
+                text.text = string.Format("{0:0}<color=green>+{1:0}</color>", value, (newValue - value));
+            else
+                text.text = string.Format("{0:0}", value);
+        }
+        else if(decimalPlaces == 1)
+        {
+            if (newValue - value < 0)
+                text.text = string.Format("{0:0.0}<color=red>{1:0.0}</color>", value, (newValue - value));
+            else if (newValue - value > 0)
+                text.text = string.Format("{0:0.0}<color=green>+{1:0.0}</color>", value, (newValue - value));
+            else
+                text.text = string.Format("{0:0.0}", value);
+        }
+        else if (decimalPlaces == 2)
+        {
+            if (newValue - value < 0)
+                text.text = string.Format("{0:0.00}<color=red>{1:0.00}</color>", value, (newValue - value));
+            else if (newValue - value > 0)
+                text.text = string.Format("{0:0.00}<color=green>+{1:0.00}</color>", value, (newValue - value));
+            else
+                text.text = string.Format("{0:0.00}", value);
+        }
+    }
+
+    // USed to check if our value is above or below the original, and to write it down as such.
+    public void DrawTextPlusStatChange(Text text, int value, int newValue)
+    {
+        if (newValue - value < 0)
+            text.text = value + "<color=red>" + (newValue - value) + "</color>";
+        else if (newValue - value > 0)
+            text.text = value + "<color=green>+" + (newValue - value) + "</color>";
+        else
+            text.text = value + "";
+    }
+
+    // Used to assign what oru stats would like with the changed stats from the item.
+    public void AssignPotentialStats(PlayerStats stats)
+    {
+        Vit = stats.Vit;
+        Str = stats.Str;
+        Dex = stats.Dex;
+        Spd = stats.Spd;
+        Int = stats.Int;
+        Wis = stats.Wis;
+        Cha = stats.Cha;
+        healthMax = stats.healthMax;
+        manaMax = stats.manaMax;
+        healthRegen = stats.healthRegen;
+        manaRegen = stats.manaRegen;
+        armor = stats.armor;
+        resistance = stats.magicResist;
+        poise = stats.poiseMax;
+        weaponBaseHit = stats.weaponHitbase;
+        weaponMinHit = stats.weaponHitMin;
+        weaponMaxHit = stats.weaponHitMax;
+        attackSpeed = stats.attackSpeed;
+        stagger = stats.weaponStaggerBase;
+        critChance = stats.weaponCritChance;
+        critMod = stats.weaponCritMod;
+        vitMod = stats.weaponVitScaling;
+        strMod = stats.weaponStrScaling;
+        dexMod = stats.weaponDexScaling;
+        spdMod = stats.weaponSpdScaling;
+        intMod = stats.weaponIntScaling;
+        wisMod = stats.weaponWisScaling;
+        chaMod = stats.weaponChaScaling;
+        weaponCount = stats.weaponHitspeeds.Count;
+    }
+}
