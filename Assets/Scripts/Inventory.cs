@@ -230,6 +230,10 @@ public class Inventory : MonoBehaviour
                 stats.RemoveItemStats(item, true);
                 gearManager.HideItem(item);
                 break;
+            case ItemDropZone.SlotType.Leggings:
+                stats.RemoveItemStats(item, true);
+                gearManager.HideItem(item);
+                break;
             default:
                 break;
         }
@@ -256,6 +260,10 @@ public class Inventory : MonoBehaviour
                 gearManager.ShowItem(item);
                 break;
             case ItemDropZone.SlotType.Helmet:
+                stats.AddItemStats(item, true);
+                gearManager.ShowItem(item);
+                break;
+            case ItemDropZone.SlotType.Leggings:
                 stats.AddItemStats(item, true);
                 gearManager.ShowItem(item);
                 break;

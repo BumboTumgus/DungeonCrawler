@@ -26,6 +26,12 @@ public class PlayerGearManager : MonoBehaviour
     public Transform helmetNoFeaturesParent;
     public Transform helmetNoHairParent;
     public Transform helmetAllFeauresParent;
+
+    public Transform hipParent;
+    public Transform rightLegParent;
+    public Transform leftLegParent;
+    public Transform rightKneeParent;
+    public Transform leftKneeParent;
     
     public GameObject[] leftHandWeapons;
     public GameObject[] rightHandWeapons;
@@ -49,6 +55,12 @@ public class PlayerGearManager : MonoBehaviour
     public GameObject[] helmetAllFeatures;
     public GameObject[] helmetNoHair;
     public GameObject[] helmetNoFeatures;
+
+    public GameObject[] hips;
+    public GameObject[] rightLegs;
+    public GameObject[] leftLegs;
+    public GameObject[] rightKnees;
+    public GameObject[] leftKnees;
 
     int headStartingIndex;
     int hairStyleStartingIndex;
@@ -79,6 +91,12 @@ public class PlayerGearManager : MonoBehaviour
         helmetNoFeatures = new GameObject[helmetNoFeaturesParent.childCount];
         helmetNoHair = new GameObject[helmetNoHairParent.childCount];
         helmetAllFeatures = new GameObject[helmetAllFeauresParent.childCount];
+
+        hips = new GameObject[hipParent.childCount];
+        rightLegs = new GameObject[rightLegParent.childCount];
+        leftLegs = new GameObject[leftLegParent.childCount];
+        rightKnees = new GameObject[rightKneeParent.childCount];
+        leftKnees = new GameObject[leftKneeParent.childCount];
 
         // grab all the weapons for setting and hiding purposes.
         for (int index = 0; index < leftHandWeaponParent.childCount; index++)
@@ -125,6 +143,18 @@ public class PlayerGearManager : MonoBehaviour
             helmetNoHair[index] = helmetNoHairParent.GetChild(index).gameObject;
         for (int index = 0; index < helmetAllFeauresParent.childCount; index++)
             helmetAllFeatures[index] = helmetAllFeauresParent.GetChild(index).gameObject;
+
+        // Grab all the legs, hips and knee armor availible.
+        for (int index = 0; index < hipParent.childCount; index++)
+            hips[index] = hipParent.GetChild(index).gameObject;
+        for (int index = 0; index < rightLegParent.childCount; index++)
+            rightLegs[index] = rightLegParent.GetChild(index).gameObject;
+        for (int index = 0; index < leftLegParent.childCount; index++)
+            leftLegs[index] = leftLegParent.GetChild(index).gameObject;
+        for (int index = 0; index < rightKneeParent.childCount; index++)
+            rightKnees[index] = rightKneeParent.GetChild(index).gameObject;
+        for (int index = 0; index < leftKneeParent.childCount; index++)
+            leftKnees[index] = leftKneeParent.GetChild(index).gameObject;
 
         HideAllItems();
     }
@@ -179,6 +209,17 @@ public class PlayerGearManager : MonoBehaviour
             if (hairStylesParent.GetChild(index).gameObject.activeSelf)
                 hairStyleStartingIndex = index;
 
+        foreach (GameObject armor in hips)
+            armor.SetActive(false);
+        foreach (GameObject armor in rightLegs)
+            armor.SetActive(false);
+        foreach (GameObject armor in leftLegs)
+            armor.SetActive(false);
+        foreach (GameObject armor in rightKnees)
+            armor.SetActive(false);
+        foreach (GameObject armor in leftKnees)
+            armor.SetActive(false);
+
         // Here I show the base chest items, the onme we decide are the "base values".
         torsos[0].SetActive(true);
         leftUpperArms[0].SetActive(true);
@@ -191,6 +232,11 @@ public class PlayerGearManager : MonoBehaviour
         eyeBrows[eyeBrowsStartingIndex].SetActive(true);
         heads[headStartingIndex].SetActive(true);
         hairStyles[hairStyleStartingIndex].SetActive(true);
+        hips[0].SetActive(true);
+        rightLegs[0].SetActive(true);
+        leftLegs[0].SetActive(true);
+        rightKnees[0].SetActive(true);
+        leftKnees[0].SetActive(true);
     }
     public void HideItem(Item item)
     {
@@ -228,6 +274,18 @@ public class PlayerGearManager : MonoBehaviour
                 facialHairs[facialHairsStartingIndex].SetActive(true);
                 break;
             case Item.ItemType.Legs:
+                Debug.Log("we are hiding the leggings");
+                hips[item.itemtorsoID].SetActive(false);
+                rightLegs[item.itemLowerRightArmID].SetActive(false);
+                leftLegs[item.itemLowerLeftArmID].SetActive(false);
+                rightKnees[item.itemRightElbowID].SetActive(false);
+                leftKnees[item.itemLeftElbowID].SetActive(false);
+
+                hips[0].SetActive(true);
+                rightLegs[0].SetActive(true);
+                leftLegs[0].SetActive(true);
+                rightKnees[0].SetActive(true);
+                leftKnees[0].SetActive(true);
                 break;
             case Item.ItemType.Armor:
                 Debug.Log("we are hiding the armor");
@@ -304,6 +362,18 @@ public class PlayerGearManager : MonoBehaviour
                 }
                 break;
             case Item.ItemType.Legs:
+                Debug.Log("we are showing the leggings");
+                hips[0].SetActive(false);
+                rightLegs[0].SetActive(false);
+                leftLegs[0].SetActive(false);
+                rightKnees[0].SetActive(false);
+                leftKnees[0].SetActive(false);
+
+                hips[item.itemtorsoID].SetActive(true);
+                rightLegs[item.itemLowerRightArmID].SetActive(true);
+                leftLegs[item.itemLowerLeftArmID].SetActive(true);
+                rightKnees[item.itemRightElbowID].SetActive(true);
+                leftKnees[item.itemLeftElbowID].SetActive(true);
                 break;
             case Item.ItemType.Armor:
                 Debug.Log("we are showing the armor");

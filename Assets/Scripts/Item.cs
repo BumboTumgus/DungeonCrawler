@@ -20,6 +20,7 @@ public class Item : MonoBehaviour
     public int itemRightShoulderID;
     public int itemLeftShoulderID;
 
+
     public enum HelmetType {NoFeatures, NoHair, AllFeatures};
     public HelmetType helmetType;
 
