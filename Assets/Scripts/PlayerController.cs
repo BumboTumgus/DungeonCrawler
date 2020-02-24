@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform cameraParent;
     private Vector3 targetRotation;
     private CameraControls cameraControls;
+    private Inventory inventory;
 
     private bool grounded = true;
     private bool justJumped = false;
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         hitBoxManager = GetComponent<HitBoxManager>();
         cameraControls = cameraParent.GetComponentInChildren<CameraControls>();
+        inventory = GetComponent<Inventory>();
     }
 
     // Update is called once per frame, we call different functions based on our current state.
@@ -69,6 +71,7 @@ public class PlayerController : MonoBehaviour
                 CheckJump();
                 CheckGrounded();
                 CheckAttack();
+                CheckPickUp();
                 break;
             case PlayerState.Moving:
                 if (Input.GetAxisRaw(playerInputs.horizontalInput) == 0 && Input.GetAxisRaw(playerInputs.verticalInput) == 0)
@@ -82,6 +85,7 @@ public class PlayerController : MonoBehaviour
                 CheckJump();
                 CheckGrounded();
                 CheckAttack();
+                CheckPickUp();
                 break;
             case PlayerState.Airborne:
                 PlayerMovement();
@@ -101,6 +105,7 @@ public class PlayerController : MonoBehaviour
                 CheckJump();
                 CheckGrounded();
                 CheckAttack();
+                CheckPickUp();
                 break;
             case PlayerState.Attacking:
                 PlayerMovement();
@@ -108,6 +113,9 @@ public class PlayerController : MonoBehaviour
                 CheckRoll();
                 CheckJump();
                 CheckGrounded();
+                break;
+            case PlayerState.Downed:
+                // Here i would put the revive logic.
                 break;
             default:
                 break;
@@ -248,7 +256,7 @@ public class PlayerController : MonoBehaviour
         attackReady = false;
         anim.SetTrigger("Attack");
         playerState = PlayerState.Attacking;
-        anim.SetFloat("AnimSpeed", playerStats.attackSpeed);  
+        anim.SetFloat("AttackAnimSpeed", playerStats.attackSpeed);  
 
         float currentTimer = 0;
         float targetTimer = 1 / playerStats.attackSpeed;
@@ -283,6 +291,7 @@ public class PlayerController : MonoBehaviour
     // Called when the player is hit below 0 hp and downed.
     public void PlayerDowned()
     {
+        StopAllCoroutines();
         playerState = PlayerState.Downed;
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
@@ -306,6 +315,16 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(STAGGER_DURATION);
         playerState = PlayerState.Idle;
         staggered = false;
+    }
+
+    // Used to make the player do a pickup animation.
+    public void CheckPickUp()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            inventory.PickUpItem(inventory.GrabClosestItem());
+            anim.SetTrigger("PickUp");
+        }
     }
 
     // Check if the menu inputs were pressed. If so display the proper menu.

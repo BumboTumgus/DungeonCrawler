@@ -12,12 +12,14 @@ public class PlayerInputs : MonoBehaviour
     public string attackInput = "Attack";
     public string menuInput = "Menu";
     public string inventoryInput = "Inventory";
+    public string interactInput = "Interact";
 
     public bool jumpReleased = true;
     public bool rollReleased = true;
     public bool attackReleased = true;
     public bool menuReleased = true;
     public bool inventoryReleased = true;
+    public bool interactReleased = true;
 
     private void Update()
     {
@@ -31,5 +33,7 @@ public class PlayerInputs : MonoBehaviour
             menuReleased = true;
         if (!inventoryReleased && Input.GetAxisRaw(inventoryInput) == 0)
             inventoryReleased = true;
+        if (!interactReleased && Input.GetAxisRaw(interactInput) == 0)
+            interactReleased = true;
     }
 }

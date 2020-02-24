@@ -29,14 +29,14 @@ public class Inventory : MonoBehaviour
         gearManager = GetComponent<PlayerGearManager>();
     }
 
-
-    // SUed to check for inputs to pick up items.
+    /**
+    // Used to check for inputs to pick up items.
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
             PickUpItem(GrabClosestItem());
     }
-
+    */
     // USed to pickup the item we are closest to.
     public void PickUpItem(Item item)
     {
@@ -183,7 +183,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private Item GrabClosestItem()
+    public Item GrabClosestItem()
     {
         Item closestItem = null;
         float closestItemDistance = 50f;
