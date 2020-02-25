@@ -5,6 +5,7 @@ using UnityEngine;
 public class UiFollowTarget : MonoBehaviour
 {
     public Transform target;
+    public bool hideIfBehindCamera = true;
 
     private Camera mainCamera;
 
@@ -12,6 +13,7 @@ public class UiFollowTarget : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main;
+        mainCamera.transform.parent.GetComponent<UiHideBehindPlayer>().targets.Add(this);
     }
 
     // check where we shoudl be in regards to the camera.
