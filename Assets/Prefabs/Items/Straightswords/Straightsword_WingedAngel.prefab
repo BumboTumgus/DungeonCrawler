@@ -1,0 +1,273 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3253273839580377929
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 6549151699216150147, guid: de058b7ca13135848a3e883e580fdf8d,
+    type: 3}
+  m_PrefabInstance: {fileID: 4970633163423474054}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2168622048103606779}
+  - component: {fileID: 8971939581990080088}
+  - component: {fileID: 3527660119350452572}
+  m_Layer: 9
+  m_Name: Straightsword_WingedAngel
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2168622048103606779
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 6549151699215992957, guid: de058b7ca13135848a3e883e580fdf8d,
+    type: 3}
+  m_PrefabInstance: {fileID: 4970633163423474054}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3253273839580377929}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1049042257044695313}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 90}
+--- !u!33 &8971939581990080088
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 6549151699215196843, guid: de058b7ca13135848a3e883e580fdf8d,
+    type: 3}
+  m_PrefabInstance: {fileID: 4970633163423474054}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3253273839580377929}
+  m_Mesh: {fileID: 4300000, guid: 4287871038410604887de360267aed79, type: 3}
+--- !u!23 &3527660119350452572
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 6549151699214150147, guid: de058b7ca13135848a3e883e580fdf8d,
+    type: 3}
+  m_PrefabInstance: {fileID: 4970633163423474054}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3253273839580377929}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 42b64fdb315e3054ea757d8d1c4bcfa7, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &5067794689432447675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1049042257044695313}
+  - component: {fileID: 637250543144680173}
+  - component: {fileID: 6374045492094603236}
+  m_Layer: 9
+  m_Name: Straightsword_WingedAngel
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1049042257044695313
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5067794689432447675}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 22.58, y: 0, z: -17.48}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2168622048103606779}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &637250543144680173
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5067794689432447675}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6374045492094603236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5067794689432447675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f10ee017b6dc3d4d82100cf987f27be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Winged Angel Blade
+  description: A mystical blade made oif a strange metal. This seemlingly timeless
+    blade was said to belong to a wrrior of the gods in ancient times.
+  itemGearID: 3
+  itemtorsoID: 0
+  itemUpperRightArmID: 0
+  itemUpperLeftArmID: 0
+  itemLowerRightArmID: 0
+  itemLowerLeftArmID: 0
+  itemRightHandID: 0
+  itemLeftHandID: 0
+  itemRightElbowID: 0
+  itemLeftElbowID: 0
+  itemRightShoulderID: 0
+  itemLeftShoulderID: 0
+  helmetType: 0
+  equippedToRightHand: 0
+  stackable: 1
+  instantPickup: 0
+  previousOwner: {fileID: 0}
+  currentStack: 1
+  maxStack: 1
+  artwork: {fileID: 21300000, guid: bc06d6012b972db45be38d137feb6370, type: 3}
+  inventoryIndex: 0
+  goldValue: 453
+  itemType: 3
+  itemRarity: 0
+  vitMod: 10
+  strMod: 10
+  dexMod: 10
+  spdMod: 10
+  intMod: 10
+  wisMod: 10
+  chaMod: 10
+  baseAttackDelay: 1.3
+  hitMin: 8
+  hitMax: 12
+  hitBase: 45
+  staggerBase: 20
+  critChance: 15
+  critMod: 1.5
+  vitScaling: 0
+  strScaling: 0.8
+  dexScaling: 0.8
+  spdScaling: 0
+  intScaling: 0.2
+  wisScaling: 0.2
+  chaScaling: 0
+  itemMoveset: 0
+  health: 53
+  mana: 120
+  armor: 4
+  resistance: 12
+  poise: 15
+  healthRegen: 5.6
+  manaRegen: 4.3
+--- !u!1001 &4970633163423474054
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1049042257044695313}
+    m_Modifications:
+    - target: {fileID: 6549151699215992957, guid: de058b7ca13135848a3e883e580fdf8d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549151699215992957, guid: de058b7ca13135848a3e883e580fdf8d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549151699215992957, guid: de058b7ca13135848a3e883e580fdf8d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549151699215992957, guid: de058b7ca13135848a3e883e580fdf8d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549151699215992957, guid: de058b7ca13135848a3e883e580fdf8d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549151699215992957, guid: de058b7ca13135848a3e883e580fdf8d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549151699215992957, guid: de058b7ca13135848a3e883e580fdf8d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549151699215992957, guid: de058b7ca13135848a3e883e580fdf8d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549151699215992957, guid: de058b7ca13135848a3e883e580fdf8d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549151699215992957, guid: de058b7ca13135848a3e883e580fdf8d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549151699215992957, guid: de058b7ca13135848a3e883e580fdf8d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549151699216150147, guid: de058b7ca13135848a3e883e580fdf8d,
+        type: 3}
+      propertyPath: m_Name
+      value: Straightsword_WingedAngel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549151699216150147, guid: de058b7ca13135848a3e883e580fdf8d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 0}
+  m_SourcePrefab: {fileID: 100100000, guid: de058b7ca13135848a3e883e580fdf8d, type: 3}

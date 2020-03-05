@@ -1,0 +1,272 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2461408280921249214
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 3464197210676153350, guid: 2663e88a1d0ed194b9e4bc33336b0abb,
+    type: 3}
+  m_PrefabInstance: {fileID: 3677361385186832499}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224003160539668169}
+  - component: {fileID: 8054380595103725991}
+  - component: {fileID: 6293011433681293887}
+  m_Layer: 9
+  m_Name: GreatAxe_Goblin
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &224003160539668169
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 3464197210676440762, guid: 2663e88a1d0ed194b9e4bc33336b0abb,
+    type: 3}
+  m_PrefabInstance: {fileID: 3677361385186832499}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2461408280921249214}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4192403698731210608}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 90}
+--- !u!33 &8054380595103725991
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 3464197210679330884, guid: 2663e88a1d0ed194b9e4bc33336b0abb,
+    type: 3}
+  m_PrefabInstance: {fileID: 3677361385186832499}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2461408280921249214}
+  m_Mesh: {fileID: 4300000, guid: cdfb9a2109702a743b3aad55fe8af012, type: 3}
+--- !u!23 &6293011433681293887
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 3464197210678648808, guid: 2663e88a1d0ed194b9e4bc33336b0abb,
+    type: 3}
+  m_PrefabInstance: {fileID: 3677361385186832499}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2461408280921249214}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 42b64fdb315e3054ea757d8d1c4bcfa7, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &8028576630137348861
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4192403698731210608}
+  - component: {fileID: 1687315896788833732}
+  - component: {fileID: 168680173563531604}
+  m_Layer: 9
+  m_Name: GreatAxe_Goblin
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4192403698731210608
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8028576630137348861}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -15.886, y: 0, z: -23.314}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 224003160539668169}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1687315896788833732
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8028576630137348861}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &168680173563531604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8028576630137348861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f10ee017b6dc3d4d82100cf987f27be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Goblin Battleaxe
+  description: A brutally simple weapon with the weight to cleave a man in twain.
+  itemGearID: 110
+  itemtorsoID: 0
+  itemUpperRightArmID: 0
+  itemUpperLeftArmID: 0
+  itemLowerRightArmID: 0
+  itemLowerLeftArmID: 0
+  itemRightHandID: 0
+  itemLeftHandID: 0
+  itemRightElbowID: 0
+  itemLeftElbowID: 0
+  itemRightShoulderID: 0
+  itemLeftShoulderID: 0
+  helmetType: 0
+  equippedToRightHand: 0
+  stackable: 1
+  instantPickup: 0
+  previousOwner: {fileID: 0}
+  currentStack: 1
+  maxStack: 1
+  artwork: {fileID: 21300000, guid: 459388f9dac4e594bb9525a21ca642ee, type: 3}
+  inventoryIndex: 0
+  goldValue: 424
+  itemType: 4
+  itemRarity: 0
+  vitMod: 3
+  strMod: 8
+  dexMod: 0
+  spdMod: -2
+  intMod: 0
+  wisMod: 0
+  chaMod: 0
+  baseAttackDelay: 0.75
+  hitMin: 8
+  hitMax: 20
+  hitBase: 12
+  staggerBase: 25
+  critChance: 15
+  critMod: 2
+  vitScaling: 0.2
+  strScaling: 1.8
+  dexScaling: 0.2
+  spdScaling: 0.1
+  intScaling: 0
+  wisScaling: 0
+  chaScaling: 0
+  itemMoveset: 2
+  health: 25
+  mana: 0
+  armor: 2
+  resistance: 5
+  poise: 8
+  healthRegen: 0.8
+  manaRegen: 1.2
+--- !u!1001 &3677361385186832499
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4192403698731210608}
+    m_Modifications:
+    - target: {fileID: 3464197210676153350, guid: 2663e88a1d0ed194b9e4bc33336b0abb,
+        type: 3}
+      propertyPath: m_Name
+      value: GreatAxe_Goblin
+      objectReference: {fileID: 0}
+    - target: {fileID: 3464197210676153350, guid: 2663e88a1d0ed194b9e4bc33336b0abb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3464197210676440762, guid: 2663e88a1d0ed194b9e4bc33336b0abb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3464197210676440762, guid: 2663e88a1d0ed194b9e4bc33336b0abb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3464197210676440762, guid: 2663e88a1d0ed194b9e4bc33336b0abb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3464197210676440762, guid: 2663e88a1d0ed194b9e4bc33336b0abb,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3464197210676440762, guid: 2663e88a1d0ed194b9e4bc33336b0abb,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3464197210676440762, guid: 2663e88a1d0ed194b9e4bc33336b0abb,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3464197210676440762, guid: 2663e88a1d0ed194b9e4bc33336b0abb,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3464197210676440762, guid: 2663e88a1d0ed194b9e4bc33336b0abb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3464197210676440762, guid: 2663e88a1d0ed194b9e4bc33336b0abb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3464197210676440762, guid: 2663e88a1d0ed194b9e4bc33336b0abb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3464197210676440762, guid: 2663e88a1d0ed194b9e4bc33336b0abb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 0}
+  m_SourcePrefab: {fileID: 100100000, guid: 2663e88a1d0ed194b9e4bc33336b0abb, type: 3}

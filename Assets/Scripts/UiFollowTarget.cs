@@ -21,4 +21,9 @@ public class UiFollowTarget : MonoBehaviour
     {
         transform.position = mainCamera.WorldToScreenPoint(target.position);
     }
+
+    public void RemoveFromCullList()
+    {
+        mainCamera.transform.parent.GetComponent<UiHideBehindPlayer>().targets.Remove(this);
+    }
 }

@@ -279,7 +279,7 @@ public class PlayerStats : MonoBehaviour
         // Three cases, player death, player summon death, or an enemy death.
         if(gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("EnemyDeath");
+            // Debug.Log("EnemyDeath");
 
             // Find the player, and give them exp. If they were in combat with us, end the combat. Start the death coroutine (for a death animation).
             // Create an array of all players.
@@ -293,11 +293,15 @@ public class PlayerStats : MonoBehaviour
             // If any player was agrod onto us, end their combat. and add exp to all players.
             foreach(GameObject player in players)
                 player.GetComponent<PlayerStats>().AddExp(ExpWorth(player.GetComponent<PlayerStats>().level));
-            
+
             // Destroy the health bar, queue the destruction of all children and set their parents to null, then destroy ourself.
+            healthBar.transform.parent.GetComponent<UiFollowTarget>().RemoveFromCullList();
             Destroy(healthBar.transform.parent.gameObject);
             if (healthBarSecondary != null)
+            {
+                healthBarSecondary.transform.parent.GetComponent<UiFollowTarget>().RemoveFromCullList();
                 Destroy(healthBarSecondary.transform.parent.gameObject);
+            }
 
             GetComponent<Animator>().SetTrigger("Downed");
             // Destroy all the now usless components while the enemy dies.

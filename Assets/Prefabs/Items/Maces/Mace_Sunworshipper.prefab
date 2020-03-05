@@ -1,0 +1,273 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &361527820273770878
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5320017302346472755}
+  - component: {fileID: 7445650602826765123}
+  - component: {fileID: 3272898900873219630}
+  m_Layer: 9
+  m_Name: Mace_Sunworshipper
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5320017302346472755
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361527820273770878}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 15.15, y: 0.1805282, z: -34.01}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7498664440887727321}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &7445650602826765123
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361527820273770878}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3272898900873219630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361527820273770878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f10ee017b6dc3d4d82100cf987f27be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Sunworshipper Mace
+  description: A mace belonging to a sun worshipping cult. Believing in companionship
+    above all, they were always willing to lend a hand.
+  itemGearID: 67
+  itemtorsoID: 0
+  itemUpperRightArmID: 0
+  itemUpperLeftArmID: 0
+  itemLowerRightArmID: 0
+  itemLowerLeftArmID: 0
+  itemRightHandID: 0
+  itemLeftHandID: 0
+  itemRightElbowID: 0
+  itemLeftElbowID: 0
+  itemRightShoulderID: 0
+  itemLeftShoulderID: 0
+  helmetType: 0
+  equippedToRightHand: 0
+  stackable: 1
+  instantPickup: 0
+  previousOwner: {fileID: 0}
+  currentStack: 1
+  maxStack: 1
+  artwork: {fileID: 21300000, guid: 1719e4dfd5d9c9b42be78245845f4436, type: 3}
+  inventoryIndex: 0
+  goldValue: 110
+  itemType: 3
+  itemRarity: 0
+  vitMod: 9
+  strMod: 8
+  dexMod: 0
+  spdMod: 0
+  intMod: 0
+  wisMod: 8
+  chaMod: 8
+  baseAttackDelay: 1
+  hitMin: 2
+  hitMax: 30
+  hitBase: 20
+  staggerBase: 20
+  critChance: 5
+  critMod: 3
+  vitScaling: 0
+  strScaling: 0.8
+  dexScaling: 0
+  spdScaling: 0
+  intScaling: 0
+  wisScaling: 0.4
+  chaScaling: 0
+  itemMoveset: 0
+  health: 0
+  mana: 20
+  armor: 8
+  resistance: 6
+  poise: 8
+  healthRegen: 0
+  manaRegen: 0
+--- !u!1 &8169425347669362674
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 5823241016429005774, guid: ad0bbd5e4e2a0d3419a04425574a5663,
+    type: 3}
+  m_PrefabInstance: {fileID: 4089502994000762473}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7498664440887727321}
+  - component: {fileID: 764933124496578588}
+  - component: {fileID: 3951681578514114634}
+  m_Layer: 9
+  m_Name: Mace_Sunworshipper
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7498664440887727321
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 5823241016428757680, guid: ad0bbd5e4e2a0d3419a04425574a5663,
+    type: 3}
+  m_PrefabInstance: {fileID: 4089502994000762473}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8169425347669362674}
+  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5320017302346472755}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!33 &764933124496578588
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 5823241016425893740, guid: ad0bbd5e4e2a0d3419a04425574a5663,
+    type: 3}
+  m_PrefabInstance: {fileID: 4089502994000762473}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8169425347669362674}
+  m_Mesh: {fileID: 4300000, guid: 8d9e6fedf8f681f42a215ef1f7005565, type: 3}
+--- !u!23 &3951681578514114634
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 5823241016426790720, guid: ad0bbd5e4e2a0d3419a04425574a5663,
+    type: 3}
+  m_PrefabInstance: {fileID: 4089502994000762473}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8169425347669362674}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 42b64fdb315e3054ea757d8d1c4bcfa7, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1001 &4089502994000762473
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5320017302346472755}
+    m_Modifications:
+    - target: {fileID: 5823241016428757680, guid: ad0bbd5e4e2a0d3419a04425574a5663,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823241016428757680, guid: ad0bbd5e4e2a0d3419a04425574a5663,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823241016428757680, guid: ad0bbd5e4e2a0d3419a04425574a5663,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823241016428757680, guid: ad0bbd5e4e2a0d3419a04425574a5663,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823241016428757680, guid: ad0bbd5e4e2a0d3419a04425574a5663,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823241016428757680, guid: ad0bbd5e4e2a0d3419a04425574a5663,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823241016428757680, guid: ad0bbd5e4e2a0d3419a04425574a5663,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823241016428757680, guid: ad0bbd5e4e2a0d3419a04425574a5663,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823241016428757680, guid: ad0bbd5e4e2a0d3419a04425574a5663,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823241016428757680, guid: ad0bbd5e4e2a0d3419a04425574a5663,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823241016428757680, guid: ad0bbd5e4e2a0d3419a04425574a5663,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823241016429005774, guid: ad0bbd5e4e2a0d3419a04425574a5663,
+        type: 3}
+      propertyPath: m_Name
+      value: Mace_Sunworshipper
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823241016429005774, guid: ad0bbd5e4e2a0d3419a04425574a5663,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 0}
+  m_SourcePrefab: {fileID: 100100000, guid: ad0bbd5e4e2a0d3419a04425574a5663, type: 3}

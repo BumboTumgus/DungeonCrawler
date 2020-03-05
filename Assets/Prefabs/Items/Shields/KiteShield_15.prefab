@@ -1,0 +1,355 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3401907005608061170
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1751508538413343082}
+  - component: {fileID: 4763391693443854024}
+  - component: {fileID: 1854243586616987995}
+  m_Layer: 9
+  m_Name: KiteShield_15
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1751508538413343082
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3401907005608061170}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.8, y: 0, z: -34.43}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4646559275956884088}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &4763391693443854024
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3401907005608061170}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1854243586616987995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3401907005608061170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f10ee017b6dc3d4d82100cf987f27be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Heraldic Kiteshield
+  description: A longer shield, very effective at stopping arrows.
+  itemGearID: 35
+  itemtorsoID: 0
+  itemUpperRightArmID: 0
+  itemUpperLeftArmID: 0
+  itemLowerRightArmID: 0
+  itemLowerLeftArmID: 0
+  itemRightHandID: 0
+  itemLeftHandID: 0
+  itemRightElbowID: 0
+  itemLeftElbowID: 0
+  itemRightShoulderID: 0
+  itemLeftShoulderID: 0
+  helmetType: 0
+  equippedToRightHand: 0
+  stackable: 1
+  instantPickup: 0
+  previousOwner: {fileID: 0}
+  currentStack: 1
+  maxStack: 1
+  artwork: {fileID: 21300000, guid: 3e29b0741df3de34fb7ff855afabc74a, type: 3}
+  inventoryIndex: 0
+  goldValue: 110
+  itemType: 3
+  itemRarity: 0
+  vitMod: 6
+  strMod: 0
+  dexMod: 2
+  spdMod: 0
+  intMod: 0
+  wisMod: 1
+  chaMod: 1
+  baseAttackDelay: 1
+  hitMin: 0
+  hitMax: 4
+  hitBase: 5
+  staggerBase: 12
+  critChance: 5
+  critMod: 1
+  vitScaling: 0.5
+  strScaling: 0.1
+  dexScaling: 0
+  spdScaling: 0.25
+  intScaling: 0
+  wisScaling: 0
+  chaScaling: 0
+  itemMoveset: 5
+  health: 86
+  mana: 12
+  armor: 12
+  resistance: 18
+  poise: 19
+  healthRegen: 1.4
+  manaRegen: 0.6
+--- !u!1 &4641618673514657874
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 8974161575357237812, guid: b1ae84f502867e240a7b561d9fae4485,
+    type: 3}
+  m_PrefabInstance: {fileID: 4388270151850943308}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4646559275956884088}
+  - component: {fileID: 4641618673514657878}
+  - component: {fileID: 4641618673514657877}
+  - component: {fileID: 4641618673514657876}
+  - component: {fileID: 4641618673514657875}
+  m_Layer: 9
+  m_Name: KiteShield_15
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4646559275956884088
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 8979510773188571444, guid: b1ae84f502867e240a7b561d9fae4485,
+    type: 3}
+  m_PrefabInstance: {fileID: 4388270151850943308}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4641618673514657874}
+  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1751508538413343082}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 90}
+--- !u!33 &4641618673514657878
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 9005462253825688276, guid: b1ae84f502867e240a7b561d9fae4485,
+    type: 3}
+  m_PrefabInstance: {fileID: 4388270151850943308}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4641618673514657874}
+  m_Mesh: {fileID: 4300000, guid: c475b4234c3dc794da8e77ec6a1de9e0, type: 3}
+--- !u!23 &4641618673514657877
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 8995940896814684360, guid: b1ae84f502867e240a7b561d9fae4485,
+    type: 3}
+  m_PrefabInstance: {fileID: 4388270151850943308}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4641618673514657874}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: c624a3d16e2ba1a43b8f5ff296ae5434, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!135 &4641618673514657876
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 8974570030336678084, guid: b1ae84f502867e240a7b561d9fae4485,
+    type: 3}
+  m_PrefabInstance: {fileID: 4388270151850943308}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4641618673514657874}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4641618673514657875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 8974570030336678091, guid: b1ae84f502867e240a7b561d9fae4485,
+    type: 3}
+  m_PrefabInstance: {fileID: 4388270151850943308}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4641618673514657874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f10ee017b6dc3d4d82100cf987f27be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Heraldic Kiteshield
+  description: A longer shield, very effective at stopping arrows.
+  itemGearID: 35
+  itemtorsoID: 0
+  itemUpperRightArmID: 0
+  itemUpperLeftArmID: 0
+  itemLowerRightArmID: 0
+  itemLowerLeftArmID: 0
+  itemRightHandID: 0
+  itemLeftHandID: 0
+  itemRightElbowID: 0
+  itemLeftElbowID: 0
+  itemRightShoulderID: 0
+  itemLeftShoulderID: 0
+  helmetType: 0
+  equippedToRightHand: 0
+  stackable: 1
+  instantPickup: 0
+  previousOwner: {fileID: 0}
+  currentStack: 1
+  maxStack: 1
+  artwork: {fileID: 21300000, guid: 3e29b0741df3de34fb7ff855afabc74a, type: 3}
+  inventoryIndex: 0
+  goldValue: 110
+  itemType: 3
+  itemRarity: 0
+  vitMod: 6
+  strMod: 0
+  dexMod: 2
+  spdMod: 0
+  intMod: 0
+  wisMod: 1
+  chaMod: 1
+  baseAttackDelay: 1
+  hitMin: 0
+  hitMax: 4
+  hitBase: 5
+  staggerBase: 12
+  critChance: 5
+  critMod: 1
+  vitScaling: 0.5
+  strScaling: 0.1
+  dexScaling: 0
+  spdScaling: 0.25
+  intScaling: 0
+  wisScaling: 0
+  chaScaling: 0
+  itemMoveset: 5
+  health: 86
+  mana: 12
+  armor: 12
+  resistance: 18
+  poise: 19
+  healthRegen: 1.4
+  manaRegen: 0.6
+--- !u!1001 &4388270151850943308
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1751508538413343082}
+    m_Modifications:
+    - target: {fileID: 8974161575357237812, guid: b1ae84f502867e240a7b561d9fae4485,
+        type: 3}
+      propertyPath: m_Name
+      value: KiteShield_15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974161575357237812, guid: b1ae84f502867e240a7b561d9fae4485,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979510773188571444, guid: b1ae84f502867e240a7b561d9fae4485,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979510773188571444, guid: b1ae84f502867e240a7b561d9fae4485,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979510773188571444, guid: b1ae84f502867e240a7b561d9fae4485,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979510773188571444, guid: b1ae84f502867e240a7b561d9fae4485,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979510773188571444, guid: b1ae84f502867e240a7b561d9fae4485,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979510773188571444, guid: b1ae84f502867e240a7b561d9fae4485,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979510773188571444, guid: b1ae84f502867e240a7b561d9fae4485,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979510773188571444, guid: b1ae84f502867e240a7b561d9fae4485,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979510773188571444, guid: b1ae84f502867e240a7b561d9fae4485,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979510773188571444, guid: b1ae84f502867e240a7b561d9fae4485,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979510773188571444, guid: b1ae84f502867e240a7b561d9fae4485,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b1ae84f502867e240a7b561d9fae4485, type: 3}

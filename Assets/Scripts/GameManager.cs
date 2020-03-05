@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        Debug.Log("Game manager setup");
+        // Debug.Log("Game manager setup");
         currentPlayers = GameObject.FindGameObjectsWithTag("Player");
         //StartCoroutine(Initialization());
     }

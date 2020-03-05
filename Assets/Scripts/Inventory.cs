@@ -8,8 +8,10 @@ public class Inventory : MonoBehaviour
     public List<Item> trinkets = new List<Item>();
     public List<Item> weapons = new List<Item>();
     public List<Item> itemsInRange = new List<Item>();
+    public List<GameObject> interactablesInRange = new List<GameObject>();
 
     public InventoryUiManager inventoryUI;
+    private Animator anim;
     // This representts the maximum amount of items our chracter can hold.
     public float INVENTORY_MAX = 15;
 
@@ -27,6 +29,7 @@ public class Inventory : MonoBehaviour
         inventoryUI.playerInventory = this;
         stats = GetComponent<PlayerStats>();
         gearManager = GetComponent<PlayerGearManager>();
+        anim = GetComponent<Animator>();
     }
 
     /**
@@ -136,6 +139,10 @@ public class Inventory : MonoBehaviour
             else
                 itemsInRange.Add(currentItem);
         }
+        else if(other.CompareTag("Interactable"))
+        {
+            interactablesInRange.Add(other.gameObject);
+        }
     }
 
     // USed to find the first availible index that we can assign to an item.
@@ -181,6 +188,10 @@ public class Inventory : MonoBehaviour
         {
             itemsInRange.Remove(other.GetComponent<Item>());
         }
+        else if (other.CompareTag("Interactable"))
+        {
+            interactablesInRange.Remove(other.gameObject);
+        }
     }
 
     public Item GrabClosestItem()
@@ -203,6 +214,26 @@ public class Inventory : MonoBehaviour
         return closestItem;
     }
 
+    public GameObject GrabClosestInteractable()
+    {
+        GameObject closestInteractable = null;
+        float closestItemDistance = 50f;
+
+        // Check every item in range.
+        foreach (GameObject interactable in interactablesInRange)
+        {
+            // If the item is closer then previously checked items, set it as the closest.
+            float distance = (interactable.transform.position - transform.position).sqrMagnitude;
+            if (distance < closestItemDistance)
+            {
+                closestItemDistance = distance;
+                closestInteractable = interactable;
+            }
+        }
+
+        return closestInteractable;
+    }
+
     // Used to transfer an item to a different type of slot
     public void TransferItem(Item item, ItemDropZone.SlotType originalType , ItemDropZone.SlotType newType)
     {
@@ -219,6 +250,7 @@ public class Inventory : MonoBehaviour
                 break;
             case ItemDropZone.SlotType.Weapon:
                 weapons.Remove(item);
+                CheckMoveset();
                 stats.RemoveItemStats(item, true);
                 gearManager.HideItem(item);
                 break;
@@ -252,6 +284,7 @@ public class Inventory : MonoBehaviour
                 break;
             case ItemDropZone.SlotType.Weapon:
                 weapons.Add(item);
+                CheckMoveset();
                 stats.AddItemStats(item, true);
                 gearManager.ShowItem(item);
                 break;
@@ -310,5 +343,30 @@ public class Inventory : MonoBehaviour
                 inventoryUI.UpdateInventorySlot(currentItem);
             }
         }
+    }
+
+    // Used to check what weapons i currently have equipped and change my move set based on which ones i have.
+    private void CheckMoveset()
+    {
+        Item rightHandWeapon = null;
+        Item leftHandWeapon = null;
+        foreach(Item weapon in weapons)
+        {
+            if (weapon.equippedToRightHand)
+                rightHandWeapon = weapon;
+            else
+                leftHandWeapon = weapon;
+        }
+
+        if (rightHandWeapon == null || rightHandWeapon.itemMoveset == 0 && leftHandWeapon == null || rightHandWeapon.itemMoveset == 0 && leftHandWeapon.itemMoveset == 6)
+            anim.SetInteger("CurrentStance", 0);
+        else if (rightHandWeapon.itemMoveset == 0 && leftHandWeapon.itemMoveset == 0)
+            anim.SetInteger("CurrentStance", 4);
+        else if (rightHandWeapon.itemMoveset == 1)
+            anim.SetInteger("CurrentStance", 1);
+        else if (rightHandWeapon.itemMoveset == 2)
+            anim.SetInteger("CurrentStance", 2);
+        else if (rightHandWeapon.itemMoveset == 3)
+            anim.SetInteger("CurrentStance", 3);
     }
 }

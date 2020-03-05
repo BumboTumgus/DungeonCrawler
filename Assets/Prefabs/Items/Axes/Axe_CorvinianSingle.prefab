@@ -1,0 +1,273 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &33743283091434659
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 8672212031507810932, guid: e49919c178b430647bde1cdebf8e8fef,
+    type: 3}
+  m_PrefabInstance: {fileID: 3440017300164635530}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6333335852967708528}
+  - component: {fileID: 1874964396797640556}
+  - component: {fileID: 7665858700869807428}
+  m_Layer: 9
+  m_Name: Axe_CorvinianSingle
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6333335852967708528
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 8672212031507541242, guid: e49919c178b430647bde1cdebf8e8fef,
+    type: 3}
+  m_PrefabInstance: {fileID: 3440017300164635530}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33743283091434659}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 667231059576978181}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 90}
+--- !u!33 &1874964396797640556
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 8672212031506840968, guid: e49919c178b430647bde1cdebf8e8fef,
+    type: 3}
+  m_PrefabInstance: {fileID: 3440017300164635530}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33743283091434659}
+  m_Mesh: {fileID: 4300000, guid: 4a9eda17d509dc64cbf32dd5e5e2d664, type: 3}
+--- !u!23 &7665858700869807428
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 8672212031505774732, guid: e49919c178b430647bde1cdebf8e8fef,
+    type: 3}
+  m_PrefabInstance: {fileID: 3440017300164635530}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33743283091434659}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 42b64fdb315e3054ea757d8d1c4bcfa7, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &8272138216661338678
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 667231059576978181}
+  - component: {fileID: 514671787877779563}
+  - component: {fileID: 4494264149339891955}
+  m_Layer: 9
+  m_Name: Axe_CorvinianSingle
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &667231059576978181
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8272138216661338678}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 20.354, y: 0, z: -14.91}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6333335852967708528}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &514671787877779563
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8272138216661338678}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4494264149339891955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8272138216661338678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f10ee017b6dc3d4d82100cf987f27be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Corvinian Single Axe
+  description: A large, intricate axe wielded by a long forgotten warrior's younger
+    brother long ago.
+  itemGearID: 81
+  itemtorsoID: 0
+  itemUpperRightArmID: 0
+  itemUpperLeftArmID: 0
+  itemLowerRightArmID: 0
+  itemLowerLeftArmID: 0
+  itemRightHandID: 0
+  itemLeftHandID: 0
+  itemRightElbowID: 0
+  itemLeftElbowID: 0
+  itemRightShoulderID: 0
+  itemLeftShoulderID: 0
+  helmetType: 0
+  equippedToRightHand: 0
+  stackable: 1
+  instantPickup: 0
+  previousOwner: {fileID: 0}
+  currentStack: 1
+  maxStack: 1
+  artwork: {fileID: 21300000, guid: 75d3456d1ea7ec247ab175239e1075cb, type: 3}
+  inventoryIndex: 0
+  goldValue: 110
+  itemType: 3
+  itemRarity: 0
+  vitMod: 4
+  strMod: 4
+  dexMod: 4
+  spdMod: 3
+  intMod: 3
+  wisMod: 3
+  chaMod: 1
+  baseAttackDelay: 1
+  hitMin: 2
+  hitMax: 8
+  hitBase: 25
+  staggerBase: 10
+  critChance: 15
+  critMod: 1.5
+  vitScaling: 0.2
+  strScaling: 0.5
+  dexScaling: 0
+  spdScaling: 0
+  intScaling: 0.2
+  wisScaling: 0.2
+  chaScaling: 0
+  itemMoveset: 0
+  health: 22
+  mana: 34
+  armor: 0
+  resistance: 0
+  poise: 0
+  healthRegen: 0
+  manaRegen: 1.2
+--- !u!1001 &3440017300164635530
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 667231059576978181}
+    m_Modifications:
+    - target: {fileID: 8672212031507541242, guid: e49919c178b430647bde1cdebf8e8fef,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672212031507541242, guid: e49919c178b430647bde1cdebf8e8fef,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672212031507541242, guid: e49919c178b430647bde1cdebf8e8fef,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672212031507541242, guid: e49919c178b430647bde1cdebf8e8fef,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672212031507541242, guid: e49919c178b430647bde1cdebf8e8fef,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672212031507541242, guid: e49919c178b430647bde1cdebf8e8fef,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672212031507541242, guid: e49919c178b430647bde1cdebf8e8fef,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672212031507541242, guid: e49919c178b430647bde1cdebf8e8fef,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672212031507541242, guid: e49919c178b430647bde1cdebf8e8fef,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672212031507541242, guid: e49919c178b430647bde1cdebf8e8fef,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672212031507541242, guid: e49919c178b430647bde1cdebf8e8fef,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672212031507810932, guid: e49919c178b430647bde1cdebf8e8fef,
+        type: 3}
+      propertyPath: m_Name
+      value: Axe_CorvinianSingle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672212031507810932, guid: e49919c178b430647bde1cdebf8e8fef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 0}
+  m_SourcePrefab: {fileID: 100100000, guid: e49919c178b430647bde1cdebf8e8fef, type: 3}

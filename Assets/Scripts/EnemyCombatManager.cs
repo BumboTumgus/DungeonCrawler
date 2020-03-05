@@ -36,7 +36,7 @@ public class EnemyCombatManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Enemy Setup");
+        //Debug.Log("Enemy Setup");
         myStats = GetComponent<PlayerStats>();
         enemyMovement = GetComponent<EnemyMovement>();
         anim = GetComponent<Animator>();

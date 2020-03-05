@@ -1,0 +1,272 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2329429209966584561
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 3526180016854671835, guid: 6a938224ae86b74468e8d5514c9d02ed,
+    type: 3}
+  m_PrefabInstance: {fileID: 3583396620624567291}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 96064568536149030}
+  - component: {fileID: 2906825297614621366}
+  - component: {fileID: 3909616807227457110}
+  m_Layer: 9
+  m_Name: Mace_SpikeyBoi
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &96064568536149030
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 3526180016854448093, guid: 6a938224ae86b74468e8d5514c9d02ed,
+    type: 3}
+  m_PrefabInstance: {fileID: 3583396620624567291}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2329429209966584561}
+  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3336771242582415581}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!33 &2906825297614621366
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 3526180016851597805, guid: 6a938224ae86b74468e8d5514c9d02ed,
+    type: 3}
+  m_PrefabInstance: {fileID: 3583396620624567291}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2329429209966584561}
+  m_Mesh: {fileID: 4300000, guid: 368c05d6b0f107f42970f6fbca1d7e06, type: 3}
+--- !u!23 &3909616807227457110
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 3526180016852637289, guid: 6a938224ae86b74468e8d5514c9d02ed,
+    type: 3}
+  m_PrefabInstance: {fileID: 3583396620624567291}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2329429209966584561}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 42b64fdb315e3054ea757d8d1c4bcfa7, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &4260888625372521606
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3336771242582415581}
+  - component: {fileID: 1474717327689652548}
+  - component: {fileID: 5162336379739684431}
+  m_Layer: 9
+  m_Name: Mace_SpikeyBoi
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3336771242582415581
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4260888625372521606}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 15.17, y: 0, z: -31.51}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 96064568536149030}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1474717327689652548
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4260888625372521606}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5162336379739684431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4260888625372521606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f10ee017b6dc3d4d82100cf987f27be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Spiky Mace Boi
+  description: A sharp spiky mace boi.
+  itemGearID: 72
+  itemtorsoID: 0
+  itemUpperRightArmID: 0
+  itemUpperLeftArmID: 0
+  itemLowerRightArmID: 0
+  itemLowerLeftArmID: 0
+  itemRightHandID: 0
+  itemLeftHandID: 0
+  itemRightElbowID: 0
+  itemLeftElbowID: 0
+  itemRightShoulderID: 0
+  itemLeftShoulderID: 0
+  helmetType: 0
+  equippedToRightHand: 0
+  stackable: 1
+  instantPickup: 0
+  previousOwner: {fileID: 0}
+  currentStack: 1
+  maxStack: 1
+  artwork: {fileID: 21300000, guid: 37ce064e276f9a345b39ae048c7e5a04, type: 3}
+  inventoryIndex: 0
+  goldValue: 85
+  itemType: 3
+  itemRarity: 0
+  vitMod: 1
+  strMod: 1
+  dexMod: 1
+  spdMod: 1
+  intMod: 1
+  wisMod: 1
+  chaMod: 5
+  baseAttackDelay: 0.8
+  hitMin: 2
+  hitMax: 20
+  hitBase: 25
+  staggerBase: 15
+  critChance: 10
+  critMod: 2
+  vitScaling: 0
+  strScaling: 0.5
+  dexScaling: 0
+  spdScaling: 0
+  intScaling: 0
+  wisScaling: 0
+  chaScaling: 4
+  itemMoveset: 0
+  health: 0
+  mana: 0
+  armor: 0
+  resistance: 0
+  poise: 0
+  healthRegen: 0
+  manaRegen: 0
+--- !u!1001 &3583396620624567291
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3336771242582415581}
+    m_Modifications:
+    - target: {fileID: 3526180016854448093, guid: 6a938224ae86b74468e8d5514c9d02ed,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526180016854448093, guid: 6a938224ae86b74468e8d5514c9d02ed,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526180016854448093, guid: 6a938224ae86b74468e8d5514c9d02ed,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526180016854448093, guid: 6a938224ae86b74468e8d5514c9d02ed,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526180016854448093, guid: 6a938224ae86b74468e8d5514c9d02ed,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526180016854448093, guid: 6a938224ae86b74468e8d5514c9d02ed,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526180016854448093, guid: 6a938224ae86b74468e8d5514c9d02ed,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526180016854448093, guid: 6a938224ae86b74468e8d5514c9d02ed,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526180016854448093, guid: 6a938224ae86b74468e8d5514c9d02ed,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526180016854448093, guid: 6a938224ae86b74468e8d5514c9d02ed,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526180016854448093, guid: 6a938224ae86b74468e8d5514c9d02ed,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526180016854671835, guid: 6a938224ae86b74468e8d5514c9d02ed,
+        type: 3}
+      propertyPath: m_Name
+      value: Mace_SpikeyBoi
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526180016854671835, guid: 6a938224ae86b74468e8d5514c9d02ed,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 0}
+  m_SourcePrefab: {fileID: 100100000, guid: 6a938224ae86b74468e8d5514c9d02ed, type: 3}

@@ -1,0 +1,273 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1131350697716536372
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 8482890072890494246, guid: 2693764bee66fec4f9662b3eef760d0d,
+    type: 3}
+  m_PrefabInstance: {fileID: 7673931507984992220}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2289534640086141146}
+  - component: {fileID: 6019991436675290727}
+  - component: {fileID: 7539364737380463644}
+  m_Layer: 9
+  m_Name: GreatSword_Magistone
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2289534640086141146
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 8482890072890724102, guid: 2693764bee66fec4f9662b3eef760d0d,
+    type: 3}
+  m_PrefabInstance: {fileID: 7673931507984992220}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131350697716536372}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3453936462727135892}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 90}
+--- !u!33 &6019991436675290727
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 8482890072891531558, guid: 2693764bee66fec4f9662b3eef760d0d,
+    type: 3}
+  m_PrefabInstance: {fileID: 7673931507984992220}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131350697716536372}
+  m_Mesh: {fileID: 4300000, guid: d7525610871b2c647b24f4aa65c6ce89, type: 3}
+--- !u!23 &7539364737380463644
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 8482890072892768050, guid: 2693764bee66fec4f9662b3eef760d0d,
+    type: 3}
+  m_PrefabInstance: {fileID: 7673931507984992220}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131350697716536372}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 42b64fdb315e3054ea757d8d1c4bcfa7, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &2662232175674785066
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3453936462727135892}
+  - component: {fileID: 8388313804934392316}
+  - component: {fileID: 499366803132379997}
+  m_Layer: 9
+  m_Name: GreatSword_Magistone
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3453936462727135892
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2662232175674785066}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -17.731, y: 0, z: -18.199}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2289534640086141146}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &8388313804934392316
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2662232175674785066}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &499366803132379997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2662232175674785066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f10ee017b6dc3d4d82100cf987f27be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Magistone Greatblade
+  description: 'Used as a source of power for large defender collusus during the mage
+    wars, this blade is imbued with the power of the '
+  itemGearID: 99
+  itemtorsoID: 0
+  itemUpperRightArmID: 0
+  itemUpperLeftArmID: 0
+  itemLowerRightArmID: 0
+  itemLowerLeftArmID: 0
+  itemRightHandID: 0
+  itemLeftHandID: 0
+  itemRightElbowID: 0
+  itemLeftElbowID: 0
+  itemRightShoulderID: 0
+  itemLeftShoulderID: 0
+  helmetType: 0
+  equippedToRightHand: 0
+  stackable: 1
+  instantPickup: 0
+  previousOwner: {fileID: 0}
+  currentStack: 1
+  maxStack: 1
+  artwork: {fileID: 21300000, guid: 35a2f460e3b24af4b99668491366214c, type: 3}
+  inventoryIndex: 0
+  goldValue: 85
+  itemType: 4
+  itemRarity: 0
+  vitMod: 8
+  strMod: 35
+  dexMod: 0
+  spdMod: 0
+  intMod: 12
+  wisMod: 45
+  chaMod: 0
+  baseAttackDelay: 0.9
+  hitMin: 0
+  hitMax: 30
+  hitBase: 40
+  staggerBase: 40
+  critChance: 10
+  critMod: 1.5
+  vitScaling: 1
+  strScaling: 1.4
+  dexScaling: 0
+  spdScaling: 0
+  intScaling: 1
+  wisScaling: 1
+  chaScaling: 0
+  itemMoveset: 1
+  health: 80
+  mana: 0
+  armor: 0
+  resistance: 0
+  poise: 0
+  healthRegen: 0
+  manaRegen: 50.2
+--- !u!1001 &7673931507984992220
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3453936462727135892}
+    m_Modifications:
+    - target: {fileID: 8482890072890494246, guid: 2693764bee66fec4f9662b3eef760d0d,
+        type: 3}
+      propertyPath: m_Name
+      value: GreatSword_Magistone
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482890072890494246, guid: 2693764bee66fec4f9662b3eef760d0d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482890072890724102, guid: 2693764bee66fec4f9662b3eef760d0d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482890072890724102, guid: 2693764bee66fec4f9662b3eef760d0d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482890072890724102, guid: 2693764bee66fec4f9662b3eef760d0d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482890072890724102, guid: 2693764bee66fec4f9662b3eef760d0d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482890072890724102, guid: 2693764bee66fec4f9662b3eef760d0d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482890072890724102, guid: 2693764bee66fec4f9662b3eef760d0d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482890072890724102, guid: 2693764bee66fec4f9662b3eef760d0d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482890072890724102, guid: 2693764bee66fec4f9662b3eef760d0d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482890072890724102, guid: 2693764bee66fec4f9662b3eef760d0d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482890072890724102, guid: 2693764bee66fec4f9662b3eef760d0d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482890072890724102, guid: 2693764bee66fec4f9662b3eef760d0d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 0}
+  m_SourcePrefab: {fileID: 100100000, guid: 2693764bee66fec4f9662b3eef760d0d, type: 3}

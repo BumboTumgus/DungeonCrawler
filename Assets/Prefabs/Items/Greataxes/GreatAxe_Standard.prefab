@@ -1,0 +1,272 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &928266984180825198
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 2118546368912342943, guid: 25da4469d4bde7e4f86360b4b51d94ab,
+    type: 3}
+  m_PrefabInstance: {fileID: 4646282748594154850}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6703871388059334961}
+  - component: {fileID: 707955950950707716}
+  - component: {fileID: 4577502922506433653}
+  m_Layer: 9
+  m_Name: GreatAxe_Standard
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6703871388059334961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 2121765008874706003, guid: 25da4469d4bde7e4f86360b4b51d94ab,
+    type: 3}
+  m_PrefabInstance: {fileID: 4646282748594154850}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928266984180825198}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6430113381960671595}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 90}
+--- !u!33 &707955950950707716
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 2096100240052145119, guid: 25da4469d4bde7e4f86360b4b51d94ab,
+    type: 3}
+  m_PrefabInstance: {fileID: 4646282748594154850}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928266984180825198}
+  m_Mesh: {fileID: 4300000, guid: 1c6172cca7780d549a35ed79ce6d37c6, type: 3}
+--- !u!23 &4577502922506433653
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 2103221865765284361, guid: 25da4469d4bde7e4f86360b4b51d94ab,
+    type: 3}
+  m_PrefabInstance: {fileID: 4646282748594154850}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928266984180825198}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: c624a3d16e2ba1a43b8f5ff296ae5434, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &5894813285941480850
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6430113381960671595}
+  - component: {fileID: 6341075686596196146}
+  - component: {fileID: 3078627201219566629}
+  m_Layer: 9
+  m_Name: GreatAxe_Standard
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6430113381960671595
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5894813285941480850}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.425, y: 0, z: -23.918}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6703871388059334961}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &6341075686596196146
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5894813285941480850}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3078627201219566629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5894813285941480850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f10ee017b6dc3d4d82100cf987f27be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Battleaxe
+  description: A brutally simple weapon with the weight to cleave a man in twain.
+  itemGearID: 114
+  itemtorsoID: 0
+  itemUpperRightArmID: 0
+  itemUpperLeftArmID: 0
+  itemLowerRightArmID: 0
+  itemLowerLeftArmID: 0
+  itemRightHandID: 0
+  itemLeftHandID: 0
+  itemRightElbowID: 0
+  itemLeftElbowID: 0
+  itemRightShoulderID: 0
+  itemLeftShoulderID: 0
+  helmetType: 0
+  equippedToRightHand: 0
+  stackable: 1
+  instantPickup: 0
+  previousOwner: {fileID: 0}
+  currentStack: 1
+  maxStack: 1
+  artwork: {fileID: 21300000, guid: 4054b034125f02147a61428a24bb58d5, type: 3}
+  inventoryIndex: 0
+  goldValue: 424
+  itemType: 4
+  itemRarity: 0
+  vitMod: 3
+  strMod: 8
+  dexMod: 0
+  spdMod: -2
+  intMod: 0
+  wisMod: 0
+  chaMod: 0
+  baseAttackDelay: 0.75
+  hitMin: 8
+  hitMax: 20
+  hitBase: 12
+  staggerBase: 25
+  critChance: 15
+  critMod: 2
+  vitScaling: 0.2
+  strScaling: 1.8
+  dexScaling: 0.2
+  spdScaling: 0.1
+  intScaling: 0
+  wisScaling: 0
+  chaScaling: 0
+  itemMoveset: 2
+  health: 25
+  mana: 0
+  armor: 2
+  resistance: 5
+  poise: 8
+  healthRegen: 0.8
+  manaRegen: 1.2
+--- !u!1001 &4646282748594154850
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 6430113381960671595}
+    m_Modifications:
+    - target: {fileID: 2118546368912342943, guid: 25da4469d4bde7e4f86360b4b51d94ab,
+        type: 3}
+      propertyPath: m_Name
+      value: GreatAxe_Standard
+      objectReference: {fileID: 0}
+    - target: {fileID: 2118546368912342943, guid: 25da4469d4bde7e4f86360b4b51d94ab,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121765008874706003, guid: 25da4469d4bde7e4f86360b4b51d94ab,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121765008874706003, guid: 25da4469d4bde7e4f86360b4b51d94ab,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121765008874706003, guid: 25da4469d4bde7e4f86360b4b51d94ab,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121765008874706003, guid: 25da4469d4bde7e4f86360b4b51d94ab,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121765008874706003, guid: 25da4469d4bde7e4f86360b4b51d94ab,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121765008874706003, guid: 25da4469d4bde7e4f86360b4b51d94ab,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121765008874706003, guid: 25da4469d4bde7e4f86360b4b51d94ab,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121765008874706003, guid: 25da4469d4bde7e4f86360b4b51d94ab,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121765008874706003, guid: 25da4469d4bde7e4f86360b4b51d94ab,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121765008874706003, guid: 25da4469d4bde7e4f86360b4b51d94ab,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121765008874706003, guid: 25da4469d4bde7e4f86360b4b51d94ab,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 0}
+  m_SourcePrefab: {fileID: 100100000, guid: 25da4469d4bde7e4f86360b4b51d94ab, type: 3}

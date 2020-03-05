@@ -13,13 +13,16 @@ public class UiHideBehindPlayer : MonoBehaviour
     {
         foreach(UiFollowTarget ui in targets)
         {
-            Quaternion directionTowardsUI = Quaternion.Euler(Vector3.Normalize(ui.target.position - transform.position));
-            float angleDifference = Quaternion.Angle(transform.rotation, directionTowardsUI);
+            if(ui != null)
+            {
+                Quaternion directionTowardsUI = Quaternion.Euler(Vector3.Normalize(ui.target.position - transform.position));
+                float angleDifference = Quaternion.Angle(transform.rotation, directionTowardsUI);
 
-            if (angleDifference > ANGULAR_THRESHOLD)
-                ui.gameObject.SetActive(false);
-            else
-                ui.gameObject.SetActive(true);
+                if (angleDifference > ANGULAR_THRESHOLD)
+                    ui.gameObject.SetActive(false);
+                else
+                    ui.gameObject.SetActive(true);
+            }
         }
     }
 }

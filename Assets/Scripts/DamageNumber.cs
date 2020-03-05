@@ -48,6 +48,7 @@ public class DamageNumber : MonoBehaviour
         }
 
         // Destroy ourselves.
+        GetComponent<UiFollowTarget>().RemoveFromCullList();
         Destroy(gameObject);
     }
 }

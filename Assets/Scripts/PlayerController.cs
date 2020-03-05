@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
                 CheckJump();
                 CheckGrounded();
                 CheckAttack();
-                CheckPickUp();
+                CheckInteract();
                 break;
             case PlayerState.Moving:
                 if (Input.GetAxisRaw(playerInputs.horizontalInput) == 0 && Input.GetAxisRaw(playerInputs.verticalInput) == 0)
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
                 CheckJump();
                 CheckGrounded();
                 CheckAttack();
-                CheckPickUp();
+                CheckInteract();
                 break;
             case PlayerState.Airborne:
                 PlayerMovement();
@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
                 CheckJump();
                 CheckGrounded();
                 CheckAttack();
-                CheckPickUp();
+                CheckInteract();
                 break;
             case PlayerState.Attacking:
                 PlayerMovement();
@@ -285,7 +285,7 @@ public class PlayerController : MonoBehaviour
             playerState = PlayerState.Idle;
         attackReady = true;
 
-        Debug.Log("attack done");
+        // Debug.Log("attack done");
     }
 
     // Called when the player is hit below 0 hp and downed.
@@ -318,12 +318,26 @@ public class PlayerController : MonoBehaviour
     }
 
     // Used to make the player do a pickup animation.
-    public void CheckPickUp()
+    public void CheckInteract()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            inventory.PickUpItem(inventory.GrabClosestItem());
-            anim.SetTrigger("PickUp");
+            if (inventory.interactablesInRange.Count > 0)
+            {
+                // Here we check what kind of interactable it is and then interact with it accordingly.
+                GameObject interactable = inventory.GrabClosestInteractable();
+                anim.SetTrigger("Interact");
+
+                if (interactable.GetComponent<ChestBehaviour>() != null)
+                    interactable.GetComponent<ChestBehaviour>().OpenChest();
+
+                inventory.interactablesInRange.Remove(interactable);
+            }
+            else if (inventory.itemsInRange.Count > 0)
+            {
+                inventory.PickUpItem(inventory.GrabClosestItem());
+                anim.SetTrigger("PickUp");
+            }
         }
     }
 

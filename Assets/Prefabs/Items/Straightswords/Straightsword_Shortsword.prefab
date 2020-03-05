@@ -1,0 +1,272 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &231822833654742406
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 6787528450274960057, guid: 05c08da0d8da3d84d89e7c75467719d1,
+    type: 3}
+  m_PrefabInstance: {fileID: 8415981472946058993}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3093337081053795876}
+  - component: {fileID: 4719196778596837232}
+  - component: {fileID: 4768137726245501617}
+  m_Layer: 9
+  m_Name: Straightsword_Shortsword
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3093337081053795876
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 6784161706621182165, guid: 05c08da0d8da3d84d89e7c75467719d1,
+    type: 3}
+  m_PrefabInstance: {fileID: 8415981472946058993}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 231822833654742406}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3339728510569021295}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 90}
+--- !u!33 &4719196778596837232
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 6791913632287156843, guid: 05c08da0d8da3d84d89e7c75467719d1,
+    type: 3}
+  m_PrefabInstance: {fileID: 8415981472946058993}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 231822833654742406}
+  m_Mesh: {fileID: 4300000, guid: 0456482893525f941abe21ac94126e81, type: 3}
+--- !u!23 &4768137726245501617
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 6801862862594333155, guid: 05c08da0d8da3d84d89e7c75467719d1,
+    type: 3}
+  m_PrefabInstance: {fileID: 8415981472946058993}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 231822833654742406}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: c624a3d16e2ba1a43b8f5ff296ae5434, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &9082494575286234017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3339728510569021295}
+  - component: {fileID: 2060939991078853137}
+  - component: {fileID: 4742947427299726428}
+  m_Layer: 9
+  m_Name: Straigthsword_Shortsword
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3339728510569021295
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9082494575286234017}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 19.042, y: 0, z: -17.659}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3093337081053795876}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &2060939991078853137
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9082494575286234017}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4742947427299726428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9082494575286234017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f10ee017b6dc3d4d82100cf987f27be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Shortsword
+  description: Stick pointed end into enemy. Repeat as necessary.
+  itemGearID: 7
+  itemtorsoID: 0
+  itemUpperRightArmID: 0
+  itemUpperLeftArmID: 0
+  itemLowerRightArmID: 0
+  itemLowerLeftArmID: 0
+  itemRightHandID: 0
+  itemLeftHandID: 0
+  itemRightElbowID: 0
+  itemLeftElbowID: 0
+  itemRightShoulderID: 0
+  itemLeftShoulderID: 0
+  helmetType: 0
+  equippedToRightHand: 0
+  stackable: 1
+  instantPickup: 0
+  previousOwner: {fileID: 0}
+  currentStack: 1
+  maxStack: 1
+  artwork: {fileID: 21300000, guid: 50b61ab7a82e47e458ae2ca4e59baa23, type: 3}
+  inventoryIndex: 0
+  goldValue: 51
+  itemType: 3
+  itemRarity: 0
+  vitMod: 1
+  strMod: 2
+  dexMod: 3
+  spdMod: 3
+  intMod: 0
+  wisMod: 0
+  chaMod: 1
+  baseAttackDelay: 1.1
+  hitMin: 4
+  hitMax: 8
+  hitBase: 12
+  staggerBase: 8
+  critChance: 5
+  critMod: 1.5
+  vitScaling: 0.1
+  strScaling: 0.4
+  dexScaling: 0.4
+  spdScaling: 0.2
+  intScaling: 0
+  wisScaling: 0
+  chaScaling: 0
+  itemMoveset: 0
+  health: 10
+  mana: 5
+  armor: 1
+  resistance: 0
+  poise: 3
+  healthRegen: 0
+  manaRegen: 0.6
+--- !u!1001 &8415981472946058993
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3339728510569021295}
+    m_Modifications:
+    - target: {fileID: 6784161706621182165, guid: 05c08da0d8da3d84d89e7c75467719d1,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6784161706621182165, guid: 05c08da0d8da3d84d89e7c75467719d1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6784161706621182165, guid: 05c08da0d8da3d84d89e7c75467719d1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6784161706621182165, guid: 05c08da0d8da3d84d89e7c75467719d1,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6784161706621182165, guid: 05c08da0d8da3d84d89e7c75467719d1,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6784161706621182165, guid: 05c08da0d8da3d84d89e7c75467719d1,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6784161706621182165, guid: 05c08da0d8da3d84d89e7c75467719d1,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6784161706621182165, guid: 05c08da0d8da3d84d89e7c75467719d1,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6784161706621182165, guid: 05c08da0d8da3d84d89e7c75467719d1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6784161706621182165, guid: 05c08da0d8da3d84d89e7c75467719d1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6784161706621182165, guid: 05c08da0d8da3d84d89e7c75467719d1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6787528450274960057, guid: 05c08da0d8da3d84d89e7c75467719d1,
+        type: 3}
+      propertyPath: m_Name
+      value: Straightsword_Shortsword
+      objectReference: {fileID: 0}
+    - target: {fileID: 6787528450274960057, guid: 05c08da0d8da3d84d89e7c75467719d1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 0}
+  m_SourcePrefab: {fileID: 100100000, guid: 05c08da0d8da3d84d89e7c75467719d1, type: 3}

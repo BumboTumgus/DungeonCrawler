@@ -40,6 +40,9 @@ public class Item : MonoBehaviour
     public enum ItemType { Consumable, Gold, Trinket, Weapon, TwoHandWeapon, Helmet, Legs, Armor};
     public ItemType itemType;
 
+    public enum ItemRarity { Common, Uncommon, Rare, Legendary, Masterwork}
+    public ItemRarity itemRarity = ItemRarity.Common;
+
     // Equipable Stats (weapons armor and trinkets)
     public int vitMod;
     public int strMod;
@@ -64,6 +67,8 @@ public class Item : MonoBehaviour
     public float intScaling = 0;
     public float wisScaling = 0;
     public float chaScaling = 0;
+
+    public int itemMoveset = 0;
 
     public int health;
     public int mana;
@@ -104,7 +109,7 @@ public class Item : MonoBehaviour
     // This is called when the item can be picked up. The item will set it's parent as the player's ivnentory, hide itself and disable collisions.
     public void ComfirmPickup(Transform targetParent, int index)
     {
-        GetComponent<MeshRenderer>().enabled = false;
+        // GetComponent<MeshRenderer>().enabled = false;
 
         MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
         foreach (MeshRenderer renderer in meshRenderers)
@@ -120,7 +125,7 @@ public class Item : MonoBehaviour
     public void ComfirmDrop()
     {
         transform.SetParent(null);
-        GetComponent<MeshRenderer>().enabled = true;
+        // GetComponent<MeshRenderer>().enabled = true;
 
         MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
         foreach (MeshRenderer renderer in meshRenderers)

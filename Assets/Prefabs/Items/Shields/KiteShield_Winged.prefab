@@ -1,0 +1,273 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2522782950949910875
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 5597141725644576838, guid: 0de6fff6a6e559745a30fda3a8519c90,
+    type: 3}
+  m_PrefabInstance: {fileID: 7975790297783103292}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2522782950682383414}
+  - component: {fileID: 2522782950949910871}
+  - component: {fileID: 2522782950949910870}
+  m_Layer: 9
+  m_Name: KiteShield_Winged
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2522782950682383414
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 5597141725644307210, guid: 0de6fff6a6e559745a30fda3a8519c90,
+    type: 3}
+  m_PrefabInstance: {fileID: 7975790297783103292}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2522782950949910875}
+  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2306602833765626893}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -90, y: 90, z: 0}
+--- !u!33 &2522782950949910871
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 5597141725647626982, guid: 0de6fff6a6e559745a30fda3a8519c90,
+    type: 3}
+  m_PrefabInstance: {fileID: 7975790297783103292}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2522782950949910875}
+  m_Mesh: {fileID: 4300000, guid: e7e8d59c22a2a5b45957f30083153be8, type: 3}
+--- !u!23 &2522782950949910870
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 5597141725646616714, guid: 0de6fff6a6e559745a30fda3a8519c90,
+    type: 3}
+  m_PrefabInstance: {fileID: 7975790297783103292}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2522782950949910875}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 42b64fdb315e3054ea757d8d1c4bcfa7, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &3453711555413075273
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2306602833765626893}
+  - component: {fileID: 3409535723923281571}
+  - component: {fileID: 2079759506306103242}
+  m_Layer: 9
+  m_Name: KiteShield_Winged
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2306602833765626893
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3453711555413075273}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.99, y: 0, z: -21.95}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2522782950682383414}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &3409535723923281571
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3453711555413075273}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2079759506306103242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3453711555413075273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f10ee017b6dc3d4d82100cf987f27be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Magistone Winged Kiteshield
+  description: A godly relic of a past age. This shield is imbued with powerful ancient
+    magics not replicable in this day and age
+  itemGearID: 32
+  itemtorsoID: 0
+  itemUpperRightArmID: 0
+  itemUpperLeftArmID: 0
+  itemLowerRightArmID: 0
+  itemLowerLeftArmID: 0
+  itemRightHandID: 0
+  itemLeftHandID: 0
+  itemRightElbowID: 0
+  itemLeftElbowID: 0
+  itemRightShoulderID: 0
+  itemLeftShoulderID: 0
+  helmetType: 0
+  equippedToRightHand: 0
+  stackable: 1
+  instantPickup: 0
+  previousOwner: {fileID: 0}
+  currentStack: 1
+  maxStack: 1
+  artwork: {fileID: 21300000, guid: 4d81ef909db3d594f9ffe9d48928febc, type: 3}
+  inventoryIndex: 0
+  goldValue: 500
+  itemType: 3
+  itemRarity: 0
+  vitMod: 10
+  strMod: 10
+  dexMod: 10
+  spdMod: 5
+  intMod: 40
+  wisMod: 50
+  chaMod: 5
+  baseAttackDelay: 1
+  hitMin: 10
+  hitMax: 20
+  hitBase: 40
+  staggerBase: 40
+  critChance: 15
+  critMod: 1.5
+  vitScaling: 0.5
+  strScaling: 0.2
+  dexScaling: 0
+  spdScaling: 0
+  intScaling: 0.6
+  wisScaling: 0.6
+  chaScaling: 0
+  itemMoveset: 5
+  health: 150
+  mana: 500
+  armor: 40
+  resistance: 40
+  poise: 50
+  healthRegen: 5.4
+  manaRegen: 15.4
+--- !u!1001 &7975790297783103292
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2306602833765626893}
+    m_Modifications:
+    - target: {fileID: 5597141725644307210, guid: 0de6fff6a6e559745a30fda3a8519c90,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5597141725644307210, guid: 0de6fff6a6e559745a30fda3a8519c90,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5597141725644307210, guid: 0de6fff6a6e559745a30fda3a8519c90,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5597141725644307210, guid: 0de6fff6a6e559745a30fda3a8519c90,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5597141725644307210, guid: 0de6fff6a6e559745a30fda3a8519c90,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5597141725644307210, guid: 0de6fff6a6e559745a30fda3a8519c90,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5597141725644307210, guid: 0de6fff6a6e559745a30fda3a8519c90,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5597141725644307210, guid: 0de6fff6a6e559745a30fda3a8519c90,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5597141725644307210, guid: 0de6fff6a6e559745a30fda3a8519c90,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5597141725644307210, guid: 0de6fff6a6e559745a30fda3a8519c90,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5597141725644307210, guid: 0de6fff6a6e559745a30fda3a8519c90,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5597141725644576838, guid: 0de6fff6a6e559745a30fda3a8519c90,
+        type: 3}
+      propertyPath: m_Name
+      value: KiteShield_Winged
+      objectReference: {fileID: 0}
+    - target: {fileID: 5597141725644576838, guid: 0de6fff6a6e559745a30fda3a8519c90,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 0}
+  m_SourcePrefab: {fileID: 100100000, guid: 0de6fff6a6e559745a30fda3a8519c90, type: 3}
