@@ -20,6 +20,7 @@ public class Item : MonoBehaviour
     public int itemRightShoulderID;
     public int itemLeftShoulderID;
 
+    public bool itemPickUpAllowed = true;
 
     public enum HelmetType {NoFeatures, NoHair, AllFeatures};
     public HelmetType helmetType;
@@ -79,6 +80,7 @@ public class Item : MonoBehaviour
     public float manaRegen;
 
     private const float STAT_MODIFIER_RANGE = 0.25f;
+    private const float LERP_STRENGTH = 0.04f;
 
     // Rerolls all the base stats plus or minus a percentage based on the stat modifier range.
     public void RollStatModifiers()
@@ -115,6 +117,12 @@ public class Item : MonoBehaviour
         foreach (MeshRenderer renderer in meshRenderers)
             renderer.enabled = false;
 
+        ParticleSystem[] particles = GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem system in particles)
+            system.Stop();
+
+        GetComponentInChildren<Light>().enabled = false;
+
         GetComponent<SphereCollider>().enabled = false;
         transform.SetParent(targetParent);
         transform.localPosition = Vector3.zero;
@@ -131,6 +139,59 @@ public class Item : MonoBehaviour
         foreach (MeshRenderer renderer in meshRenderers)
             renderer.enabled = true;
 
+        ParticleSystem[] particles = GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem system in particles)
+            system.Play();
+
+        GetComponentInChildren<Light>().enabled = true;
+
         GetComponent<SphereCollider>().enabled = true;
+    }
+
+    // Used to make the item pop into the air and land at a specific spot.
+    public void ItemPopIn(Vector3 targetPosition)
+    {
+        GetComponent<SphereCollider>().enabled = false;
+        itemPickUpAllowed = false;
+        StartCoroutine(PopIn(targetPosition));
+    }
+
+    IEnumerator PopIn(Vector3 targetPosition)
+    {
+        float currentTimer = 0;
+        float targetTimer = 0.5f;
+        float yOriginal = transform.position.y;
+        float yMultiplier = 1f;
+        Vector3 originalPosition = transform.position;
+
+        while(currentTimer < targetTimer / 2)
+        {
+            currentTimer += Time.deltaTime;
+            float p = currentTimer / targetTimer;
+            float newY = transform.position.y + (10f * Time.deltaTime * yMultiplier);
+
+            yMultiplier *= 0.9f;
+            
+            Vector3 newPos = new Vector3(Mathf.Lerp(originalPosition.x, targetPosition.x, p), 0, Mathf.Lerp(originalPosition.z, targetPosition.z, p));
+            transform.position = new Vector3(newPos.x, newY, newPos.z);
+            yield return null;
+        }
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            float p = currentTimer / targetTimer;
+            float newY = transform.position.y - (10f * Time.deltaTime * yMultiplier);
+
+            yMultiplier *= 1.1f;
+
+            Vector3 newPos = new Vector3(Mathf.Lerp(originalPosition.x, targetPosition.x, p), 0, Mathf.Lerp(originalPosition.z, targetPosition.z, p));
+            transform.position = new Vector3(newPos.x, newY, newPos.z);
+            yield return null;
+        }
+
+        transform.position = targetPosition;
+
+        GetComponent<SphereCollider>().enabled = true;
+        itemPickUpAllowed = true;
     }
 }

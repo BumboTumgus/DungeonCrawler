@@ -45,13 +45,13 @@ public class Inventory : MonoBehaviour
     {
         if (item != null)
         {
-            Debug.Log("the inventory coutn is: " + inventory.Count);
+            // Debug.Log("the inventory coutn is: " + inventory.Count);
             if (inventory.Count >= INVENTORY_MAX)
             {
-                Debug.Log("Your inventory is full!");
+                // Debug.Log("Your inventory is full!");
                 DistributeStacks(item);
 
-                // Since we know the inventory is full, we do not add the item at all, we just check it it has stacks left afetr distrubution
+                // Since we know the inventory is full, we do not add the item at all, we just check it it has stacks left after distrubution
                 if(item.currentStack == 0)
                 {
                     itemsInRange.Remove(item);
@@ -93,9 +93,10 @@ public class Inventory : MonoBehaviour
             targetItem.previousOwner = gameObject;
             inventory.Remove(targetItem);
             targetItem.ComfirmDrop();
+            targetItem.ItemPopIn(transform.position + transform.forward * Random.Range(0.5f, 1.5f));
             inventoryUI.UpdateInventorySlot(targetItem.inventoryIndex);
         }
-        Debug.Log(inventory.Count);
+        // Debug.Log(inventory.Count);
     }
     // Used to drop a specific item. TESTING ONLY
     public void DropItem()
@@ -116,7 +117,7 @@ public class Inventory : MonoBehaviour
         if(other.CompareTag("Item"))
         {
             Item currentItem = other.GetComponent<Item>();
-            if(currentItem.instantPickup && currentItem.previousOwner != gameObject)
+            if(currentItem.instantPickup && currentItem.previousOwner != gameObject && currentItem.itemPickUpAllowed)
             {
                 Debug.Log("the item " + other.name + " was instantly picked up");
                 // Instantly pick up the itme if we have room or an incomplete stack.

@@ -14,6 +14,9 @@ public class ChestBehaviour : MonoBehaviour
 
     private ItemGenerator itemGenerator;
 
+    private const float MIN_DROP_RING = 0.5f;
+    private const float MAX_DROP_RING = 2.0f;
+
     // Here we roll the contents of this treasure chest.
     void Start()
     {
@@ -66,14 +69,19 @@ public class ChestBehaviour : MonoBehaviour
         Destroy(GetComponent<SphereCollider>());
 
         // spawn the loot.
-        foreach(GameObject lootsidoodle in itemDrops)
-            Instantiate(lootsidoodle, transform.position + transform.forward * Random.Range(0.5f, 1.5f) + transform.right * Random.Range(-1f, 1f), Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)));
+        foreach (GameObject lootsidoodle in itemDrops)
+        {
+            GameObject currentObject = Instantiate(lootsidoodle, transform.position, transform.rotation * Quaternion.Euler(new Vector3(0,Random.Range(-50,50),0)));
+            currentObject.GetComponentInChildren<Item>().ItemPopIn(currentObject.transform.position + currentObject.transform.forward * Random.Range(MIN_DROP_RING, MAX_DROP_RING));
+        }
         foreach(GameObject gold in treasureDrops)
         {
-            GameObject treasure = Instantiate(gold, transform.position + transform.forward * Random.Range(0.5f, 1.5f) + transform.right * Random.Range(-1f, 1f), Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)));
-            
+            GameObject treasure = Instantiate(gold, transform.position, transform.rotation * Quaternion.Euler(new Vector3(0, Random.Range(-50, 50), 0)));
+
             Item treasureItem = treasure.GetComponent<Item>();
             treasureItem.currentStack = Random.Range(treasureItem.currentStack / 2, treasureItem.currentStack * 2);
+
+            treasureItem.GetComponentInChildren<Item>().ItemPopIn(treasureItem.transform.position + treasureItem.transform.forward * Random.Range(MIN_DROP_RING, MAX_DROP_RING));
             // Debug.Log(treasureItem.currentStack);
         }
     }
