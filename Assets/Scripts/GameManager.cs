@@ -16,9 +16,6 @@ public class GameManager : MonoBehaviour
 
     public float currentRoomGenTimer = 0;
 
-    public GameObject enemyPrefab;
-    public GameObject chestPrefab;
-
     private GameObject startingRoom;
 
     private const float TAREGT_ROOM_GEN_TIMER = 0.5f;
@@ -28,7 +25,7 @@ public class GameManager : MonoBehaviour
     {
         // Debug.Log("Game manager setup");
         currentPlayers = GameObject.FindGameObjectsWithTag("Player");
-        //StartCoroutine(Initialization());
+        // StartCoroutine(Initialization());
     }
 
     //The corotuine that runs on level start.

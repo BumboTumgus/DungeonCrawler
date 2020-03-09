@@ -57,7 +57,19 @@ public class RoomPopulator : MonoBehaviour
         {
             while(treasureCount > 0)
             {
-                GameObject randomTreasure = floorManager.treasures[Random.Range(0, floorManager.treasures.Length)];
+                // Here we roll for the rarity of the treasure chest.
+                GameObject randomTreasure = null;
+                float randomRoll = Random.Range(0, 100);
+                if(randomRoll < 40)
+                    randomTreasure = floorManager.treasures[0];
+                else if (randomRoll < 70)
+                    randomTreasure = floorManager.treasures[1];
+                else if (randomRoll < 90)
+                    randomTreasure = floorManager.treasures[2];
+                else if (randomRoll < 98)
+                    randomTreasure = floorManager.treasures[3];
+                else
+                    randomTreasure = floorManager.treasures[4];
 
                 Instantiate(randomTreasure,
                     spawnsChest[Random.Range(0, spawnsChest.Length)].position +
