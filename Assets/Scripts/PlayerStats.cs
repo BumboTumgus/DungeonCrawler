@@ -70,9 +70,7 @@ public class PlayerStats : MonoBehaviour
     public int ChaLvl = 1;
 
     public BarManager healthBar;
-    public BarManager healthBarSecondary;
     public BarManager manaBar;
-    public GameObject actionBarParent;
     public StatUpdater myStats;
 
     public bool dead = false;
@@ -88,6 +86,8 @@ public class PlayerStats : MonoBehaviour
 
     [SerializeField] private GameObject enemyHealthBar;
 
+    private AfflictionManager afflictions;
+
     private void Start()
     {
         // If we do not have a heathbar, set it up now.
@@ -95,6 +95,7 @@ public class PlayerStats : MonoBehaviour
 
         StatSetup(true, true);
         damageNumberManager = GetComponent<DamageNumberManager>();
+        afflictions = GetComponent<AfflictionManager>();
     }
 
     private void Update()
@@ -102,6 +103,20 @@ public class PlayerStats : MonoBehaviour
         //USed for debugging to add exp.
         if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
             AddExp(100);
+
+        // USed for added afflcitions and debugging.
+        if (Input.GetKeyDown(KeyCode.P) && CompareTag("Player"))
+        {
+            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Aflame, 30);
+            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Asleep, 30);
+            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Bleed, 30);
+            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Corrosion, 30);
+            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Curse, 30);
+            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Frostbite, 30);
+            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Poison, 30);
+            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Stun, 30);
+        }
+
         // HEalth and mana regen logic.
         if (!dead)
         {
@@ -118,8 +133,6 @@ public class PlayerStats : MonoBehaviour
             myStats.SetHealthManaValues(this);
         // Update the health bar.
         healthBar.targetValue = health;
-        if (healthBarSecondary != null)
-            healthBarSecondary.targetValue = health;
         if (manaBar != null)
             manaBar.targetValue = mana;
 
@@ -177,11 +190,9 @@ public class PlayerStats : MonoBehaviour
         if (changeHealthBars)
         {
             // Sets up the health and mana Bars.
-            healthBar.Initialize(healthMax, true);
-            if (healthBarSecondary != null)
-                healthBarSecondary.Initialize(healthMax, true);
+            healthBar.Initialize(healthMax, false);
             if (manaBar != null)
-                manaBar.Initialize(manaMax, true);
+                manaBar.Initialize(manaMax, false);
         }
 
         if(myStats != null)
@@ -248,8 +259,6 @@ public class PlayerStats : MonoBehaviour
 
         // Update the health bar.
         healthBar.targetValue = health;
-        if (healthBarSecondary != null)
-            healthBarSecondary.targetValue = health;
 
         // Spawn the damage number.
         SpawnFlavorText(amount, crit);
@@ -259,16 +268,16 @@ public class PlayerStats : MonoBehaviour
             EntityDeath();
 
         // If we are not dead, check to see if we are staggered from this hit.
-        poise -= staggerAmount * poiseLoseMultiplier;
-        if(poise <= 0)
-        {
+        //poise -= staggerAmount * poiseLoseMultiplier;
+        //if(poise <= 0)
+        //{
             // REset our poise then stagegr us.
-            poise = poiseMax;
-            if (!dead && gameObject.CompareTag("Player"))
-                GetComponent<PlayerController>().StaggerLaunch();
-            else if (!dead && gameObject.CompareTag("Enemy"))
-                GetComponent<EnemyCombatManager>().StaggerLaunch();
-        }
+        //    poise = poiseMax;
+        //     if (!dead && gameObject.CompareTag("Player"))
+        //        GetComponent<PlayerController>().StaggerLaunch();
+        //    else if (!dead && gameObject.CompareTag("Enemy"))
+        //        GetComponent<EnemyCombatManager>().StaggerLaunch();
+        //}
 
     }
 
@@ -297,11 +306,6 @@ public class PlayerStats : MonoBehaviour
             // Destroy the health bar, queue the destruction of all children and set their parents to null, then destroy ourself.
             healthBar.transform.parent.GetComponent<UiFollowTarget>().RemoveFromCullList();
             Destroy(healthBar.transform.parent.gameObject);
-            if (healthBarSecondary != null)
-            {
-                healthBarSecondary.transform.parent.GetComponent<UiFollowTarget>().RemoveFromCullList();
-                Destroy(healthBarSecondary.transform.parent.gameObject);
-            }
 
             GetComponent<Animator>().SetTrigger("Downed");
             // Destroy all the now usless components while the enemy dies.

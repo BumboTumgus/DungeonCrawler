@@ -298,7 +298,7 @@ public class PlayerController : MonoBehaviour
         anim.SetTrigger("Downed");
     }
 
-    // USed to stagger the player when their poise gets broken.
+    // Used to stagger the player when their poise gets broken.
     public void StaggerLaunch()
     {
         StartCoroutine(Stagger());

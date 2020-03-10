@@ -9,18 +9,21 @@ public class BarManager : MonoBehaviour
     public float currentDecayBarValue;
     public float targetValue;
     public float maximumValue = 100;
+    public float minimumValue = 0;
     public bool decayEffect = true;
+    public bool linkedText = false;
     public float primaryLerpSpeed = 5;
     public float secondaryLerpSpeed = 5;
     public Image primaryContent;
     public Image decayContent;
     public Color decayDownColor;
     public Color decayUpColor;
+    public Text valueDisplay;
 
     // The intial setup of the bar.
     private void Start()
     {
-        Initialize(maximumValue, true);
+        // Initialize(maximumValue, false);
         // If we are not using the decay effect hide the bar used for it.
         if (!decayEffect && decayContent != null)
             decayContent.gameObject.SetActive(false);
@@ -30,6 +33,7 @@ public class BarManager : MonoBehaviour
     public void Initialize(float maxValue, bool matchBarValue)
     {
         maximumValue = maxValue;
+        primaryContent.fillAmount = currentBarValue / maximumValue;
         if (matchBarValue)
         {
             currentBarValue = maxValue;
@@ -72,6 +76,8 @@ public class BarManager : MonoBehaviour
         primaryContent.fillAmount = currentBarValue / maximumValue;
         if (decayEffect)
             decayContent.fillAmount = currentDecayBarValue / maximumValue;
+        if (linkedText)
+            valueDisplay.text = string.Format("{0:n0}", targetValue);
     }
 
     // USed by other classes to set what value this bar will display.
@@ -80,5 +86,7 @@ public class BarManager : MonoBehaviour
         targetValue = target;
         if (targetValue > maximumValue)
             targetValue = maximumValue;
+        else if (targetValue < minimumValue)
+            targetValue = minimumValue;
     }
 }
