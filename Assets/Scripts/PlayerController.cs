@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 targetRotation;
     private CameraControls cameraControls;
     private Inventory inventory;
+    private BuffsManager buffsManager;
 
     private bool grounded = true;
     private bool justJumped = false;
@@ -57,6 +58,7 @@ public class PlayerController : MonoBehaviour
         hitBoxManager = GetComponent<HitBoxManager>();
         cameraControls = cameraParent.GetComponentInChildren<CameraControls>();
         inventory = GetComponent<Inventory>();
+        buffsManager = GetComponent<BuffsManager>();
     }
 
     // Update is called once per frame, we call different functions based on our current state.
@@ -227,6 +229,22 @@ public class PlayerController : MonoBehaviour
         anim.SetTrigger("Roll");
         playerState = PlayerState.Rolling;
         anim.SetFloat("AnimSpeed", playerStats.speed * ROLL_SPEED_MULTIPLIER / ANIM_SPEED_REDUCTION);
+
+        // here we see if we are on fire, if so lower the duration of the debuff.
+        foreach(Buff buff in buffsManager.activeBuffs)
+        {
+            Debug.Log("we are checking for a fire debuff");
+            if(buff.myType == BuffsManager.BuffType.Aflame)
+            {
+                Debug.Log("we found one");
+                buff.currentTimer += 7;
+                AfflictionManager afflictionManager = GetComponent<AfflictionManager>();
+                
+                afflictionManager.currentAflameValue -= ((7 / buff.duration) * 100);
+                if (afflictionManager.currentAflameValue < 0.1f)
+                    afflictionManager.RemoveBar(buff.myType);
+            }
+        }
 
         // Grab the horizontal vector, if it is too small we'll use the direction we are facing instead.
         Vector3 horizontalMovement = movement;

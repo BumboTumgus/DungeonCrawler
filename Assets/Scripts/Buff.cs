@@ -6,7 +6,7 @@ public class Buff : MonoBehaviour
 {
     public BuffsManager.BuffType myType;
     
-    public ParticleSystem effectParticleSystem;
+    public List<ParticleSystem> effectParticleSystem = new List<ParticleSystem>();
     public PlayerStats connectedPlayer;
     public GameObject connectedIcon;
     public Color damageColor;
@@ -93,11 +93,32 @@ public class Buff : MonoBehaviour
         connectedPlayer.StatSetup(false, true);
     }
 
+    // Used to change the characters health, manan, regens, armor, and mr
+    public void ChangeDefensiveStats(float healthGain, float manaGain, float healthRegenGain, float manaRegenGain, float armorGain, float resistanceGain)
+    {
+        connectedPlayer.bonusHealth += healthGain;
+        connectedPlayer.bonusMana += manaGain;
+        connectedPlayer.bonusHealthRegen += healthRegenGain;
+        connectedPlayer.bonusManaRegen += manaRegenGain;
+        connectedPlayer.armor += armorGain;
+        connectedPlayer.magicResist += resistanceGain;
+
+        healthSC = healthGain;
+        manaSC = manaGain;
+        healthRegenSC = healthRegenGain;
+        manaRegenSC = manaRegenGain;
+        armorSC = armorGain;
+        resistanceSC = resistanceGain;
+        
+        connectedPlayer.StatSetup(false, true);
+    }
+
 
     // Used when the buff is over
     public void EndBuff()
     {
-        effectParticleSystem.Stop();
+        foreach (ParticleSystem ps in effectParticleSystem)
+            ps.Stop();
 
         if (myType == BuffsManager.BuffType.Stunned)
             connectedPlayer.GetComponent<PlayerController>().stunned = false;
@@ -110,6 +131,10 @@ public class Buff : MonoBehaviour
         // If we changed the core stats, change them back.
         if (vitSC != 0 || strSC != 0 || dexSC != 0 || spdSC != 0 || intSC != 0 || wisSC != 0 || chaSC != 0)
             ChangeCoreStats(vitSC * -1, strSC * -1, dexSC * -1, spdSC * -1, intSC * -1, wisSC * -1, chaSC * -1);
+
+        // If we changed the defensive stats, change them back.
+        if (healthSC != 0 || manaSC != 0 || healthRegenSC != 0 || manaRegenSC != 0 || armorSC != 0 || resistanceSC != 0)
+            ChangeDefensiveStats(healthSC * -1, manaSC * -1, healthRegenSC * -1, manaRegenSC * -1, armorSC * -1, resistanceSC * -1);
 
         // This contacts the buff manager, removi8ng us from their list of active buffs , deleting our icon, then killing this instance of the class. ALL fixes to stats should be done before this.
         connectedPlayer.GetComponent<BuffsManager>().RemoveBuff(this);

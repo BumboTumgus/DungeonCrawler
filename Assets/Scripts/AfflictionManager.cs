@@ -88,7 +88,7 @@ public class AfflictionManager : MonoBehaviour
                 activeBars.Remove(barToUpdate.transform.parent.gameObject);
                 UpdateBarLocations();
             }
-            barToUpdate.targetValue = originalValue;
+            barToUpdate.SetValue(originalValue);
         }
         return originalValue;
     }
@@ -174,6 +174,7 @@ public class AfflictionManager : MonoBehaviour
                 if (currentPoisonValue >= 100)
                 {
                     currentPoisonValue = 100;
+                    playerBuffManager.NewBuff(BuffsManager.BuffType.Poisoned);
                 }
                 if (!poisonBar.transform.parent.gameObject.activeSelf && poisonResist < 1)
                 {
@@ -187,6 +188,7 @@ public class AfflictionManager : MonoBehaviour
                 if (currentCorrosionValue >= 100)
                 {
                     currentCorrosionValue = 100;
+                    playerBuffManager.NewBuff(BuffsManager.BuffType.Corrosion);
                 }
                 if (!corrosionBar.transform.parent.gameObject.activeSelf && corrosionResist < 1)
                 {
@@ -200,6 +202,7 @@ public class AfflictionManager : MonoBehaviour
                 if (currentFrostbiteValue >= 100)
                 {
                     currentFrostbiteValue = 100;
+                    playerBuffManager.NewBuff(BuffsManager.BuffType.Frostbite);
                 }
                 if (!frostbiteBar.transform.parent.gameObject.activeSelf && frostbiteResist < 1)
                 {
