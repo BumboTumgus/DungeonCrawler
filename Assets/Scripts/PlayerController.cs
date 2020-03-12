@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public enum PlayerState { Idle, Moving, Airborne, Rolling, Sprinting, Attacking, Downed, Dead, Staggered}
+    public enum PlayerState { Idle, Moving, Airborne, Rolling, Sprinting, Attacking, Downed, Dead, Stunned, Asleep}
     public PlayerState playerState = PlayerState.Idle;
     public GameObject inventoryWindow;
+    public Color bleedDamageColor;
 
     private PlayerStats playerStats;
     private PlayerInputs playerInputs;
@@ -22,7 +23,9 @@ public class PlayerController : MonoBehaviour
     private bool justJumped = false;
     private bool rollReady = true;
     private bool attackReady = true;
-    private bool staggered = false;
+    public bool stunned = false;
+    public bool asleep = false;
+    public bool bleeding = false;
     private Ray groundRay;
     private RaycastHit groundRayHit;
     private LayerMask groundingRayMask = 1 << 10;
@@ -195,7 +198,7 @@ public class PlayerController : MonoBehaviour
     // Used to check if the player's jump imput was pressed.
     private void CheckJump()
     {
-        if (Input.GetAxisRaw(playerInputs.jumpInput) != 0 && grounded && !justJumped && (playerState != PlayerState.Rolling || playerState != PlayerState.Staggered) && !menuOpen)
+        if (Input.GetAxisRaw(playerInputs.jumpInput) != 0 && grounded && !justJumped && (playerState != PlayerState.Rolling || playerState != PlayerState.Stunned) && !menuOpen)
             StartCoroutine(Jump());
     }
 
@@ -213,7 +216,7 @@ public class PlayerController : MonoBehaviour
     // Used to check and see if the player has started a roll action.
     private void CheckRoll()
     {
-        if (Input.GetAxisRaw(playerInputs.rollInput) != 0 && grounded && (playerState != PlayerState.Airborne && playerState != PlayerState.Staggered)&& rollReady && !menuOpen)
+        if (Input.GetAxisRaw(playerInputs.rollInput) != 0 && grounded && (playerState != PlayerState.Airborne && playerState != PlayerState.Stunned)&& rollReady && !menuOpen)
             StartCoroutine(Roll());
     }
 
@@ -246,7 +249,7 @@ public class PlayerController : MonoBehaviour
     // Used to check if the basic attack input was pressed.
     private void CheckAttack()
     {
-        if (Input.GetAxisRaw(playerInputs.attackInput) != 0 && grounded && attackReady && (playerState != PlayerState.Airborne || playerState != PlayerState.Rolling) && !staggered && !menuOpen)
+        if (Input.GetAxisRaw(playerInputs.attackInput) != 0 && grounded && attackReady && (playerState != PlayerState.Airborne || playerState != PlayerState.Rolling) && !stunned && !asleep && !menuOpen)
             StartCoroutine(Attack());
     }
 
@@ -271,9 +274,11 @@ public class PlayerController : MonoBehaviour
             {
                 attackLaunched = true;
                 hitBoxManager.LaunchHitBox(0);
+                if (bleeding)
+                    playerStats.TakeDamage(playerStats.healthMax * 0.1f, false, bleedDamageColor);
             }
             // Break if we start a roll.
-            if(!rollReady || staggered)
+            if(!rollReady || stunned || asleep)
             {
                 breakLoop = true;
                 break;
@@ -298,23 +303,50 @@ public class PlayerController : MonoBehaviour
         anim.SetTrigger("Downed");
     }
 
-    // Used to stagger the player when their poise gets broken.
-    public void StaggerLaunch()
+    // Used when the player gets stunned
+    public void StunLaunch(float value)
     {
-        StartCoroutine(Stagger());
+        StartCoroutine(Stunned(value));
     }
 
-    // The stagger coroutine. Laucnehs a player back a setp or based based on a direction, and makes them unable to act for this time.
-    IEnumerator Stagger()
+    // The stunned coroutine. Makes the player unable to take action.
+    IEnumerator Stunned(float stunDuration)
     {
-        staggered = true;
-        playerState = PlayerState.Staggered;
+        stunned = true;
+        playerState = PlayerState.Stunned;
         rb.velocity = new Vector3(0, rb.velocity.y, 0);
         rb.angularVelocity = Vector3.zero;
-        anim.SetTrigger("Staggered");
-        yield return new WaitForSeconds(STAGGER_DURATION);
+        anim.SetBool("Stunned", true);
+
+        while (stunned)
+            yield return null;
+
         playerState = PlayerState.Idle;
-        staggered = false;
+        stunned = false;
+        anim.SetBool("Stunned", false);
+    }
+
+    // Used when the player gets stunned
+    public void AsleepLaunch(float value)
+    {
+        StartCoroutine(Asleep(value));
+    }
+
+    // The stunned coroutine. Makes the player unable to take action.
+    IEnumerator Asleep(float stunDuration)
+    {
+        asleep = true;
+        playerState = PlayerState.Asleep;
+        rb.velocity = new Vector3(0, rb.velocity.y, 0);
+        rb.angularVelocity = Vector3.zero;
+        anim.SetBool("Sleeping", true);
+
+        while (asleep)
+            yield return null;
+
+        playerState = PlayerState.Idle;
+        asleep = false;
+        anim.SetBool("Sleeping", false);
     }
 
     // Used to make the player do a pickup animation.

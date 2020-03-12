@@ -45589,6 +45589,8 @@ GameObject:
   - component: {fileID: 2556201382686542346}
   - component: {fileID: 2556201382686542349}
   - component: {fileID: 2556201382686542348}
+  - component: {fileID: 1030997628441229736}
+  - component: {fileID: 1030997628441229746}
   m_Layer: 13
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -45613,6 +45615,7 @@ Transform:
   - {fileID: 1030997628192893880}
   - {fileID: 1030997628253803877}
   - {fileID: 1030997628531761532}
+  - {fileID: 2083945783819620299}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -45733,9 +45736,7 @@ MonoBehaviour:
   WisLvl: 3
   ChaLvl: 4
   healthBar: {fileID: 0}
-  healthBarSecondary: {fileID: 0}
   manaBar: {fileID: 0}
-  actionBarParent: {fileID: 0}
   myStats: {fileID: 0}
   dead: 0
   agroRange: 3
@@ -45899,6 +45900,62 @@ MonoBehaviour:
   leftLegs: []
   rightKnees: []
   leftKnees: []
+--- !u!114 &1030997628441229736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2556201382686542351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5496ca70463d94dabab9362335102f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeBars: []
+  currentAflameValue: 0
+  currentAsleepValue: 0
+  currentStunValue: 0
+  currentCurseValue: 0
+  currentBleedValue: 0
+  currentPoisonValue: 0
+  currentCorrosionValue: 0
+  currentFrostbiteValue: 0
+  aflameResist: 0
+  sleepResist: 0
+  stunResist: 0
+  curseResist: 0
+  bleedResist: 0
+  poisonResist: 0
+  corrosionResist: 0
+  frostbiteResist: 0
+  knockBackResist: 0
+  aflameBar: {fileID: 0}
+  sleepBar: {fileID: 0}
+  stunBar: {fileID: 0}
+  curseBar: {fileID: 0}
+  bleedBar: {fileID: 0}
+  poisonBar: {fileID: 0}
+  corrosionBar: {fileID: 0}
+  frostbiteBar: {fileID: 0}
+--- !u!114 &1030997628441229746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2556201382686542351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73c7cdc0fb6121a43b7480c17908ba3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeBuffs: []
+  canvasParent: {fileID: 0}
+  buffIconPrefab: {fileID: 8795542000173522970, guid: a6198ac555e50fd4b92a5ebccb9c777f,
+    type: 3}
+  buffIcons:
+  - {fileID: 21300000, guid: 7af0935beb1a9594cb6cc632bf719d65, type: 3}
 --- !u!1 &2556203477853613213
 GameObject:
   m_ObjectHideFlags: 0
@@ -85112,3 +85169,33 @@ SkinnedMeshRenderer:
     m_Center: {x: -27.658613, y: -2.9747102, z: 7.243733}
     m_Extent: {x: 18.954344, y: 8.578945, z: 14.311367}
   m_DirtyAABB: 0
+--- !u!1 &5697605018105986147
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2083945783819620299}
+  m_Layer: 13
+  m_Name: Buffs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2083945783819620299
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5697605018105986147}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2554363501488319957}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

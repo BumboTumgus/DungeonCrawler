@@ -32,17 +32,15 @@ public class HitBox : MonoBehaviour
             float damageDealt = myStats.weaponHitbase + Random.Range(myStats.weaponHitMin, myStats.weaponHitMax + 1) 
                 + myStats.Str * myStats.weaponStrScaling + myStats.Dex * myStats.weaponDexScaling + myStats.Vit * myStats.weaponVitScaling + myStats.Spd * myStats.weaponSpdScaling
                 + myStats.Int * myStats.weaponIntScaling + myStats.Wis * myStats.weaponWisScaling + myStats.Cha * myStats.weaponChaScaling;
-            float staggerDealt = myStats.weaponStaggerBase + myStats.Str * myStats.weaponStrScaling;
 
             if (Random.Range(0, 100) >= 100 - myStats.weaponCritChance)
             {
                 damageDealt *= myStats.weaponCritMod;
-                staggerDealt *= myStats.weaponCritMod;
                 attackCrit = true;
             }
 
             damageDealt -= enemyStats.armor;
-            enemyStats.TakeDamage(damageDealt, attackCrit, staggerDealt);
+            enemyStats.TakeDamage(damageDealt, attackCrit);
         }
         // Player Logic
         else if (other.CompareTag("Player") && hitPlayers)
@@ -54,17 +52,15 @@ public class HitBox : MonoBehaviour
             float damageDealt = myStats.weaponHitbase + Random.Range(myStats.weaponHitMin, myStats.weaponHitMax + 1) +
                 + myStats.Str * myStats.weaponStrScaling + myStats.Dex * myStats.weaponDexScaling + myStats.Vit * myStats.weaponVitScaling + myStats.Spd * myStats.weaponSpdScaling
                 + myStats.Int * myStats.weaponIntScaling + myStats.Wis * myStats.weaponWisScaling + myStats.Cha * myStats.weaponChaScaling;
-            float staggerDealt = myStats.weaponStaggerBase + myStats.Str * myStats.weaponStrScaling;
 
             if (Random.Range(0, 100) >= 100 - myStats.weaponCritChance)
             {
                 damageDealt *= myStats.weaponCritMod;
-                staggerDealt *= myStats.weaponCritMod;
                 attackCrit = true;
             }
 
             damageDealt -= enemyStats.armor;
-            enemyStats.TakeDamage(damageDealt, attackCrit, staggerDealt);
+            enemyStats.TakeDamage(damageDealt, attackCrit);
         }
     }
 }

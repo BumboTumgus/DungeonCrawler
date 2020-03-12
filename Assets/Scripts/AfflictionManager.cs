@@ -23,6 +23,7 @@ public class AfflictionManager : MonoBehaviour
     public float poisonResist = 0;
     public float corrosionResist = 0;
     public float frostbiteResist = 0;
+    public float knockBackResist = 0;
 
     public BarManager aflameBar;
     public BarManager sleepBar;
@@ -38,15 +39,19 @@ public class AfflictionManager : MonoBehaviour
     private const float AFLAME_DECAY_RATE = 5;
     private const float ASLEEP_DECAY_RATE = 20;
     private const float STUN_DECAY_RATE = 50;
-    private const float CURSE_DECAY_RATE = 2;
+    private const float CURSE_DECAY_RATE = 5;
     private const float BLEED_DECAY_RATE = 10;
     private const float POISON_DECAY_RATE = 5;
     private const float CORROSION_DECAY_RATE = 5;
     private const float FROSTBITE_DECAY_RATE = 10;
 
+    private BuffsManager playerBuffManager;
+
     // Start is called before the first frame update
     void Start()
     {
+        playerBuffManager = GetComponent<BuffsManager>();
+
         aflameBar.Initialize(100, false);
         sleepBar.Initialize(100, false);
         stunBar.Initialize(100, false);
@@ -91,7 +96,7 @@ public class AfflictionManager : MonoBehaviour
     // Used to add a value to the different bars.
     public void AddAffliction(AfflictionTypes affliction, float value)
     {
-        Debug.Log(affliction + " has had " + value + " added.");
+        // Debug.Log(affliction + " has had " + value + " added.");
         switch (affliction)
         {
             case AfflictionTypes.Aflame:
@@ -99,9 +104,9 @@ public class AfflictionManager : MonoBehaviour
                 if (currentAflameValue >= 100)
                 {
                     currentAflameValue = 100;
-                    AflameActivate();
+                    playerBuffManager.NewBuff(BuffsManager.BuffType.Aflame);
                 }
-                if (!aflameBar.transform.parent.gameObject.activeSelf)
+                if (!aflameBar.transform.parent.gameObject.activeSelf && aflameResist < 1)
                 {
                     aflameBar.transform.parent.gameObject.SetActive(true);
                     activeBars.Add(aflameBar.transform.parent.gameObject);
@@ -113,9 +118,9 @@ public class AfflictionManager : MonoBehaviour
                 if (currentAsleepValue >= 100)
                 {
                     currentAsleepValue = 100;
-                    AsleepActivate();
+                    playerBuffManager.NewBuff(BuffsManager.BuffType.Asleep);
                 }
-                if (!sleepBar.transform.parent.gameObject.activeSelf)
+                if (!sleepBar.transform.parent.gameObject.activeSelf && sleepResist < 1)
                 {
                     sleepBar.transform.parent.gameObject.SetActive(true);
                     activeBars.Add(sleepBar.transform.parent.gameObject);
@@ -127,9 +132,9 @@ public class AfflictionManager : MonoBehaviour
                 if (currentStunValue >= 100)
                 {
                     currentStunValue = 100;
-                    StunActivate();
+                    playerBuffManager.NewBuff(BuffsManager.BuffType.Stunned);
                 }
-                if (!stunBar.transform.parent.gameObject.activeSelf)
+                if (!stunBar.transform.parent.gameObject.activeSelf && stunResist < 1)
                 {
                     stunBar.transform.parent.gameObject.SetActive(true);
                     activeBars.Add(stunBar.transform.parent.gameObject);
@@ -141,9 +146,9 @@ public class AfflictionManager : MonoBehaviour
                 if (currentCurseValue >= 100)
                 {
                     currentCurseValue = 100;
-                    CurseActivate();
+                    playerBuffManager.NewBuff(BuffsManager.BuffType.Cursed);
                 }
-                if (!curseBar.transform.parent.gameObject.activeSelf)
+                if (!curseBar.transform.parent.gameObject.activeSelf && curseResist < 1)
                 {
                     curseBar.transform.parent.gameObject.SetActive(true);
                     activeBars.Add(curseBar.transform.parent.gameObject);
@@ -155,9 +160,9 @@ public class AfflictionManager : MonoBehaviour
                 if (currentBleedValue >= 100)
                 {
                     currentBleedValue = 100;
-                    BleedActivate();
+                    playerBuffManager.NewBuff(BuffsManager.BuffType.Bleeding);
                 }
-                if (!bleedBar.transform.parent.gameObject.activeSelf)
+                if (!bleedBar.transform.parent.gameObject.activeSelf && bleedResist < 1)
                 {
                     bleedBar.transform.parent.gameObject.SetActive(true);
                     activeBars.Add(bleedBar.transform.parent.gameObject);
@@ -169,9 +174,8 @@ public class AfflictionManager : MonoBehaviour
                 if (currentPoisonValue >= 100)
                 {
                     currentPoisonValue = 100;
-                    PoisonActivate();
                 }
-                if (!poisonBar.transform.parent.gameObject.activeSelf)
+                if (!poisonBar.transform.parent.gameObject.activeSelf && poisonResist < 1)
                 {
                     poisonBar.transform.parent.gameObject.SetActive(true);
                     activeBars.Add(poisonBar.transform.parent.gameObject);
@@ -183,9 +187,8 @@ public class AfflictionManager : MonoBehaviour
                 if (currentCorrosionValue >= 100)
                 {
                     currentCorrosionValue = 100;
-                    CorrosionActivate();
                 }
-                if (!corrosionBar.transform.parent.gameObject.activeSelf)
+                if (!corrosionBar.transform.parent.gameObject.activeSelf && corrosionResist < 1)
                 {
                     corrosionBar.transform.parent.gameObject.SetActive(true);
                     activeBars.Add(corrosionBar.transform.parent.gameObject);
@@ -197,9 +200,8 @@ public class AfflictionManager : MonoBehaviour
                 if (currentFrostbiteValue >= 100)
                 {
                     currentFrostbiteValue = 100;
-                    FrostbiteActivate();
                 }
-                if (!frostbiteBar.transform.parent.gameObject.activeSelf)
+                if (!frostbiteBar.transform.parent.gameObject.activeSelf && frostbiteResist < 1)
                 {
                     frostbiteBar.transform.parent.gameObject.SetActive(true);
                     activeBars.Add(frostbiteBar.transform.parent.gameObject);
@@ -214,56 +216,41 @@ public class AfflictionManager : MonoBehaviour
     // Used to position all the bars based on their indexs.
     private void UpdateBarLocations()
     {
-        Debug.Log("Updating the bar locations");
         for(int index = 0; index < activeBars.Count; index++)
             activeBars[index].transform.position = new Vector3(0, index * 56f, 0);
     }
 
-    // USed to set the player on fire.
-    private void AflameActivate()
+    //USed to hide the bar, and rest it's value to 0, this is in the case the effect is cleansed or removed
+    public void RemoveBar(BuffsManager.BuffType buffType)
     {
-        Debug.Log("The player has been set on fire");
-    }
-
-    // USed to make the player fall asleep
-    private void AsleepActivate()
-    {
-        Debug.Log("The player was put to sleep");
-    }
-
-    // USed to stun the player
-    private void StunActivate()
-    {
-        Debug.Log("The player has been stunned");
-    }
-
-    // USed to curse the player
-    private void CurseActivate()
-    {
-        Debug.Log("The player has been cursed");
-    }
-
-    // USed to make the player start bleeding
-    private void BleedActivate()
-    {
-        Debug.Log("The player has started to bleed");
-    }
-
-    // USed to make the player poisoned
-    private void PoisonActivate()
-    {
-        Debug.Log("The player has been poisoned");
-    }
-
-    // USed to make the player Corroded, reducing their armor
-    private void CorrosionActivate()
-    {
-        Debug.Log("The player has had their armor corroded");
-    }
-
-    // USed to make the player frostbitten
-    private void FrostbiteActivate()
-    {
-        Debug.Log("The player was Frostbitten");
+        switch (buffType)
+        {
+            case BuffsManager.BuffType.Aflame:
+                currentAflameValue = 0.1f;
+                break;
+            case BuffsManager.BuffType.Asleep:
+                currentAsleepValue = 0.1f;
+                break;
+            case BuffsManager.BuffType.Stunned:
+                currentStunValue = 0.1f;
+                break;
+            case BuffsManager.BuffType.Cursed:
+                currentCurseValue = 0.1f;
+                break;
+            case BuffsManager.BuffType.Bleeding:
+                currentBleedValue = 0.1f;
+                break;
+            case BuffsManager.BuffType.Poisoned:
+                currentPoisonValue = 0.1f;
+                break;
+            case BuffsManager.BuffType.Corrosion:
+                currentCorrosionValue = 0.1f;
+                break;
+            case BuffsManager.BuffType.Frostbite:
+                currentFrostbiteValue = 0.1f;
+                break;
+            default:
+                break;
+        }
     }
 }

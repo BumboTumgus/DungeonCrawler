@@ -151,7 +151,7 @@ public class PlayerStats : MonoBehaviour
     }
 
     // Used to set up the stats at the start of the game and every time we level.
-    private void StatSetup(bool LeveledUp, bool changeHealthBars)
+    public void StatSetup(bool LeveledUp, bool changeHealthBars)
     {
         healthMax = 20 + 3 * level + 5 * Vit + 2 * Str + Dex + Spd + Int + Wis + Cha + bonusHealth;
         if (health > healthMax)
@@ -248,37 +248,61 @@ public class PlayerStats : MonoBehaviour
     }
 
     // Used to take damage
-    public void TakeDamage(float amount, bool crit, float staggerAmount)
+    public void TakeDamage(float amount, bool crit)
     {
-        if(amount > 0)
-            health -= amount;
-        if (health < 0)
-            health = 0;
-        recentlyDamaged = true;
-        recentlyDamagedTimer = RECENTLY_DAMAGED_TIMER_START;
+        if (health > 0)
+        {
+            if(GetComponent<PlayerController>() != null && GetComponent<PlayerController>().asleep)
+            {
+                GetComponent<PlayerController>().asleep = false;
+                // disable the sleeping debuff.
+                foreach (Buff buff in GetComponent<BuffsManager>().activeBuffs)
+                {
+                    if (buff.myType == BuffsManager.BuffType.Asleep)
+                        buff.EndBuff();
+                }
+                amount *= 2f;
+            }
+            if (amount > 0)
+                health -= amount;
+            if (health < 0)
+                health = 0;
+            recentlyDamaged = true;
+            recentlyDamagedTimer = RECENTLY_DAMAGED_TIMER_START;
 
-        // Update the health bar.
-        healthBar.targetValue = health;
+            // Update the health bar.
+            healthBar.targetValue = health;
 
-        // Spawn the damage number.
-        SpawnFlavorText(amount, crit);
+            // Spawn the damage number.
+            SpawnFlavorText(amount, crit);
 
-        // If we are dead, call the death logic method.
-        if (health <= 0 && !dead)
-            EntityDeath();
+            // If we are dead, call the death logic method.
+            if (health <= 0 && !dead)
+                EntityDeath();
+        }
+    }
+    // Used to take damage and overide the cvolor of the text
+    public void TakeDamage(float amount, bool crit, Color colorOveride)
+    {
+        if (health > 0)
+        {
+            if (amount > 0 )
+                health -= amount;
+            if (health < 0)
+                health = 0;
+            recentlyDamaged = true;
+            recentlyDamagedTimer = RECENTLY_DAMAGED_TIMER_START;
 
-        // If we are not dead, check to see if we are staggered from this hit.
-        //poise -= staggerAmount * poiseLoseMultiplier;
-        //if(poise <= 0)
-        //{
-            // REset our poise then stagegr us.
-        //    poise = poiseMax;
-        //     if (!dead && gameObject.CompareTag("Player"))
-        //        GetComponent<PlayerController>().StaggerLaunch();
-        //    else if (!dead && gameObject.CompareTag("Enemy"))
-        //        GetComponent<EnemyCombatManager>().StaggerLaunch();
-        //}
+            // Update the health bar.
+            healthBar.targetValue = health;
 
+            // Spawn the damage number.
+            SpawnFlavorText(amount, crit, colorOveride);
+
+            // If we are dead, call the death logic method.
+            if (health <= 0 && !dead)
+                EntityDeath();
+        }
     }
 
     // Used when this object dies. What will happen afterwards?
@@ -332,6 +356,11 @@ public class PlayerStats : MonoBehaviour
     public void SpawnFlavorText(float amount, bool crit)
     {
         damageNumberManager.SpawnNumber(amount, crit);
+    }
+    // Used to spawn the damage numbers or flavor text from our character, with a color overide
+    public void SpawnFlavorText(float amount, bool crit, Color colorOveride)
+    {
+        damageNumberManager.SpawnNumber(amount, crit, colorOveride);
     }
 
     // Used to set up our players and enemies health and mana bars if they were just spawned.

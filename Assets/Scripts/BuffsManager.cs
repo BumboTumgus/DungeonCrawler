@@ -1,0 +1,178 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class BuffsManager : MonoBehaviour
+{
+    public List<Buff> activeBuffs = new List<Buff>();
+    public Transform canvasParent;
+    public GameObject buffIconPrefab;
+
+    public enum BuffType { Aflame, Asleep, Stunned, Cursed, Bleeding, Poisoned, Corrosion, Frostbite };
+
+    [SerializeField] private Sprite[] buffIcons;
+    [SerializeField] private Color[] damageColors;
+    [SerializeField] private ParticleSystem[] psSystems;
+    private PlayerStats stats;
+    private AfflictionManager afflictionManager;
+
+
+    // Grabs the players stats for use when calculating buff strength.
+    private void Start()
+    {
+        stats = GetComponent<PlayerStats>();
+        afflictionManager = GetComponent<AfflictionManager>();
+        foreach (ParticleSystem ps in psSystems)
+            ps.Stop();
+    }
+
+    // Used to add a new buff to oiur player, if they already have it from this source, we refresh it instead.
+    public void NewBuff(BuffType buff)
+    {
+        Debug.Log("Addding buffs");
+        bool buffDealtWith = false;
+
+        // Check to see if any of our buffs match this buff, and if the source matches then we reset the duration.
+        foreach(Buff activeBuff in activeBuffs)
+        {
+            if (activeBuff.myType == buff)
+            {
+                buffDealtWith = true;
+                activeBuff.currentTimer = 0;
+                break;
+            }
+        }
+
+        // If the buff was not dealt with above, begin the activation process of instantiated a new buff.
+        if(!buffDealtWith)
+        {
+            GameObject buffIcon = Instantiate(buffIconPrefab, canvasParent);
+
+            // Look through to see what the buff is and tack it on to our new buff.
+            switch (buff)
+            {
+                case BuffType.Aflame:
+                    
+                    Debug.Log("Addding aflame buff");
+                    Buff aflame = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    aflame.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = buffIcons[0];
+                    Debug.Log(aflame);
+
+                    activeBuffs.Add(aflame);
+
+                    aflame.myType = buff;
+                    aflame.connectedPlayer = stats;
+                    aflame.infiniteDuration = false;
+                    aflame.duration = 20;
+                    aflame.DPS = stats.healthMax * 0.1f;
+                    aflame.damageColor = damageColors[0];
+                    aflame.effectParticleSystem = psSystems[0];
+                    psSystems[0].Play();
+
+                    Debug.Log("aflame buff has been added");
+                    break;
+                case BuffType.Asleep:
+
+                    Debug.Log("Adding asleep debuff");
+                    Buff asleep = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    asleep.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = buffIcons[1];
+
+                    activeBuffs.Add(asleep);
+
+                    asleep.myType = buff;
+                    asleep.connectedPlayer = stats;
+                    asleep.infiniteDuration = false;
+                    asleep.duration = 5;
+                    asleep.DPS = 0;
+                    GetComponent<PlayerController>().AsleepLaunch(5);
+                    asleep.effectParticleSystem = psSystems[1];
+                    psSystems[1].Play();
+
+                    break;
+                case BuffType.Stunned:
+
+                    Debug.Log("Adding stun debuff");
+                    Buff stunned = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    stunned.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = buffIcons[2];
+
+                    activeBuffs.Add(stunned);
+
+                    stunned.myType = buff;
+                    stunned.connectedPlayer = stats;
+                    stunned.infiniteDuration = false;
+                    stunned.duration = 2;
+                    stunned.DPS = 0;
+                    GetComponent<PlayerController>().StunLaunch(2);
+                    stunned.effectParticleSystem = psSystems[2];
+                    psSystems[2].Play();
+
+                    break;
+                case BuffType.Cursed:
+
+                    Debug.Log("Adding cursed debuff");
+                    Buff cursed = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    cursed.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = buffIcons[3];
+
+                    activeBuffs.Add(cursed);
+
+                    cursed.myType = buff;
+                    cursed.connectedPlayer = stats;
+                    cursed.ChangeCoreStats(Mathf.RoundToInt(stats.Vit * -0.5f), Mathf.RoundToInt(stats.Str * -0.5f), Mathf.RoundToInt(stats.Dex * -0.5f),
+                        Mathf.RoundToInt(stats.Spd * -0.5f), Mathf.RoundToInt(stats.Int * -0.5f), Mathf.RoundToInt(stats.Wis * -0.5f), Mathf.RoundToInt(stats.Cha * -0.5f));
+                    stats.TakeDamage(stats.healthMax / 2, false, damageColors[1]);
+                    cursed.infiniteDuration = false;
+                    cursed.duration = 20;
+                    cursed.DPS = 0;
+                    cursed.effectParticleSystem = psSystems[4];
+                    psSystems[4].Play();
+                    psSystems[3].Play();
+
+                    break;
+                case BuffType.Bleeding:
+
+                    Debug.Log("Adding bleed debuff");
+                    Buff bleed = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    bleed.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = buffIcons[4];
+
+                    activeBuffs.Add(bleed);
+
+                    bleed.myType = buff;
+                    bleed.connectedPlayer = stats;
+                    bleed.infiniteDuration = false;
+                    bleed.duration = 10;
+                    bleed.DPS = stats.healthMax * 0.025f;
+                    bleed.damageColor = damageColors[2];
+                    GetComponent<PlayerController>().bleeding = true;
+                    stats.TakeDamage(stats.healthMax * 0.25f, false, damageColors[2]);
+                    bleed.effectParticleSystem = psSystems[6];
+                    psSystems[6].Play();
+                    psSystems[5].Play();
+
+                    break;
+                case BuffType.Poisoned:
+                    break;
+                case BuffType.Corrosion:
+                    break;
+                case BuffType.Frostbite:
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    // Used to remove an active buff.
+    public void RemoveBuff(Buff buffToRemove)
+    {
+        activeBuffs.Remove(buffToRemove);
+        afflictionManager.RemoveBar(buffToRemove.myType);
+        Destroy(buffToRemove.connectedIcon);
+        Destroy(buffToRemove);
+    }
+}
