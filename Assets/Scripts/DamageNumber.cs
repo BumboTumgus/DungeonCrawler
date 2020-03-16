@@ -17,6 +17,7 @@ public class DamageNumber : MonoBehaviour
     {
         damageText = GetComponentInChildren<Text>();
         xMovement = Random.Range(-MAX_X_MOVEMENT, MAX_X_MOVEMENT);
+        transform.SetAsFirstSibling();
     }
     
     // Called by the damage number manager to insatntiate and setup this damage number.

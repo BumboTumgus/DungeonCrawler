@@ -8,9 +8,9 @@ public class PlayerStats : MonoBehaviour
     public string playerTitle = "Mighty";
 
     public float weaponBaseAttackDelay = 1;
-    public int weaponHitMin = 1;
-    public int weaponHitMax = 4;
-    public int weaponHitbase = 4;
+    public float weaponHitMin = 1;
+    public float weaponHitMax = 4;
+    public float weaponHitbase = 4;
     public float weaponStaggerBase = 5;
     public float weaponCritChance = 5;
     public float weaponCritMod = 2;
@@ -105,7 +105,7 @@ public class PlayerStats : MonoBehaviour
             AddExp(100);
 
         // USed for added afflcitions and debugging.
-        if (Input.GetKeyDown(KeyCode.P) && CompareTag("Player"))
+        if (Input.GetKeyDown(KeyCode.Keypad0) && CompareTag("Player"))
         {
             afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Aflame, 30);
             afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Asleep, 30);
@@ -116,6 +116,23 @@ public class PlayerStats : MonoBehaviour
             afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Poison, 30);
             afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Stun, 30);
         }
+
+        if (Input.GetKeyDown(KeyCode.Keypad1) && CompareTag("Player"))
+            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Aflame, 30);
+        if (Input.GetKeyDown(KeyCode.Keypad2) && CompareTag("Player"))
+            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Asleep, 30);
+        if (Input.GetKeyDown(KeyCode.Keypad3) && CompareTag("Player"))
+            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Bleed, 30);
+        if (Input.GetKeyDown(KeyCode.Keypad4) && CompareTag("Player"))
+            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Corrosion, 30);
+        if (Input.GetKeyDown(KeyCode.Keypad5) && CompareTag("Player"))
+            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Curse, 30);
+        if (Input.GetKeyDown(KeyCode.Keypad6) && CompareTag("Player"))
+            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Frostbite, 30);
+        if (Input.GetKeyDown(KeyCode.Keypad7) && CompareTag("Player"))
+            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Poison, 30);
+        if (Input.GetKeyDown(KeyCode.Keypad8) && CompareTag("Player"))
+            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Stun, 30);
 
         // HEalth and mana regen logic.
         if (!dead)
