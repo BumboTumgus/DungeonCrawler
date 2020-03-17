@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public enum PlayerState { Idle, Moving, Airborne, Rolling, Sprinting, Attacking, Downed, Dead, Stunned, Asleep}
+    public enum PlayerState { Idle, Moving, Airborne, Rolling, Sprinting, Attacking, Downed, Dead, Stunned, Asleep, CastingNoMovement, CastingRollOut, CastingWithMovement}
     public PlayerState playerState = PlayerState.Idle;
     public GameObject inventoryWindow;
     public Color bleedDamageColor;
@@ -121,6 +121,16 @@ public class PlayerController : MonoBehaviour
                 break;
             case PlayerState.Downed:
                 // Here i would put the revive logic.
+                break;
+            case PlayerState.CastingRollOut:
+                CheckRoll();
+                break;
+            case PlayerState.CastingWithMovement:
+                PlayerMovement();
+                PlayerRotation();
+                CheckRoll();
+                CheckJump();
+                CheckGrounded();
                 break;
             default:
                 break;
@@ -316,9 +326,14 @@ public class PlayerController : MonoBehaviour
     {
         StopAllCoroutines();
         playerState = PlayerState.Downed;
+        KillMovement();
+        anim.SetTrigger("Downed");
+    }
+
+    public void KillMovement()
+    {
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-        anim.SetTrigger("Downed");
     }
 
     // Used when the player gets stunned

@@ -74,9 +74,9 @@ public class StatUpdater : MonoBehaviour
             critValue = 0;
 
         transform.Find("DPS_Value").GetComponent<Text>().text = string.Format("{0:0.0}", averageDamage *  ( 1 + (critValue / 100 * (stats.weaponCritMod - stats.weaponHitspeeds.Count))) * stats.attackSpeed);
-        Debug.Log("After equipiing the item, our average damage is " + averageDamage + ", our crit modifier is: " + 1 + (critValue / 100 * (stats.weaponCritMod - stats.weaponHitspeeds.Count))
-            + ", and our attack speed is: " + stats.attackSpeed);
-        Debug.Log("the weapon hit base is: " + stats.weaponHitbase + ", the weapon hit min and max are " + stats.weaponHitMin + " | " + stats.weaponHitMax + ", and the stats based dmg is " + statBasedDamaged);
+        // Debug.Log("After equipiing the item, our average damage is " + averageDamage + ", our crit modifier is: " + 1 + (critValue / 100 * (stats.weaponCritMod - stats.weaponHitspeeds.Count))
+        //    + ", and our attack speed is: " + stats.attackSpeed);
+        // Debug.Log("the weapon hit base is: " + stats.weaponHitbase + ", the weapon hit min and max are " + stats.weaponHitMin + " | " + stats.weaponHitMax + ", and the stats based dmg is " + statBasedDamaged);
     }
 
     // This method is used to update the health and mana values of the player.
@@ -179,9 +179,9 @@ public class StatUpdater : MonoBehaviour
         float oldDPS = oldAverageDamage * (1 + (oldCritChance / 100 * (stats.weaponCritMod - stats.weaponHitspeeds.Count))) * stats.attackSpeed;
         float newDPS = newAverageDamage * (1 + (newCritChance / 100 * (critMod - weaponCount))) * attackSpeed;
         DrawTextPlusStatChange(transform.Find("DPS_Value").GetComponent<Text>(), oldDPS, newDPS, 1);
-        Debug.Log("before equipiing the item, our new average damage is " + newAverageDamage + ", our crit modifier is: " + 1 + (newCritChance / 100 * (critMod - weaponCount))
-            + ", and our attack speed is: " + attackSpeed);
-        Debug.Log("the weapon hit base is: " + weaponBaseHit + ", the weapon hit min and max are " + weaponMinHit + " | " + weaponMaxHit + ", and the stats based dmg is " + newStatBasedDamaged);
+        // Debug.Log("before equipiing the item, our new average damage is " + newAverageDamage + ", our crit modifier is: " + 1 + (newCritChance / 100 * (critMod - weaponCount))
+        //     + ", and our attack speed is: " + attackSpeed);
+        // Debug.Log("the weapon hit base is: " + weaponBaseHit + ", the weapon hit min and max are " + weaponMinHit + " | " + weaponMaxHit + ", and the stats based dmg is " + newStatBasedDamaged);
     }
 
     // USed to check if our value is above or below the original, and to write it down as such.
@@ -243,7 +243,7 @@ public class StatUpdater : MonoBehaviour
         manaRegen = Wis * 0.4f + Int * 0.1f + stats.bonusManaRegen;
         armor = stats.armor;
         resistance = stats.magicResist;
-        poise = stats.poiseMax;
+        // poise = stats.poiseMax;
         weaponBaseHit = stats.weaponHitbase;
         weaponMinHit = stats.weaponHitMin;
         weaponMaxHit = stats.weaponHitMax;

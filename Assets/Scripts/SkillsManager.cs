@@ -11,6 +11,8 @@ public class SkillsManager : MonoBehaviour
     public Transform iconParent;
     public int maxSkillNumber = 5;
 
+    public ParticleSystem[] ps;
+
     public enum SkillNames { BlinkStrike, EmboldeningEmbers, FlameStrike, SeveringStrike};
 
     public Transform skillsContainer;
@@ -27,6 +29,8 @@ public class SkillsManager : MonoBehaviour
         inputs = GetComponent<PlayerInputs>();
         stats = GetComponent<PlayerStats>();
         controller = GetComponent<PlayerController>();
+        foreach (ParticleSystem particle in ps)
+            particle.Stop();
         AddSkill(0, SkillNames.EmboldeningEmbers);
         AddSkill(1, SkillNames.SeveringStrike);
         AddSkill(2, SkillNames.BlinkStrike);
@@ -108,6 +112,8 @@ public class SkillsManager : MonoBehaviour
             addedSkill.connectedBar.Initialize(addedSkill.targetCooldown, true);
             addedSkill.skillIndex = index;
             addedSkill.myManager = this;
+            addedSkill.pc = GetComponent<PlayerController>();
+            addedSkill.anim = GetComponent<Animator>();
             addedSkill.currentCooldown = addedSkill.targetCooldown;
             addedIcon.transform.GetChild(1).GetComponent<Image>().sprite = addedSkill.skillIcon;
 

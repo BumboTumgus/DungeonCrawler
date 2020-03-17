@@ -38,9 +38,9 @@ public class PlayerStats : MonoBehaviour
     public float speed = 4;
     public float strafeSpeed = 2;
     public float acceleration = 2;
-    public float poise = 5;
-    public float poiseMax = 5;
-    public float poiseLoseMultiplier = 1;
+    // public float poise = 5;
+    // public float poiseMax = 5;
+    // public float poiseLoseMultiplier = 1;
     public float healthRegen = 1;
     public float manaRegen = 1;
     public float bonusHealth = 0;
@@ -154,17 +154,17 @@ public class PlayerStats : MonoBehaviour
             manaBar.targetValue = mana;
 
         // Regen poise if we havent been hit in a while, if not increment the timer.
-        if (!recentlyDamaged)
-        {
-            if (poise < poiseMax)
-                poise += poiseMax / 3 * Time.deltaTime;
-        }
-        else
-        {
-            recentlyDamagedTimer -= Time.deltaTime;
-            if (recentlyDamagedTimer <= 0)
-                recentlyDamaged = false;
-        }
+        //if (!recentlyDamaged)
+        //{
+            //if (poise < poiseMax)
+                //poise += poiseMax / 3 * Time.deltaTime;
+        //}
+        //else
+        //{
+            //recentlyDamagedTimer -= Time.deltaTime;
+            //if (recentlyDamagedTimer <= 0)
+               // recentlyDamaged = false;
+        //}
     }
 
     // Used to set up the stats at the start of the game and every time we level.
@@ -200,9 +200,9 @@ public class PlayerStats : MonoBehaviour
             GetComponent<UnityEngine.AI.NavMeshAgent>().speed = speed;
 
         // Sets up the characters poise, which is their resistance to being staggered.
-        poiseMax = Str + Vit;
-        if (gameObject.CompareTag("Player"))
-            poiseMax += 20;
+        // poiseMax = Str + Vit;
+        // if (gameObject.CompareTag("Player"))
+            // poiseMax += 20;
 
         if (changeHealthBars)
         {
@@ -441,7 +441,7 @@ public class PlayerStats : MonoBehaviour
 
         armor += item.armor;
         magicResist += item.resistance;
-        poise += item.poise;
+        // poise += item.poise;
         bonusHealth += item.health;
         bonusHealthRegen += item.healthRegen;
         bonusMana += item.mana;
@@ -495,7 +495,7 @@ public class PlayerStats : MonoBehaviour
 
         armor -= item.armor;
         magicResist -= item.resistance;
-        poise -= item.poise;
+        // poise -= item.poise;
         bonusHealth -= item.health;
         bonusHealthRegen -= item.healthRegen;
         bonusMana -= item.mana;
