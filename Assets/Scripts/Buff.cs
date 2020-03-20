@@ -49,6 +49,8 @@ public class Buff : MonoBehaviour
 
     public float targetDamageTickTimer = 0.5f;
     public float currentDamageTick = 0;
+    public bool almostDone = false;
+    
 
     private void Update()
     {
@@ -56,6 +58,11 @@ public class Buff : MonoBehaviour
         if (!infiniteDuration)
         {
             currentTimer += Time.deltaTime;
+            if(!almostDone && currentTimer > duration - 4)
+            {
+                almostDone = true;
+                connectedIcon.GetComponent<Animator>().SetBool("AlmostDone", true);
+            }
             if (currentTimer > duration)
                 EndBuff();
         }
@@ -69,6 +76,22 @@ public class Buff : MonoBehaviour
                 connectedPlayer.TakeDamage(DPS * targetDamageTickTimer, false, damageColor);
             }
         }
+    }
+
+    // Used to add or reset the buff's timer.
+    public void AddTime(float amount, bool reset)
+    {
+        if (reset)
+            currentTimer = 0;
+        else
+            currentTimer -= amount;
+
+        if (currentTimer < duration - 4)
+        {
+            almostDone = false;
+            connectedIcon.GetComponent<Animator>().SetBool("AlmostDone", false);
+        }
+
     }
 
     // USed to add core stats to the player

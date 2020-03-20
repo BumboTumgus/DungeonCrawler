@@ -6,7 +6,7 @@ public class HitBox : MonoBehaviour
 {
     public float damage = 5;
     public bool crit = false;
-    public float stagger = 5;
+    public bool damageOverload = false;
 
     [SerializeField] private bool hitEnemies = false;
     [SerializeField] private bool hitPlayers = false;
@@ -28,10 +28,14 @@ public class HitBox : MonoBehaviour
             enemyStats = other.GetComponent<PlayerStats>();
             bool attackCrit = false;
 
-            // Check to see if the attack hit.
-            float damageDealt = myStats.weaponHitbase + Random.Range(myStats.weaponHitMin, myStats.weaponHitMax + 1) 
-                + myStats.Str * myStats.weaponStrScaling + myStats.Dex * myStats.weaponDexScaling + myStats.Vit * myStats.weaponVitScaling + myStats.Spd * myStats.weaponSpdScaling
-                + myStats.Int * myStats.weaponIntScaling + myStats.Wis * myStats.weaponWisScaling + myStats.Cha * myStats.weaponChaScaling;
+            float damageDealt = damage;
+            if (!damageOverload)
+            {
+                // Check to see if the attack hit.
+                damageDealt = myStats.weaponHitbase + Random.Range(myStats.weaponHitMin, myStats.weaponHitMax + 1)
+                    + myStats.Str * myStats.weaponStrScaling + myStats.Dex * myStats.weaponDexScaling + myStats.Vit * myStats.weaponVitScaling + myStats.Spd * myStats.weaponSpdScaling
+                    + myStats.Int * myStats.weaponIntScaling + myStats.Wis * myStats.weaponWisScaling + myStats.Cha * myStats.weaponChaScaling;
+            }
 
             if (Random.Range(0, 100) >= 100 - myStats.weaponCritChance)
             {
@@ -48,10 +52,14 @@ public class HitBox : MonoBehaviour
             enemyStats = other.GetComponent<PlayerStats>();
             bool attackCrit = false;
 
-            // Check to see if the attack hit.
-            float damageDealt = myStats.weaponHitbase + Random.Range(myStats.weaponHitMin, myStats.weaponHitMax + 1) +
-                + myStats.Str * myStats.weaponStrScaling + myStats.Dex * myStats.weaponDexScaling + myStats.Vit * myStats.weaponVitScaling + myStats.Spd * myStats.weaponSpdScaling
-                + myStats.Int * myStats.weaponIntScaling + myStats.Wis * myStats.weaponWisScaling + myStats.Cha * myStats.weaponChaScaling;
+            float damageDealt = damage;
+            if (!damageOverload)
+            {
+                // Check to see if the attack hit.
+                damageDealt = myStats.weaponHitbase + Random.Range(myStats.weaponHitMin, myStats.weaponHitMax + 1) +
+                    +myStats.Str * myStats.weaponStrScaling + myStats.Dex * myStats.weaponDexScaling + myStats.Vit * myStats.weaponVitScaling + myStats.Spd * myStats.weaponSpdScaling
+                    + myStats.Int * myStats.weaponIntScaling + myStats.Wis * myStats.weaponWisScaling + myStats.Cha * myStats.weaponChaScaling;
+            }
 
             if (Random.Range(0, 100) >= 100 - myStats.weaponCritChance)
             {

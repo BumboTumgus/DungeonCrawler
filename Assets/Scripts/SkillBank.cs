@@ -15,18 +15,22 @@ public class SkillBank : MonoBehaviour
         {
             case SkillsManager.SkillNames.BlinkStrike:
                 skillToSet.targetCooldown = 6f;
+                skillToSet.skillCost = 40f;
                 skillToSet.skillIcon = skillIcons[0];
                 break;
             case SkillsManager.SkillNames.EmboldeningEmbers:
                 skillToSet.targetCooldown = 15f;
+                skillToSet.skillCost = 25f;
                 skillToSet.skillIcon = skillIcons[1];
                 break;
             case SkillsManager.SkillNames.FlameStrike:
                 skillToSet.targetCooldown = 20f;
+                skillToSet.skillCost = 40f;
                 skillToSet.skillIcon = skillIcons[2];
                 break;
             case SkillsManager.SkillNames.SeveringStrike:
                 skillToSet.targetCooldown = 10f;
+                skillToSet.skillCost = 40f;
                 skillToSet.skillIcon = skillIcons[3];
                 break;
             default:

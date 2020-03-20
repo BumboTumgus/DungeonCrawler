@@ -122,6 +122,9 @@ public class PlayerController : MonoBehaviour
             case PlayerState.Downed:
                 // Here i would put the revive logic.
                 break;
+            case PlayerState.CastingNoMovement:
+                CheckGrounded();
+                break;
             case PlayerState.CastingRollOut:
                 CheckRoll();
                 break;
@@ -332,7 +335,7 @@ public class PlayerController : MonoBehaviour
 
     public void KillMovement()
     {
-        rb.velocity = Vector3.zero;
+        rb.velocity = new Vector3(0, rb.velocity.y, 0);
         rb.angularVelocity = Vector3.zero;
     }
 

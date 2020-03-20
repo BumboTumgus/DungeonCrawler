@@ -10,13 +10,14 @@ public class BuffsManager : MonoBehaviour
     public Transform canvasParent;
     public GameObject buffIconPrefab;
 
-    public enum BuffType { Aflame, Asleep, Stunned, Cursed, Bleeding, Poisoned, Corrosion, Frostbite };
+    public enum BuffType { Aflame, Asleep, Stunned, Cursed, Bleeding, Poisoned, Corrosion, Frostbite, EmboldeningEmbers };
 
     [SerializeField] private Sprite[] buffIcons;
     [SerializeField] private Color[] damageColors;
     [SerializeField] private ParticleSystem[] psSystems;
     private PlayerStats stats;
     private AfflictionManager afflictionManager;
+    private EffectsManager effects;
 
 
     // Grabs the players stats for use when calculating buff strength.
@@ -24,6 +25,7 @@ public class BuffsManager : MonoBehaviour
     {
         stats = GetComponent<PlayerStats>();
         afflictionManager = GetComponent<AfflictionManager>();
+        effects = GetComponent<EffectsManager>();
         foreach (ParticleSystem ps in psSystems)
             ps.Stop();
     }
@@ -40,7 +42,7 @@ public class BuffsManager : MonoBehaviour
             if (activeBuff.myType == buff)
             {
                 buffDealtWith = true;
-                activeBuff.currentTimer = 0;
+                activeBuff.AddTime(0, true);
                 break;
             }
         }
@@ -72,7 +74,11 @@ public class BuffsManager : MonoBehaviour
                     aflame.DPS = stats.healthMax * 0.1f;
                     aflame.damageColor = damageColors[0];
                     aflame.effectParticleSystem.Add(psSystems[0]);
+                    aflame.effectParticleSystem.Add(psSystems[15]);
+                    aflame.effectParticleSystem.Add(psSystems[16]);
                     psSystems[0].Play();
+                    psSystems[15].Play();
+                    psSystems[16].Play();
 
                     Debug.Log("aflame buff has been added");
                     break;
@@ -220,6 +226,27 @@ public class BuffsManager : MonoBehaviour
                     frostbite.effectParticleSystem.Add(psSystems[14]);
                     psSystems[13].Play();
                     psSystems[14].Play();
+
+                    break;
+                case BuffType.EmboldeningEmbers:
+
+                    Debug.Log("Adding emboldening embers buff");
+                    Buff embers = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    embers.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = buffIcons[8];
+
+                    activeBuffs.Add(embers);
+
+                    embers.myType = buff;
+                    embers.connectedPlayer = stats;
+                    embers.infiniteDuration = false;
+                    embers.duration = 10;
+                    embers.ChangeCoreStats(5, 5, 0, 0, 0, 0, 0);
+                    embers.effectParticleSystem.Add(psSystems[17]);
+                    embers.effectParticleSystem.Add(psSystems[18]);
+                    psSystems[17].Play();
+                    psSystems[18].Play();
+                    psSystems[19].Play();
 
                     break;
                 default:

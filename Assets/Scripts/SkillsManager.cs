@@ -19,7 +19,8 @@ public class SkillsManager : MonoBehaviour
 
     private SkillBank skillBank;
     private PlayerInputs inputs;
-    private PlayerStats stats;
+    public HitBoxManager hitBoxes;
+    public PlayerStats stats;
     private PlayerController controller;
 
 
@@ -29,6 +30,7 @@ public class SkillsManager : MonoBehaviour
         inputs = GetComponent<PlayerInputs>();
         stats = GetComponent<PlayerStats>();
         controller = GetComponent<PlayerController>();
+        hitBoxes = GetComponent<HitBoxManager>();
         foreach (ParticleSystem particle in ps)
             particle.Stop();
         AddSkill(0, SkillNames.EmboldeningEmbers);
@@ -109,6 +111,7 @@ public class SkillsManager : MonoBehaviour
 
             // Add this skills bar to the container as well.
             addedSkill.connectedBar = addedIcon.GetComponentInChildren<BarManager>();
+            addedSkill.noManaOverlay = addedIcon.transform.Find("NoManaOverlay").gameObject;
             addedSkill.connectedBar.Initialize(addedSkill.targetCooldown, true);
             addedSkill.skillIndex = index;
             addedSkill.myManager = this;

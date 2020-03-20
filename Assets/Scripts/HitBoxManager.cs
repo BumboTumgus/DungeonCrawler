@@ -5,11 +5,14 @@ using UnityEngine;
 public class HitBoxManager : MonoBehaviour
 {
     public List<GameObject> hitboxes = new List<GameObject>();
+    public List<GameObject> buffboxes = new List<GameObject>();
 
     // USed to disable all hitboxes at the start of the game.
     private void Start()
     {
         foreach (GameObject hitbox in hitboxes)
+            hitbox.GetComponent<SphereCollider>().enabled = false;
+        foreach (GameObject hitbox in buffboxes)
             hitbox.GetComponent<SphereCollider>().enabled = false;
     }
 
@@ -19,11 +22,28 @@ public class HitBoxManager : MonoBehaviour
         StartCoroutine(HitBoxFlicker(index));
     }
 
+    // A public method soley used to launch the buff box from another class.
+    public void LaunchBuffBox(int index)
+    {
+        Debug.Log("launching buff box");
+        StartCoroutine(BuffBoxFlicker(index));
+    }
+
     // Used to launch an attack
     IEnumerator HitBoxFlicker(int index)
     {
         hitboxes[index].GetComponent<SphereCollider>().enabled = true;
         yield return new WaitForFixedUpdate();
         hitboxes[index].GetComponent<SphereCollider>().enabled = false;
+    }
+
+    // Used to launch a buff
+    IEnumerator BuffBoxFlicker(int index)
+    {
+        Debug.Log("flciekred on");
+        buffboxes[index].GetComponent<SphereCollider>().enabled = true;
+        yield return new WaitForFixedUpdate();
+        buffboxes[index].GetComponent<SphereCollider>().enabled = false;
+        Debug.Log("flciekred off");
     }
 }

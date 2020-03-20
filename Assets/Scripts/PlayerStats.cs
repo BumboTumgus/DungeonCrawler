@@ -210,6 +210,11 @@ public class PlayerStats : MonoBehaviour
             healthBar.Initialize(healthMax, false);
             if (manaBar != null)
                 manaBar.Initialize(manaMax, false);
+            if(CompareTag("Player"))
+            {
+                healthBar.GetComponent<BarResizer>().ResizeBar(healthMax / 3 + 90);
+                manaBar.GetComponent<BarResizer>().ResizeBar(manaMax / 3 + 90); 
+            }
         }
 
         if(myStats != null)
@@ -262,6 +267,22 @@ public class PlayerStats : MonoBehaviour
         Debug.Log("Checking Exp Worth");
         
         return expValue;
+    }
+
+    // USed to use some mana, if we do not have enpugh, then return false;
+    public bool UseMana(float amount)
+    {
+        bool enoughMana = true;
+
+        // Check to see if we have enough mana
+        if (mana > amount)
+        {
+            mana -= amount;
+        }
+        else
+            enoughMana = false;
+
+        return enoughMana;
     }
 
     // Used to take damage
