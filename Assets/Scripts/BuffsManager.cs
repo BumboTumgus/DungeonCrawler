@@ -10,7 +10,8 @@ public class BuffsManager : MonoBehaviour
     public Transform canvasParent;
     public GameObject buffIconPrefab;
 
-    public enum BuffType { Aflame, Asleep, Stunned, Cursed, Bleeding, Poisoned, Corrosion, Frostbite, EmboldeningEmbers };
+    public enum BuffType { Aflame, Asleep, Stunned, Cursed, Bleeding, Poisoned, Corrosion, Frostbite, EmboldeningEmbers, FlameStrike, AspectOfRage, BlessingOfFlames, Rampage,
+                            GiantStrength, ToxicRipple, KillerInstinct, PoisonedMud, StrangleThorn, SoothingStone, Deadeye, WrathOfTheRagingWind, FrozenBarrier, SoothingStream};
 
     [SerializeField] private Sprite[] buffIcons;
     [SerializeField] private Color[] damageColors;
@@ -18,6 +19,7 @@ public class BuffsManager : MonoBehaviour
     private PlayerStats stats;
     private AfflictionManager afflictionManager;
     private EffectsManager effects;
+    private SkillsManager skillManager;
 
 
     // Grabs the players stats for use when calculating buff strength.
@@ -26,6 +28,7 @@ public class BuffsManager : MonoBehaviour
         stats = GetComponent<PlayerStats>();
         afflictionManager = GetComponent<AfflictionManager>();
         effects = GetComponent<EffectsManager>();
+        skillManager = GetComponent<SkillsManager>();
         foreach (ParticleSystem ps in psSystems)
             ps.Stop();
     }
@@ -42,7 +45,10 @@ public class BuffsManager : MonoBehaviour
             if (activeBuff.myType == buff)
             {
                 buffDealtWith = true;
-                activeBuff.AddTime(0, true);
+                if(activeBuff.stackable)
+                    activeBuff.AddStack(1);
+                else
+                    activeBuff.AddTime(0, true);
                 break;
             }
         }
@@ -131,7 +137,7 @@ public class BuffsManager : MonoBehaviour
 
                     cursed.myType = buff;
                     cursed.connectedPlayer = stats;
-                    cursed.ChangeCoreStats(Mathf.RoundToInt(stats.Vit * -0.5f), Mathf.RoundToInt(stats.Str * -0.5f), Mathf.RoundToInt(stats.Dex * -0.5f),
+                    cursed.ChangeCoreStats(true, Mathf.RoundToInt(stats.Vit * -0.5f), Mathf.RoundToInt(stats.Str * -0.5f), Mathf.RoundToInt(stats.Dex * -0.5f),
                         Mathf.RoundToInt(stats.Spd * -0.5f), Mathf.RoundToInt(stats.Int * -0.5f), Mathf.RoundToInt(stats.Wis * -0.5f), Mathf.RoundToInt(stats.Cha * -0.5f));
                     stats.TakeDamage(stats.healthMax / 2, false, damageColors[1]);
                     cursed.infiniteDuration = false;
@@ -200,7 +206,7 @@ public class BuffsManager : MonoBehaviour
                     corrosion.connectedPlayer = stats;
                     corrosion.infiniteDuration = false;
                     corrosion.duration = 20;
-                    corrosion.ChangeDefensiveStats(0, 0, 0, 0, stats.armor * -0.8f, stats.magicResist * -0.8f);
+                    corrosion.ChangeDefensiveStats(true, 0, 0, 0, 0, stats.armor * -0.8f, stats.magicResist * -0.8f, 0);
                     corrosion.effectParticleSystem.Add(psSystems[10]);
                     corrosion.effectParticleSystem.Add(psSystems[11]);
                     psSystems[10].Play();
@@ -221,7 +227,7 @@ public class BuffsManager : MonoBehaviour
                     frostbite.connectedPlayer = stats;
                     frostbite.infiniteDuration = false;
                     frostbite.duration = 10;
-                    frostbite.ChangeCoreStats(0, 0, 0, -stats.Spd - 15, 0, 0, 0);
+                    frostbite.ChangeCoreStats(true, 0, 0, 0, -stats.Spd - 15, 0, 0, 0);
                     frostbite.effectParticleSystem.Add(psSystems[13]);
                     frostbite.effectParticleSystem.Add(psSystems[14]);
                     psSystems[13].Play();
@@ -241,12 +247,120 @@ public class BuffsManager : MonoBehaviour
                     embers.connectedPlayer = stats;
                     embers.infiniteDuration = false;
                     embers.duration = 10;
-                    embers.ChangeCoreStats(5, 5, 0, 0, 0, 0, 0);
+                    embers.ChangeCoreStats(true, 5, 5, 0, 0, 0, 0, 0);
                     embers.effectParticleSystem.Add(psSystems[17]);
                     embers.effectParticleSystem.Add(psSystems[18]);
                     psSystems[17].Play();
                     psSystems[18].Play();
                     psSystems[19].Play();
+
+                    break;
+                case BuffType.FlameStrike:
+
+                    Debug.Log("Adding flame strike buff");
+                    Buff flameStrike = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    flameStrike.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = buffIcons[9];
+
+                    activeBuffs.Add(flameStrike);
+
+                    flameStrike.myType = buff;
+                    flameStrike.connectedPlayer = stats;
+                    flameStrike.infiniteDuration = false;
+                    flameStrike.duration = 15;
+                    flameStrike.ChangeOffensiveStats(true, 0, 0, 0, 0, 0, 0.25f);
+                    flameStrike.damageColor = damageColors[0];
+                    flameStrike.onHitDamageAmount = stats.Str * 2;
+                    flameStrike.effectParticleSystem.Add(psSystems[20]);
+                    flameStrike.effectParticleSystem.Add(psSystems[21]);
+                    flameStrike.effectParticleSystem.Add(psSystems[22]);
+                    psSystems[20].Play();
+                    psSystems[21].Play();
+                    psSystems[22].Play();
+
+                    break;
+                case BuffType.AspectOfRage:
+
+                    Debug.Log("Adding aspect of Rage buff");
+                    Buff aspectOfRage = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    aspectOfRage.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = buffIcons[10];
+
+                    activeBuffs.Add(aspectOfRage);
+
+                    aspectOfRage.myType = buff;
+                    aspectOfRage.connectedPlayer = stats;
+                    aspectOfRage.infiniteDuration = false;
+                    aspectOfRage.duration = 15;
+                    aspectOfRage.ChangeOffensiveStats(true, 0, 0, 0, 0.20f, 1f, 0.4f);
+                    aspectOfRage.ChangeDefensiveStats(true, 0, 0, 0, 0, 0, 0, -50);
+                    aspectOfRage.effectParticleSystem.Add(psSystems[27]);
+                    aspectOfRage.effectParticleSystem.Add(psSystems[28]);
+                    aspectOfRage.effectParticleSystem.Add(psSystems[29]);
+                    psSystems[27].Play();
+                    psSystems[28].Play();
+                    psSystems[29].Play();
+
+                    break;
+                case BuffType.BlessingOfFlames:
+                    Debug.Log("Adding blessing of flames buff");
+                    Buff blessingOfFlames = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    blessingOfFlames.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = buffIcons[11];
+
+                    activeBuffs.Add(blessingOfFlames);
+
+                    blessingOfFlames.myType = buff;
+                    blessingOfFlames.connectedPlayer = stats;
+                    blessingOfFlames.infiniteDuration = false;
+                    blessingOfFlames.duration = 15;
+                    blessingOfFlames.ChangeDefensiveStats(true, 0, 0, 20, 0, 10, 10, 0);
+                    blessingOfFlames.ChangeAfflictionStats(true, 0.5f, 0, 0, 0.1f, 0.1f, 0.1f, 0.25f, 0.1f, 0);
+                    blessingOfFlames.effectParticleSystem.Add(psSystems[30]);
+                    psSystems[30].Play();
+
+                    break;
+                case BuffType.Rampage:
+                    Debug.Log("adding rampage buff");
+                    Buff rampage = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    rampage.connectedIcon = buffIcon;
+                    rampage.iconStacks = buffIcon.GetComponentInChildren<Text>();
+                    buffIcon.GetComponent<Image>().sprite = buffIcons[12];
+
+                    activeBuffs.Add(rampage);
+
+                    rampage.myType = buff;
+                    rampage.infiniteDuration = false;
+                    rampage.duration = 3;
+                    rampage.connectedPlayer = stats;
+                    rampage.stackable = true;
+                    rampage.stackSingleFalloff = true;
+                    rampage.stackfalloffTime = 0.5f;
+                    rampage.maxStacks = 25;
+                    rampage.currentStacks = 1;
+                    rampage.stacktargetTimer = rampage.duration;
+                    rampage.ChangeOffensiveStats(true, 0, 0, 0, 0, 0, 0.04f);
+                    //rampage.effectParticleSystem.Add(psSystems[30]);
+                    //psSystems[30].Play();
+
+                    break;
+                case BuffType.GiantStrength:
+                    Debug.Log("adding giant Strength buff");
+                    Buff giantStrength = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    giantStrength.connectedIcon = buffIcon;
+                    giantStrength.iconStacks = buffIcon.GetComponentInChildren<Text>();
+                    buffIcon.GetComponent<Image>().sprite = buffIcons[13];
+
+                    activeBuffs.Add(giantStrength);
+
+                    giantStrength.myType = buff;
+                    giantStrength.infiniteDuration = false;
+                    giantStrength.duration = 12f;
+                    giantStrength.connectedPlayer = stats;
+                    giantStrength.ChangeCoreStats(true, stats.Vit, stats.Str, -stats.Dex / 2, -stats.Spd / 2, -stats.Int / 2, -stats.Wis / 2, -stats.Cha / 2);
+                    giantStrength.ChangeSize(true, 0.25f);
+                    //rampage.effectParticleSystem.Add(psSystems[30]);
+                    //psSystems[30].Play();
 
                     break;
                 default:
@@ -272,5 +386,38 @@ public class BuffsManager : MonoBehaviour
     {
         for (int index = 0; index < activeIcons.Count; index++)
             activeIcons[index].transform.localPosition = new Vector3(-90 + (index * 25), 15, 0);
+    }
+
+    // USed to proc my onhit effects onto an enemy
+    public void ProcOnHits(GameObject target)
+    {
+        // Check if we have any skills that apply buffs on hit.
+        foreach(Skill skill in skillManager.mySkills)
+        {
+            switch (skill.skillName)
+            {
+                case SkillsManager.SkillNames.Rampage:
+                    NewBuff(BuffType.Rampage);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        foreach(Buff buff in activeBuffs)
+        {
+            switch (buff.myType)
+            {
+                case BuffType.FlameStrike:
+                    target.GetComponent<PlayerStats>().TakeDamage(buff.onHitDamageAmount, false, buff.damageColor);
+                    psSystems[23].Play();
+                    psSystems[24].Play();
+                    psSystems[25].Play();
+                    psSystems[26].Play();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

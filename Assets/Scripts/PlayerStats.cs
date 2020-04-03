@@ -29,6 +29,7 @@ public class PlayerStats : MonoBehaviour
     public float attackDamage = 5;
     public float attackRange = 2;
     public float attackSpeed = 1;
+    public float bonusAttackSpeed = 0;
     public float health = 100;
     public float healthMax = 100;
     public float mana = 100;
@@ -38,6 +39,7 @@ public class PlayerStats : MonoBehaviour
     public float speed = 4;
     public float strafeSpeed = 2;
     public float acceleration = 2;
+    public float damageReduction = 0;
     // public float poise = 5;
     // public float poiseMax = 5;
     // public float poiseLoseMultiplier = 1;
@@ -52,6 +54,7 @@ public class PlayerStats : MonoBehaviour
     public float exp = 0;
     public float expTarget = 100;
     public float expMultiplier;
+    public float sizeMultiplier = 1f;
 
     public int Str = 5;
     public int Vit = 5;
@@ -193,7 +196,7 @@ public class PlayerStats : MonoBehaviour
         if (gameObject.tag == "Enemy")
             speed *= 1.3f;
         attackDelay = weaponBaseAttackDelay / (1 + 2 * Spd + Dex);
-        attackSpeed = weaponBaseAttackDelay * (1 + 0.025f * Spd + 0.0125f * Dex);
+        attackSpeed = weaponBaseAttackDelay * (1 + 0.025f * Spd + 0.0125f * Dex + bonusAttackSpeed);
         strafeSpeed = speed / 2;
         acceleration = speed;
         if (transform.CompareTag("Enemy"))
@@ -290,6 +293,11 @@ public class PlayerStats : MonoBehaviour
     {
         if (health > 0)
         {
+            if (damageReduction < 100)
+                amount *= (100f - damageReduction) / 100f;
+            else
+                amount = 0;
+
             if(GetComponent<PlayerController>() != null && GetComponent<PlayerController>().asleep)
             {
                 GetComponent<PlayerController>().asleep = false;
@@ -554,5 +562,28 @@ public class PlayerStats : MonoBehaviour
     public void ForceStatRecheck()
     {
         StatSetup(false, false);
+    }
+
+    // USed to change the size of the player
+    public void ChangeSize(float sizeValueToAdd)
+    {
+        StartCoroutine(ChangeSizeOverTime(sizeMultiplier + sizeValueToAdd, sizeMultiplier));
+        sizeMultiplier += sizeValueToAdd;
+    }
+
+    // The coroutine that changes our size over time.
+    public IEnumerator ChangeSizeOverTime(float targetValue, float initialValue)
+    {
+        float currentTimer = 0f;
+        float targetTimer = 0.15f;
+
+        while(currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            float currentScale = Mathf.Lerp(initialValue, targetValue, currentTimer / targetTimer);
+
+            transform.localScale = new Vector3(currentScale, currentScale, currentScale);
+            yield return null;
+        }
     }
 }

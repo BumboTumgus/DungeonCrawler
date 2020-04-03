@@ -8,7 +8,7 @@ public class DamageNumber : MonoBehaviour
     private Text damageText;
     private float xMovement;
 
-    private const float MAX_X_MOVEMENT = 1f;
+    private const float MAX_X_MOVEMENT = 3.5f;
     private const float LIFETIME = 1.5f;
     private const float X_DECAY_SPEED = 0.97f;
 

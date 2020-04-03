@@ -121,7 +121,8 @@ public class Item : MonoBehaviour
         foreach (ParticleSystem system in particles)
             system.Stop();
 
-        GetComponentInChildren<Light>().enabled = false;
+        if(GetComponentInChildren<Light>())
+            GetComponentInChildren<Light>().enabled = false;
 
         GetComponent<SphereCollider>().enabled = false;
         transform.SetParent(targetParent);

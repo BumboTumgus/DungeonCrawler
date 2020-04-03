@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public PlayerState playerState = PlayerState.Idle;
     public GameObject inventoryWindow;
     public Color bleedDamageColor;
+    public float speedMultiplier = 1f;
 
     private PlayerStats playerStats;
     private PlayerInputs playerInputs;
@@ -150,18 +151,18 @@ public class PlayerController : MonoBehaviour
         horizontalMovement.z = Input.GetAxis(playerInputs.verticalInput);
         if (playerState == PlayerState.Sprinting)
         {
-            horizontalMovement = horizontalMovement.normalized * playerStats.speed * Time.deltaTime * SPEED_MULTIPLIER * SPRINT_MULTIPLIER;
-            anim.SetFloat("AnimSpeed", playerStats.speed * SPRINT_MULTIPLIER / ANIM_SPEED_REDUCTION);
+            horizontalMovement = horizontalMovement.normalized * playerStats.speed * Time.deltaTime * SPEED_MULTIPLIER * SPRINT_MULTIPLIER * speedMultiplier;
+            anim.SetFloat("AnimSpeed", playerStats.speed * SPRINT_MULTIPLIER * speedMultiplier / ANIM_SPEED_REDUCTION);
         }
         else if(playerState == PlayerState.Attacking)
         {
-            horizontalMovement = horizontalMovement.normalized * playerStats.speed * Time.deltaTime * SPEED_MULTIPLIER * ATTACK_SPEED_MULTIPLIER;
+            horizontalMovement = horizontalMovement.normalized * playerStats.speed * Time.deltaTime * SPEED_MULTIPLIER * ATTACK_SPEED_MULTIPLIER * speedMultiplier;
             // anim.SetFloat("AnimSpeed", playerStats.speed / ANIM_SPEED_REDUCTION);
         }
         else
         {
-            horizontalMovement = horizontalMovement.normalized * playerStats.speed * Time.deltaTime * SPEED_MULTIPLIER;
-            anim.SetFloat("AnimSpeed", playerStats.speed / ANIM_SPEED_REDUCTION);
+            horizontalMovement = horizontalMovement.normalized * playerStats.speed * Time.deltaTime * SPEED_MULTIPLIER * speedMultiplier;
+            anim.SetFloat("AnimSpeed", playerStats.speed * speedMultiplier / ANIM_SPEED_REDUCTION);
         }
 
         movement.x = horizontalMovement.x;

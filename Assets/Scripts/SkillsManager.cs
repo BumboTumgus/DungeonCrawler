@@ -13,15 +13,20 @@ public class SkillsManager : MonoBehaviour
 
     public ParticleSystem[] ps;
 
-    public enum SkillNames { BlinkStrike, EmboldeningEmbers, FlameStrike, SeveringStrike};
+    public enum SkillNames { BlinkStrike, EmboldeningEmbers, FlameStrike, SeveringStrike, ShatteredEarth, AspectOfRage, Rampage, BlessingOfFlames,
+                            GiantStrength, EarthernPlateau, BoulderFist, EarthernSpear, CausticEdge, ToxicRipple, KillerInstinct, NaturePulse,
+                            Revitalize, PoisonedMud, StrangleThorn, SoothingStone, Deadeye, ShearingCyclone, WindHarpoon, SplitswordStrikes,
+                            ThunderLance, LightningStorm, WrathOfTheRagingWinds, BladeBarrage, ViolentZephyr, Permafrost, IceBarrage, FrozenBarrier,
+                            SoothingStream, SwirlingVortex};
 
     public Transform skillsContainer;
 
     private SkillBank skillBank;
-    private PlayerInputs inputs;
+    public PlayerInputs inputs;
     public HitBoxManager hitBoxes;
     public PlayerStats stats;
-    private PlayerController controller;
+    public Rigidbody rb;
+    public PlayerController controller;
 
 
     private void Start()
@@ -31,13 +36,14 @@ public class SkillsManager : MonoBehaviour
         stats = GetComponent<PlayerStats>();
         controller = GetComponent<PlayerController>();
         hitBoxes = GetComponent<HitBoxManager>();
+        rb = GetComponent<Rigidbody>();
         foreach (ParticleSystem particle in ps)
             particle.Stop();
-        AddSkill(0, SkillNames.EmboldeningEmbers);
-        AddSkill(1, SkillNames.SeveringStrike);
-        AddSkill(2, SkillNames.BlinkStrike);
-        AddSkill(3, SkillNames.BlinkStrike);
+        AddSkill(0, SkillNames.Rampage);
+        AddSkill(1, SkillNames.BlessingOfFlames);
+        AddSkill(2, SkillNames.ShatteredEarth);
         AddSkill(3, SkillNames.FlameStrike);
+        AddSkill(3, SkillNames.GiantStrength);
     }
 
 

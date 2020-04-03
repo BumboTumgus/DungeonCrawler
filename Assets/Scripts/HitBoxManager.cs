@@ -40,10 +40,10 @@ public class HitBoxManager : MonoBehaviour
     // Used to launch a buff
     IEnumerator BuffBoxFlicker(int index)
     {
-        Debug.Log("flciekred on");
+        //Debug.Log("flciekred on");
         buffboxes[index].GetComponent<SphereCollider>().enabled = true;
         yield return new WaitForFixedUpdate();
         buffboxes[index].GetComponent<SphereCollider>().enabled = false;
-        Debug.Log("flciekred off");
+        //Debug.Log("flciekred off");
     }
 }
