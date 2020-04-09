@@ -78,6 +78,12 @@ public class Skill : MonoBehaviour
                 case SkillsManager.SkillNames.GiantStrength:
                     StartCoroutine(GiantStrength());
                     break;
+                case SkillsManager.SkillNames.EarthernPlateau:
+                    StartCoroutine(EarthernPlateau());
+                    break;
+                case SkillsManager.SkillNames.BoulderFist:
+                    StartCoroutine(BoulderFist());
+                    break;
                 default:
                     break;
             }
@@ -90,14 +96,67 @@ public class Skill : MonoBehaviour
             // Debug.Log("Skill not ready");
     }
 
-    // Used to cast giants strength, a buff that increases strength defense and hp but severly decreases mobility.
-    IEnumerator GiantStrength()
+    // USed to cast the spell boulder fist, a spell that summons a boulder fist at the target location, dealing damage.
+    IEnumerator BoulderFist()
     {
-        anim.SetTrigger("GiantStrength");
-        float targetTimer = 1f;
+        anim.SetTrigger("BoulderFist");
+        float targetTimer = 0.5f;
         float currentTimer = 0;
         pc.playerState = PlayerController.PlayerState.CastingWithMovement;
-        myManager.ps[17].Play();
+
+        //myManager.ps[17].Play()
+        bool playParticles = false;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        bool targetSelected = false;
+        GameObject targetIndicator = Instantiate(myManager.targetIndicatorCircle);
+        while (!targetSelected)
+        {
+            // shoot a ray, and set the indicator toi the rays location.
+            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward * 100);
+            RaycastHit hit;
+            Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * 100, Color.red);
+            if(Physics.Raycast(ray, out hit, 100f, myManager.targettingRayMask))
+            {
+                targetIndicator.transform.position = hit.point;
+                targetIndicator.transform.rotation = Quaternion.Euler(new Vector3(hit.normal.z * 90, 0, hit.normal.x * -90));
+            }
+
+            // If i attack launch the attack at the targtted position and continue the animation.
+            if (Input.GetAxisRaw(myManager.inputs.attackInput) == 1 && myManager.inputs.attackReleased)
+            {
+                Debug.Log("The input was pressed");
+                //myManager.ps[16].Play();
+                GameObject boulderFist = Instantiate(myManager.skillProjectiles[1], targetIndicator.transform.position, targetIndicator.transform.root.rotation);
+                boulderFist.GetComponent<HitBoxTerrain>().damage = myManager.stats.armor + myManager.stats.magicResist + 10;
+                anim.SetTrigger("ProjectileFired");
+                Destroy(targetIndicator);
+                targetSelected = true;
+            }
+
+            yield return null;
+        }
+
+        //myManager.ps[17].Stop();
+        pc.playerState = PlayerController.PlayerState.Idle;
+
+    }
+
+    // Used to cast earthern plateau, a terrain shaping spell that does damage in anb AOE based on your armpr.
+    IEnumerator EarthernPlateau()
+    {
+        anim.SetTrigger("EarthernPlateau");
+        float targetTimer = 1f;
+        float currentTimer = 0;
+        pc.playerState = PlayerController.PlayerState.CastingRollOut;
+        pc.KillMovement();
+        //myManager.ps[17].Play();
+        myManager.controller.speedMultiplier = 0.4f;
         bool playParticles = false;
 
         while (currentTimer < targetTimer)
@@ -105,15 +164,41 @@ public class Skill : MonoBehaviour
             currentTimer += Time.deltaTime;
             if (!playParticles && currentTimer > targetTimer * 0.5f)
             {
-                myManager.ps[16].Play();
+                //myManager.ps[16].Play();
+                GameObject terrain = Instantiate(myManager.skillProjectiles[0], transform.root.position, transform.root.rotation);
+                terrain.GetComponent<HitBoxTerrain>().damage = myManager.stats.armor + myManager.stats.magicResist + 50;
+                playParticles = true;
+            }
+            yield return null;
+        }
+
+        //myManager.ps[17].Stop();
+        myManager.controller.speedMultiplier = 1f;
+        pc.playerState = PlayerController.PlayerState.Idle;
+    }
+
+    // Used to cast giants strength, a buff that increases strength defense and hp but severly decreases mobility.
+    IEnumerator GiantStrength()
+    {
+        anim.SetTrigger("GiantsStrength");
+        float targetTimer = 1f;
+        float currentTimer = 0;
+        pc.playerState = PlayerController.PlayerState.CastingRollOut;
+        bool playParticles = false;
+
+        while (currentTimer < targetTimer) 
+        {
+            currentTimer += Time.deltaTime;
+            if (!playParticles && currentTimer > targetTimer * 0.5f)
+            {
+                myManager.ps[26].Play();
                 myManager.hitBoxes.LaunchBuffBox(4);
                 myManager.hitBoxes.buffboxes[4].GetComponent<HitBoxBuff>().BuffSelf();
                 playParticles = true;
             }
             yield return null;
         }
-
-        myManager.ps[17].Stop();
+        
         pc.playerState = PlayerController.PlayerState.Idle;
     }
 

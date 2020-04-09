@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     public bool bleeding = false;
     private Ray groundRay;
     private RaycastHit groundRayHit;
-    private LayerMask groundingRayMask = 1 << 10;
+    [SerializeField] private LayerMask groundingRayMask = 1 << 10;
     private AnimatorClipInfo[] attackClip;
     private bool menuOpen = false;
 

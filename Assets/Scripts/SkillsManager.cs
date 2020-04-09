@@ -7,9 +7,12 @@ public class SkillsManager : MonoBehaviour
 {
     public List<Skill> mySkills = new List<Skill>();
     public List<GameObject> mySkillBars = new List<GameObject>();
+    public List<GameObject> skillProjectiles = new List<GameObject>();
     public GameObject skillIconPrefab;
     public Transform iconParent;
     public int maxSkillNumber = 5;
+    public GameObject targetIndicatorCircle;
+    public LayerMask targettingRayMask;
 
     public ParticleSystem[] ps;
 
@@ -39,10 +42,9 @@ public class SkillsManager : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         foreach (ParticleSystem particle in ps)
             particle.Stop();
-        AddSkill(0, SkillNames.Rampage);
-        AddSkill(1, SkillNames.BlessingOfFlames);
+        AddSkill(0, SkillNames.EarthernPlateau);
+        AddSkill(1, SkillNames.BoulderFist);
         AddSkill(2, SkillNames.ShatteredEarth);
-        AddSkill(3, SkillNames.FlameStrike);
         AddSkill(3, SkillNames.GiantStrength);
     }
 

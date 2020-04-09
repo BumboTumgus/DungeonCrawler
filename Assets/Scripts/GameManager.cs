@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     {
         // Debug.Log("Game manager setup");
         currentPlayers = GameObject.FindGameObjectsWithTag("Player");
+
         // StartCoroutine(Initialization());
     }
 

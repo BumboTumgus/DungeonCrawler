@@ -359,8 +359,8 @@ public class BuffsManager : MonoBehaviour
                     giantStrength.connectedPlayer = stats;
                     giantStrength.ChangeCoreStats(true, stats.Vit, stats.Str, -stats.Dex / 2, -stats.Spd / 2, -stats.Int / 2, -stats.Wis / 2, -stats.Cha / 2);
                     giantStrength.ChangeSize(true, 0.25f);
-                    //rampage.effectParticleSystem.Add(psSystems[30]);
-                    //psSystems[30].Play();
+                    giantStrength.effectParticleSystem.Add(psSystems[31]);
+                    psSystems[31].Play();
 
                     break;
                 default:
