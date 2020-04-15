@@ -84,6 +84,21 @@ public class Skill : MonoBehaviour
                 case SkillsManager.SkillNames.BoulderFist:
                     StartCoroutine(BoulderFist());
                     break;
+                case SkillsManager.SkillNames.EarthernSpear:
+                    StartCoroutine(EarthernSpear());
+                    break;
+                case SkillsManager.SkillNames.CausticEdge:
+                    StartCoroutine(CausticEdge());
+                    break;
+                case SkillsManager.SkillNames.ToxicRipple:
+                    StartCoroutine(ToxicRipple());
+                    break;
+                case SkillsManager.SkillNames.KillerInstinct:
+                    StartCoroutine(KillerInstinct());
+                    break;
+                case SkillsManager.SkillNames.NaturePulse:
+                    StartCoroutine(NaturePulse());
+                    break;
                 default:
                     break;
             }
@@ -96,16 +111,232 @@ public class Skill : MonoBehaviour
             // Debug.Log("Skill not ready");
     }
 
+    // USed to cast the spell nature pulse at the enemies
+    IEnumerator NaturePulse()
+    {
+        anim.SetTrigger("BoulderFist");
+        float targetTimer = 0.15f;
+        float currentTimer = 0;
+        pc.playerState = PlayerController.PlayerState.CastingWithMovement;
+
+        myManager.ps[27].Play();
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        bool targetSelected = false;
+        GameObject targetIndicator = Instantiate(myManager.targetIndicatorCircle);
+        while (!targetSelected)
+        {
+            // shoot a ray, and set the indicator toi the rays location.
+            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward * 100);
+            RaycastHit hit;
+            Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * 100, Color.red);
+            if (Physics.Raycast(ray, out hit, 100f, myManager.targettingRayMaskHitEnemies))
+            {
+                targetIndicator.transform.position = hit.point;
+                targetIndicator.transform.rotation = Quaternion.Euler(new Vector3(hit.normal.z * 90, 0, hit.normal.x * -90));
+            }
+
+            string skillInput = GetInput();
+
+            // If i attack launch the attack at the targtted position and continue the animation.
+            if (Input.GetAxisRaw(myManager.inputs.attackInput) == 1 && myManager.inputs.attackReleased || Input.GetAxisRaw(skillInput) == 0)
+            {
+                //myManager.ps[16].Play();
+                GameObject naturePulse = Instantiate(myManager.skillProjectiles[3], targetIndicator.transform.position, targetIndicator.transform.rotation);
+                naturePulse.GetComponent<HitBox>().damage = myManager.stats.Vit + 40;
+                naturePulse.GetComponent<HitBox>().myStats = myManager.stats;
+                anim.SetTrigger("ProjectileFired");
+                Destroy(targetIndicator);
+                //myManager.ps[28].Play();
+                targetSelected = true;
+            }
+
+            yield return null;
+        }
+
+        myManager.ps[27].Stop();
+        pc.playerState = PlayerController.PlayerState.Idle;
+    }
+
+    // USed to cast the skill killer instinct
+    IEnumerator KillerInstinct()
+    {
+        anim.SetTrigger("EmboldeningEmbers");
+        float targetTimer = 0.5f;
+        float currentTimer = 0;
+        pc.playerState = PlayerController.PlayerState.CastingRollOut;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        myManager.ps[38].Play();
+        myManager.ps[39].Play();
+        myManager.hitBoxes.LaunchBuffBox(6);
+        myManager.hitBoxes.buffboxes[6].GetComponent<HitBoxBuff>().BuffSelf();
+        pc.playerState = PlayerController.PlayerState.Idle;
+    }
+
+    // Used to cast the spell Toxic Ripple, an AoE poison and corrosive effect that affects everyone, but buffs your resistance to both for the duration
+    IEnumerator ToxicRipple()
+    {
+        anim.SetTrigger("EmboldeningEmbers");
+        float targetTimer = 0.5f;
+        float currentTimer = 0;
+        pc.playerState = PlayerController.PlayerState.CastingRollOut;
+        myManager.ps[35].Play();
+        
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        pc.playerState = PlayerController.PlayerState.Idle;
+        myManager.ps[35].Stop();
+        myManager.ps[36].Play();
+        myManager.ps[37].Play();
+        myManager.hitBoxes.LaunchBuffBox(5);
+        myManager.hitBoxes.buffboxes[5].GetComponent<HitBoxBuff>().BuffSelf();
+        currentTimer = 0;
+        targetTimer = 10f;
+
+        float damageToTake = 8 + myManager.stats.Vit / 2;
+        myManager.hitBoxes.hitboxes[6].GetComponent<HitBox>().damage = damageToTake;
+        float currentTickTimer = 0;
+        while(currentTimer < targetTimer)
+        {
+            currentTickTimer += Time.deltaTime;
+            currentTimer += Time.deltaTime;
+            if(currentTickTimer > targetTimer / 20)
+            {
+                currentTickTimer -= targetTimer / 20;
+                myManager.hitBoxes.LaunchHitBox(6);
+                myManager.stats.TakeDamage(damageToTake / 2, false, myManager.damageColors[0]);
+            }
+            yield return null;
+        }
+        myManager.ps[36].Stop();
+        myManager.ps[37].Stop();
+
+    }
+
+    // Used to cast Casutic Edge, a three hit strike that applies poision and deals weapon damage.
+    IEnumerator CausticEdge()
+    {
+        anim.SetTrigger("CausticEdge");
+        float targetTimer = 0.22f;
+        float currentTimer = 0;
+        pc.playerState = PlayerController.PlayerState.CastingWithMovement;
+        
+        while(currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+        myManager.hitBoxes.hitboxes[4].GetComponent<HitBox>().damage = myManager.stats.weaponHitMax + myManager.stats.weaponHitbase + myManager.stats.Dex;
+        myManager.hitBoxes.LaunchHitBox(4);
+        myManager.ps[29].Play();
+        myManager.ps[30].Play();
+        currentTimer = 0;
+        targetTimer = 0.22f;
+        
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+        myManager.hitBoxes.hitboxes[4].GetComponent<HitBox>().damage = myManager.stats.weaponHitMax + myManager.stats.weaponHitbase + myManager.stats.Dex;
+        myManager.hitBoxes.LaunchHitBox(4);
+        myManager.ps[31].Play();
+        myManager.ps[32].Play();
+        currentTimer = 0;
+        targetTimer = 0.35f;
+        
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+        myManager.hitBoxes.hitboxes[5].GetComponent<HitBox>().damage = myManager.stats.weaponHitMax + myManager.stats.weaponHitbase + myManager.stats.Dex * 3 + 10;
+        myManager.hitBoxes.LaunchHitBox(5);
+        myManager.ps[33].Play();
+        myManager.ps[34].Play();
+
+        pc.playerState = PlayerController.PlayerState.Idle;
+    }
+
+    // Used to cast the spell earthern spear at the enemies.
+    IEnumerator EarthernSpear()
+    {
+        anim.SetTrigger("BoulderFist");
+        float targetTimer = 0.25f;
+        float currentTimer = 0;
+        pc.playerState = PlayerController.PlayerState.CastingWithMovement;
+
+        myManager.ps[27].Play();
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        bool targetSelected = false;
+        GameObject targetIndicator = Instantiate(myManager.targetIndicatorCircle);
+        while (!targetSelected)
+        {
+            // shoot a ray, and set the indicator toi the rays location.
+            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward * 100);
+            RaycastHit hit;
+            Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * 100, Color.red);
+            if (Physics.Raycast(ray, out hit, 100f, myManager.targettingRayMaskHitEnemies))
+            {
+                targetIndicator.transform.position = hit.point;
+                targetIndicator.transform.rotation = Quaternion.Euler(new Vector3(hit.normal.z * 90, 0, hit.normal.x * -90));
+            }
+
+            string skillInput = GetInput();
+
+            // If i attack launch the attack at the targtted position and continue the animation.
+            if (Input.GetAxisRaw(myManager.inputs.attackInput) == 1 && myManager.inputs.attackReleased || Input.GetAxisRaw(skillInput) == 0)
+            {
+                // Debug.Log("The input was pressed");
+                //myManager.ps[16].Play();
+                GameObject earthernSpear = Instantiate(myManager.skillProjectiles[2], transform.position + new Vector3(0, 1, 0), transform.rotation);
+                earthernSpear.transform.LookAt(targetIndicator.transform.position);
+                earthernSpear.GetComponent<HitBox>().damage = myManager.stats.armor + myManager.stats.magicResist + 30;
+                earthernSpear.GetComponent<HitBox>().myStats = myManager.stats;
+                anim.SetTrigger("ProjectileFired");
+                Destroy(targetIndicator);
+                myManager.ps[28].Play();
+                targetSelected = true;
+            }
+
+            yield return null;
+        }
+
+        myManager.ps[27].Stop();
+        pc.playerState = PlayerController.PlayerState.Idle;
+
+    }
+
     // USed to cast the spell boulder fist, a spell that summons a boulder fist at the target location, dealing damage.
     IEnumerator BoulderFist()
     {
         anim.SetTrigger("BoulderFist");
-        float targetTimer = 0.5f;
+        float targetTimer = 0.25f;
         float currentTimer = 0;
         pc.playerState = PlayerController.PlayerState.CastingWithMovement;
-
-        //myManager.ps[17].Play()
-        bool playParticles = false;
+        
+        myManager.ps[27].Play();
 
         while (currentTimer < targetTimer)
         {
@@ -127,8 +358,10 @@ public class Skill : MonoBehaviour
                 targetIndicator.transform.rotation = Quaternion.Euler(new Vector3(hit.normal.z * 90, 0, hit.normal.x * -90));
             }
 
+            string skillInput = GetInput();
+
             // If i attack launch the attack at the targtted position and continue the animation.
-            if (Input.GetAxisRaw(myManager.inputs.attackInput) == 1 && myManager.inputs.attackReleased)
+            if (Input.GetAxisRaw(myManager.inputs.attackInput) == 1 && myManager.inputs.attackReleased || Input.GetAxisRaw(skillInput) == 0)
             {
                 Debug.Log("The input was pressed");
                 //myManager.ps[16].Play();
@@ -136,13 +369,14 @@ public class Skill : MonoBehaviour
                 boulderFist.GetComponent<HitBoxTerrain>().damage = myManager.stats.armor + myManager.stats.magicResist + 10;
                 anim.SetTrigger("ProjectileFired");
                 Destroy(targetIndicator);
+                myManager.ps[28].Play();
                 targetSelected = true;
             }
 
             yield return null;
         }
 
-        //myManager.ps[17].Stop();
+        myManager.ps[27].Stop();
         pc.playerState = PlayerController.PlayerState.Idle;
 
     }
@@ -155,7 +389,7 @@ public class Skill : MonoBehaviour
         float currentTimer = 0;
         pc.playerState = PlayerController.PlayerState.CastingRollOut;
         pc.KillMovement();
-        //myManager.ps[17].Play();
+        myManager.ps[27].Play();
         myManager.controller.speedMultiplier = 0.4f;
         bool playParticles = false;
 
@@ -164,15 +398,15 @@ public class Skill : MonoBehaviour
             currentTimer += Time.deltaTime;
             if (!playParticles && currentTimer > targetTimer * 0.5f)
             {
-                //myManager.ps[16].Play();
                 GameObject terrain = Instantiate(myManager.skillProjectiles[0], transform.root.position, transform.root.rotation);
                 terrain.GetComponent<HitBoxTerrain>().damage = myManager.stats.armor + myManager.stats.magicResist + 50;
+                myManager.ps[28].Play();
                 playParticles = true;
             }
             yield return null;
         }
 
-        //myManager.ps[17].Stop();
+        myManager.ps[27].Stop();
         myManager.controller.speedMultiplier = 1f;
         pc.playerState = PlayerController.PlayerState.Idle;
     }
@@ -490,5 +724,41 @@ public class Skill : MonoBehaviour
         }
 
         return rayHitObject;
+    }
+
+    // Used to check what the input for this skill would be.
+    private string GetInput()
+    {
+        string inputToReturn = null;
+        
+        switch (skillIndex)
+        {
+            case 0:
+                inputToReturn = myManager.inputs.skill0Input;
+                break;
+            case 1:
+                inputToReturn = myManager.inputs.skill1Input;
+                break;
+            case 2:
+                inputToReturn = myManager.inputs.skill2Input;
+                break;
+            case 3:
+                inputToReturn = myManager.inputs.skill3Input;
+                break;
+            case 4:
+                inputToReturn = myManager.inputs.skill4Input;
+                break;
+            case 5:
+                inputToReturn = myManager.inputs.skill5Input;
+                break;
+            case 6:
+                inputToReturn = myManager.inputs.skill6Input;
+                break;
+            case 7:
+                inputToReturn = myManager.inputs.skill7Input;
+                break;
+        }
+
+        return inputToReturn;
     }
 }

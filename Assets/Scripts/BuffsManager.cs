@@ -36,7 +36,7 @@ public class BuffsManager : MonoBehaviour
     // Used to add a new buff to oiur player, if they already have it from this source, we refresh it instead.
     public void NewBuff(BuffType buff)
     {
-        Debug.Log("Addding buffs");
+        // Debug.Log("Addding buffs");
         bool buffDealtWith = false;
 
         // Check to see if any of our buffs match this buff, and if the source matches then we reset the duration.
@@ -363,6 +363,43 @@ public class BuffsManager : MonoBehaviour
                     psSystems[31].Play();
 
                     break;
+                case BuffType.ToxicRipple:
+                    Debug.Log("adding Toxic Ripple buff");
+
+                    Buff toxicRipple = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    toxicRipple.connectedIcon = buffIcon;
+                    toxicRipple.iconStacks = buffIcon.GetComponentInChildren<Text>();
+                    buffIcon.GetComponent<Image>().sprite = buffIcons[14];
+
+                    activeBuffs.Add(toxicRipple);
+
+                    toxicRipple.myType = buff;
+                    toxicRipple.infiniteDuration = false;
+                    toxicRipple.duration = 10f;
+                    toxicRipple.connectedPlayer = stats;
+                    toxicRipple.ChangeAfflictionStats(true, 0, 0, 0, 0, 0.5f, 0.5f, 0, 0, 0);
+
+                    break;
+                case BuffType.KillerInstinct:
+                    Debug.Log("adding Killer instinct buff");
+
+                    Buff killerInstinct = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    killerInstinct.connectedIcon = buffIcon;
+                    killerInstinct.iconStacks = buffIcon.GetComponentInChildren<Text>();
+                    buffIcon.GetComponent<Image>().sprite = buffIcons[15];
+
+                    activeBuffs.Add(killerInstinct);
+
+                    killerInstinct.myType = buff;
+                    killerInstinct.infiniteDuration = false;
+                    killerInstinct.duration = 15f;
+                    killerInstinct.connectedPlayer = stats;
+                    killerInstinct.ChangePlayerStatusLocks(true, 0, 1, 0);
+                    killerInstinct.effectParticleSystem.Add(psSystems[32]);
+                    killerInstinct.endOfBuffParticleSystem.Add(psSystems[33]);
+                    psSystems[32].Play();
+
+                    break;
                 default:
                     break;
             }
@@ -389,10 +426,11 @@ public class BuffsManager : MonoBehaviour
     }
 
     // USed to proc my onhit effects onto an enemy
-    public void ProcOnHits(GameObject target)
+    public void ProcOnHits(GameObject target , HitBox hitbox)
     {
+        // Debug.Log("proccing on hits");
         // Check if we have any skills that apply buffs on hit.
-        foreach(Skill skill in skillManager.mySkills)
+        foreach (Skill skill in skillManager.mySkills)
         {
             switch (skill.skillName)
             {
@@ -414,6 +452,50 @@ public class BuffsManager : MonoBehaviour
                     psSystems[24].Play();
                     psSystems[25].Play();
                     psSystems[26].Play();
+                    break;
+                case BuffType.KillerInstinct:
+                    Debug.Log("killer instinct hit has been procced");
+                    hitbox.bypassCrit = true;
+                    buff.currentTimer = buff.duration;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    
+    // USed to proc my onhit effects onto an enemy
+    public void ProcOnHits(GameObject target, HitBoxTerrain hitbox)
+    {
+        Debug.Log("proccing on hits");
+        // Check if we have any skills that apply buffs on hit.
+        foreach (Skill skill in skillManager.mySkills)
+        {
+            switch (skill.skillName)
+            {
+                case SkillsManager.SkillNames.Rampage:
+                    NewBuff(BuffType.Rampage);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        foreach (Buff buff in activeBuffs)
+        {
+            switch (buff.myType)
+            {
+                case BuffType.FlameStrike:
+                    target.GetComponent<PlayerStats>().TakeDamage(buff.onHitDamageAmount, false, buff.damageColor);
+                    psSystems[23].Play();
+                    psSystems[24].Play();
+                    psSystems[25].Play();
+                    psSystems[26].Play();
+                    break;
+                case BuffType.KillerInstinct:
+                    Debug.Log("killer instinct hit has been procced");
+                    hitbox.bypassCrit = true;
+                    buff.currentTimer = buff.duration;
                     break;
                 default:
                     break;

@@ -76,6 +76,13 @@ public class PlayerStats : MonoBehaviour
     public BarManager manaBar;
     public StatUpdater myStats;
 
+    public bool invulnerable = false;
+    public bool untargetable = false;
+    public bool invisibile = false;
+    public float invulnerableCount = 0;
+    public float untargetableCount = 0;
+    public float invisibleCount = 0;
+
     public bool dead = false;
  
     public float agroRange = 3;
@@ -267,7 +274,7 @@ public class PlayerStats : MonoBehaviour
         float expValue = Vit + Str + Cha + Spd + Dex + Int + Wis;
         float expValueDifficultyMod = (killerLevel / level) * (killerLevel / level);
         expValue *= expValueDifficultyMod;
-        Debug.Log("Checking Exp Worth");
+        // Debug.Log("Checking Exp Worth");
         
         return expValue;
     }
@@ -584,6 +591,60 @@ public class PlayerStats : MonoBehaviour
 
             transform.localScale = new Vector3(currentScale, currentScale, currentScale);
             yield return null;
+        }
+    }
+
+    // USed to add a source of invulnerablility
+    public void AddInvulnerablitySource(float amount)
+    {
+        if (amount > 0)
+        {
+            invulnerable = true;
+            invulnerableCount += amount;
+        }
+        else if(amount < 0)
+        {
+            invulnerableCount += amount;
+            if (invulnerableCount <= 0)
+                invulnerable = false;
+        }
+    }
+
+    // USed to add a source of invisibility
+    public void AddInvisibilitySource(float amount)
+    {
+        if (amount > 0)
+        {
+            invisibile = true;
+            GetComponent<PlayerGearManager>().InvisibilityChange(true);
+            invisibleCount += amount;
+        }
+        else if (amount < 0)
+        {
+            Debug.Log("we are adding " + amount);
+            invisibleCount += amount;
+            if (invisibleCount <= 0)
+            {
+                Debug.Log("the invisible count is lower than it should be");
+                invisibile = false;
+                GetComponent<PlayerGearManager>().InvisibilityChange(false);
+            }
+        }
+    }
+
+    // USed to add a source of invisibility
+    public void AddUntargetableSource(float amount)
+    {
+        if (amount > 0)
+        {
+            untargetable = true;
+            untargetableCount += amount;
+        }
+        else if (amount < 0)
+        {
+            untargetableCount += amount;
+            if (untargetableCount <= 0)
+                untargetable = false;
         }
     }
 }

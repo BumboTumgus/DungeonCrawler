@@ -7,6 +7,7 @@ public class Buff : MonoBehaviour
     public BuffsManager.BuffType myType;
     
     public List<ParticleSystem> effectParticleSystem = new List<ParticleSystem>();
+    public List<ParticleSystem> endOfBuffParticleSystem = new List<ParticleSystem>();
     public PlayerStats connectedPlayer;
     public GameObject connectedIcon;
     public UnityEngine.UI.Text iconStacks;
@@ -26,7 +27,7 @@ public class Buff : MonoBehaviour
     public float stackfalloffTime = 0.5f;
     public float stacktargetTimer = 0f;
 
-    public int vitSC = 0;     //SC stands for stat change.
+    public int vitSC = 0;                                   //SC stands for stat change.
     public int strSC = 0;
     public int dexSC = 0;
     public int spdSC = 0;
@@ -58,6 +59,10 @@ public class Buff : MonoBehaviour
     public float poisonResistSC = 0;
     public float corrosionResistSC = 0;
     public float frostbiteResistSC = 0;
+
+    public float invulnerabilitySC = 0;
+    public float untargetabilitySC = 0;
+    public float invisibilitySC = 0;
 
     public float targetDamageTickTimer = 0.5f;
     public float currentDamageTick = 0;
@@ -157,6 +162,10 @@ public class Buff : MonoBehaviour
             if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || curseResistSC != 0 || corrosionResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0)
                 ChangeAfflictionStats(false, aflameResistSC * amount, stunResistSC * amount, asleepResistSC * amount, bleedResistSC * amount, poisonResistSC * amount, curseResistSC * amount, frostbiteResistSC * amount, corrosionResistSC * amount, knockBackResistSC * amount);
 
+            // If we changed our invunerability, unatrgetability or invisibility
+            if (invulnerabilitySC != 0 || untargetabilitySC != 0 || invisibilitySC != 0)
+                ChangePlayerStatusLocks(false, invulnerabilitySC * amount, invisibilitySC * amount, untargetabilitySC * amount);
+
             // If we changed the size, change them back.
             if (sizeSC != 0)
                 ChangeSize(false, sizeSC * amount);
@@ -201,6 +210,10 @@ public class Buff : MonoBehaviour
         if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || curseResistSC != 0 || corrosionResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0)
             ChangeAfflictionStats(false, aflameResistSC * amount, stunResistSC * amount, asleepResistSC * amount, bleedResistSC * amount, poisonResistSC * amount, curseResistSC * amount, frostbiteResistSC * amount, corrosionResistSC * amount, knockBackResistSC * amount);
 
+        // If we changed our invunerability, unatrgetability or invisibility
+        if (invulnerabilitySC != 0 || untargetabilitySC != 0 || invisibilitySC != 0)
+            ChangePlayerStatusLocks(false, invulnerabilitySC * amount, invisibilitySC * amount, untargetabilitySC * amount);
+
         // If we changed the size, change them back.
         if (sizeSC != 0)
             ChangeSize(false, sizeSC * amount);
@@ -232,6 +245,21 @@ public class Buff : MonoBehaviour
         }
 
         connectedPlayer.StatSetup(false, true);
+    }
+
+    // Used to change if the player is invisible, invulnerable, etc. by changing their stats bool values.
+    public void ChangePlayerStatusLocks(bool changeStatsChangeValue, float invulnerabilityGain, float invisibilityGain, float untargetabilityGain)
+    {
+        connectedPlayer.AddInvisibilitySource(invisibilityGain);
+        connectedPlayer.AddInvulnerablitySource(invulnerabilityGain);
+        connectedPlayer.AddUntargetableSource(untargetabilityGain);
+
+        if(changeStatsChangeValue)
+        {
+            invulnerabilitySC = invulnerabilityGain;
+            invisibilitySC = invisibilityGain;
+            untargetabilitySC = untargetabilityGain;
+        }
     }
 
     // USed to change the player size.
@@ -328,6 +356,8 @@ public class Buff : MonoBehaviour
     {
         foreach (ParticleSystem ps in effectParticleSystem)
             ps.Stop();
+        foreach (ParticleSystem ps in endOfBuffParticleSystem)
+            ps.Play();
 
         if (myType == BuffsManager.BuffType.Stunned)
             connectedPlayer.GetComponent<PlayerController>().stunned = false;
@@ -354,6 +384,10 @@ public class Buff : MonoBehaviour
             // If we changed our resistance based stats, change em back.
             if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || curseResistSC != 0 || corrosionResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0)
                 ChangeAfflictionStats(true, aflameResistSC * -1, stunResistSC * -1, asleepResistSC * -1, bleedResistSC * -1, poisonResistSC * -1, curseResistSC * -1, frostbiteResistSC * -1, corrosionResistSC * -1, knockBackResistSC * -1);
+
+            // If we changed our invunerability, unatrgetability or invisibility
+            if (invulnerabilitySC != 0 || untargetabilitySC != 0 || invisibilitySC != 0)
+                ChangePlayerStatusLocks(true, invulnerabilitySC * -1, invisibilitySC * -1, untargetabilitySC * -1);
 
             // If we changed the size, change them back.
             if (sizeSC != 0)

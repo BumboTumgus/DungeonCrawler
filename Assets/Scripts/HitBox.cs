@@ -12,69 +12,108 @@ public class HitBox : MonoBehaviour
     [SerializeField] private bool hitEnemies = false;
     [SerializeField] private bool hitPlayers = false;
 
-    private PlayerStats myStats;
-    private PlayerStats enemyStats;
+    public PlayerStats myStats;
+    public PlayerStats enemyStats;
+
+    public bool projectile = false;
+    public bool projectileAOE = false;
+
+    public bool bypassCrit = false;
+    public bool forceChangeDamageColor = false;
+    public Color damageColorOverride;
 
     private void Start()
     {
         // Grab our player stats from our parent.
-        myStats = transform.root.GetComponent<PlayerStats>();
+        if(!projectile && !projectileAOE)
+            myStats = transform.root.GetComponent<PlayerStats>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // Enemy Logic
-        if (other.CompareTag("Enemy") && hitEnemies)
+        // Projectile logic, we are a projectile and hit an object on the collidable envorioment or interactable layer.
+        if ((projectile && other.gameObject.layer == 10) || (projectile && other.gameObject.layer == 9) || (projectile && other.gameObject.layer == 14 && hitEnemies) || (projectile && other.gameObject.layer == 13 && hitPlayers))
         {
-            enemyStats = other.GetComponent<PlayerStats>();
-            bool attackCrit = false;
-
-            float damageDealt = damage;
-            if (!damageOverload)
-            {
-                // Check to see if the attack hit.
-                damageDealt = myStats.weaponHitbase + Random.Range(myStats.weaponHitMin, myStats.weaponHitMax + 1)
-                    + myStats.Str * myStats.weaponStrScaling + myStats.Dex * myStats.weaponDexScaling + myStats.Vit * myStats.weaponVitScaling + myStats.Spd * myStats.weaponSpdScaling
-                    + myStats.Int * myStats.weaponIntScaling + myStats.Wis * myStats.weaponWisScaling + myStats.Cha * myStats.weaponChaScaling;
-            }
-
-            if(procsOnHits)
-            {
-                transform.root.GetComponent<BuffsManager>().ProcOnHits(other.gameObject);
-            }
-
-            if (Random.Range(0, 100) >= 100 - myStats.weaponCritChance)
-            {
-                damageDealt *= myStats.weaponCritMod;
-                attackCrit = true;
-            }
-
-            damageDealt -= enemyStats.armor;
-            enemyStats.TakeDamage(damageDealt, attackCrit);
+            Debug.Log("we hit an object that is in the collidable or interable layer");
+            GetComponent<ProjectileBehaviour>().DestroyProjectile();
         }
-        // Player Logic
-        else if (other.CompareTag("Player") && hitPlayers)
+
+        if (projectile && !GetComponent<ProjectileBehaviour>().hitAOE || !projectile)
         {
-            enemyStats = other.GetComponent<PlayerStats>();
-            bool attackCrit = false;
-
-            float damageDealt = damage;
-            if (!damageOverload)
+            // Enemy Logic
+            if (other.CompareTag("Enemy") && hitEnemies)
             {
-                // Check to see if the attack hit.
-                damageDealt = myStats.weaponHitbase + Random.Range(myStats.weaponHitMin, myStats.weaponHitMax + 1) +
-                    +myStats.Str * myStats.weaponStrScaling + myStats.Dex * myStats.weaponDexScaling + myStats.Vit * myStats.weaponVitScaling + myStats.Spd * myStats.weaponSpdScaling
-                    + myStats.Int * myStats.weaponIntScaling + myStats.Wis * myStats.weaponWisScaling + myStats.Cha * myStats.weaponChaScaling;
-            }
+                enemyStats = other.GetComponent<PlayerStats>();
+                bool attackCrit = false;
 
-            if (Random.Range(0, 100) >= 100 - myStats.weaponCritChance)
+                float damageDealt = damage;
+                if (!damageOverload)
+                {
+                    // Check to see if the attack hit.
+                    damageDealt = myStats.weaponHitbase + Random.Range(myStats.weaponHitMin, myStats.weaponHitMax + 1)
+                        + myStats.Str * myStats.weaponStrScaling + myStats.Dex * myStats.weaponDexScaling + myStats.Vit * myStats.weaponVitScaling + myStats.Spd * myStats.weaponSpdScaling
+                        + myStats.Int * myStats.weaponIntScaling + myStats.Wis * myStats.weaponWisScaling + myStats.Cha * myStats.weaponChaScaling;
+                }
+                // Debug.Log("we should check the on hits here.");
+
+                if (projectile && procsOnHits || projectileAOE && procsOnHits)
+                    myStats.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this);
+                else if (procsOnHits)
+                    transform.root.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this);
+
+                if (myStats.weaponHitspeeds.Count > 0)
+                {
+                    if (Random.Range(0, 100) >= 100 - myStats.weaponCritChance || bypassCrit)
+                    {
+                        damageDealt *= myStats.weaponCritMod;
+                        attackCrit = true;
+                        bypassCrit = false;
+                    }
+                }
+                else
+                {
+                    if (Random.Range(0, 100) >= 95 || bypassCrit)
+                    {
+                        damageDealt *= 2;
+                        attackCrit = true;
+                        bypassCrit = false;
+                    }
+                }
+
+
+                damageDealt -= enemyStats.armor;
+                if(!forceChangeDamageColor)
+                    enemyStats.TakeDamage(damageDealt, attackCrit);
+                else
+                    enemyStats.TakeDamage(damageDealt, attackCrit, damageColorOverride);
+            }
+            // Player Logic
+            else if (other.CompareTag("Player") && hitPlayers)
             {
-                damageDealt *= myStats.weaponCritMod;
-                attackCrit = true;
-            }
+                enemyStats = other.GetComponent<PlayerStats>();
+                bool attackCrit = false;
 
-            damageDealt -= enemyStats.armor;
-            enemyStats.TakeDamage(damageDealt, attackCrit);
+                float damageDealt = damage;
+                if (!damageOverload)
+                {
+                    // Check to see if the attack hit.
+                    damageDealt = myStats.weaponHitbase + Random.Range(myStats.weaponHitMin, myStats.weaponHitMax + 1) +
+                        + myStats.Str * myStats.weaponStrScaling + myStats.Dex * myStats.weaponDexScaling + myStats.Vit * myStats.weaponVitScaling + myStats.Spd * myStats.weaponSpdScaling
+                        + myStats.Int * myStats.weaponIntScaling + myStats.Wis * myStats.weaponWisScaling + myStats.Cha * myStats.weaponChaScaling;
+                }
+
+                if (Random.Range(0, 100) >= 100 - myStats.weaponCritChance)
+                {
+                    damageDealt *= myStats.weaponCritMod;
+                    attackCrit = true;
+                }
+
+                damageDealt -= enemyStats.armor;
+                if (!forceChangeDamageColor)
+                    enemyStats.TakeDamage(damageDealt, attackCrit);
+                else
+                    enemyStats.TakeDamage(damageDealt, attackCrit, damageColorOverride);
+            }
         }
     }
 }

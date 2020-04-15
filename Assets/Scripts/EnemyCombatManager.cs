@@ -59,7 +59,7 @@ public class EnemyCombatManager : MonoBehaviour
         StartEngage();
         StopCoroutine("Idle");
         StartCoroutine(Combat());
-        Debug.Log("we are now in combat");
+        //Debug.Log("we are now in combat");
     }
 
     // This method is used to cancel combat and end the fight
@@ -75,7 +75,7 @@ public class EnemyCombatManager : MonoBehaviour
         StopCoroutine("Combat");
         StartCoroutine(Idle());
         anim.SetFloat("Speed", 0);
-        Debug.Log(" we have now left combat");
+        //Debug.Log(" we have now left combat");
     }
 
     // This method is used to start the movement of the player to check to see if they are in range.
@@ -146,7 +146,7 @@ public class EnemyCombatManager : MonoBehaviour
             if (Physics.Raycast(ray, out rayhit, myStats.agroRange * agroRangeMultiplier, wallCheckMask))
             {
                 // Check to see if the raycast hit a player, and check to see if the previous players were closer. Also check if the player we hit is dead
-                if (rayhit.transform.tag == "Player" && (player.transform.position - transform.position).sqrMagnitude < closestPlayerDistance && !player.GetComponent<PlayerStats>().dead)
+                if (rayhit.transform.tag == "Player" && (player.transform.position - transform.position).sqrMagnitude < closestPlayerDistance && !player.GetComponent<PlayerStats>().dead && !player.GetComponent<PlayerStats>().invisibile)
                 {
                     // Set this player as the closest player that we will agro onto later.
                     closestPlayer = player;

@@ -62,6 +62,11 @@ public class PlayerGearManager : MonoBehaviour
     public GameObject[] rightKnees;
     public GameObject[] leftKnees;
 
+    public Material invisibleMaterial;
+    public Material primaryMaterial;
+
+    private List<Material> previousMaterials = new List<Material>();
+
     int headStartingIndex;
     int hairStyleStartingIndex;
     int eyeBrowsStartingIndex;
@@ -399,6 +404,138 @@ public class PlayerGearManager : MonoBehaviour
                 break;
             default:
                 break;
+        }
+    }
+
+    // Used to apply the invisbility Material to all items, or to none.
+    public void InvisibilityChange(bool invisible)
+    {
+        if(invisible)
+        {
+            foreach (GameObject go in leftHandWeapons)
+                go.GetComponent<MeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in rightHandWeapons)
+                go.GetComponent<MeshRenderer>().material = invisibleMaterial;
+
+            foreach (GameObject go in torsos)
+                go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in rightUpperArms)
+                go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in leftUpperArms)
+                go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in rightLowerArms)
+                go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in leftLowerArms)
+                go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in rightHands)
+                go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in leftHands)
+                go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in rightElbows)
+                if(go.GetComponent<SkinnedMeshRenderer>() != null)
+                    go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in leftElbows)
+                if (go.GetComponent<SkinnedMeshRenderer>() != null)
+                    go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in rightShoulders)
+                if (go.GetComponent<SkinnedMeshRenderer>() != null)
+                    go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in leftShoulders)
+                if (go.GetComponent<SkinnedMeshRenderer>() != null)
+                    go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+
+            foreach (GameObject go in heads)
+                go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in hairStyles)
+                if (go.GetComponent<SkinnedMeshRenderer>() != null)
+                    go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in eyeBrows)
+                go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in facialHairs)
+                go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in helmetNoFeatures)
+                go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in helmetAllFeatures)
+                go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in helmetNoHair)
+                go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+
+            foreach (GameObject go in hips)
+                go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in rightLegs)
+                go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in leftLegs)
+                go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in rightKnees)
+                if (go.GetComponent<SkinnedMeshRenderer>() != null)
+                    go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+            foreach (GameObject go in leftKnees)
+                if (go.GetComponent<SkinnedMeshRenderer>() != null)
+                    go.GetComponent<SkinnedMeshRenderer>().material = invisibleMaterial;
+        }
+        else
+        {
+            foreach (GameObject go in leftHandWeapons)
+                go.GetComponent<MeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in rightHandWeapons)
+                go.GetComponent<MeshRenderer>().material = primaryMaterial;
+
+            foreach (GameObject go in torsos)
+                go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in rightUpperArms)
+                go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in leftUpperArms)
+                go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in rightLowerArms)
+                go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in leftLowerArms)
+                go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in rightHands)
+                go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in leftHands)
+                go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in rightElbows)
+                if (go.GetComponent<SkinnedMeshRenderer>() != null)
+                    go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in leftElbows)
+                if (go.GetComponent<SkinnedMeshRenderer>() != null)
+                    go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in rightShoulders)
+                if (go.GetComponent<SkinnedMeshRenderer>() != null)
+                    go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in leftShoulders)
+                if (go.GetComponent<SkinnedMeshRenderer>() != null)
+                    go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+
+            foreach (GameObject go in heads)
+                go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in hairStyles)
+                if (go.GetComponent<SkinnedMeshRenderer>() != null)
+                    go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in eyeBrows)
+                go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in facialHairs)
+                go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in helmetNoFeatures)
+                go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in helmetAllFeatures)
+                go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in helmetNoHair)
+                go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+
+            foreach (GameObject go in hips)
+                go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in rightLegs)
+                go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in leftLegs)
+                go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in rightKnees)
+                if (go.GetComponent<SkinnedMeshRenderer>() != null)
+                    go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+            foreach (GameObject go in leftKnees)
+                if (go.GetComponent<SkinnedMeshRenderer>() != null)
+                    go.GetComponent<SkinnedMeshRenderer>().material = primaryMaterial;
+
         }
     }
 }
