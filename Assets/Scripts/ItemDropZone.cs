@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    public enum SlotType { Inventory, Trinket, Weapon, Helmet, Armor, Leggings}
+    public enum SlotType { Inventory, Trinket, Weapon, Helmet, Armor, Leggings, Skill}
     public SlotType slotType;
 
     public InventoryPopupTextManager.PopUpDirection popUpDirection;
@@ -35,14 +35,14 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                 case SlotType.Inventory:
                     if (movedItem.myParent.GetComponent<ItemDropZone>().slotType != slotType)
                     {
-                        Debug.Log("checking the panel type");
-                        // if there is no item OR the item matches our type OR the item is a weapon when trying to move a 2h weapon or 1 h weapon show the stats
+                        //Debug.Log("checking the panel type");
+                        // if there is no item OR the item matches our type OR the item is a weapon when trying to move a 2h weapon or 1 h weapon show the stats, also check to amek sure the item is not a skill.
                         if (transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem == null 
                             || transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == currentItemType
                             || (transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon && currentItemType == Item.ItemType.Weapon)
                             || (transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.Weapon && currentItemType == Item.ItemType.TwoHandWeapon))
                         {
-                            Debug.Log("the item is not null and equals this item's item type, or this item is a weapon on a two hand weapon.");
+                            //Debug.Log("the item is not null and equals this item's item type, or this item is a weapon on a two hand weapon.");
                             suitableSlot = true;
                             addStats = false;
                         }
@@ -78,11 +78,14 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                     if (currentItemType == Item.ItemType.Legs)
                         suitableSlot = true;
                     break;
+                case SlotType.Skill:
+                    suitableSlot = false;
+                    break;
                 default:
                     break;
             }
 
-            if (suitableSlot && movedItem.myParent != gameObject.transform)
+            if (suitableSlot && movedItem.myParent != gameObject.transform && movedItem.attachedItem.GetComponent<Item>().itemType != Item.ItemType.Skill)
             {
                 Transform myPanel = transform.Find("ItemPanel");
                 ItemDraggable dropZoneItem = myPanel.GetComponent<ItemDraggable>();
@@ -103,22 +106,23 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                         transform.parent.GetComponent<InventoryUiManager>().playerInventory.GetComponent<PlayerStats>().CheckStatChange(null, previousItems);
                     else
                     {
-                        Debug.Log("the item is not null");
+                        //Debug.Log("the item is not null");
                         // set items to remove as just our item, unless we are hovering over a 2h weapon.
                         if (myPanel.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon)
                         {
                             // add the off hand item to the previosu items to remvoe for the stat calculationss if it exists.
                             if(movedItem.myParent.GetComponent<ItemDropZone>().connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem != null)
                                 previousItems[1] = movedItem.myParent.GetComponent<ItemDropZone>().connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>();
-                            Debug.Log("This is a tweo ahnd weapon weare hovering over");
+                            //Debug.Log("This is a tweo ahnd weapon weare hovering over");
                         }
 
                         transform.parent.GetComponent<InventoryUiManager>().playerInventory.GetComponent<PlayerStats>().CheckStatChange(myPanel.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>(), previousItems);
                     }
                 }
-                popupManager.ShowPopup(popupManager.itemPopUp.transform.parent, popUpDirection);
-                Debug.Log("A pointer with an attached object has entered a non inventory slot.");
+                //Debug.Log("A pointer with an attached object has entered a non inventory slot.");
             }
+
+            popupManager.ShowPopup(popupManager.itemPopUp.transform.parent, popUpDirection);
         }
     }
 
@@ -149,10 +153,10 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                                 suitableSlot = true;
                             else if ((myItem.itemType == Item.ItemType.Weapon && movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon) ||
                                (myItem.itemType == Item.ItemType.TwoHandWeapon && movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.Weapon))
-                            {
-                                suitableSlot = true;
-                                Debug.Log("we have lef tthe hover zone while holding a 2 hand weapon oir 1 hand weapon on the other");
-                            }
+                                 {
+                                 suitableSlot = true;
+                                 //Debug.Log("we have lef tthe hover zone while holding a 2 hand weapon oir 1 hand weapon on the other");
+                                 }
                         }
                         break;
                     case SlotType.Trinket:
@@ -175,6 +179,9 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                         if (currentItemType == Item.ItemType.Legs)
                             suitableSlot = true;
                         break;
+                    case SlotType.Skill:
+                        suitableSlot = false;
+                        break;
                     default:
                         break;
                 }
@@ -182,7 +189,7 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                 if (suitableSlot && movedItem.myParent != gameObject.transform)
                 {
                     transform.parent.GetComponent<InventoryUiManager>().playerInventory.GetComponent<PlayerStats>().ForceStatRecheck();
-                    Debug.Log(" a pointer with an atatched object ahs left.");
+                   // Debug.Log(" a pointer with an atatched object ahs left.");
                 }
             }
         }
@@ -221,13 +228,14 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                     break;
                 case SlotType.Armor:
                     if (movedItem.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.Armor)
-                    {
                         validTarget = true;
-                        Debug.Log("The item is an armor");
-                    }
                     break;
                 case SlotType.Leggings:
                     if (movedItem.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.Legs)
+                        validTarget = true;
+                    break;
+                case SlotType.Skill:
+                    if (movedItem.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.Skill)
                         validTarget = true;
                     break;
                 default:
@@ -253,7 +261,7 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                             // First we need to switch the indexs of both items
                             connectedPanel.attachedItem.GetComponent<Item>().inventoryIndex = emptyInventorySlot.transform.parent.GetComponent<ItemDropZone>().slotIndex;
                             // Transfer this item into the inventory
-                            Debug.Log("the trasnfered item should be the " + connectedPanel.attachedItem.GetComponent<Item>());
+                            //Debug.Log("the trasnfered item should be the " + connectedPanel.attachedItem.GetComponent<Item>());
                             transform.parent.GetComponent<InventoryUiManager>().playerInventory.TransferItem(connectedPanel.attachedItem.GetComponent<Item>(), slotType, emptyInventorySlot.transform.parent.GetComponent<ItemDropZone>().slotType);
 
                             Transform connectPanelParent = connectedPanel.transform.parent;
@@ -289,12 +297,14 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                 if (dropZoneItem.attachedItem != null)
                 {
                     if (dropZoneItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.Weapon || dropZoneItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon)
-                        Debug.Log("were clear to move");
+                    {
+                        // Debug.Log("were clear to move");
+                    }
                     else
                     {
                         // Now we will check to see if t he other item is null, if it is, we can move over this item.
                         validTarget = false;
-                        Debug.Log("The moved item is from a weapon slot and the other item is not a weapon");
+                        //Debug.Log("The moved item is from a weapon slot and the other item is not a weapon");
                     }
                     // If we placed a 2h weapon on a 1h weapon, we need to see if we have enough room for both items to move and be unequipped if we two items equipped.
                     if (dropZoneItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon && movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.Weapon && 
@@ -302,7 +312,7 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                     {
                         if (transform.parent.GetComponent<InventoryUiManager>().playerInventory.inventory.Count <= transform.parent.GetComponent<InventoryUiManager>().playerInventory.INVENTORY_MAX - 1)
                         {
-                            Debug.Log(" we have room and will commence the transition of the secondary item.");
+                            //Debug.Log(" we have room and will commence the transition of the secondary item.");
 
                             // First we need to find this empty inventory slot at the closest index and the item in the other hand we need to remove.
                             ItemDraggable emptyInventorySlot = transform.parent.GetComponent<InventoryUiManager>().GetNextEmptySlot();
@@ -311,7 +321,7 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                             // First we need to switch the indexs of both items
                             targetItemToShift.attachedItem.GetComponent<Item>().inventoryIndex = emptyInventorySlot.transform.parent.GetComponent<ItemDropZone>().slotIndex;
                             // Transfer this item into the inventory
-                            Debug.Log("the trasnfered item should be the " + targetItemToShift.attachedItem.GetComponent<Item>());
+                            //Debug.Log("the trasnfered item should be the " + targetItemToShift.attachedItem.GetComponent<Item>());
                             transform.parent.GetComponent<InventoryUiManager>().playerInventory.TransferItem(targetItemToShift.attachedItem.GetComponent<Item>(), targetItemToShift.transform.parent.GetComponent<ItemDropZone>().slotType, emptyInventorySlot.transform.parent.GetComponent<ItemDropZone>().slotType);
 
                             Transform connectPanelParent = targetItemToShift.transform.parent;
@@ -334,7 +344,7 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                 {
                     if(connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem != null && connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon)
                     {
-                        Debug.Log("There is a two handed weapon in the other slot");
+                        //Debug.Log("There is a two handed weapon in the other slot");
                         validTarget = false;
                     }
                 }
@@ -348,7 +358,7 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
             if (validTarget)
             {
                 // This is called if we try to add a weapon to our left hand before there is one in the right hand
-                Debug.Log("the num of weapons is: " + transform.parent.GetComponent<InventoryUiManager>().playerInventory.weapons.Count);
+                // Debug.Log("the num of weapons is: " + transform.parent.GetComponent<InventoryUiManager>().playerInventory.weapons.Count);
 
                 if (slotType == SlotType.Weapon && slotIndex == 1 && transform.parent.GetComponent<InventoryUiManager>().playerInventory.weapons.Count < 2)
                 {
@@ -357,17 +367,17 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                     Debug.Log("a weapon was dropped on the left side and shhould be switched to the right side.");
                     if (connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>() != null && connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem == null)
                     {
-                        Debug.Log(" we have swithced the panels and the objects interacting with shit");
+                        //Debug.Log(" we have swithced the panels and the objects interacting with shit");
                         myPanel = connectedSlot.transform.Find("ItemPanel");
                         dropZoneItem = myPanel.GetComponent<ItemDraggable>();
-                        Debug.Log("myPanel is currently: " + myPanel.name + ". The dropzone item is: " + dropZoneItem);
+                        //Debug.Log("myPanel is currently: " + myPanel.name + ". The dropzone item is: " + dropZoneItem);
                     }
                     else if(movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon && connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem != null)
                     {
-                        Debug.Log("a two handed weapon was dropped on the left side so we have switched the panels it is interacting with.");
+                        //Debug.Log("a two handed weapon was dropped on the left side so we have switched the panels it is interacting with.");
                         myPanel = connectedSlot.transform.Find("ItemPanel");
                         dropZoneItem = myPanel.GetComponent<ItemDraggable>();
-                        Debug.Log("myPanel is currently: " + myPanel.name + ". The dropzone item is: " + dropZoneItem);
+                        //Debug.Log("myPanel is currently: " + myPanel.name + ". The dropzone item is: " + dropZoneItem);
                     }
                 }
                 // make the items switch their indexes (case only works for two items)
@@ -444,6 +454,47 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                         Debug.Log("I am going to swithc the weapons around here.");
                         transform.parent.GetComponent<InventoryUiManager>().playerInventory.SwitchHands(movedItem.attachedItem.GetComponent<Item>());
                         transform.parent.GetComponent<InventoryUiManager>().playerInventory.SwitchHands(dropZoneItem.attachedItem.GetComponent<Item>());
+                    }
+                }
+
+                // This is used to equip and unequip the varying skills the player will equip.
+                if(slotType == SlotType.Skill || otherSlotType == SlotType.Skill)
+                {
+                    Debug.Log("Here i would equip the skills by connecting it to the skillsmanager in the inventory ui manager");
+
+                    // There are three cases here, they both are skills slots, or one or the other is a skill slot.
+                    if (slotType == SlotType.Skill && otherSlotType == SlotType.Skill)
+                    {
+                        Debug.Log("Skill to Skill");
+                        transform.parent.GetComponent<InventoryUiManager>().playerSkills.AddSkill(slotIndex, movedItem.attachedItem.GetComponent<Item>().skillName);
+                        // There will always be an item that is being moved, but we need to check if the other panel has an item attached.
+                        if (dropZoneItem.attachedItem != null)
+                        {
+                            // There is an item here
+                            transform.parent.GetComponent<InventoryUiManager>().playerSkills.AddSkill(movedItem.myParent.GetComponent<ItemDropZone>().slotIndex, dropZoneItem.attachedItem.GetComponent<Item>().skillName);
+                        }
+                        else
+                            // There is no item, so we need to remove this skill from the first index.
+                            transform.parent.GetComponent<InventoryUiManager>().playerSkills.RemoveSkill(movedItem.myParent.GetComponent<ItemDropZone>().slotIndex);
+                    }
+
+                    // This is the logic if we are moving from a full skill slot the the ivnentory, where we remove the skill.
+                    else if (otherSlotType == SlotType.Skill)
+                    {
+                        Debug.Log("Skill to invenotry");
+                        // If the inventory slot is blank..
+                        if (dropZoneItem.attachedItem == null)
+                            transform.parent.GetComponent<InventoryUiManager>().playerSkills.RemoveSkill(movedItem.myParent.GetComponent<ItemDropZone>().slotIndex);
+                        else
+                            transform.parent.GetComponent<InventoryUiManager>().playerSkills.AddSkill(movedItem.myParent.GetComponent<ItemDropZone>().slotIndex, dropZoneItem.attachedItem.GetComponent<Item>().skillName);
+                    }
+
+                    // This is the logic if we came from the iventory to the skill slots.
+                    else if (slotType == SlotType.Skill)
+                    {
+                        Debug.Log("invenotry to skill");
+                        Debug.Log(dropZoneItem);
+                        transform.parent.GetComponent<InventoryUiManager>().playerSkills.AddSkill(dropZoneItem.transform.parent.GetComponent<ItemDropZone>().slotIndex, movedItem.attachedItem.GetComponent<Item>().skillName);
                     }
                 }
 

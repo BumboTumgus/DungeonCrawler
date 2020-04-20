@@ -365,6 +365,11 @@ public class Buff : MonoBehaviour
             connectedPlayer.GetComponent<PlayerController>().asleep = false;
         else if (myType == BuffsManager.BuffType.Bleeding)
             connectedPlayer.GetComponent<PlayerController>().bleeding = false;
+        else if (myType == BuffsManager.BuffType.Revitalize)
+        {
+            connectedPlayer.revitalizeBuff = false;
+            connectedPlayer.healthRegen = connectedPlayer.Vit * 0.2f + connectedPlayer.bonusHealthRegen;
+        }
 
         // We do not change it if its a stackable buff since this method is called after we already remvoed all the stats associated with the buff, this would put us into negatives.
         if (!stackable)

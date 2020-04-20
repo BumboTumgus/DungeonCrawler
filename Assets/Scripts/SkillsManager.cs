@@ -44,69 +44,42 @@ public class SkillsManager : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         foreach (ParticleSystem particle in ps)
             particle.Stop();
-        AddSkill(0, SkillNames.ToxicRipple);
-        AddSkill(1, SkillNames.KillerInstinct);
-        AddSkill(2, SkillNames.NaturePulse);
-        AddSkill(3, SkillNames.EarthernSpear);
+        //AddSkill(0, SkillNames.ToxicRipple);
+        //AddSkill(1, SkillNames.CausticEdge);
+        //AddSkill(2, SkillNames.NaturePulse);
+        //AddSkill(3, SkillNames.Revitalize);
     }
-
+    /**
+    // USed to check the inputs to see if a skill is at that index that should be 
+    private void CheckSkillInput(int index)
+    {
+        foreach (Skill skill in mySkills)
+        {
+            if (skill.skillIndex == index)
+                skill.UseSkill();
+        }
+    }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            foreach (Skill skill in mySkills)
-                skill.UseSkill();
-        }
-        if(Input.GetAxisRaw(inputs.skill0Input) == 1 && inputs.skill0Released)
-        {
-            inputs.skill0Released = false;
-            if (mySkills.Count > 0 && mySkills[0] != null)
-                mySkills[0].UseSkill();
-        }
+        if (Input.GetAxisRaw(inputs.skill0Input) == 1 && inputs.skill0Released)
+            CheckSkillInput(0);
         if (Input.GetAxisRaw(inputs.skill1Input) == 1 && inputs.skill1Released)
-        {
-            inputs.skill1Released = false;
-            if (mySkills.Count > 1 && mySkills[1] != null)
-                mySkills[1].UseSkill();
-        }
+            CheckSkillInput(1);
         if (Input.GetAxisRaw(inputs.skill2Input) == 1 && inputs.skill2Released)
-        {
-            inputs.skill2Released = false;
-            if (mySkills.Count > 2 && mySkills[2] != null)
-                mySkills[2].UseSkill();
-        }
+            CheckSkillInput(2);
         if (Input.GetAxisRaw(inputs.skill3Input) == 1 && inputs.skill3Released)
-        {
-            inputs.skill3Released = false;
-            if (mySkills.Count > 3 && mySkills[3] != null)
-                mySkills[3].UseSkill();
-        }
+            CheckSkillInput(3);
         if (Input.GetAxisRaw(inputs.skill4Input) == 1 && inputs.skill4Released)
-        {
-            inputs.skill4Released = false;
-            if (mySkills.Count > 4 && mySkills[4] != null)
-                mySkills[4].UseSkill();
-        }
+            CheckSkillInput(4);
         if (Input.GetAxisRaw(inputs.skill5Input) == 1 && inputs.skill5Released)
-        {
-            inputs.skill5Released = false;
-            if (mySkills.Count > 5 && mySkills[5] != null)
-                mySkills[5].UseSkill();
-        }
+            CheckSkillInput(5);
         if (Input.GetAxisRaw(inputs.skill6Input) == 1 && inputs.skill6Released)
-        {
-            inputs.skill6Released = false;
-            if (mySkills.Count > 6 && mySkills[6] != null)
-                mySkills[6].UseSkill();
-        }
+            CheckSkillInput(6);
         if (Input.GetAxisRaw(inputs.skill7Input) == 1 && inputs.skill7Released)
-        {
-            inputs.skill7Released = false;
-            if (mySkills.Count > 7 && mySkills[7] != null)
-                mySkills[7].UseSkill();
-        }
+            CheckSkillInput(7);
     }
+    */
     // Used to add a new skill to our player at an index.
     public void AddSkill(int index, SkillNames skillName)
     {
@@ -133,6 +106,15 @@ public class SkillsManager : MonoBehaviour
             mySkills.Add(addedSkill);
             mySkillBars.Add(addedIcon);
             PositionSkillIcons();
+
+            // If this skill is a passive, add this buff.
+            if(addedSkill.passive)
+                switch (addedSkill.skillName)
+                {
+                    case SkillNames.Revitalize:
+                        GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.Revitalize);
+                        break;
+                }
         }
         else
             Debug.Log("You have too many skills already!");
@@ -154,9 +136,21 @@ public class SkillsManager : MonoBehaviour
                 }
 
             // This is not done in the foreach loop since we modify the collection we are parsing through for a match. This is a big no no
-            if(skillToRemove != null)
+            if (skillToRemove != null)
             {
                 Debug.Log("The skill " + skillToRemove.skillName + " has been removed");
+
+                // If this skill is a passive, remove this buff.
+                if (skillToRemove.passive)
+                    switch (skillToRemove.skillName)
+                    {
+                        case SkillNames.Revitalize:
+                            foreach (Buff buff in GetComponent<BuffsManager>().activeBuffs)
+                                if (buff.myType == BuffsManager.BuffType.Revitalize)
+                                    buff.EndBuff();
+                            break;
+                    }
+
                 mySkills.Remove(skillToRemove);
                 mySkillBars.Remove(skillToRemove.connectedBar.transform.parent.gameObject);
 

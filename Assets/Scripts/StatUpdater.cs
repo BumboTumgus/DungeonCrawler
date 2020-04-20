@@ -33,6 +33,15 @@ public class StatUpdater : MonoBehaviour
     float stagger;
     float critChance;
     float critMod;
+    float aflameResistance;
+    float asleepResistance;
+    float stunResistance;
+    float curseResistance;
+    float bleedResistance;
+    float poisonResistance;
+    float corrosionResistance;
+    float frostbiteResistance;
+    float knockbackResistance;
     int weaponCount;
 
     // This method is called at the start of the game to set up all the player's stats. It is also called whenever a player switches gear or the stats would ahve to change.
@@ -77,6 +86,17 @@ public class StatUpdater : MonoBehaviour
         // Debug.Log("After equipiing the item, our average damage is " + averageDamage + ", our crit modifier is: " + 1 + (critValue / 100 * (stats.weaponCritMod - stats.weaponHitspeeds.Count))
         //    + ", and our attack speed is: " + stats.attackSpeed);
         // Debug.Log("the weapon hit base is: " + stats.weaponHitbase + ", the weapon hit min and max are " + stats.weaponHitMin + " | " + stats.weaponHitMax + ", and the stats based dmg is " + statBasedDamaged);
+
+        AfflictionManager am = stats.GetComponent<AfflictionManager>();
+        transform.Find("AflameResistance_Value").GetComponent<Text>().text = string.Format("{0:0}", am.aflameResist * 100 + "%");
+        transform.Find("AsleepResistance_Value").GetComponent<Text>().text = string.Format("{0:0}", am.sleepResist * 100 + "%");
+        transform.Find("StunResistance_Value").GetComponent<Text>().text = string.Format("{0:0}", am.stunResist * 100 + "%");
+        transform.Find("CurseResistance_Value").GetComponent<Text>().text = string.Format("{0:0}", am.curseResist * 100 + "%");
+        transform.Find("BleedResistance_Value").GetComponent<Text>().text = string.Format("{0:0}", am.bleedResist * 100 + "%");
+        transform.Find("PoisonResistance_Value").GetComponent<Text>().text = string.Format("{0:0}", am.poisonResist * 100 + "%");
+        transform.Find("CorrosionResistance_Value").GetComponent<Text>().text = string.Format("{0:0}", am.corrosionResist * 100 + "%");
+        transform.Find("FrostbiteResistance_Value").GetComponent<Text>().text = string.Format("{0:0}", am.frostbiteResist * 100 + "%");
+        transform.Find("KnockbackResistance_Value").GetComponent<Text>().text = string.Format("{0:0}", am.knockBackResist * 100 + "%");
     }
 
     // This method is used to update the health and mana values of the player.
@@ -84,6 +104,13 @@ public class StatUpdater : MonoBehaviour
     {
         transform.Find("Health_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.health) + " / " + stats.healthMax;
         transform.Find("Mana_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.mana) + " / " + stats.manaMax;
+    }
+
+    // This method is used to update the healthregen and mana regen of the player.
+    public void SetHealthManaRegenValues(PlayerStats stats)
+    {
+        transform.Find("HealthRegen_Value").GetComponent<Text>().text = string.Format("{0:0.0}", stats.healthRegen);
+        transform.Find("ManaRegen_Value").GetComponent<Text>().text = string.Format("{0:0.0}", stats.manaRegen);
     }
 
     // Used to compare stat values between the player stats.
@@ -148,21 +175,9 @@ public class StatUpdater : MonoBehaviour
 
         DrawTextPlusStatChange(transform.Find("AttackSpeed_Value").GetComponent<Text>(), stats.attackSpeed, attackSpeed, 2);
         // DrawTextPlusStatChange(transform.Find("Stagger_Value").GetComponent<Text>(), stats.weaponStaggerBase + stats.Str * stats.weaponStrScaling, stagger + Str * strMod, 1);
-
-
-        if (critChance - stats.weaponCritChance < 0)
-            transform.Find("CritChance_Value").GetComponent<Text>().text = string.Format("{0:0}%<color=red>{1:0}%</color>", stats.weaponCritChance, critChance - stats.weaponCritChance);
-        else if (critChance - stats.weaponCritChance > 0)
-            transform.Find("CritChance_Value").GetComponent<Text>().text = string.Format("{0:0}%<color=green>+{1:0}%</color>", stats.weaponCritChance, critChance - stats.weaponCritChance);
-        else
-            transform.Find("CritChance_Value").GetComponent<Text>().text = stats.weaponCritChance + "%";
-
-        if (critMod - stats.weaponCritMod < 0)
-            transform.Find("CritMod_Value").GetComponent<Text>().text = string.Format("{0:0}%<color=red>{1:0}%</color>", stats.weaponCritMod * 100, critMod * 100 - stats.weaponCritMod * 100);
-        else if (critMod - stats.weaponCritChance > 0)
-            transform.Find("CritMod_Value").GetComponent<Text>().text = string.Format("{0:0}%<color=green>+{1:0}%</color>", stats.weaponCritMod * 100, critMod * 100- stats.weaponCritMod * 100);
-        else
-            transform.Find("CritMod_Value").GetComponent<Text>().text = stats.weaponCritMod * 100 + "%";
+        
+        DrawTextPlusStatChangePercentage(transform.Find("CritChance_Value").GetComponent<Text>(), stats.weaponCritChance, critChance - stats.weaponCritChance);
+        DrawTextPlusStatChangePercentage(transform.Find("CritMod_Value").GetComponent<Text>(), stats.weaponCritMod * 100, critMod * 100 - stats.weaponCritMod * 100);
 
         float oldCritChance = stats.weaponCritChance;
         if (stats.weaponCritChance > 100)
@@ -178,10 +193,33 @@ public class StatUpdater : MonoBehaviour
         // average attack damage times avergae crit chance and damage times attack per second
         float oldDPS = oldAverageDamage * (1 + (oldCritChance / 100 * (stats.weaponCritMod - stats.weaponHitspeeds.Count))) * stats.attackSpeed;
         float newDPS = newAverageDamage * (1 + (newCritChance / 100 * (critMod - weaponCount))) * attackSpeed;
+
         DrawTextPlusStatChange(transform.Find("DPS_Value").GetComponent<Text>(), oldDPS, newDPS, 1);
         // Debug.Log("before equipiing the item, our new average damage is " + newAverageDamage + ", our crit modifier is: " + 1 + (newCritChance / 100 * (critMod - weaponCount))
         //     + ", and our attack speed is: " + attackSpeed);
         // Debug.Log("the weapon hit base is: " + weaponBaseHit + ", the weapon hit min and max are " + weaponMinHit + " | " + weaponMaxHit + ", and the stats based dmg is " + newStatBasedDamaged);
+        
+        AfflictionManager am = stats.GetComponent<AfflictionManager>();
+        DrawTextPlusStatChangePercentage(transform.Find("AflameResistance_Value").GetComponent<Text>(), am.aflameResist * 100, aflameResistance * 100);
+        DrawTextPlusStatChangePercentage(transform.Find("AsleepResistance_Value").GetComponent<Text>(), am.sleepResist * 100, asleepResistance * 100);
+        DrawTextPlusStatChangePercentage(transform.Find("StunResistance_Value").GetComponent<Text>(), am.stunResist * 100, stunResistance * 100);
+        DrawTextPlusStatChangePercentage(transform.Find("CurseResistance_Value").GetComponent<Text>(), am.curseResist * 100, curseResistance * 100);
+        DrawTextPlusStatChangePercentage(transform.Find("BleedResistance_Value").GetComponent<Text>(), am.bleedResist * 100, bleedResistance * 100);
+        DrawTextPlusStatChangePercentage(transform.Find("PoisonResistance_Value").GetComponent<Text>(), am.poisonResist * 100, poisonResistance * 100);
+        DrawTextPlusStatChangePercentage(transform.Find("CorrosionResistance_Value").GetComponent<Text>(), am.corrosionResist * 100, corrosionResistance * 100);
+        DrawTextPlusStatChangePercentage(transform.Find("FrostbiteResistance_Value").GetComponent<Text>(), am.frostbiteResist * 100, frostbiteResistance * 100);
+        DrawTextPlusStatChangePercentage(transform.Find("KnockbackResistance_Value").GetComponent<Text>(), am.knockBackResist * 100, knockbackResistance * 100);
+    }
+
+    // Used to draw the stat changes of percentage based Calculations
+    public void DrawTextPlusStatChangePercentage(Text text, float value, float newValue)
+    {
+        if (newValue - value < 0)
+            text.text = string.Format("{0:0}%<color=red>{1:0}%</color>", value, newValue - value);
+        else if (newValue - value > 0)
+            text.text = string.Format("{0:0}%<color=green>+{1:0}%</color>", value, newValue - value);
+        else
+            text.text = string.Format("{0:0}%", value);
     }
 
     // USed to check if our value is above or below the original, and to write it down as such.
@@ -259,5 +297,16 @@ public class StatUpdater : MonoBehaviour
         wisMod = stats.weaponWisScaling;
         chaMod = stats.weaponChaScaling;
         weaponCount = stats.weaponHitspeeds.Count;
+
+        AfflictionManager am = stats.GetComponent<AfflictionManager>();
+        aflameResistance = am.aflameResist;
+        asleepResistance = am.sleepResist;
+        stunResistance = am.stunResist;
+        curseResistance = am.curseResist;
+        bleedResistance = am.bleedResist;
+        poisonResistance = am.poisonResist;
+        corrosionResistance = am.corrosionResist;
+        frostbiteResistance = am.frostbiteResist;
+        knockbackResistance = am.knockBackResist;
     }
 }

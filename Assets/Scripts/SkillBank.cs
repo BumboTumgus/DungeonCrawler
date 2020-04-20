@@ -94,6 +94,12 @@ public class SkillBank : MonoBehaviour
                 skillToSet.skillCost = 50f;
                 skillToSet.skillIcon = skillIcons[15];
                 break;
+            case SkillsManager.SkillNames.Revitalize:
+                skillToSet.targetCooldown = 0f;
+                skillToSet.skillCost = 0f;
+                skillToSet.passive = true;
+                skillToSet.skillIcon = skillIcons[16];
+                break;
             case SkillsManager.SkillNames.PoisonedMud:
                 skillToSet.targetCooldown = 40f;
                 skillToSet.skillCost = 60f;

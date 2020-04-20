@@ -1,5 +1,40 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4091284657536806908
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3587000344957264070}
+  m_Layer: 5
+  m_Name: BuffIconParents
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3587000344957264070
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4091284657536806908}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5409284782657864732}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -31.7}
+  m_SizeDelta: {x: 100, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5409284782657864731
 GameObject:
   m_ObjectHideFlags: 0
@@ -32,6 +67,7 @@ RectTransform:
   m_LocalScale: {x: 0.39999998, y: 0.39999998, z: 1}
   m_Children:
   - {fileID: 5409284783346878164}
+  - {fileID: 3587000344957264070}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -89,6 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  hideIfBehindCamera: 1
 --- !u!114 &5409284782657864733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,7 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.13679248, g: 1, b: 0.16033448, a: 1}
+  m_Color: {r: 0.2964046, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -268,13 +305,16 @@ MonoBehaviour:
   currentDecayBarValue: 0
   targetValue: 0
   maximumValue: 100
+  minimumValue: 0
   decayEffect: 1
+  linkedText: 0
   primaryLerpSpeed: 20
   secondaryLerpSpeed: 5
   primaryContent: {fileID: 5409284782873611571}
   decayContent: {fileID: 5409284783465636337}
   decayDownColor: {r: 0.9622642, g: 0.05900679, b: 0.05900679, a: 1}
   decayUpColor: {r: 0.36222914, g: 0.8207547, b: 0.2516465, a: 1}
+  valueDisplay: {fileID: 0}
 --- !u!1 &5409284783465636351
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,9 +22,52 @@ public class Skill : MonoBehaviour
     public Animator anim;
     public PlayerController pc;
 
+    // SUed to check this skills input to see if their key has been pressed and wether we should cast this skill.
+    private void CheckInputs()
+    {
+        switch (skillIndex)
+        {
+            case 0:
+                if (Input.GetAxisRaw(myManager.inputs.skill0Input) == 1 && myManager.inputs.skill0Released)
+                    UseSkill();
+                break;
+            case 1:
+                if (Input.GetAxisRaw(myManager.inputs.skill1Input) == 1 && myManager.inputs.skill1Released)
+                    UseSkill();
+                break;
+            case 2:
+                if (Input.GetAxisRaw(myManager.inputs.skill2Input) == 1 && myManager.inputs.skill2Released)
+                    UseSkill();
+                break;
+            case 3:
+                if (Input.GetAxisRaw(myManager.inputs.skill3Input) == 1 && myManager.inputs.skill3Released)
+                    UseSkill();
+                break;
+            case 4:
+                if (Input.GetAxisRaw(myManager.inputs.skill4Input) == 1 && myManager.inputs.skill4Released)
+                    UseSkill();
+                break;
+            case 5:
+                if (Input.GetAxisRaw(myManager.inputs.skill5Input) == 1 && myManager.inputs.skill5Released)
+                    UseSkill();
+                break;
+            case 6:
+                if (Input.GetAxisRaw(myManager.inputs.skill6Input) == 1 && myManager.inputs.skill6Released)
+                    UseSkill();
+                break;
+            case 7:
+                if (Input.GetAxisRaw(myManager.inputs.skill7Input) == 1 && myManager.inputs.skill7Released)
+                    UseSkill();
+                break;
+            default:
+                break;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
+        CheckInputs();
         if (!skillReady)
         {
             currentCooldown += Time.deltaTime;
@@ -219,6 +262,7 @@ public class Skill : MonoBehaviour
             {
                 currentTickTimer -= targetTimer / 20;
                 myManager.hitBoxes.LaunchHitBox(6);
+                myManager.hitBoxes.buffboxes[7].GetComponent<HitBoxBuff>().AfflictSelf();
                 myManager.stats.TakeDamage(damageToTake / 2, false, myManager.damageColors[0]);
             }
             yield return null;

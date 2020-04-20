@@ -6,9 +6,11 @@ using UnityEngine.UI;
 public class InventoryUiManager : MonoBehaviour
 {
     public Inventory playerInventory;
+    public SkillsManager playerSkills;
 
     public GameObject[] inventorySlots;
     public GameObject[] trinketSlots;
+    public GameObject[] skillSlots;
     public GameObject leftHandSlot;
     public GameObject rightHandSlot;
     public GameObject helmetSlot;
@@ -20,6 +22,8 @@ public class InventoryUiManager : MonoBehaviour
         foreach (GameObject slot in inventorySlots)
             WipeSlot(slot);
         foreach (GameObject slot in trinketSlots)
+            WipeSlot(slot);
+        foreach (GameObject slot in skillSlots)
             WipeSlot(slot);
         WipeSlot(leftHandSlot);
         WipeSlot(rightHandSlot);
@@ -87,4 +91,6 @@ public class InventoryUiManager : MonoBehaviour
 
         return inventorySlot;
     }
+
+
 }

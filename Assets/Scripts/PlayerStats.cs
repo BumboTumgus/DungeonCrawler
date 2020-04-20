@@ -82,6 +82,7 @@ public class PlayerStats : MonoBehaviour
     public float invulnerableCount = 0;
     public float untargetableCount = 0;
     public float invisibleCount = 0;
+    public bool revitalizeBuff = false;
 
     public bool dead = false;
  
@@ -144,10 +145,15 @@ public class PlayerStats : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Keypad8) && CompareTag("Player"))
             afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Stun, 30);
 
-        // HEalth and mana regen logic.
+        // Health and mana regen logic.
         if (!dead)
         {
             health += healthRegen * Time.deltaTime;
+            if (revitalizeBuff)
+            {
+                healthRegen = (Vit * 0.2f + bonusHealthRegen) * (1 + (1 - (health / healthMax)) * 3f);
+                myStats.SetHealthManaRegenValues(this);
+            }
             mana += manaRegen * Time.deltaTime;
         }
         if (health > healthMax)
@@ -427,6 +433,7 @@ public class PlayerStats : MonoBehaviour
                 // Spawn one and set its follow target and then grab it's healthbar script for updates.
                 GameObject healthBarParent = Instantiate(enemyHealthBar, new Vector3(1000, 1000, 1000), new Quaternion(0, 0, 0, 0), GameObject.Find("PrimaryCanvas").transform);
                 healthBarParent.GetComponent<UiFollowTarget>().target = transform.Find("UiFollowTarget_Name");
+                GetComponent<BuffsManager>().canvasParent = healthBarParent.transform.Find("BuffIconParents");
                 healthBarParent.transform.SetAsFirstSibling();
                 healthBar = healthBarParent.GetComponentInChildren<BarManager>();
             }
@@ -483,6 +490,16 @@ public class PlayerStats : MonoBehaviour
         bonusMana += item.mana;
         bonusManaRegen += item.manaRegen;
 
+        afflictions.aflameResist += item.aflameResist;
+        afflictions.sleepResist += item.asleepResist;
+        afflictions.stunResist += item.stunResist;
+        afflictions.curseResist += item.curseResist;
+        afflictions.bleedResist += item.bleedResist;
+        afflictions.poisonResist += item.poisonResist;
+        afflictions.corrosionResist += item.corrosionResist;
+        afflictions.frostbiteResist += item.frostbiteResist;
+        afflictions.knockBackResist += item.knockbackResist;
+
         if(compelteStatSetup)
             StatSetup(false, true);
     }
@@ -536,8 +553,18 @@ public class PlayerStats : MonoBehaviour
         bonusHealthRegen -= item.healthRegen;
         bonusMana -= item.mana;
         bonusManaRegen -= item.manaRegen;
+        
+        afflictions.aflameResist -= item.aflameResist;
+        afflictions.sleepResist -= item.asleepResist;
+        afflictions.stunResist -= item.stunResist;
+        afflictions.curseResist -= item.curseResist;
+        afflictions.bleedResist -= item.bleedResist;
+        afflictions.poisonResist -= item.poisonResist;
+        afflictions.corrosionResist -= item.corrosionResist;
+        afflictions.frostbiteResist -= item.frostbiteResist;
+        afflictions.knockBackResist -= item.knockbackResist;
 
-        if(completeStatSetup)
+        if (completeStatSetup)
             StatSetup(false, true);
     }
 

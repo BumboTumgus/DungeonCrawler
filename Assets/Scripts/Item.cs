@@ -38,8 +38,9 @@ public class Item : MonoBehaviour
 
     public int goldValue;
 
-    public enum ItemType { Consumable, Gold, Trinket, Weapon, TwoHandWeapon, Helmet, Legs, Armor};
+    public enum ItemType { Consumable, Gold, Trinket, Weapon, TwoHandWeapon, Helmet, Legs, Armor, Skill};
     public ItemType itemType;
+    public SkillsManager.SkillNames skillName;
 
     public enum ItemRarity { Common, Uncommon, Rare, Legendary, Masterwork}
     public ItemRarity itemRarity = ItemRarity.Common;
@@ -78,6 +79,16 @@ public class Item : MonoBehaviour
     public int poise;
     public float healthRegen;
     public float manaRegen;
+
+    public float aflameResist;
+    public float asleepResist;
+    public float stunResist;
+    public float curseResist;
+    public float bleedResist;
+    public float poisonResist;
+    public float corrosionResist;
+    public float frostbiteResist;
+    public float knockbackResist;
 
     private const float STAT_MODIFIER_RANGE = 0.25f;
     private const float LERP_STRENGTH = 0.04f;

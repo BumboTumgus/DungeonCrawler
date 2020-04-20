@@ -27,6 +27,7 @@ public class Inventory : MonoBehaviour
         inventoryContainer = transform.Find("Inventory");
         playerInputs = GetComponent<PlayerInputs>();
         inventoryUI.playerInventory = this;
+        inventoryUI.playerSkills = GetComponent<SkillsManager>();
         stats = GetComponent<PlayerStats>();
         gearManager = GetComponent<PlayerGearManager>();
         anim = GetComponent<Animator>();

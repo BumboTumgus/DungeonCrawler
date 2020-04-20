@@ -11,8 +11,9 @@ public class BuffsManager : MonoBehaviour
     public GameObject buffIconPrefab;
 
     public enum BuffType { Aflame, Asleep, Stunned, Cursed, Bleeding, Poisoned, Corrosion, Frostbite, EmboldeningEmbers, FlameStrike, AspectOfRage, BlessingOfFlames, Rampage,
-                            GiantStrength, ToxicRipple, KillerInstinct, PoisonedMud, StrangleThorn, SoothingStone, Deadeye, WrathOfTheRagingWind, FrozenBarrier, SoothingStream};
-
+                            GiantStrength, ToxicRipple, KillerInstinct, PoisonedMud, StrangleThorn, SoothingStone, Deadeye, WrathOfTheRagingWind, FrozenBarrier, SoothingStream,
+                            NaturePulse, Revitalize};
+    
     [SerializeField] private Sprite[] buffIcons;
     [SerializeField] private Color[] damageColors;
     [SerializeField] private ParticleSystem[] psSystems;
@@ -30,7 +31,8 @@ public class BuffsManager : MonoBehaviour
         effects = GetComponent<EffectsManager>();
         skillManager = GetComponent<SkillsManager>();
         foreach (ParticleSystem ps in psSystems)
-            ps.Stop();
+            if(ps != null)
+                ps.Stop();
     }
 
     // Used to add a new buff to oiur player, if they already have it from this source, we refresh it instead.
@@ -400,6 +402,49 @@ public class BuffsManager : MonoBehaviour
                     psSystems[32].Play();
 
                     break;
+                case BuffType.NaturePulse:
+                    Debug.Log("adding nature pulse debuff");
+
+                    Buff naturePulse = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    naturePulse.connectedIcon = buffIcon;
+                    naturePulse.iconStacks = buffIcon.GetComponentInChildren<Text>();
+                    buffIcon.GetComponent<Image>().sprite = buffIcons[16];
+
+                    activeBuffs.Add(naturePulse);
+
+                    naturePulse.myType = buff;
+                    naturePulse.infiniteDuration = false;
+                    naturePulse.maxStacks = 5;
+                    naturePulse.currentStacks = 1;
+                    naturePulse.stackable = true;
+                    naturePulse.duration = 10f;
+                    naturePulse.connectedPlayer = stats;
+                    naturePulse.ChangeDefensiveStats(true, 0, 0, 0, 0, -stats.armor / 10, -stats.magicResist / 10, 0);
+                    //naturePulse.effectParticleSystem.Add(psSystems[32]);
+                    //naturePulse.endOfBuffParticleSystem.Add(psSystems[33]);
+                    //psSystems[32].Play();
+                    break;
+                case BuffType.Revitalize:
+                    Debug.Log("adding revitalize buff");
+
+                    Buff revitalize = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    revitalize.connectedIcon = buffIcon;
+                    revitalize.iconStacks = buffIcon.GetComponentInChildren<Text>();
+                    buffIcon.GetComponent<Image>().sprite = buffIcons[17];
+
+                    activeBuffs.Add(revitalize);
+
+                    revitalize.myType = buff;
+                    revitalize.infiniteDuration = true;
+                    
+                    if (stats == null)
+                        stats = GetComponent<PlayerStats>();
+
+                    stats.revitalizeBuff = true;
+                    revitalize.maxStacks = 5;
+                    revitalize.duration = 10f;
+                    revitalize.connectedPlayer = stats;
+                    break;
                 default:
                     break;
             }
@@ -421,8 +466,16 @@ public class BuffsManager : MonoBehaviour
     // Used to position all the icons based on their index.
     private void UpdateIconLocations()
     {
-        for (int index = 0; index < activeIcons.Count; index++)
-            activeIcons[index].transform.localPosition = new Vector3(-90 + (index * 25), 15, 0);
+        if (gameObject.CompareTag("Player"))
+        {
+            for (int index = 0; index < activeIcons.Count; index++)
+                activeIcons[index].transform.localPosition = new Vector3(-90 + (index * 25), 15, 0);
+        }
+        else if(gameObject.CompareTag("Enemy"))
+        {
+            for (int index = 0; index < activeIcons.Count; index++)
+                activeIcons[index].transform.localPosition = new Vector3(-40 + (index * 25), 8, 0);
+        }
     }
 
     // USed to proc my onhit effects onto an enemy
