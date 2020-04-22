@@ -30,6 +30,8 @@ public class InventoryUiManager : MonoBehaviour
         WipeSlot(helmetSlot);
         WipeSlot(chestSlot);
         WipeSlot(legsSlot);
+        CheckActiveSkillSlots();
+
         gameObject.SetActive(false);
     }
 
@@ -90,6 +92,14 @@ public class InventoryUiManager : MonoBehaviour
         }
 
         return inventorySlot;
+    }
+
+    public void CheckActiveSkillSlots()
+    {
+        // Here I will only have active skillslots equal to the number of spells the player can currently have.
+        //int currentSkillMax = playerSkills.maxSkillNumber;
+        for (int index = playerSkills.maxSkillNumber; index < skillSlots.Length; index++)
+            skillSlots[index].SetActive(false);
     }
 
 

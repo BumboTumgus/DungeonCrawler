@@ -460,7 +460,7 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                 // This is used to equip and unequip the varying skills the player will equip.
                 if(slotType == SlotType.Skill || otherSlotType == SlotType.Skill)
                 {
-                    Debug.Log("Here i would equip the skills by connecting it to the skillsmanager in the inventory ui manager");
+                    //Debug.Log("Here i would equip the skills by connecting it to the skillsmanager in the inventory ui manager");
 
                     // There are three cases here, they both are skills slots, or one or the other is a skill slot.
                     if (slotType == SlotType.Skill && otherSlotType == SlotType.Skill)

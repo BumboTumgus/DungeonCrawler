@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
         // Debug.Log("Game manager setup");
         currentPlayers = GameObject.FindGameObjectsWithTag("Player");
 
-        // StartCoroutine(Initialization());
+        //StartCoroutine(Initialization());
     }
 
     //The corotuine that runs on level start.
@@ -46,12 +46,12 @@ public class GameManager : MonoBehaviour
         walkableFloor.BuildNavMesh();
         foreach(RoomManager room in rooms)
         {
-            if(room.GetComponent<RoomPopulator>() != null)
-                room.GetComponent<RoomPopulator>().PopulateRoom();
+            //if(room.GetComponent<RoomPopulator>() != null)
+            //  room.GetComponent<RoomPopulator>().PopulateRoom();
         }
 
-        GrabSpawns();
-        SpawnPlayers();
+        //GrabSpawns();
+        //SpawnPlayers();
     }
 
     public void AddRoom(RoomManager room)

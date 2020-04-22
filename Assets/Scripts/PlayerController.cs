@@ -417,7 +417,7 @@ public class PlayerController : MonoBehaviour
         if(Input.GetAxisRaw(playerInputs.inventoryInput) == 1 && playerInputs.inventoryReleased)
         {
             playerInputs.inventoryReleased = false;
-            Debug.Log("Inventory will be opened or closed");
+            //Debug.Log("Inventory will be opened or closed");
             if (!inventoryWindow.activeSelf)
             {
                 // Set the lock for our movement and camera controls after we press and open the inventory.

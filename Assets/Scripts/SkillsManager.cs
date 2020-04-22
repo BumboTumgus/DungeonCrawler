@@ -147,17 +147,21 @@ public class SkillsManager : MonoBehaviour
                         case SkillNames.Revitalize:
                             foreach (Buff buff in GetComponent<BuffsManager>().activeBuffs)
                                 if (buff.myType == BuffsManager.BuffType.Revitalize)
-                                    buff.EndBuff();
+                                {
+                                    buff.duration = 0.1f;
+                                    buff.infiniteDuration = false;
+                                }
                             break;
                     }
 
-                mySkills.Remove(skillToRemove);
                 mySkillBars.Remove(skillToRemove.connectedBar.transform.parent.gameObject);
+                mySkills.Remove(skillToRemove);
 
                 Destroy(skillToRemove.connectedBar.transform.parent.gameObject);
                 Destroy(skillToRemove);
 
                 PositionSkillIcons();
+                Debug.Log("checking to see if the error is before or after this.");
             }
         }
         else
@@ -167,11 +171,30 @@ public class SkillsManager : MonoBehaviour
     // Used to position the skills icons properly in the UI.
     private void PositionSkillIcons()
     {
-        // Only do this if we have 
-        if(mySkillBars.Count != 0)
+        // First we organize the skils in ouyr myskills list absed on their index.
+        if (mySkills.Count > 1)
         {
+            mySkills.Sort(SortBySkillIndex);
+            for(int index =0; index < mySkills.Count; index++)
+                mySkillBars[index] = mySkills[index].connectedBar.transform.parent.gameObject;
+        }
+
+        // Only do this if we have 
+        if (mySkillBars.Count != 0)
+        {
+            //string test01 = null;
+            //for(int index = 0; index < mySkills.Count; index++)
+            //    test01 += mySkills[index].skillName + ", ";
+            //Debug.Log(test01);
+
+            
+            //string test02 = null;
+            //for (int index = 0; index < mySkills.Count; index++)
+            //    test02 += mySkills[index].skillName + ", ";
+            //Debug.Log(test02);
+
             // If its an odd count well have to position them differently then an even count.
-            if(mySkillBars.Count % 2 == 1)
+            if (mySkillBars.Count % 2 == 1)
             {
                 // Odds Case, the center of the array is found.
                 int centerIndex = (int)((float) mySkillBars.Count / 2 - 0.5f);
@@ -200,5 +223,11 @@ public class SkillsManager : MonoBehaviour
                     mySkillBars[index].transform.localPosition = new Vector3(20 + 40 * (index - centerIndex), 6, 0);
             }
         }
+    }
+
+    // My compare method for my list of skills so i can reorganize it based ion thwe individual skills skill indexs.
+    static int SortBySkillIndex(Skill skill1, Skill skill2)
+    {
+        return skill1.skillIndex.CompareTo(skill2.skillIndex);
     }
 }
