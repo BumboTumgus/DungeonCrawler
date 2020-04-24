@@ -221,6 +221,7 @@ MonoBehaviour:
   inventoryIndex: 0
   goldValue: 110
   itemType: 6
+  skillName: 0
   itemRarity: 0
   vitMod: 2
   strMod: 0
@@ -230,10 +231,8 @@ MonoBehaviour:
   wisMod: 0
   chaMod: 0
   baseAttackDelay: 0
-  hitMin: 0
   hitMax: 0
   hitBase: 0
-  staggerBase: 0
   critChance: 0
   critMod: 0
   vitScaling: 0
@@ -248,9 +247,17 @@ MonoBehaviour:
   mana: 22
   armor: 16
   resistance: 22
-  poise: 43
   healthRegen: 2.5
   manaRegen: 0
+  aflameResist: 0
+  asleepResist: 0
+  stunResist: 0
+  curseResist: 0
+  bleedResist: 0
+  poisonResist: 0
+  corrosionResist: 0
+  frostbiteResist: 0
+  knockbackResist: 0
 --- !u!1 &5065686236218194395
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,7 +352,7 @@ GameObject:
   - component: {fileID: 2003367990997493225}
   - component: {fileID: 4093867288921724976}
   m_Layer: 9
-  m_Name: TestLeggings_01
+  m_Name: Leggings_WarriorsSteelGrieves
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -363,7 +370,7 @@ Transform:
   m_LocalScale: {x: 0.010000003, y: 0.0100000035, z: 0.0100000035}
   m_Children:
   - {fileID: 2771629303173291194}
-  - {fileID: 5959739494677706062}
+  - {fileID: 9041534937223402890}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -392,8 +399,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f10ee017b6dc3d4d82100cf987f27be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Leggings
-  description: Standard bandit furs
+  itemName: Warrior's Steel Grieves
+  description: Regulation steel grieves for an army long forgotten. The shine of the
+    steel ahsn't faded though, as if the armor itself longs for a battle.
   itemGearID: 0
   itemtorsoID: 1
   itemUpperRightArmID: 0
@@ -416,10 +424,11 @@ MonoBehaviour:
   maxStack: 1
   artwork: {fileID: 21300000, guid: bfe37cb03c496ee46b36a15984e581d9, type: 3}
   inventoryIndex: 0
-  goldValue: 110
+  goldValue: 43
   itemType: 6
+  skillName: 0
   itemRarity: 0
-  vitMod: 2
+  vitMod: 1
   strMod: 0
   dexMod: 0
   spdMod: 0
@@ -427,10 +436,8 @@ MonoBehaviour:
   wisMod: 0
   chaMod: 0
   baseAttackDelay: 0
-  hitMin: 0
   hitMax: 0
   hitBase: 0
-  staggerBase: 0
   critChance: 0
   critMod: 0
   vitScaling: 0
@@ -441,103 +448,21 @@ MonoBehaviour:
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 0
-  health: 50
-  mana: 22
-  armor: 16
-  resistance: 22
-  poise: 43
-  healthRegen: 2.5
+  health: 31
+  mana: 0
+  armor: 7
+  resistance: 0
+  healthRegen: 1.1
   manaRegen: 0
---- !u!1001 &109679878299613577
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 3290050295839276524}
-    m_Modifications:
-    - target: {fileID: 5994456280539794624, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
-        type: 3}
-      propertyPath: m_Name
-      value: CommonItem
-      objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1, type: 3}
---- !u!4 &5959739494677706062 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
-    type: 3}
-  m_PrefabInstance: {fileID: 109679878299613577}
-  m_PrefabAsset: {fileID: 0}
+  aflameResist: 0
+  asleepResist: 0.41
+  stunResist: 0.21
+  curseResist: 0
+  bleedResist: -0.27
+  poisonResist: -0.22
+  corrosionResist: -0.25
+  frostbiteResist: -0.31
+  knockbackResist: 0.51
 --- !u!1001 &1801155062480277139
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -627,3 +552,93 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 943a71f04f9175a4f9f1f039bd9ac784, type: 3}
+--- !u!1001 &4813073298421383082
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3290050295839276524}
+    m_Modifications:
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7187959149927637161, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_Name
+      value: SkillAura
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f7e29adade716b4097c6b7a59d8a56b, type: 3}
+--- !u!4 &9041534937223402890 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+    type: 3}
+  m_PrefabInstance: {fileID: 4813073298421383082}
+  m_PrefabAsset: {fileID: 0}

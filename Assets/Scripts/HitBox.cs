@@ -50,7 +50,7 @@ public class HitBox : MonoBehaviour
                 if (!damageOverload)
                 {
                     // Check to see if the attack hit.
-                    damageDealt = myStats.weaponHitbase + Random.Range(myStats.weaponHitMin, myStats.weaponHitMax + 1)
+                    damageDealt = myStats.weaponHitbase + myStats.weaponBonusHitBase + Random.Range(0, myStats.weaponHitMax + myStats.weaponBonusHitMax + 1)
                         + myStats.Str * myStats.weaponStrScaling + myStats.Dex * myStats.weaponDexScaling + myStats.Vit * myStats.weaponVitScaling + myStats.Spd * myStats.weaponSpdScaling
                         + myStats.Int * myStats.weaponIntScaling + myStats.Wis * myStats.weaponWisScaling + myStats.Cha * myStats.weaponChaScaling;
                 }
@@ -63,9 +63,9 @@ public class HitBox : MonoBehaviour
 
                 if (myStats.weaponHitspeeds.Count > 0)
                 {
-                    if (Random.Range(0, 100) >= 100 - myStats.weaponCritChance || bypassCrit)
+                    if (Random.Range(0, 100) >= 100 - myStats.weaponCritChance - myStats.weaponBonusCritChance|| bypassCrit)
                     {
-                        damageDealt *= myStats.weaponCritMod;
+                        damageDealt *= (myStats.weaponCritMod + myStats.weaponBonusCritMod);
                         attackCrit = true;
                         bypassCrit = false;
                     }
@@ -97,14 +97,14 @@ public class HitBox : MonoBehaviour
                 if (!damageOverload)
                 {
                     // Check to see if the attack hit.
-                    damageDealt = myStats.weaponHitbase + Random.Range(myStats.weaponHitMin, myStats.weaponHitMax + 1) +
+                    damageDealt = myStats.weaponHitbase + myStats.weaponBonusHitBase + Random.Range(0, myStats.weaponHitMax + myStats.weaponBonusHitMax + 1)
                         + myStats.Str * myStats.weaponStrScaling + myStats.Dex * myStats.weaponDexScaling + myStats.Vit * myStats.weaponVitScaling + myStats.Spd * myStats.weaponSpdScaling
                         + myStats.Int * myStats.weaponIntScaling + myStats.Wis * myStats.weaponWisScaling + myStats.Cha * myStats.weaponChaScaling;
                 }
 
-                if (Random.Range(0, 100) >= 100 - myStats.weaponCritChance)
+                if (Random.Range(0, 100) >= 100 - myStats.weaponCritChance - myStats.weaponBonusCritChance)
                 {
-                    damageDealt *= myStats.weaponCritMod;
+                    damageDealt *= (myStats.weaponCritMod + myStats.weaponBonusCritMod);
                     attackCrit = true;
                 }
 

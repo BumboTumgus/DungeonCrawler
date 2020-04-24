@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6040693785850083804}
-  - {fileID: 9118579452791030015}
+  - {fileID: 662201557006204435}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -61,7 +61,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Bone Shield
   description: A jaw of a great beast serves just as well as a defensive tool as it
-    does an offensive tool.
+    does an offensive tool. The hardened bone provides a sturdy defensive boon to
+    it's wearer
   itemGearID: 65
   itemtorsoID: 0
   itemUpperRightArmID: 0
@@ -84,112 +85,119 @@ MonoBehaviour:
   maxStack: 1
   artwork: {fileID: 21300000, guid: ddc67361212a6e24d8791745b98cdf85, type: 3}
   inventoryIndex: 0
-  goldValue: 50
+  goldValue: 42
   itemType: 3
+  skillName: 0
   itemRarity: 0
-  vitMod: 5
-  strMod: 0
+  vitMod: 3
+  strMod: 3
   dexMod: 0
-  spdMod: 4
+  spdMod: 0
   intMod: 0
   wisMod: 0
   chaMod: 0
-  baseAttackDelay: 1
-  hitMin: 2
+  baseAttackDelay: 0.8
   hitMax: 4
   hitBase: 4
-  staggerBase: 10
-  critChance: 10
-  critMod: 1.5
-  vitScaling: 0.5
-  strScaling: 0.2
+  critChance: 11
+  critMod: 0.65
+  vitScaling: 0.4
+  strScaling: 0.4
   dexScaling: 0
   spdScaling: 0
   intScaling: 0
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 5
-  health: 10
-  mana: 10
-  armor: 10
-  resistance: 8
-  poise: 35
-  healthRegen: 4.2
+  health: 29
+  mana: 5
+  armor: 9
+  resistance: 3
+  healthRegen: 0.8
   manaRegen: 0
---- !u!1001 &3295268823043017784
+  aflameResist: 0.53
+  asleepResist: 0
+  stunResist: 0
+  curseResist: 0
+  bleedResist: 0.19
+  poisonResist: 0.22
+  corrosionResist: 0
+  frostbiteResist: 0
+  knockbackResist: 0
+--- !u!1001 &3927728744604521523
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 753938923128486422}
     m_Modifications:
-    - target: {fileID: 5994456280539794624, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
-        type: 3}
-      propertyPath: m_Name
-      value: CommonItem
-      objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0346
+      value: 0.089
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7187959149927637161, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_Name
+      value: SkillAura
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1, type: 3}
---- !u!4 &9118579452791030015 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: 9f7e29adade716b4097c6b7a59d8a56b, type: 3}
+--- !u!4 &662201557006204435 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+  m_CorrespondingSourceObject: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
     type: 3}
-  m_PrefabInstance: {fileID: 3295268823043017784}
+  m_PrefabInstance: {fileID: 3927728744604521523}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6040693785850471104
 PrefabInstance:

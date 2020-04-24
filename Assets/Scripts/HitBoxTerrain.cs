@@ -135,9 +135,9 @@ public class HitBoxTerrain : MonoBehaviour
             if (procsOnHits)
                 myStats.transform.root.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this);
 
-            if (Random.Range(0, 100) >= 100 - myStats.weaponCritChance || bypassCrit)
+            if (Random.Range(0, 100) >= 100 - myStats.weaponCritChance - myStats.weaponBonusCritMod || bypassCrit)
             {
-                damageDealt *= myStats.weaponCritMod;
+                damageDealt *= (myStats.weaponCritMod + myStats.weaponBonusCritMod);
                 attackCrit = true;
                 bypassCrit = false;
             }
@@ -155,9 +155,9 @@ public class HitBoxTerrain : MonoBehaviour
             
             if (myStats.weaponHitspeeds.Count > 0)
             {
-                if (Random.Range(0, 100) >= 100 - myStats.weaponCritChance || bypassCrit)
+                if (Random.Range(0, 100) >= 100 - myStats.weaponCritChance - myStats.weaponBonusCritMod || bypassCrit)
                 {
-                    damageDealt *= myStats.weaponCritMod;
+                    damageDealt *= (myStats.weaponCritMod + myStats.weaponBonusCritMod);
                     attackCrit = true;
                     bypassCrit = false;
                 }

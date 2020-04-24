@@ -3,9 +3,8 @@
 --- !u!1 &3031726689155235703
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1982361065011916201, guid: e18418ef533f8f446b48c3b02963005f,
-    type: 3}
-  m_PrefabInstance: {fileID: 3039447516606250841}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
@@ -22,9 +21,8 @@ GameObject:
 --- !u!4 &3579389233445431278
 Transform:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1982361065012156599, guid: e18418ef533f8f446b48c3b02963005f,
-    type: 3}
-  m_PrefabInstance: {fileID: 3039447516606250841}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3031726689155235703}
   m_LocalRotation: {x: 0.59535617, y: 0.39800844, z: 0.43266317, w: 0.5476704}
@@ -37,18 +35,16 @@ Transform:
 --- !u!33 &4687022486762539132
 MeshFilter:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1982361065012943933, guid: e18418ef533f8f446b48c3b02963005f,
-    type: 3}
-  m_PrefabInstance: {fileID: 3039447516606250841}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3031726689155235703}
   m_Mesh: {fileID: 4300000, guid: ad311525629234a48a8a137295790744, type: 3}
 --- !u!23 &6182094479980854117
 MeshRenderer:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1982361065014376525, guid: e18418ef533f8f446b48c3b02963005f,
-    type: 3}
-  m_PrefabInstance: {fileID: 3039447516606250841}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3031726689155235703}
   m_Enabled: 1
@@ -142,7 +138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Salty Cutlass
-  description: A wicked curved sword from a pirate long ago. The foreign stell still
+  description: A wicked curved sword from a pirate long ago. The foreign steel still
     remains sharp to this day.
   itemGearID: 6
   itemtorsoID: 0
@@ -166,23 +162,22 @@ MonoBehaviour:
   maxStack: 1
   artwork: {fileID: 21300000, guid: c4e3b31a0ec6c1d4089d007b0a909ab9, type: 3}
   inventoryIndex: 0
-  goldValue: 160
+  goldValue: 155
   itemType: 3
-  itemRarity: 0
-  vitMod: -6
+  skillName: 0
+  itemRarity: 1
+  vitMod: -3
   strMod: 0
-  dexMod: 14
-  spdMod: 0
+  dexMod: 10
+  spdMod: 1
   intMod: 0
   wisMod: 0
   chaMod: 0
-  baseAttackDelay: 1.8
-  hitMin: 1
-  hitMax: 25
-  hitBase: 30
-  staggerBase: 6
-  critChance: 20
-  critMod: 2
+  baseAttackDelay: 1
+  hitMax: 3
+  hitBase: 10
+  critChance: 24
+  critMod: 1
   vitScaling: 0
   strScaling: 0
   dexScaling: 0.8
@@ -194,10 +189,18 @@ MonoBehaviour:
   health: 0
   mana: 0
   armor: 0
-  resistance: -15
-  poise: 0
+  resistance: -8
   healthRegen: 0
   manaRegen: 0
+  aflameResist: 0.43
+  asleepResist: -0.41
+  stunResist: -0.22
+  curseResist: 0.11
+  bleedResist: 0.5
+  poisonResist: -0.16
+  corrosionResist: 0.22
+  frostbiteResist: 0
+  knockbackResist: 0
 --- !u!1001 &1425337642102973657
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -278,78 +281,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1425337642102973657}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &3039447516606250841
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 6448964134117610383}
-    m_Modifications:
-    - target: {fileID: 1982361065011916201, guid: e18418ef533f8f446b48c3b02963005f,
-        type: 3}
-      propertyPath: m_Name
-      value: Straightsword_Cutlass
-      objectReference: {fileID: 0}
-    - target: {fileID: 1982361065011916201, guid: e18418ef533f8f446b48c3b02963005f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1982361065012156599, guid: e18418ef533f8f446b48c3b02963005f,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.0010051727
-      objectReference: {fileID: 0}
-    - target: {fileID: 1982361065012156599, guid: e18418ef533f8f446b48c3b02963005f,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.10951418
-      objectReference: {fileID: 0}
-    - target: {fileID: 1982361065012156599, guid: e18418ef533f8f446b48c3b02963005f,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.0002937317
-      objectReference: {fileID: 0}
-    - target: {fileID: 1982361065012156599, guid: e18418ef533f8f446b48c3b02963005f,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.59535617
-      objectReference: {fileID: 0}
-    - target: {fileID: 1982361065012156599, guid: e18418ef533f8f446b48c3b02963005f,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.39800844
-      objectReference: {fileID: 0}
-    - target: {fileID: 1982361065012156599, guid: e18418ef533f8f446b48c3b02963005f,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.43266317
-      objectReference: {fileID: 0}
-    - target: {fileID: 1982361065012156599, guid: e18418ef533f8f446b48c3b02963005f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5476704
-      objectReference: {fileID: 0}
-    - target: {fileID: 1982361065012156599, guid: e18418ef533f8f446b48c3b02963005f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1982361065012156599, guid: e18418ef533f8f446b48c3b02963005f,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 17.921001
-      objectReference: {fileID: 0}
-    - target: {fileID: 1982361065012156599, guid: e18418ef533f8f446b48c3b02963005f,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 91.549
-      objectReference: {fileID: 0}
-    - target: {fileID: 1982361065012156599, guid: e18418ef533f8f446b48c3b02963005f,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 95.022
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 0}
-  m_SourcePrefab: {fileID: 100100000, guid: e18418ef533f8f446b48c3b02963005f, type: 3}

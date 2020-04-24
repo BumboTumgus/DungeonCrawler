@@ -42,8 +42,7 @@ public class Buff : MonoBehaviour
     public float armorSC = 0;
     public float resistanceSC = 0;
     public float damageReductionSC = 0;
-
-    public float minDamageSC = 0;
+    
     public float maxDamageSC = 0;
     public float baseDamageSC = 0;
     public float atkSpdSC = 0;
@@ -155,8 +154,8 @@ public class Buff : MonoBehaviour
                 ChangeDefensiveStats(false, healthSC * amount, manaSC * amount, healthRegenSC * amount, manaRegenSC * amount, armorSC * amount, resistanceSC * amount, damageReductionSC * amount);
 
             // If we changed offensive stats, add more stacks
-            if (baseDamageSC != 0 || minDamageSC != 0 || maxDamageSC != 0 || atkSpdSC != 0 || critDamageSC != 0 || critChanceSC != 0)
-                ChangeOffensiveStats(false, baseDamageSC * amount, minDamageSC * amount, maxDamageSC * amount, critChanceSC * amount, critDamageSC * amount, atkSpdSC * amount);
+            if (baseDamageSC != 0 || maxDamageSC != 0 || atkSpdSC != 0 || critDamageSC != 0 || critChanceSC != 0)
+                ChangeOffensiveStats(false, baseDamageSC * amount, maxDamageSC * amount, critChanceSC * amount, critDamageSC * amount, atkSpdSC * amount);
 
             // If we changed our resistance based stats, add more stacks
             if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || curseResistSC != 0 || corrosionResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0)
@@ -203,8 +202,8 @@ public class Buff : MonoBehaviour
             ChangeDefensiveStats(false, healthSC * amount, manaSC * amount, healthRegenSC * amount, manaRegenSC * amount, armorSC * amount, resistanceSC * amount, damageReductionSC * amount);
 
         // If we changed offensive stats, remove more stacks
-        if (baseDamageSC != 0 || minDamageSC != 0 || maxDamageSC != 0 || atkSpdSC != 0 || critDamageSC != 0 || critChanceSC != 0)
-            ChangeOffensiveStats(false, baseDamageSC * amount, minDamageSC * amount, maxDamageSC * amount, critChanceSC * amount, critDamageSC * amount, atkSpdSC * amount);
+        if (baseDamageSC != 0 || maxDamageSC != 0 || atkSpdSC != 0 || critDamageSC != 0 || critChanceSC != 0)
+            ChangeOffensiveStats(false, baseDamageSC * amount, maxDamageSC * amount, critChanceSC * amount, critDamageSC * amount, atkSpdSC * amount);
 
         // If we changed our resistance based stats, remove more stacks
         if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || curseResistSC != 0 || corrosionResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0)
@@ -272,11 +271,10 @@ public class Buff : MonoBehaviour
     }
 
     //USed to add offensive stast to the player
-    public void ChangeOffensiveStats(bool changeStatsChangeValue, float baseDamageGain, float minDamageGain, float maxDamageGain, float critChanceGain, float critModifierGain, float atkSpeedGain)
+    public void ChangeOffensiveStats(bool changeStatsChangeValue, float baseDamageGain, float maxDamageGain, float critChanceGain, float critModifierGain, float atkSpeedGain)
     {
         connectedPlayer.weaponHitbase += baseDamageGain;
         connectedPlayer.weaponHitMax += maxDamageGain;
-        connectedPlayer.weaponHitMin += minDamageGain;
         connectedPlayer.weaponCritChance += critChanceGain;
         connectedPlayer.weaponCritMod += critModifierGain;
         connectedPlayer.bonusAttackSpeed += atkSpeedGain;
@@ -284,7 +282,6 @@ public class Buff : MonoBehaviour
         if (changeStatsChangeValue)
         {
             baseDamageSC = baseDamageGain;
-            minDamageSC = minDamageGain;
             maxDamageSC = maxDamageGain;
             atkSpdSC = atkSpeedGain;
             critChanceSC = critChanceGain;
@@ -383,8 +380,8 @@ public class Buff : MonoBehaviour
                 ChangeDefensiveStats(true, healthSC * -1, manaSC * -1, healthRegenSC * -1, manaRegenSC * -1, armorSC * -1, resistanceSC * -1, damageReductionSC * -1);
 
             // If we changed offensive stats, change em back.
-            if (baseDamageSC != 0 || minDamageSC != 0 || maxDamageSC != 0 || atkSpdSC != 0 || critDamageSC != 0 || critChanceSC != 0)
-                ChangeOffensiveStats(true, baseDamageSC * -1, minDamageSC * -1, maxDamageSC * -1, critChanceSC * -1, critDamageSC * -1, atkSpdSC * -1);
+            if (baseDamageSC != 0 || maxDamageSC != 0 || atkSpdSC != 0 || critDamageSC != 0 || critChanceSC != 0)
+                ChangeOffensiveStats(true, baseDamageSC * -1, maxDamageSC * -1, critChanceSC * -1, critDamageSC * -1, atkSpdSC * -1);
 
             // If we changed our resistance based stats, change em back.
             if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || curseResistSC != 0 || corrosionResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0)

@@ -361,7 +361,7 @@ Transform:
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children:
   - {fileID: 1755602170781056078}
-  - {fileID: 8567969895474100983}
+  - {fileID: 6098547549555710801}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -390,8 +390,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f10ee017b6dc3d4d82100cf987f27be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Lionheart godmail
-  description: A legnedary set of armor said to be worn by ares himself.
+  itemName: Slayer's Tunic
+  description: Used by a slayer of old to hunt down strange beast's in the tower.
+    Some say the hunter was tired of simple game and ventured into the tower to find
+    a challnge worthy of his skills and mettle.
   itemGearID: 0
   itemtorsoID: 6
   itemUpperRightArmID: 4
@@ -414,21 +416,20 @@ MonoBehaviour:
   maxStack: 1
   artwork: {fileID: 21300000, guid: fdfe5b3c31104f7419a8947e5e21e502, type: 3}
   inventoryIndex: 0
-  goldValue: 1000
+  goldValue: 61
   itemType: 7
+  skillName: 0
   itemRarity: 0
-  vitMod: 100
-  strMod: 50
-  dexMod: 5
-  spdMod: -5
-  intMod: 2
-  wisMod: 2
-  chaMod: 1
+  vitMod: 3
+  strMod: 0
+  dexMod: 2
+  spdMod: 0
+  intMod: 0
+  wisMod: 0
+  chaMod: 0
   baseAttackDelay: 0
-  hitMin: 0
   hitMax: 0
   hitBase: 0
-  staggerBase: 0
   critChance: 0
   critMod: 0
   vitScaling: 0
@@ -439,102 +440,110 @@ MonoBehaviour:
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 0
-  health: 1000
+  health: 33
   mana: 0
-  armor: 80
-  resistance: 80
-  poise: 80
-  healthRegen: 25
-  manaRegen: 0
---- !u!1001 &2726680001185740336
+  armor: 4
+  resistance: 1
+  healthRegen: 1
+  manaRegen: 0.3
+  aflameResist: 0.33
+  asleepResist: 0.5
+  stunResist: 0
+  curseResist: 0
+  bleedResist: 0.22
+  poisonResist: 0
+  corrosionResist: 0.2
+  frostbiteResist: 0.14
+  knockbackResist: 0
+--- !u!1001 &7714912565472932209
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 7717053425340654198}
     m_Modifications:
-    - target: {fileID: 5994456280539794624, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
-        type: 3}
-      propertyPath: m_Name
-      value: CommonItem
-      objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 20
+      value: 37
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7187959149927637161, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_Name
+      value: SkillAura
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1, type: 3}
---- !u!4 &8567969895474100983 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: 9f7e29adade716b4097c6b7a59d8a56b, type: 3}
+--- !u!4 &6098547549555710801 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 5994456280539794631, guid: f2b068aaf5d9ba14d9a9b5c0a812cdb1,
+  m_CorrespondingSourceObject: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
     type: 3}
-  m_PrefabInstance: {fileID: 2726680001185740336}
+  m_PrefabInstance: {fileID: 7714912565472932209}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7757278696336281873
 PrefabInstance:

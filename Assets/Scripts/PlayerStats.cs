@@ -8,15 +8,19 @@ public class PlayerStats : MonoBehaviour
     public string playerTitle = "Mighty";
 
     public float weaponBaseAttackDelay = 1;
-    public float weaponHitMin = 1;
     public float weaponHitMax = 4;
+    public float weaponBonusHitMax = 0;
     public float weaponHitbase = 4;
-    public float weaponStaggerBase = 5;
+    public float weaponBonusHitBase = 0;
     public float weaponCritChance = 5;
+    public float weaponBonusCritChance = 0;
     public float weaponCritMod = 2;
+    public float weaponBonusCritMod = 0;
     public float weaponVitScaling = 0;
-    public float weaponStrScaling = 1;
-    public float weaponDexScaling = 0;
+    public float weaponStrScaling = 2;
+    public float weaponBonusStrScaling = 0;
+    public float weaponDexScaling = 2;
+    public float weaponBonusDexScaling = 0;
     public float weaponSpdScaling = 0;
     public float weaponIntScaling = 0;
     public float weaponWisScaling = 0;
@@ -40,9 +44,6 @@ public class PlayerStats : MonoBehaviour
     public float strafeSpeed = 2;
     public float acceleration = 2;
     public float damageReduction = 0;
-    // public float poise = 5;
-    // public float poiseMax = 5;
-    // public float poiseLoseMultiplier = 1;
     public float healthRegen = 1;
     public float manaRegen = 1;
     public float bonusHealth = 0;
@@ -453,8 +454,8 @@ public class PlayerStats : MonoBehaviour
         Cha += item.chaMod;
 
         weaponVitScaling += item.vitScaling;
-        weaponStrScaling += item.strScaling;
-        weaponDexScaling += item.dexScaling;
+        weaponBonusStrScaling += item.strScaling;
+        weaponBonusDexScaling += item.dexScaling;
         weaponSpdScaling += item.spdScaling;
         weaponIntScaling += item.intScaling;
         weaponWisScaling += item.wisScaling;
@@ -463,7 +464,7 @@ public class PlayerStats : MonoBehaviour
         if (item.itemType == Item.ItemType.Weapon || item.itemType == Item.ItemType.TwoHandWeapon)
         {
             weaponHitspeeds.Add(item.baseAttackDelay);
-
+            
             float attackSpeed = 0;
             if (weaponHitspeeds.Count > 0)
             {
@@ -475,12 +476,29 @@ public class PlayerStats : MonoBehaviour
                 weaponBaseAttackDelay = 1;
         }
 
-        weaponHitbase += item.hitBase;
-        weaponHitMin += item.hitMin;
-        weaponHitMax += item.hitMax;
-        weaponStaggerBase += item.staggerBase;
-        weaponCritChance += item.critChance;
-        weaponCritMod += item.critMod;
+        weaponBonusHitBase += item.hitBase;
+        weaponBonusHitMax += item.hitMax;
+        weaponBonusCritChance += item.critChance;
+        weaponBonusCritMod += item.critMod;
+        
+        if (weaponHitspeeds.Count > 0)
+        {
+            weaponCritChance = 0;
+            weaponCritMod = 1;
+            weaponHitMax = 0;
+            weaponHitbase = 0;
+            weaponDexScaling = 0;
+            weaponStrScaling = 0;
+        }
+        else
+        {
+            weaponCritChance = 10;
+            weaponCritMod = 2;
+            weaponHitMax = 4;
+            weaponHitbase = 2;
+            weaponDexScaling = 1;
+            weaponStrScaling = 1;
+        }
 
         armor += item.armor;
         magicResist += item.resistance;
@@ -517,8 +535,8 @@ public class PlayerStats : MonoBehaviour
         Cha -= item.chaMod;
 
         weaponVitScaling -= item.vitScaling;
-        weaponStrScaling -= item.strScaling;
-        weaponDexScaling -= item.dexScaling;
+        weaponBonusStrScaling -= item.strScaling;
+        weaponBonusDexScaling -= item.dexScaling;
         weaponSpdScaling -= item.spdScaling;
         weaponIntScaling -= item.intScaling;
         weaponWisScaling -= item.wisScaling;
@@ -539,12 +557,29 @@ public class PlayerStats : MonoBehaviour
                 weaponBaseAttackDelay = 1;
         }
 
-        weaponHitbase -= item.hitBase;
-        weaponHitMin -= item.hitMin;
-        weaponHitMax -= item.hitMax;
-        weaponStaggerBase -= item.staggerBase;
-        weaponCritChance -= item.critChance;
-        weaponCritMod -= item.critMod;
+        weaponBonusHitBase -= item.hitBase;
+        weaponBonusHitMax -= item.hitMax;
+        weaponBonusCritChance -= item.critChance;
+        weaponBonusCritMod -= item.critMod;
+
+        if(weaponHitspeeds.Count > 0)
+        {
+            weaponCritChance = 0;
+            weaponCritMod = 1;
+            weaponHitMax = 0;
+            weaponHitbase = 0;
+            weaponStrScaling = 0;
+            weaponDexScaling = 0;
+        }
+        else
+        {
+            weaponCritChance = 10;
+            weaponCritMod = 2;
+            weaponHitMax = 4;
+            weaponHitbase = 2;
+            weaponStrScaling = 1;
+            weaponDexScaling = 1;
+        }
 
         armor -= item.armor;
         magicResist -= item.resistance;

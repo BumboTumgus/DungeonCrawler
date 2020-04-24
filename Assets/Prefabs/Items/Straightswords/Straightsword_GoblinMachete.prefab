@@ -3,9 +3,8 @@
 --- !u!1 &3540123387228615953
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 4515323357032213113, guid: db697fb2cf0e8bc4a807689ed9e722af,
-    type: 3}
-  m_PrefabInstance: {fileID: 8717303768906975820}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
@@ -22,9 +21,8 @@ GameObject:
 --- !u!4 &5067591080115368209
 Transform:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 4515323357031906141, guid: db697fb2cf0e8bc4a807689ed9e722af,
-    type: 3}
-  m_PrefabInstance: {fileID: 8717303768906975820}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3540123387228615953}
   m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
@@ -37,18 +35,16 @@ Transform:
 --- !u!33 &4200331502860299815
 MeshFilter:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 4515323357031103685, guid: db697fb2cf0e8bc4a807689ed9e722af,
-    type: 3}
-  m_PrefabInstance: {fileID: 8717303768906975820}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3540123387228615953}
   m_Mesh: {fileID: 4300000, guid: 42636576a831b204dab6a5c961a14a5f, type: 3}
 --- !u!23 &7430134756194041150
 MeshRenderer:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 4515323357029954355, guid: db697fb2cf0e8bc4a807689ed9e722af,
-    type: 3}
-  m_PrefabInstance: {fileID: 8717303768906975820}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3540123387228615953}
   m_Enabled: 1
@@ -142,7 +138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Goblin Machete
-  description: A makeshift blade used to carve apart uncatious travellers and adventurers
+  description: A makeshift blade used to carve apart uncautious travellers and adventurers
     alike.
   itemGearID: 5
   itemtorsoID: 0
@@ -166,8 +162,9 @@ MonoBehaviour:
   maxStack: 1
   artwork: {fileID: 21300000, guid: e73dc2fdfef68354dbea65bd1dbcd0e1, type: 3}
   inventoryIndex: 0
-  goldValue: 24
+  goldValue: 29
   itemType: 3
+  skillName: 0
   itemRarity: 0
   vitMod: 0
   strMod: 0
@@ -176,13 +173,11 @@ MonoBehaviour:
   intMod: 0
   wisMod: 0
   chaMod: 0
-  baseAttackDelay: 1.1
-  hitMin: 2
-  hitMax: 4
-  hitBase: 12
-  staggerBase: 9
-  critChance: 15
-  critMod: 1.5
+  baseAttackDelay: 1.45
+  hitMax: 3
+  hitBase: 9
+  critChance: 13
+  critMod: 0.67
   vitScaling: 0
   strScaling: 0
   dexScaling: 0.6
@@ -194,10 +189,18 @@ MonoBehaviour:
   health: 0
   mana: 0
   armor: 0
-  resistance: 0
-  poise: 0
+  resistance: -2
   healthRegen: 0
-  manaRegen: 0
+  manaRegen: -0.5
+  aflameResist: 0
+  asleepResist: 0
+  stunResist: 0
+  curseResist: 0
+  bleedResist: 0
+  poisonResist: 0
+  corrosionResist: 0
+  frostbiteResist: 0
+  knockbackResist: 0
 --- !u!1001 &6825833256833427469
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -273,78 +276,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6825833256833427469}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &8717303768906975820
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 3002974098588154032}
-    m_Modifications:
-    - target: {fileID: 4515323357031906141, guid: db697fb2cf0e8bc4a807689ed9e722af,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4515323357031906141, guid: db697fb2cf0e8bc4a807689ed9e722af,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.039
-      objectReference: {fileID: 0}
-    - target: {fileID: 4515323357031906141, guid: db697fb2cf0e8bc4a807689ed9e722af,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4515323357031906141, guid: db697fb2cf0e8bc4a807689ed9e722af,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4515323357031906141, guid: db697fb2cf0e8bc4a807689ed9e722af,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4515323357031906141, guid: db697fb2cf0e8bc4a807689ed9e722af,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4515323357031906141, guid: db697fb2cf0e8bc4a807689ed9e722af,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4515323357031906141, guid: db697fb2cf0e8bc4a807689ed9e722af,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4515323357031906141, guid: db697fb2cf0e8bc4a807689ed9e722af,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4515323357031906141, guid: db697fb2cf0e8bc4a807689ed9e722af,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 4515323357031906141, guid: db697fb2cf0e8bc4a807689ed9e722af,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 4515323357032213113, guid: db697fb2cf0e8bc4a807689ed9e722af,
-        type: 3}
-      propertyPath: m_Name
-      value: Straightsword_GoblinMachete
-      objectReference: {fileID: 0}
-    - target: {fileID: 4515323357032213113, guid: db697fb2cf0e8bc4a807689ed9e722af,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 0}
-  m_SourcePrefab: {fileID: 100100000, guid: db697fb2cf0e8bc4a807689ed9e722af, type: 3}

@@ -61,7 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Chinith Shield
   description: The remarkably tough back plate of a long since dead creature. Still
-    smells sorta funny.
+    reeks some ungodly scent to this day.
   itemGearID: 15
   itemtorsoID: 0
   itemUpperRightArmID: 0
@@ -86,36 +86,43 @@ MonoBehaviour:
   inventoryIndex: 0
   goldValue: 50
   itemType: 3
-  itemRarity: 0
-  vitMod: 100
+  skillName: 0
+  itemRarity: 1
+  vitMod: 3
   strMod: 0
   dexMod: 0
   spdMod: 0
   intMod: 0
   wisMod: 0
   chaMod: 0
-  baseAttackDelay: 1
-  hitMin: 2
-  hitMax: 4
-  hitBase: 4
-  staggerBase: 10
-  critChance: 5
-  critMod: 1.5
-  vitScaling: 0.5
+  baseAttackDelay: 0.55
+  hitMax: 30
+  hitBase: 9
+  critChance: 8
+  critMod: 0.24
+  vitScaling: 1
   strScaling: 0
   dexScaling: 0
   spdScaling: 0
-  intScaling: 1
+  intScaling: 0
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 5
-  health: 800
+  health: 65
   mana: 0
-  armor: 50
-  resistance: 50
-  poise: 50
-  healthRegen: 80.6
+  armor: 6
+  resistance: 4
+  healthRegen: 6.2
   manaRegen: 0
+  aflameResist: 0.22
+  asleepResist: 0
+  stunResist: 0.12
+  curseResist: 0
+  bleedResist: 0.33
+  poisonResist: 0.33
+  corrosionResist: 0.33
+  frostbiteResist: 0
+  knockbackResist: 0
 --- !u!1 &7917312466006212588
 GameObject:
   m_ObjectHideFlags: 0

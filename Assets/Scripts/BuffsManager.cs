@@ -270,7 +270,7 @@ public class BuffsManager : MonoBehaviour
                     flameStrike.connectedPlayer = stats;
                     flameStrike.infiniteDuration = false;
                     flameStrike.duration = 15;
-                    flameStrike.ChangeOffensiveStats(true, 0, 0, 0, 0, 0, 0.25f);
+                    flameStrike.ChangeOffensiveStats(true, 0, 0, 0, 0, 0.25f);
                     flameStrike.damageColor = damageColors[0];
                     flameStrike.onHitDamageAmount = stats.Str * 2;
                     flameStrike.effectParticleSystem.Add(psSystems[20]);
@@ -294,7 +294,7 @@ public class BuffsManager : MonoBehaviour
                     aspectOfRage.connectedPlayer = stats;
                     aspectOfRage.infiniteDuration = false;
                     aspectOfRage.duration = 15;
-                    aspectOfRage.ChangeOffensiveStats(true, 0, 0, 0, 0.20f, 1f, 0.4f);
+                    aspectOfRage.ChangeOffensiveStats(true, 0, 0, 0.20f, 1f, 0.4f);
                     aspectOfRage.ChangeDefensiveStats(true, 0, 0, 0, 0, 0, 0, -50);
                     aspectOfRage.effectParticleSystem.Add(psSystems[27]);
                     aspectOfRage.effectParticleSystem.Add(psSystems[28]);
@@ -341,7 +341,7 @@ public class BuffsManager : MonoBehaviour
                     rampage.maxStacks = 25;
                     rampage.currentStacks = 1;
                     rampage.stacktargetTimer = rampage.duration;
-                    rampage.ChangeOffensiveStats(true, 0, 0, 0, 0, 0, 0.04f);
+                    rampage.ChangeOffensiveStats(true, 0, 0, 0, 0, 0.04f);
                     //rampage.effectParticleSystem.Add(psSystems[30]);
                     //psSystems[30].Play();
 

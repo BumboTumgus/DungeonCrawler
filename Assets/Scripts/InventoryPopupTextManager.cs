@@ -108,14 +108,12 @@ public class InventoryPopupTextManager : MonoBehaviour
         float statBasedDamaged = stats.Str * item.strScaling + stats.Dex * item.dexScaling + stats.Vit * item.vitScaling + stats.Spd * item.spdScaling
                 + stats.Int * item.intScaling + stats.Wis * item.wisScaling + stats.Cha * item.chaScaling;
         statContainer.Find("AttackSpeedValue").GetComponent<Text>().text = string.Format("{0:0.00}", (item.baseAttackDelay * (1 + 0.025f * stats.Spd + 0.0125f * stats.Dex)));
-        statContainer.Find("StaggerValue").GetComponent<Text>().text = string.Format("{0:0.0}", (stats.weaponStaggerBase + stats.Str * item.strScaling));
-        statContainer.Find("DamageValue").GetComponent<Text>().text = string.Format("{0:0}",(item.hitBase + item.hitMin + statBasedDamaged)) + " - " + string.Format("{0:0}", (item.hitBase + item.hitMax + statBasedDamaged));
+        statContainer.Find("DamageValue").GetComponent<Text>().text = string.Format("{0:0}",(item.hitBase + statBasedDamaged)) + " - " + string.Format("{0:0}", (item.hitBase + item.hitMax + statBasedDamaged));
         statContainer.Find("CritChanceValue").GetComponent<Text>().text = item.critChance + "%";
         statContainer.Find("CritDamageValue").GetComponent<Text>().text = item.critMod * 100  + "%";
 
         statContainer.Find("ArmorValue").GetComponent<Text>().text = item.armor + "";
         statContainer.Find("ResistanceValue").GetComponent<Text>().text = item.resistance + "";
-        statContainer.Find("PoiseValue").GetComponent<Text>().text = item.poise + "";
         SetPlusMinusText(statContainer.Find("HealthValue").GetComponent<Text>(), item.health);
         statContainer.Find("HealthRegenValue").GetComponent<Text>().text = item.healthRegen + "";
         SetPlusMinusText(statContainer.Find("ManaValue").GetComponent<Text>(), item.mana);

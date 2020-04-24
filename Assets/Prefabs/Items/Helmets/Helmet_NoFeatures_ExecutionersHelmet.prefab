@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5685331085864947349
+--- !u!1 &3666657969667700236
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,61 +8,139 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4632757115956044420}
-  - component: {fileID: 5762158057791795380}
-  - component: {fileID: 8676646232245834572}
+  - component: {fileID: 8189629624522270277}
+  - component: {fileID: 342246066629622003}
+  - component: {fileID: 6724022706993913654}
   m_Layer: 9
-  m_Name: GreatAxe_Naturio
+  m_Name: Helmet_NoFeatures_06
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4632757115956044420
+--- !u!4 &8189629624522270277
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5685331085864947349}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.254, y: 0.053, z: -23.66}
+  m_GameObject: {fileID: 3666657969667700236}
+  m_LocalRotation: {x: -0.19080894, y: -0, z: -0, w: 0.9816273}
+  m_LocalPosition: {x: 0, y: 12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4498660198122482252}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -22, y: 0, z: 0}
+--- !u!33 &342246066629622003
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3666657969667700236}
+  m_Mesh: {fileID: 4300000, guid: 915ad7a2b24c8544a888666509d41389, type: 3}
+--- !u!23 &6724022706993913654
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3666657969667700236}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: ea128b040f8b0af4c9d2de400aaff30a, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &4606114483946473224
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4498660198122482252}
+  - component: {fileID: 6688064559179209437}
+  - component: {fileID: 5872395138597315882}
+  m_Layer: 9
+  m_Name: Helmet_NoFeatures_ExecutionersHelmet
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4498660198122482252
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4606114483946473224}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.817, y: 0, z: 1.013}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children:
-  - {fileID: 1715732435270979855}
-  - {fileID: 9063547522357724499}
+  - {fileID: 8189629624522270277}
+  - {fileID: 8405164480966213518}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &5762158057791795380
+--- !u!135 &6688064559179209437
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5685331085864947349}
+  m_GameObject: {fileID: 4606114483946473224}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 100
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8676646232245834572
+--- !u!114 &5872395138597315882
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5685331085864947349}
+  m_GameObject: {fileID: 4606114483946473224}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f10ee017b6dc3d4d82100cf987f27be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Naturioaxe
-  description: Imbued with the power of nature, this axe increases the users ability
-    to channel the flow of natural magic flow.
-  itemGearID: 112
+  itemName: Executioners Helmet
+  description: A large imposing helemt that belonged to an executioner. The reek of
+    blood and the scary visage adds to the spectacle of public executions.
+  itemGearID: 5
   itemtorsoID: 0
   itemUpperRightArmID: 0
   itemUpperLeftArmID: 0
@@ -82,131 +160,53 @@ MonoBehaviour:
   previousOwner: {fileID: 0}
   currentStack: 1
   maxStack: 1
-  artwork: {fileID: 21300000, guid: 2e8b3b266ae0be04f9039ea4bba562a4, type: 3}
+  artwork: {fileID: 21300000, guid: 44dcdad82a1df7140b5b1a5ae93f04cd, type: 3}
   inventoryIndex: 0
-  goldValue: 424
-  itemType: 4
+  goldValue: 144
+  itemType: 5
   skillName: 0
-  itemRarity: 2
-  vitMod: 10
-  strMod: 10
-  dexMod: 0
-  spdMod: 0
-  intMod: 0
-  wisMod: 5
+  itemRarity: 1
+  vitMod: 0
+  strMod: 0
+  dexMod: 3
+  spdMod: 3
+  intMod: 3
+  wisMod: 3
   chaMod: 0
-  baseAttackDelay: 0.8
-  hitMax: 20
-  hitBase: 30
-  critChance: 15
-  critMod: 0.67
-  vitScaling: 0.5
-  strScaling: 1.45
+  baseAttackDelay: 0
+  hitMax: 0
+  hitBase: 0
+  critChance: 0
+  critMod: 0
+  vitScaling: 0
+  strScaling: 0
   dexScaling: 0
   spdScaling: 0
   intScaling: 0
   wisScaling: 0
   chaScaling: 0
-  itemMoveset: 2
-  health: 120
-  mana: 100
-  armor: 0
-  resistance: 0
-  healthRegen: 10
-  manaRegen: 10
-  aflameResist: 0.25
-  asleepResist: 0
+  itemMoveset: 0
+  health: 20
+  mana: 24
+  armor: 7
+  resistance: 11
+  healthRegen: 0
+  manaRegen: 3
+  aflameResist: 0
+  asleepResist: 0.22
   stunResist: 0
-  curseResist: 0.25
-  bleedResist: 0.25
-  poisonResist: 0.25
-  corrosionResist: 0
-  frostbiteResist: 0
+  curseResist: 0
+  bleedResist: 0.31
+  poisonResist: 0
+  corrosionResist: 0.14
+  frostbiteResist: 0.23
   knockbackResist: 0
---- !u!1 &8601173416337100777
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1715732435270979855}
-  - component: {fileID: 111663364230242994}
-  - component: {fileID: 7824332888817706546}
-  m_Layer: 9
-  m_Name: GreatAxe_Naturio
-  m_TagString: Item
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1715732435270979855
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8601173416337100777}
-  m_LocalRotation: {x: 0.38215786, y: 0.5949415, z: 0.5949415, w: 0.38215786}
-  m_LocalPosition: {x: -0.007364273, y: 0.05391686, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4632757115956044420}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -24.571001, y: 90.00001, z: 90.00001}
---- !u!33 &111663364230242994
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8601173416337100777}
-  m_Mesh: {fileID: 4300000, guid: faff77052de679a429191bb3d4de57b2, type: 3}
---- !u!23 &7824332888817706546
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8601173416337100777}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 42b64fdb315e3054ea757d8d1c4bcfa7, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!1001 &4790339917772222323
+--- !u!1001 &5410969558445348270
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 4632757115956044420}
+    m_TransformParent: {fileID: 4498660198122482252}
     m_Modifications:
     - target: {fileID: 1091950786483821433, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
@@ -216,27 +216,27 @@ PrefabInstance:
     - target: {fileID: 1091950786483821433, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.7137255
+      value: 0.9254902
       objectReference: {fileID: 0}
     - target: {fileID: 1091950786483821433, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.9254902
+      value: 0.2627451
       objectReference: {fileID: 0}
     - target: {fileID: 3997975595428067557, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.21176468
+      value: 0.21176471
       objectReference: {fileID: 0}
     - target: {fileID: 3997975595428067557, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.7130366
+      value: 0.9254902
       objectReference: {fileID: 0}
     - target: {fileID: 3997975595428067557, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.9254902
+      value: 0.2627451
       objectReference: {fileID: 0}
     - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
@@ -246,12 +246,12 @@ PrefabInstance:
     - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.047
+      value: 31.700016
       objectReference: {fileID: 0}
     - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.262
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
@@ -293,6 +293,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6608060560166976400, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_Color.r
@@ -301,12 +316,12 @@ PrefabInstance:
     - target: {fileID: 6608060560166976400, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.7137255
+      value: 0.9254902
       objectReference: {fileID: 0}
     - target: {fileID: 6608060560166976400, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.9254902
+      value: 0.2627451
       objectReference: {fileID: 0}
     - target: {fileID: 7187959149927637161, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
@@ -315,9 +330,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f7e29adade716b4097c6b7a59d8a56b, type: 3}
---- !u!4 &9063547522357724499 stripped
+--- !u!4 &8405164480966213518 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
     type: 3}
-  m_PrefabInstance: {fileID: 4790339917772222323}
+  m_PrefabInstance: {fileID: 5410969558445348270}
   m_PrefabAsset: {fileID: 0}

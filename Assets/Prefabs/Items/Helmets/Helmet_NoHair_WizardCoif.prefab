@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2578986692614462977
+--- !u!1 &3401730958086418205
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,61 +8,60 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2484612083013555248}
-  - component: {fileID: 8405341571037402019}
-  - component: {fileID: 7489392413517326689}
+  - component: {fileID: 8095900791878773689}
+  - component: {fileID: 5769100431804392221}
+  - component: {fileID: 8389817425330979432}
   m_Layer: 9
-  m_Name: Halberd_Goblin
+  m_Name: Helmet_NoHair_WizardCoif
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2484612083013555248
+--- !u!4 &8095900791878773689
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2578986692614462977}
+  m_GameObject: {fileID: 3401730958086418205}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.568, y: 0, z: -28.512}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -10.896, y: 0, z: 4.886}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children:
-  - {fileID: 6589547919933848641}
-  - {fileID: 183887106811977930}
+  - {fileID: 8147762696492032214}
+  - {fileID: 3432570591261304420}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &8405341571037402019
+--- !u!135 &5769100431804392221
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2578986692614462977}
+  m_GameObject: {fileID: 3401730958086418205}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 100
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7489392413517326689
+--- !u!114 &8389817425330979432
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2578986692614462977}
+  m_GameObject: {fileID: 3401730958086418205}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f10ee017b6dc3d4d82100cf987f27be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Goblin Halberd
-  description: A large goblin created glaive. Although poorly crafted, the blade still
-    does a beter job than fists in battle.
-  itemGearID: 94
+  itemName: Wizard Coif
+  description: A magic infused coif that boosts the wearer's mana flow.
+  itemGearID: 7
   itemtorsoID: 0
   itemUpperRightArmID: 0
   itemUpperLeftArmID: 0
@@ -75,55 +74,55 @@ MonoBehaviour:
   itemRightShoulderID: 0
   itemLeftShoulderID: 0
   itemPickUpAllowed: 1
-  helmetType: 0
+  helmetType: 1
   equippedToRightHand: 0
   stackable: 1
   instantPickup: 0
   previousOwner: {fileID: 0}
   currentStack: 1
   maxStack: 1
-  artwork: {fileID: 21300000, guid: aedbbd9c2a24a5741a3baa7ee1634e6f, type: 3}
+  artwork: {fileID: 21300000, guid: 0405ad71362b14a4882f99c5ae80d5a3, type: 3}
   inventoryIndex: 0
-  goldValue: 85
-  itemType: 4
+  goldValue: 143
+  itemType: 5
   skillName: 0
-  itemRarity: 0
-  vitMod: 1
+  itemRarity: 1
+  vitMod: -3
   strMod: 0
-  dexMod: 3
+  dexMod: 0
   spdMod: 0
-  intMod: 0
-  wisMod: 0
+  intMod: 4
+  wisMod: 8
   chaMod: 0
-  baseAttackDelay: 0.9
-  hitMax: 9
-  hitBase: 20
-  critChance: 11
-  critMod: 0.8
+  baseAttackDelay: 0
+  hitMax: 0
+  hitBase: 0
+  critChance: 0
+  critMod: 0
   vitScaling: 0
-  strScaling: 1
-  dexScaling: 1
+  strScaling: 0
+  dexScaling: 0
   spdScaling: 0
   intScaling: 0
   wisScaling: 0
   chaScaling: 0
-  itemMoveset: 3
-  health: 0
-  mana: 0
-  armor: 0
-  resistance: 0
-  healthRegen: 0
-  manaRegen: 0
-  aflameResist: 0
-  asleepResist: 0
-  stunResist: 0
-  curseResist: 0
-  bleedResist: 0
-  poisonResist: 0
-  corrosionResist: 0
-  frostbiteResist: 0
-  knockbackResist: 0
---- !u!1 &7919266456694750198
+  itemMoveset: 0
+  health: 8
+  mana: 49
+  armor: 1
+  resistance: 9
+  healthRegen: 0.5
+  manaRegen: 5.7
+  aflameResist: 0.12
+  asleepResist: 0.17
+  stunResist: 0.08
+  curseResist: 0.11
+  bleedResist: 0.22
+  poisonResist: 0.07
+  corrosionResist: 0.09
+  frostbiteResist: 0.14
+  knockbackResist: 0.08
+--- !u!1 &7506991570317901596
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,45 +130,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6589547919933848641}
-  - component: {fileID: 8850742299500078752}
-  - component: {fileID: 3644230925291523672}
+  - component: {fileID: 8147762696492032214}
+  - component: {fileID: 4088005196296337772}
+  - component: {fileID: 292265088014582926}
   m_Layer: 9
-  m_Name: Halberd_Goblin
+  m_Name: Helmet_NoHair_08
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6589547919933848641
+--- !u!4 &8147762696492032214
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7919266456694750198}
-  m_LocalRotation: {x: 0.48475024, y: 0.5147982, z: 0.5147982, w: 0.48475024}
-  m_LocalPosition: {x: 0, y: 0.035, z: 0}
+  m_GameObject: {fileID: 7506991570317901596}
+  m_LocalRotation: {x: -0.19080894, y: -0, z: -0, w: 0.9816273}
+  m_LocalPosition: {x: 0, y: 12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2484612083013555248}
+  m_Father: {fileID: 8095900791878773689}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -3.4440002, y: 90.00001, z: 90.00001}
---- !u!33 &8850742299500078752
+  m_LocalEulerAnglesHint: {x: -22, y: 0, z: 0}
+--- !u!33 &4088005196296337772
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7919266456694750198}
-  m_Mesh: {fileID: 4300000, guid: 93a563969eb994745b56c3ac628aaa5c, type: 3}
---- !u!23 &3644230925291523672
+  m_GameObject: {fileID: 7506991570317901596}
+  m_Mesh: {fileID: 4300000, guid: d659cc5bba99b344a98f6fca21641d88, type: 3}
+--- !u!23 &292265088014582926
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7919266456694750198}
+  m_GameObject: {fileID: 7506991570317901596}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -180,7 +179,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 42b64fdb315e3054ea757d8d1c4bcfa7, type: 2}
+  - {fileID: 2100000, guid: ea128b040f8b0af4c9d2de400aaff30a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -192,7 +191,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
+  m_StitchLightmapSeams: 1
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -201,13 +200,43 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!1001 &4413467077854333674
+--- !u!1001 &1157553133681626180
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 2484612083013555248}
+    m_TransformParent: {fileID: 8095900791878773689}
     m_Modifications:
+    - target: {fileID: 1091950786483821433, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.21176471
+      objectReference: {fileID: 0}
+    - target: {fileID: 1091950786483821433, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.9254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 1091950786483821433, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.2627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 3997975595428067557, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.21176471
+      objectReference: {fileID: 0}
+    - target: {fileID: 3997975595428067557, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.9254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 3997975595428067557, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.2627451
+      objectReference: {fileID: 0}
     - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -216,12 +245,12 @@ PrefabInstance:
     - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.031
+      value: 16.4
       objectReference: {fileID: 0}
     - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.131
+      value: 8.8
       objectReference: {fileID: 0}
     - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
@@ -263,6 +292,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6608060560166976400, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.21176471
+      objectReference: {fileID: 0}
+    - target: {fileID: 6608060560166976400, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.9254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 6608060560166976400, guid: 9f7e29adade716b4097c6b7a59d8a56b,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.2627451
+      objectReference: {fileID: 0}
     - target: {fileID: 7187959149927637161, guid: 9f7e29adade716b4097c6b7a59d8a56b,
         type: 3}
       propertyPath: m_Name
@@ -270,9 +329,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f7e29adade716b4097c6b7a59d8a56b, type: 3}
---- !u!4 &183887106811977930 stripped
+--- !u!4 &3432570591261304420 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4589876883355527712, guid: 9f7e29adade716b4097c6b7a59d8a56b,
     type: 3}
-  m_PrefabInstance: {fileID: 4413467077854333674}
+  m_PrefabInstance: {fileID: 1157553133681626180}
   m_PrefabAsset: {fileID: 0}

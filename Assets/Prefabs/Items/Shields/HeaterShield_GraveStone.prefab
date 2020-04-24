@@ -59,9 +59,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f10ee017b6dc3d4d82100cf987f27be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Gravestone
+  itemName: Gravestone Shield
   description: An unmarked gravestone with a handled chiseled into it. Beating undead
-    with their own death message ahs never been this poetic.
+    with their own death message has never been this poetic.
   itemGearID: 14
   itemtorsoID: 0
   itemUpperRightArmID: 0
@@ -84,44 +84,50 @@ MonoBehaviour:
   maxStack: 1
   artwork: {fileID: 21300000, guid: 6a98d3d103837704d821bb4b941ef23a, type: 3}
   inventoryIndex: 0
-  goldValue: 85
+  goldValue: 91
   itemType: 3
-  itemRarity: 0
+  skillName: 0
+  itemRarity: 1
   vitMod: 0
   strMod: 0
-  dexMod: 5
+  dexMod: 2
   spdMod: 0
-  intMod: 9
-  wisMod: 12
-  chaMod: 4
-  baseAttackDelay: 1.1
-  hitMin: 4
-  hitMax: 12
-  hitBase: 22
-  staggerBase: 9
-  critChance: 10
-  critMod: 1.5
+  intMod: 3
+  wisMod: 2
+  chaMod: 1
+  baseAttackDelay: 0.65
+  hitMax: 4
+  hitBase: 20
+  critChance: 13
+  critMod: 0.72
   vitScaling: 0
   strScaling: 0
-  dexScaling: 0.4
+  dexScaling: 0.5
   spdScaling: 0
-  intScaling: 1
-  wisScaling: 0.7
+  intScaling: 0.65
+  wisScaling: 0.15
   chaScaling: 0
   itemMoveset: 5
   health: 5
-  mana: 147
-  armor: 0
-  resistance: 8
-  poise: 2
+  mana: 67
+  armor: 1
+  resistance: 5
   healthRegen: 0
-  manaRegen: 3.4
+  manaRegen: 1.5
+  aflameResist: 0
+  asleepResist: 0
+  stunResist: 0
+  curseResist: 0.75
+  bleedResist: 0
+  poisonResist: -0.46
+  corrosionResist: 0.66
+  frostbiteResist: -0.35
+  knockbackResist: 0
 --- !u!1 &5091321089658260772
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 3171632970000455941, guid: 3ba51c11fa99c5a4da5065b1113a1016,
-    type: 3}
-  m_PrefabInstance: {fileID: 7388223088861707751}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
@@ -138,9 +144,8 @@ GameObject:
 --- !u!4 &5371627365229072662
 Transform:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 3171632970000755953, guid: 3ba51c11fa99c5a4da5065b1113a1016,
-    type: 3}
-  m_PrefabInstance: {fileID: 7388223088861707751}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5091321089658260772}
   m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
@@ -153,18 +158,16 @@ Transform:
 --- !u!33 &85602287936478671
 MeshFilter:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 3171632970003531667, guid: 3ba51c11fa99c5a4da5065b1113a1016,
-    type: 3}
-  m_PrefabInstance: {fileID: 7388223088861707751}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5091321089658260772}
   m_Mesh: {fileID: 4300000, guid: 9efe6c1e827977d4d983dc59ee86ae5f, type: 3}
 --- !u!23 &5388787567455503853
 MeshRenderer:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 3171632970002696597, guid: 3ba51c11fa99c5a4da5065b1113a1016,
-    type: 3}
-  m_PrefabInstance: {fileID: 7388223088861707751}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5091321089658260772}
   m_Enabled: 1
@@ -278,78 +281,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 825777650910797570}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &7388223088861707751
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 9017551753820796658}
-    m_Modifications:
-    - target: {fileID: 3171632970000455941, guid: 3ba51c11fa99c5a4da5065b1113a1016,
-        type: 3}
-      propertyPath: m_Name
-      value: HeaterShield_Gravestone
-      objectReference: {fileID: 0}
-    - target: {fileID: 3171632970000455941, guid: 3ba51c11fa99c5a4da5065b1113a1016,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3171632970000755953, guid: 3ba51c11fa99c5a4da5065b1113a1016,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3171632970000755953, guid: 3ba51c11fa99c5a4da5065b1113a1016,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3171632970000755953, guid: 3ba51c11fa99c5a4da5065b1113a1016,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3171632970000755953, guid: 3ba51c11fa99c5a4da5065b1113a1016,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3171632970000755953, guid: 3ba51c11fa99c5a4da5065b1113a1016,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3171632970000755953, guid: 3ba51c11fa99c5a4da5065b1113a1016,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3171632970000755953, guid: 3ba51c11fa99c5a4da5065b1113a1016,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3171632970000755953, guid: 3ba51c11fa99c5a4da5065b1113a1016,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3171632970000755953, guid: 3ba51c11fa99c5a4da5065b1113a1016,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 3171632970000755953, guid: 3ba51c11fa99c5a4da5065b1113a1016,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 3171632970000755953, guid: 3ba51c11fa99c5a4da5065b1113a1016,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 0}
-  m_SourcePrefab: {fileID: 100100000, guid: 3ba51c11fa99c5a4da5065b1113a1016, type: 3}

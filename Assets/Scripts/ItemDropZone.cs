@@ -56,12 +56,16 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                     // If we have a weapon, and this weapon is not coming from anopther weapon slot and there is not a 2h hand weapon ion the other connected slot, show the stats
                     if ((currentItemType == Item.ItemType.Weapon || currentItemType == Item.ItemType.TwoHandWeapon) && movedItem.myParent.GetComponent<ItemDropZone>().slotType != SlotType.Weapon)
                     {
+                        //Debug.Log(" we are moving a weapon over the weapon slot");
                         suitableSlot = true;
                         if (transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem == null
                             && connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem != null
                             && connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon
                             && currentItemType != Item.ItemType.TwoHandWeapon)
                             suitableSlot = false;
+                        // here we will check if we have two weapons to replace with a two hand weapon, if we do, add stats is then false.
+                        else if (currentItemType == Item.ItemType.TwoHandWeapon && transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem != null && connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem != null)
+                            addStats = false;
                     }
 
                        
@@ -85,6 +89,7 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                     break;
             }
 
+            Debug.Log("suitable slot is currently: " + suitableSlot + ". add stats is currently : " + addStats);
             if (suitableSlot && movedItem.myParent != gameObject.transform && movedItem.attachedItem.GetComponent<Item>().itemType != Item.ItemType.Skill)
             {
                 Transform myPanel = transform.Find("ItemPanel");
@@ -101,6 +106,7 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                     previousItems = new Item[2];
                     previousItems[0] = movedItem.attachedItem.GetComponent<Item>();
 
+                    //Debug.Log(" the logic has reached here");
                     // we see if the other item exists, if it does we set it as the item we want to add the stats from, else we dont add stats from an item.
                     if(transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem == null)
                         transform.parent.GetComponent<InventoryUiManager>().playerInventory.GetComponent<PlayerStats>().CheckStatChange(null, previousItems);
@@ -115,8 +121,20 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                                 previousItems[1] = movedItem.myParent.GetComponent<ItemDropZone>().connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>();
                             //Debug.Log("This is a tweo ahnd weapon weare hovering over");
                         }
-
-                        transform.parent.GetComponent<InventoryUiManager>().playerInventory.GetComponent<PlayerStats>().CheckStatChange(myPanel.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>(), previousItems);
+                        // This is the case that a 2h weapon is hovering over a weapon slot and we have 2 weapons equipped.
+                        else if(slotType == SlotType.Weapon && dropZoneItem.attachedItem != null && connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem != null)
+                        {
+                            //Debug.Log("we are hovering over a 1h weapon with a 2h weapon while there are two equipped weapons at once.");
+                            previousItems[0] = dropZoneItem.attachedItem.GetComponent<Item>();
+                            previousItems[1] = connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>();
+                        }
+                        if (slotType == SlotType.Weapon)
+                        {
+                            //Debug.Log("This is a weapon slot");
+                            transform.parent.GetComponent<InventoryUiManager>().playerInventory.GetComponent<PlayerStats>().CheckStatChange(movedItem.attachedItem.GetComponent<Item>(), previousItems);
+                        }
+                        else
+                            transform.parent.GetComponent<InventoryUiManager>().playerInventory.GetComponent<PlayerStats>().CheckStatChange(myPanel.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>(), previousItems);
                     }
                 }
                 //Debug.Log("A pointer with an attached object has entered a non inventory slot.");

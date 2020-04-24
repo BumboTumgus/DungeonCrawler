@@ -46,17 +46,24 @@ public class ItemGenerator : MonoBehaviour
     public GameObject[] consumablesLegendary;
     public GameObject[] consumablesMasterwork;
 
+    public GameObject[] skillsCommon;
+    public GameObject[] skillsUncommon;
+    public GameObject[] skillsRare;
+    public GameObject[] skillsLegendary;
+    public GameObject[] skillsMasterwork;
+
     public GameObject[] treasures;
 
     public float rarityLevelMod = 0;
 
-    private const float weapon1hRC = 20;
-    private const float weapon2hRC = 20;
+    private const float weapon1hRC = 15;
+    private const float weapon2hRC = 15;
     private const float chestArmorRC = 10;
     private const float legArmorRC = 10;
     private const float helmetsRC = 10;
-    private const float trinketsRC = 10;
+    private const float trinketsRC = 12;
     private const float consumablesRC = 10;
+    private const float skillsRC = 18;
 
     private const float commonRC = 40;
     private const float uncommonRC = 30;
@@ -69,9 +76,9 @@ public class ItemGenerator : MonoBehaviour
     {
         GameObject itemRolled = null;
 
-        float itemDiceRoll = Random.Range(0, weapon1hRC + weapon2hRC + chestArmorRC + legArmorRC + helmetsRC + trinketsRC + consumablesRC);
+        float itemDiceRoll = Random.Range(0, weapon1hRC + weapon2hRC + chestArmorRC + legArmorRC + helmetsRC + trinketsRC + consumablesRC + skillsRC);
         Item.ItemType itemType = Item.ItemType.Consumable;
-        float itemRarityDiceRoll = Random.Range(0, 160) + rarityLevelMod;
+        float itemRarityDiceRoll = Random.Range(0, 40) + rarityLevelMod;
         Item.ItemRarity itemRarity = Item.ItemRarity.Common;
         
         // Rolls the item type and compares its value in the table below.
@@ -89,6 +96,8 @@ public class ItemGenerator : MonoBehaviour
             itemType = Item.ItemType.Trinket;
         else if (itemDiceRoll <= weapon1hRC + weapon2hRC + chestArmorRC + legArmorRC + helmetsRC + trinketsRC + consumablesRC)
             itemType = Item.ItemType.Consumable;
+        else if (itemDiceRoll <= weapon1hRC + weapon2hRC + chestArmorRC + legArmorRC + helmetsRC + trinketsRC + consumablesRC + skillsRC)
+            itemType = Item.ItemType.Skill;
 
         if (itemRarityDiceRoll <= commonRC)
             itemRarity = Item.ItemRarity.Common;
@@ -253,6 +262,28 @@ public class ItemGenerator : MonoBehaviour
                         break;
                     case Item.ItemRarity.Masterwork:
                         itemRolled = chestArmorMasterwork[Random.Range(0, chestArmorMasterwork.Length)];
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case Item.ItemType.Skill:
+                switch (itemRarity)
+                {
+                    case Item.ItemRarity.Common:
+                        itemRolled = skillsCommon[Random.Range(0, skillsCommon.Length)];
+                        break;
+                    case Item.ItemRarity.Uncommon:
+                        itemRolled = skillsUncommon[Random.Range(0, skillsUncommon.Length)];
+                        break;
+                    case Item.ItemRarity.Rare:
+                        itemRolled = skillsRare[Random.Range(0, skillsRare.Length)];
+                        break;
+                    case Item.ItemRarity.Legendary:
+                        itemRolled = skillsLegendary[Random.Range(0, skillsLegendary.Length)];
+                        break;
+                    case Item.ItemRarity.Masterwork:
+                        itemRolled = skillsMasterwork[Random.Range(0, skillsMasterwork.Length)];
                         break;
                     default:
                         break;

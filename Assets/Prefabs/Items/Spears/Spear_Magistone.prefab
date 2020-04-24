@@ -3,9 +3,8 @@
 --- !u!1 &4026979127515508913
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7044091040473053787, guid: 99d304a00d1016840bbf9bda7c0d674c,
-    type: 3}
-  m_PrefabInstance: {fileID: 2405737388300121855}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
@@ -22,9 +21,8 @@ GameObject:
 --- !u!4 &4657643484842125410
 Transform:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7044091040473308829, guid: 99d304a00d1016840bbf9bda7c0d674c,
-    type: 3}
-  m_PrefabInstance: {fileID: 2405737388300121855}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4026979127515508913}
   m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
@@ -37,18 +35,16 @@ Transform:
 --- !u!33 &5947207559893136234
 MeshFilter:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7044091040472104327, guid: 99d304a00d1016840bbf9bda7c0d674c,
-    type: 3}
-  m_PrefabInstance: {fileID: 2405737388300121855}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4026979127515508913}
   m_Mesh: {fileID: 4300000, guid: d9846e0c0b6923d48a1a17570257c243, type: 3}
 --- !u!23 &4472979458107188373
 MeshRenderer:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7044091040471325247, guid: 99d304a00d1016840bbf9bda7c0d674c,
-    type: 3}
-  m_PrefabInstance: {fileID: 2405737388300121855}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4026979127515508913}
   m_Enabled: 1
@@ -168,111 +164,43 @@ MonoBehaviour:
   inventoryIndex: 0
   goldValue: 140
   itemType: 3
-  itemRarity: 0
+  skillName: 0
+  itemRarity: 1
   vitMod: 0
-  strMod: 0
-  dexMod: 5
+  strMod: -2
+  dexMod: 4
   spdMod: 0
-  intMod: 18
-  wisMod: 14
+  intMod: 3
+  wisMod: 3
   chaMod: 0
   baseAttackDelay: 0.8
-  hitMin: 10
   hitMax: 12
   hitBase: 30
-  staggerBase: 14
   critChance: 10
-  critMod: 1.5
+  critMod: 0.53
   vitScaling: 0
   strScaling: 0
   dexScaling: 0.4
   spdScaling: 0
-  intScaling: 1
+  intScaling: 0.7
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 3
   health: 0
-  mana: 110
+  mana: 51
   armor: 0
   resistance: 0
-  poise: 8
   healthRegen: 0
-  manaRegen: 10.2
---- !u!1001 &2405737388300121855
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 4483680395436607971}
-    m_Modifications:
-    - target: {fileID: 7044091040473053787, guid: 99d304a00d1016840bbf9bda7c0d674c,
-        type: 3}
-      propertyPath: m_Name
-      value: Spear_Magistone
-      objectReference: {fileID: 0}
-    - target: {fileID: 7044091040473053787, guid: 99d304a00d1016840bbf9bda7c0d674c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7044091040473308829, guid: 99d304a00d1016840bbf9bda7c0d674c,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7044091040473308829, guid: 99d304a00d1016840bbf9bda7c0d674c,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 7044091040473308829, guid: 99d304a00d1016840bbf9bda7c0d674c,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7044091040473308829, guid: 99d304a00d1016840bbf9bda7c0d674c,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7044091040473308829, guid: 99d304a00d1016840bbf9bda7c0d674c,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7044091040473308829, guid: 99d304a00d1016840bbf9bda7c0d674c,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7044091040473308829, guid: 99d304a00d1016840bbf9bda7c0d674c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7044091040473308829, guid: 99d304a00d1016840bbf9bda7c0d674c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7044091040473308829, guid: 99d304a00d1016840bbf9bda7c0d674c,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7044091040473308829, guid: 99d304a00d1016840bbf9bda7c0d674c,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 7044091040473308829, guid: 99d304a00d1016840bbf9bda7c0d674c,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 90
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 0}
-  m_SourcePrefab: {fileID: 100100000, guid: 99d304a00d1016840bbf9bda7c0d674c, type: 3}
+  manaRegen: 3.4
+  aflameResist: 0.22
+  asleepResist: 0
+  stunResist: 0.31
+  curseResist: 0.15
+  bleedResist: 0
+  poisonResist: 0
+  corrosionResist: 0
+  frostbiteResist: 0
+  knockbackResist: 0
 --- !u!1001 &8441750444558774765
 PrefabInstance:
   m_ObjectHideFlags: 0

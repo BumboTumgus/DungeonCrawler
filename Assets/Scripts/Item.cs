@@ -55,10 +55,8 @@ public class Item : MonoBehaviour
     public int chaMod;
     
     public float baseAttackDelay;
-    public int hitMin;
     public int hitMax;
     public int hitBase;
-    public int staggerBase;
     public float critChance;
     public float critMod;
     
@@ -76,7 +74,6 @@ public class Item : MonoBehaviour
     public int mana;
     public int armor;
     public int resistance;
-    public int poise;
     public float healthRegen;
     public float manaRegen;
 
@@ -105,16 +102,13 @@ public class Item : MonoBehaviour
         chaMod += Mathf.RoundToInt(Random.Range(-chaMod * STAT_MODIFIER_RANGE, chaMod * STAT_MODIFIER_RANGE));
 
         baseAttackDelay += Mathf.RoundToInt(Random.Range(-baseAttackDelay * STAT_MODIFIER_RANGE, baseAttackDelay * STAT_MODIFIER_RANGE));
-        hitMin += Mathf.RoundToInt(Random.Range(-hitMin * STAT_MODIFIER_RANGE, hitMin * STAT_MODIFIER_RANGE));
         hitMax += Mathf.RoundToInt(Random.Range(-hitMax * STAT_MODIFIER_RANGE, hitMax * STAT_MODIFIER_RANGE));
         hitBase += Mathf.RoundToInt(Random.Range(-hitBase * STAT_MODIFIER_RANGE, hitBase * STAT_MODIFIER_RANGE));
-        staggerBase += Mathf.RoundToInt(Random.Range(-staggerBase * STAT_MODIFIER_RANGE, staggerBase * STAT_MODIFIER_RANGE));
         critChance += Mathf.RoundToInt(Random.Range(-critChance * STAT_MODIFIER_RANGE, critChance * STAT_MODIFIER_RANGE));
         critMod += Mathf.RoundToInt(Random.Range(-critMod * STAT_MODIFIER_RANGE, critMod * STAT_MODIFIER_RANGE));
 
         armor += Mathf.RoundToInt(Random.Range(-armor * STAT_MODIFIER_RANGE, armor * STAT_MODIFIER_RANGE));
         resistance += Mathf.RoundToInt(Random.Range(-resistance * STAT_MODIFIER_RANGE, resistance * STAT_MODIFIER_RANGE));
-        poise += Mathf.RoundToInt(Random.Range(-poise * STAT_MODIFIER_RANGE, poise * STAT_MODIFIER_RANGE));
         healthRegen += Mathf.RoundToInt(Random.Range(-healthRegen * STAT_MODIFIER_RANGE, healthRegen * STAT_MODIFIER_RANGE));
         manaRegen += Mathf.RoundToInt(Random.Range(-manaRegen * STAT_MODIFIER_RANGE, manaRegen * STAT_MODIFIER_RANGE));
     }
