@@ -90,6 +90,7 @@ public class HitBox : MonoBehaviour
             // Player Logic
             else if (other.CompareTag("Player") && hitPlayers)
             {
+                Debug.Log("we have hit a player");
                 enemyStats = other.GetComponent<PlayerStats>();
                 bool attackCrit = false;
 
@@ -107,8 +108,8 @@ public class HitBox : MonoBehaviour
                     damageDealt *= (myStats.weaponCritMod + myStats.weaponBonusCritMod);
                     attackCrit = true;
                 }
-
                 damageDealt -= enemyStats.armor;
+                Debug.Log("the player shall take: " + damageDealt + " damage");
                 if (!forceChangeDamageColor)
                     enemyStats.TakeDamage(damageDealt, attackCrit);
                 else

@@ -291,10 +291,10 @@ public class PlayerController : MonoBehaviour
         attackReady = false;
         anim.SetTrigger("Attack");
         playerState = PlayerState.Attacking;
-        anim.SetFloat("AttackAnimSpeed", playerStats.attackSpeed);  
+        anim.SetFloat("AttackAnimSpeed", 1 / playerStats.attackDelay);  
 
         float currentTimer = 0;
-        float targetTimer = 1 / playerStats.attackSpeed;
+        float targetTimer = playerStats.attackDelay;
         bool attackLaunched = false;
         bool breakLoop = false;
         // Start the timer.
@@ -302,7 +302,7 @@ public class PlayerController : MonoBehaviour
         {
             currentTimer += Time.deltaTime;
             // Laucnh the attack if we have awaited for half of the animation.
-            if(!attackLaunched && currentTimer > targetTimer /2)
+            if(!attackLaunched && currentTimer > targetTimer / 2)
             {
                 attackLaunched = true;
                 hitBoxManager.LaunchHitBox(0);

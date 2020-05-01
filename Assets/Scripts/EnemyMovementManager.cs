@@ -8,16 +8,22 @@ public class EnemyMovementManager : MonoBehaviour
     public bool arrivedAtTarget = true;
     public bool enableMovement = false;
 
-    private NavMeshAgent agent;
+    public float spinSpeed = 0.05f;
+    public int currentStance = 0;
+
+    public NavMeshAgent agent;
     private EnemyCombatController combatController;
     private PlayerStats myStats;
+    private Rigidbody rb;
 
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         myStats = GetComponent<PlayerStats>();
+        rb = GetComponent<Rigidbody>();
         combatController = GetComponent<EnemyCombatController>();
+        GetComponent<Animator>().SetInteger("CurrentStance", currentStance);
     }
 
     // Update is called once per frame
@@ -35,12 +41,40 @@ public class EnemyMovementManager : MonoBehaviour
     public void SetTarget(Vector3 Position)
     {
         agent.destination = Position;
+        agent.speed = myStats.speed;
+        arrivedAtTarget = false;
     }
 
     // used to stop us from moving 
     public void StopMovement()
     {
-        agent.destination = transform.position;
-        agent.speed = 0;
+        //agent.destination = transform.position;
+        if(agent != null)
+            agent.speed = 0;
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        arrivedAtTarget = true;
+    }
+
+    // USed to rotate the enemy to thweir target so they face their target while they attack.
+    public void RotateToTarget(Vector3 target)
+    {
+        Vector3 horizontalMovement = target - transform.position;
+        horizontalMovement.y = 0;
+        // Debug.Log("Rotating to target, the horizontal mvoeemnt is: " + horizontalMovement);
+        if (horizontalMovement.sqrMagnitude >= 0.2)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(new Vector3(horizontalMovement.x, 0, horizontalMovement.z).normalized, Vector3.up);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, spinSpeed);
+        }
+    }
+
+    // Used to add a force to this unit and forcibly move it to a location
+    public void MoveToTarget(Vector3 target, float speed)
+    {
+        Vector3 direction = (transform.position - target).normalized;
+        rb.velocity = direction * speed * Time.deltaTime * -100;
+        rb.angularVelocity = Vector3.zero;
+        //Debug.Log("moving the unit with a force of " + direction * speed * Time.deltaTime * 1000);
     }
 }

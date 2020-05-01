@@ -28,7 +28,7 @@ public class StatUpdater : MonoBehaviour
     float intMod;
     float wisMod;
     float chaMod;
-    float attackSpeed;
+    float attackDelay;
     float stagger;
     float critChance;
     float critMod;
@@ -70,7 +70,7 @@ public class StatUpdater : MonoBehaviour
                 + stats.Int * stats.weaponIntScaling + stats.Wis * stats.weaponWisScaling + stats.Cha * stats.weaponChaScaling;
         float averageDamage = stats.weaponHitbase + stats.weaponBonusHitBase + (stats.weaponHitMax + stats.weaponBonusHitMax) / 2 + statBasedDamaged;
         transform.Find("AttackDamage_Value").GetComponent<Text>().text = string.Format("{0:0}", (stats.weaponHitbase + stats.weaponBonusHitBase + statBasedDamaged)) + " - " + string.Format("{0:0}", (stats.weaponHitbase +stats.weaponBonusHitBase + stats.weaponHitMax + stats.weaponBonusHitMax + statBasedDamaged));
-        transform.Find("AttackSpeed_Value").GetComponent<Text>().text = string.Format("{0:0.00}", stats.attackSpeed);
+        transform.Find("AttackSpeed_Value").GetComponent<Text>().text = string.Format("{0:0.00}", 1 / stats.attackDelay);
         // transform.Find("Stagger_Value").GetComponent<Text>().text = string.Format("{0:0.0}", (stats.weaponStaggerBase + stats.Str * stats.weaponStrScaling));
         transform.Find("CritChance_Value").GetComponent<Text>().text = string.Format("{0:0}", (stats.weaponCritChance + stats.weaponBonusCritChance)) + "%";
         transform.Find("CritMod_Value").GetComponent<Text>().text = string.Format("{0:0}", (stats.weaponCritMod + stats.weaponBonusCritMod) * 100) + "%";
@@ -81,7 +81,7 @@ public class StatUpdater : MonoBehaviour
         else if (critValue < 0)
             critValue = 0;
 
-        transform.Find("DPS_Value").GetComponent<Text>().text = string.Format("{0:0.0}", averageDamage *  ( 1 + (critValue / 100 * (stats.weaponCritMod + stats.weaponBonusCritMod))) * stats.attackSpeed);
+        transform.Find("DPS_Value").GetComponent<Text>().text = string.Format("{0:0.0}", averageDamage *  ( 1 + (critValue / 100 * (stats.weaponCritMod + stats.weaponBonusCritMod))) * (1 / stats.attackDelay));
         // Debug.Log("After equipiing the item, our average damage is " + averageDamage + ", our crit modifier is: " + 1 + (critValue / 100 * (stats.weaponCritMod - stats.weaponHitspeeds.Count))
         //    + ", and our attack speed is: " + stats.attackSpeed);
         // Debug.Log("the weapon hit base is: " + stats.weaponHitbase + ", the weapon hit min and max are " + stats.weaponHitMin + " | " + stats.weaponHitMax + ", and the stats based dmg is " + statBasedDamaged);
@@ -172,7 +172,7 @@ public class StatUpdater : MonoBehaviour
 
         transform.Find("AttackDamage_Value").GetComponent<Text>().text = lowerBound + " - " + upperBound;
 
-        DrawTextPlusStatChange(transform.Find("AttackSpeed_Value").GetComponent<Text>(), stats.attackSpeed, attackSpeed, 2);
+        DrawTextPlusStatChange(transform.Find("AttackSpeed_Value").GetComponent<Text>(), 1 / stats.attackDelay, (1 / attackDelay), 2);
         // DrawTextPlusStatChange(transform.Find("Stagger_Value").GetComponent<Text>(), stats.weaponStaggerBase + stats.Str * stats.weaponStrScaling, stagger + Str * strMod, 1);
         
 
@@ -191,8 +191,8 @@ public class StatUpdater : MonoBehaviour
         DrawTextPlusStatChangePercentage(transform.Find("CritMod_Value").GetComponent<Text>(), (stats.weaponCritMod + stats.weaponBonusCritMod) * 100, critMod * 100);
 
         // average attack damage times average crit chance and damage times attack per second
-        float oldDPS = oldAverageDamage * (1 + (oldCritChance / 100 * (stats.weaponCritMod + stats.weaponBonusCritMod))) * stats.attackSpeed;
-        float newDPS = newAverageDamage * (1 + (newCritChance / 100 * critMod)) * attackSpeed;
+        float oldDPS = oldAverageDamage * (1 + (oldCritChance / 100 * (stats.weaponCritMod + stats.weaponBonusCritMod))) * (1 / stats.attackDelay);
+        float newDPS = newAverageDamage * (1 + (newCritChance / 100 * critMod)) * (1 / attackDelay);
 
         DrawTextPlusStatChange(transform.Find("DPS_Value").GetComponent<Text>(), oldDPS, newDPS, 1);
         // Debug.Log("before equipiing the item, our new average damage is " + newAverageDamage + ", our crit modifier is: " + 1 + (newCritChance / 100 * (critMod - weaponCount))
@@ -284,7 +284,7 @@ public class StatUpdater : MonoBehaviour
         // poise = stats.poiseMax;
         weaponBaseHit = stats.weaponHitbase + stats.weaponBonusHitBase;
         weaponMaxHit = stats.weaponHitMax + stats.weaponBonusHitMax;
-        attackSpeed = stats.weaponBaseAttackDelay * (1 + 0.025f * Spd + 0.0125f * Dex);
+        attackDelay = (1 / stats.weaponBaseAttackDelay) / (1 + 0.025f * Spd + 0.0125f * Dex + stats.bonusAttackSpeed);
         critChance = stats.weaponCritChance + stats.weaponBonusCritChance;
         critMod = stats.weaponCritMod + stats.weaponBonusCritMod;
         vitMod = stats.weaponVitScaling;

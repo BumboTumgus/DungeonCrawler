@@ -52,14 +52,17 @@ public class AfflictionManager : MonoBehaviour
     {
         playerBuffManager = GetComponent<BuffsManager>();
 
-        aflameBar.Initialize(100, false);
-        sleepBar.Initialize(100, false);
-        stunBar.Initialize(100, false);
-        curseBar.Initialize(100, false);
-        bleedBar.Initialize(100, false);
-        poisonBar.Initialize(100, false);
-        corrosionBar.Initialize(100, false);
-        frostbiteBar.Initialize(100, false);
+        if (gameObject.CompareTag("Player"))
+        {
+            aflameBar.Initialize(100, false);
+            sleepBar.Initialize(100, false);
+            stunBar.Initialize(100, false);
+            curseBar.Initialize(100, false);
+            bleedBar.Initialize(100, false);
+            poisonBar.Initialize(100, false);
+            corrosionBar.Initialize(100, false);
+            frostbiteBar.Initialize(100, false);
+        }
     }
 
     // Update is called once per frame

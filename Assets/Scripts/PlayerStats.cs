@@ -209,8 +209,8 @@ public class PlayerStats : MonoBehaviour
         speed = 2.5f + (float) Spd / 10;
         if (gameObject.tag == "Enemy")
             speed *= 1.3f;
-        attackDelay = weaponBaseAttackDelay / (1 + 2 * Spd + Dex);
-        attackSpeed = weaponBaseAttackDelay * (1 + 0.025f * Spd + 0.0125f * Dex + bonusAttackSpeed);
+        attackSpeed = 1 + 0.025f * Spd + 0.0125f * Dex + bonusAttackSpeed;
+        attackDelay = (1 / weaponBaseAttackDelay) / attackSpeed;
         strafeSpeed = speed / 2;
         acceleration = speed;
         if (transform.CompareTag("Enemy"))
@@ -396,8 +396,9 @@ public class PlayerStats : MonoBehaviour
             Destroy(GetComponent<CapsuleCollider>());
             Destroy(GetComponent<UnityEngine.AI.NavMeshAgent>());
             Destroy(GetComponent<DamageNumberManager>());
-            Destroy(GetComponent<EnemyMovement>());
-            Destroy(GetComponent<EnemyCombatManager>());
+            Destroy(GetComponent<Rigidbody>());
+            Destroy(GetComponent<EnemyMovementManager>());
+            Destroy(GetComponent<EnemyCombatController>());
 
             Destroy(gameObject, 5);
         }
@@ -465,12 +466,12 @@ public class PlayerStats : MonoBehaviour
         {
             weaponHitspeeds.Add(item.baseAttackDelay);
             
-            float attackSpeed = 0;
+            float totalAttackDelay = 0;
             if (weaponHitspeeds.Count > 0)
             {
                 foreach (float attackDelay in weaponHitspeeds)
-                    attackSpeed += attackDelay;
-                weaponBaseAttackDelay = attackSpeed / weaponHitspeeds.Count;
+                    totalAttackDelay += attackDelay;
+                weaponBaseAttackDelay = totalAttackDelay / weaponHitspeeds.Count;
             }
             else
                 weaponBaseAttackDelay = 1;
@@ -546,12 +547,12 @@ public class PlayerStats : MonoBehaviour
         {
             weaponHitspeeds.Remove(item.baseAttackDelay);
 
-            float attackSpeed = 0;
+            float totalAttackDelay = 0;
             if (weaponHitspeeds.Count > 0)
             {
                 foreach (float attackDelay in weaponHitspeeds)
-                    attackSpeed += attackDelay;
-                weaponBaseAttackDelay = attackSpeed / weaponHitspeeds.Count;
+                    totalAttackDelay += attackDelay;
+                weaponBaseAttackDelay = totalAttackDelay / weaponHitspeeds.Count;
             }
             else
                 weaponBaseAttackDelay = 1;
