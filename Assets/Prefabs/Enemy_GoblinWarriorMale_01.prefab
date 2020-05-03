@@ -67213,6 +67213,7 @@ MonoBehaviour:
   enemyStats: {fileID: 0}
   projectile: 0
   projectileAOE: 0
+  disjointedHitbox: 0
   bypassCrit: 0
   forceChangeDamageColor: 0
   damageColorOverride: {r: 0, g: 0, b: 0, a: 0}
@@ -85443,9 +85444,9 @@ MonoBehaviour:
   playerName: Jose
   playerTitle: Mighty
   weaponBaseAttackDelay: 1
-  weaponHitMax: 5
+  weaponHitMax: 8
   weaponBonusHitMax: 0
-  weaponHitbase: 4
+  weaponHitbase: 11
   weaponBonusHitBase: 0
   weaponCritChance: 5
   weaponBonusCritChance: 0
@@ -85713,8 +85714,8 @@ MonoBehaviour:
   backpeddleMinRange: 1.5
   backpeddleMaxRange: 2.5
   backpeddleSpeedMultiplier: 0.8
-  specialOneAbility: 0
-  specialTwoAbility: 1
+  specialOneAbility: 1
+  specialTwoAbility: 0
   circleCooldown: 3
   tauntCooldown: 3
   waitCooldown: 3
@@ -85765,6 +85766,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellProjectiles:
   - {fileID: 6634279330284547712, guid: dc7462e47b22fa34691d37238c09e843, type: 3}
+  spellSummons: []
+  spellParticles: []
 --- !u!1 &6232851160607376469
 GameObject:
   m_ObjectHideFlags: 0

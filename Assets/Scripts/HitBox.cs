@@ -17,6 +17,7 @@ public class HitBox : MonoBehaviour
 
     public bool projectile = false;
     public bool projectileAOE = false;
+    public bool disjointedHitbox = false;
 
     public bool bypassCrit = false;
     public bool forceChangeDamageColor = false;
@@ -25,7 +26,7 @@ public class HitBox : MonoBehaviour
     private void Start()
     {
         // Grab our player stats from our parent.
-        if(!projectile && !projectileAOE)
+        if(!projectile && !projectileAOE && !disjointedHitbox)
             myStats = transform.root.GetComponent<PlayerStats>();
     }
 
@@ -34,8 +35,9 @@ public class HitBox : MonoBehaviour
         // Projectile logic, we are a projectile and hit an object on the collidable envorioment or interactable layer.
         if ((projectile && other.gameObject.layer == 10) || (projectile && other.gameObject.layer == 9) || (projectile && other.gameObject.layer == 14 && hitEnemies) || (projectile && other.gameObject.layer == 13 && hitPlayers))
         {
-            Debug.Log("we hit an object that is in the collidable or interable layer");
-            GetComponent<ProjectileBehaviour>().DestroyProjectile();
+            //Debug.Log("we hit an object that is in the collidable or interable layer");
+            if(GetComponent<ProjectileBehaviour>())
+                GetComponent<ProjectileBehaviour>().DestroyProjectile();
         }
 
         if (projectile && !GetComponent<ProjectileBehaviour>().hitAOE || !projectile)
@@ -90,7 +92,7 @@ public class HitBox : MonoBehaviour
             // Player Logic
             else if (other.CompareTag("Player") && hitPlayers)
             {
-                Debug.Log("we have hit a player");
+                //Debug.Log("we have hit a player");
                 enemyStats = other.GetComponent<PlayerStats>();
                 bool attackCrit = false;
 
@@ -109,7 +111,7 @@ public class HitBox : MonoBehaviour
                     attackCrit = true;
                 }
                 damageDealt -= enemyStats.armor;
-                Debug.Log("the player shall take: " + damageDealt + " damage");
+                //Debug.Log("the player shall take: " + damageDealt + " damage");
                 if (!forceChangeDamageColor)
                     enemyStats.TakeDamage(damageDealt, attackCrit);
                 else

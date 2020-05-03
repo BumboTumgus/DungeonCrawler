@@ -10,7 +10,9 @@ public class Inventory : MonoBehaviour
     public List<Item> itemsInRange = new List<Item>();
     public List<GameObject> interactablesInRange = new List<GameObject>();
 
+    public InteractPromptController interactPrompt;
     public InventoryUiManager inventoryUI;
+
     private Animator anim;
     // This representts the maximum amount of items our chracter can hold.
     public float INVENTORY_MAX = 15;
@@ -31,16 +33,9 @@ public class Inventory : MonoBehaviour
         stats = GetComponent<PlayerStats>();
         gearManager = GetComponent<PlayerGearManager>();
         anim = GetComponent<Animator>();
+        StartCoroutine(UpdatePromptUI());
     }
 
-    /**
-    // Used to check for inputs to pick up items.
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-            PickUpItem(GrabClosestItem());
-    }
-    */
     // USed to pickup the item we are closest to.
     public void PickUpItem(Item item)
     {
@@ -370,5 +365,46 @@ public class Inventory : MonoBehaviour
             anim.SetInteger("CurrentStance", 2);
         else if (rightHandWeapon.itemMoveset == 3)
             anim.SetInteger("CurrentStance", 3);
+    }
+
+    // This coroutine checks the length of the interactables list, and if it's more than 2 items, grabs the closest one and changes the prompt on the ui to match it.
+    IEnumerator UpdatePromptUI()
+    {
+        yield return new WaitForSeconds(1);
+
+        float currentTimer = 0;
+        float targetTimer = 0.15f;
+
+        while(1 != 0)
+        {
+            currentTimer += Time.deltaTime;
+            if (currentTimer > targetTimer)
+            {
+                currentTimer -= targetTimer;
+                GameObject closestTarget = null;
+
+                if (interactablesInRange.Count > 1)
+                    closestTarget = GrabClosestInteractable();
+                else if (interactablesInRange.Count == 1)
+                    closestTarget = interactablesInRange[0];
+                else if (itemsInRange.Count > 1)
+                    closestTarget = GrabClosestItem().gameObject;
+                else if (itemsInRange.Count == 1)
+                    closestTarget = itemsInRange[0].gameObject;
+
+
+                if (closestTarget != null)
+                {
+                    Debug.Log(" the current closest Item is: " + closestTarget);
+                    if (closestTarget.GetComponent<ChestBehaviour>() != null)
+                        interactPrompt.SetText("Press E to open chest");
+                    else if (closestTarget.GetComponent<Item>() != null)
+                        interactPrompt.SetText("Press E to pickup " + closestTarget.GetComponent<Item>().itemName);
+                }
+                else
+                    interactPrompt.SetText("");
+                yield return new WaitForEndOfFrame();
+            }
+        }
     }
 }

@@ -244,6 +244,7 @@ public class PlayerStats : MonoBehaviour
         exp += value;
         if (myStats != null)
             myStats.SetStatValues(this);
+        Debug.Log("+" + value + " || " + exp + " / " + expTarget);
         if (exp >= expTarget)
         {
             exp -= expTarget;
@@ -251,6 +252,7 @@ public class PlayerStats : MonoBehaviour
             LevelUp();
             expTarget = level * 100;
             StatSetup(true, true);
+            GetComponent<SkillsManager>().ps[40].Play();
             Debug.Log("Level Up");
         }
     }
@@ -281,7 +283,6 @@ public class PlayerStats : MonoBehaviour
         float expValue = Vit + Str + Cha + Spd + Dex + Int + Wis;
         float expValueDifficultyMod = (killerLevel / level) * (killerLevel / level);
         expValue *= expValueDifficultyMod;
-        // Debug.Log("Checking Exp Worth");
         
         return expValue;
     }
@@ -383,15 +384,25 @@ public class PlayerStats : MonoBehaviour
                 players[index] = gm.currentPlayers[index];
             }
 
+            float playerAverageLevel = 0;
             // If any player was agrod onto us, end their combat. and add exp to all players.
-            foreach(GameObject player in players)
+            foreach (GameObject player in players)
+            {
                 player.GetComponent<PlayerStats>().AddExp(ExpWorth(player.GetComponent<PlayerStats>().level));
+                playerAverageLevel += player.GetComponent<PlayerStats>().level;
+            }
+            playerAverageLevel /= players.Length;
+
+            // Create the exp value text the player sees when an enmy dies.
+            GetComponent<DamageNumberManager>().SpawnEXPValue(ExpWorth(playerAverageLevel));
 
             // Destroy the health bar, queue the destruction of all children and set their parents to null, then destroy ourself.
             healthBar.transform.parent.GetComponent<UiFollowTarget>().RemoveFromCullList();
             Destroy(healthBar.transform.parent.gameObject);
 
             GetComponent<Animator>().SetTrigger("Downed");
+
+
             // Destroy all the now usless components while the enemy dies.
             Destroy(GetComponent<CapsuleCollider>());
             Destroy(GetComponent<UnityEngine.AI.NavMeshAgent>());

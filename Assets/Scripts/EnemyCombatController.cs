@@ -75,13 +75,13 @@ public class EnemyCombatController : MonoBehaviour
         waitCurrentCooldown += Time.deltaTime;
         backpeddleCurrentCooldown += Time.deltaTime;
         specialOneCurrentCooldown += Time.deltaTime;
-        specialTwoCooldown += Time.deltaTime;
+        specialTwoCurrentCooldown += Time.deltaTime;
     }
 
     // This method is called when we need to revaluate what state we are in and what to do next.
     public void SwitchAction(ActionType newAction)
     {
-        Debug.Log("switching to a new action: " + newAction);
+        // Debug.Log("switching to a new action: " + newAction);
         StopAllCoroutines();
         switch (newAction)
         {
@@ -184,8 +184,8 @@ public class EnemyCombatController : MonoBehaviour
                     // They are in range and we see them.
                     if (!movementManager.arrivedAtTarget)
                     {
-                        ActionType[] actions = { ActionType.SpecialOne, ActionType.CircleTarget };
-                        float[] chances = { 10, circleTargetChance / 2};
+                        ActionType[] actions = { ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.CircleTarget };
+                        float[] chances = { 10, 10, circleTargetChance / 2};
                         RollChanceForActions(actions, chances);
                     }
                     // We are in range to hit them enter the attack state.
@@ -271,8 +271,8 @@ public class EnemyCombatController : MonoBehaviour
                         yield return new WaitForEndOfFrame();
                     }
                     
-                    ActionType[] actions = { ActionType.SpecialOne, ActionType.TauntTarget, ActionType.Backpeddle, ActionType.CircleTarget };
-                    float[] chances = { 25, tauntTargetChance / 2, backpeddleChance, circleTargetChance};
+                    ActionType[] actions = { ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.TauntTarget, ActionType.Backpeddle, ActionType.CircleTarget };
+                    float[] chances = { 25, 25, tauntTargetChance / 2, backpeddleChance, circleTargetChance};
                     RollChanceForActions(actions, chances);
                 }
             }
@@ -301,8 +301,8 @@ public class EnemyCombatController : MonoBehaviour
         }
 
         tauntCurrentCooldown = 0;
-        ActionType[] actions = { ActionType.SpecialOne, ActionType.WaitInCombat, ActionType.Attack};
-        float[] chances = { 25, waitChance, 100};
+        ActionType[] actions = { ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.WaitInCombat, ActionType.Attack};
+        float[] chances = { 25, 25, waitChance, 100};
         RollChanceForActions(actions, chances);
     }
 
@@ -354,8 +354,8 @@ public class EnemyCombatController : MonoBehaviour
         anim.SetFloat("Speed", 0);
 
         circleCurrentCooldown = 0;
-        ActionType[] actions = { ActionType.SpecialOne, ActionType.TauntTarget, ActionType.WaitInCombat, ActionType.Attack};
-        float[] chances = { 25, tauntTargetChance, waitChance * 5, 100 };
+        ActionType[] actions = { ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.TauntTarget, ActionType.WaitInCombat, ActionType.Attack};
+        float[] chances = { 25, 25, tauntTargetChance, waitChance * 5, 100 };
         RollChanceForActions(actions, chances);
     }
 
@@ -411,8 +411,8 @@ public class EnemyCombatController : MonoBehaviour
         anim.SetFloat("Speed", 0);
 
         backpeddleCurrentCooldown = 0;
-        ActionType[] actions = {ActionType.SpecialOne, ActionType.TauntTarget, ActionType.CircleTarget, ActionType.WaitInCombat };
-        float[] chances = { 25, tauntTargetChance * 4, circleTargetChance * 2, 100 };
+        ActionType[] actions = {ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.TauntTarget, ActionType.CircleTarget, ActionType.WaitInCombat };
+        float[] chances = { 25, 25, tauntTargetChance * 4, circleTargetChance * 2, 100 };
         RollChanceForActions(actions, chances);
     }
 
@@ -504,7 +504,7 @@ public class EnemyCombatController : MonoBehaviour
 
         if (Random.Range(0, 100) > 100 - percentChance)
         {
-            Debug.Log("We are switching to: " + actionToSwitchTo);
+            //Debug.Log("We are switching to: " + actionToSwitchTo);
             SwitchAction(actionToSwitchTo);
         }
     }
@@ -512,14 +512,14 @@ public class EnemyCombatController : MonoBehaviour
     // Used to check if any of the following actions should be commmited in a hierachical order.
     public void RollChanceForActions(ActionType[] actionToSwitchTo, float[] percentChances)
     {
-        Debug.Log("We are rolling for another action to switch to.");
+        //Debug.Log("We are rolling for another action to switch to.");
         for(int index = 0; index < actionToSwitchTo.Length; index++)
         {
             if (Random.Range(0, 100) > 100 - percentChances[index])
             {
                 if (CheckActionReadyStatus(actionToSwitchTo[index]))
                 {
-                    Debug.Log("We are switching to: " + actionToSwitchTo[index]);
+                    //Debug.Log("We are switching to: " + actionToSwitchTo[index]);
                     SwitchAction(actionToSwitchTo[index]);
                     break;
                 }
@@ -530,7 +530,7 @@ public class EnemyCombatController : MonoBehaviour
     // SUed to check the cooldown of a specific action, and if it's ready.
     public bool CheckActionReadyStatus(ActionType action)
     {
-        Debug.Log("Checking action ready status");
+       // Debug.Log("Checking action ready status");
         bool actionReady = true;
         switch (action)
         {
@@ -545,9 +545,13 @@ public class EnemyCombatController : MonoBehaviour
             case ActionType.SpecialOne:
                 if (specialOneCurrentCooldown < specialOneCooldown)
                     actionReady = false;
+                else if (specialOneAbility == EnemyAbilityBank.EnemyAbility.None)
+                    actionReady = false;
                 break;
             case ActionType.SpecialTwo:
                 if (specialTwoCurrentCooldown < specialTwoCooldown)
+                    actionReady = false;
+                else if (specialTwoAbility == EnemyAbilityBank.EnemyAbility.None)
                     actionReady = false;
                 break;
             case ActionType.WaitInCombat:
@@ -572,7 +576,7 @@ public class EnemyCombatController : MonoBehaviour
     // Used When the player we were fighting dies.
     public void TargetDeath()
     {
-        Debug.Log("The target is dead so wed deagro on them here.");
+        //Debug.Log("The target is dead so wed deagro on them here.");
         StopAllCoroutines();
         myTarget = null;
         myCurrentAction = ActionType.Idle;

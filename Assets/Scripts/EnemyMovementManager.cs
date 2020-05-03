@@ -51,8 +51,11 @@ public class EnemyMovementManager : MonoBehaviour
         //agent.destination = transform.position;
         if(agent != null)
             agent.speed = 0;
-        rb.velocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
+        if (rb != null)
+        {
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
         arrivedAtTarget = true;
     }
 

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class DamageNumber : MonoBehaviour
 {
+    public bool xMovementEnabled = true;
+
     private Text damageText;
     private float xMovement;
 
@@ -42,8 +44,11 @@ public class DamageNumber : MonoBehaviour
         {
             // Increment the timer and move the text side to side.
             currentTimer += Time.deltaTime;
-            damageText.transform.Translate(xMovement, 0, 0);
-            xMovement *= X_DECAY_SPEED;
+            if (xMovementEnabled)
+            {
+                damageText.transform.Translate(xMovement, 0, 0);
+                xMovement *= X_DECAY_SPEED;
+            }
 
             yield return new WaitForEndOfFrame();
         }

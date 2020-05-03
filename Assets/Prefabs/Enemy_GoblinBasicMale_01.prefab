@@ -3719,6 +3719,7 @@ GameObject:
   - component: {fileID: 781975980820832495}
   - component: {fileID: 781975980820832492}
   - component: {fileID: 781975980820832493}
+  - component: {fileID: 1015676203}
   m_Layer: 14
   m_Name: Enemy_GoblinBasicMale_01
   m_TagString: Enemy
@@ -4097,6 +4098,20 @@ MonoBehaviour:
   backpeddleMinRange: 1.5
   backpeddleMaxRange: 2.5
   backpeddleSpeedMultiplier: 0.5
+  specialOneAbility: 0
+  specialTwoAbility: 0
+  circleCooldown: 7
+  tauntCooldown: 7
+  waitCooldown: 7
+  backpeddleCooldown: 7
+  specialOneCooldown: 5
+  specialTwoCooldown: 5
+  circleCurrentCooldown: 0
+  tauntCurrentCooldown: 0
+  waitCurrentCooldown: 0
+  backpeddleCurrentCooldown: 0
+  specialOneCurrentCooldown: 0
+  specialTwoCurrentCooldown: 0
   myTarget: {fileID: 0}
   myCurrentAction: 8
   ActionHierarchy: 
@@ -4121,6 +4136,22 @@ MonoBehaviour:
   spinSpeed: 0.05
   currentStance: 0
   agent: {fileID: 0}
+--- !u!114 &1015676203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781975980820832528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a766549565e1242bb05223df1cdd4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spellProjectiles:
+  - {fileID: 6634279330284547712, guid: dc7462e47b22fa34691d37238c09e843, type: 3}
+  spellSummons: []
+  spellParticles: []
 --- !u!1 &781975980820833002
 GameObject:
   m_ObjectHideFlags: 0
@@ -28915,6 +28946,7 @@ MonoBehaviour:
   enemyStats: {fileID: 0}
   projectile: 0
   projectileAOE: 0
+  disjointedHitbox: 0
   bypassCrit: 0
   forceChangeDamageColor: 0
   damageColorOverride: {r: 0, g: 0, b: 0, a: 0}
