@@ -399,6 +399,8 @@ public class PlayerController : MonoBehaviour
 
                 if (interactable.GetComponent<ChestBehaviour>() != null)
                     interactable.GetComponent<ChestBehaviour>().OpenChest();
+                else if (interactable.GetComponent<DoorBehaviour>() != null)
+                    interactable.GetComponent<DoorBehaviour>().InteractWithDoor();
 
                 inventory.interactablesInRange.Remove(interactable);
             }

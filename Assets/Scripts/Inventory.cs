@@ -400,6 +400,10 @@ public class Inventory : MonoBehaviour
                         interactPrompt.SetText("Press E to open chest");
                     else if (closestTarget.GetComponent<Item>() != null)
                         interactPrompt.SetText("Press E to pickup " + closestTarget.GetComponent<Item>().itemName);
+                    else if (closestTarget.GetComponent<DoorBehaviour>() != null && !closestTarget.GetComponent<DoorBehaviour>().doorOpen)
+                        interactPrompt.SetText("Press E to open door");
+                    else if (closestTarget.GetComponent<DoorBehaviour>() != null && closestTarget.GetComponent<DoorBehaviour>().doorOpen)
+                        interactPrompt.SetText("Press E to close door");
                 }
                 else
                     interactPrompt.SetText("");
