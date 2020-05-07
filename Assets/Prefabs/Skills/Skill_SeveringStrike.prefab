@@ -9785,6 +9785,7 @@ GameObject:
   - component: {fileID: 8352909343930759051}
   - component: {fileID: 677577368224116537}
   - component: {fileID: 2425497497054669258}
+  - component: {fileID: -8521237249459302724}
   m_Layer: 9
   m_Name: Skill_SeveringStrike
   m_TagString: Item
@@ -9868,10 +9869,8 @@ MonoBehaviour:
   wisMod: 0
   chaMod: 0
   baseAttackDelay: 0
-  hitMin: 0
   hitMax: 0
   hitBase: 0
-  staggerBase: 0
   critChance: 0
   critMod: 0
   vitScaling: 0
@@ -9886,7 +9885,6 @@ MonoBehaviour:
   mana: 0
   armor: 0
   resistance: 0
-  poise: 0
   healthRegen: 0
   manaRegen: 0
   aflameResist: 0
@@ -9898,6 +9896,18 @@ MonoBehaviour:
   corrosionResist: 0
   frostbiteResist: 0
   knockbackResist: 0
+--- !u!114 &-8521237249459302724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6786506893461341195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ff2be1f1e4ca634ebdc497c30df8430, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1523499290910032992
 PrefabInstance:
   m_ObjectHideFlags: 0

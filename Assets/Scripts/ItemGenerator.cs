@@ -78,7 +78,7 @@ public class ItemGenerator : MonoBehaviour
 
         float itemDiceRoll = Random.Range(0, weapon1hRC + weapon2hRC + chestArmorRC + legArmorRC + helmetsRC + trinketsRC + consumablesRC + skillsRC);
         Item.ItemType itemType = Item.ItemType.Consumable;
-        float itemRarityDiceRoll = Random.Range(0, 40) + rarityLevelMod;
+        float itemRarityDiceRoll = Random.Range(0, 145) + rarityLevelMod;
         Item.ItemRarity itemRarity = Item.ItemRarity.Common;
         
         // Rolls the item type and compares its value in the table below.

@@ -9,6 +9,9 @@ public class ChestBehaviour : MonoBehaviour
     public int treasureCount = 1;
     public int itemCount = 0;
 
+    public bool setItems = false;
+    public bool setTreasure = false;
+
     public List<GameObject> treasureDrops;
     public List<GameObject> itemDrops;
 
@@ -28,36 +31,48 @@ public class ChestBehaviour : MonoBehaviour
     // Used to check what the contents of this chest will be.
     private void RollChestContents()
     {
-        // Check the rarity of the chest and base the contents of it off the rarity.
-        switch (chestRarity)
-        {
-            case ChestRarity.Treasure:
-                treasureCount = Random.Range(2, 4);
-                itemCount = 0;
-                break;
-            case ChestRarity.Common:
-                treasureCount = Random.Range(1, 4);
-                itemCount = Random.Range(1, 2);
-                break;
-            case ChestRarity.Uncommon:
-                treasureCount = Random.Range(2, 6);
-                itemCount = Random.Range(2, 4);
-                break;
-            case ChestRarity.Rare:
-                treasureCount = Random.Range(4, 10);
-                itemCount = Random.Range(3, 6);
-                break;
-            case ChestRarity.Legendary:
-                treasureCount = Random.Range(8, 15);
-                itemCount = Random.Range(4, 8);
-                break;
-            default:
-                break;
-        }
-        for (int index = 0; index < itemCount; index++)
-            itemDrops.Add(itemGenerator.RollItem());
-        for (int index = 0; index < treasureCount; index++)
-            treasureDrops.Add(itemGenerator.RollTreasure());
+            // Check the rarity of the chest and base the contents of it off the rarity.
+            switch (chestRarity)
+            {
+                case ChestRarity.Treasure:
+                    if(!setTreasure)
+                        treasureCount = Random.Range(2, 4);
+                    if(!setItems)
+                        itemCount = 0;
+                    break;
+                case ChestRarity.Common:
+                    if (!setTreasure)
+                        treasureCount = Random.Range(1, 4);
+                    if (!setItems)
+                        itemCount = Random.Range(1, 2);
+                    break;
+                case ChestRarity.Uncommon:
+                    if (!setTreasure)
+                        treasureCount = Random.Range(2, 6);
+                    if (!setItems)
+                        itemCount = Random.Range(2, 4);
+                    break;
+                case ChestRarity.Rare:
+                    if (!setTreasure)
+                        treasureCount = Random.Range(4, 10);
+                    if (!setItems)
+                        itemCount = Random.Range(3, 6);
+                    break;
+                case ChestRarity.Legendary:
+                    if (!setTreasure)
+                        treasureCount = Random.Range(8, 15);
+                    if (!setItems)
+                        itemCount = Random.Range(4, 8);
+                    break;
+                default:
+                    break;
+            }
+            if (!setItems)
+                for (int index = 0; index < itemCount; index++)
+                    itemDrops.Add(itemGenerator.RollItem());
+            if (!setTreasure)
+                for (int index = 0; index < treasureCount; index++)
+                    treasureDrops.Add(itemGenerator.RollTreasure());
     }
 
     // Grab the contents of the chest, and spawn them as treasure that flies upwards then out towards the player.
@@ -84,5 +99,6 @@ public class ChestBehaviour : MonoBehaviour
             treasureItem.GetComponentInChildren<Item>().ItemPopIn(treasureItem.transform.position + treasureItem.transform.forward * Random.Range(MIN_DROP_RING, MAX_DROP_RING));
             // Debug.Log(treasureItem.currentStack);
         }
+        transform.GetComponentInChildren<ParticleSystem>().Stop();
     }
 }

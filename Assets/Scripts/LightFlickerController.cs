@@ -29,7 +29,6 @@ public class LightFlickerController : MonoBehaviour
     
     IEnumerator MoveToTargets(float targetModifier)
     {
-        Debug.Log("Mobing to new target");
         lightTargetIntensity = lightBaseIntensity * targetModifier;
         lightTargetRange = lightBaseRange * targetModifier;
 

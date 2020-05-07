@@ -13,6 +13,8 @@ public class Inventory : MonoBehaviour
     public InteractPromptController interactPrompt;
     public InventoryUiManager inventoryUI;
 
+    public bool showPromptUI = true;
+
     private Animator anim;
     // This representts the maximum amount of items our chracter can hold.
     public float INVENTORY_MAX = 15;
@@ -108,38 +110,31 @@ public class Inventory : MonoBehaviour
     }
 
     // If we enter an items trigegr sphere, well add it to our list of items in range.
-    private void OnTriggerEnter(Collider other)
+    public void ItemInRange(Item item)
     {
-        if(other.CompareTag("Item"))
+        Item currentItem = item;
+        if(currentItem.instantPickup && currentItem.previousOwner != gameObject && currentItem.itemPickUpAllowed)
         {
-            Item currentItem = other.GetComponent<Item>();
-            if(currentItem.instantPickup && currentItem.previousOwner != gameObject && currentItem.itemPickUpAllowed)
+            Debug.Log("the item " + item.gameObject.name + " was instantly picked up");
+            // Instantly pick up the itme if we have room or an incomplete stack.
+            DistributeStacks(currentItem);
+            
+            // After distributing the item to our stacks, we check if we have room for a new stack.
+            if (currentItem.currentStack != 0)
             {
-                Debug.Log("the item " + other.name + " was instantly picked up");
-                // Instantly pick up the itme if we have room or an incomplete stack.
-                DistributeStacks(currentItem);
-
-                // After distributing the item to our stacks, we check if we have room for a new stack.
-                if (currentItem.currentStack != 0)
+                // If we have room we add the item to our inventory.
+                if (inventory.Count < INVENTORY_MAX)
                 {
-                    // If we have room we add the item to our inventory.
-                    if (inventory.Count < INVENTORY_MAX)
-                    {
-                        currentItem.ComfirmPickup(inventoryContainer, FindFirstAvaibleSlot());
-                        inventory.Add(currentItem);
-                        inventoryUI.UpdateInventorySlot(currentItem);
-                    }
+                    currentItem.ComfirmPickup(inventoryContainer, FindFirstAvaibleSlot());
+                    inventory.Add(currentItem);
+                    inventoryUI.UpdateInventorySlot(currentItem);
                 }
-                else
-                    Destroy(currentItem.gameObject);
             }
             else
-                itemsInRange.Add(currentItem);
+                Destroy(currentItem.gameObject);
         }
-        else if(other.CompareTag("Interactable"))
-        {
-            interactablesInRange.Add(other.gameObject);
-        }
+        else
+            itemsInRange.Add(currentItem);
     }
 
     // USed to find the first availible index that we can assign to an item.
@@ -370,12 +365,12 @@ public class Inventory : MonoBehaviour
     // This coroutine checks the length of the interactables list, and if it's more than 2 items, grabs the closest one and changes the prompt on the ui to match it.
     IEnumerator UpdatePromptUI()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.1f);
 
         float currentTimer = 0;
         float targetTimer = 0.15f;
-
-        while(1 != 0)
+        
+        while(showPromptUI)
         {
             currentTimer += Time.deltaTime;
             if (currentTimer > targetTimer)
@@ -392,7 +387,6 @@ public class Inventory : MonoBehaviour
                 else if (itemsInRange.Count == 1)
                     closestTarget = itemsInRange[0].gameObject;
 
-
                 if (closestTarget != null)
                 {
                     Debug.Log(" the current closest Item is: " + closestTarget);
@@ -407,8 +401,8 @@ public class Inventory : MonoBehaviour
                 }
                 else
                     interactPrompt.SetText("");
-                yield return new WaitForEndOfFrame();
             }
+            yield return new WaitForEndOfFrame();
         }
     }
 }
