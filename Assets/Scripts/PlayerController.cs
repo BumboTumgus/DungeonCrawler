@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public GameObject inventoryWindow;
     public Color bleedDamageColor;
     public float speedMultiplier = 1f;
+    public bool menuOpen = false;
 
     private PlayerStats playerStats;
     private PlayerInputs playerInputs;
@@ -32,7 +33,6 @@ public class PlayerController : MonoBehaviour
     private RaycastHit groundRayHit;
     [SerializeField] private LayerMask groundingRayMask = 1 << 10;
     private AnimatorClipInfo[] attackClip;
-    private bool menuOpen = false;
 
     private Vector3 movement;
 

@@ -90,6 +90,8 @@ public class PlayerStats : MonoBehaviour
     public float agroRange = 3;
     public int enemyCost = 1;
 
+    public Color levelUpColor;
+
     private DamageNumberManager damageNumberManager;
     private bool recentlyDamaged = false;
     private float recentlyDamagedTimer = 0;
@@ -145,6 +147,8 @@ public class PlayerStats : MonoBehaviour
             afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Poison, 30);
         if (Input.GetKeyDown(KeyCode.Keypad8) && CompareTag("Player"))
             afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Stun, 30);
+        if (Input.GetKeyDown(KeyCode.P) && CompareTag("Player"))
+            AddExp(25);
 
         // Health and mana regen logic.
         if (!dead)
@@ -251,6 +255,7 @@ public class PlayerStats : MonoBehaviour
             level++;
             LevelUp();
             expTarget = level * 100;
+            GetComponent<DamageNumberManager>().SpawnFlavorText("Level Up!", levelUpColor);
             StatSetup(true, true);
             GetComponent<SkillsManager>().ps[40].Play();
             Debug.Log("Level Up");

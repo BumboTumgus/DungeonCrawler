@@ -10,12 +10,12 @@ public class InteractableAddToList : MonoBehaviour
         {
             if (GetComponent<Item>() != null)
             {
-                Debug.Log("adding us onto the items list.");
+                // Debug.Log("adding us onto the items list.");
                 other.GetComponent<Inventory>().ItemInRange(GetComponent<Item>());
             }
             else
             {
-                Debug.Log("adding us onto the interactables list.");
+                // Debug.Log("adding us onto the interactables list.");
                 other.GetComponent<Inventory>().interactablesInRange.Add(gameObject);
             }
         }

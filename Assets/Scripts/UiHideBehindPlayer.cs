@@ -25,11 +25,12 @@ public class UiHideBehindPlayer : MonoBehaviour
                 else
                     ui.gameObject.SetActive(true);
                 */
-
                 Vector3 toTarget = (ui.target.position - transform.position).normalized;
 
                 if (Vector3.Dot(toTarget, transform.forward) > 0)
                     ui.gameObject.SetActive(true);
+                else if (ui.gameObject.CompareTag("PopUpNumber"))
+                    Destroy(ui.gameObject);
                 else
                     ui.gameObject.SetActive(false);
 

@@ -115,7 +115,7 @@ public class Inventory : MonoBehaviour
         Item currentItem = item;
         if(currentItem.instantPickup && currentItem.previousOwner != gameObject && currentItem.itemPickUpAllowed)
         {
-            Debug.Log("the item " + item.gameObject.name + " was instantly picked up");
+            // Debug.Log("the item " + item.gameObject.name + " was instantly picked up");
             // Instantly pick up the itme if we have room or an incomplete stack.
             DistributeStacks(currentItem);
             
@@ -389,7 +389,7 @@ public class Inventory : MonoBehaviour
 
                 if (closestTarget != null)
                 {
-                    Debug.Log(" the current closest Item is: " + closestTarget);
+                    // Debug.Log(" the current closest Item is: " + closestTarget);
                     if (closestTarget.GetComponent<ChestBehaviour>() != null)
                         interactPrompt.SetText("Press E to open chest");
                     else if (closestTarget.GetComponent<Item>() != null)

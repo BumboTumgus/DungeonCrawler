@@ -34,6 +34,8 @@ public class AfflictionManager : MonoBehaviour
     public BarManager corrosionBar;
     public BarManager frostbiteBar;
 
+    public Color[] uiPopupColors;
+
     public enum AfflictionTypes { Aflame, Asleep, Stun, Curse, Bleed, Poison, Corrosion, Frostbite };
 
     private const float AFLAME_DECAY_RATE = 5;
@@ -46,11 +48,13 @@ public class AfflictionManager : MonoBehaviour
     private const float FROSTBITE_DECAY_RATE = 10;
 
     private BuffsManager playerBuffManager;
+    private DamageNumberManager uiPopupManager;
 
     // Start is called before the first frame update
     void Start()
     {
         playerBuffManager = GetComponent<BuffsManager>();
+        uiPopupManager = GetComponent<DamageNumberManager>();
 
         if (gameObject.CompareTag("Player"))
         {
@@ -108,6 +112,8 @@ public class AfflictionManager : MonoBehaviour
                 {
                     currentAflameValue = 100;
                     playerBuffManager.NewBuff(BuffsManager.BuffType.Aflame);
+                    uiPopupManager.SpawnFlavorText("Aflame!", uiPopupColors[0]);
+
                 }
                 if (!aflameBar.transform.parent.gameObject.activeSelf && aflameResist < 1)
                 {
@@ -122,6 +128,7 @@ public class AfflictionManager : MonoBehaviour
                 {
                     currentAsleepValue = 100;
                     playerBuffManager.NewBuff(BuffsManager.BuffType.Asleep);
+                    uiPopupManager.SpawnFlavorText("Asleep!", uiPopupColors[1]);
                 }
                 if (!sleepBar.transform.parent.gameObject.activeSelf && sleepResist < 1)
                 {
@@ -136,6 +143,7 @@ public class AfflictionManager : MonoBehaviour
                 {
                     currentStunValue = 100;
                     playerBuffManager.NewBuff(BuffsManager.BuffType.Stunned);
+                    uiPopupManager.SpawnFlavorText("Stunned!", uiPopupColors[2]);
                 }
                 if (!stunBar.transform.parent.gameObject.activeSelf && stunResist < 1)
                 {
@@ -150,6 +158,7 @@ public class AfflictionManager : MonoBehaviour
                 {
                     currentCurseValue = 100;
                     playerBuffManager.NewBuff(BuffsManager.BuffType.Cursed);
+                    uiPopupManager.SpawnFlavorText("Cursed!", uiPopupColors[3]);
                 }
                 if (!curseBar.transform.parent.gameObject.activeSelf && curseResist < 1)
                 {
@@ -164,6 +173,7 @@ public class AfflictionManager : MonoBehaviour
                 {
                     currentBleedValue = 100;
                     playerBuffManager.NewBuff(BuffsManager.BuffType.Bleeding);
+                    uiPopupManager.SpawnFlavorText("Bleeding!", uiPopupColors[4]);
                 }
                 if (!bleedBar.transform.parent.gameObject.activeSelf && bleedResist < 1)
                 {
@@ -178,6 +188,7 @@ public class AfflictionManager : MonoBehaviour
                 {
                     currentPoisonValue = 100;
                     playerBuffManager.NewBuff(BuffsManager.BuffType.Poisoned);
+                    uiPopupManager.SpawnFlavorText("Poisoned!", uiPopupColors[5]);
                 }
                 if (!poisonBar.transform.parent.gameObject.activeSelf && poisonResist < 1)
                 {
@@ -192,6 +203,7 @@ public class AfflictionManager : MonoBehaviour
                 {
                     currentCorrosionValue = 100;
                     playerBuffManager.NewBuff(BuffsManager.BuffType.Corrosion);
+                    uiPopupManager.SpawnFlavorText("Corroded!", uiPopupColors[6]);
                 }
                 if (!corrosionBar.transform.parent.gameObject.activeSelf && corrosionResist < 1)
                 {
@@ -206,6 +218,7 @@ public class AfflictionManager : MonoBehaviour
                 {
                     currentFrostbiteValue = 100;
                     playerBuffManager.NewBuff(BuffsManager.BuffType.Frostbite);
+                    uiPopupManager.SpawnFlavorText("Frostbitten!", uiPopupColors[7]);
                 }
                 if (!frostbiteBar.transform.parent.gameObject.activeSelf && frostbiteResist < 1)
                 {

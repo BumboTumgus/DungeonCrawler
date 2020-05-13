@@ -7,6 +7,7 @@ public class DamageNumberManager : MonoBehaviour
     public Transform numberTarget;
     public GameObject damageNumberPrefab;
     public GameObject expNumberPrefab;
+    public GameObject flavorTextPrefab;
     public Color physicalDamageColor;
     public Color physicalDamageCritColor;
     public Color defendedColor;
@@ -60,5 +61,14 @@ public class DamageNumberManager : MonoBehaviour
 
         string xpText = "+" + string.Format("{0:0}", value) + " XP";
         expNumber.GetComponent<DamageNumber>().SetDamageNumber(xpText, xpColor, 1);
+    }
+
+    // Used to spawn a flavor text of some sort from this target.
+    public void SpawnFlavorText(string text, Color color)
+    {
+        GameObject expNumber = Instantiate(flavorTextPrefab, new Vector3(1000, 1000, 1000), new Quaternion(0, 0, 0, 0), primaryCanvas);
+        expNumber.GetComponent<UiFollowTarget>().target = numberTarget;
+        
+        expNumber.GetComponent<DamageNumber>().SetDamageNumber(text, color, 1);
     }
 }

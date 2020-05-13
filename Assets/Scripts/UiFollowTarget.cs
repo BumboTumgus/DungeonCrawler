@@ -13,7 +13,7 @@ public class UiFollowTarget : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main;
-        mainCamera.transform.parent.GetComponent<UiHideBehindPlayer>().targets.Add(this);
+        mainCamera.GetComponent<UiHideBehindPlayer>().targets.Add(this);
     }
 
     // check where we shoudl be in regards to the camera.
@@ -24,6 +24,6 @@ public class UiFollowTarget : MonoBehaviour
 
     public void RemoveFromCullList()
     {
-        mainCamera.transform.parent.GetComponent<UiHideBehindPlayer>().targets.Remove(this);
+        mainCamera.GetComponent<UiHideBehindPlayer>().targets.Remove(this);
     }
 }
