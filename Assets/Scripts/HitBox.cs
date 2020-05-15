@@ -58,10 +58,10 @@ public class HitBox : MonoBehaviour
                 }
                 // Debug.Log("we should check the on hits here.");
 
-                if (projectile && procsOnHits || projectileAOE && procsOnHits)
-                    myStats.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this);
-                else if (procsOnHits)
-                    transform.root.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this);
+                //if (projectile && procsOnHits || projectileAOE && procsOnHits)
+                    //myStats.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this);
+                //else if (procsOnHits)
+                    //transform.root.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this);
 
                 if (myStats.weaponHitspeeds.Count > 0)
                 {

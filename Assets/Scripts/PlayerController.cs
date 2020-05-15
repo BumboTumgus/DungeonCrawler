@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
     private const float SPEED_MULTIPLIER = 100;
     private const float PLAYER_ROTATION_SPEED = 25;
-    private const float GROUNDING_RAY_LENGTH = 0.6f;
+    private const float GROUNDING_RAY_LENGTH = 0.7f;
     private const float JUMP_POWER = 10;
     private const float GRAVITY = 20;
     private const float ROLL_DURATION = 0.5f;
@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame, we call different functions based on our current state.
-    void Update()
+    void FixedUpdate()
     {
         switch (playerState)
         {
