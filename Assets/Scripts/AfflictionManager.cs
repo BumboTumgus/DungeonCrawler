@@ -34,8 +34,6 @@ public class AfflictionManager : MonoBehaviour
     public BarManager corrosionBar;
     public BarManager frostbiteBar;
 
-    public Color[] uiPopupColors;
-
     public enum AfflictionTypes { Aflame, Asleep, Stun, Curse, Bleed, Poison, Corrosion, Frostbite };
 
     private const float AFLAME_DECAY_RATE = 5;
@@ -95,7 +93,8 @@ public class AfflictionManager : MonoBehaviour
                 activeBars.Remove(barToUpdate.transform.parent.gameObject);
                 UpdateBarLocations();
             }
-            barToUpdate.SetValue(originalValue);
+            if(barToUpdate != null)
+                barToUpdate.SetValue(originalValue);
         }
         return originalValue;
     }
@@ -112,10 +111,9 @@ public class AfflictionManager : MonoBehaviour
                 {
                     currentAflameValue = 100;
                     playerBuffManager.NewBuff(BuffsManager.BuffType.Aflame);
-                    uiPopupManager.SpawnFlavorText("Aflame!", uiPopupColors[0]);
 
                 }
-                if (!aflameBar.transform.parent.gameObject.activeSelf && aflameResist < 1)
+                if (aflameBar != null && !aflameBar.transform.parent.gameObject.activeSelf && aflameResist < 1)
                 {
                     aflameBar.transform.parent.gameObject.SetActive(true);
                     activeBars.Add(aflameBar.transform.parent.gameObject);
@@ -128,9 +126,8 @@ public class AfflictionManager : MonoBehaviour
                 {
                     currentAsleepValue = 100;
                     playerBuffManager.NewBuff(BuffsManager.BuffType.Asleep);
-                    uiPopupManager.SpawnFlavorText("Asleep!", uiPopupColors[1]);
                 }
-                if (!sleepBar.transform.parent.gameObject.activeSelf && sleepResist < 1)
+                if (sleepBar != null && !sleepBar.transform.parent.gameObject.activeSelf && sleepResist < 1)
                 {
                     sleepBar.transform.parent.gameObject.SetActive(true);
                     activeBars.Add(sleepBar.transform.parent.gameObject);
@@ -143,9 +140,8 @@ public class AfflictionManager : MonoBehaviour
                 {
                     currentStunValue = 100;
                     playerBuffManager.NewBuff(BuffsManager.BuffType.Stunned);
-                    uiPopupManager.SpawnFlavorText("Stunned!", uiPopupColors[2]);
                 }
-                if (!stunBar.transform.parent.gameObject.activeSelf && stunResist < 1)
+                if (stunBar != null && !stunBar.transform.parent.gameObject.activeSelf && stunResist < 1)
                 {
                     stunBar.transform.parent.gameObject.SetActive(true);
                     activeBars.Add(stunBar.transform.parent.gameObject);
@@ -158,9 +154,8 @@ public class AfflictionManager : MonoBehaviour
                 {
                     currentCurseValue = 100;
                     playerBuffManager.NewBuff(BuffsManager.BuffType.Cursed);
-                    uiPopupManager.SpawnFlavorText("Cursed!", uiPopupColors[3]);
                 }
-                if (!curseBar.transform.parent.gameObject.activeSelf && curseResist < 1)
+                if (curseBar != null && !curseBar.transform.parent.gameObject.activeSelf && curseResist < 1)
                 {
                     curseBar.transform.parent.gameObject.SetActive(true);
                     activeBars.Add(curseBar.transform.parent.gameObject);
@@ -173,9 +168,8 @@ public class AfflictionManager : MonoBehaviour
                 {
                     currentBleedValue = 100;
                     playerBuffManager.NewBuff(BuffsManager.BuffType.Bleeding);
-                    uiPopupManager.SpawnFlavorText("Bleeding!", uiPopupColors[4]);
                 }
-                if (!bleedBar.transform.parent.gameObject.activeSelf && bleedResist < 1)
+                if (bleedBar != null && !bleedBar.transform.parent.gameObject.activeSelf && bleedResist < 1)
                 {
                     bleedBar.transform.parent.gameObject.SetActive(true);
                     activeBars.Add(bleedBar.transform.parent.gameObject);
@@ -188,9 +182,8 @@ public class AfflictionManager : MonoBehaviour
                 {
                     currentPoisonValue = 100;
                     playerBuffManager.NewBuff(BuffsManager.BuffType.Poisoned);
-                    uiPopupManager.SpawnFlavorText("Poisoned!", uiPopupColors[5]);
                 }
-                if (!poisonBar.transform.parent.gameObject.activeSelf && poisonResist < 1)
+                if (poisonBar != null && !poisonBar.transform.parent.gameObject.activeSelf && poisonResist < 1)
                 {
                     poisonBar.transform.parent.gameObject.SetActive(true);
                     activeBars.Add(poisonBar.transform.parent.gameObject);
@@ -203,9 +196,8 @@ public class AfflictionManager : MonoBehaviour
                 {
                     currentCorrosionValue = 100;
                     playerBuffManager.NewBuff(BuffsManager.BuffType.Corrosion);
-                    uiPopupManager.SpawnFlavorText("Corroded!", uiPopupColors[6]);
                 }
-                if (!corrosionBar.transform.parent.gameObject.activeSelf && corrosionResist < 1)
+                if (corrosionBar != null && !corrosionBar.transform.parent.gameObject.activeSelf && corrosionResist < 1)
                 {
                     corrosionBar.transform.parent.gameObject.SetActive(true);
                     activeBars.Add(corrosionBar.transform.parent.gameObject);
@@ -218,9 +210,8 @@ public class AfflictionManager : MonoBehaviour
                 {
                     currentFrostbiteValue = 100;
                     playerBuffManager.NewBuff(BuffsManager.BuffType.Frostbite);
-                    uiPopupManager.SpawnFlavorText("Frostbitten!", uiPopupColors[7]);
                 }
-                if (!frostbiteBar.transform.parent.gameObject.activeSelf && frostbiteResist < 1)
+                if (frostbiteBar != null && !frostbiteBar.transform.parent.gameObject.activeSelf && frostbiteResist < 1)
                 {
                     frostbiteBar.transform.parent.gameObject.SetActive(true);
                     activeBars.Add(frostbiteBar.transform.parent.gameObject);

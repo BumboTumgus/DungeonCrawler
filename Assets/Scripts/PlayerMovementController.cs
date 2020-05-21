@@ -8,7 +8,7 @@ public class PlayerMovementController : MonoBehaviour
     public PlayerState playerState = PlayerState.Idle;
 
     [HideInInspector] public bool menuOpen = false;
-    [SerializeField] private Color bleedDamageColor;
+    public GameObject inventoryWindow;
 
     [SerializeField] private float movementSpeed = 2f;
     private float currentSpeed = 0f;
@@ -24,15 +24,14 @@ public class PlayerMovementController : MonoBehaviour
     private BuffsManager buffsManager;
     private PlayerStats playerStats;
     private HitBoxManager hitBoxManager;
+    private Inventory inventory;
+    private CameraControls cameraControls;
 
     private bool attackReady = true;
 
     private bool rollReady = true;
 
     private bool grounded = true;
-    [HideInInspector] public bool stunned = false;
-    [HideInInspector] public bool asleep = false;
-    [HideInInspector] public bool bleeding = false;
     private float gravityVectorStrength = 0f;
     private Ray groundRay;
     private RaycastHit groundRayHit;
@@ -43,26 +42,28 @@ public class PlayerMovementController : MonoBehaviour
     private const float JUMP_POWER = 0.18f;
     private const float ROLL_SPEED_MULTIPLIER = 2f;
     private const float ROLL_ANIMSPEED_MULITPLIER = 0.6f;
-    private const float ATTACK_ANIMSPEED_MULTIPLIER = 0.5f;
+    //private const float POSITIONAL_DIFFERENCE_OFFSET = 0.1f;
 
     // Start is called before the first frame update
     void Start()
     {
+        mainCameraTransform = Camera.main.transform;
+
         controller = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
         inputs = GetComponent<PlayerInputs>();
         buffsManager = GetComponent<BuffsManager>();
         playerStats = GetComponent<PlayerStats>();
         hitBoxManager = GetComponent<HitBoxManager>();
-
-        mainCameraTransform = Camera.main.transform;
+        cameraControls = mainCameraTransform.GetComponentInChildren<CameraControls>();
+        inventory = GetComponent<Inventory>();
 
         // This is used to grab the length of animation clips
         //float AnimTestTimer = 99;
         //RuntimeAnimatorController ac = anim.runtimeAnimatorController;
         //for(int i = 0; i < ac.animationClips.Length; i ++)
         //{
-        //    if (ac.animationClips[i].name == "Sword-Attack-R3")
+        //    if (ac.animationClips[i].name == "ArmedAttackDual3_Cleaned")
         //        AnimTestTimer = ac.animationClips[i].length;
         //}
         //Debug.Log(AnimTestTimer);
@@ -71,6 +72,10 @@ public class PlayerMovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.K))
+            PlayerDowned();
+        if (Input.GetKeyDown(KeyCode.L))
+            PlayerRevived();
         switch (playerState)
         {
             case PlayerState.Idle:
@@ -79,6 +84,7 @@ public class PlayerMovementController : MonoBehaviour
                 CheckJump();
                 CheckRoll();
                 CheckAttack();
+                CheckInteract();
                 break;
             case PlayerState.Moving:
                 Move();
@@ -86,6 +92,7 @@ public class PlayerMovementController : MonoBehaviour
                 CheckJump();
                 CheckRoll();
                 CheckAttack();
+                CheckInteract();
                 break;
             case PlayerState.Airborne:
                 Move();
@@ -100,6 +107,7 @@ public class PlayerMovementController : MonoBehaviour
                 CheckJump();
                 CheckRoll();
                 CheckAttack();
+                CheckInteract();
                 break;
             case PlayerState.Jumping:
                 Move();
@@ -120,14 +128,22 @@ public class PlayerMovementController : MonoBehaviour
             case PlayerState.Asleep:
                 break;
             case PlayerState.CastingNoMovement:
+                ApplyGravity();
                 break;
             case PlayerState.CastingRollOut:
+                ApplyGravity();
+                CheckRoll();
                 break;
             case PlayerState.CastingWithMovement:
+                Move();
+                ApplyGravity();
+                CheckJump();
+                CheckRoll();
                 break;
             default:
                 break;
         }
+        CheckMenuInputs();
     }
 
     private void Move()
@@ -177,7 +193,10 @@ public class PlayerMovementController : MonoBehaviour
             gravityVectorStrength = 0;
 
             Vector3 positionalDifference = groundRayHit.point - transform.position;
+            //positionalDifference.y -= POSITIONAL_DIFFERENCE_OFFSET;
             controller.Move(positionalDifference);
+
+            //Debug.Log("The positional difference is: " + positionalDifference + ". Our transform is: " + transform.position);
 
             anim.SetBool("Grounded", true);
             if (playerState == PlayerState.Airborne)
@@ -187,7 +206,8 @@ public class PlayerMovementController : MonoBehaviour
         {
             grounded = false;
             anim.SetBool("Grounded", false);
-            playerState = PlayerState.Airborne;
+            if(playerState != PlayerState.Jumping)
+                playerState = PlayerState.Airborne;
 
             Vector3 gravityVector = Vector3.zero;
 
@@ -213,7 +233,7 @@ public class PlayerMovementController : MonoBehaviour
         playerState = PlayerState.Jumping;
         grounded = false;
         gravityVectorStrength = JUMP_POWER;
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
         playerState = PlayerState.Airborne;
     }
 
@@ -254,7 +274,7 @@ public class PlayerMovementController : MonoBehaviour
         // if the movement inputs are greater than 0.2, theyll always snap from 1 to 0, then do the logic for a roll in the movement direction.
         if(movementInput.sqrMagnitude >= 0.2f)
         {
-            Debug.Log("There is a movement input");
+            //Debug.Log("There is a movement input");
             Vector3 forward = mainCameraTransform.forward;
             Vector3 right = mainCameraTransform.right;
 
@@ -306,7 +326,7 @@ public class PlayerMovementController : MonoBehaviour
     // Used to check if the basic attack input was pressed.
     private void CheckAttack()
     {
-        if (Input.GetAxisRaw(inputs.attackInput) != 0 && attackReady && !stunned && !asleep && !menuOpen)
+        if (Input.GetAxisRaw(inputs.attackInput) != 0 && attackReady && !playerStats.stunned && !playerStats.asleep && !menuOpen)
             StartCoroutine(Attack());
     }
 
@@ -315,32 +335,23 @@ public class PlayerMovementController : MonoBehaviour
     {
         attackReady = false;
         anim.SetTrigger("Attack");
+        anim.SetFloat("AttackAnimSpeed", playerStats.attackSpeed);
         playerState = PlayerState.Attacking;
 
         // set up our timers here.
         float currentTimer = 0;
         // This represents the time we must wait: the base length of the animation clip times the speed modifier inherent in the animation clip editor plus some leeway for when the animation ends and blends away.
-        float targetTimer = 0.8f / ATTACK_ANIMSPEED_MULTIPLIER * 0.6f;
-        Debug.Log("the target timer is: " + targetTimer);
-        bool attackLaunched = false;
+        float targetTimer = 0.8f / playerStats.attackSpeed;
+        //Debug.Log("the target timer is: " + targetTimer);
         bool breakLoop = false;
 
         // Start the timer.
         while (currentTimer < targetTimer)
         {
             currentTimer += Time.deltaTime;
-            // Laucnh the attack if we have awaited for half of the animation.
-            if (!attackLaunched && currentTimer > targetTimer * 0.6)
-            {
-                Debug.Log("The attack has hit");
-                attackLaunched = true;
-                hitBoxManager.LaunchHitBox(0);
-                // If the player has the bleeding debuff, we take damage.
-                if (bleeding)
-                    playerStats.TakeDamage(playerStats.healthMax * 0.1f, false, bleedDamageColor);
-            }
+
             // Break away from this coroutine if we start a roll.
-            if (!rollReady || stunned || asleep)
+            if (playerState == PlayerState.Rolling || playerStats.stunned || playerStats.asleep)
             {
                 breakLoop = true;
                 break;
@@ -348,10 +359,122 @@ public class PlayerMovementController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        Debug.Log("the attack has ended");
+        //Debug.Log("the attack has ended");
         if (!breakLoop)
             playerState = PlayerState.Idle;
         attackReady = true;
+    }
+
+    // Called when the player is hit below 0 hp and downed.
+    public void PlayerDowned()
+    {
+        StopAllCoroutines();
+        playerState = PlayerState.Downed;
+        anim.SetTrigger("Downed");
+    }
+
+    // Called when the player is revived and revived back from the downed state.
+    public void PlayerRevived()
+    {
+        StopAllCoroutines();
+        playerState = PlayerState.Idle;
+        anim.SetTrigger("Revived");
+    }
+
+    // Used when the player gets stunned
+    public void StunLaunch()
+    {
+        StartCoroutine(Stunned());
+    }
+
+    // The stunned coroutine. Makes the player unable to take action.
+    IEnumerator Stunned()
+    {
+        playerStats.stunned = true;
+        playerState = PlayerState.Stunned;
+        anim.SetBool("Stunned", true);
+
+        while (playerStats.stunned)
+            yield return null;
+
+        playerState = PlayerState.Idle;
+        playerStats.stunned = false;
+        anim.SetBool("Stunned", false);
+    }
+
+    // Used when the player gets stunned
+    public void AsleepLaunch()
+    {
+        StartCoroutine(Asleep());
+    }
+
+    // The stunned coroutine. Makes the player unable to take action.
+    IEnumerator Asleep()
+    {
+        playerStats.asleep = true;
+        playerState = PlayerState.Asleep;
+        anim.SetBool("Sleeping", true);
+
+        while (playerStats.asleep)
+            yield return null;
+
+        playerState = PlayerState.Idle;
+        playerStats.asleep = false;
+        anim.SetBool("Sleeping", false);
+    }
+
+    // Used to make the player do a pickup animation.
+    public void CheckInteract()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            // Debug.Log("an interact attempt was made");
+            if (inventory.interactablesInRange.Count > 0)
+            {
+                // Here we check what kind of interactable it is and then interact with it accordingly.
+                GameObject interactable = inventory.GrabClosestInteractable();
+                anim.SetTrigger("Interact");
+
+                if (interactable.GetComponent<ChestBehaviour>() != null)
+                    interactable.GetComponent<ChestBehaviour>().OpenChest();
+                else if (interactable.GetComponent<DoorBehaviour>() != null)
+                    interactable.GetComponent<DoorBehaviour>().InteractWithDoor();
+
+                inventory.interactablesInRange.Remove(interactable);
+            }
+            else if (inventory.itemsInRange.Count > 0)
+            {
+                inventory.PickUpItem(inventory.GrabClosestItem());
+                anim.SetTrigger("PickUp");
+            }
+        }
+    }
+
+    // Check if the menu inputs were pressed. If so display the proper menu.
+    private void CheckMenuInputs()
+    {
+        // If we have pressed the inventory window, 
+        if (Input.GetAxisRaw(inputs.inventoryInput) == 1 && inputs.inventoryReleased)
+        {
+            inputs.inventoryReleased = false;
+            //Debug.Log("Inventory will be opened or closed");
+            if (!inventoryWindow.activeSelf)
+            {
+                // Set the lock for our movement and camera controls after we press and open the inventory.
+                inventoryWindow.SetActive(true);
+                menuOpen = true;
+                cameraControls.menuOpen = true;
+            }
+            else
+            {
+                // Remvoe the lock for our movement and camera controls after we press and open the inventory.
+                inventoryWindow.SetActive(false);
+                inventoryWindow.GetComponent<InventoryPopupTextManager>().lockPointer = false;
+                inventoryWindow.GetComponent<InventoryPopupTextManager>().HidePopups();
+                menuOpen = false;
+                cameraControls.menuOpen = false;
+            }
+        }
     }
 
 }

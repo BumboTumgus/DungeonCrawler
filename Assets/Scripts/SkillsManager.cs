@@ -27,11 +27,12 @@ public class SkillsManager : MonoBehaviour
     public Transform skillsContainer;
 
     private SkillBank skillBank;
-    public PlayerInputs inputs;
-    public HitBoxManager hitBoxes;
-    public PlayerStats stats;
-    public Rigidbody rb;
-    public PlayerController controller;
+    [HideInInspector] public PlayerInputs inputs;
+    [HideInInspector] public HitBoxManager hitBoxes;
+    [HideInInspector] public PlayerStats stats;
+    [HideInInspector] public PlayerMovementController controller;
+    [HideInInspector] public CameraControls cameraControls;
+    [HideInInspector] public CharacterController characterController;
 
 
     private void Start()
@@ -39,9 +40,10 @@ public class SkillsManager : MonoBehaviour
         skillBank = FindObjectOfType<SkillBank>();
         inputs = GetComponent<PlayerInputs>();
         stats = GetComponent<PlayerStats>();
-        controller = GetComponent<PlayerController>();
+        controller = GetComponent<PlayerMovementController>();
         hitBoxes = GetComponent<HitBoxManager>();
-        rb = GetComponent<Rigidbody>();
+        cameraControls = Camera.main.GetComponent<CameraControls>();
+        characterController = GetComponent<CharacterController>();
         foreach (ParticleSystem particle in ps)
             particle.Stop();
         //AddSkill(0, SkillNames.ToxicRipple);
@@ -98,7 +100,7 @@ public class SkillsManager : MonoBehaviour
             addedSkill.connectedBar.Initialize(addedSkill.targetCooldown, true);
             addedSkill.skillIndex = index;
             addedSkill.myManager = this;
-            addedSkill.pc = GetComponent<PlayerController>();
+            addedSkill.pc = GetComponent<PlayerMovementController>();
             addedSkill.anim = GetComponent<Animator>();
             addedSkill.currentCooldown = addedSkill.targetCooldown;
             addedIcon.transform.GetChild(1).GetComponent<Image>().sprite = addedSkill.skillIcon;

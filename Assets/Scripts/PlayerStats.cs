@@ -77,16 +77,19 @@ public class PlayerStats : MonoBehaviour
     public BarManager manaBar;
     public StatUpdater myStats;
 
-    public bool invulnerable = false;
-    public bool untargetable = false;
-    public bool invisibile = false;
-    public float invulnerableCount = 0;
-    public float untargetableCount = 0;
-    public float invisibleCount = 0;
-    public bool revitalizeBuff = false;
+    [HideInInspector] public bool invulnerable = false;
+    [HideInInspector] public bool untargetable = false;
+    [HideInInspector] public bool invisibile = false;
+    [HideInInspector] public bool stunned = false;
+    [HideInInspector] public bool asleep = false;
+    [HideInInspector] public bool bleeding = false;
+    [HideInInspector] public float invulnerableCount = 0;
+    [HideInInspector] public float untargetableCount = 0;
+    [HideInInspector] public float invisibleCount = 0;
+    [HideInInspector] public bool revitalizeBuff = false;
 
-    public bool dead = false;
- 
+    [HideInInspector] public bool dead = false;
+
     public float agroRange = 3;
     public int enemyCost = 1;
 
@@ -318,9 +321,9 @@ public class PlayerStats : MonoBehaviour
             else
                 amount = 0;
 
-            if(GetComponent<PlayerController>() != null && GetComponent<PlayerController>().asleep)
+            if(asleep)
             {
-                GetComponent<PlayerController>().asleep = false;
+                asleep = false;
                 // disable the sleeping debuff.
                 foreach (Buff buff in GetComponent<BuffsManager>().activeBuffs)
                 {
@@ -421,7 +424,7 @@ public class PlayerStats : MonoBehaviour
         else if (gameObject.CompareTag("Player"))
         {
             Debug.Log("PlayerDeath");
-            GetComponent<PlayerController>().PlayerDowned();
+            GetComponent<PlayerMovementController>().PlayerDowned();
         }
         else
         {

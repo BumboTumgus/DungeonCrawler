@@ -15,18 +15,20 @@ public class BuffsManager : MonoBehaviour
                             NaturePulse, Revitalize};
     
     [SerializeField] private Sprite[] buffIcons;
-    [SerializeField] private Color[] damageColors;
+    public Color[] damageColors;
     [SerializeField] private ParticleSystem[] psSystems;
     private PlayerStats stats;
     private AfflictionManager afflictionManager;
     private EffectsManager effects;
     private SkillsManager skillManager;
+    private DamageNumberManager uiPopupManager;
 
 
     // Grabs the players stats for use when calculating buff strength.
     private void Start()
     {
         stats = GetComponent<PlayerStats>();
+        uiPopupManager = GetComponent<DamageNumberManager>();
         afflictionManager = GetComponent<AfflictionManager>();
         effects = GetComponent<EffectsManager>();
         skillManager = GetComponent<SkillsManager>();
@@ -68,6 +70,7 @@ public class BuffsManager : MonoBehaviour
                 case BuffType.Aflame:
                     
                     Debug.Log("Addding aflame buff");
+                    uiPopupManager.SpawnFlavorText("Aflame!", damageColors[0]);
                     Buff aflame = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     aflame.connectedIcon = buffIcon;
                     buffIcon.GetComponent<Image>().sprite = buffIcons[0];
@@ -93,6 +96,7 @@ public class BuffsManager : MonoBehaviour
                 case BuffType.Asleep:
 
                     Debug.Log("Adding asleep debuff");
+                    uiPopupManager.SpawnFlavorText("Asleep!", damageColors[5]);
                     Buff asleep = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     asleep.connectedIcon = buffIcon;
                     buffIcon.GetComponent<Image>().sprite = buffIcons[1];
@@ -104,7 +108,7 @@ public class BuffsManager : MonoBehaviour
                     asleep.infiniteDuration = false;
                     asleep.duration = 5;
                     asleep.DPS = 0;
-                    GetComponent<PlayerController>().AsleepLaunch(5);
+                    GetComponent<PlayerMovementController>().AsleepLaunch();
                     asleep.effectParticleSystem.Add(psSystems[1]);
                     psSystems[1].Play();
 
@@ -112,6 +116,7 @@ public class BuffsManager : MonoBehaviour
                 case BuffType.Stunned:
 
                     Debug.Log("Adding stun debuff");
+                    uiPopupManager.SpawnFlavorText("Cursed!", damageColors[6]);
                     Buff stunned = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     stunned.connectedIcon = buffIcon;
                     buffIcon.GetComponent<Image>().sprite = buffIcons[2];
@@ -123,7 +128,7 @@ public class BuffsManager : MonoBehaviour
                     stunned.infiniteDuration = false;
                     stunned.duration = 2;
                     stunned.DPS = 0;
-                    GetComponent<PlayerController>().StunLaunch(2);
+                    GetComponent<PlayerMovementController>().StunLaunch();
                     stunned.effectParticleSystem.Add(psSystems[2]);
                     psSystems[2].Play();
 
@@ -131,6 +136,7 @@ public class BuffsManager : MonoBehaviour
                 case BuffType.Cursed:
 
                     Debug.Log("Adding cursed debuff");
+                    uiPopupManager.SpawnFlavorText("Cursed!", damageColors[1]);
                     Buff cursed = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     cursed.connectedIcon = buffIcon;
                     buffIcon.GetComponent<Image>().sprite = buffIcons[3];
@@ -155,6 +161,7 @@ public class BuffsManager : MonoBehaviour
                 case BuffType.Bleeding:
 
                     Debug.Log("Adding bleed debuff");
+                    uiPopupManager.SpawnFlavorText("Bleeding!", damageColors[2]);
                     Buff bleed = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     bleed.connectedIcon = buffIcon;
                     buffIcon.GetComponent<Image>().sprite = buffIcons[4];
@@ -167,7 +174,7 @@ public class BuffsManager : MonoBehaviour
                     bleed.duration = 10;
                     bleed.DPS = stats.healthMax * 0.025f;
                     bleed.damageColor = damageColors[2];
-                    GetComponent<PlayerController>().bleeding = true;
+                    stats.bleeding = true;
                     stats.TakeDamage(stats.healthMax * 0.25f, false, damageColors[2]);
                     bleed.effectParticleSystem.Add(psSystems[6]);
                     psSystems[6].Play();
@@ -177,6 +184,7 @@ public class BuffsManager : MonoBehaviour
                 case BuffType.Poisoned:
 
                     Debug.Log("Adding poison debuff");
+                    uiPopupManager.SpawnFlavorText("Poisoned!", damageColors[3]);
                     Buff poisoned = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     poisoned.connectedIcon = buffIcon;
                     buffIcon.GetComponent<Image>().sprite = buffIcons[5];
@@ -198,6 +206,7 @@ public class BuffsManager : MonoBehaviour
                 case BuffType.Corrosion:
 
                     Debug.Log("Adding corrosion debuff");
+                    uiPopupManager.SpawnFlavorText("Corroded!", damageColors[4]);
                     Buff corrosion = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     corrosion.connectedIcon = buffIcon;
                     buffIcon.GetComponent<Image>().sprite = buffIcons[6];
@@ -219,6 +228,7 @@ public class BuffsManager : MonoBehaviour
                 case BuffType.Frostbite:
 
                     Debug.Log("Adding frostbite debuff");
+                    uiPopupManager.SpawnFlavorText("Frostbitten!", damageColors[5]);
                     Buff frostbite = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     frostbite.connectedIcon = buffIcon;
                     buffIcon.GetComponent<Image>().sprite = buffIcons[7];

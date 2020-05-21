@@ -7,8 +7,6 @@ public class EnemyCombatController : MonoBehaviour
     public bool patrol = false;
     public bool inCombat = false;
     public float agroRange = 20f;
-    public float circleTargetChance = 0f;
-    public float tauntTargetChance = 0f;
     public float waitChance = 0f;
     public float backpeddleChance = 0f;
     public float circleMinRange = 3;
@@ -19,6 +17,7 @@ public class EnemyCombatController : MonoBehaviour
     public float backpeddleMinRange = 1;
     public float backpeddleMaxRange = 1;
     public float backpeddleSpeedMultiplier = 0.7f;
+    public bool usePrimaryAttack = true;
 
     public EnemyAbilityBank.EnemyAbility specialOneAbility;
     public EnemyAbilityBank.EnemyAbility specialTwoAbility;
@@ -43,7 +42,8 @@ public class EnemyCombatController : MonoBehaviour
     public ActionType myCurrentAction = ActionType.Idle;
 
     // This is the action hierarchy List, The actions go in in order of importance.
-    public List<ActionType> ActionHierarchy = new List<ActionType>();
+    public ActionType[] actionHierarchy;
+    public float[] actionChances;
     public LayerMask wallColMask;
 
     private EnemyMovementManager movementManager;
@@ -81,7 +81,7 @@ public class EnemyCombatController : MonoBehaviour
     // This method is called when we need to revaluate what state we are in and what to do next.
     public void SwitchAction(ActionType newAction)
     {
-        // Debug.Log("switching to a new action: " + newAction);
+        Debug.Log("switching to a new action: " + newAction);
         StopAllCoroutines();
         switch (newAction)
         {
@@ -112,10 +112,12 @@ public class EnemyCombatController : MonoBehaviour
                 break;
             case ActionType.SpecialOne:
                 specialOneCurrentCooldown = 0;
+                myCurrentAction = ActionType.SpecialOne;
                 abilityBank.CastSpell(specialOneAbility);
                 break;
             case ActionType.SpecialTwo:
                 specialTwoCurrentCooldown = 0;
+                myCurrentAction = ActionType.SpecialTwo;
                 abilityBank.CastSpell(specialTwoAbility);
                 break;
             case ActionType.SpecialThree:
@@ -171,7 +173,7 @@ public class EnemyCombatController : MonoBehaviour
         anim.SetFloat("Speed", 1);
 
         float currentTimer = 0;
-        float targetTimer = 0.2f;
+        float targetTimer = 0.15f;
         while(inCombat)
         {
             currentTimer += Time.deltaTime;
@@ -182,18 +184,18 @@ public class EnemyCombatController : MonoBehaviour
                 if (CheckDistanceWallObstructed(agroRange, myTarget.transform))
                 {
                     // They are in range and we see them.
-                    if (!movementManager.arrivedAtTarget)
-                    {
-                        ActionType[] actions = { ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.CircleTarget };
-                        float[] chances = { 10, 10, circleTargetChance / 2};
-                        RollChanceForActions(actions, chances);
-                    }
+                    CheckActionHierarchy();
+                    //if (!movementManager.arrivedAtTarget)
+                    //{
+                    //ActionType[] actions = { ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.CircleTarget };
+                    //float[] chances = { 10, 10, circleTargetChance / 2 };
+                    //RollChanceForActions(actions, chances);
+                    //}
                     // We are in range to hit them enter the attack state.
-                    else
-                    {
-                        SwitchAction(ActionType.Attack);
-                    }
-
+                    //else
+                    //{
+                    //    SwitchAction(ActionType.Attack);
+                    //}
                 }
                 else
                 {
@@ -242,7 +244,7 @@ public class EnemyCombatController : MonoBehaviour
         while(movementManager.arrivedAtTarget)
         {
             // Check the attack range distance, if we are out of range, start chasing.
-            if(CheckDistance(myStats.attackRange, myTarget.transform))
+            if(usePrimaryAttack && CheckDistance(myStats.attackRange, myTarget.transform))
             {
                 // Can we currently attack?
                 if (myStats.currentAttackDelay > myStats.attackDelay)
@@ -250,30 +252,25 @@ public class EnemyCombatController : MonoBehaviour
                     // Launch the attack.
                     myStats.currentAttackDelay = 0;
                     anim.SetTrigger("Attack");
-                    anim.SetFloat("AttackAnimSpeed", (1 / myStats.attackDelay));
+                    anim.SetFloat("AttackAnimSpeed", myStats.attackSpeed);
 
                     // Set up the timers.
                     float currentTimer = 0;
-                    float targetTimer = myStats.attackDelay;
-                    bool attackedLaunched = false;
+                    float targetTimer = 0.8f / myStats.attackSpeed;
 
                     while(currentTimer < targetTimer)
                     {
                         currentTimer += Time.deltaTime;
-                        // If we have waited a sufficient amount of time, launch the attack
-                        if(!attackedLaunched && currentTimer > targetTimer / 2)
-                        {
-                            attackedLaunched = true;
-                            hitBoxManager.LaunchHitBox(0);
-                        }
+
                         // Rotate towards the target.
                         movementManager.RotateToTarget(myTarget.transform.position);
                         yield return new WaitForEndOfFrame();
                     }
-                    
-                    ActionType[] actions = { ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.TauntTarget, ActionType.Backpeddle, ActionType.CircleTarget };
-                    float[] chances = { 25, 25, tauntTargetChance / 2, backpeddleChance, circleTargetChance};
-                    RollChanceForActions(actions, chances);
+
+                    //ActionType[] actions = { ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.TauntTarget, ActionType.Backpeddle, ActionType.CircleTarget };
+                    //float[] chances = { 25, 25, tauntTargetChance / 2, backpeddleChance, circleTargetChance};
+                    //RollChanceForActions(actions, chances);
+                    CheckActionHierarchy();
                 }
             }
             else
@@ -301,9 +298,10 @@ public class EnemyCombatController : MonoBehaviour
         }
 
         tauntCurrentCooldown = 0;
-        ActionType[] actions = { ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.WaitInCombat, ActionType.Attack};
-        float[] chances = { 25, 25, waitChance, 100};
-        RollChanceForActions(actions, chances);
+        //ActionType[] actions = { ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.WaitInCombat, ActionType.Attack};
+        //float[] chances = { 25, 25, waitChance, 100};
+        //RollChanceForActions(actions, chances);
+        CheckActionHierarchy();
     }
 
     // Used to start circling the target.
@@ -341,7 +339,7 @@ public class EnemyCombatController : MonoBehaviour
                 else
                     slidePosition = transform.position + (-transform.right * targetRadiusFromTarget).normalized * 2;
 
-                Debug.DrawRay(transform.position + Vector3.up, (slidePosition - transform.position), Color.green, 2f);
+                //Debug.DrawRay(transform.position + Vector3.up, (slidePosition - transform.position), Color.green, 2f);
                 movementManager.MoveToTarget(slidePosition, myStats.speed * circleSpeedMultiplier);
             }
             movementManager.RotateToTarget(myTarget.transform.position);
@@ -354,9 +352,10 @@ public class EnemyCombatController : MonoBehaviour
         anim.SetFloat("Speed", 0);
 
         circleCurrentCooldown = 0;
-        ActionType[] actions = { ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.TauntTarget, ActionType.WaitInCombat, ActionType.Attack};
-        float[] chances = { 25, 25, tauntTargetChance, waitChance * 5, 100 };
-        RollChanceForActions(actions, chances);
+        //ActionType[] actions = { ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.TauntTarget, ActionType.WaitInCombat, ActionType.Attack};
+        //float[] chances = { 25, 25, tauntTargetChance, waitChance * 5, 100 };
+        //RollChanceForActions(actions, chances);
+        CheckActionHierarchy();
     }
 
     // The wait in combat coroutine. This is called when the enemy should take a break as to not run down the player all the time.
@@ -378,7 +377,7 @@ public class EnemyCombatController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         waitCurrentCooldown = 0;
-        SwitchAction(ActionType.Attack);
+        CheckActionHierarchy();
     }
 
     // Used to make the target backpeddle for a bit then wait.
@@ -411,9 +410,10 @@ public class EnemyCombatController : MonoBehaviour
         anim.SetFloat("Speed", 0);
 
         backpeddleCurrentCooldown = 0;
-        ActionType[] actions = {ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.TauntTarget, ActionType.CircleTarget, ActionType.WaitInCombat };
-        float[] chances = { 25, 25, tauntTargetChance * 4, circleTargetChance * 2, 100 };
-        RollChanceForActions(actions, chances);
+        //ActionType[] actions = {ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.TauntTarget, ActionType.CircleTarget, ActionType.WaitInCombat };
+        //float[] chances = { 25, 25, tauntTargetChance * 4, circleTargetChance * 2, 100 };
+        //RollChanceForActions(actions, chances);
+        CheckActionHierarchy();
     }
 
     // Thsi method checks the dustance between myself and the target
@@ -441,7 +441,7 @@ public class EnemyCombatController : MonoBehaviour
         {
             // If it's in range shoot a ray at the target to see if we hit a wall.
             Ray ray = new Ray(transform.position + new Vector3(0,1,0), (target.position - transform.position).normalized);
-            Debug.DrawRay(transform.position + new Vector3(0, 1, 0), (target.position - transform.position).normalized * 30, Color.red);
+            // Debug.DrawRay(transform.position + new Vector3(0, 1, 0), (target.position - transform.position).normalized * 30, Color.red);
             RaycastHit rayhit;
 
             if (Physics.Raycast(ray, out rayhit, distance, wallColMask))
@@ -567,6 +567,7 @@ public class EnemyCombatController : MonoBehaviour
         }
         return actionReady;
     }
+
     // Used when this unit dies
     public void UnitDeath()
     {
@@ -581,5 +582,85 @@ public class EnemyCombatController : MonoBehaviour
         myTarget = null;
         myCurrentAction = ActionType.Idle;
         SwitchAction(ActionType.Idle);
+    }
+
+    // Used to check the action hierachy we set t0o see what our nect course of action should be.
+    public void CheckActionHierarchy()
+    {
+        Debug.Log("we have entered the action hierarchy");
+        // If this bool gets switched to true, we have found an action and can break the for loop.
+        bool actionFound = false;
+
+        // Check if our target is alive
+        if(myTarget.GetComponent<PlayerStats>() != null && myTarget.GetComponent<PlayerStats>().dead)
+        {
+            SwitchAction(ActionType.LosingAgro);
+            return;
+        }
+
+
+        // check each action in the action hierachy.
+        for(int index = 0; index < actionHierarchy.Length; index ++)
+        {
+            // Compare this action to what we need to do.
+            ActionType currentActionToCheck = actionHierarchy[index];
+            switch (currentActionToCheck)
+            {
+                case ActionType.Attack:
+                    // if we are in range, attack the dude.
+                    if (CheckDistance(myStats.attackRange, myTarget.transform))
+                        actionFound = true;
+                    break;
+                    // This action is known as a baseline action, it will always execute no matter the situation.
+                case ActionType.ChaseTarget:
+                    actionFound = true;
+                    break;
+                case ActionType.CircleTarget:
+                    if (circleCurrentCooldown > circleCooldown && Random.Range(0, 100) > 100 - actionChances[index])
+                        actionFound = true;
+                    break;
+                case ActionType.TauntTarget:
+                    if (tauntCurrentCooldown > tauntCooldown && Random.Range(0, 100) > 100 - actionChances[index])
+                        actionFound = true;
+                    break;
+                case ActionType.MaintainDistance:
+                    break;
+                case ActionType.ChaseLowTargets:
+                    break;
+                case ActionType.RetreatWhenLow:
+                    break;
+                case ActionType.RetreatWhenNoLeader:
+                    break;
+                case ActionType.SpecialOne:
+                    if (specialOneCurrentCooldown > specialOneCooldown && Random.Range(0, 100) > 100 - actionChances[index])
+                        actionFound = true;
+                    break;
+                case ActionType.SpecialTwo:
+                    if (specialTwoCurrentCooldown > specialTwoCooldown && Random.Range(0, 100) > 100 - actionChances[index])
+                        actionFound = true;
+                    break;
+                case ActionType.SpecialThree:
+                    break;
+                case ActionType.SpecialFour:
+                    break;
+                case ActionType.WaitInCombat:
+                    if (waitCurrentCooldown > waitCooldown && Random.Range(0, 100) > 100 - actionChances[index])
+                        actionFound = true;
+                    break;
+                case ActionType.Backpeddle:
+                    if (backpeddleCurrentCooldown > backpeddleCooldown && Random.Range(0, 100) > 100 - actionChances[index])
+                        actionFound = true;
+                    break;
+                default:
+                    break;
+            }
+
+            // if we found an action to commit to break from this.
+            if (actionFound)
+            {
+                SwitchAction(currentActionToCheck);
+                break;
+            }
+        }
     }
 }

@@ -32,6 +32,7 @@ public class HitBox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //Debug.Log("we have colldied with collided with: " + other.name);
         // Projectile logic, we are a projectile and hit an object on the collidable envorioment or interactable layer.
         if ((projectile && other.gameObject.layer == 10) || (projectile && other.gameObject.layer == 9) || (projectile && other.gameObject.layer == 14 && hitEnemies) || (projectile && other.gameObject.layer == 13 && hitPlayers))
         {
@@ -58,10 +59,10 @@ public class HitBox : MonoBehaviour
                 }
                 // Debug.Log("we should check the on hits here.");
 
-                //if (projectile && procsOnHits || projectileAOE && procsOnHits)
-                    //myStats.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this);
-                //else if (procsOnHits)
-                    //transform.root.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this);
+                if (projectile && procsOnHits || projectileAOE && procsOnHits)
+                    myStats.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this);
+                else if (procsOnHits)
+                    transform.root.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this);
 
                 if (myStats.weaponHitspeeds.Count > 0)
                 {
@@ -105,7 +106,7 @@ public class HitBox : MonoBehaviour
                         + myStats.Int * myStats.weaponIntScaling + myStats.Wis * myStats.weaponWisScaling + myStats.Cha * myStats.weaponChaScaling;
                 }
 
-                if (Random.Range(0, 100) >= 100 - myStats.weaponCritChance - myStats.weaponBonusCritChance)
+                if (!bypassCrit && Random.Range(0, 100) >= 100 - myStats.weaponCritChance - myStats.weaponBonusCritChance)
                 {
                     damageDealt *= (myStats.weaponCritMod + myStats.weaponBonusCritMod);
                     attackCrit = true;

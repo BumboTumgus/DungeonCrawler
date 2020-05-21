@@ -59,7 +59,7 @@ public class Inventory : MonoBehaviour
             else
             {
                 // set the item as part of our inventory if it cant combine with a similar stackable item with the same name.
-                Debug.Log("We have picked up " + item.gameObject.name);
+                // Debug.Log("We have picked up " + item.gameObject.name);
                 DistributeStacks(item);
                 
                 // After we are done distributing into stacks, check to see if we have any leftover and need to make a new stack.

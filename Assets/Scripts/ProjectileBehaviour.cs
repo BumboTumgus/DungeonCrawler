@@ -7,6 +7,9 @@ public class ProjectileBehaviour : MonoBehaviour
     public float projectileSpeed = 5;
     public float projectileLifetime = 10f;
     public bool hitAOE = false;
+    public bool trackTarget = false;
+    public float trackingStrength = 0.1f;
+    public Transform target = null;
     public List<ParticleSystem> particleTrails = new List<ParticleSystem>();
     public GameObject particleSpawnEffects;
     public GameObject particleHitEffects;
@@ -23,6 +26,8 @@ public class ProjectileBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(trackTarget)
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation((target.position + Vector3.up) - transform.position), trackingStrength);
         transform.position += transform.forward * projectileSpeed * Time.deltaTime;
 
         currentLifetime += Time.deltaTime;

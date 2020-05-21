@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 public class PauseMenuController : MonoBehaviour
 {
     public GameObject pauseMenu;
-    public PlayerController pc;
-    public bool paused = false;
+    public PlayerMovementController pmc;
+    [HideInInspector] public bool paused = false;
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +24,7 @@ public class PauseMenuController : MonoBehaviour
             {
                 paused = false;
                 pauseMenu.SetActive(false);
-                if(!pc.menuOpen)
+                if(!pmc.menuOpen)
                     Camera.main.GetComponent<CameraControls>().menuOpen = false;
                 Time.timeScale = 1;
             }

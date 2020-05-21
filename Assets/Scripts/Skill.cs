@@ -20,7 +20,7 @@ public class Skill : MonoBehaviour
 
     public SkillsManager myManager;
     public Animator anim;
-    public PlayerController pc;
+    public PlayerMovementController pc;
 
     // SUed to check this skills input to see if their key has been pressed and wether we should cast this skill.
     private void CheckInputs()
@@ -160,7 +160,7 @@ public class Skill : MonoBehaviour
         anim.SetTrigger("BoulderFist");
         float targetTimer = 0.15f;
         float currentTimer = 0;
-        pc.playerState = PlayerController.PlayerState.CastingWithMovement;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
 
         myManager.ps[27].Play();
 
@@ -203,7 +203,7 @@ public class Skill : MonoBehaviour
         }
 
         myManager.ps[27].Stop();
-        pc.playerState = PlayerController.PlayerState.Idle;
+        pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 
     // USed to cast the skill killer instinct
@@ -212,7 +212,7 @@ public class Skill : MonoBehaviour
         anim.SetTrigger("EmboldeningEmbers");
         float targetTimer = 0.5f;
         float currentTimer = 0;
-        pc.playerState = PlayerController.PlayerState.CastingRollOut;
+        pc.playerState = PlayerMovementController.PlayerState.CastingRollOut;
 
         while (currentTimer < targetTimer)
         {
@@ -224,7 +224,7 @@ public class Skill : MonoBehaviour
         myManager.ps[39].Play();
         myManager.hitBoxes.LaunchBuffBox(6);
         myManager.hitBoxes.buffboxes[6].GetComponent<HitBoxBuff>().BuffSelf();
-        pc.playerState = PlayerController.PlayerState.Idle;
+        pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 
     // Used to cast the spell Toxic Ripple, an AoE poison and corrosive effect that affects everyone, but buffs your resistance to both for the duration
@@ -233,7 +233,7 @@ public class Skill : MonoBehaviour
         anim.SetTrigger("EmboldeningEmbers");
         float targetTimer = 0.5f;
         float currentTimer = 0;
-        pc.playerState = PlayerController.PlayerState.CastingRollOut;
+        pc.playerState = PlayerMovementController.PlayerState.CastingRollOut;
         myManager.ps[35].Play();
         
         while (currentTimer < targetTimer)
@@ -242,7 +242,7 @@ public class Skill : MonoBehaviour
             yield return null;
         }
 
-        pc.playerState = PlayerController.PlayerState.Idle;
+        pc.playerState = PlayerMovementController.PlayerState.Idle;
         myManager.ps[35].Stop();
         myManager.ps[36].Play();
         myManager.ps[37].Play();
@@ -251,8 +251,8 @@ public class Skill : MonoBehaviour
         currentTimer = 0;
         targetTimer = 10f;
 
-        float damageToTake = 8 + myManager.stats.Vit / 2;
-        myManager.hitBoxes.hitboxes[6].GetComponent<HitBox>().damage = damageToTake;
+        //float damageToTake = 8 + myManager.stats.Vit / 2;
+        //myManager.hitBoxes.hitboxes[6].GetComponent<HitBox>().damage = damageToTake;
         float currentTickTimer = 0;
         while(currentTimer < targetTimer)
         {
@@ -263,7 +263,7 @@ public class Skill : MonoBehaviour
                 currentTickTimer -= targetTimer / 20;
                 myManager.hitBoxes.LaunchHitBox(6);
                 myManager.hitBoxes.buffboxes[7].GetComponent<HitBoxBuff>().AfflictSelf();
-                myManager.stats.TakeDamage(damageToTake / 2, false, myManager.damageColors[0]);
+                // myManager.stats.TakeDamage(damageToTake / 2, false, myManager.damageColors[0]);
             }
             yield return null;
         }
@@ -278,7 +278,7 @@ public class Skill : MonoBehaviour
         anim.SetTrigger("CausticEdge");
         float targetTimer = 0.22f;
         float currentTimer = 0;
-        pc.playerState = PlayerController.PlayerState.CastingWithMovement;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
         
         while(currentTimer < targetTimer)
         {
@@ -314,7 +314,7 @@ public class Skill : MonoBehaviour
         myManager.ps[33].Play();
         myManager.ps[34].Play();
 
-        pc.playerState = PlayerController.PlayerState.Idle;
+        pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 
     // Used to cast the spell earthern spear at the enemies.
@@ -323,7 +323,7 @@ public class Skill : MonoBehaviour
         anim.SetTrigger("BoulderFist");
         float targetTimer = 0.25f;
         float currentTimer = 0;
-        pc.playerState = PlayerController.PlayerState.CastingWithMovement;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
 
         myManager.ps[27].Play();
 
@@ -368,7 +368,7 @@ public class Skill : MonoBehaviour
         }
 
         myManager.ps[27].Stop();
-        pc.playerState = PlayerController.PlayerState.Idle;
+        pc.playerState = PlayerMovementController.PlayerState.Idle;
 
     }
 
@@ -378,7 +378,7 @@ public class Skill : MonoBehaviour
         anim.SetTrigger("BoulderFist");
         float targetTimer = 0.25f;
         float currentTimer = 0;
-        pc.playerState = PlayerController.PlayerState.CastingWithMovement;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
         
         myManager.ps[27].Play();
 
@@ -421,7 +421,7 @@ public class Skill : MonoBehaviour
         }
 
         myManager.ps[27].Stop();
-        pc.playerState = PlayerController.PlayerState.Idle;
+        pc.playerState = PlayerMovementController.PlayerState.Idle;
 
     }
 
@@ -431,10 +431,9 @@ public class Skill : MonoBehaviour
         anim.SetTrigger("EarthernPlateau");
         float targetTimer = 1f;
         float currentTimer = 0;
-        pc.playerState = PlayerController.PlayerState.CastingRollOut;
-        pc.KillMovement();
+        pc.playerState = PlayerMovementController.PlayerState.CastingRollOut;
         myManager.ps[27].Play();
-        myManager.controller.speedMultiplier = 0.4f;
+        //myManager.controller.speedMultiplier = 0.4f;
         bool playParticles = false;
 
         while (currentTimer < targetTimer)
@@ -451,8 +450,8 @@ public class Skill : MonoBehaviour
         }
 
         myManager.ps[27].Stop();
-        myManager.controller.speedMultiplier = 1f;
-        pc.playerState = PlayerController.PlayerState.Idle;
+        //myManager.controller.speedMultiplier = 1f;
+        pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 
     // Used to cast giants strength, a buff that increases strength defense and hp but severly decreases mobility.
@@ -461,7 +460,7 @@ public class Skill : MonoBehaviour
         anim.SetTrigger("GiantsStrength");
         float targetTimer = 1f;
         float currentTimer = 0;
-        pc.playerState = PlayerController.PlayerState.CastingRollOut;
+        pc.playerState = PlayerMovementController.PlayerState.CastingRollOut;
         bool playParticles = false;
 
         while (currentTimer < targetTimer) 
@@ -477,7 +476,7 @@ public class Skill : MonoBehaviour
             yield return null;
         }
         
-        pc.playerState = PlayerController.PlayerState.Idle;
+        pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 
     // Used to cast aspect of rage, a buff that only applies to this chgaracter that raises attack power signifcantly.
@@ -486,7 +485,7 @@ public class Skill : MonoBehaviour
         anim.SetTrigger("AspectOfRage");
         float targetTimer = 1f;
         float currentTimer = 0;
-        pc.playerState = PlayerController.PlayerState.CastingWithMovement;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
         myManager.ps[17].Play();
         bool playParticles = false;
 
@@ -504,7 +503,7 @@ public class Skill : MonoBehaviour
         }
 
         myManager.ps[17].Stop();
-        pc.playerState = PlayerController.PlayerState.Idle;
+        pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 
     // Used by the player to cast blessings of flames, a buff that grants a player increased defensive stats and health regen for a short time.
@@ -513,8 +512,7 @@ public class Skill : MonoBehaviour
         anim.SetTrigger("EmboldeningEmbers");
         float targetTimer = 1f;
         float currentTimer = 0;
-        pc.playerState = PlayerController.PlayerState.CastingNoMovement;
-        pc.KillMovement();
+        pc.playerState = PlayerMovementController.PlayerState.CastingNoMovement;
         myManager.ps[0].Play();
         myManager.ps[1].Play();
         myManager.ps[2].Play();
@@ -536,7 +534,7 @@ public class Skill : MonoBehaviour
         myManager.ps[0].Stop();
         myManager.ps[1].Stop();
         myManager.ps[2].Stop();
-        pc.playerState = PlayerController.PlayerState.Idle;
+        pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 
     // Used to use the Emboldening Embers spell, an AoE buff for all allies.
@@ -545,8 +543,7 @@ public class Skill : MonoBehaviour
         anim.SetTrigger("EmboldeningEmbers");
         float targetTimer = 1f;
         float currentTimer = 0;
-        pc.playerState = PlayerController.PlayerState.CastingNoMovement;
-        pc.KillMovement();
+        pc.playerState = PlayerMovementController.PlayerState.CastingNoMovement;
         myManager.ps[0].Play();
         myManager.ps[1].Play();
         myManager.ps[2].Play();
@@ -570,7 +567,7 @@ public class Skill : MonoBehaviour
         myManager.ps[0].Stop();
         myManager.ps[1].Stop();
         myManager.ps[2].Stop();
-        pc.playerState = PlayerController.PlayerState.Idle;
+        pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 
     // Used to cast the Severing Strike spell, a giant slam attack that stuns enemies
@@ -579,8 +576,7 @@ public class Skill : MonoBehaviour
         anim.SetTrigger("SeveringStrike");
         float targetTimer = 1f;
         float currentTimer = 0;
-        pc.playerState = PlayerController.PlayerState.CastingRollOut;
-        pc.KillMovement();
+        pc.playerState = PlayerMovementController.PlayerState.CastingRollOut;
         myManager.ps[6].Play();
         bool playParticles = false;
         myManager.hitBoxes.hitboxes[1].GetComponent<HitBox>().damage = 25 + myManager.stats.Str * 2 + myManager.stats.weaponHitbase + myManager.stats.weaponHitMax;
@@ -600,7 +596,7 @@ public class Skill : MonoBehaviour
         }
         
         myManager.ps[6].Stop();
-        pc.playerState = PlayerController.PlayerState.Idle;
+        pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 
     // Used to cast blink strike.
@@ -609,21 +605,49 @@ public class Skill : MonoBehaviour
         anim.SetBool("BlinkStrike", true);
         float targetTimer = 0.5f;
         float currentTimer = 0;
-        pc.playerState = PlayerController.PlayerState.CastingNoMovement;
-        pc.KillMovement();
+        pc.playerState = PlayerMovementController.PlayerState.CastingNoMovement;
         myManager.ps[10].Play();
         myManager.ps[11].Play();
         myManager.ps[12].Play();
         bool playParticles = false;
         myManager.hitBoxes.hitboxes[2].GetComponent<HitBox>().damage = 25 + myManager.stats.Str * 2 + myManager.stats.weaponHitbase + myManager.stats.weaponHitMax;
 
+        // Create a vector that houses our move inputs
+        Vector2 movementInput = new Vector2(Input.GetAxisRaw(myManager.inputs.horizontalInput), Input.GetAxisRaw(myManager.inputs.verticalInput));
+        Vector3 desiredMoveDirection = Vector3.zero;
+
+        // if the movement inputs are greater than 0.2, theyll always snap from 1 to 0, then do the logic for a roll in the movement direction.
+        if (movementInput.sqrMagnitude >= 0.2f)
+        {
+            //Debug.Log("There is a movement input");
+            Vector3 forward = Camera.main.transform.forward;
+            Vector3 right = Camera.main.transform.right;
+
+            // Set up our directions based on the camera position, zero out the y values and normalize their directions.
+            forward.y = 0;
+            right.y = 0;
+
+            forward.Normalize();
+            right.Normalize();
+
+            // Create the desired movement direction vector, a combination of both times thir respective inputs normalized to give us a direction.
+            desiredMoveDirection = (forward * movementInput.y + right * movementInput.x).normalized;
+        }
+        else
+            desiredMoveDirection = transform.forward.normalized;
+
         // The dash portion of the dash.
         while (currentTimer < targetTimer)
         {
             currentTimer += Time.deltaTime;
             yield return null;
-            myManager.rb.velocity = transform.forward * 2000 * Time.deltaTime;
-            myManager.rb.angularVelocity = Vector3.zero;
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMoveDirection), 0.1f);
+            myManager.characterController.Move(desiredMoveDirection * 20 * Time.deltaTime);
+
+            //myManager.rb.velocity = transform.forward * 2000 * Time.deltaTime;
+            //myManager.rb.angularVelocity = Vector3.zero;
+
             if (CheckRayHit(14, new Ray(transform.position, transform.forward), 2) ||
                 CheckRayHit(14, new Ray(transform.position + transform.right * 0.5f, transform.forward), 2) ||
                 CheckRayHit(14, new Ray(transform.position + transform.right * -0.5f, transform.forward), 2))
@@ -643,8 +667,8 @@ public class Skill : MonoBehaviour
         while (currentTimer < targetTimer)
         {
             currentTimer += Time.deltaTime;
-            myManager.rb.velocity = transform.forward * 2000 * Time.deltaTime * rbSpeedMultiplier;
-            myManager.rb.angularVelocity = Vector3.zero;
+            //myManager.rb.velocity = transform.forward * 2000 * Time.deltaTime * rbSpeedMultiplier;
+            //myManager.rb.angularVelocity = Vector3.zero;
             rbSpeedMultiplier *= 0.8f;
             if (!playParticles && currentTimer > targetTimer * 0.5f)
             {
@@ -657,7 +681,7 @@ public class Skill : MonoBehaviour
         }
 
         myManager.ps[6].Stop();
-        pc.playerState = PlayerController.PlayerState.Idle;
+        pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 
     //USed to cast FlameStrike
@@ -666,7 +690,7 @@ public class Skill : MonoBehaviour
         anim.SetTrigger("FlameStrike");
         float targetTimer = 0.4f;
         float currentTimer = 0;
-        pc.playerState = PlayerController.PlayerState.CastingWithMovement;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
         bool playParticles = false;
 
         while (currentTimer < targetTimer)
@@ -681,20 +705,20 @@ public class Skill : MonoBehaviour
             yield return null;
         }
         
-        pc.playerState = PlayerController.PlayerState.Idle;
+        pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 
     // USed to cast ShatteredEarth
     IEnumerator ShatteredEarth()
     {
         anim.SetBool("ShatteredEarth", true);
-        pc.playerState = PlayerController.PlayerState.CastingWithMovement;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
         float currentTimeCharging = 0;
         float maximumChargeTime = 10f;
         float maxDamageChargeTime = 5f;
         bool maxDamage = false;
         myManager.ps[19].Play();
-        myManager.controller.speedMultiplier = 0.4f;
+        //myManager.controller.speedMultiplier = 0.4f;
         // set our movespeed to like 50 percent of standard speed.
 
         // begin the charging process.
@@ -748,8 +772,8 @@ public class Skill : MonoBehaviour
             yield return null;
         }
 
-        myManager.controller.speedMultiplier = 1f;
-        pc.playerState = PlayerController.PlayerState.Idle;
+        //myManager.controller.speedMultiplier = 1f;
+        pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 
     // USed by abiltiies to cast a ray and returns true if it hit an object in the layer in question.

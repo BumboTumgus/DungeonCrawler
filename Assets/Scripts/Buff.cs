@@ -357,11 +357,11 @@ public class Buff : MonoBehaviour
             ps.Play();
 
         if (myType == BuffsManager.BuffType.Stunned)
-            connectedPlayer.GetComponent<PlayerController>().stunned = false;
+            connectedPlayer.stunned = false;
         else if (myType == BuffsManager.BuffType.Asleep)
-            connectedPlayer.GetComponent<PlayerController>().asleep = false;
+            connectedPlayer.asleep = false;
         else if (myType == BuffsManager.BuffType.Bleeding)
-            connectedPlayer.GetComponent<PlayerController>().bleeding = false;
+            connectedPlayer.bleeding = false;
         else if (myType == BuffsManager.BuffType.Revitalize)
         {
             connectedPlayer.revitalizeBuff = false;

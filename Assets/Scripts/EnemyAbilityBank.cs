@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyAbilityBank : MonoBehaviour
 {
-    public enum EnemyAbility { None, ThrowingAxe, GroundSlam, SummonGoblins};
+    public enum EnemyAbility { None, ThrowingAxe, GroundSlam, SummonGoblins, GoblinSeeker};
 
     public GameObject[] spellProjectiles;
     public GameObject[] spellSummons;
@@ -44,14 +44,48 @@ public class EnemyAbilityBank : MonoBehaviour
             case EnemyAbility.SummonGoblins:
                 StartCoroutine(SummonGoblins());
                 break;
+            case EnemyAbility.GoblinSeeker:
+                StartCoroutine(GoblinSeeker());
+                break;
             default:
                 break;
         }
     }
 
+    IEnumerator GoblinSeeker()
+    {
+        Debug.Log("Shooting a goblin Seeker");
+        anim.SetTrigger("GoblinTracer");
+        anim.SetFloat("Speed", 0);
+        movementManager.StopMovement();
+        float currentTimer = 0;
+        float targetGoblinSeekerTimer = 0.6f;
+        float targetTimer = 2;
+        bool projectileLaunched = false;
+
+        while(currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            if (!projectileLaunched && currentTimer > targetGoblinSeekerTimer)
+            {
+                projectileLaunched = true;
+                // Instantiate the obhect, set it's damage and aim it at the player.
+                Vector3 forward = combatController.myTarget.transform.position - transform.position;
+                GameObject tracer = Instantiate(spellProjectiles[0], transform.position + Vector3.up, Quaternion.LookRotation(forward, Vector3.up));
+                tracer.GetComponent<HitBox>().damage = 5 + myStats.Int;
+                tracer.GetComponent<HitBox>().myStats = myStats;
+                tracer.GetComponent<ProjectileBehaviour>().target = combatController.myTarget.transform;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+
+        combatController.CheckActionHierarchy();
+    }
+
     IEnumerator ThrowingAxe()
     {
-        Debug.Log(" i am performing the axe throw");
+        //Debug.Log(" i am performing the axe throw");
         anim.SetTrigger("ThrowingAxe");
         movementManager.StopMovement();
         float currentTimer = 0;
@@ -75,12 +109,12 @@ public class EnemyAbilityBank : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        combatController.SwitchAction(EnemyCombatController.ActionType.Attack);
+        combatController.CheckActionHierarchy();
     }
 
     IEnumerator GroundSlam()
     {
-        Debug.Log(" i am performing the ground slam");
+        //Debug.Log(" i am performing the ground slam");
         anim.SetTrigger("GroundSlam");
         spellParticles[0].Play();
         spellParticles[1].Play();
@@ -107,12 +141,12 @@ public class EnemyAbilityBank : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        combatController.SwitchAction(EnemyCombatController.ActionType.Attack);
+        combatController.CheckActionHierarchy();
     }
 
     IEnumerator SummonGoblins()
     {
-        Debug.Log("I am summon the globins");
+        //Debug.Log("I am summon the globins");
         anim.SetTrigger("SummonGoblin");
         spellParticles[2].Play();
         movementManager.StopMovement();
@@ -139,6 +173,6 @@ public class EnemyAbilityBank : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        combatController.SwitchAction(EnemyCombatController.ActionType.Attack);
+        combatController.CheckActionHierarchy();
     }
 }
