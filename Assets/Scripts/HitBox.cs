@@ -47,6 +47,12 @@ public class HitBox : MonoBehaviour
             if (other.CompareTag("Enemy") && hitEnemies)
             {
                 enemyStats = other.GetComponent<PlayerStats>();
+
+                if (enemyStats.ephemeral)
+                    return;
+                else if (enemyStats.invulnerable)
+                    return;
+
                 bool attackCrit = false;
 
                 float damageDealt = damage;
@@ -95,6 +101,12 @@ public class HitBox : MonoBehaviour
             {
                 //Debug.Log("we have hit a player");
                 enemyStats = other.GetComponent<PlayerStats>();
+                
+                if (enemyStats.ephemeral)
+                    return;
+                else if (enemyStats.invulnerable)
+                    return;
+
                 bool attackCrit = false;
 
                 float damageDealt = damage;

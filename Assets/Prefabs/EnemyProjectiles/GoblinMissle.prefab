@@ -14544,8 +14544,8 @@ GameObject:
   - component: {fileID: 288169478589361629}
   - component: {fileID: 286166463527749395}
   - component: {fileID: 89343065503979150}
-  - component: {fileID: 89343065503979146}
   - component: {fileID: 89343065503979147}
+  - component: {fileID: 89343065503979146}
   m_Layer: 15
   m_Name: GoblinMissle
   m_TagString: Untagged
@@ -19373,6 +19373,28 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &89343065503979147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88510102170970915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d66a496a3a991da4e80593d2de3a3c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileSpeed: 5
+  projectileLifetime: 10
+  hitAOE: 1
+  trackTarget: 1
+  trackingStrength: 0.05
+  target: {fileID: 0}
+  particleTrails: []
+  particleSpawnEffects: {fileID: 0}
+  particleHitEffects: {fileID: 4181415905903687524, guid: 0522f657d58a5ba41b51a423d179caf1,
+    type: 3}
 --- !u!114 &89343065503979146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19399,28 +19421,6 @@ MonoBehaviour:
   bypassCrit: 0
   forceChangeDamageColor: 0
   damageColorOverride: {r: 0, g: 0, b: 0, a: 0}
---- !u!114 &89343065503979147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 88510102170970915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d66a496a3a991da4e80593d2de3a3c8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectileSpeed: 5
-  projectileLifetime: 10
-  hitAOE: 1
-  trackTarget: 1
-  trackingStrength: 0.05
-  target: {fileID: 0}
-  particleTrails: []
-  particleSpawnEffects: {fileID: 0}
-  particleHitEffects: {fileID: 4181415905903687524, guid: 0522f657d58a5ba41b51a423d179caf1,
-    type: 3}
 --- !u!1 &88521823380587179
 GameObject:
   m_ObjectHideFlags: 0

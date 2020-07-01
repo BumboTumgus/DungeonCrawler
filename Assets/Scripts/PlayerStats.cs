@@ -83,9 +83,11 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public bool stunned = false;
     [HideInInspector] public bool asleep = false;
     [HideInInspector] public bool bleeding = false;
+    [HideInInspector] public bool ephemeral = false;
     [HideInInspector] public float invulnerableCount = 0;
     [HideInInspector] public float untargetableCount = 0;
     [HideInInspector] public float invisibleCount = 0;
+    [HideInInspector] public float ephemeralCount = 0;
     [HideInInspector] public bool revitalizeBuff = false;
 
     [HideInInspector] public bool dead = false;
@@ -119,7 +121,7 @@ public class PlayerStats : MonoBehaviour
     {
         //USed for debugging to add exp.
         if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
-            AddExp(100);
+            AddExp(1000);
 
         // USed for added afflcitions and debugging.
         if (Input.GetKeyDown(KeyCode.Keypad0) && CompareTag("Player"))
@@ -252,7 +254,7 @@ public class PlayerStats : MonoBehaviour
         if (myStats != null)
             myStats.SetStatValues(this);
         Debug.Log("+" + value + " || " + exp + " / " + expTarget);
-        if (exp >= expTarget)
+        while (exp >= expTarget)
         {
             exp -= expTarget;
             level++;
@@ -283,16 +285,6 @@ public class PlayerStats : MonoBehaviour
         if (level % ChaLvl == 0)
             Cha++;
         StatSetup(true, true);
-    }
-
-    // Used to calculate how much exp this is worth
-    public float ExpWorth(float killerLevel)
-    {
-        float expValue = Vit + Str + Cha + Spd + Dex + Int + Wis;
-        float expValueDifficultyMod = (killerLevel / level) * (killerLevel / level);
-        expValue *= expValueDifficultyMod;
-        
-        return expValue;
     }
 
     // USed to use some mana, if we do not have enpugh, then return false;
@@ -338,6 +330,9 @@ public class PlayerStats : MonoBehaviour
                 health = 0;
             recentlyDamaged = true;
             recentlyDamagedTimer = RECENTLY_DAMAGED_TIMER_START;
+
+            if (CompareTag("Enemy") && GetComponent<EnemyCombatController>() != null && GetComponent<EnemyCombatController>().onHitActionHierarchy.Length > 0)
+                GetComponent<EnemyCombatController>().CheckOnHitActionHierarchy();
 
             // Update the health bar.
             healthBar.targetValue = health;
@@ -396,13 +391,13 @@ public class PlayerStats : MonoBehaviour
             // If any player was agrod onto us, end their combat. and add exp to all players.
             foreach (GameObject player in players)
             {
-                player.GetComponent<PlayerStats>().AddExp(ExpWorth(player.GetComponent<PlayerStats>().level));
+                player.GetComponent<PlayerStats>().AddExp(Vit + Str + Cha + Spd + Dex + Int + Wis);
                 playerAverageLevel += player.GetComponent<PlayerStats>().level;
             }
             playerAverageLevel /= players.Length;
 
             // Create the exp value text the player sees when an enmy dies.
-            GetComponent<DamageNumberManager>().SpawnEXPValue(ExpWorth(playerAverageLevel));
+            GetComponent<DamageNumberManager>().SpawnEXPValue(Vit + Str + Cha + Spd + Dex + Int + Wis);
 
             // Destroy the health bar, queue the destruction of all children and set their parents to null, then destroy ourself.
             healthBar.transform.parent.GetComponent<UiFollowTarget>().RemoveFromCullList();
@@ -727,6 +722,22 @@ public class PlayerStats : MonoBehaviour
             untargetableCount += amount;
             if (untargetableCount <= 0)
                 untargetable = false;
+        }
+    }
+
+    // USed to add a source of ephemeral
+    public void AddEphemeralSource(float amount)
+    {
+        if( amount > 0)
+        {
+            ephemeral = true;
+            ephemeralCount += amount;
+        }
+        else if (amount < 0)
+        {
+            ephemeralCount += amount;
+            if (ephemeralCount <= 0)
+                ephemeral = false;
         }
     }
 }

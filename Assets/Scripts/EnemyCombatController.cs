@@ -21,6 +21,8 @@ public class EnemyCombatController : MonoBehaviour
 
     public EnemyAbilityBank.EnemyAbility specialOneAbility;
     public EnemyAbilityBank.EnemyAbility specialTwoAbility;
+    public float specialOneRange = 100;
+    public float specialTwoRange = 100;
 
     public float circleCooldown = 3f;
     public float tauntCooldown = 3f;
@@ -28,6 +30,10 @@ public class EnemyCombatController : MonoBehaviour
     public float backpeddleCooldown = 3f;
     public float specialOneCooldown = 5f;
     public float specialTwoCooldown = 5f;
+    public float onHitSpecialOneCooldown = 5f;
+
+    public EnemyAbilityBank.EnemyAbility onHitSpecialOne;
+
 
     [SerializeField] private float circleCurrentCooldown = 0f;
     [SerializeField] private float tauntCurrentCooldown = 0f;
@@ -35,15 +41,18 @@ public class EnemyCombatController : MonoBehaviour
     [SerializeField] private float backpeddleCurrentCooldown = 0f;
     [SerializeField] private float specialOneCurrentCooldown = 0f;
     [SerializeField] private float specialTwoCurrentCooldown = 0f;
+    [SerializeField] private float onHitSpecialOneCurrentCooldown = 0f;
 
     public GameObject myTarget;
     // A list of potential actions or behaviours
-    public enum ActionType { Attack, ChaseTarget, CircleTarget, TauntTarget, MaintainDistance, ChaseLowTargets, RetreatWhenLow, RetreatWhenNoLeader, Idle, Patrolling, SpecialOne, SpecialTwo, SpecialThree, SpecialFour, LosingAgro, WaitInCombat, Backpeddle};
+    public enum ActionType { Attack, ChaseTarget, CircleTarget, TauntTarget, MaintainDistance, ChaseLowTargets, RetreatWhenLow, RetreatWhenNoLeader, Idle, Patrolling, SpecialOne, SpecialTwo, SpecialThree, SpecialFour, LosingAgro, WaitInCombat, Backpeddle, OnHitSpecialOne};
     public ActionType myCurrentAction = ActionType.Idle;
 
-    // This is the action hierarchy List, The actions go in in order of importance.
+    // This is the action hierarchy List, The actions go in in order of importance.s
     public ActionType[] actionHierarchy;
     public float[] actionChances;
+    public ActionType[] onHitActionHierarchy;
+    public float[] onHitActionChances;
     public LayerMask wallColMask;
 
     private EnemyMovementManager movementManager;
@@ -76,12 +85,13 @@ public class EnemyCombatController : MonoBehaviour
         backpeddleCurrentCooldown += Time.deltaTime;
         specialOneCurrentCooldown += Time.deltaTime;
         specialTwoCurrentCooldown += Time.deltaTime;
+        onHitSpecialOneCurrentCooldown += Time.deltaTime;
     }
 
     // This method is called when we need to revaluate what state we are in and what to do next.
     public void SwitchAction(ActionType newAction)
     {
-        Debug.Log("switching to a new action: " + newAction);
+        // Debug.Log("switching to a new action: " + newAction);
         StopAllCoroutines();
         switch (newAction)
         {
@@ -132,6 +142,11 @@ public class EnemyCombatController : MonoBehaviour
                 break;
             case ActionType.Backpeddle:
                 StartCoroutine(Backpeddle());
+                break;
+            case ActionType.OnHitSpecialOne:
+                onHitSpecialOneCurrentCooldown = 0;
+                myCurrentAction = ActionType.OnHitSpecialOne;
+                abilityBank.CastSpell(onHitSpecialOne);
                 break;
             default:
                 break;
@@ -568,10 +583,43 @@ public class EnemyCombatController : MonoBehaviour
         return actionReady;
     }
 
+    // Used when this object is hit. Check to see if we have any on hit actions we want to do like a retaliation.
+    public void CheckOnHitActionHierarchy()
+    {
+        bool actionFound = false;
+        //Debug.Log("There are " + onHitActionHierarchy.Length + " different actions i could take");
+        // check each action in the action hierachy.
+        for (int index = 0; index < onHitActionHierarchy.Length; index++)
+        {
+            //Debug.Log("Checking at index " + index);
+            // Compare this action to what we need to do.
+            ActionType currentActionToCheck = onHitActionHierarchy[index];
+            switch (currentActionToCheck)
+            {
+                case ActionType.OnHitSpecialOne:
+                    //Debug.Log(" on hit special one is being tested: " + onHitSpecialOneCurrentCooldown + "/" + onHitSpecialOneCooldown + "   This has a %" + onHitActionChances[index] + " of goinf off");
+                    if (onHitSpecialOneCurrentCooldown > onHitSpecialOneCooldown && Random.Range(0, 100) > 100 - onHitActionChances[index])
+                        actionFound = true;
+                    break;
+                default:
+                    break;
+            }
+
+            // if we found an action to commit to break from this.
+            if (actionFound)
+            {
+                //Debug.Log("We have found an action");
+                SwitchAction(currentActionToCheck);
+                break;
+            }
+        }
+
+    }
+
     // Used when this unit dies
     public void UnitDeath()
     {
-
+        
     }
 
     // Used When the player we were fighting dies.
@@ -587,7 +635,7 @@ public class EnemyCombatController : MonoBehaviour
     // Used to check the action hierachy we set t0o see what our nect course of action should be.
     public void CheckActionHierarchy()
     {
-        Debug.Log("we have entered the action hierarchy");
+        // Debug.Log("we have entered the action hierarchy");
         // If this bool gets switched to true, we have found an action and can break the for loop.
         bool actionFound = false;
 
@@ -644,11 +692,11 @@ public class EnemyCombatController : MonoBehaviour
                 case ActionType.SpecialFour:
                     break;
                 case ActionType.WaitInCombat:
-                    if (waitCurrentCooldown > waitCooldown && Random.Range(0, 100) > 100 - actionChances[index])
+                    if (waitCurrentCooldown > waitCooldown && Random.Range(0, 100) > 100 - actionChances[index] && CheckDistance(specialOneRange, myTarget.transform))
                         actionFound = true;
                     break;
                 case ActionType.Backpeddle:
-                    if (backpeddleCurrentCooldown > backpeddleCooldown && Random.Range(0, 100) > 100 - actionChances[index])
+                    if (backpeddleCurrentCooldown > backpeddleCooldown && Random.Range(0, 100) > 100 - actionChances[index] && CheckDistance(specialTwoRange, myTarget.transform))
                         actionFound = true;
                     break;
                 default:

@@ -12,6 +12,8 @@ public class InventoryPopupTextManager : MonoBehaviour
 
     private const float POPUP_OFFSET = 10;
 
+    public Color[] itemOutlineColors;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -118,6 +120,27 @@ public class InventoryPopupTextManager : MonoBehaviour
         statContainer.Find("HealthRegenValue").GetComponent<Text>().text = item.healthRegen + "";
         SetPlusMinusText(statContainer.Find("ManaValue").GetComponent<Text>(), item.mana);
         statContainer.Find("ManaRegenValue").GetComponent<Text>().text = item.manaRegen + "";
+
+        switch (item.itemRarity)
+        {
+            case Item.ItemRarity.Common:
+                itemPopUp.transform.Find("Outline").GetComponent<Image>().color = itemOutlineColors[0];
+                break;
+            case Item.ItemRarity.Uncommon:
+                itemPopUp.transform.Find("Outline").GetComponent<Image>().color = itemOutlineColors[1];
+                break;
+            case Item.ItemRarity.Rare:
+                itemPopUp.transform.Find("Outline").GetComponent<Image>().color = itemOutlineColors[2];
+                break;
+            case Item.ItemRarity.Legendary:
+                itemPopUp.transform.Find("Outline").GetComponent<Image>().color = itemOutlineColors[3];
+                break;
+            case Item.ItemRarity.Masterwork:
+                itemPopUp.transform.Find("Outline").GetComponent<Image>().color = itemOutlineColors[4];
+                break;
+            default:
+                break;
+        }
 
     }
 

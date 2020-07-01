@@ -59,7 +59,7 @@ public class EnemyMovementManager : MonoBehaviour
         arrivedAtTarget = true;
     }
 
-    // USed to rotate the enemy to thweir target so they face their target while they attack.
+    // USed to rotate the enemy to their target so they face their target while they attack.
     public void RotateToTarget(Vector3 target)
     {
         Vector3 horizontalMovement = target - transform.position;

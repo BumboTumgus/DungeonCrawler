@@ -17,6 +17,8 @@ public class InventoryUiManager : MonoBehaviour
     public GameObject chestSlot;
     public GameObject legsSlot;
 
+    public Color[] itemOutlineColors;
+
     private void Start()
     {
         foreach (GameObject slot in inventorySlots)
@@ -37,21 +39,43 @@ public class InventoryUiManager : MonoBehaviour
 
     public void UpdateInventorySlot(Item item)
     {
-         // If we have an item, set the picture to that associated with the item ans show thbe image.
-         GameObject slotToUpdate = inventorySlots[item.inventoryIndex];
+        // If we have an item, set the picture to that associated with the item ans show thbe image.
+        GameObject slotToUpdate = inventorySlots[item.inventoryIndex];
 
-         slotToUpdate.transform.Find("ItemPanel").GetComponent<ItemDraggable>().enabled = true;
-         slotToUpdate.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem = item.gameObject;
+        slotToUpdate.transform.Find("ItemPanel").GetComponent<ItemDraggable>().enabled = true;
+        slotToUpdate.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem = item.gameObject;
 
-         Image targetImage = slotToUpdate.transform.Find("ItemPanel").Find("ItemImage").GetComponent<Image>();
-         targetImage.color = new Color(255, 255, 255, 255);
-         targetImage.sprite = item.artwork;
+        Image targetImage = slotToUpdate.transform.Find("ItemPanel").Find("ItemImage").GetComponent<Image>();
+        targetImage.color = new Color(255, 255, 255, 255);
+        targetImage.sprite = item.artwork;
 
-         // If we have more then one in this stack of item enable the counter.
-         if (item.currentStack > 1)
-             slotToUpdate.transform.Find("ItemPanel").Find("ItemCount").GetComponent<Text>().text = "x" + item.currentStack;
-         else
-             slotToUpdate.transform.Find("ItemPanel").Find("ItemCount").GetComponent<Text>().text = "";
+        // If we have more then one in this stack of item enable the counter.
+        if (item.currentStack > 1)
+            slotToUpdate.transform.Find("ItemPanel").Find("ItemCount").GetComponent<Text>().text = "x" + item.currentStack;
+        else
+            slotToUpdate.transform.Find("ItemPanel").Find("ItemCount").GetComponent<Text>().text = "";
+        
+        Image outlineImage = slotToUpdate.transform.Find("ItemPanel").Find("Outline").GetComponent<Image>();
+        switch (item.itemRarity)
+        {
+            case Item.ItemRarity.Common:
+                outlineImage.color = itemOutlineColors[0];
+                break;
+            case Item.ItemRarity.Uncommon:
+                outlineImage.color = itemOutlineColors[1];
+                break;
+            case Item.ItemRarity.Rare:
+                outlineImage.color = itemOutlineColors[2];
+                break;
+            case Item.ItemRarity.Legendary:
+                outlineImage.color = itemOutlineColors[3];
+                break;
+            case Item.ItemRarity.Masterwork:
+                outlineImage.color = itemOutlineColors[4];
+                break;
+            default:
+                break;
+        }
     }
 
     public void UpdateInventorySlot(int index)
@@ -75,6 +99,8 @@ public class InventoryUiManager : MonoBehaviour
         Image targetImage = slot.transform.Find("ItemPanel").Find("ItemImage").GetComponent<Image>();
         targetImage.color = new Color(255, 255, 255, 0);
         targetImage.sprite = null;
+
+        slot.transform.Find("ItemPanel").Find("Outline").GetComponent<Image>().color = new Color(255, 255, 255, 0);
     }
 
     public ItemDraggable GetNextEmptySlot()

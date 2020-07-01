@@ -4802,8 +4802,10 @@ MonoBehaviour:
   projectileSpeed: 10
   projectileLifetime: 10
   hitAOE: 0
+  trackTarget: 0
+  trackingStrength: 0.1
+  target: {fileID: 0}
   particleTrails:
-  - {fileID: 0}
   - {fileID: 797312374364728092}
   particleSpawnEffects: {fileID: 0}
   particleHitEffects: {fileID: 9065236274836167791, guid: c3ac10f0489871c43b80bbde09236766,
@@ -4830,6 +4832,7 @@ MonoBehaviour:
   enemyStats: {fileID: 0}
   projectile: 1
   projectileAOE: 0
+  disjointedHitbox: 0
   bypassCrit: 0
   forceChangeDamageColor: 0
   damageColorOverride: {r: 0, g: 0, b: 0, a: 0}
