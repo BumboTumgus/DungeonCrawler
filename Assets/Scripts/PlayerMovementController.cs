@@ -437,8 +437,8 @@ public class PlayerMovementController : MonoBehaviour
 
                 if (interactable.GetComponent<ChestBehaviour>() != null)
                     interactable.GetComponent<ChestBehaviour>().OpenChest();
-                else if (interactable.GetComponent<DoorBehaviour>() != null)
-                    interactable.GetComponent<DoorBehaviour>().InteractWithDoor();
+                else if (interactable.GetComponent<DoorOpenVolumeBehaviour>() != null)
+                    interactable.GetComponent<DoorOpenVolumeBehaviour>().InteractWithDoor();
 
                 inventory.interactablesInRange.Remove(interactable);
             }

@@ -20,10 +20,10 @@ public class RoomManager : MonoBehaviour
     private void Start()
     {
         // Setup the roombank then wait for a bit so our spawn boxes can register their collisions so we can evaluate them.
-        roomBank = GameObject.Find("FloorManager").GetComponent<FloorManager>();
+        //roomBank = GameObject.Find("FloorManager").GetComponent<FloorManager>();
 
         //Invoke("CheckRoomCompatibility", ROOM_COMPATIBILITY_DELAY);
-        StartCoroutine("CheckRoomCompatibility");
+        //StartCoroutine("CheckRoomCompatibility");
         // Invoke("GenerateDungeon", ROOM_GENERATION_DELAY);
     }
 
@@ -67,7 +67,7 @@ public class RoomManager : MonoBehaviour
             // Check if any of the volume shave a connected spawner that matches the direction we are looking for.
             foreach (RoomVolume volume in spaceOccupied)
             {
-                Debug.Log("This volume has " + volume.connectedSpawners.Count + " connected spawns.");
+                //Debug.Log("This volume has " + volume.connectedSpawners.Count + " connected spawns.");
                 // Check each volume for it's connected spawns, if a spawn matches the criteria this volume is then added to be tried as the anchor of the room.
                 if (directionBuiltFrom != RoomSpawner.DoorOpening.Null)
                 {
@@ -82,7 +82,7 @@ public class RoomManager : MonoBehaviour
             }
             Vector3 anchor = transform.position;
 
-            Debug.Log(gameObject + " has " + volumeWithDesiredSpawnDirection.Count + " potential starting points. It should have 1. the origin is " + anchor);
+            //Debug.Log(gameObject + " has " + volumeWithDesiredSpawnDirection.Count + " potential starting points. It should have 1. the origin is " + anchor);
             // For each potential volume starting point, we check to see if there are any issues with spawns or obstructions from our room volume.
             foreach (RoomVolume chosenStartPoint in volumeWithDesiredSpawnDirection)
             {
@@ -108,7 +108,7 @@ public class RoomManager : MonoBehaviour
                 // Check all the spawns of the room. If any are obstructed, we need to pick a new room.
                 foreach (RoomSpawner spawn in spawns)
                 {
-                    Debug.Log("We are checking the spawns");
+                    //Debug.Log("We are checking the spawns");
                     if (spawn.obstructed && !spawn.ignoreObstruction)
                     {
                         // Check if this spawn is the spawn that appears in the room that spawne this one.
@@ -281,7 +281,7 @@ public class RoomManager : MonoBehaviour
     // Used to switch the obstruction ignore locks on on certain spawns of an instance of a room we want to spawn without mpdfying the prefab.
     private void ObstructionLockCheck(List<RoomSpawner.DoorOpening> roomRequirements, RoomManager targetRoom, bool flipRequirement, RoomVolume chosenOrigin)
     {
-        Debug.Log("Obstruction Locks are being actviated.");
+        //Debug.Log("Obstruction Locks are being actviated.");
         // For every requirement, we will try to find the spawn we will have to obstruction Lock.
         foreach (RoomSpawner.DoorOpening requirement in roomRequirements)
         {

@@ -17,11 +17,11 @@ public class CameraControls : MonoBehaviour
     private const float CAMERA_LOWER_Y = 1.5f;
     private const float CAMERA_UPPER_Y = 3.5f;
 
-    private const float CAMERA_ZOOM_MIN = -1;
+    private const float CAMERA_ZOOM_MIN = -0.5f;
     private const float CAMERA_ZOOM_MAX = -5;
     private const float CAMERA_ZOOM_SENSITIVTY = 6;
 
-    private const float CAMERA_PITCH_MIN = 17;
+    private const float CAMERA_PITCH_MIN = 40;
     private const float CAMERA_PITCH_MAX = 40;
     private const float CAMERA_PITCH_SENSITIVITY = 2;
     private const float CAMERA_YAW_SENSITIVITY = 2;
@@ -82,12 +82,12 @@ public class CameraControls : MonoBehaviour
         // Shoot a ray from the characetr to the camera, if it hits somwthing in the mask that is going to be set as the new target position, otherwise the target is set to the scroll target
         Ray raytoShoot = new Ray(cameraRotationParent.transform.position + Vector3.up, transform.forward * -1);
         RaycastHit rayhit = new RaycastHit();
-        Debug.DrawRay(cameraRotationParent.transform.position + Vector3.up, transform.forward * -5, Color.red);
+        // Debug.DrawRay(cameraRotationParent.transform.position + Vector3.up, transform.forward * -5, Color.red);
 
         if(Physics.Raycast(raytoShoot,out rayhit, CAMERA_ZOOM_MAX * -1, rayMask))
         {
             //Debug.Log(rayhit.point);
-            Debug.Log(transform.InverseTransformPoint(rayhit.point));
+            //Debug.Log(transform.InverseTransformPoint(rayhit.point));
             cameraTargetZoom = transform.InverseTransformPoint(rayhit.point).z;
             if (cameraTargetZoom < CAMERA_ZOOM_MAX)
                 cameraTargetZoom = CAMERA_ZOOM_MAX;
