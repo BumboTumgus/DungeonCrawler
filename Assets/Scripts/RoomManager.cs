@@ -9,6 +9,7 @@ public class RoomManager : MonoBehaviour
     public List<RoomSpawner> obstructedSpawns = new List<RoomSpawner>();
     public RoomSpawner.DoorOpening directionBuiltFrom;
     public List<RoomSpawner.DoorOpening> requirements = new List<RoomSpawner.DoorOpening>();
+    public List<RoomManager> connectedRooms = new List<RoomManager>();
 
     private FloorManager roomBank;
 
@@ -20,11 +21,11 @@ public class RoomManager : MonoBehaviour
     private void Start()
     {
         // Setup the roombank then wait for a bit so our spawn boxes can register their collisions so we can evaluate them.
-        //roomBank = GameObject.Find("FloorManager").GetComponent<FloorManager>();
+        roomBank = GameObject.Find("FloorManager").GetComponent<FloorManager>();
 
-        //Invoke("CheckRoomCompatibility", ROOM_COMPATIBILITY_DELAY);
-        //StartCoroutine("CheckRoomCompatibility");
-        // Invoke("GenerateDungeon", ROOM_GENERATION_DELAY);
+        Invoke("CheckRoomCompatibility", ROOM_COMPATIBILITY_DELAY);
+        StartCoroutine("CheckRoomCompatibility");
+        Invoke("GenerateDungeon", ROOM_GENERATION_DELAY);
     }
 
     // Used to create the dungeon layout.
