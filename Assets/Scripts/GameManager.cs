@@ -41,6 +41,10 @@ public class GameManager : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
+        //Call the function that checks for adjacent rooms on each room
+        foreach (RoomManager room in rooms)
+            room.LaunchAdjacencyChecker();
+
         // This is done afetr room generation is comfirmed to be completed.
         Debug.Log("Room population would begin now.");
         walkableFloor.BuildNavMesh();

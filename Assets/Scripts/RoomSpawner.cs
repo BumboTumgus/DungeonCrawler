@@ -24,7 +24,7 @@ public class RoomSpawner : MonoBehaviour
     // Called when we enter collision with another spawn point. This lets us know that two room will be spawning in the same location.
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Spawn had a collision");
+        //Debug.Log("Spawn had a collision");
         if(collision.transform.CompareTag("RoomSpawner"))
         {
             // If the other has a higher priority then this, then delete ourselves.

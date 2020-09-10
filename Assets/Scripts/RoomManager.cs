@@ -6,6 +6,7 @@ public class RoomManager : MonoBehaviour
 {
     public List<RoomSpawner> spawns = new List<RoomSpawner>();
     public List<RoomVolume> spaceOccupied = new List<RoomVolume>();
+    public List<RoomAdjacencyChecker> adjacencyCheckers = new List<RoomAdjacencyChecker>();
     public List<RoomSpawner> obstructedSpawns = new List<RoomSpawner>();
     public RoomSpawner.DoorOpening directionBuiltFrom;
     public List<RoomSpawner.DoorOpening> requirements = new List<RoomSpawner.DoorOpening>();
@@ -23,14 +24,17 @@ public class RoomManager : MonoBehaviour
         // Setup the roombank then wait for a bit so our spawn boxes can register their collisions so we can evaluate them.
         roomBank = GameObject.Find("FloorManager").GetComponent<FloorManager>();
 
+        foreach (RoomAdjacencyChecker adjacencyChecker in adjacencyCheckers)
+            adjacencyChecker.gameObject.SetActive(false);
+
         Invoke("CheckRoomCompatibility", ROOM_COMPATIBILITY_DELAY);
         StartCoroutine("CheckRoomCompatibility");
-        Invoke("GenerateDungeon", ROOM_GENERATION_DELAY);
     }
 
     // Used to create the dungeon layout.
     public void GenerateDungeon()
     {
+        //Debug.Log("WE ARE GENERATING THE DUNGEON FOR THIS ROOM : " + gameObject.name);
         // Create a new room at each spawn.
         foreach(RoomSpawner spawn in spawns)
         {
@@ -41,6 +45,10 @@ public class RoomManager : MonoBehaviour
                 {
                     GameObject room = Instantiate(GetRandomRoom(spawn.doorDirection), spawn.transform.position, Quaternion.identity);
                     room.GetComponent<RoomManager>().directionBuiltFrom = spawn.doorDirection;
+
+                    // Add ourself as a connect room on the new room and vice versa.
+                    //room.GetComponent<RoomManager>().connectedRooms.Add(this);
+                    //connectedRooms.Add(room.GetComponent<RoomManager>());
                 }
                 // We are overlayed on another spawn and now have a requirement to take into account generation.
                 else
@@ -48,6 +56,11 @@ public class RoomManager : MonoBehaviour
                     GameObject room = Instantiate(GetRandomRoom(spawn.doorDirection, spawn.requirements), spawn.transform.position, Quaternion.identity);
                     room.GetComponent<RoomManager>().directionBuiltFrom = spawn.doorDirection;
                     room.GetComponent<RoomManager>().requirements = spawn.requirements;
+
+                    // Add ourself as a connect room on the new room and vice versa.
+                    //room.GetComponent<RoomManager>().connectedRooms.Add(this);
+                    //connectedRooms.Add(room.GetComponent<RoomManager>());
+                    // Add the other room that was a requirement for the spawn here.
                     //ObstructionLockCheck(spawn.requirements, room.GetComponent<RoomManager>(), true);
                 }
             }
@@ -58,6 +71,7 @@ public class RoomManager : MonoBehaviour
     // Used to see if this placed room is compatable with the other rooms already placed around it.
     private IEnumerator CheckRoomCompatibility()
     {
+        Debug.Log("this is checking the room compatibility");
         yield return new WaitForSeconds(ROOM_COMPATIBILITY_DELAY);
         bool compatibleRoom = false;
 
@@ -153,7 +167,7 @@ public class RoomManager : MonoBehaviour
                 room.GetComponent<RoomManager>().requirements = requirements;
                 //ObstructionLockCheck(requirements, room.GetComponent<RoomManager>(), true);
 
-                Debug.Log(gameObject + " has a direction of: " + directionBuiltFrom + ", while " + tempRoom + " has a direction of: " + tempRoom.GetComponent<RoomManager>().directionBuiltFrom);
+                //Debug.Log(gameObject + " has a direction of: " + directionBuiltFrom + ", while " + tempRoom + " has a direction of: " + tempRoom.GetComponent<RoomManager>().directionBuiltFrom);
 
                 // Check if any of our spawns had additional priority data we need to tweak now that this room is getting boofed or destroyed.
                 foreach (RoomSpawner spawn in spawns)
@@ -341,5 +355,21 @@ public class RoomManager : MonoBehaviour
                 break;
         }
         return newValue;
+    }
+
+    // This is used to flip every single adjacency checker on then off to see which rooms were adjacent to.
+    public void LaunchAdjacencyChecker()
+    {
+        Debug.Log("LaunchinAdjacency Checkers");
+        foreach (RoomAdjacencyChecker adjacencyChecker in adjacencyCheckers)
+            StartCoroutine("FlickerAdjacencyCheckers", adjacencyChecker);
+    }
+
+    // This is the coroutine that flicekrs every individual adjacency checker.
+    IEnumerator FlickerAdjacencyCheckers(RoomAdjacencyChecker adjacenyChecker)
+    {
+        adjacenyChecker.gameObject.SetActive(true);
+        yield return new WaitForFixedUpdate();
+        adjacenyChecker.gameObject.SetActive(false);
     }
 }
