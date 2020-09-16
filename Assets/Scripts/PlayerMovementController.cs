@@ -477,4 +477,14 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 
+    // Used when we enter a trigger and it has a room tag
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("RoomVolume"))
+        {
+            Debug.Log("We have entered a new room");
+            GameManager.instance.ShowRoom(other.transform.parent.GetComponent<RoomManager>());
+        }
+    }
+
 }

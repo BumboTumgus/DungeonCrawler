@@ -11,8 +11,11 @@ public class RoomManager : MonoBehaviour
     public RoomSpawner.DoorOpening directionBuiltFrom;
     public List<RoomSpawner.DoorOpening> requirements = new List<RoomSpawner.DoorOpening>();
     public List<RoomManager> connectedRooms = new List<RoomManager>();
+    public List<DoorBehaviour> connectedDoors = new List<DoorBehaviour>();
 
     private FloorManager roomBank;
+
+    [HideInInspector] public GameObject renderable;
 
     private const float ROOM_GENERATION_DELAY = 0.25f;
     private const float ROOM_COMPATIBILITY_DELAY = 0.1f;
@@ -71,7 +74,7 @@ public class RoomManager : MonoBehaviour
     // Used to see if this placed room is compatable with the other rooms already placed around it.
     private IEnumerator CheckRoomCompatibility()
     {
-        Debug.Log("this is checking the room compatibility");
+        //Debug.Log("this is checking the room compatibility");
         yield return new WaitForSeconds(ROOM_COMPATIBILITY_DELAY);
         bool compatibleRoom = false;
 
@@ -139,12 +142,19 @@ public class RoomManager : MonoBehaviour
                         compatibleRoom = false;
                 }
 
+                //Check to see if this room has more room spawners than is allotted by the game Manager.
+                if(((float) GameManager.instance.rooms.Count / (float) GameManager.instance.roomTarget > 0.7f) && spawns.Count > 2)
+                {
+                    Debug.Log("this room has too many spawns");
+                    compatibleRoom = false;
+                }
+
                 // If the room is not compatible, we iterate through the loop again. If it is, we break from it.
                 if (compatibleRoom)
                     break;
             }
 
-            Debug.Log(gameObject + " room compatibility is now: " + compatibleRoom);
+            //Debug.Log(gameObject + " room compatibility is now: " + compatibleRoom);
 
             // If the room was not compatible, we will pick a new one that is.
             if (!compatibleRoom)
@@ -187,6 +197,7 @@ public class RoomManager : MonoBehaviour
                 Invoke("GenerateDungeon", ROOM_GENERATION_DELAY);
                 // add this room to the game manager to populate later.
                 GameObject.Find("GameManager").GetComponent<GameManager>().AddRoom(this);
+                renderable = transform.Find("Renderable").gameObject;
             }
         }
     }
@@ -360,7 +371,7 @@ public class RoomManager : MonoBehaviour
     // This is used to flip every single adjacency checker on then off to see which rooms were adjacent to.
     public void LaunchAdjacencyChecker()
     {
-        Debug.Log("LaunchinAdjacency Checkers");
+        //Debug.Log("LaunchinAdjacency Checkers");
         foreach (RoomAdjacencyChecker adjacencyChecker in adjacencyCheckers)
             StartCoroutine("FlickerAdjacencyCheckers", adjacencyChecker);
     }
@@ -371,5 +382,33 @@ public class RoomManager : MonoBehaviour
         adjacenyChecker.gameObject.SetActive(true);
         yield return new WaitForFixedUpdate();
         adjacenyChecker.gameObject.SetActive(false);
+    }
+
+    // This method is used when the player enters a room and i 
+    public void ShowAdjacentRooms()
+    {
+        transform.Find("Renderable").gameObject.SetActive(true);
+        transform.Find("NonRenderable").gameObject.SetActive(false);
+
+        // Show every connected room in our list
+        foreach (RoomManager rm in connectedRooms)
+        {
+            //Debug.Log("Showing room renderable for: " + rm.gameObject.name);
+            rm.transform.Find("Renderable").gameObject.SetActive(true);
+            rm.transform.Find("NonRenderable").gameObject.SetActive(false);
+        }
+    }
+
+    // This method hides this room if it was previously being rendered
+    public void HideRoom()
+    { 
+        //Debug.Log("we are hiding this room");
+        transform.Find("Renderable").gameObject.SetActive(false);
+        transform.Find("NonRenderable").gameObject.SetActive(true);
+        foreach (DoorBehaviour door in connectedDoors)
+        {
+            if (door.doorState != DoorBehaviour.DoorState.Closed)
+                door.InteractWithDoor(true);
+        }
     }
 }
