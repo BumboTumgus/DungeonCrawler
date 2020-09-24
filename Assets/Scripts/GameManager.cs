@@ -100,11 +100,14 @@ public class GameManager : MonoBehaviour
     // Used to hide all rooms then show the ones that are adjacent to the new room
     public void ShowRoom(RoomManager targetRoom)
     {
-        Debug.Log("We are showing room: " + targetRoom.gameObject.name);
-        foreach (RoomManager room in rooms)
-            room.HideRoom();
+        //Debug.Log("We are showing room: " + targetRoom.gameObject.name);
 
         targetRoom.ShowAdjacentRooms();
+
+        foreach (RoomManager room in rooms)
+            if(!targetRoom.connectedRooms.Contains(room) && room != targetRoom)
+                room.HideRoom();
+        
     }
 }
 

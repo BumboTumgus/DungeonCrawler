@@ -9,7 +9,7 @@ public class DoorBehaviour : MonoBehaviour
 
     public Animator[] animators;
 
-    private bool canInteractWithDoor = true;
+    //private bool canInteractWithDoor = true;
 
     public void InteractWithDoor(bool openInward)
     {
@@ -44,6 +44,7 @@ public class DoorBehaviour : MonoBehaviour
                     doorState = DoorState.OpenedOutward;
                 }
 
+                DoorOpened();
                 StartCoroutine(DoorTimer());
                 break;
             default:
@@ -54,7 +55,7 @@ public class DoorBehaviour : MonoBehaviour
     // Used to set a timer before the door can be interacted with again.
     IEnumerator DoorTimer()
     {
-        canInteractWithDoor = false;
+        //canInteractWithDoor = false;
         float currentTimer = 0;
         float targetTimer = 2;
 
@@ -64,6 +65,18 @@ public class DoorBehaviour : MonoBehaviour
             yield return null;
         }
 
-        canInteractWithDoor = true;
+        //canInteractWithDoor = true;
+    }
+
+    //Used when a door is opened. this will ensure that all other doors in the room get closed while this one opens.
+    private void DoorOpened()
+    {
+        Debug.Log("A door was opened, we now begin closing all others");
+        // Launches the door opened method in the room manager one level above me in the hierarchy in my parent.
+        RoomManager myRoom = transform.parent.GetComponent<RoomManager>();
+        if (myRoom)
+            myRoom.DoorOpen(this);
+        else
+            Debug.Log("this door didnt find it's conencted room something might not be connected");
     }
 }

@@ -145,7 +145,7 @@ public class RoomManager : MonoBehaviour
                 //Check to see if this room has more room spawners than is allotted by the game Manager.
                 if(((float) GameManager.instance.rooms.Count / (float) GameManager.instance.roomTarget > 0.7f) && spawns.Count > 2)
                 {
-                    Debug.Log("this room has too many spawns");
+                    //Debug.Log("this room has too many spawns");
                     compatibleRoom = false;
                 }
 
@@ -410,5 +410,36 @@ public class RoomManager : MonoBehaviour
             if (door.doorState != DoorBehaviour.DoorState.Closed)
                 door.InteractWithDoor(true);
         }
+    }
+
+    // USed when we open a door, close all the connected doors in this room and all adjacent rooms if they are not already close.
+    public void DoorOpen(DoorBehaviour openedDoor)
+    {
+        Debug.Log("WE ARE NOW CLOSING ALL OTHER DOORS IN THIS ROOM");
+        // This closes each of the doors directly connected to this rooom that are not the door we just interacted with.
+        foreach (DoorBehaviour door in connectedDoors)
+            if (door != openedDoor)
+            {
+                Debug.Log("This door is not the one we just opened: " + door.gameObject.name);
+                if (door.doorState != DoorBehaviour.DoorState.Closed)
+                {
+                    Debug.Log("this door is not closed and would be closed here");
+                    door.InteractWithDoor(true);
+                }
+                else
+                    Debug.Log("this door is closed and were golden.");
+            }
+        
+        Debug.Log("WE ARE NOW CLOSING ALL DOORS IN ADJACENT ROOMS");
+        // This closes the rest of the doors for the adjacent rooms if they are active in the hierarchy.
+        foreach (RoomManager room in connectedRooms)
+            foreach (DoorBehaviour door in room.connectedDoors)
+                if (door.gameObject.activeInHierarchy && door.doorState != DoorBehaviour.DoorState.Closed)
+                {
+                    Debug.Log(door.gameObject.name + " is not closed and in an adjacent room. its parent is: " + door.transform.parent.name);
+                    door.InteractWithDoor(true);
+                }
+                    
+
     }
 }

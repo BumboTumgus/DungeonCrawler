@@ -482,7 +482,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         if(other.CompareTag("RoomVolume"))
         {
-            Debug.Log("We have entered a new room");
+            //Debug.Log("We have entered a new room");
             GameManager.instance.ShowRoom(other.transform.parent.GetComponent<RoomManager>());
         }
     }
