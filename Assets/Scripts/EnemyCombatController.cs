@@ -262,7 +262,7 @@ public class EnemyCombatController : MonoBehaviour
             if(usePrimaryAttack && CheckDistance(myStats.attackRange, myTarget.transform))
             {
                 // Can we currently attack?
-                if (myStats.currentAttackDelay > myStats.attackDelay)
+                if (myStats.currentAttackDelay > 1 / myStats.attackSpeed)
                 {
                     // Launch the attack.
                     myStats.currentAttackDelay = 0;

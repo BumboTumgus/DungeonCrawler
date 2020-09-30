@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Item : MonoBehaviour
@@ -25,10 +26,10 @@ public class Item : MonoBehaviour
     public enum HelmetType {NoFeatures, NoHair, AllFeatures};
     public HelmetType helmetType;
 
-    public bool equippedToRightHand = false;
+    [HideInInspector]public bool equippedToRightHand = false;
     public bool stackable;
     public bool instantPickup;
-    public GameObject previousOwner = null;
+    [HideInInspector]public GameObject previousOwner = null;
     public int currentStack;
     public int maxStack;
 
@@ -46,6 +47,7 @@ public class Item : MonoBehaviour
     public ItemRarity itemRarity = ItemRarity.Common;
 
     // Equipable Stats (weapons armor and trinkets)
+    /*
     public int vitMod;
     public int strMod;
     public int dexMod;
@@ -53,12 +55,9 @@ public class Item : MonoBehaviour
     public int intMod;
     public int wisMod;
     public int chaMod;
-    
-    public float baseAttackDelay;
-    public int hitMax;
-    public int hitBase;
-    public float critChance;
-    public float critMod;
+    */
+    public float attacksPerSecond;
+    public float baseDamageScaling;
     
     public float vitScaling = 0;
     public float strScaling = 0;
@@ -70,13 +69,21 @@ public class Item : MonoBehaviour
 
     public int itemMoveset = 0;
 
+    public List<ItemTrait> itemTraits = new List<ItemTrait>();
+    public ItemTrait.TraitType[] garenteedTraits;
+    public float[] garenteedTraitValues;
+
+    /*
     public int health;
     public int mana;
     public int armor;
     public int resistance;
     public float healthRegen;
     public float manaRegen;
+    */
 
+    //These will be put in as traits
+    /*
     public float aflameResist;
     public float asleepResist;
     public float stunResist;
@@ -86,10 +93,20 @@ public class Item : MonoBehaviour
     public float corrosionResist;
     public float frostbiteResist;
     public float knockbackResist;
+    */
 
     private const float STAT_MODIFIER_RANGE = 0.25f;
     private const float LERP_STRENGTH = 0.04f;
 
+    private void Start()
+    {
+        for(int index = 0; index < garenteedTraits.Length; index++)
+        {
+            Debug.Log("we added a garenteed trait of: " + garenteedTraits[index]);
+            itemTraits.Add(new ItemTrait(garenteedTraits[index], garenteedTraitValues[index]));
+        }
+    }
+    /*
     // Rerolls all the base stats plus or minus a percentage based on the stat modifier range.
     public void RollStatModifiers()
     {
@@ -100,18 +117,22 @@ public class Item : MonoBehaviour
         intMod += Mathf.RoundToInt(Random.Range(-intMod * STAT_MODIFIER_RANGE, intMod * STAT_MODIFIER_RANGE));
         wisMod += Mathf.RoundToInt(Random.Range(-wisMod * STAT_MODIFIER_RANGE, wisMod * STAT_MODIFIER_RANGE));
         chaMod += Mathf.RoundToInt(Random.Range(-chaMod * STAT_MODIFIER_RANGE, chaMod * STAT_MODIFIER_RANGE));
-
+        
         baseAttackDelay += Mathf.RoundToInt(Random.Range(-baseAttackDelay * STAT_MODIFIER_RANGE, baseAttackDelay * STAT_MODIFIER_RANGE));
         hitMax += Mathf.RoundToInt(Random.Range(-hitMax * STAT_MODIFIER_RANGE, hitMax * STAT_MODIFIER_RANGE));
         hitBase += Mathf.RoundToInt(Random.Range(-hitBase * STAT_MODIFIER_RANGE, hitBase * STAT_MODIFIER_RANGE));
         critChance += Mathf.RoundToInt(Random.Range(-critChance * STAT_MODIFIER_RANGE, critChance * STAT_MODIFIER_RANGE));
         critMod += Mathf.RoundToInt(Random.Range(-critMod * STAT_MODIFIER_RANGE, critMod * STAT_MODIFIER_RANGE));
+        
+
+        baseDamageScaling += Mathf.RoundToInt(Random.Range(-baseDamageScaling * STAT_MODIFIER_RANGE, baseDamageScaling * STAT_MODIFIER_RANGE));
 
         armor += Mathf.RoundToInt(Random.Range(-armor * STAT_MODIFIER_RANGE, armor * STAT_MODIFIER_RANGE));
         resistance += Mathf.RoundToInt(Random.Range(-resistance * STAT_MODIFIER_RANGE, resistance * STAT_MODIFIER_RANGE));
         healthRegen += Mathf.RoundToInt(Random.Range(-healthRegen * STAT_MODIFIER_RANGE, healthRegen * STAT_MODIFIER_RANGE));
         manaRegen += Mathf.RoundToInt(Random.Range(-manaRegen * STAT_MODIFIER_RANGE, manaRegen * STAT_MODIFIER_RANGE));
     }
+*/
 
     // This is called when the item can be picked up. The item will set it's parent as the player's ivnentory, hide itself and disable collisions.
     public void ComfirmPickup(Transform targetParent, int index)
@@ -200,4 +221,5 @@ public class Item : MonoBehaviour
         GetComponent<SphereCollider>().enabled = true;
         itemPickUpAllowed = true;
     }
+
 }

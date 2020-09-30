@@ -59,9 +59,7 @@ public class HitBox : MonoBehaviour
                 if (!damageOverload)
                 {
                     // Check to see if the attack hit.
-                    damageDealt = myStats.weaponHitbase + myStats.weaponBonusHitBase + Random.Range(0, myStats.weaponHitMax + myStats.weaponBonusHitMax + 1)
-                        + myStats.Str * myStats.weaponStrScaling + myStats.Dex * myStats.weaponDexScaling + myStats.Vit * myStats.weaponVitScaling + myStats.Spd * myStats.weaponSpdScaling
-                        + myStats.Int * myStats.weaponIntScaling + myStats.Wis * myStats.weaponWisScaling + myStats.Cha * myStats.weaponChaScaling;
+                    damageDealt = myStats.baseDamage * (myStats.baseDamageScaling + ((float)myStats.Str * myStats.weaponStrScaling) + ((float)myStats.Dex * myStats.weaponDexScaling) + ((float)myStats.Vit * myStats.weaponVitScaling) + ((float)myStats.Spd * myStats.weaponSpdScaling) + ((float)myStats.Int * myStats.weaponIntScaling) + ((float)myStats.Wis * myStats.weaponWisScaling) + ((float)myStats.Cha * myStats.weaponChaScaling));
                 }
                 // Debug.Log("we should check the on hits here.");
 
@@ -70,6 +68,7 @@ public class HitBox : MonoBehaviour
                 else if (procsOnHits)
                     transform.root.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this);
 
+                /*
                 if (myStats.weaponHitspeeds.Count > 0)
                 {
                     if (Random.Range(0, 100) >= 100 - myStats.weaponCritChance - myStats.weaponBonusCritChance|| bypassCrit)
@@ -88,6 +87,7 @@ public class HitBox : MonoBehaviour
                         bypassCrit = false;
                     }
                 }
+                */
 
 
                 damageDealt -= enemyStats.armor;
@@ -113,16 +113,16 @@ public class HitBox : MonoBehaviour
                 if (!damageOverload)
                 {
                     // Check to see if the attack hit.
-                    damageDealt = myStats.weaponHitbase + myStats.weaponBonusHitBase + Random.Range(0, myStats.weaponHitMax + myStats.weaponBonusHitMax + 1)
-                        + myStats.Str * myStats.weaponStrScaling + myStats.Dex * myStats.weaponDexScaling + myStats.Vit * myStats.weaponVitScaling + myStats.Spd * myStats.weaponSpdScaling
-                        + myStats.Int * myStats.weaponIntScaling + myStats.Wis * myStats.weaponWisScaling + myStats.Cha * myStats.weaponChaScaling;
+                    damageDealt = myStats.baseDamage * (myStats.baseDamageScaling + ((float)myStats.Str * myStats.weaponStrScaling) + ((float)myStats.Dex * myStats.weaponDexScaling) + ((float)myStats.Vit * myStats.weaponVitScaling) + ((float)myStats.Spd * myStats.weaponSpdScaling) + ((float)myStats.Int * myStats.weaponIntScaling) + ((float)myStats.Wis * myStats.weaponWisScaling) + ((float)myStats.Cha * myStats.weaponChaScaling));
                 }
 
+                /*
                 if (!bypassCrit && Random.Range(0, 100) >= 100 - myStats.weaponCritChance - myStats.weaponBonusCritChance)
                 {
                     damageDealt *= (myStats.weaponCritMod + myStats.weaponBonusCritMod);
                     attackCrit = true;
                 }
+                */
                 damageDealt -= enemyStats.armor;
                 //Debug.Log("the player shall take: " + damageDealt + " damage");
                 if (!forceChangeDamageColor)

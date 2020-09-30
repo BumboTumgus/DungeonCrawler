@@ -7,32 +7,29 @@ public class PlayerStats : MonoBehaviour
     public string playerName = "Jose";
     public string playerTitle = "Mighty";
 
-    public float weaponBaseAttackDelay = 1;
-    public float weaponHitMax = 4;
-    public float weaponBonusHitMax = 0;
-    public float weaponHitbase = 4;
-    public float weaponBonusHitBase = 0;
-    public float weaponCritChance = 5;
-    public float weaponBonusCritChance = 0;
-    public float weaponCritMod = 2;
-    public float weaponBonusCritMod = 0;
+    public float baseDamage = 1;
+    private float baseBaseDamage = 10;
+    private float baseDamageGrowth = 2;
+
+    public float baseDamageScaling = 1;
     public float weaponVitScaling = 0;
-    public float weaponStrScaling = 2;
-    public float weaponBonusStrScaling = 0;
-    public float weaponDexScaling = 2;
-    public float weaponBonusDexScaling = 0;
+    public float weaponStrScaling = 0f;
+    //public float weaponBonusStrScaling = 0;
+    public float weaponDexScaling = 0f;
+    //public float weaponBonusDexScaling = 0;
     public float weaponSpdScaling = 0;
     public float weaponIntScaling = 0;
     public float weaponWisScaling = 0;
     public float weaponChaScaling = 0;
-    public List<float> weaponHitspeeds = new List<float>();
+    [HideInInspector] public List<float> weaponAttackSpeeds = new List<float>();
+    [HideInInspector] public List<float> weaponBaseDamages = new List<float>();
 
     public float currentAttackDelay = 13; // 10 is fast, 100 is really slow.
-
-    public float attackDelay = 1;
-    public float attackDamage = 5;
+    
     public float attackRange = 2;
+
     public float attackSpeed = 1;
+    public float weaponAttackSpeed = 1;
     public float bonusAttackSpeed = 0;
     public float health = 100;
     public float healthMax = 100;
@@ -50,6 +47,7 @@ public class PlayerStats : MonoBehaviour
     public float bonusMana = 0;
     public float bonusHealthRegen = 0;
     public float bonusManaRegen = 0;
+    public float cooldownReduction = 0;
 
     public int level = 1;
     public float exp = 0;
@@ -196,6 +194,8 @@ public class PlayerStats : MonoBehaviour
     // Used to set up the stats at the start of the game and every time we level.
     public void StatSetup(bool LeveledUp, bool changeHealthBars)
     {
+        baseDamage = baseBaseDamage + baseDamageGrowth * level;
+
         healthMax = 20 + 3 * level + 5 * Vit + 2 * Str + Dex + Spd + Int + Wis + Cha + bonusHealth;
         if (health > healthMax)
             health = healthMax;
@@ -218,8 +218,7 @@ public class PlayerStats : MonoBehaviour
         speed = 2.5f + (float) Spd / 10;
         if (gameObject.tag == "Enemy")
             speed *= 1.3f;
-        attackSpeed = 1 + 0.025f * Spd + 0.0125f * Dex + bonusAttackSpeed;
-        attackDelay = (1 / weaponBaseAttackDelay) / attackSpeed;
+        attackSpeed = 1 + 0.1f * Spd + 0.05f * Dex + bonusAttackSpeed + (weaponAttackSpeed - 1);
         strafeSpeed = speed / 2;
         acceleration = speed;
         if (transform.CompareTag("Enemy"))
@@ -459,161 +458,258 @@ public class PlayerStats : MonoBehaviour
     // Adds the item stats to our current Stats
     public void AddItemStats(Item item, bool compelteStatSetup)
     {
-        // Debug.Log("adding stats");
-        Vit += item.vitMod;
-        Str += item.strMod;
-        Dex += item.dexMod;
-        Spd += item.spdMod;
-        Int += item.intMod;
-        Wis += item.wisMod;
-        Cha += item.chaMod;
-
-        weaponVitScaling += item.vitScaling;
-        weaponBonusStrScaling += item.strScaling;
-        weaponBonusDexScaling += item.dexScaling;
-        weaponSpdScaling += item.spdScaling;
-        weaponIntScaling += item.intScaling;
-        weaponWisScaling += item.wisScaling;
-        weaponChaScaling += item.chaScaling;
-
-        if (item.itemType == Item.ItemType.Weapon || item.itemType == Item.ItemType.TwoHandWeapon)
+        Debug.Log("adding stats");
+        if(item.itemType == Item.ItemType.Weapon || item.itemType == Item.ItemType.TwoHandWeapon)
         {
-            weaponHitspeeds.Add(item.baseAttackDelay);
-            
-            float totalAttackDelay = 0;
-            if (weaponHitspeeds.Count > 0)
+            weaponVitScaling += item.vitScaling;
+            //weaponBonusStrScaling += item.strScaling;
+            // weaponBonusDexScaling += item.dexScaling;
+            weaponStrScaling += item.strScaling;
+            weaponDexScaling += item.dexScaling;
+            weaponSpdScaling += item.spdScaling;
+            weaponIntScaling += item.intScaling;
+            weaponWisScaling += item.wisScaling;
+            weaponChaScaling += item.chaScaling;
+
+            weaponAttackSpeeds.Add(item.attacksPerSecond);
+
+            float totalWeaponAttackSpeeds = 0f;
+            if (weaponAttackSpeeds.Count > 0)
             {
-                foreach (float attackDelay in weaponHitspeeds)
-                    totalAttackDelay += attackDelay;
-                weaponBaseAttackDelay = totalAttackDelay / weaponHitspeeds.Count;
+                foreach (float value in weaponAttackSpeeds)
+                    totalWeaponAttackSpeeds += value;
+                if (weaponAttackSpeeds.Count > 2)
+                    totalWeaponAttackSpeeds -= 1;
+                weaponAttackSpeed = totalWeaponAttackSpeeds;
             }
             else
-                weaponBaseAttackDelay = 1;
+                weaponAttackSpeed = 1;
+
+            weaponBaseDamages.Add(item.baseDamageScaling);
+
+            float totalWeaponBaseDamages = 0;
+            if(weaponBaseDamages.Count > 0)
+            {
+                foreach (float value in weaponBaseDamages)
+                    totalWeaponBaseDamages += value;
+                if (weaponBaseDamages.Count > 2)
+                    totalWeaponBaseDamages -= 1;
+                baseDamageScaling = totalWeaponBaseDamages;
+            }
+            else
+                baseDamageScaling = 1;
+
         }
 
-        weaponBonusHitBase += item.hitBase;
-        weaponBonusHitMax += item.hitMax;
-        weaponBonusCritChance += item.critChance;
-        weaponBonusCritMod += item.critMod;
-        
-        if (weaponHitspeeds.Count > 0)
+        foreach(ItemTrait trait in item.itemTraits)
         {
-            weaponCritChance = 0;
-            weaponCritMod = 1;
-            weaponHitMax = 0;
-            weaponHitbase = 0;
-            weaponDexScaling = 0;
-            weaponStrScaling = 0;
+            switch (trait.traitType)
+            {
+                case ItemTrait.TraitType.Vit:
+                    Vit += (int) trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Str:
+                    Str += (int)trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Dex:
+                    Dex += (int)trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Spd:
+                    Spd += (int)trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Int:
+                    Int += (int)trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Wis:
+                    Wis += (int)trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Health:
+                    bonusHealth += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Mana:
+                    bonusMana += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Armor:
+                    armor += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Resistance:
+                    magicResist += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.HealthRegen:
+                    bonusHealthRegen += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.ManaRegen:
+                    bonusManaRegen += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.CooldownReduction:
+                    cooldownReduction += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.SpellSlots:
+                    break;
+                case ItemTrait.TraitType.AflameResistance:
+                    afflictions.aflameResist += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.AsleepResistance:
+                    afflictions.sleepResist += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.StunResistance:
+                    afflictions.stunResist += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.CurseResistance:
+                    afflictions.curseResist += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.BleedResistance:
+                    afflictions.bleedResist += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.PoisonResistance:
+                    afflictions.poisonResist += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.CorrosionResistance:
+                    afflictions.corrosionResist += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.FrostbiteResistance:
+                    afflictions.frostbiteResist += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.KnockbackResistance:
+                    afflictions.knockBackResist += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.AttackSpeed:
+                    bonusAttackSpeed += trait.traitBonus;
+                    break;
+                default:
+                    break;
+            }
         }
-        else
-        {
-            weaponCritChance = 10;
-            weaponCritMod = 2;
-            weaponHitMax = 4;
-            weaponHitbase = 2;
-            weaponDexScaling = 1;
-            weaponStrScaling = 1;
-        }
-
-        armor += item.armor;
-        magicResist += item.resistance;
-        // poise += item.poise;
-        bonusHealth += item.health;
-        bonusHealthRegen += item.healthRegen;
-        bonusMana += item.mana;
-        bonusManaRegen += item.manaRegen;
-
-        afflictions.aflameResist += item.aflameResist;
-        afflictions.sleepResist += item.asleepResist;
-        afflictions.stunResist += item.stunResist;
-        afflictions.curseResist += item.curseResist;
-        afflictions.bleedResist += item.bleedResist;
-        afflictions.poisonResist += item.poisonResist;
-        afflictions.corrosionResist += item.corrosionResist;
-        afflictions.frostbiteResist += item.frostbiteResist;
-        afflictions.knockBackResist += item.knockbackResist;
-
-        if(compelteStatSetup)
-            StatSetup(false, true);
+            if (compelteStatSetup)
+                StatSetup(false, true);
     }
 
     //Remvoes the item stats from our current Stats
     public void RemoveItemStats(Item item, bool completeStatSetup)
     {
-        // Debug.Log("removing stats");
-        Vit -= item.vitMod;
-        Str -= item.strMod;
-        Dex -= item.dexMod;
-        Spd -= item.spdMod;
-        Int -= item.intMod;
-        Wis -= item.wisMod;
-        Cha -= item.chaMod;
-
-        weaponVitScaling -= item.vitScaling;
-        weaponBonusStrScaling -= item.strScaling;
-        weaponBonusDexScaling -= item.dexScaling;
-        weaponSpdScaling -= item.spdScaling;
-        weaponIntScaling -= item.intScaling;
-        weaponWisScaling -= item.wisScaling;
-        weaponChaScaling -= item.chaScaling;
-
+        Debug.Log("removing stats");
         if (item.itemType == Item.ItemType.Weapon || item.itemType == Item.ItemType.TwoHandWeapon)
         {
-            weaponHitspeeds.Remove(item.baseAttackDelay);
+            weaponVitScaling -= item.vitScaling;
+            //weaponBonusStrScaling -= item.strScaling;
+            //weaponBonusDexScaling -= item.dexScaling;
+            weaponStrScaling -= item.strScaling;
+            weaponDexScaling -= item.dexScaling;
+            weaponSpdScaling -= item.spdScaling;
+            weaponIntScaling -= item.intScaling;
+            weaponWisScaling -= item.wisScaling;
+            weaponChaScaling -= item.chaScaling;
 
-            float totalAttackDelay = 0;
-            if (weaponHitspeeds.Count > 0)
+            weaponAttackSpeeds.Remove(item.attacksPerSecond);
+
+            float totalWeaponAttackSpeeds = 0f;
+            if (weaponAttackSpeeds.Count > 0)
             {
-                foreach (float attackDelay in weaponHitspeeds)
-                    totalAttackDelay += attackDelay;
-                weaponBaseAttackDelay = totalAttackDelay / weaponHitspeeds.Count;
+                foreach (float value in weaponAttackSpeeds)
+                    totalWeaponAttackSpeeds += value;
+                if (weaponAttackSpeeds.Count > 2)
+                    totalWeaponAttackSpeeds -= 1;
+                weaponAttackSpeed = totalWeaponAttackSpeeds;
             }
             else
-                weaponBaseAttackDelay = 1;
+            {
+                weaponAttackSpeed = 1;
+            }
+
+            weaponBaseDamages.Remove(item.baseDamageScaling);
+
+            float totalWeaponBaseDamages = 0;
+            if (weaponBaseDamages.Count > 0)
+            {
+                foreach (float value in weaponBaseDamages)
+                    totalWeaponBaseDamages += value;
+                if (weaponBaseDamages.Count > 2)
+                    totalWeaponBaseDamages -= 1;
+                baseDamageScaling = totalWeaponBaseDamages;
+            }
+            else
+                baseDamageScaling = 1;
         }
 
-        weaponBonusHitBase -= item.hitBase;
-        weaponBonusHitMax -= item.hitMax;
-        weaponBonusCritChance -= item.critChance;
-        weaponBonusCritMod -= item.critMod;
-
-        if(weaponHitspeeds.Count > 0)
+        foreach (ItemTrait trait in item.itemTraits)
         {
-            weaponCritChance = 0;
-            weaponCritMod = 1;
-            weaponHitMax = 0;
-            weaponHitbase = 0;
-            weaponStrScaling = 0;
-            weaponDexScaling = 0;
+            switch (trait.traitType)
+            {
+                case ItemTrait.TraitType.Vit:
+                    Vit -= (int)trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Str:
+                    Str -= (int)trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Dex:
+                    Dex -= (int)trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Spd:
+                    Spd -= (int)trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Int:
+                    Int -= (int)trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Wis:
+                    Wis -= (int)trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Health:
+                    bonusHealth -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Mana:
+                    bonusMana -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Armor:
+                    armor -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Resistance:
+                    magicResist -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.HealthRegen:
+                    bonusHealthRegen -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.ManaRegen:
+                    bonusManaRegen -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.CooldownReduction:
+                    cooldownReduction -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.SpellSlots:
+                    break;
+                case ItemTrait.TraitType.AflameResistance:
+                    afflictions.aflameResist -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.AsleepResistance:
+                    afflictions.sleepResist -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.StunResistance:
+                    afflictions.stunResist -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.CurseResistance:
+                    afflictions.curseResist -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.BleedResistance:
+                    afflictions.bleedResist -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.PoisonResistance:
+                    afflictions.poisonResist -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.CorrosionResistance:
+                    afflictions.corrosionResist -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.FrostbiteResistance:
+                    afflictions.frostbiteResist -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.KnockbackResistance:
+                    afflictions.knockBackResist -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.AttackSpeed:
+                    bonusAttackSpeed -= trait.traitBonus;
+                    break;
+                default:
+                    break;
+            }
         }
-        else
-        {
-            weaponCritChance = 10;
-            weaponCritMod = 2;
-            weaponHitMax = 4;
-            weaponHitbase = 2;
-            weaponStrScaling = 1;
-            weaponDexScaling = 1;
-        }
-
-        armor -= item.armor;
-        magicResist -= item.resistance;
-        // poise -= item.poise;
-        bonusHealth -= item.health;
-        bonusHealthRegen -= item.healthRegen;
-        bonusMana -= item.mana;
-        bonusManaRegen -= item.manaRegen;
-        
-        afflictions.aflameResist -= item.aflameResist;
-        afflictions.sleepResist -= item.asleepResist;
-        afflictions.stunResist -= item.stunResist;
-        afflictions.curseResist -= item.curseResist;
-        afflictions.bleedResist -= item.bleedResist;
-        afflictions.poisonResist -= item.poisonResist;
-        afflictions.corrosionResist -= item.corrosionResist;
-        afflictions.frostbiteResist -= item.frostbiteResist;
-        afflictions.knockBackResist -= item.knockbackResist;
-
         if (completeStatSetup)
             StatSetup(false, true);
     }

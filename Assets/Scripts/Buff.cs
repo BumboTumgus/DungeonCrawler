@@ -273,11 +273,11 @@ public class Buff : MonoBehaviour
     //USed to add offensive stast to the player
     public void ChangeOffensiveStats(bool changeStatsChangeValue, float baseDamageGain, float maxDamageGain, float critChanceGain, float critModifierGain, float atkSpeedGain)
     {
-        connectedPlayer.weaponHitbase += baseDamageGain;
-        connectedPlayer.weaponHitMax += maxDamageGain;
-        connectedPlayer.weaponCritChance += critChanceGain;
-        connectedPlayer.weaponCritMod += critModifierGain;
-        connectedPlayer.bonusAttackSpeed += atkSpeedGain;
+        //connectedPlayer.weaponHitbase += baseDamageGain;
+        //connectedPlayer.weaponHitMax += maxDamageGain;
+        //connectedPlayer.weaponCritChance += critChanceGain;
+        // connectedPlayer.weaponCritMod += critModifierGain;
+        //connectedPlayer.bonusAttackSpeed += atkSpeedGain;
 
         if (changeStatsChangeValue)
         {

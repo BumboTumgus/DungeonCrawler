@@ -28,7 +28,13 @@ public class InventoryPopupTextManager : MonoBehaviour
         itemPopUp.transform.SetAsLastSibling();
         itemPopUp.transform.localPosition = Vector3.zero;
 
-        SetPopUpStats(popUpParent.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>());
+        //Hide the hotbar number if there is one in the parent.
+        if (itemPopUp.transform.parent.parent.Find("HotbarNumber") != null)
+            itemPopUp.transform.parent.parent.Find("HotbarNumber").gameObject.SetActive(false);
+
+        itemPopUp.GetComponent<UiItemPopUpResizer>().ShowPopUp(popUpParent.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>());
+
+        //SetPopUpStats(popUpParent.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>());
 
         RectTransform popUpRect = itemPopUp.GetComponent<RectTransform>();
         switch (direction)
@@ -68,13 +74,18 @@ public class InventoryPopupTextManager : MonoBehaviour
     // Used to hide the Popups
     public void HidePopups()
     {
-        if(!lockPointer)
+        //Show the hotbar number if there is one in the parent.
+        if (itemPopUp.transform.parent.parent.Find("HotbarNumber") != null)
+            itemPopUp.transform.parent.parent.Find("HotbarNumber").gameObject.SetActive(true);
+
+        if (!lockPointer)
          itemPopUp.SetActive(false);
     }
     
     // Used to set the stats of the popup
     public void SetPopUpStats(Item item)
     {
+        /*
         PlayerStats stats = GetComponent<InventoryUiManager>().playerInventory.GetComponent<PlayerStats>();
         Transform statContainer = itemPopUp.transform.Find("ItemDescription");
         // Set up all the different popup values.
@@ -141,9 +152,9 @@ public class InventoryPopupTextManager : MonoBehaviour
             default:
                 break;
         }
-
+        */
     }
-
+    /*
     // Used to set a plus/minus stat text field
     private void SetPlusMinusText(Text statText, float value)
     {
@@ -184,5 +195,6 @@ public class InventoryPopupTextManager : MonoBehaviour
             letterGrade = "S";
         statText.text = letterGrade;
     }
+    */
 
 }

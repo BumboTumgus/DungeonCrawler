@@ -285,7 +285,7 @@ public class Skill : MonoBehaviour
             currentTimer += Time.deltaTime;
             yield return null;
         }
-        myManager.hitBoxes.hitboxes[4].GetComponent<HitBox>().damage = myManager.stats.weaponHitMax + myManager.stats.weaponHitbase + myManager.stats.Dex;
+        //myManager.hitBoxes.hitboxes[4].GetComponent<HitBox>().damage = myManager.stats.weaponHitMax + myManager.stats.weaponHitbase + myManager.stats.Dex;
         myManager.hitBoxes.LaunchHitBox(4);
         myManager.ps[29].Play();
         myManager.ps[30].Play();
@@ -297,7 +297,7 @@ public class Skill : MonoBehaviour
             currentTimer += Time.deltaTime;
             yield return null;
         }
-        myManager.hitBoxes.hitboxes[4].GetComponent<HitBox>().damage = myManager.stats.weaponHitMax + myManager.stats.weaponHitbase + myManager.stats.Dex;
+        //myManager.hitBoxes.hitboxes[4].GetComponent<HitBox>().damage = myManager.stats.weaponHitMax + myManager.stats.weaponHitbase + myManager.stats.Dex;
         myManager.hitBoxes.LaunchHitBox(4);
         myManager.ps[31].Play();
         myManager.ps[32].Play();
@@ -309,7 +309,7 @@ public class Skill : MonoBehaviour
             currentTimer += Time.deltaTime;
             yield return null;
         }
-        myManager.hitBoxes.hitboxes[5].GetComponent<HitBox>().damage = myManager.stats.weaponHitMax + myManager.stats.weaponHitbase + myManager.stats.Dex * 3 + 10;
+        //myManager.hitBoxes.hitboxes[5].GetComponent<HitBox>().damage = myManager.stats.weaponHitMax + myManager.stats.weaponHitbase + myManager.stats.Dex * 3 + 10;
         myManager.hitBoxes.LaunchHitBox(5);
         myManager.ps[33].Play();
         myManager.ps[34].Play();
@@ -579,7 +579,7 @@ public class Skill : MonoBehaviour
         pc.playerState = PlayerMovementController.PlayerState.CastingRollOut;
         myManager.ps[6].Play();
         bool playParticles = false;
-        myManager.hitBoxes.hitboxes[1].GetComponent<HitBox>().damage = 25 + myManager.stats.Str * 2 + myManager.stats.weaponHitbase + myManager.stats.weaponHitMax;
+        //myManager.hitBoxes.hitboxes[1].GetComponent<HitBox>().damage = 25 + myManager.stats.Str * 2 + myManager.stats.weaponHitbase + myManager.stats.weaponHitMax;
 
         while(currentTimer < targetTimer)
         {
@@ -610,7 +610,7 @@ public class Skill : MonoBehaviour
         myManager.ps[11].Play();
         myManager.ps[12].Play();
         bool playParticles = false;
-        myManager.hitBoxes.hitboxes[2].GetComponent<HitBox>().damage = 25 + myManager.stats.Str * 2 + myManager.stats.weaponHitbase + myManager.stats.weaponHitMax;
+        //myManager.hitBoxes.hitboxes[2].GetComponent<HitBox>().damage = 25 + myManager.stats.Str * 2 + myManager.stats.weaponHitbase + myManager.stats.weaponHitMax;
 
         // Create a vector that houses our move inputs
         Vector2 movementInput = new Vector2(Input.GetAxisRaw(myManager.inputs.horizontalInput), Input.GetAxisRaw(myManager.inputs.verticalInput));
@@ -762,11 +762,12 @@ public class Skill : MonoBehaviour
                 myManager.ps[24].Play();
                 myManager.ps[25].Play();
                 // flicker hitbox
+                /*
                 if (!maxDamage)
                     myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damage = 25 + (myManager.stats.Str * 3 + myManager.stats.weaponHitbase + myManager.stats.weaponHitMax) * chargePercent;
                 else
                     myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damage = 50 + myManager.stats.Str * 5 + myManager.stats.weaponHitbase + myManager.stats.weaponHitMax;
-
+                */
                 myManager.hitBoxes.LaunchHitBox(3);
             }
             yield return null;
