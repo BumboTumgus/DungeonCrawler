@@ -152,6 +152,8 @@ public class PlayerStats : MonoBehaviour
             afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Stun, 30);
         if (Input.GetKeyDown(KeyCode.P) && CompareTag("Player"))
             AddExp(25);
+        if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
+            TakeDamage(10,false);
 
         // Health and mana regen logic.
         if (!dead)
@@ -160,18 +162,18 @@ public class PlayerStats : MonoBehaviour
             if (revitalizeBuff)
             {
                 healthRegen = (Vit * 0.2f + bonusHealthRegen) * (1 + (1 - (health / healthMax)) * 3f);
-                myStats.SetHealthManaRegenValues(this);
+                myStats.UpdateHealthManaBarValues(this);
             }
             mana += manaRegen * Time.deltaTime;
         }
         if (health > healthMax)
             health = healthMax;
         else if(myStats != null)
-            myStats.SetHealthManaValues(this);
+            myStats.UpdateHealthManaBarValues(this);
         if (mana > manaMax)
             mana = manaMax;
         else if (myStats != null)
-            myStats.SetHealthManaValues(this);
+            myStats.UpdateHealthManaBarValues(this);
         // Update the health bar.
         healthBar.targetValue = health;
         if (manaBar != null)

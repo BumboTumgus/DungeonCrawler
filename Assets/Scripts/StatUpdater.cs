@@ -37,6 +37,9 @@ public class StatUpdater : MonoBehaviour
     float corrosionResistance;
     float frostbiteResistance;
     float knockbackResistance;
+    public BarManager expBar;
+    public BarManager healthBar;
+    public BarManager manaBar;
     int weaponCount;
 
     // This method is called at the start of the game to set up all the player's stats. It is also called whenever a player switches gear or the stats would ahve to change.
@@ -44,7 +47,9 @@ public class StatUpdater : MonoBehaviour
     {
         transform.Find("Playername").GetComponent<Text>().text = stats.playerName + " the " + stats.playerTitle;
         transform.Find("Level_Value").GetComponent<Text>().text = stats.level + "";
-        transform.Find("EXP_Value").GetComponent<Text>().text = stats.exp + " / " + stats.expTarget;
+        //transform.Find("EXP_Value").GetComponent<Text>().text = stats.exp + " / " + stats.expTarget;
+        SetExpBarsValues(stats);
+        SetHealthManaBarValues(stats);
 
         transform.Find("Vitality_Value").GetComponent<Text>().text = stats.Vit + "";
         transform.Find("Strength_Value").GetComponent<Text>().text = stats.Str + "";
@@ -54,10 +59,10 @@ public class StatUpdater : MonoBehaviour
         transform.Find("Wisdom_Value").GetComponent<Text>().text = stats.Wis + "";
         transform.Find("Charisma_Value").GetComponent<Text>().text = stats.Cha + "";
 
-        transform.Find("Health_Value").GetComponent<Text>().text = string.Format("{0:0}",stats.health) + " / " + stats.healthMax;
-        transform.Find("Mana_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.mana) + " / " + stats.manaMax;
-        transform.Find("HealthRegen_Value").GetComponent<Text>().text = string.Format("{0:0.0}", stats.healthRegen);
-        transform.Find("ManaRegen_Value").GetComponent<Text>().text = string.Format("{0:0.0}", stats.manaRegen);
+        //transform.Find("Health_Value").GetComponent<Text>().text = string.Format("{0:0}",stats.health) + " / " + stats.healthMax;
+        //transform.Find("Mana_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.mana) + " / " + stats.manaMax;
+        //transform.Find("HealthRegen_Value").GetComponent<Text>().text = string.Format("{0:0.0}", stats.healthRegen);
+        //transform.Find("ManaRegen_Value").GetComponent<Text>().text = string.Format("{0:0.0}", stats.manaRegen);
         transform.Find("Armor_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.armor);
         transform.Find("Resistance_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.magicResist);
         // transform.Find("Poise_Value").GetComponent<Text>().text = string.Format("{0:0.0}", stats.poise);
@@ -78,17 +83,35 @@ public class StatUpdater : MonoBehaviour
     }
 
     // This method is used to update the health and mana values of the player.
-    public void SetHealthManaValues(PlayerStats stats)
+    public void SetHealthManaBarValues(PlayerStats stats)
     {
-        transform.Find("Health_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.health) + " / " + stats.healthMax;
-        transform.Find("Mana_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.mana) + " / " + stats.manaMax;
+        healthBar.Initialize(stats.healthMax, true);
+        healthBar.SetValue(stats.health);
+        healthBar.transform.Find("HealthBarFill").GetComponentInChildren<Text>().text = string.Format("{0:0} / {1:0} | +{2:0.0} hp/5", stats.health, stats.healthMax, stats.healthRegen);
+
+        manaBar.Initialize(stats.manaMax, true);
+        manaBar.SetValue(stats.mana);
+        manaBar.transform.Find("HealthBarFill").GetComponentInChildren<Text>().text = string.Format("{0:0} / {1:0} | +{2:0.0} mp/5", stats.mana, stats.manaMax, stats.manaRegen);
+
+        //transform.Find("Health_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.health) + " / " + stats.healthMax;
+        //transform.Find("Mana_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.mana) + " / " + stats.manaMax;
     }
 
-    // This method is used to update the healthregen and mana regen of the player.
-    public void SetHealthManaRegenValues(PlayerStats stats)
+    public void UpdateHealthManaBarValues(PlayerStats stats)
     {
-        transform.Find("HealthRegen_Value").GetComponent<Text>().text = string.Format("{0:0.0}", stats.healthRegen);
-        transform.Find("ManaRegen_Value").GetComponent<Text>().text = string.Format("{0:0.0}", stats.manaRegen);
+        healthBar.SetValue(stats.health);
+        manaBar.SetValue(stats.mana);
+
+        healthBar.transform.Find("HealthBarFill").GetComponentInChildren<Text>().text = string.Format("{0:0} / {1:0} | +{2:0.0} hp/5", stats.health, stats.healthMax, stats.healthRegen);
+        manaBar.transform.Find("HealthBarFill").GetComponentInChildren<Text>().text = string.Format("{0:0} / {1:0} | +{2:0.0} mp/5", stats.mana, stats.manaMax, stats.manaRegen);
+    }
+
+    //USed to set the exp bar's value and its text
+    public void SetExpBarsValues(PlayerStats stats)
+    {
+        expBar.Initialize(stats.expTarget, true);
+        expBar.SetValue(stats.exp);
+        expBar.transform.Find("HealthBarFill").GetComponentInChildren<Text>().text = string.Format("{0} / {1}", stats.exp, stats.expTarget);
     }
 
     // Used to compare stat values between the player stats.
