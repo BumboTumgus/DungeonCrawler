@@ -191,7 +191,8 @@ public class Skill : MonoBehaviour
             {
                 //myManager.ps[16].Play();
                 GameObject naturePulse = Instantiate(myManager.skillProjectiles[3], targetIndicator.transform.position, targetIndicator.transform.rotation);
-                naturePulse.GetComponent<HitBox>().damage = myManager.stats.Vit + 40;
+                naturePulse.GetComponent<HitBox>().damage = myManager.stats.baseDamage * (2 + 0.1f * myManager.stats.Int); 
+                // 200% + 10% per int
                 naturePulse.GetComponent<HitBox>().myStats = myManager.stats;
                 anim.SetTrigger("ProjectileFired");
                 Destroy(targetIndicator);

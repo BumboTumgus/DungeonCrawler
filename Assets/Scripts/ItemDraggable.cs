@@ -61,6 +61,7 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     // Used when the mouse hovers over this item.
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log("we have a collision with a standard item");
         if(!popupManager.lockPointer)
         {
             transform.parent.SetAsLastSibling();

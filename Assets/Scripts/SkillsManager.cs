@@ -232,4 +232,5 @@ public class SkillsManager : MonoBehaviour
     {
         return skill1.skillIndex.CompareTo(skill2.skillIndex);
     }
+    
 }

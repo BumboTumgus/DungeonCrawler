@@ -184,4 +184,230 @@ public class SkillBank : MonoBehaviour
                 break;
         }
     }
+
+    public float GrabSkillCooldown(SkillsManager.SkillNames skillName)
+    {
+        float cooldown = 0f;
+        switch (skillName)
+        {
+            case SkillsManager.SkillNames.BlinkStrike:
+                cooldown = 6f;
+                break;
+            case SkillsManager.SkillNames.EmboldeningEmbers:
+                cooldown = 15f;
+                break;
+            case SkillsManager.SkillNames.FlameStrike:
+                cooldown = 40f;
+                break;
+            case SkillsManager.SkillNames.SeveringStrike:
+                cooldown = 10f;
+                break;
+            case SkillsManager.SkillNames.ShatteredEarth:
+                cooldown = 90f;
+                break;
+            case SkillsManager.SkillNames.AspectOfRage:
+                cooldown = 70f;
+                break;
+            case SkillsManager.SkillNames.Rampage:
+                cooldown = 0f;
+                break;
+            case SkillsManager.SkillNames.BlessingOfFlames:
+                cooldown = 20f;
+                break;
+            case SkillsManager.SkillNames.GiantStrength:
+                cooldown = 30f;
+                break;
+            case SkillsManager.SkillNames.EarthernPlateau:
+                cooldown = 26f;
+                break;
+            case SkillsManager.SkillNames.BoulderFist:
+                cooldown = 6f;
+                break;
+            case SkillsManager.SkillNames.EarthernSpear:
+                cooldown = 10f;
+                break;
+            case SkillsManager.SkillNames.CausticEdge:
+                cooldown = 12f;
+                break;
+            case SkillsManager.SkillNames.ToxicRipple:
+                cooldown = 60f;
+                break;
+            case SkillsManager.SkillNames.KillerInstinct:
+                cooldown = 30f;
+                break;
+            case SkillsManager.SkillNames.NaturePulse:
+                cooldown = 3f;
+                break;
+            case SkillsManager.SkillNames.Revitalize:
+                cooldown = 0f;
+                break;
+            case SkillsManager.SkillNames.PoisonedMud:
+                cooldown = 40f;
+                break;
+            case SkillsManager.SkillNames.StrangleThorn:
+                cooldown = 10f;
+                break;
+            case SkillsManager.SkillNames.SoothingStone:
+                cooldown = 80f;
+                break;
+            case SkillsManager.SkillNames.Deadeye:
+                cooldown = 0f;
+                break;
+            case SkillsManager.SkillNames.ShearingCyclone:
+                cooldown = 18f;
+                break;
+            case SkillsManager.SkillNames.WindHarpoon:
+                cooldown = 18f;
+                break;
+            case SkillsManager.SkillNames.SplitswordStrikes:
+                cooldown = 14f;
+                break;
+            case SkillsManager.SkillNames.ThunderLance:
+                cooldown = 8f;
+                break;
+            case SkillsManager.SkillNames.LightningStorm:
+                cooldown = 8f;
+                break;
+            case SkillsManager.SkillNames.WrathOfTheRagingWinds:
+                cooldown = 40f;
+                break;
+            case SkillsManager.SkillNames.BladeBarrage:
+                cooldown = 16f;
+                break;
+            case SkillsManager.SkillNames.ViolentZephyr:
+                cooldown = 40f;
+                break;
+            case SkillsManager.SkillNames.Permafrost:
+                cooldown = 26f;
+                break;
+            case SkillsManager.SkillNames.IceBarrage:
+                cooldown = 9f;
+                break;
+            case SkillsManager.SkillNames.FrozenBarrier:
+                cooldown = 30f;
+                break;
+            case SkillsManager.SkillNames.SoothingStream:
+                cooldown = 22f;
+                break;
+            case SkillsManager.SkillNames.SwirlingVortex:
+                cooldown = 75f;
+                break;
+            default:
+                break;
+        }
+        return cooldown;
+    }
+
+    public float GrabSkillCost(SkillsManager.SkillNames skillName)
+    {
+        float cost = 0f;
+        switch (skillName)
+        {
+            case SkillsManager.SkillNames.BlinkStrike:
+                cost = 20f;
+                break;
+            case SkillsManager.SkillNames.EmboldeningEmbers:
+                cost = 25f;
+                break;
+            case SkillsManager.SkillNames.FlameStrike:
+                cost = 40f;
+                break;
+            case SkillsManager.SkillNames.SeveringStrike:
+                cost = 50f;
+                break;
+            case SkillsManager.SkillNames.ShatteredEarth:
+                cost = 100f;
+                break;
+            case SkillsManager.SkillNames.AspectOfRage:
+                cost = 70f;
+                break;
+            case SkillsManager.SkillNames.Rampage:
+                cost = 0f;
+                break;
+            case SkillsManager.SkillNames.BlessingOfFlames:
+                cost = 65f;
+                break;
+            case SkillsManager.SkillNames.GiantStrength:
+                cost = 85f;
+                break;
+            case SkillsManager.SkillNames.EarthernPlateau:
+                cost = 115f;
+                break;
+            case SkillsManager.SkillNames.BoulderFist:
+                cost = 45f;
+                break;
+            case SkillsManager.SkillNames.EarthernSpear:
+                cost = 75f;
+                break;
+            case SkillsManager.SkillNames.CausticEdge:
+                cost = 50f;
+                break;
+            case SkillsManager.SkillNames.ToxicRipple:
+                cost = 180f;
+                break;
+            case SkillsManager.SkillNames.KillerInstinct:
+                cost = 80f;
+                break;
+            case SkillsManager.SkillNames.NaturePulse:
+                cost = 50f;
+                break;
+            case SkillsManager.SkillNames.Revitalize:
+                cost = 0f;
+                break;
+            case SkillsManager.SkillNames.PoisonedMud:
+                cost = 160f;
+                break;
+            case SkillsManager.SkillNames.StrangleThorn:
+                cost = 40f;
+                break;
+            case SkillsManager.SkillNames.SoothingStone:
+                cost = 110f;
+                break;
+            case SkillsManager.SkillNames.Deadeye:
+                cost = 0f;
+                break;
+            case SkillsManager.SkillNames.ShearingCyclone:
+                cost = 100f;
+                break;
+            case SkillsManager.SkillNames.WindHarpoon:
+                cost = 60f;
+                break;
+            case SkillsManager.SkillNames.SplitswordStrikes:
+                cost = 60f;
+                break;
+            case SkillsManager.SkillNames.ThunderLance:
+                cost = 40f;
+                break;
+            case SkillsManager.SkillNames.LightningStorm:
+                cost = 40f;
+                break;
+            case SkillsManager.SkillNames.WrathOfTheRagingWinds:
+                cost = 100f;
+                break;
+            case SkillsManager.SkillNames.BladeBarrage:
+                cost = 90f;
+                break;
+            case SkillsManager.SkillNames.ViolentZephyr:
+                cost = 120f;
+                break;
+            case SkillsManager.SkillNames.Permafrost:
+                cost = 80f;
+                break;
+            case SkillsManager.SkillNames.IceBarrage:
+                cost = 35f;
+                break;
+            case SkillsManager.SkillNames.FrozenBarrier:
+                cost = 60f;
+                break;
+            case SkillsManager.SkillNames.SoothingStream:
+                cost = 75f;
+                break;
+            case SkillsManager.SkillNames.SwirlingVortex:
+                cost = 190f;
+                break;
+            default:
+                break;
+        }
+        return cost;
+    }
 }

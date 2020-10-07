@@ -87,11 +87,13 @@ public class StatUpdater : MonoBehaviour
     {
         healthBar.Initialize(stats.healthMax, true);
         healthBar.SetValue(stats.health);
-        healthBar.transform.Find("HealthBarFill").GetComponentInChildren<Text>().text = string.Format("{0:0} / {1:0} | +{2:0.0} hp/5", stats.health, stats.healthMax, stats.healthRegen);
+        healthBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0}", stats.health, stats.healthMax);
+        healthBar.transform.Find("HealthBarFill").Find("RegenValue").GetComponent<Text>().text = string.Format("+{0:0.0} hp/5", stats.healthRegen);
 
         manaBar.Initialize(stats.manaMax, true);
         manaBar.SetValue(stats.mana);
-        manaBar.transform.Find("HealthBarFill").GetComponentInChildren<Text>().text = string.Format("{0:0} / {1:0} | +{2:0.0} mp/5", stats.mana, stats.manaMax, stats.manaRegen);
+        manaBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0}", stats.mana, stats.manaMax);
+        manaBar.transform.Find("HealthBarFill").Find("RegenValue").GetComponent<Text>().text = string.Format("+{0:0.0} mp/5", stats.manaRegen);
 
         //transform.Find("Health_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.health) + " / " + stats.healthMax;
         //transform.Find("Mana_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.mana) + " / " + stats.manaMax;
@@ -102,8 +104,10 @@ public class StatUpdater : MonoBehaviour
         healthBar.SetValue(stats.health);
         manaBar.SetValue(stats.mana);
 
-        healthBar.transform.Find("HealthBarFill").GetComponentInChildren<Text>().text = string.Format("{0:0} / {1:0} | +{2:0.0} hp/5", stats.health, stats.healthMax, stats.healthRegen);
-        manaBar.transform.Find("HealthBarFill").GetComponentInChildren<Text>().text = string.Format("{0:0} / {1:0} | +{2:0.0} mp/5", stats.mana, stats.manaMax, stats.manaRegen);
+        healthBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0}", stats.health, stats.healthMax);
+        healthBar.transform.Find("HealthBarFill").Find("RegenValue").GetComponent<Text>().text = string.Format("+{0:0.0} hp/5", stats.healthRegen);
+        manaBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0}", stats.mana, stats.manaMax);
+        manaBar.transform.Find("HealthBarFill").Find("RegenValue").GetComponent<Text>().text = string.Format("+{0:0.0} mp/5", stats.manaRegen);
     }
 
     //USed to set the exp bar's value and its text

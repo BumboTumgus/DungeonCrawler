@@ -82,10 +82,10 @@ public class InventoryPopupTextManager : MonoBehaviour
          itemPopUp.SetActive(false);
     }
     
+    /*
     // Used to set the stats of the popup
     public void SetPopUpStats(Item item)
     {
-        /*
         PlayerStats stats = GetComponent<InventoryUiManager>().playerInventory.GetComponent<PlayerStats>();
         Transform statContainer = itemPopUp.transform.Find("ItemDescription");
         // Set up all the different popup values.
@@ -152,8 +152,8 @@ public class InventoryPopupTextManager : MonoBehaviour
             default:
                 break;
         }
-        */
     }
+*/
     /*
     // Used to set a plus/minus stat text field
     private void SetPlusMinusText(Text statText, float value)
