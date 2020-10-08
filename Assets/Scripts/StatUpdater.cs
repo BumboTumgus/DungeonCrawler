@@ -42,6 +42,9 @@ public class StatUpdater : MonoBehaviour
     public BarManager manaBar;
     int weaponCount;
 
+    public Text[] tooltips;
+    public Color[] uiColors;
+
     // This method is called at the start of the game to set up all the player's stats. It is also called whenever a player switches gear or the stats would ahve to change.
     public void SetStatValues(PlayerStats stats)
     {
@@ -80,6 +83,8 @@ public class StatUpdater : MonoBehaviour
         transform.Find("CorrosionResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", am.corrosionResist * 100);
         transform.Find("FrostbiteResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", am.frostbiteResist * 100);
         transform.Find("KnockbackResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", am.knockBackResist * 100);
+
+        UpdateTooltips(stats);
     }
 
     // This method is used to update the health and mana values of the player.
@@ -262,5 +267,83 @@ public class StatUpdater : MonoBehaviour
         corrosionResistance = am.corrosionResist;
         frostbiteResistance = am.frostbiteResist;
         knockbackResistance = am.knockBackResist;
+    }
+
+    // Used to update all the tooltips.
+    public void UpdateTooltips(PlayerStats stats)
+    {
+
+        AfflictionManager am = stats.GetComponent<AfflictionManager>();
+        for (int index = 0; index < tooltips.Length; index ++)
+        {
+            switch (index)
+            {
+                case 0:
+                    tooltips[index].text = string.Format("You are currently taking <color=#F3FC56>{0:0} reduced damage</color> from <color=#FFBE2F>physical attacks</color>", stats.armor);
+                    break;
+                case 1:
+                    tooltips[index].text = string.Format("You are currently taking <color=#F93DFF>{0:0} reduced damage</color> from <color=#B756FA>magical attacks</color>", stats.magicResist);
+                    break;
+                case 2:
+                    tooltips[index].text = string.Format("You deal <color=#E45B5B>{0:0}</color> <color=#FFBE2F>physical damage</color>, before multipliers and effects, on your <color=#E45B5B>basic attacks</color> and <color=#E45B5B>roll attacks</color>.", stats.baseDamage * (stats.baseDamageScaling + ((float)stats.Str * stats.weaponStrScaling) + ((float)stats.Dex * stats.weaponDexScaling) + ((float)stats.Vit * stats.weaponVitScaling) + ((float)stats.Spd * stats.weaponSpdScaling) + ((float)stats.Int * stats.weaponIntScaling) + ((float)stats.Wis * stats.weaponWisScaling) + ((float)stats.Cha * stats.weaponChaScaling)));
+                    break;
+                case 3:
+                    tooltips[index].text = string.Format("The current percent speed at which we <color=#E45B5B>attack</color> and complete animations is <color=#E5BE5D>{0:0}%</color>", stats.attackSpeed * 100);
+                    break;
+                case 4:
+                    tooltips[index].text = string.Format("The percentage we've reduced our <color=#5DB1E5>ability cooldowns</color> by is <color=#5DB1E5>{0:0.0}</color>%. Cooldown Reduction scales multiplicatively with itself.", stats.cooldownReduction * 100);
+                    break;
+                case 5:
+                    tooltips[index].text = string.Format("Your <color=#F76A6A>vitality of {0:0}</color> affects your characters overall <color=#AD2A2A>health total</color> drastically, as well as your overall resistances to afflictons.", stats.Vit);
+                    break;
+                case 6:
+                    tooltips[index].text = string.Format("Your <color=#EE9149>strength of {0:0}</color> affects your characters overall <color=#AD2A2A>health total</color> moderately, as well as your <color=#E45B5B>damage</color> with larger weapons.", stats.Str);
+                    break;
+                case 7:
+                    tooltips[index].text = string.Format("Your <color=#FFF071>dexterity of {0:0}</color> affects your characters overall <color=#AD2A2A>health total</color> slighty, as well as your <color=#E45B5B>damage</color> with smaller weapons. It also slightly increases your <color=#E5BE5D>attack speed</color> and <color=#A1FF7A>movespeed</color>.", stats.Dex);
+                    break;
+                case 8:
+                    tooltips[index].text = string.Format("Your <color=#A1FF7A>speed of {0:0}</color> affects your characters overall <color=#AD2A2A>health total</color> slighty, as well as increases your <color=#E5BE5D>attack speed</color> and <color=#A1FF7A>movespeed</color> moderately.", stats.Spd);
+                    break;
+                case 9:
+                    tooltips[index].text = string.Format("Your <color=#7CF2F9>intelligence of {0:0}</color> affects your characters overall <color=#AD2A2A>health total</color> slighty, as well as increases your damage dealt with most <color=#B756FA>magical attacks</color>. Also increases <color=#2A60AD>mana</color> and <color=#2A60AD>mana regen</color> slightly.", stats.Int);
+                    break;
+                case 10:
+                    tooltips[index].text = string.Format("Your <color=#8C91FC>wisdom of {0:0}</color> affects your characters overall <color=#AD2A2A>health total</color> slighty, as well as increases <color=#2A60AD>mana, manaregen</color>, and <color=#5DB1E5>cooldown reduction</color> moderately.", stats.Wis);
+                    break;
+                case 11:
+                    tooltips[index].text = string.Format("Your <color=#F27EEB>charima of {0:0}</color> affects your characters overall <color=#AD2A2A>health total</color> slighty, as well as offers you better <color=#F27EEB>luck in random encounters</color>. It also increases the level of <color=#F27EEB>friendliness</color> a npc will regard you with.", stats.Cha);
+                    break;
+                case 12:
+                    tooltips[index].text = string.Format("Reduce the amount of <color=#F49910>fire affliction</color> you recieve by <color=#F49910>{0:0.0}%</color>. Being set on fire does massive <color=#B756FA>magic damage</color> over time. The duration can be reduce by rolling around.", am.aflameResist * 100);
+                    break;
+                case 13:
+                    tooltips[index].text = string.Format("Reduce the amount of <color=#7B6A91>sleep affliction</color> you recieve by <color=#7B6A91>{0:0.0}%</color>. Being put to sleep <color=#D9B529>stuns</color> you for a long time. The next source of damage you take is increased, but breaks the effect.", am.sleepResist * 100);
+                    break;
+                case 14:
+                    tooltips[index].text = string.Format("Reduce the amount of <color=#D9B529>stun affliction</color> you recieve by <color=#D9B529>{0:0.0}%</color>. Being stunned renders you <color=#D9B529>unable to take action</color> for a short period of time.", am.stunResist * 100);
+                    break;
+                case 15:
+                    tooltips[index].text = string.Format("Reduce the amount of <color=#585547>curse affliction</color> you recieve by <color=#585547>{0:0.0}%</color>. Being cursed <color=#585547>reduces yours stats,</color> <color=#E5BE5D>attack speed,</color><color=#FFBE2F> physical damage dealt,</color> and <color=#B756FA>magic damage dealt</color> by 50% for a few seconds.", am.curseResist * 100);
+                    break;
+                case 16:
+                    tooltips[index].text = string.Format("Reduce the amount <color=#C0201E> bleed affliction</color> you recieve by <color=#C0201E>{0:0.0}%</color>. Being bled means you will take a small amount of <color=#FFBE2F>physical damage</color> over time, but a large amount of <color=#FFBE2F>physical damage</color> when you attack or roll.", am.bleedResist * 100);
+                    break;
+                case 17:
+                    tooltips[index].text = string.Format("Reduce the amount of <color=#7ECE1E>poison affliction</color> you recieve by <color=#7ECE1E>{0:0.0}%</color>. Being poisoned makes you take a large amount of <color=#B756FA>magic damage</color> over a long duration.", am.poisonResist * 100);
+                    break;
+                case 18:
+                    tooltips[index].text = string.Format("Reduce the amount of <color=#168523>corrosion affliction</color> you recieve by <color=#168523>{0:0.0}%</color>. Being corroded does a small amount of <color=#B756FA>magic damage</color> and reduces your <color=#F3FC56>armor</color> and resistance significantly for a moderate time.", am.corrosionResist * 100);
+                    break;
+                case 19:
+                    tooltips[index].text = string.Format("Reduce the amount of <color=#0DB9C6>frostbite affliction</color> you recieve by <color=#0DB9C6>{0:0.0}%</color>. Being frostbitten reduces your <color=#A1FF7A>movespeed</color> and <color=#E5BE5D>attack speed</color> to nearly zero for a few seconds.", am.frostbiteResist * 100);
+                    break;
+                case 20:
+                    tooltips[index].text = string.Format("Reduce the amount of <color=#7B8ADC>knockback</color> you recieve by <color=#7B8ADC>{0:0.0}%</color>. Being knocked back <color=#7B8ADC>launches you</color> in the direction of the attack.", am.knockBackResist * 100);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

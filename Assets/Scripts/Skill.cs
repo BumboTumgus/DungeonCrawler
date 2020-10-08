@@ -252,8 +252,8 @@ public class Skill : MonoBehaviour
         currentTimer = 0;
         targetTimer = 10f;
 
-        //float damageToTake = 8 + myManager.stats.Vit / 2;
-        //myManager.hitBoxes.hitboxes[6].GetComponent<HitBox>().damage = damageToTake;
+        float damageToTake = myManager.stats.baseDamage * (0.2f + (0.025f * myManager.stats.Int));
+        myManager.hitBoxes.hitboxes[6].GetComponent<HitBox>().damage = damageToTake;
         float currentTickTimer = 0;
         while(currentTimer < targetTimer)
         {
@@ -264,7 +264,7 @@ public class Skill : MonoBehaviour
                 currentTickTimer -= targetTimer / 20;
                 myManager.hitBoxes.LaunchHitBox(6);
                 myManager.hitBoxes.buffboxes[7].GetComponent<HitBoxBuff>().AfflictSelf();
-                // myManager.stats.TakeDamage(damageToTake / 2, false, myManager.damageColors[0]);
+                myManager.stats.TakeDamage(damageToTake / 2, false, myManager.damageColors[0]);
             }
             yield return null;
         }
@@ -286,7 +286,7 @@ public class Skill : MonoBehaviour
             currentTimer += Time.deltaTime;
             yield return null;
         }
-        //myManager.hitBoxes.hitboxes[4].GetComponent<HitBox>().damage = myManager.stats.weaponHitMax + myManager.stats.weaponHitbase + myManager.stats.Dex;
+        myManager.hitBoxes.hitboxes[4].GetComponent<HitBox>().damage = myManager.stats.baseDamage * (1 + (0.1f * myManager.stats.Dex));
         myManager.hitBoxes.LaunchHitBox(4);
         myManager.ps[29].Play();
         myManager.ps[30].Play();
@@ -298,7 +298,7 @@ public class Skill : MonoBehaviour
             currentTimer += Time.deltaTime;
             yield return null;
         }
-        //myManager.hitBoxes.hitboxes[4].GetComponent<HitBox>().damage = myManager.stats.weaponHitMax + myManager.stats.weaponHitbase + myManager.stats.Dex;
+
         myManager.hitBoxes.LaunchHitBox(4);
         myManager.ps[31].Play();
         myManager.ps[32].Play();
@@ -310,7 +310,7 @@ public class Skill : MonoBehaviour
             currentTimer += Time.deltaTime;
             yield return null;
         }
-        //myManager.hitBoxes.hitboxes[5].GetComponent<HitBox>().damage = myManager.stats.weaponHitMax + myManager.stats.weaponHitbase + myManager.stats.Dex * 3 + 10;
+        myManager.hitBoxes.hitboxes[5].GetComponent<HitBox>().damage = myManager.stats.baseDamage * (3 + (0.2f * myManager.stats.Dex));
         myManager.hitBoxes.LaunchHitBox(5);
         myManager.ps[33].Play();
         myManager.ps[34].Play();

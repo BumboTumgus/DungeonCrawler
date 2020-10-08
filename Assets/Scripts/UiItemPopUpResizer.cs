@@ -239,7 +239,7 @@ public class UiItemPopUpResizer : MonoBehaviour
                 default:
                     break;
             }
-            Debug.Log("target for " + scalingIndex + " is " + target);
+            //Debug.Log("target for " + scalingIndex + " is " + target);
 
             for (int index = 0; index < target; index++)
             {

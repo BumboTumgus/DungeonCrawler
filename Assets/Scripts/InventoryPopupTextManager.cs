@@ -10,6 +10,8 @@ public class InventoryPopupTextManager : MonoBehaviour
     
     public GameObject itemPopUp;
 
+    public MoreInfoPopUpManager[] moreInfoPanels;
+
     private const float POPUP_OFFSET = 10;
 
     public Color[] itemOutlineColors;
@@ -80,6 +82,9 @@ public class InventoryPopupTextManager : MonoBehaviour
 
         if (!lockPointer)
          itemPopUp.SetActive(false);
+
+        foreach (MoreInfoPopUpManager panel in moreInfoPanels)
+            panel.HideElements();
     }
     
     /*

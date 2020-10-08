@@ -26,6 +26,7 @@ public class MoreInfoPopUpManager : MonoBehaviour, IPointerEnterHandler, IPointe
         {
             ShowElements();
             transform.SetAsLastSibling();
+            transform.parent.SetAsLastSibling();
         }
     }
 
@@ -46,7 +47,7 @@ public class MoreInfoPopUpManager : MonoBehaviour, IPointerEnterHandler, IPointe
     }
 
     //USed to show all object when we are moused over
-    private void HideElements()
+    public void HideElements()
     {
         foreach (GameObject gm in showOnMouseOver)
             gm.SetActive(false);
