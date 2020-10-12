@@ -8,8 +8,8 @@ public class PlayerStats : MonoBehaviour
     public string playerTitle = "Mighty";
 
     public float baseDamage = 1;
-    private float baseBaseDamage = 10;
-    private float baseDamageGrowth = 2;
+    private float baseBaseDamage = 8;
+    private float baseDamageGrowth = 1;
 
     public float baseDamageScaling = 1;
     public float weaponVitScaling = 0;
@@ -86,12 +86,14 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public float untargetableCount = 0;
     [HideInInspector] public float invisibleCount = 0;
     [HideInInspector] public float ephemeralCount = 0;
+    [HideInInspector] public float revitalizeCount = 0;
     [HideInInspector] public bool revitalizeBuff = false;
 
     [HideInInspector] public bool dead = false;
 
     public float agroRange = 3;
     public int enemyCost = 1;
+    public Color[] damageColors;
 
     public Color levelUpColor;
 
@@ -153,17 +155,20 @@ public class PlayerStats : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P) && CompareTag("Player"))
             AddExp(25);
         if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
-            TakeDamage(10,false);
+            TakeDamage(10,false, HitBox.DamageType.Physical);
 
         // Health and mana regen logic.
         if (!dead)
         {
-            health += healthRegen * Time.deltaTime;
+            float revitalizeBonus = 0f;
             if (revitalizeBuff)
             {
-                healthRegen = (Vit * 0.2f + bonusHealthRegen) * (1 + (1 - (health / healthMax)) * 3f);
+                revitalizeBonus = (Vit * 0.2f + bonusHealthRegen) * (1 - (health / healthMax)) * 2f;
+                healthRegen = Vit * 0.2f + bonusHealthRegen + (revitalizeBonus * revitalizeCount);
                 myStats.UpdateHealthManaBarValues(this);
             }
+
+            health += healthRegen * Time.deltaTime;
             mana += manaRegen * Time.deltaTime;
         }
         if (health > healthMax)
@@ -220,7 +225,7 @@ public class PlayerStats : MonoBehaviour
         speed = 2.5f + (float) Spd / 10;
         if (gameObject.tag == "Enemy")
             speed *= 1.3f;
-        attackSpeed = 1 + 0.1f * Spd + 0.05f * Dex + bonusAttackSpeed + (weaponAttackSpeed - 1);
+        attackSpeed = 1 + 0.05f * Spd + 0.02f * Dex + bonusAttackSpeed + (weaponAttackSpeed - 1);
         strafeSpeed = speed / 2;
         acceleration = speed;
         if (transform.CompareTag("Enemy"))
@@ -304,15 +309,42 @@ public class PlayerStats : MonoBehaviour
         return enoughMana;
     }
 
+    // Used to heal Health
+    public void HealHealth(float amount, bool crit, HitBox.DamageType damage)
+    {
+        health += amount;
+        if (health > healthMax)
+            health = healthMax;
+
+        Color chosenColor = Color.white;
+        switch (damage)
+        {
+            case HitBox.DamageType.Healing:
+                chosenColor = damageColors[5];
+                break;
+            case HitBox.DamageType.HealingCrit:
+                chosenColor = damageColors[6];
+                break;
+            default:
+                break;
+        }
+
+        // Spawn the damage number.
+        SpawnFlavorText(amount, crit, chosenColor);
+    }
+
     // Used to take damage
-    public void TakeDamage(float amount, bool crit)
+    public void TakeDamage(float amount, bool crit, HitBox.DamageType damage)
     {
         if (health > 0)
         {
-            if (damageReduction < 100)
-                amount *= (100f - damageReduction) / 100f;
-            else
-                amount = 0;
+            if (damage != HitBox.DamageType.True)
+            {
+                if (damageReduction < 100)
+                    amount *= (100f - damageReduction) / 100f;
+                else
+                    amount = 0;
+            }
 
             if(asleep)
             {
@@ -338,14 +370,36 @@ public class PlayerStats : MonoBehaviour
             // Update the health bar.
             healthBar.targetValue = health;
 
+            Color chosenColor = Color.white;
+            switch (damage)
+            {
+                case HitBox.DamageType.Physical:
+                    chosenColor = damageColors[0];
+                    break;
+                case HitBox.DamageType.Magical:
+                    chosenColor = damageColors[1];
+                    break;
+                case HitBox.DamageType.True:
+                    chosenColor = damageColors[2];
+                    break;
+                case HitBox.DamageType.PhysicalCrit:
+                    chosenColor = damageColors[3];
+                    break;
+                case HitBox.DamageType.MagicalCrit:
+                    chosenColor = damageColors[4];
+                    break;
+                default:
+                    break;
+            }
             // Spawn the damage number.
-            SpawnFlavorText(amount, crit);
+            SpawnFlavorText(amount, crit, chosenColor);
 
             // If we are dead, call the death logic method.
             if (health <= 0 && !dead)
                 EntityDeath();
         }
     }
+    /*
     // Used to take damage and overide the cvolor of the text
     public void TakeDamage(float amount, bool crit, Color colorOveride)
     {
@@ -369,6 +423,7 @@ public class PlayerStats : MonoBehaviour
                 EntityDeath();
         }
     }
+    */
 
     // Used when this object dies. What will happen afterwards?
     public void EntityDeath()

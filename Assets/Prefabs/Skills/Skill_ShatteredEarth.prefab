@@ -9625,7 +9625,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1086255277311061649}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7, y: 0, z: -6.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -9659,7 +9659,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Shattered Earth
-  description: The skill Shattered Earth
+  description: Charge a massive attack over 5 seconds, scaling down with <color=#e5be5d>attack
+    speed</color>,  that deals up to <color=white>600%</color> + <color=#ee9149>40%
+    x Str</color> base damage as <color=#ffbe2f>physical damage</color> to enemies
+    hit when released. If fully charged, the attack does <color=#e45b5b>50% more damage</color>
+    and deals <color=white>true damage</color> instead.
   itemGearID: 92
   itemtorsoID: 0
   itemUpperRightArmID: 0
@@ -9686,18 +9690,8 @@ MonoBehaviour:
   itemType: 8
   skillName: 4
   itemRarity: 2
-  vitMod: 0
-  strMod: 0
-  dexMod: 0
-  spdMod: 0
-  intMod: 0
-  wisMod: 0
-  chaMod: 0
-  baseAttackDelay: 0
-  hitMax: 0
-  hitBase: 0
-  critChance: 0
-  critMod: 0
+  attacksPerSecond: 0
+  baseDamageScaling: 0
   vitScaling: 0
   strScaling: 0
   dexScaling: 0
@@ -9706,21 +9700,8 @@ MonoBehaviour:
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 0
-  health: 0
-  mana: 0
-  armor: 0
-  resistance: 0
-  healthRegen: 0
-  manaRegen: 0
-  aflameResist: 0
-  asleepResist: 0
-  stunResist: 0
-  curseResist: 0
-  bleedResist: 0
-  poisonResist: 0
-  corrosionResist: 0
-  frostbiteResist: 0
-  knockbackResist: 0
+  garenteedTraits: 
+  garenteedTraitValues: []
 --- !u!114 &6535257296394990379
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -24,7 +24,7 @@ public class HitBoxManager : MonoBehaviour
     {
         //Debug.Log("we are launching a hitbox");
         if (index == 0 && playerStats.bleeding)
-            playerStats.TakeDamage(playerStats.healthMax * 0.1f, false, GetComponent<BuffsManager>().damageColors[2]);
+            playerStats.TakeDamage(playerStats.healthMax * 0.1f, false, HitBox.DamageType.Physical);
         StartCoroutine(HitBoxFlicker(index));
     }
 

@@ -73,7 +73,7 @@ public class HitBoxBuff : MonoBehaviour
             if (frostbiteValue > 0)
                 other.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Frostbite, frostbiteValue);
             if (corrosionValue > 0)
-                transform.root.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Corrosion, corrosionValue);
+                other.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Corrosion, corrosionValue);
             //Debug.Log("adding buff to enemy");
         }
         else if (other.CompareTag("Player") && hitPlayers)

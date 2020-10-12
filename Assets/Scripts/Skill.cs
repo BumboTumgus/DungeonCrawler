@@ -21,6 +21,12 @@ public class Skill : MonoBehaviour
     public SkillsManager myManager;
     public Animator anim;
     public PlayerMovementController pc;
+    public GameObject targetIndicator;
+
+    private Coroutine earthernSpear;
+    private Coroutine boulderFist;
+    private Coroutine naturePulse;
+    
 
     // SUed to check this skills input to see if their key has been pressed and wether we should cast this skill.
     private void CheckInputs()
@@ -125,10 +131,27 @@ public class Skill : MonoBehaviour
                     StartCoroutine(EarthernPlateau());
                     break;
                 case SkillsManager.SkillNames.BoulderFist:
-                    StartCoroutine(BoulderFist());
+                    if (boulderFist != null)
+                    {
+                        if (targetIndicator != null)
+                            Destroy(targetIndicator);
+                        anim.ResetTrigger("BoulderFist");
+                        anim.ResetTrigger("ProjectileFired");
+                        StopCoroutine(boulderFist);
+                    }
+                    boulderFist = StartCoroutine(BoulderFist());
                     break;
                 case SkillsManager.SkillNames.EarthernSpear:
-                    StartCoroutine(EarthernSpear());
+                    if (earthernSpear != null)
+                    {
+                        if (targetIndicator != null)
+                            Destroy(targetIndicator);
+                        anim.ResetTrigger("EarthernSpear");
+                        anim.ResetTrigger("ProjectileFired");
+                        anim.SetBool("Multifire", false);
+                        StopCoroutine(earthernSpear);
+                    }
+                    earthernSpear = StartCoroutine(EarthernSpear());
                     break;
                 case SkillsManager.SkillNames.CausticEdge:
                     StartCoroutine(CausticEdge());
@@ -140,7 +163,15 @@ public class Skill : MonoBehaviour
                     StartCoroutine(KillerInstinct());
                     break;
                 case SkillsManager.SkillNames.NaturePulse:
-                    StartCoroutine(NaturePulse());
+                    if (naturePulse != null)
+                    {
+                        if (targetIndicator != null)
+                            Destroy(targetIndicator);
+                        anim.ResetTrigger("BoulderFist");
+                        anim.ResetTrigger("ProjectileFired");
+                        StopCoroutine(naturePulse);
+                    }
+                    naturePulse = StartCoroutine(NaturePulse());
                     break;
                 default:
                     break;
@@ -171,7 +202,7 @@ public class Skill : MonoBehaviour
         }
 
         bool targetSelected = false;
-        GameObject targetIndicator = Instantiate(myManager.targetIndicatorCircle);
+        targetIndicator = Instantiate(myManager.targetIndicatorCircle);
         while (!targetSelected)
         {
             // shoot a ray, and set the indicator toi the rays location.
@@ -187,11 +218,11 @@ public class Skill : MonoBehaviour
             string skillInput = GetInput();
 
             // If i attack launch the attack at the targtted position and continue the animation.
-            if (Input.GetAxisRaw(myManager.inputs.attackInput) == 1 && myManager.inputs.attackReleased || Input.GetAxisRaw(skillInput) == 0)
+            if (Input.GetAxisRaw(myManager.inputs.attackInput) == 1 && myManager.inputs.attackReleased)
             {
                 //myManager.ps[16].Play();
                 GameObject naturePulse = Instantiate(myManager.skillProjectiles[3], targetIndicator.transform.position, targetIndicator.transform.rotation);
-                naturePulse.GetComponent<HitBox>().damage = myManager.stats.baseDamage * (2 + 0.1f * myManager.stats.Int); 
+                naturePulse.GetComponent<HitBox>().damage = myManager.stats.baseDamage * (1.5f + 0.2f * myManager.stats.Vit); 
                 // 200% + 10% per int
                 naturePulse.GetComponent<HitBox>().myStats = myManager.stats;
                 anim.SetTrigger("ProjectileFired");
@@ -204,6 +235,7 @@ public class Skill : MonoBehaviour
         }
 
         myManager.ps[27].Stop();
+        anim.ResetTrigger("BoulderFist");
         pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 
@@ -252,7 +284,7 @@ public class Skill : MonoBehaviour
         currentTimer = 0;
         targetTimer = 10f;
 
-        float damageToTake = myManager.stats.baseDamage * (0.2f + (0.025f * myManager.stats.Int));
+        float damageToTake = myManager.stats.baseDamage * (0.2f + (0.02f * myManager.stats.Int));
         myManager.hitBoxes.hitboxes[6].GetComponent<HitBox>().damage = damageToTake;
         float currentTickTimer = 0;
         while(currentTimer < targetTimer)
@@ -263,8 +295,8 @@ public class Skill : MonoBehaviour
             {
                 currentTickTimer -= targetTimer / 20;
                 myManager.hitBoxes.LaunchHitBox(6);
-                myManager.hitBoxes.buffboxes[7].GetComponent<HitBoxBuff>().AfflictSelf();
-                myManager.stats.TakeDamage(damageToTake / 2, false, myManager.damageColors[0]);
+                //myManager.hitBoxes.buffboxes[7].GetComponent<HitBoxBuff>().AfflictSelf();
+                myManager.stats.TakeDamage(damageToTake / 2, false, HitBox.DamageType.Magical);
             }
             yield return null;
         }
@@ -277,7 +309,7 @@ public class Skill : MonoBehaviour
     IEnumerator CausticEdge()
     {
         anim.SetTrigger("CausticEdge");
-        float targetTimer = 0.22f;
+        float targetTimer = 0.3f / myManager.stats.attackSpeed;
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
         
@@ -286,7 +318,7 @@ public class Skill : MonoBehaviour
             currentTimer += Time.deltaTime;
             yield return null;
         }
-        myManager.hitBoxes.hitboxes[4].GetComponent<HitBox>().damage = myManager.stats.baseDamage * (1 + (0.1f * myManager.stats.Dex));
+        myManager.hitBoxes.hitboxes[4].GetComponent<HitBox>().damage = myManager.stats.baseDamage * (1 + (0.15f * myManager.stats.Dex));
         myManager.hitBoxes.LaunchHitBox(4);
         myManager.ps[29].Play();
         myManager.ps[30].Play();
@@ -303,14 +335,14 @@ public class Skill : MonoBehaviour
         myManager.ps[31].Play();
         myManager.ps[32].Play();
         currentTimer = 0;
-        targetTimer = 0.35f;
+        targetTimer = 0.5f / myManager.stats.attackSpeed;
         
         while (currentTimer < targetTimer)
         {
             currentTimer += Time.deltaTime;
             yield return null;
         }
-        myManager.hitBoxes.hitboxes[5].GetComponent<HitBox>().damage = myManager.stats.baseDamage * (3 + (0.2f * myManager.stats.Dex));
+        myManager.hitBoxes.hitboxes[5].GetComponent<HitBox>().damage = myManager.stats.baseDamage * (3 + (0.3f * myManager.stats.Dex));
         myManager.hitBoxes.LaunchHitBox(5);
         myManager.ps[33].Play();
         myManager.ps[34].Play();
@@ -321,7 +353,8 @@ public class Skill : MonoBehaviour
     // Used to cast the spell earthern spear at the enemies.
     IEnumerator EarthernSpear()
     {
-        anim.SetTrigger("BoulderFist");
+        Debug.Log("starting skill");
+        anim.SetTrigger("EarthernSpear");
         float targetTimer = 0.25f;
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
@@ -334,39 +367,47 @@ public class Skill : MonoBehaviour
             yield return null;
         }
 
-        bool targetSelected = false;
-        GameObject targetIndicator = Instantiate(myManager.targetIndicatorCircle);
-        while (!targetSelected)
+        anim.SetBool("Multifire", true);
+        targetIndicator = Instantiate(myManager.targetIndicatorCircle);
+        for (int index = 0; index < 3; index++)
         {
-            // shoot a ray, and set the indicator toi the rays location.
-            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward * 100);
-            RaycastHit hit;
-            Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * 100, Color.red);
-            if (Physics.Raycast(ray, out hit, 100f, myManager.targettingRayMaskHitEnemies))
+            bool targetSelected = false;
+            while (!targetSelected)
             {
-                targetIndicator.transform.position = hit.point;
-                targetIndicator.transform.rotation = Quaternion.Euler(new Vector3(hit.normal.z * 90, 0, hit.normal.x * -90));
+                // shoot a ray, and set the indicator toi the rays location.
+                Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward * 100);
+                RaycastHit hit;
+                Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * 100, Color.red);
+                if (Physics.Raycast(ray, out hit, 100f, myManager.targettingRayMaskHitEnemies))
+                {
+                    targetIndicator.transform.position = hit.point;
+                    targetIndicator.transform.rotation = Quaternion.Euler(new Vector3(hit.normal.z * 90, 0, hit.normal.x * -90));
+                }
+
+                //string skillInput = GetInput();
+
+                // If i attack launch the attack at the targtted position and continue the animation.
+                if (Input.GetAxisRaw(myManager.inputs.attackInput) == 1 && myManager.inputs.attackReleased)
+                {
+                    // Debug.Log("The input was pressed");
+                    //myManager.ps[16].Play();
+                    Debug.Log("we have shot a spear");
+                    myManager.inputs.attackReleased = false;
+                    GameObject earthernSpear = Instantiate(myManager.skillProjectiles[2], transform.position + new Vector3(0, 1, 0), transform.rotation);
+                    earthernSpear.transform.LookAt(targetIndicator.transform.position);
+                    earthernSpear.GetComponent<HitBox>().damage = myManager.stats.baseDamage * (1f + (0.2f * myManager.stats.Int));
+                    earthernSpear.GetComponent<HitBox>().myStats = myManager.stats;
+                    anim.SetTrigger("ProjectileFired");
+                    myManager.ps[28].Play();
+                    targetSelected = true;
+                }
+
+                yield return null;
             }
-
-            string skillInput = GetInput();
-
-            // If i attack launch the attack at the targtted position and continue the animation.
-            if (Input.GetAxisRaw(myManager.inputs.attackInput) == 1 && myManager.inputs.attackReleased || Input.GetAxisRaw(skillInput) == 0)
-            {
-                // Debug.Log("The input was pressed");
-                //myManager.ps[16].Play();
-                GameObject earthernSpear = Instantiate(myManager.skillProjectiles[2], transform.position + new Vector3(0, 1, 0), transform.rotation);
-                earthernSpear.transform.LookAt(targetIndicator.transform.position);
-                earthernSpear.GetComponent<HitBox>().damage = myManager.stats.armor + myManager.stats.magicResist + 30;
-                earthernSpear.GetComponent<HitBox>().myStats = myManager.stats;
-                anim.SetTrigger("ProjectileFired");
-                Destroy(targetIndicator);
-                myManager.ps[28].Play();
-                targetSelected = true;
-            }
-
-            yield return null;
         }
+        anim.SetBool("Multifire", false);
+        anim.ResetTrigger("EarthernSpear");
+        Destroy(targetIndicator);
 
         myManager.ps[27].Stop();
         pc.playerState = PlayerMovementController.PlayerState.Idle;
@@ -390,7 +431,7 @@ public class Skill : MonoBehaviour
         }
 
         bool targetSelected = false;
-        GameObject targetIndicator = Instantiate(myManager.targetIndicatorCircle);
+        targetIndicator = Instantiate(myManager.targetIndicatorCircle);
         while (!targetSelected)
         {
             // shoot a ray, and set the indicator toi the rays location.
@@ -406,12 +447,12 @@ public class Skill : MonoBehaviour
             string skillInput = GetInput();
 
             // If i attack launch the attack at the targtted position and continue the animation.
-            if (Input.GetAxisRaw(myManager.inputs.attackInput) == 1 && myManager.inputs.attackReleased || Input.GetAxisRaw(skillInput) == 0)
+            if (Input.GetAxisRaw(myManager.inputs.attackInput) == 1 && myManager.inputs.attackReleased)
             {
                 Debug.Log("The input was pressed");
                 //myManager.ps[16].Play();
                 GameObject boulderFist = Instantiate(myManager.skillProjectiles[1], targetIndicator.transform.position, targetIndicator.transform.root.rotation);
-                boulderFist.GetComponent<HitBoxTerrain>().damage = myManager.stats.armor + myManager.stats.magicResist + 10;
+                boulderFist.GetComponent<HitBoxTerrain>().damage = myManager.stats.baseDamage * (3f + 0.3f * myManager.stats.Int);
                 anim.SetTrigger("ProjectileFired");
                 Destroy(targetIndicator);
                 myManager.ps[28].Play();
@@ -422,6 +463,7 @@ public class Skill : MonoBehaviour
         }
 
         myManager.ps[27].Stop();
+        anim.ResetTrigger("BoulderFist");
         pc.playerState = PlayerMovementController.PlayerState.Idle;
 
     }
@@ -443,7 +485,7 @@ public class Skill : MonoBehaviour
             if (!playParticles && currentTimer > targetTimer * 0.5f)
             {
                 GameObject terrain = Instantiate(myManager.skillProjectiles[0], transform.root.position, transform.root.rotation);
-                terrain.GetComponent<HitBoxTerrain>().damage = myManager.stats.armor + myManager.stats.magicResist + 50;
+                terrain.GetComponent<HitBoxTerrain>().damage = myManager.stats.baseDamage * (5f + (0.5f * myManager.stats.Int));
                 myManager.ps[28].Play();
                 playParticles = true;
             }
@@ -559,6 +601,8 @@ public class Skill : MonoBehaviour
                 myManager.ps[4].Play();
                 myManager.ps[5].Play();
                 myManager.hitBoxes.LaunchBuffBox(0);
+                myManager.hitBoxes.hitboxes[7].GetComponent<HitBox>().damage = myManager.stats.healthMax / 4f;
+                myManager.hitBoxes.LaunchHitBox(7);
                 myManager.hitBoxes.buffboxes[0].GetComponent<HitBoxBuff>().BuffSelf();
                 playParticles = true;
             }
@@ -580,7 +624,7 @@ public class Skill : MonoBehaviour
         pc.playerState = PlayerMovementController.PlayerState.CastingRollOut;
         myManager.ps[6].Play();
         bool playParticles = false;
-        //myManager.hitBoxes.hitboxes[1].GetComponent<HitBox>().damage = 25 + myManager.stats.Str * 2 + myManager.stats.weaponHitbase + myManager.stats.weaponHitMax;
+        myManager.hitBoxes.hitboxes[1].GetComponent<HitBox>().damage = myManager.stats.baseDamage * (4 * (myManager.stats.Str * 0.3f + myManager.stats.Dex * 0.3f));
 
         while(currentTimer < targetTimer)
         {
@@ -604,7 +648,7 @@ public class Skill : MonoBehaviour
     IEnumerator BlinkStrike()
     {
         anim.SetBool("BlinkStrike", true);
-        float targetTimer = 0.5f;
+        float targetTimer = 0.5f / myManager.stats.attackSpeed;
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingNoMovement;
         myManager.ps[10].Play();
@@ -644,7 +688,7 @@ public class Skill : MonoBehaviour
             yield return null;
 
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMoveDirection), 0.1f);
-            myManager.characterController.Move(desiredMoveDirection * 20 * Time.deltaTime);
+            myManager.characterController.Move(desiredMoveDirection * 20 * Time.deltaTime * myManager.stats.attackSpeed);
 
             //myManager.rb.velocity = transform.forward * 2000 * Time.deltaTime;
             //myManager.rb.angularVelocity = Vector3.zero;
@@ -661,7 +705,7 @@ public class Skill : MonoBehaviour
         myManager.ps[6].Play();
         // This is the hit portion of the dash.
         currentTimer = 0;
-        targetTimer = 0.5f;
+        targetTimer = 0.5f / myManager.stats.attackSpeed;
         anim.SetBool("BlinkStrike", false);
         float rbSpeedMultiplier = 1f;
 
@@ -675,6 +719,7 @@ public class Skill : MonoBehaviour
             {
                 myManager.ps[14].Play();
                 myManager.ps[15].Play();
+                myManager.hitBoxes.hitboxes[2].GetComponent<HitBox>().damage = myManager.stats.baseDamage * (2f * (0.2f * myManager.stats.Dex + 0.2f * myManager.stats.Spd));
                 myManager.hitBoxes.LaunchHitBox(2);
                 playParticles = true;
             }
@@ -716,7 +761,7 @@ public class Skill : MonoBehaviour
         pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
         float currentTimeCharging = 0;
         float maximumChargeTime = 10f;
-        float maxDamageChargeTime = 5f;
+        float maxDamageChargeTime = 5f / myManager.stats.attackSpeed;
         bool maxDamage = false;
         myManager.ps[19].Play();
         //myManager.controller.speedMultiplier = 0.4f;
@@ -763,12 +808,17 @@ public class Skill : MonoBehaviour
                 myManager.ps[24].Play();
                 myManager.ps[25].Play();
                 // flicker hitbox
-                /*
                 if (!maxDamage)
-                    myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damage = 25 + (myManager.stats.Str * 3 + myManager.stats.weaponHitbase + myManager.stats.weaponHitMax) * chargePercent;
+                {
+                    myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damage = myManager.stats.baseDamage * (6f + (myManager.stats.Str * 0.4f)) * chargePercent;
+                    myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damageType = HitBox.DamageType.Physical;
+                }
                 else
-                    myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damage = 50 + myManager.stats.Str * 5 + myManager.stats.weaponHitbase + myManager.stats.weaponHitMax;
-                */
+                {
+                    myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damage = myManager.stats.baseDamage * (9f + (myManager.stats.Str * 0.6f));
+                    myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damageType = HitBox.DamageType.True;
+                }
+
                 myManager.hitBoxes.LaunchHitBox(3);
             }
             yield return null;

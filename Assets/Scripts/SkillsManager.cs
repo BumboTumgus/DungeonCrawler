@@ -115,6 +115,7 @@ public class SkillsManager : MonoBehaviour
                 {
                     case SkillNames.Revitalize:
                         GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.Revitalize);
+                        stats.revitalizeCount++;
                         break;
                 }
         }
@@ -147,12 +148,13 @@ public class SkillsManager : MonoBehaviour
                     switch (skillToRemove.skillName)
                     {
                         case SkillNames.Revitalize:
-                            foreach (Buff buff in GetComponent<BuffsManager>().activeBuffs)
+                            for (int buffIndex = 0; buffIndex < GetComponent<BuffsManager>().activeBuffs.Count; buffIndex++)
+                            {
+                                Buff buff = GetComponent<BuffsManager>().activeBuffs[buffIndex];
                                 if (buff.myType == BuffsManager.BuffType.Revitalize)
-                                {
-                                    buff.duration = 0.1f;
-                                    buff.infiniteDuration = false;
-                                }
+                                    buff.RemoveStacks(1);
+                                stats.revitalizeCount--;
+                            }
                             break;
                     }
 

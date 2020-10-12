@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class HitBox : MonoBehaviour
 {
+    public enum DamageType {Physical, Magical, True, Healing, PhysicalCrit, MagicalCrit, HealingCrit}
+    public DamageType damageType;
+
     public float damage = 5;
     public bool crit = false;
     public bool damageOverload = false;
@@ -88,13 +91,40 @@ public class HitBox : MonoBehaviour
                     }
                 }
                 */
+                if (bypassCrit)
+                {
+                    attackCrit = true;
+                    damageDealt *= 2;
+                    bypassCrit = false;
+                }
 
+                switch (damageType)
+                {
+                    case DamageType.Physical:
+                        damageDealt -= enemyStats.armor;
+                        break;
+                    case DamageType.Magical:
+                        damageDealt -= enemyStats.magicResist;
+                        break;
+                    case DamageType.True:
+                        break;
+                    case DamageType.PhysicalCrit:
+                        damageDealt -= enemyStats.armor;
+                        break;
+                    case DamageType.MagicalCrit:
+                        damageDealt -= enemyStats.magicResist;
+                        break;
+                    default:
+                        break;
+                }
 
-                damageDealt -= enemyStats.armor;
-                if(!forceChangeDamageColor)
-                    enemyStats.TakeDamage(damageDealt, attackCrit);
+                //if(!forceChangeDamageColor)
+                if (damageType != DamageType.Healing && damageType != DamageType.HealingCrit)
+                    enemyStats.TakeDamage(damageDealt, attackCrit, damageType);
                 else
-                    enemyStats.TakeDamage(damageDealt, attackCrit, damageColorOverride);
+                    enemyStats.HealHealth(damageDealt, attackCrit, damageType);
+                //else
+                    //enemyStats.TakeDamage(damageDealt, attackCrit, damageColorOverride);
             }
             // Player Logic
             else if (other.CompareTag("Player") && hitPlayers)
@@ -123,12 +153,44 @@ public class HitBox : MonoBehaviour
                     attackCrit = true;
                 }
                 */
-                damageDealt -= enemyStats.armor;
+                if (bypassCrit)
+                {
+                    attackCrit = true;
+                    damageDealt *= 2;
+                    bypassCrit = false;
+                }
+
+                switch (damageType)
+                {
+                    case DamageType.Physical:
+                        damageDealt -= enemyStats.armor;
+                        break;
+                    case DamageType.Magical:
+                        damageDealt -= enemyStats.magicResist;
+                        break;
+                    case DamageType.True:
+                        break;
+                    case DamageType.Healing:
+                        break;
+                    case DamageType.PhysicalCrit:
+                        damageDealt -= enemyStats.armor;
+                        break;
+                    case DamageType.MagicalCrit:
+                        damageDealt -= enemyStats.magicResist;
+                        break;
+                    case DamageType.HealingCrit:
+                        break;
+                    default:
+                        break;
+                }
                 //Debug.Log("the player shall take: " + damageDealt + " damage");
-                if (!forceChangeDamageColor)
-                    enemyStats.TakeDamage(damageDealt, attackCrit);
+                //if (!forceChangeDamageColor)
+                if (damageType != DamageType.Healing && damageType != DamageType.HealingCrit)
+                    enemyStats.TakeDamage(damageDealt, attackCrit, damageType);
                 else
-                    enemyStats.TakeDamage(damageDealt, attackCrit, damageColorOverride);
+                    enemyStats.HealHealth(damageDealt, attackCrit, damageType);
+                //else
+                //enemyStats.TakeDamage(damageDealt, attackCrit, damageColorOverride);
             }
         }
     }

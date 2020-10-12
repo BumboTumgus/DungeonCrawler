@@ -12,6 +12,7 @@ public class Buff : MonoBehaviour
     public GameObject connectedIcon;
     public UnityEngine.UI.Text iconStacks;
     public Color damageColor;
+    public HitBox.DamageType damageType;
     public bool onHitEffect = false;
     
     public bool infiniteDuration = false;
@@ -43,11 +44,8 @@ public class Buff : MonoBehaviour
     public float resistanceSC = 0;
     public float damageReductionSC = 0;
     
-    public float maxDamageSC = 0;
     public float baseDamageSC = 0;
     public float atkSpdSC = 0;
-    public float critChanceSC = 0;
-    public float critDamageSC = 0;
 
     public float aflameResistSC = 0;
     public float asleepResistSC = 0;
@@ -96,7 +94,11 @@ public class Buff : MonoBehaviour
             if (currentDamageTick > targetDamageTickTimer)
             {
                 currentDamageTick -= targetDamageTickTimer;
-                connectedPlayer.TakeDamage(DPS * targetDamageTickTimer, false, damageColor);
+               // if(damageType == null)
+                    //connectedPlayer.TakeDamage(DPS * targetDamageTickTimer, false, damageColor);
+                //else
+                connectedPlayer.TakeDamage(DPS * targetDamageTickTimer, false, damageType);
+
             }
         }
     }
@@ -127,7 +129,7 @@ public class Buff : MonoBehaviour
                 currentStacks += amount;
             else
             {
-                amount = maxStacks = currentStacks;
+                //amount = maxStacks = currentStacks;
                 currentStacks = maxStacks;
             }
         }
@@ -154,8 +156,8 @@ public class Buff : MonoBehaviour
                 ChangeDefensiveStats(false, healthSC * amount, manaSC * amount, healthRegenSC * amount, manaRegenSC * amount, armorSC * amount, resistanceSC * amount, damageReductionSC * amount);
 
             // If we changed offensive stats, add more stacks
-            if (baseDamageSC != 0 || maxDamageSC != 0 || atkSpdSC != 0 || critDamageSC != 0 || critChanceSC != 0)
-                ChangeOffensiveStats(false, baseDamageSC * amount, maxDamageSC * amount, critChanceSC * amount, critDamageSC * amount, atkSpdSC * amount);
+            if (baseDamageSC != 0 || atkSpdSC != 0)
+                ChangeOffensiveStats(false, baseDamageSC * amount, atkSpdSC * amount);
 
             // If we changed our resistance based stats, add more stacks
             if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || curseResistSC != 0 || corrosionResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0)
@@ -202,8 +204,8 @@ public class Buff : MonoBehaviour
             ChangeDefensiveStats(false, healthSC * amount, manaSC * amount, healthRegenSC * amount, manaRegenSC * amount, armorSC * amount, resistanceSC * amount, damageReductionSC * amount);
 
         // If we changed offensive stats, remove more stacks
-        if (baseDamageSC != 0 || maxDamageSC != 0 || atkSpdSC != 0 || critDamageSC != 0 || critChanceSC != 0)
-            ChangeOffensiveStats(false, baseDamageSC * amount, maxDamageSC * amount, critChanceSC * amount, critDamageSC * amount, atkSpdSC * amount);
+        if (baseDamageSC != 0 || atkSpdSC != 0)
+            ChangeOffensiveStats(false, baseDamageSC * amount, atkSpdSC * amount);
 
         // If we changed our resistance based stats, remove more stacks
         if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || curseResistSC != 0 || corrosionResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0)
@@ -271,21 +273,15 @@ public class Buff : MonoBehaviour
     }
 
     //USed to add offensive stast to the player
-    public void ChangeOffensiveStats(bool changeStatsChangeValue, float baseDamageGain, float maxDamageGain, float critChanceGain, float critModifierGain, float atkSpeedGain)
+    public void ChangeOffensiveStats(bool changeStatsChangeValue, float baseDamageGain, float atkSpeedGain)
     {
-        //connectedPlayer.weaponHitbase += baseDamageGain;
-        //connectedPlayer.weaponHitMax += maxDamageGain;
-        //connectedPlayer.weaponCritChance += critChanceGain;
-        // connectedPlayer.weaponCritMod += critModifierGain;
-        //connectedPlayer.bonusAttackSpeed += atkSpeedGain;
+        connectedPlayer.baseDamageScaling += baseDamageGain;
+        connectedPlayer.bonusAttackSpeed += atkSpeedGain;
 
         if (changeStatsChangeValue)
         {
             baseDamageSC = baseDamageGain;
-            maxDamageSC = maxDamageGain;
             atkSpdSC = atkSpeedGain;
-            critChanceSC = critChanceGain;
-            critDamageSC = critModifierGain;
         }
 
         connectedPlayer.StatSetup(false, true);
@@ -380,8 +376,8 @@ public class Buff : MonoBehaviour
                 ChangeDefensiveStats(true, healthSC * -1, manaSC * -1, healthRegenSC * -1, manaRegenSC * -1, armorSC * -1, resistanceSC * -1, damageReductionSC * -1);
 
             // If we changed offensive stats, change em back.
-            if (baseDamageSC != 0 || maxDamageSC != 0 || atkSpdSC != 0 || critDamageSC != 0 || critChanceSC != 0)
-                ChangeOffensiveStats(true, baseDamageSC * -1, maxDamageSC * -1, critChanceSC * -1, critDamageSC * -1, atkSpdSC * -1);
+            if (baseDamageSC != 0 || atkSpdSC != 0)
+                ChangeOffensiveStats(true, baseDamageSC * -1, atkSpdSC * -1);
 
             // If we changed our resistance based stats, change em back.
             if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || curseResistSC != 0 || corrosionResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0)

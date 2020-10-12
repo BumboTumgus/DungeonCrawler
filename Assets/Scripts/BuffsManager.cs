@@ -147,7 +147,7 @@ public class BuffsManager : MonoBehaviour
                     cursed.connectedPlayer = stats;
                     cursed.ChangeCoreStats(true, Mathf.RoundToInt(stats.Vit * -0.5f), Mathf.RoundToInt(stats.Str * -0.5f), Mathf.RoundToInt(stats.Dex * -0.5f),
                         Mathf.RoundToInt(stats.Spd * -0.5f), Mathf.RoundToInt(stats.Int * -0.5f), Mathf.RoundToInt(stats.Wis * -0.5f), Mathf.RoundToInt(stats.Cha * -0.5f));
-                    stats.TakeDamage(stats.healthMax / 2, false, damageColors[1]);
+                    stats.TakeDamage(stats.healthMax / 2, false, HitBox.DamageType.True);
                     cursed.infiniteDuration = false;
                     cursed.duration = 20;
                     cursed.DPS = 0;
@@ -175,7 +175,7 @@ public class BuffsManager : MonoBehaviour
                     bleed.DPS = stats.healthMax * 0.025f;
                     bleed.damageColor = damageColors[2];
                     stats.bleeding = true;
-                    stats.TakeDamage(stats.healthMax * 0.25f, false, damageColors[2]);
+                    stats.TakeDamage(stats.healthMax * 0.25f, false, HitBox.DamageType.Physical);
                     bleed.effectParticleSystem.Add(psSystems[6]);
                     psSystems[6].Play();
                     psSystems[5].Play();
@@ -196,7 +196,7 @@ public class BuffsManager : MonoBehaviour
                     poisoned.infiniteDuration = false;
                     poisoned.duration = 20;
                     poisoned.DPS = stats.healthMax * 0.05f;
-                    poisoned.damageColor = damageColors[3];
+                    poisoned.damageType = HitBox.DamageType.Magical;
                     poisoned.effectParticleSystem.Add(psSystems[8]);
                     poisoned.effectParticleSystem.Add(psSystems[9]);
                     psSystems[8].Play();
@@ -259,7 +259,7 @@ public class BuffsManager : MonoBehaviour
                     embers.connectedPlayer = stats;
                     embers.infiniteDuration = false;
                     embers.duration = 10;
-                    embers.ChangeCoreStats(true, 5, 5, 0, 0, 0, 0, 0);
+                    embers.ChangeCoreStats(true, Mathf.RoundToInt(stats.Vit * 0.2f), 0, Mathf.RoundToInt(stats.Dex * 0.2f), Mathf.RoundToInt(stats.Spd * 0.2f), 0, 0, 0);
                     embers.effectParticleSystem.Add(psSystems[17]);
                     embers.effectParticleSystem.Add(psSystems[18]);
                     psSystems[17].Play();
@@ -280,9 +280,9 @@ public class BuffsManager : MonoBehaviour
                     flameStrike.connectedPlayer = stats;
                     flameStrike.infiniteDuration = false;
                     flameStrike.duration = 15;
-                    flameStrike.ChangeOffensiveStats(true, 0, 0, 0, 0, 0.25f);
+                    flameStrike.ChangeOffensiveStats(true, 0, 0.05f * stats.Int);
                     flameStrike.damageColor = damageColors[0];
-                    flameStrike.onHitDamageAmount = stats.Str * 2;
+                    flameStrike.onHitDamageAmount = stats.baseDamage * (stats.Int * 0.2f);
                     flameStrike.effectParticleSystem.Add(psSystems[20]);
                     flameStrike.effectParticleSystem.Add(psSystems[21]);
                     flameStrike.effectParticleSystem.Add(psSystems[22]);
@@ -304,7 +304,7 @@ public class BuffsManager : MonoBehaviour
                     aspectOfRage.connectedPlayer = stats;
                     aspectOfRage.infiniteDuration = false;
                     aspectOfRage.duration = 15;
-                    aspectOfRage.ChangeOffensiveStats(true, 0, 0, 0.20f, 1f, 0.4f);
+                    aspectOfRage.ChangeOffensiveStats(true, 1f, 0.4f);
                     aspectOfRage.ChangeDefensiveStats(true, 0, 0, 0, 0, 0, 0, -50);
                     aspectOfRage.effectParticleSystem.Add(psSystems[27]);
                     aspectOfRage.effectParticleSystem.Add(psSystems[28]);
@@ -326,8 +326,8 @@ public class BuffsManager : MonoBehaviour
                     blessingOfFlames.connectedPlayer = stats;
                     blessingOfFlames.infiniteDuration = false;
                     blessingOfFlames.duration = 15;
-                    blessingOfFlames.ChangeDefensiveStats(true, 0, 0, 20, 0, 10, 10, 0);
-                    blessingOfFlames.ChangeAfflictionStats(true, 0.5f, 0, 0, 0.1f, 0.1f, 0.1f, 0.25f, 0.1f, 0);
+                    blessingOfFlames.ChangeDefensiveStats(true, 0, 0, stats.healthRegen, 0, stats.armor * 0.25f, stats.magicResist * 0.25f, 0);
+                    blessingOfFlames.ChangeAfflictionStats(true, 0.5f, 0, 0, 0.1f, 0.1f, 0.1f, 0.3f, 0.1f, 0);
                     blessingOfFlames.effectParticleSystem.Add(psSystems[30]);
                     psSystems[30].Play();
 
@@ -351,7 +351,7 @@ public class BuffsManager : MonoBehaviour
                     rampage.maxStacks = 25;
                     rampage.currentStacks = 1;
                     rampage.stacktargetTimer = rampage.duration;
-                    rampage.ChangeOffensiveStats(true, 0, 0, 0, 0, 0.04f);
+                    rampage.ChangeOffensiveStats(true, 0, 0.04f);
                     //rampage.effectParticleSystem.Add(psSystems[30]);
                     //psSystems[30].Play();
 
@@ -371,6 +371,7 @@ public class BuffsManager : MonoBehaviour
                     giantStrength.connectedPlayer = stats;
                     giantStrength.ChangeCoreStats(true, stats.Vit, stats.Str, -stats.Dex / 2, -stats.Spd / 2, -stats.Int / 2, -stats.Wis / 2, -stats.Cha / 2);
                     giantStrength.ChangeSize(true, 0.25f);
+                    giantStrength.ChangeDefensiveStats(true, 0, 0, 0, 0, 0, 0, 0.25f);
                     giantStrength.effectParticleSystem.Add(psSystems[31]);
                     psSystems[31].Play();
 
@@ -389,7 +390,7 @@ public class BuffsManager : MonoBehaviour
                     toxicRipple.infiniteDuration = false;
                     toxicRipple.duration = 10f;
                     toxicRipple.connectedPlayer = stats;
-                    toxicRipple.ChangeAfflictionStats(true, 0, 0, 0, 0, 0.5f, 0.5f, 0, 0, 0);
+                    toxicRipple.ChangeAfflictionStats(true, 0, 0, 0, 0, 0.7f, 0, 0, 0.7f, 0);
 
                     break;
                 case BuffType.KillerInstinct:
@@ -427,7 +428,7 @@ public class BuffsManager : MonoBehaviour
                     naturePulse.maxStacks = 5;
                     naturePulse.currentStacks = 1;
                     naturePulse.stackable = true;
-                    naturePulse.duration = 10f;
+                    naturePulse.duration = 6f;
                     naturePulse.connectedPlayer = stats;
                     naturePulse.ChangeDefensiveStats(true, 0, 0, 0, 0, -stats.armor / 10, -stats.magicResist / 10, 0);
                     //naturePulse.effectParticleSystem.Add(psSystems[32]);
@@ -451,9 +452,10 @@ public class BuffsManager : MonoBehaviour
                         stats = GetComponent<PlayerStats>();
 
                     stats.revitalizeBuff = true;
-                    revitalize.maxStacks = 5;
-                    revitalize.duration = 10f;
+                    revitalize.stackable = true;
+                    revitalize.maxStacks = 10;
                     revitalize.connectedPlayer = stats;
+                    revitalize.AddStack(1);
                     break;
                 default:
                     break;
@@ -510,7 +512,7 @@ public class BuffsManager : MonoBehaviour
             switch (buff.myType)
             {
                 case BuffType.FlameStrike:
-                    target.GetComponent<PlayerStats>().TakeDamage(buff.onHitDamageAmount, false, buff.damageColor);
+                    target.GetComponent<PlayerStats>().TakeDamage(buff.onHitDamageAmount, false, HitBox.DamageType.Magical);
                     psSystems[23].Play();
                     psSystems[24].Play();
                     psSystems[25].Play();
@@ -519,6 +521,18 @@ public class BuffsManager : MonoBehaviour
                 case BuffType.KillerInstinct:
                     Debug.Log("killer instinct hit has been procced");
                     hitbox.bypassCrit = true;
+                    switch (hitbox.damageType)
+                    {
+                        case HitBox.DamageType.Physical:
+                            hitbox.damageType = HitBox.DamageType.PhysicalCrit;
+                            break;
+                        case HitBox.DamageType.Magical:
+                            hitbox.damageType = HitBox.DamageType.MagicalCrit;
+                            break;
+                        case HitBox.DamageType.Healing:
+                            hitbox.damageType = HitBox.DamageType.HealingCrit;
+                            break;
+                    }
                     buff.currentTimer = buff.duration;
                     break;
                 default:
@@ -549,7 +563,7 @@ public class BuffsManager : MonoBehaviour
             switch (buff.myType)
             {
                 case BuffType.FlameStrike:
-                    target.GetComponent<PlayerStats>().TakeDamage(buff.onHitDamageAmount, false, buff.damageColor);
+                    target.GetComponent<PlayerStats>().TakeDamage(buff.onHitDamageAmount, false, HitBox.DamageType.Magical);
                     psSystems[23].Play();
                     psSystems[24].Play();
                     psSystems[25].Play();
@@ -558,6 +572,18 @@ public class BuffsManager : MonoBehaviour
                 case BuffType.KillerInstinct:
                     Debug.Log("killer instinct hit has been procced");
                     hitbox.bypassCrit = true;
+                    switch (hitbox.damageType)
+                    {
+                        case HitBox.DamageType.Physical:
+                            hitbox.damageType = HitBox.DamageType.PhysicalCrit;
+                            break;
+                        case HitBox.DamageType.Magical:
+                            hitbox.damageType = HitBox.DamageType.MagicalCrit;
+                            break;
+                        case HitBox.DamageType.Healing:
+                            hitbox.damageType = HitBox.DamageType.HealingCrit;
+                            break;
+                    }
                     buff.currentTimer = buff.duration;
                     break;
                 default:

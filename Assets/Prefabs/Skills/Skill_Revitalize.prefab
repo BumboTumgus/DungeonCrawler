@@ -201,7 +201,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6969756483734455402}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 18.34, y: 0, z: -6.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -235,7 +235,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Revitalize
-  description: Increases you health regen by 3% for each 1% of hp you are missing.
+  description: Passively increases your <color=#ad2a2a>health regen by 3%</color>
+    for each <color=#ad2a2a>1% of hp</color> you are missing.
   itemGearID: 92
   itemtorsoID: 0
   itemUpperRightArmID: 0
@@ -262,18 +263,8 @@ MonoBehaviour:
   itemType: 8
   skillName: 16
   itemRarity: 2
-  vitMod: 0
-  strMod: 0
-  dexMod: 0
-  spdMod: 0
-  intMod: 0
-  wisMod: 0
-  chaMod: 0
-  baseAttackDelay: 0
-  hitMax: 0
-  hitBase: 0
-  critChance: 0
-  critMod: 0
+  attacksPerSecond: 0
+  baseDamageScaling: 0
   vitScaling: 0
   strScaling: 0
   dexScaling: 0
@@ -282,21 +273,8 @@ MonoBehaviour:
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 0
-  health: 0
-  mana: 0
-  armor: 0
-  resistance: 0
-  healthRegen: 0
-  manaRegen: 0
-  aflameResist: 0
-  asleepResist: 0
-  stunResist: 0
-  curseResist: 0
-  bleedResist: 0
-  poisonResist: 0
-  corrosionResist: 0
-  frostbiteResist: 0
-  knockbackResist: 0
+  garenteedTraits: 
+  garenteedTraitValues: []
 --- !u!114 &-822397025018928638
 MonoBehaviour:
   m_ObjectHideFlags: 0

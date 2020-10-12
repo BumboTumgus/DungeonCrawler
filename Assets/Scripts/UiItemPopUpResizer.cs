@@ -68,8 +68,16 @@ public class UiItemPopUpResizer : MonoBehaviour
             armorContainer.SetActive(false);
             resistanceContainer.SetActive(false);
 
-            spellCostText.text = string.Format("{0} mp", skillBank.GrabSkillCooldown(targetItem.skillName));
-            spellCooldownText.text = string.Format("{0:0.0} sec", skillBank.GrabSkillCost(targetItem.skillName));
+            if (skillBank.GrabSkillCooldown(targetItem.skillName) > 0)
+            {
+                spellCostText.text = string.Format("{0} mp", skillBank.GrabSkillCost(targetItem.skillName));
+                spellCooldownText.text = string.Format("{0:0.0} sec", skillBank.GrabSkillCooldown(targetItem.skillName));
+            }
+            else
+            {
+                spellCostText.text = "Passive";
+                spellCooldownText.text = "Passive";
+            }
         }
         else if(targetItem.itemType == Item.ItemType.Helmet || targetItem.itemType == Item.ItemType.Armor || targetItem.itemType == Item.ItemType.Legs || targetItem.itemType == Item.ItemType.Trinket)
         {
@@ -188,7 +196,7 @@ public class UiItemPopUpResizer : MonoBehaviour
         ClearPopUp();
         PopulatePopUp(targetItem);
 
-        traitContainer.sizeDelta = new Vector2(traitContainer.sizeDelta.x, 12 * targetItem.itemTraits.Count + 10 + descriptionBox.sizeDelta.y);
+        traitContainer.sizeDelta = new Vector2(traitContainer.sizeDelta.x, 13 * targetItem.itemTraits.Count + 10 + descriptionBox.sizeDelta.y);
         primaryPopUp.sizeDelta = new Vector2(primaryPopUp.sizeDelta.x, 170 + traitContainer.sizeDelta.y);
     }
 
@@ -257,7 +265,7 @@ public class UiItemPopUpResizer : MonoBehaviour
         for(int index = 0; index < item.itemTraits.Count; index ++)
         {
             GameObject traitText = Instantiate(popUpTextPrefab, traitContainer.transform);
-            traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(200f, 12f);
+            traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(200f, 13f);
 
             switch (item.itemTraits[index].traitType)
             {

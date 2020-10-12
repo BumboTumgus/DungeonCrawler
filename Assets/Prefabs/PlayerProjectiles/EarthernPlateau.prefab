@@ -9587,7 +9587,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8758025937901589894}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 1.087405, y: 0.6188455, z: 0.7345125}
@@ -9675,6 +9675,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1abd4b846957444f98a424a5eab0be4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageType: 1
   particlesWindup:
   - {fileID: 2418919402754081046}
   particlesAppear:
@@ -9691,6 +9692,7 @@ MonoBehaviour:
   hitPlayers: 0
   myStats: {fileID: 0}
   enemyStats: {fileID: 0}
+  bypassCrit: 0
 --- !u!1001 &8758025937901734408
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -203,7 +203,7 @@ public class SkillBank : MonoBehaviour
                 cooldown = 10f;
                 break;
             case SkillsManager.SkillNames.ShatteredEarth:
-                cooldown = 90f;
+                cooldown = 20f;
                 break;
             case SkillsManager.SkillNames.AspectOfRage:
                 cooldown = 70f;
@@ -316,7 +316,7 @@ public class SkillBank : MonoBehaviour
                 cost = 50f;
                 break;
             case SkillsManager.SkillNames.ShatteredEarth:
-                cost = 100f;
+                cost = 65f;
                 break;
             case SkillsManager.SkillNames.AspectOfRage:
                 cost = 70f;

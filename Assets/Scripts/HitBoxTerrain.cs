@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class HitBoxTerrain : MonoBehaviour
 {
-
+    public HitBox.DamageType damageType;
     public List<ParticleSystem> particlesWindup = new List<ParticleSystem>();
     public List<ParticleSystem> particlesAppear = new List<ParticleSystem>();
     public List<ParticleSystem> particlesDissapear = new List<ParticleSystem>();
@@ -143,9 +143,40 @@ public class HitBoxTerrain : MonoBehaviour
                 bypassCrit = false;
             }
             */
+            if (bypassCrit)
+            {
+                attackCrit = true;
+                damageDealt *= 2;
+                bypassCrit = false;
+            }
 
-            damageDealt -= enemyStats.armor;
-            enemyStats.TakeDamage(damageDealt, attackCrit);
+            switch (damageType)
+            {
+                case HitBox.DamageType.Physical:
+                    damageDealt -= enemyStats.armor;
+                    break;
+                case HitBox.DamageType.Magical:
+                    damageDealt -= enemyStats.magicResist;
+                    break;
+                case HitBox.DamageType.True:
+                    break;
+                case HitBox.DamageType.Healing:
+                    break;
+                case HitBox.DamageType.PhysicalCrit:
+                    damageDealt -= enemyStats.armor;
+                    break;
+                case HitBox.DamageType.MagicalCrit:
+                    damageDealt -= enemyStats.magicResist;
+                    break;
+                case HitBox.DamageType.HealingCrit:
+                    break;
+                default:
+                    break;
+            }
+            if (damageType != HitBox.DamageType.Healing && damageType != HitBox.DamageType.HealingCrit)
+                enemyStats.TakeDamage(damageDealt, attackCrit, damageType);
+            else
+                enemyStats.HealHealth(damageDealt, attackCrit, damageType);
         }
         // Player Logic
         else if (other.CompareTag("Player") && hitPlayers)
@@ -154,7 +185,7 @@ public class HitBoxTerrain : MonoBehaviour
             bool attackCrit = false;
 
             float damageDealt = damage;
-            
+
             /*
             if (myStats.weaponHitspeeds.Count > 0)
             {
@@ -175,9 +206,40 @@ public class HitBoxTerrain : MonoBehaviour
                 }
             }
             */
+            if (bypassCrit)
+            {
+                attackCrit = true;
+                damageDealt *= 2;
+                bypassCrit = false;
+            }
 
-            damageDealt -= enemyStats.armor;
-            enemyStats.TakeDamage(damageDealt, attackCrit);
+            switch (damageType)
+            {
+                case HitBox.DamageType.Physical:
+                    damageDealt -= enemyStats.armor;
+                    break;
+                case HitBox.DamageType.Magical:
+                    damageDealt -= enemyStats.magicResist;
+                    break;
+                case HitBox.DamageType.True:
+                    break;
+                case HitBox.DamageType.Healing:
+                    break;
+                case HitBox.DamageType.PhysicalCrit:
+                    damageDealt -= enemyStats.armor;
+                    break;
+                case HitBox.DamageType.MagicalCrit:
+                    damageDealt -= enemyStats.magicResist;
+                    break;
+                case HitBox.DamageType.HealingCrit:
+                    break;
+                default:
+                    break;
+            }
+            if (damageType != HitBox.DamageType.Healing && damageType != HitBox.DamageType.HealingCrit)
+                enemyStats.TakeDamage(damageDealt, attackCrit, damageType);
+            else
+                enemyStats.HealHealth(damageDealt, attackCrit, damageType);
         }
     }
    

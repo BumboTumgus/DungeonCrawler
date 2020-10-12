@@ -201,7 +201,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4873736893077605680}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.363, y: 0, z: -6.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -234,8 +234,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f10ee017b6dc3d4d82100cf987f27be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: ToxicRipple
-  description: The Skill Toxic Ripples
+  itemName: Toxic Ripple
+  description: Summon a large toxic zone around yourself, dealing <color=#B756FA>magic
+    damage</color> to yourself and enemies equal to <color=white>40%</color> + <color=#7CF2F9>4%
+    x Int</color> of your base damage a second for 10 seconds. Adds <color=#7ECE1E>poison</color>
+    and <color=#168523>corrosion</color> every hit. Grants you <color=#7ECE1E>75%
+    poison resistance</color> and <color=#168523>75% corrosion resistance</color>
+    for the duration of the spell.
   itemGearID: 92
   itemtorsoID: 0
   itemUpperRightArmID: 0
@@ -262,18 +267,8 @@ MonoBehaviour:
   itemType: 8
   skillName: 13
   itemRarity: 2
-  vitMod: 0
-  strMod: 0
-  dexMod: 0
-  spdMod: 0
-  intMod: 0
-  wisMod: 0
-  chaMod: 0
-  baseAttackDelay: 0
-  hitMax: 0
-  hitBase: 0
-  critChance: 0
-  critMod: 0
+  attacksPerSecond: 0
+  baseDamageScaling: 0
   vitScaling: 0
   strScaling: 0
   dexScaling: 0
@@ -282,21 +277,8 @@ MonoBehaviour:
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 0
-  health: 0
-  mana: 0
-  armor: 0
-  resistance: 0
-  healthRegen: 0
-  manaRegen: 0
-  aflameResist: 0
-  asleepResist: 0
-  stunResist: 0
-  curseResist: 0
-  bleedResist: 0
-  poisonResist: 0
-  corrosionResist: 0
-  frostbiteResist: 0
-  knockbackResist: 0
+  garenteedTraits: 
+  garenteedTraitValues: []
 --- !u!114 &124093770338636835
 MonoBehaviour:
   m_ObjectHideFlags: 0
