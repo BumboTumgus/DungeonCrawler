@@ -76,6 +76,14 @@ public class InventoryUiManager : MonoBehaviour
             default:
                 break;
         }
+
+        // experiemtnal making thenumbers appear.
+        if (item.inventoryIndex < 5)
+        {
+            //Debug.Log(" I am making the hotkey number appear");
+            slotToUpdate.transform.Find("HotbarNumber").SetAsLastSibling();
+            slotToUpdate.transform.Find("HotbarNumber").gameObject.SetActive(true);
+        }
     }
 
     public void UpdateInventorySlot(int index)
@@ -122,10 +130,41 @@ public class InventoryUiManager : MonoBehaviour
 
     public void CheckActiveSkillSlots()
     {
+        //Debug.Log("checking the active skill slots");
         // Here I will only have active skillslots equal to the number of spells the player can currently have.
         //int currentSkillMax = playerSkills.maxSkillNumber;
-        for (int index = playerSkills.maxSkillNumber; index < skillSlots.Length; index++)
-            skillSlots[index].SetActive(false);
+        for (int index = 0; index < skillSlots.Length; index++)
+        {
+            if (index < playerSkills.maxSkillNumber)
+                skillSlots[index].SetActive(true);
+            else
+            {
+                skillSlots[index].SetActive(false);
+                // check to see if there a skill in this skill slot, if so, disable it then move it to inventory. if there is no room in the inventory, drop the skill.
+                if(skillSlots[index].GetComponentInChildren<ItemDraggable>().attachedItem != null)
+                {
+                    //Debug.Log("skill detected in lost skill slot, removing skill");
+                    playerSkills.RemoveSkill(index);
+                    // Check if we have room in the inventory
+                    if (playerInventory.inventory.Count < playerInventory.INVENTORY_MAX - 1)
+                    {
+                        //Debug.Log("There is room in the inventory so we move this into the next unoccupied slot");
+                        Item itemToMove = skillSlots[index].GetComponentInChildren<ItemDraggable>().attachedItem.GetComponent<Item>();
+                        itemToMove.inventoryIndex = playerInventory.FindFirstAvaibleSlot();
+                        playerInventory.inventory.Add(itemToMove);
+                        UpdateInventorySlot(itemToMove);
+                        WipeSlot(skillSlots[index]);
+                    }
+                    else
+                    {
+                        //Debug.Log("There is no room in the inventory for this item");
+                        Item itemToYeet = skillSlots[index].GetComponentInChildren<ItemDraggable>().attachedItem.GetComponent<Item>();
+                        itemToYeet.ComfirmDrop();
+                        WipeSlot(skillSlots[index]);
+                    }
+                }
+            }
+        }
     }
 
 

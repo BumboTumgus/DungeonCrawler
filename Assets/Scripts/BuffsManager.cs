@@ -69,7 +69,7 @@ public class BuffsManager : MonoBehaviour
             {
                 case BuffType.Aflame:
                     
-                    Debug.Log("Addding aflame buff");
+                    //Debug.Log("Addding aflame buff");
                     uiPopupManager.SpawnFlavorText("Aflame!", damageColors[0]);
                     Buff aflame = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     aflame.connectedIcon = buffIcon;
@@ -91,11 +91,11 @@ public class BuffsManager : MonoBehaviour
                     psSystems[15].Play();
                     psSystems[16].Play();
 
-                    Debug.Log("aflame buff has been added");
+                    //Debug.Log("aflame buff has been added");
                     break;
                 case BuffType.Asleep:
 
-                    Debug.Log("Adding asleep debuff");
+                    //Debug.Log("Adding asleep debuff");
                     uiPopupManager.SpawnFlavorText("Asleep!", damageColors[5]);
                     Buff asleep = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     asleep.connectedIcon = buffIcon;
@@ -115,7 +115,7 @@ public class BuffsManager : MonoBehaviour
                     break;
                 case BuffType.Stunned:
 
-                    Debug.Log("Adding stun debuff");
+                    //Debug.Log("Adding stun debuff");
                     uiPopupManager.SpawnFlavorText("Cursed!", damageColors[6]);
                     Buff stunned = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     stunned.connectedIcon = buffIcon;
@@ -135,7 +135,7 @@ public class BuffsManager : MonoBehaviour
                     break;
                 case BuffType.Cursed:
 
-                    Debug.Log("Adding cursed debuff");
+                    //Debug.Log("Adding cursed debuff");
                     uiPopupManager.SpawnFlavorText("Cursed!", damageColors[1]);
                     Buff cursed = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     cursed.connectedIcon = buffIcon;
@@ -160,7 +160,7 @@ public class BuffsManager : MonoBehaviour
                     break;
                 case BuffType.Bleeding:
 
-                    Debug.Log("Adding bleed debuff");
+                    //Debug.Log("Adding bleed debuff");
                     uiPopupManager.SpawnFlavorText("Bleeding!", damageColors[2]);
                     Buff bleed = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     bleed.connectedIcon = buffIcon;
@@ -183,7 +183,7 @@ public class BuffsManager : MonoBehaviour
                     break;
                 case BuffType.Poisoned:
 
-                    Debug.Log("Adding poison debuff");
+                    //Debug.Log("Adding poison debuff");
                     uiPopupManager.SpawnFlavorText("Poisoned!", damageColors[3]);
                     Buff poisoned = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     poisoned.connectedIcon = buffIcon;
@@ -205,7 +205,7 @@ public class BuffsManager : MonoBehaviour
                     break;
                 case BuffType.Corrosion:
 
-                    Debug.Log("Adding corrosion debuff");
+                    //Debug.Log("Adding corrosion debuff");
                     uiPopupManager.SpawnFlavorText("Corroded!", damageColors[4]);
                     Buff corrosion = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     corrosion.connectedIcon = buffIcon;
@@ -227,7 +227,7 @@ public class BuffsManager : MonoBehaviour
                     break;
                 case BuffType.Frostbite:
 
-                    Debug.Log("Adding frostbite debuff");
+                    //Debug.Log("Adding frostbite debuff");
                     uiPopupManager.SpawnFlavorText("Frostbitten!", damageColors[5]);
                     Buff frostbite = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     frostbite.connectedIcon = buffIcon;
@@ -248,7 +248,7 @@ public class BuffsManager : MonoBehaviour
                     break;
                 case BuffType.EmboldeningEmbers:
 
-                    Debug.Log("Adding emboldening embers buff");
+                    //Debug.Log("Adding emboldening embers buff");
                     Buff embers = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     embers.connectedIcon = buffIcon;
                     buffIcon.GetComponent<Image>().sprite = buffIcons[8];
@@ -269,7 +269,7 @@ public class BuffsManager : MonoBehaviour
                     break;
                 case BuffType.FlameStrike:
 
-                    Debug.Log("Adding flame strike buff");
+                    //Debug.Log("Adding flame strike buff");
                     Buff flameStrike = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     flameStrike.connectedIcon = buffIcon;
                     buffIcon.GetComponent<Image>().sprite = buffIcons[9];
@@ -293,7 +293,7 @@ public class BuffsManager : MonoBehaviour
                     break;
                 case BuffType.AspectOfRage:
 
-                    Debug.Log("Adding aspect of Rage buff");
+                    //Debug.Log("Adding aspect of Rage buff");
                     Buff aspectOfRage = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     aspectOfRage.connectedIcon = buffIcon;
                     buffIcon.GetComponent<Image>().sprite = buffIcons[10];
@@ -315,7 +315,7 @@ public class BuffsManager : MonoBehaviour
 
                     break;
                 case BuffType.BlessingOfFlames:
-                    Debug.Log("Adding blessing of flames buff");
+                    //Debug.Log("Adding blessing of flames buff");
                     Buff blessingOfFlames = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     blessingOfFlames.connectedIcon = buffIcon;
                     buffIcon.GetComponent<Image>().sprite = buffIcons[11];
@@ -333,7 +333,7 @@ public class BuffsManager : MonoBehaviour
 
                     break;
                 case BuffType.Rampage:
-                    Debug.Log("adding rampage buff");
+                    //Debug.Log("adding rampage buff");
                     Buff rampage = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     rampage.connectedIcon = buffIcon;
                     rampage.iconStacks = buffIcon.GetComponentInChildren<Text>();
@@ -357,7 +357,7 @@ public class BuffsManager : MonoBehaviour
 
                     break;
                 case BuffType.GiantStrength:
-                    Debug.Log("adding giant Strength buff");
+                    //Debug.Log("adding giant Strength buff");
                     Buff giantStrength = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     giantStrength.connectedIcon = buffIcon;
                     giantStrength.iconStacks = buffIcon.GetComponentInChildren<Text>();
@@ -377,7 +377,7 @@ public class BuffsManager : MonoBehaviour
 
                     break;
                 case BuffType.ToxicRipple:
-                    Debug.Log("adding Toxic Ripple buff");
+                    //Debug.Log("adding Toxic Ripple buff");
 
                     Buff toxicRipple = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     toxicRipple.connectedIcon = buffIcon;
@@ -394,7 +394,7 @@ public class BuffsManager : MonoBehaviour
 
                     break;
                 case BuffType.KillerInstinct:
-                    Debug.Log("adding Killer instinct buff");
+                    //Debug.Log("adding Killer instinct buff");
 
                     Buff killerInstinct = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     killerInstinct.connectedIcon = buffIcon;
@@ -414,7 +414,7 @@ public class BuffsManager : MonoBehaviour
 
                     break;
                 case BuffType.NaturePulse:
-                    Debug.Log("adding nature pulse debuff");
+                    //Debug.Log("adding nature pulse debuff");
 
                     Buff naturePulse = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     naturePulse.connectedIcon = buffIcon;
@@ -436,7 +436,7 @@ public class BuffsManager : MonoBehaviour
                     //psSystems[32].Play();
                     break;
                 case BuffType.Revitalize:
-                    Debug.Log("adding revitalize buff");
+                    //Debug.Log("adding revitalize buff");
 
                     Buff revitalize = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     revitalize.connectedIcon = buffIcon;
@@ -519,7 +519,7 @@ public class BuffsManager : MonoBehaviour
                     psSystems[26].Play();
                     break;
                 case BuffType.KillerInstinct:
-                    Debug.Log("killer instinct hit has been procced");
+                    //Debug.Log("killer instinct hit has been procced");
                     hitbox.bypassCrit = true;
                     switch (hitbox.damageType)
                     {
@@ -544,7 +544,7 @@ public class BuffsManager : MonoBehaviour
     // USed to proc my onhit effects onto an enemy
     public void ProcOnHits(GameObject target, HitBoxTerrain hitbox)
     {
-        Debug.Log("proccing on hits");
+        //Debug.Log("proccing on hits");
         // Check if we have any skills that apply buffs on hit.
         foreach (Skill skill in skillManager.mySkills)
         {

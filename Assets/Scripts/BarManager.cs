@@ -30,16 +30,20 @@ public class BarManager : MonoBehaviour
     }
 
     // reset the bar with a new max Value.
-    public void Initialize(float maxValue, bool matchBarValue)
+    public void Initialize(float maxValue, bool maxOutBar, bool setBarToTarget, float target)
     {
         maximumValue = maxValue;
         primaryContent.fillAmount = currentBarValue / maximumValue;
-        if (matchBarValue)
+        if (maxOutBar)
         {
             currentBarValue = maxValue;
             targetValue = maximumValue;
             if(decayEffect)
                 currentDecayBarValue = maxValue;
+        }
+        else if(setBarToTarget)
+        {
+            SetValue(target, true);
         }
     }
 
@@ -81,12 +85,20 @@ public class BarManager : MonoBehaviour
     }
 
     // USed by other classes to set what value this bar will display.
-    public void SetValue(float target)
+    public void SetValue(float target, bool makeBarValuesSnap)
     {
         targetValue = target;
         if (targetValue > maximumValue)
             targetValue = maximumValue;
         else if (targetValue < minimumValue)
             targetValue = minimumValue;
+
+        // This will ignore the lerp and et the bar lerps to their targets.
+        if(makeBarValuesSnap)
+        {
+            primaryContent.fillAmount = targetValue / maximumValue;
+            if (decayEffect)
+                decayContent.fillAmount = targetValue / maximumValue;
+        }
     }
 }

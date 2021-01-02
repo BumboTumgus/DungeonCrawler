@@ -78,7 +78,7 @@ public class ChestBehaviour : MonoBehaviour
     // Grab the contents of the chest, and spawn them as treasure that flies upwards then out towards the player.
     public void OpenChest()
     {
-        Debug.Log(" The contetns of the chest are " + treasureCount + " treasure and " + itemCount + " items");
+        //Debug.Log(" The contetns of the chest are " + treasureCount + " treasure and " + itemCount + " items");
 
         GetComponent<Animator>().SetTrigger("OpenSesame");
         Destroy(GetComponent<SphereCollider>());
@@ -87,6 +87,7 @@ public class ChestBehaviour : MonoBehaviour
         foreach (GameObject lootsidoodle in itemDrops)
         {
             GameObject currentObject = Instantiate(lootsidoodle, transform.position, transform.rotation * Quaternion.Euler(new Vector3(0,Random.Range(-50,50),0)));
+            currentObject.GetComponentInChildren<Item>().AddRandomTraits();
             currentObject.GetComponentInChildren<Item>().ItemPopIn(currentObject.transform.position + currentObject.transform.forward * Random.Range(MIN_DROP_RING, MAX_DROP_RING));
         }
         foreach(GameObject gold in treasureDrops)

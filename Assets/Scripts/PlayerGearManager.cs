@@ -367,7 +367,7 @@ public class PlayerGearManager : MonoBehaviour
                 }
                 break;
             case Item.ItemType.Legs:
-                Debug.Log("we are showing the leggings");
+                //Debug.Log("we are showing the leggings");
                 hips[0].SetActive(false);
                 rightLegs[0].SetActive(false);
                 leftLegs[0].SetActive(false);
@@ -381,7 +381,7 @@ public class PlayerGearManager : MonoBehaviour
                 leftKnees[item.itemLeftElbowID].SetActive(true);
                 break;
             case Item.ItemType.Armor:
-                Debug.Log("we are showing the armor");
+                //Debug.Log("we are showing the armor");
                 torsos[0].SetActive(false);
                 leftUpperArms[0].SetActive(false);
                 rightUpperArms[0].SetActive(false);

@@ -201,7 +201,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7043113818244222222}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.87, y: 0, z: -6.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -235,8 +235,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Flame Strikes
-  description: Enchant your weapon, dealing additional damage on hit based on your
-    Vit.
+  description: Enchant your weapon for 15 seconds, granting you <color=#7cf2f9>5%
+    * Int</color> <color=#e5be5d>attack speed</color> and making your attacks deal
+    <color=#7cf2f9>20% * Int</color> base damage as bonus <color=#b756fa>magic damage</color>
+    on hit.
   itemGearID: 92
   itemtorsoID: 0
   itemUpperRightArmID: 0
@@ -263,18 +265,8 @@ MonoBehaviour:
   itemType: 8
   skillName: 2
   itemRarity: 2
-  vitMod: 0
-  strMod: 0
-  dexMod: 0
-  spdMod: 0
-  intMod: 0
-  wisMod: 0
-  chaMod: 0
-  baseAttackDelay: 0
-  hitMax: 0
-  hitBase: 0
-  critChance: 0
-  critMod: 0
+  attacksPerSecond: 0
+  baseDamageScaling: 0
   vitScaling: 0
   strScaling: 0
   dexScaling: 0
@@ -283,21 +275,8 @@ MonoBehaviour:
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 0
-  health: 0
-  mana: 0
-  armor: 0
-  resistance: 0
-  healthRegen: 0
-  manaRegen: 0
-  aflameResist: 0
-  asleepResist: 0
-  stunResist: 0
-  curseResist: 0
-  bleedResist: 0
-  poisonResist: 0
-  corrosionResist: 0
-  frostbiteResist: 0
-  knockbackResist: 0
+  garenteedTraits: 
+  garenteedTraitValues: []
 --- !u!114 &-6177700852205738374
 MonoBehaviour:
   m_ObjectHideFlags: 0

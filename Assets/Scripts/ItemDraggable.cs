@@ -20,7 +20,7 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     // When we click and start dragging this dude around, set our parent and our parent to return to.
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("On Begin Drag");
+        //Debug.Log("On Begin Drag");
 
         parentToInteractWith = null;
         myParent = transform.parent;
@@ -41,7 +41,7 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     // When we end, set us back to our original parent unless we were dropped on a valid slot.
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("On End Drag");
+        //Debug.Log("On End Drag");
         popupManager.lockPointer = false;
 
         if (parentToInteractWith != null)
@@ -61,7 +61,7 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     // Used when the mouse hovers over this item.
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("we have a collision with a standard item");
+        //Debug.Log("we have a collision with a standard item");
         if(!popupManager.lockPointer)
         {
             transform.parent.SetAsLastSibling();

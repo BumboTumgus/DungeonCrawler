@@ -67230,6 +67230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ca63109a0f9e34a88e972919c41ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageType: 0
   damage: 5
   crit: 0
   damageOverload: 0
@@ -82384,7 +82385,7 @@ Transform:
   m_GameObject: {fileID: 6286896562178907593}
   m_LocalRotation: {x: 0, y: 0.99999815, z: -0, w: -0.0019371364}
   m_LocalPosition: {x: -2.36, y: 0, z: 10.38}
-  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
+  m_LocalScale: {x: 0.8000007, y: 0.8, z: 0.8000007}
   m_Children:
   - {fileID: 6286896562178850631}
   - {fileID: 6286896562178822383}
@@ -82476,30 +82477,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerName: Jose
   playerTitle: Mighty
-  weaponBaseAttackDelay: 0.7
-  weaponHitMax: 6
-  weaponBonusHitMax: 0
-  weaponHitbase: 6
-  weaponBonusHitBase: 0
-  weaponCritChance: 5
-  weaponBonusCritChance: 0
-  weaponCritMod: 2
-  weaponBonusCritMod: 0
+  baseDamage: 1
+  baseDamageScaling: 1
   weaponVitScaling: 0
-  weaponStrScaling: 1
-  weaponBonusStrScaling: 0
+  weaponStrScaling: 0
   weaponDexScaling: 0
-  weaponBonusDexScaling: 0
   weaponSpdScaling: 0
-  weaponIntScaling: 0
+  weaponIntScaling: 0.2
   weaponWisScaling: 0
   weaponChaScaling: 0
-  weaponHitspeeds: []
+  weaponAttackSpeeds: []
+  weaponBaseDamages: []
+  cooldownReductionSources: []
   currentAttackDelay: 13
-  attackDelay: 1
-  attackDamage: 5
   attackRange: 6
   attackSpeed: 1
+  weaponAttackSpeed: 1
   bonusAttackSpeed: 0
   health: 100
   healthMax: 100
@@ -82517,6 +82510,7 @@ MonoBehaviour:
   bonusMana: 0
   bonusHealthRegen: 0
   bonusManaRegen: 0
+  cooldownReduction: 0
   level: 1
   exp: 0
   expTarget: 100
@@ -82545,13 +82539,24 @@ MonoBehaviour:
   stunned: 0
   asleep: 0
   bleeding: 0
+  ephemeral: 0
   invulnerableCount: 0
   untargetableCount: 0
   invisibleCount: 0
+  ephemeralCount: 0
+  revitalizeCount: 0
   revitalizeBuff: 0
   dead: 0
   agroRange: 10
   enemyCost: 1
+  damageColors:
+  - {r: 1, g: 0.7460687, b: 0.18396229, a: 1}
+  - {r: 0.7176323, g: 0.33784264, b: 0.9811321, a: 1}
+  - {r: 0.9245283, g: 0.9172891, b: 0.8591136, a: 1}
+  - {r: 0.8962264, g: 0.49171415, b: 0, a: 1}
+  - {r: 0.435981, g: 0.11372549, b: 0.8392157, a: 1}
+  - {r: 0.4481132, g: 1, b: 0.5069524, a: 1}
+  - {r: 0.15895337, g: 0.7169812, b: 0.21831809, a: 1}
   levelUpColor: {r: 0, g: 0, b: 0, a: 0}
   enemyHealthBar: {fileID: 5409284782657864731, guid: a43a1ff775d2fdc449cdc4d039b8b9fd,
     type: 3}
@@ -82655,6 +82660,10 @@ MonoBehaviour:
   - {r: 0.22383103, g: 0.2264151, b: 0.19223924, a: 1}
   - {r: 0.6981132, g: 0.0910182, b: 0.05927378, a: 1}
   - {r: 0.5829337, g: 0.8396226, b: 0.16634032, a: 1}
+  - {r: 0.14195442, g: 0.5188679, b: 0.1851104, a: 1}
+  - {r: 0.7841759, g: 0.89651567, b: 0.9339623, a: 1}
+  - {r: 0.33074406, g: 0.27002493, b: 0.38679248, a: 1}
+  - {r: 0.8962264, g: 0.84296477, b: 0.23673902, a: 1}
   psSystems:
   - {fileID: 5144936814475640476}
   - {fileID: 5144936814588186629}
@@ -82756,18 +82765,23 @@ MonoBehaviour:
   usePrimaryAttack: 0
   specialOneAbility: 4
   specialTwoAbility: 0
+  specialOneRange: 100
+  specialTwoRange: 100
   circleCooldown: 3
   tauntCooldown: 3
   waitCooldown: 3
   backpeddleCooldown: 3
   specialOneCooldown: 5
   specialTwoCooldown: 10
+  onHitSpecialOneCooldown: 5
+  onHitSpecialOne: 0
   circleCurrentCooldown: 0
   tauntCurrentCooldown: 0
   waitCurrentCooldown: 0
   backpeddleCurrentCooldown: 0
   specialOneCurrentCooldown: 0
   specialTwoCurrentCooldown: 0
+  onHitSpecialOneCurrentCooldown: 0
   myTarget: {fileID: 0}
   myCurrentAction: 8
   actionHierarchy: 0a0000001000000002000000030000000f0000000000000001000000
@@ -82779,6 +82793,8 @@ MonoBehaviour:
   - 10
   - 100
   - 100
+  onHitActionHierarchy: 
+  onHitActionChances: []
   wallColMask:
     serializedVersion: 2
     m_Bits: 9216
@@ -82816,6 +82832,7 @@ MonoBehaviour:
   - {fileID: 88510102170970915, guid: 94f4bdc3b0fd75c4ba968dda6b43ad07, type: 3}
   spellSummons: []
   spellParticles: []
+  ephemeralObjectsToHide: []
 --- !u!1 &6286896562178907699
 GameObject:
   m_ObjectHideFlags: 0

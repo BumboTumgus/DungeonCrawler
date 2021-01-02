@@ -254,10 +254,10 @@ public class PlayerMovementController : MonoBehaviour
         // here we see if we are on fire, if so lower the duration of the debuff.
         foreach (Buff buff in buffsManager.activeBuffs)
         {
-            Debug.Log("we are checking for a fire debuff");
+            //Debug.Log("we are checking for a fire debuff");
             if (buff.myType == BuffsManager.BuffType.Aflame)
             {
-                Debug.Log("we found one");
+                //Debug.Log("we found one");
                 buff.currentTimer += 7;
                 AfflictionManager afflictionManager = GetComponent<AfflictionManager>();
 

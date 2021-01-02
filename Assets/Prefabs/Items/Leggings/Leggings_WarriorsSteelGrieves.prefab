@@ -314,18 +314,8 @@ MonoBehaviour:
   itemType: 6
   skillName: 0
   itemRarity: 0
-  vitMod: 2
-  strMod: 0
-  dexMod: 0
-  spdMod: 0
-  intMod: 0
-  wisMod: 0
-  chaMod: 0
-  baseAttackDelay: 0
-  hitMax: 0
-  hitBase: 0
-  critChance: 0
-  critMod: 0
+  attacksPerSecond: 0
+  baseDamageScaling: 0
   vitScaling: 0
   strScaling: 0
   dexScaling: 0
@@ -334,21 +324,8 @@ MonoBehaviour:
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 0
-  health: 50
-  mana: 22
-  armor: 16
-  resistance: 22
-  healthRegen: 2.5
-  manaRegen: 0
-  aflameResist: 0
-  asleepResist: 0
-  stunResist: 0
-  curseResist: 0
-  bleedResist: 0
-  poisonResist: 0
-  corrosionResist: 0
-  frostbiteResist: 0
-  knockbackResist: 0
+  garenteedTraits: 
+  garenteedTraitValues: []
 --- !u!1 &5065686236218194395
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,18 +497,8 @@ MonoBehaviour:
   itemType: 6
   skillName: 0
   itemRarity: 0
-  vitMod: 1
-  strMod: 0
-  dexMod: 0
-  spdMod: 0
-  intMod: 0
-  wisMod: 0
-  chaMod: 0
-  baseAttackDelay: 0
-  hitMax: 0
-  hitBase: 0
-  critChance: 0
-  critMod: 0
+  attacksPerSecond: 0
+  baseDamageScaling: 0
   vitScaling: 0
   strScaling: 0
   dexScaling: 0
@@ -540,21 +507,10 @@ MonoBehaviour:
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 0
-  health: 31
-  mana: 0
-  armor: 7
-  resistance: 0
-  healthRegen: 1.1
-  manaRegen: 0
-  aflameResist: 0
-  asleepResist: 0.41
-  stunResist: 0.21
-  curseResist: 0
-  bleedResist: -0.27
-  poisonResist: -0.22
-  corrosionResist: -0.25
-  frostbiteResist: -0.31
-  knockbackResist: 0.51
+  garenteedTraits: 0800000003000000
+  garenteedTraitValues:
+  - 8
+  - 2
 --- !u!114 &-3966896557407423588
 MonoBehaviour:
   m_ObjectHideFlags: 0

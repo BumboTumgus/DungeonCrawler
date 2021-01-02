@@ -57,7 +57,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ea128b040f8b0af4c9d2de400aaff30a, type: 2}
+  - {fileID: 2100000, guid: 6f519f524451bc6438dccc13445084df, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -226,7 +226,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ea128b040f8b0af4c9d2de400aaff30a, type: 2}
+  - {fileID: 2100000, guid: 6f519f524451bc6438dccc13445084df, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -336,18 +336,8 @@ MonoBehaviour:
   itemType: 6
   skillName: 0
   itemRarity: 1
-  vitMod: 2
-  strMod: 1
-  dexMod: 1
-  spdMod: 1
-  intMod: 1
-  wisMod: 1
-  chaMod: 1
-  baseAttackDelay: 0
-  hitMax: 0
-  hitBase: 0
-  critChance: 0
-  critMod: 0
+  attacksPerSecond: 0
+  baseDamageScaling: 0
   vitScaling: 0
   strScaling: 0
   dexScaling: 0
@@ -356,21 +346,12 @@ MonoBehaviour:
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 0
-  health: 33
-  mana: 15
-  armor: 8
-  resistance: 6
-  healthRegen: 1.5
-  manaRegen: 2
-  aflameResist: 0.22
-  asleepResist: 0.04
-  stunResist: 0.06
-  curseResist: 0.09
-  bleedResist: 0.05
-  poisonResist: 0.08
-  corrosionResist: 0.04
-  frostbiteResist: 0.25
-  knockbackResist: 0.13
+  garenteedTraits: 08000000090000000300000005000000
+  garenteedTraitValues:
+  - 19
+  - 12
+  - 2
+  - 3
 --- !u!114 &986919681254337496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -440,7 +421,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ea128b040f8b0af4c9d2de400aaff30a, type: 2}
+  - {fileID: 2100000, guid: 6f519f524451bc6438dccc13445084df, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -521,7 +502,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ea128b040f8b0af4c9d2de400aaff30a, type: 2}
+  - {fileID: 2100000, guid: 6f519f524451bc6438dccc13445084df, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

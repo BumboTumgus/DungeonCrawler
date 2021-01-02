@@ -56,14 +56,14 @@ public class AfflictionManager : MonoBehaviour
 
         if (gameObject.CompareTag("Player"))
         {
-            aflameBar.Initialize(100, false);
-            sleepBar.Initialize(100, false);
-            stunBar.Initialize(100, false);
-            curseBar.Initialize(100, false);
-            bleedBar.Initialize(100, false);
-            poisonBar.Initialize(100, false);
-            corrosionBar.Initialize(100, false);
-            frostbiteBar.Initialize(100, false);
+            aflameBar.Initialize(100, false, false, 0);
+            sleepBar.Initialize(100, false, false, 0);
+            stunBar.Initialize(100, false, false, 0);
+            curseBar.Initialize(100, false, false, 0);
+            bleedBar.Initialize(100, false, false, 0);
+            poisonBar.Initialize(100, false, false, 0);
+            corrosionBar.Initialize(100, false, false, 0);
+            frostbiteBar.Initialize(100, false, false, 0);
         }
     }
 
@@ -94,7 +94,7 @@ public class AfflictionManager : MonoBehaviour
                 UpdateBarLocations();
             }
             if(barToUpdate != null)
-                barToUpdate.SetValue(originalValue);
+                barToUpdate.SetValue(originalValue, false);
         }
         return originalValue;
     }

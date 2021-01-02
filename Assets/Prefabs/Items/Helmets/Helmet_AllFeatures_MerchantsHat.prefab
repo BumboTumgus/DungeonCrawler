@@ -90,18 +90,8 @@ MonoBehaviour:
   itemType: 5
   skillName: 0
   itemRarity: 0
-  vitMod: 0
-  strMod: 0
-  dexMod: 1
-  spdMod: 1
-  intMod: 0
-  wisMod: 0
-  chaMod: 3
-  baseAttackDelay: 0
-  hitMax: 0
-  hitBase: 0
-  critChance: 0
-  critMod: 0
+  attacksPerSecond: 0
+  baseDamageScaling: 0
   vitScaling: 0
   strScaling: 0
   dexScaling: 0
@@ -110,21 +100,8 @@ MonoBehaviour:
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 0
-  health: 6
-  mana: 3
-  armor: 1
-  resistance: 1
-  healthRegen: 0.2
-  manaRegen: 0.2
-  aflameResist: 0
-  asleepResist: 0
-  stunResist: 0
-  curseResist: -0.15
-  bleedResist: 0
-  poisonResist: 0.23
-  corrosionResist: 0.34
-  frostbiteResist: 0.09
-  knockbackResist: 0
+  garenteedTraits: 
+  garenteedTraitValues: []
 --- !u!114 &8854186604513703989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,7 +266,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ea128b040f8b0af4c9d2de400aaff30a, type: 2}
+  - {fileID: 2100000, guid: 8f035197f4e8c504d95f1ae18d9c355f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

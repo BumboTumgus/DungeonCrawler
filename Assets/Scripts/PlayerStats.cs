@@ -23,6 +23,7 @@ public class PlayerStats : MonoBehaviour
     public float weaponChaScaling = 0;
     [HideInInspector] public List<float> weaponAttackSpeeds = new List<float>();
     [HideInInspector] public List<float> weaponBaseDamages = new List<float>();
+    [HideInInspector] public List<float> cooldownReductionSources = new List<float>();
 
     public float currentAttackDelay = 13; // 10 is fast, 100 is really slow.
     
@@ -106,6 +107,7 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private GameObject enemyHealthBar;
 
     private AfflictionManager afflictions;
+    private SkillsManager skills;
 
     private void Start()
     {
@@ -115,6 +117,13 @@ public class PlayerStats : MonoBehaviour
         StatSetup(true, true);
         damageNumberManager = GetComponent<DamageNumberManager>();
         afflictions = GetComponent<AfflictionManager>();
+        skills = GetComponent<SkillsManager>();
+
+        if(CompareTag("Enemy"))
+        {
+            EnemyManager.instance.enemyStats.Add(this);
+        }
+
     }
 
     private void Update()
@@ -231,6 +240,20 @@ public class PlayerStats : MonoBehaviour
         if (transform.CompareTag("Enemy"))
             GetComponent<UnityEngine.AI.NavMeshAgent>().speed = speed;
 
+        cooldownReduction = Wis * 0.005f;
+        if (cooldownReduction > 0.5f)
+            cooldownReduction = 0.5f;
+
+        foreach(float cdr in cooldownReductionSources)
+        {
+            // grab the amount of perentage remaining.
+            float totalAmountToReduce = 1 - cooldownReduction;
+            // add cdr to that percentage.
+            totalAmountToReduce *= cdr;
+            // add it back to total
+            cooldownReduction += totalAmountToReduce;
+        }
+
         // Sets up the characters poise, which is their resistance to being staggered.
         // poiseMax = Str + Vit;
         // if (gameObject.CompareTag("Player"))
@@ -239,9 +262,9 @@ public class PlayerStats : MonoBehaviour
         if (changeHealthBars)
         {
             // Sets up the health and mana Bars.
-            healthBar.Initialize(healthMax, false);
+            healthBar.Initialize(healthMax, false, true, health);
             if (manaBar != null)
-                manaBar.Initialize(manaMax, false);
+                manaBar.Initialize(manaMax, false, true, mana);
             if(CompareTag("Player"))
             {
                 healthBar.GetComponent<BarResizer>().ResizeBar(healthMax / 3 + 90);
@@ -291,6 +314,19 @@ public class PlayerStats : MonoBehaviour
         if (level % ChaLvl == 0)
             Cha++;
         StatSetup(true, true);
+    }
+
+    //USed to ugrade the enemies base stats of the enemies
+    public void LevelUpEnemy(int currentLevel)
+    {
+        int levelDifference = currentLevel - level;
+        for(int index = 0; index < levelDifference; index++)
+        {
+            baseDamage *= 1.1f;
+            bonusHealth *= 1.1f;
+        }
+        level = currentLevel;
+        StatSetup(false, true);
     }
 
     // USed to use some mana, if we do not have enpugh, then return false;
@@ -515,7 +551,7 @@ public class PlayerStats : MonoBehaviour
     // Adds the item stats to our current Stats
     public void AddItemStats(Item item, bool compelteStatSetup)
     {
-        Debug.Log("adding stats");
+        //Debug.Log("adding stats");
         if(item.itemType == Item.ItemType.Weapon || item.itemType == Item.ItemType.TwoHandWeapon)
         {
             weaponVitScaling += item.vitScaling;
@@ -599,9 +635,12 @@ public class PlayerStats : MonoBehaviour
                     bonusManaRegen += trait.traitBonus;
                     break;
                 case ItemTrait.TraitType.CooldownReduction:
-                    cooldownReduction += trait.traitBonus;
+                    cooldownReductionSources.Add(trait.traitBonus);
                     break;
                 case ItemTrait.TraitType.SpellSlots:
+                    skills.maxSkillNumber += Mathf.RoundToInt(trait.traitBonus);
+                    if(compelteStatSetup)
+                        skills.setInventorySkillSlots();
                     break;
                 case ItemTrait.TraitType.AflameResistance:
                     afflictions.aflameResist += trait.traitBonus;
@@ -644,7 +683,7 @@ public class PlayerStats : MonoBehaviour
     //Remvoes the item stats from our current Stats
     public void RemoveItemStats(Item item, bool completeStatSetup)
     {
-        Debug.Log("removing stats");
+        //Debug.Log("removing stats");
         if (item.itemType == Item.ItemType.Weapon || item.itemType == Item.ItemType.TwoHandWeapon)
         {
             weaponVitScaling -= item.vitScaling;
@@ -729,9 +768,12 @@ public class PlayerStats : MonoBehaviour
                     bonusManaRegen -= trait.traitBonus;
                     break;
                 case ItemTrait.TraitType.CooldownReduction:
-                    cooldownReduction -= trait.traitBonus;
+                    cooldownReductionSources.Remove(trait.traitBonus);
                     break;
                 case ItemTrait.TraitType.SpellSlots:
+                    skills.maxSkillNumber -= Mathf.RoundToInt(trait.traitBonus);
+                    if(completeStatSetup)
+                        skills.setInventorySkillSlots();
                     break;
                 case ItemTrait.TraitType.AflameResistance:
                     afflictions.aflameResist -= trait.traitBonus;
@@ -791,13 +833,15 @@ public class PlayerStats : MonoBehaviour
                     AddItemStats(item, false);
         if (itemToAdd != false)
             RemoveItemStats(itemToAdd, false);
-        
+
+        myStats.mouseWithItemHovered = true;
         myStats.CompareStatValues(this);
     }
 
     // Used wehn we want to force a stat value reset for when we are no logner hovering with an item.
     public void ForceStatRecheck()
     {
+        myStats.mouseWithItemHovered = false;
         StatSetup(false, false);
     }
 

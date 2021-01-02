@@ -180,18 +180,8 @@ MonoBehaviour:
   itemType: 5
   skillName: 0
   itemRarity: 0
-  vitMod: 1
-  strMod: 0
-  dexMod: 1
-  spdMod: 1
-  intMod: 1
-  wisMod: 0
-  chaMod: 0
-  baseAttackDelay: 0
-  hitMax: 0
-  hitBase: 0
-  critChance: 0
-  critMod: 0
+  attacksPerSecond: 0
+  baseDamageScaling: 0
   vitScaling: 0
   strScaling: 0
   dexScaling: 0
@@ -200,21 +190,10 @@ MonoBehaviour:
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 0
-  health: 5
-  mana: 6
-  armor: 0
-  resistance: 3
-  healthRegen: 0
-  manaRegen: 0
-  aflameResist: 0.06
-  asleepResist: 0
-  stunResist: 0
-  curseResist: 0.09
-  bleedResist: 0.13
-  poisonResist: 0.21
-  corrosionResist: 0.53
-  frostbiteResist: 0.05
-  knockbackResist: -0.09
+  garenteedTraits: 0900000017000000
+  garenteedTraitValues:
+  - 3
+  - 0.15
 --- !u!114 &-1597612212110965134
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -89,7 +89,7 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                     break;
             }
 
-            Debug.Log("suitable slot is currently: " + suitableSlot + ". add stats is currently : " + addStats);
+            //Debug.Log("suitable slot is currently: " + suitableSlot + ". add stats is currently : " + addStats);
             if (suitableSlot && movedItem.myParent != gameObject.transform && movedItem.attachedItem.GetComponent<Item>().itemType != Item.ItemType.Skill)
             {
                 Transform myPanel = transform.Find("ItemPanel");
@@ -510,8 +510,8 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                     // This is the logic if we came from the iventory to the skill slots.
                     else if (slotType == SlotType.Skill)
                     {
-                        Debug.Log("invenotry to skill");
-                        Debug.Log(dropZoneItem);
+                        //Debug.Log("invenotry to skill");
+                        //Debug.Log(dropZoneItem);
                         transform.parent.GetComponent<InventoryUiManager>().playerSkills.AddSkill(dropZoneItem.transform.parent.GetComponent<ItemDropZone>().slotIndex, movedItem.attachedItem.GetComponent<Item>().skillName);
                     }
                 }

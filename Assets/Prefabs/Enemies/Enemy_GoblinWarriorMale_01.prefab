@@ -67203,6 +67203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ca63109a0f9e34a88e972919c41ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageType: 0
   damage: 5
   crit: 0
   damageOverload: 0
@@ -81903,8 +81904,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6232851160607303471}
-  m_LocalRotation: {x: -7.680136e-16, y: 1.283075e-15, z: -0.2700158, w: 0.96285594}
-  m_LocalPosition: {x: -11.284036, y: -1.15463195e-14, z: -2.113351e-15}
+  m_LocalRotation: {x: 0.000000014901159, y: -0.000000029802319, z: -0.27001575, w: 0.96285594}
+  m_LocalPosition: {x: -11.284041, y: 0.0000014898598, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6232851160607578351}
@@ -85352,7 +85353,7 @@ Transform:
   m_GameObject: {fileID: 6232851160607376211}
   m_LocalRotation: {x: 0, y: 0.99999815, z: -0, w: -0.0019371364}
   m_LocalPosition: {x: 0.7628584, y: 0, z: 16.147062}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 0.8000007, y: 0.8, z: 0.8000007}
   m_Children:
   - {fileID: 6232851160607580637}
   - {fileID: 6232851160607559285}
@@ -85443,30 +85444,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerName: Jose
   playerTitle: Mighty
-  weaponBaseAttackDelay: 1
-  weaponHitMax: 8
-  weaponBonusHitMax: 0
-  weaponHitbase: 11
-  weaponBonusHitBase: 0
-  weaponCritChance: 5
-  weaponBonusCritChance: 0
-  weaponCritMod: 2
-  weaponBonusCritMod: 0
+  baseDamage: 1
+  baseDamageScaling: 1
   weaponVitScaling: 0
-  weaponStrScaling: 1
-  weaponBonusStrScaling: 0
-  weaponDexScaling: 0
-  weaponBonusDexScaling: 0
+  weaponStrScaling: 0.15
+  weaponDexScaling: 0.15
   weaponSpdScaling: 0
   weaponIntScaling: 0
   weaponWisScaling: 0
   weaponChaScaling: 0
-  weaponHitspeeds: []
+  weaponAttackSpeeds: []
+  weaponBaseDamages: []
+  cooldownReductionSources: []
   currentAttackDelay: 13
-  attackDelay: 1
-  attackDamage: 5
   attackRange: 2
   attackSpeed: 1
+  weaponAttackSpeed: 1
   bonusAttackSpeed: 0
   health: 100
   healthMax: 100
@@ -85484,6 +85477,7 @@ MonoBehaviour:
   bonusMana: 0
   bonusHealthRegen: 0
   bonusManaRegen: 0
+  cooldownReduction: 0
   level: 1
   exp: 0
   expTarget: 100
@@ -85512,13 +85506,24 @@ MonoBehaviour:
   stunned: 0
   asleep: 0
   bleeding: 0
+  ephemeral: 0
   invulnerableCount: 0
   untargetableCount: 0
   invisibleCount: 0
+  ephemeralCount: 0
+  revitalizeCount: 0
   revitalizeBuff: 0
   dead: 0
   agroRange: 10
   enemyCost: 1
+  damageColors:
+  - {r: 1, g: 0.7460687, b: 0.18396229, a: 1}
+  - {r: 0.7176323, g: 0.33784264, b: 0.9811321, a: 1}
+  - {r: 0.9245283, g: 0.9172891, b: 0.8591136, a: 1}
+  - {r: 0.8962264, g: 0.49171415, b: 0, a: 1}
+  - {r: 0.435981, g: 0.11372549, b: 0.8392157, a: 1}
+  - {r: 0.4481132, g: 1, b: 0.5069524, a: 1}
+  - {r: 0.15895337, g: 0.7169812, b: 0.21831809, a: 1}
   levelUpColor: {r: 0, g: 0, b: 0, a: 0}
   enemyHealthBar: {fileID: 5409284782657864731, guid: b84806635dc875140aad6434ce6da2e3,
     type: 3}
@@ -85622,6 +85627,10 @@ MonoBehaviour:
   - {r: 0.22383103, g: 0.2264151, b: 0.19223924, a: 1}
   - {r: 0.6981132, g: 0.0910182, b: 0.05927378, a: 1}
   - {r: 0.5829337, g: 0.8396226, b: 0.16634032, a: 1}
+  - {r: 0.14195442, g: 0.5188679, b: 0.1851104, a: 1}
+  - {r: 0.7841759, g: 0.89651567, b: 0.9339623, a: 1}
+  - {r: 0.33074406, g: 0.27002493, b: 0.38679248, a: 1}
+  - {r: 0.8962264, g: 0.84296477, b: 0.23673902, a: 1}
   psSystems:
   - {fileID: 5054866998073778182}
   - {fileID: 5054866997904789151}
@@ -85712,29 +85721,34 @@ MonoBehaviour:
   agroRange: 10
   waitChance: 10
   backpeddleChance: 20
-  circleMinRange: 3
-  circleMaxRange: 5
-  circleSpeedMultiplier: 0.8
+  circleMinRange: 2
+  circleMaxRange: 3
+  circleSpeedMultiplier: 0.6
   waitMinRange: 2
   waitMaxRange: 3
-  backpeddleMinRange: 1.5
-  backpeddleMaxRange: 2.5
+  backpeddleMinRange: 1
+  backpeddleMaxRange: 2
   backpeddleSpeedMultiplier: 0.8
   usePrimaryAttack: 1
   specialOneAbility: 1
   specialTwoAbility: 0
+  specialOneRange: 100
+  specialTwoRange: 100
   circleCooldown: 10
   tauntCooldown: 10
   waitCooldown: 10
   backpeddleCooldown: 10
   specialOneCooldown: 10
   specialTwoCooldown: 10
+  onHitSpecialOneCooldown: 5
+  onHitSpecialOne: 0
   circleCurrentCooldown: 0
   tauntCurrentCooldown: 0
   waitCurrentCooldown: 0
   backpeddleCurrentCooldown: 0
   specialOneCurrentCooldown: 0
   specialTwoCurrentCooldown: 0
+  onHitSpecialOneCurrentCooldown: 0
   myTarget: {fileID: 0}
   myCurrentAction: 8
   actionHierarchy: 02000000030000000f00000010000000000000000a00000001000000
@@ -85746,6 +85760,8 @@ MonoBehaviour:
   - 100
   - 100
   - 100
+  onHitActionHierarchy: 
+  onHitActionChances: []
   wallColMask:
     serializedVersion: 2
     m_Bits: 9216
@@ -85783,6 +85799,7 @@ MonoBehaviour:
   - {fileID: 6634279330284547712, guid: dc7462e47b22fa34691d37238c09e843, type: 3}
   spellSummons: []
   spellParticles: []
+  ephemeralObjectsToHide: []
 --- !u!1 &6232851160607376469
 GameObject:
   m_ObjectHideFlags: 0

@@ -148,7 +148,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ea128b040f8b0af4c9d2de400aaff30a, type: 2}
+  - {fileID: 2100000, guid: bad6ee09ebfedf142a1a51bf9efffa72, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -257,18 +257,8 @@ MonoBehaviour:
   itemType: 5
   skillName: 0
   itemRarity: 4
-  vitMod: 25
-  strMod: 16
-  dexMod: 9
-  spdMod: -5
-  intMod: 2
-  wisMod: 0
-  chaMod: 0
-  baseAttackDelay: 0
-  hitMax: 0
-  hitBase: 0
-  critChance: 0
-  critMod: 0
+  attacksPerSecond: 0
+  baseDamageScaling: 0
   vitScaling: 0
   strScaling: 0
   dexScaling: 0
@@ -277,21 +267,20 @@ MonoBehaviour:
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 0
-  health: 203
-  mana: 54
-  armor: 34
-  resistance: 19
-  healthRegen: 11.6
-  manaRegen: 2.1
-  aflameResist: 0.5
-  asleepResist: 0.34
-  stunResist: 0.24
-  curseResist: 0.2
-  bleedResist: 0.41
-  poisonResist: 0.42
-  corrosionResist: 0.32
-  frostbiteResist: 0.81
-  knockbackResist: 0.24
+  garenteedTraits: 08000000090000000e0000000f0000001000000011000000120000001300000014000000150000001600000003000000
+  garenteedTraitValues:
+  - 103
+  - 86
+  - 0.6
+  - 0.6
+  - 0.6
+  - 0.6
+  - 0.6
+  - 0.6
+  - 0.6
+  - 0.6
+  - 0.6
+  - -9
 --- !u!114 &1978746510332191531
 MonoBehaviour:
   m_ObjectHideFlags: 0

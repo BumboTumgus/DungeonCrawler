@@ -138,7 +138,7 @@ public class Inventory : MonoBehaviour
     }
 
     // USed to find the first availible index that we can assign to an item.
-    private int FindFirstAvaibleSlot()
+    public int FindFirstAvaibleSlot()
     {
         int firstIndex = 0;
         bool emptyIndex = false;
@@ -229,6 +229,42 @@ public class Inventory : MonoBehaviour
     // Used to transfer an item to a different type of slot
     public void TransferItem(Item item, ItemDropZone.SlotType originalType , ItemDropZone.SlotType newType)
     {
+        // WE add first to avoid issues with gear removing the layers spell slots when Remove Item Stats is called, but then the spells take the most recent slot
+        // which is where we were trying to put an item.
+
+        // add the item to the appropriate list based on the type.
+        switch (newType)
+        {
+            case ItemDropZone.SlotType.Inventory:
+                inventory.Add(item);
+                break;
+            case ItemDropZone.SlotType.Trinket:
+                trinkets.Add(item);
+                stats.AddItemStats(item, true);
+                break;
+            case ItemDropZone.SlotType.Weapon:
+                weapons.Add(item);
+                CheckMoveset();
+                stats.AddItemStats(item, true);
+                gearManager.ShowItem(item);
+                break;
+            case ItemDropZone.SlotType.Armor:
+                stats.AddItemStats(item, true);
+                gearManager.ShowItem(item);
+                break;
+            case ItemDropZone.SlotType.Helmet:
+                stats.AddItemStats(item, true);
+                gearManager.ShowItem(item);
+                break;
+            case ItemDropZone.SlotType.Leggings:
+                stats.AddItemStats(item, true);
+                gearManager.ShowItem(item);
+                break;
+            default:
+                break;
+        }
+
+
         //Debug.Log("item transfer");
         // remove the item from each list depending on the original type.
         switch (originalType)
@@ -264,37 +300,6 @@ public class Inventory : MonoBehaviour
 
         //Debug.Log("halfway there");
 
-        // add the item to the appropriate list based on the type.
-        switch (newType)
-        {
-            case ItemDropZone.SlotType.Inventory:
-                inventory.Add(item);
-                break;
-            case ItemDropZone.SlotType.Trinket:
-                trinkets.Add(item);
-                stats.AddItemStats(item, true);
-                break;
-            case ItemDropZone.SlotType.Weapon:
-                weapons.Add(item);
-                CheckMoveset();
-                stats.AddItemStats(item, true);
-                gearManager.ShowItem(item);
-                break;
-            case ItemDropZone.SlotType.Armor:
-                stats.AddItemStats(item, true);
-                gearManager.ShowItem(item);
-                break;
-            case ItemDropZone.SlotType.Helmet:
-                stats.AddItemStats(item, true);
-                gearManager.ShowItem(item);
-                break;
-            case ItemDropZone.SlotType.Leggings:
-                stats.AddItemStats(item, true);
-                gearManager.ShowItem(item);
-                break;
-            default:
-                break;
-        }
     }
 
     // make an item switch from the left hand to the right or vice versa, but do not recalculate stats for said item.
@@ -393,7 +398,28 @@ public class Inventory : MonoBehaviour
                     if (closestTarget.GetComponent<ChestBehaviour>() != null)
                         interactPrompt.SetText("Press E to open chest");
                     else if (closestTarget.GetComponent<Item>() != null)
-                        interactPrompt.SetText("Press E to pickup " + closestTarget.GetComponent<Item>().itemName);
+                    {
+                        switch (closestTarget.GetComponent<Item>().itemRarity)
+                        {
+                            case Item.ItemRarity.Common:
+                                interactPrompt.SetText(string.Format("Press E to pickup <color=#ffffff>{0}</color>", closestTarget.GetComponent<Item>().itemName));
+                                break;
+                            case Item.ItemRarity.Uncommon:
+                                interactPrompt.SetText(string.Format("Press E to pickup <color=#60ec60>{0}</color>", closestTarget.GetComponent<Item>().itemName));
+                                break;
+                            case Item.ItemRarity.Rare:
+                                interactPrompt.SetText(string.Format("Press E to pickup <color=#60c7ec>{0}</color>", closestTarget.GetComponent<Item>().itemName));
+                                break;
+                            case Item.ItemRarity.Legendary:
+                                interactPrompt.SetText(string.Format("Press E to pickup <color=#a760ec>{0}</color>", closestTarget.GetComponent<Item>().itemName));
+                                break;
+                            case Item.ItemRarity.Masterwork:
+                                interactPrompt.SetText(string.Format("Press E to pickup <color=#f80f41>{0}</color>", closestTarget.GetComponent<Item>().itemName));
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                     else if (closestTarget.GetComponent<DoorOpenVolumeBehaviour>() != null && closestTarget.GetComponentInParent<DoorBehaviour>().doorState == DoorBehaviour.DoorState.Closed)
                         interactPrompt.SetText("Press E to open door");
                     else if (closestTarget.GetComponent<DoorOpenVolumeBehaviour>() != null && closestTarget.GetComponentInParent<DoorBehaviour>().doorState != DoorBehaviour.DoorState.Closed)

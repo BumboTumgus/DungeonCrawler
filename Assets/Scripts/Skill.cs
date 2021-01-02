@@ -77,7 +77,7 @@ public class Skill : MonoBehaviour
         if (!skillReady)
         {
             currentCooldown += Time.deltaTime;
-            connectedBar.SetValue(targetCooldown - currentCooldown);
+            connectedBar.SetValue(targetCooldown - currentCooldown, false);
             
             if (currentCooldown > targetCooldown)
             {

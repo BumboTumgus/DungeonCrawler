@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3768865014566664911}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 17.39, y: 0, z: -6.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -60,8 +60,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Nature Pulse
-  description: Summon a pulse of nature energy, dealing damage based on your vit,
-    and redcing the target's armor by 10 percent for 3 seconds, (stacks 5 times).
+  description: Summon a pulse of nature energy, dealing <color=white>150%</color>
+    + <color=#f76a6a>20% * Vit</color> base damage as <color=#b756fa>magic damage</color>
+    to targets in a small area, and <color=#f3fc56>reducing their armor by 10%</color>
+    for 6 seconds. This effect stacks up to 5 times.
   itemGearID: 92
   itemtorsoID: 0
   itemUpperRightArmID: 0
@@ -88,18 +90,8 @@ MonoBehaviour:
   itemType: 8
   skillName: 15
   itemRarity: 2
-  vitMod: 0
-  strMod: 0
-  dexMod: 0
-  spdMod: 0
-  intMod: 0
-  wisMod: 0
-  chaMod: 0
-  baseAttackDelay: 0
-  hitMax: 0
-  hitBase: 0
-  critChance: 0
-  critMod: 0
+  attacksPerSecond: 0
+  baseDamageScaling: 0
   vitScaling: 0
   strScaling: 0
   dexScaling: 0
@@ -108,21 +100,8 @@ MonoBehaviour:
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 0
-  health: 0
-  mana: 0
-  armor: 0
-  resistance: 0
-  healthRegen: 0
-  manaRegen: 0
-  aflameResist: 0
-  asleepResist: 0
-  stunResist: 0
-  curseResist: 0
-  bleedResist: 0
-  poisonResist: 0
-  corrosionResist: 0
-  frostbiteResist: 0
-  knockbackResist: 0
+  garenteedTraits: 
+  garenteedTraitValues: []
 --- !u!114 &-2698304736729107870
 MonoBehaviour:
   m_ObjectHideFlags: 0

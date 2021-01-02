@@ -37,6 +37,7 @@ public class StatUpdater : MonoBehaviour
     float corrosionResistance;
     float frostbiteResistance;
     float knockbackResistance;
+    float cooldownReduction;
     public BarManager expBar;
     public BarManager healthBar;
     public BarManager manaBar;
@@ -44,6 +45,8 @@ public class StatUpdater : MonoBehaviour
 
     public Text[] tooltips;
     public Color[] uiColors;
+
+    public bool mouseWithItemHovered = false;
 
     // This method is called at the start of the game to set up all the player's stats. It is also called whenever a player switches gear or the stats would ahve to change.
     public void SetStatValues(PlayerStats stats)
@@ -72,7 +75,8 @@ public class StatUpdater : MonoBehaviour
 
         transform.Find("AttackDamage_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.baseDamage * (stats.baseDamageScaling + ((float)stats.Str * stats.weaponStrScaling) + ((float)stats.Dex * stats.weaponDexScaling) + ((float)stats.Vit * stats.weaponVitScaling) + ((float)stats.Spd * stats.weaponSpdScaling) + ((float)stats.Int * stats.weaponIntScaling) + ((float)stats.Wis * stats.weaponWisScaling) + ((float)stats.Cha * stats.weaponChaScaling)));
         transform.Find("AttackSpeed_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.attackSpeed * 100 );
-        
+        transform.Find("CooldownReduction_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.cooldownReduction * 100);
+
         AfflictionManager am = stats.GetComponent<AfflictionManager>();
         transform.Find("AflameResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", am.aflameResist * 100);
         transform.Find("AsleepResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", am.sleepResist * 100);
@@ -90,13 +94,13 @@ public class StatUpdater : MonoBehaviour
     // This method is used to update the health and mana values of the player.
     public void SetHealthManaBarValues(PlayerStats stats)
     {
-        healthBar.Initialize(stats.healthMax, true);
-        healthBar.SetValue(stats.health);
+        healthBar.Initialize(stats.healthMax, false, true, stats.health);
+        healthBar.SetValue(stats.health, true);
         healthBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0}", stats.health, stats.healthMax);
         healthBar.transform.Find("HealthBarFill").Find("RegenValue").GetComponent<Text>().text = string.Format("+{0:0.0} hp/5", stats.healthRegen);
 
-        manaBar.Initialize(stats.manaMax, true);
-        manaBar.SetValue(stats.mana);
+        manaBar.Initialize(stats.manaMax, false, true, stats.health);
+        manaBar.SetValue(stats.mana, true);
         manaBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0}", stats.mana, stats.manaMax);
         manaBar.transform.Find("HealthBarFill").Find("RegenValue").GetComponent<Text>().text = string.Format("+{0:0.0} mp/5", stats.manaRegen);
 
@@ -106,20 +110,35 @@ public class StatUpdater : MonoBehaviour
 
     public void UpdateHealthManaBarValues(PlayerStats stats)
     {
-        healthBar.SetValue(stats.health);
-        manaBar.SetValue(stats.mana);
+        healthBar.SetValue(stats.health, false);
+        manaBar.SetValue(stats.mana, false);
 
-        healthBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0}", stats.health, stats.healthMax);
-        healthBar.transform.Find("HealthBarFill").Find("RegenValue").GetComponent<Text>().text = string.Format("+{0:0.0} hp/5", stats.healthRegen);
-        manaBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0}", stats.mana, stats.manaMax);
+        if (!mouseWithItemHovered)
+        {
+            healthBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0}", stats.health, stats.healthMax);
+            manaBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0}", stats.mana, stats.manaMax);
+        }
+        else
+        {
+            if (healthMax - stats.healthMax < 0)
+                healthBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0} <color=#ea4553>{2:0}</color>", stats.health, stats.healthMax, healthMax - stats.healthMax);
+            else if (healthMax - stats.healthMax > 0)
+                healthBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0} <color=#60d46e>+{2:0}</color>", stats.health, stats.healthMax, healthMax - stats.healthMax);
+
+            if (manaMax - stats.manaMax < 0)
+                manaBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0} <color=#ea4553>{2:0}</color>", stats.mana, stats.manaMax, manaMax - stats.manaMax);
+            else if (manaMax - stats.manaMax > 0)
+                manaBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0} <color=#60d46e>+{2:0}</color>", stats.mana, stats.manaMax, manaMax - stats.manaMax);
+        }
         manaBar.transform.Find("HealthBarFill").Find("RegenValue").GetComponent<Text>().text = string.Format("+{0:0.0} mp/5", stats.manaRegen);
+        healthBar.transform.Find("HealthBarFill").Find("RegenValue").GetComponent<Text>().text = string.Format("+{0:0.0} hp/5", stats.healthRegen);
     }
 
     //USed to set the exp bar's value and its text
     public void SetExpBarsValues(PlayerStats stats)
     {
-        expBar.Initialize(stats.expTarget, true);
-        expBar.SetValue(stats.exp);
+        expBar.Initialize(stats.expTarget, false, true, stats.exp);
+        expBar.SetValue(stats.exp, true);
         expBar.transform.Find("HealthBarFill").GetComponentInChildren<Text>().text = string.Format("{0} / {1}", stats.exp, stats.expTarget);
     }
 
@@ -135,21 +154,21 @@ public class StatUpdater : MonoBehaviour
         DrawTextPlusStatChange(transform.Find("Charisma_Value").GetComponent<Text>(), stats.Cha, Cha);
 
         if(healthMax - stats.healthMax < 0)
-            transform.Find("Health_Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0} <color=red>{2:0}</color>", stats.health, stats.healthMax, healthMax - stats.healthMax);
+            healthBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0} <color=#ea4553>{2:0}</color>", stats.health, stats.healthMax, healthMax - stats.healthMax);
         else if (healthMax - stats.healthMax > 0)
-            transform.Find("Health_Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0} <color=green>+{2:0}</color>", stats.health, stats.healthMax, healthMax - stats.healthMax);
-        else
-            transform.Find("Health_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.health) + " / " + stats.healthMax;
+            healthBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0} <color=#60d46e>+{2:0}</color>", stats.health, stats.healthMax, healthMax - stats.healthMax);
+       // else
+           // transform.Find("Health_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.health) + " / " + stats.healthMax;
 
         if (manaMax - stats.manaMax < 0)
-            transform.Find("Mana_Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0}<color=red>{2:0}</color>", stats.mana, stats.manaMax, manaMax - stats.manaMax);
+            manaBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0} <color=#ea4553>{2:0}</color>", stats.mana, stats.manaMax, manaMax - stats.manaMax);
         else if (manaMax - stats.manaMax > 0)
-            transform.Find("Mana_Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0}<color=green>+{2:0}</color>", stats.mana, stats.manaMax, manaMax - stats.manaMax);
-        else
-            transform.Find("Mana_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.mana) + " / " + stats.manaMax;
+            manaBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0} <color=#60d46e>+{2:0}</color>", stats.mana, stats.manaMax, manaMax - stats.manaMax);
+       // else
+        //    transform.Find("Mana_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.mana) + " / " + stats.manaMax;
 
-        DrawTextPlusStatChange(transform.Find("HealthRegen_Value").GetComponent<Text>(), stats.healthRegen, healthRegen, 1);
-        DrawTextPlusStatChange(transform.Find("ManaRegen_Value").GetComponent<Text>(), stats.manaRegen, manaRegen, 1);
+        //DrawTextPlusStatChange(transform.Find("HealthRegen_Value").GetComponent<Text>(), stats.healthRegen, healthRegen, 1);
+        //DrawTextPlusStatChange(transform.Find("ManaRegen_Value").GetComponent<Text>(), stats.manaRegen, manaRegen, 1);
         DrawTextPlusStatChange(transform.Find("Armor_Value").GetComponent<Text>(), stats.armor, armor, 0);
         DrawTextPlusStatChange(transform.Find("Resistance_Value").GetComponent<Text>(), stats.magicResist, resistance, 0);
 
@@ -158,9 +177,10 @@ public class StatUpdater : MonoBehaviour
 
         DrawTextPlusStatChange(transform.Find("AttackDamage_Value").GetComponent<Text>(), originalDamage , newDamage, 0);
 
-        Debug.Log("curernt attack speed| " + stats.attackSpeed + "  proposed attack speed| " + attackSpeed);
+        //Debug.Log("curernt attack speed| " + stats.attackSpeed + "  proposed attack speed| " + attackSpeed);
         DrawTextPlusStatChangePercentage(transform.Find("AttackSpeed_Value").GetComponent<Text>(), stats.attackSpeed * 100f, attackSpeed * 100f);
-        
+        DrawTextPlusStatChangePercentage(transform.Find("CooldownReduction_Value").GetComponent<Text>(), stats.cooldownReduction * 100f, cooldownReduction * 100f);
+
         AfflictionManager am = stats.GetComponent<AfflictionManager>();
         DrawTextPlusStatChangePercentage(transform.Find("AflameResistance_Value").GetComponent<Text>(), am.aflameResist * 100, aflameResistance * 100);
         DrawTextPlusStatChangePercentage(transform.Find("AsleepResistance_Value").GetComponent<Text>(), am.sleepResist * 100, asleepResistance * 100);
@@ -177,9 +197,9 @@ public class StatUpdater : MonoBehaviour
     public void DrawTextPlusStatChangePercentage(Text text, float value, float newValue)
     {
         if (newValue - value < 0)
-            text.text = string.Format("{0:0}%<color=red>{1:0}%</color>", value, newValue - value);
+            text.text = string.Format("{0:0}%<color=#ea4553>{1:0}%</color>", value, newValue - value);
         else if (newValue - value > 0)
-            text.text = string.Format("{0:0}%<color=green>+{1:0}%</color>", value, newValue - value);
+            text.text = string.Format("{0:0}%<color=#60d46e>+{1:0}%</color>", value, newValue - value);
         else
             text.text = string.Format("{0:0}%", value);
     }
@@ -190,27 +210,27 @@ public class StatUpdater : MonoBehaviour
         if (decimalPlaces == 0)
         {
             if (newValue - value < 0)
-                text.text = string.Format("{0:0}<color=red>{1:0}</color>", value, (newValue - value));
+                text.text = string.Format("{0:0}<color=#ea4553>{1:0}</color>", value, (newValue - value));
             else if (newValue - value > 0)
-                text.text = string.Format("{0:0}<color=green>+{1:0}</color>", value, (newValue - value));
+                text.text = string.Format("{0:0}<color=#60d46e>+{1:0}</color>", value, (newValue - value));
             else
                 text.text = string.Format("{0:0}", value);
         }
         else if(decimalPlaces == 1)
         {
             if (newValue - value < 0)
-                text.text = string.Format("{0:0.0}<color=red>{1:0.0}</color>", value, (newValue - value));
+                text.text = string.Format("{0:0.0}<color=#ea4553>{1:0.0}</color>", value, (newValue - value));
             else if (newValue - value > 0)
-                text.text = string.Format("{0:0.0}<color=green>+{1:0.0}</color>", value, (newValue - value));
+                text.text = string.Format("{0:0.0}<color=#60d46e>+{1:0.0}</color>", value, (newValue - value));
             else
                 text.text = string.Format("{0:0.0}", value);
         }
         else if (decimalPlaces == 2)
         {
             if (newValue - value < 0)
-                text.text = string.Format("{0:0.00}<color=red>{1:0.00}</color>", value, (newValue - value));
+                text.text = string.Format("{0:0.00}<color=#ea4553>{1:0.00}</color>", value, (newValue - value));
             else if (newValue - value > 0)
-                text.text = string.Format("{0:0.00}<color=green>+{1:0.00}</color>", value, (newValue - value));
+                text.text = string.Format("{0:0.00}<color=#60d46e>+{1:0.00}</color>", value, (newValue - value));
             else
                 text.text = string.Format("{0:0.00}", value);
         }
@@ -220,9 +240,9 @@ public class StatUpdater : MonoBehaviour
     public void DrawTextPlusStatChange(Text text, int value, int newValue)
     {
         if (newValue - value < 0)
-            text.text = value + "<color=red>" + (newValue - value) + "</color>";
+            text.text = value + "<color=#ea4553>" + (newValue - value) + "</color>";
         else if (newValue - value > 0)
-            text.text = value + "<color=green>+" + (newValue - value) + "</color>";
+            text.text = value + "<color=#60d46e>+" + (newValue - value) + "</color>";
         else
             text.text = value + "";
     }
@@ -237,14 +257,14 @@ public class StatUpdater : MonoBehaviour
         Int = stats.Int;
         Wis = stats.Wis;
         Cha = stats.Cha;
-        healthMax = 20 + 3 * stats.level + 5 * Vit + 2 *  Str + Dex + Spd + Int + Wis + Cha + stats.bonusHealth;
-        manaMax = 20 + 3 * stats.level + 5 * Wis + Int + stats.bonusMana;
-        healthRegen = Vit * 0.2f + stats.bonusHealthRegen;
-        manaRegen = Wis * 0.4f + Int * 0.1f + stats.bonusManaRegen;
+        healthMax = 20 + 3 * stats.level + 5 * stats.Vit + 2 * stats.Str + stats.Dex + stats.Spd + stats.Int + stats.Wis + stats.Cha + stats.bonusHealth;
+        manaMax = 20 + 3 * stats.level + 5 * stats.Wis + stats.Int + stats.bonusMana;
+        healthRegen = stats.Vit * 0.2f + stats.bonusHealthRegen;
+        manaRegen = stats.Wis * 0.4f + stats.Int * 0.1f + stats.bonusManaRegen;
         armor = stats.armor;
         resistance = stats.magicResist;
 
-        attackSpeed = 1 + 0.1f * stats.Spd + 0.05f * stats.Dex + stats.bonusAttackSpeed + (stats.weaponAttackSpeed - 1);
+        attackSpeed = 1 + 0.05f * stats.Spd + 0.02f * stats.Dex + stats.bonusAttackSpeed + (stats.weaponAttackSpeed - 1);
         baseDamage = stats.baseDamage;
 
         baseDamageMod = stats.baseDamageScaling;
@@ -267,6 +287,20 @@ public class StatUpdater : MonoBehaviour
         corrosionResistance = am.corrosionResist;
         frostbiteResistance = am.frostbiteResist;
         knockbackResistance = am.knockBackResist;
+
+        cooldownReduction = stats.Wis * 0.005f;
+        if (cooldownReduction > 0.5f)
+            cooldownReduction = 0.5f;
+
+        foreach (float cdr in stats.cooldownReductionSources)
+        {
+            // grab the amount of perentage remaining.
+            float totalAmountToReduce = 1 - cooldownReduction;
+            // add cdr to that percentage.
+            totalAmountToReduce *= cdr;
+            // add it back to total
+            cooldownReduction += totalAmountToReduce;
+        }
     }
 
     // Used to update all the tooltips.

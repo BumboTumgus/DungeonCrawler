@@ -11,10 +11,11 @@ public class SkillsManager : MonoBehaviour
     public List<Color> damageColors = new List<Color>();
     public GameObject skillIconPrefab;
     public Transform iconParent;
-    public int maxSkillNumber = 5;
+    public int maxSkillNumber = 3;
     public GameObject targetIndicatorCircle;
     public LayerMask targettingRayMask;
     public LayerMask targettingRayMaskHitEnemies;
+    public InventoryUiManager inventory;
 
     public ParticleSystem[] ps;
 
@@ -97,7 +98,7 @@ public class SkillsManager : MonoBehaviour
             // Add this skills bar to the container as well.
             addedSkill.connectedBar = addedIcon.GetComponentInChildren<BarManager>();
             addedSkill.noManaOverlay = addedIcon.transform.Find("NoManaOverlay").gameObject;
-            addedSkill.connectedBar.Initialize(addedSkill.targetCooldown, true);
+            addedSkill.connectedBar.Initialize(addedSkill.targetCooldown, true, false, 0);
             addedSkill.skillIndex = index;
             addedSkill.myManager = this;
             addedSkill.pc = GetComponent<PlayerMovementController>();
@@ -126,50 +127,45 @@ public class SkillsManager : MonoBehaviour
     // SUed to remove a skill at an index.
     public void RemoveSkill(int index)
     {
-        if (index < maxSkillNumber)
-        {
-            Skill skillToRemove = null;
+        Skill skillToRemove = null;
+ 
+        // If we have a skill that matches the index we want to put a new one at, remove it and destroy it.
+        foreach (Skill skill in mySkills)
+            if (skill.skillIndex == index)
+            {
+                skillToRemove = skill;
+                break;
+            }
 
-            // If we have a skill that matches the index we want to put a new one at, remove it and destroy it.
-            foreach (Skill skill in mySkills)
-                if (skill.skillIndex == index)
+        // This is not done in the foreach loop since we modify the collection we are parsing through for a match. This is a big no no
+        if (skillToRemove != null)
+        {
+            //Debug.Log("The skill " + skillToRemove.skillName + " has been removed");
+
+            // If this skill is a passive, remove this buff.
+            if (skillToRemove.passive)
+                switch (skillToRemove.skillName)
                 {
-                    skillToRemove = skill;
-                    break;
+                    case SkillNames.Revitalize:
+                        for (int buffIndex = 0; buffIndex < GetComponent<BuffsManager>().activeBuffs.Count; buffIndex++)
+                        {
+                            Buff buff = GetComponent<BuffsManager>().activeBuffs[buffIndex];
+                            if (buff.myType == BuffsManager.BuffType.Revitalize)
+                                buff.RemoveStacks(1);
+                            stats.revitalizeCount--;
+                        }
+                        break;
                 }
 
-            // This is not done in the foreach loop since we modify the collection we are parsing through for a match. This is a big no no
-            if (skillToRemove != null)
-            {
-                Debug.Log("The skill " + skillToRemove.skillName + " has been removed");
+            mySkillBars.Remove(skillToRemove.connectedBar.transform.parent.gameObject);
+            mySkills.Remove(skillToRemove);
+       
+            Destroy(skillToRemove.connectedBar.transform.parent.gameObject);
+            Destroy(skillToRemove);
 
-                // If this skill is a passive, remove this buff.
-                if (skillToRemove.passive)
-                    switch (skillToRemove.skillName)
-                    {
-                        case SkillNames.Revitalize:
-                            for (int buffIndex = 0; buffIndex < GetComponent<BuffsManager>().activeBuffs.Count; buffIndex++)
-                            {
-                                Buff buff = GetComponent<BuffsManager>().activeBuffs[buffIndex];
-                                if (buff.myType == BuffsManager.BuffType.Revitalize)
-                                    buff.RemoveStacks(1);
-                                stats.revitalizeCount--;
-                            }
-                            break;
-                    }
-
-                mySkillBars.Remove(skillToRemove.connectedBar.transform.parent.gameObject);
-                mySkills.Remove(skillToRemove);
-
-                Destroy(skillToRemove.connectedBar.transform.parent.gameObject);
-                Destroy(skillToRemove);
-
-                PositionSkillIcons();
-                Debug.Log("checking to see if the error is before or after this.");
-            }
+            PositionSkillIcons();
+            //Debug.Log("checking to see if the error is before or after this.");
         }
-        else
-            Debug.Log("this index is out of our maximum range");
     }
 
     // Used to position the skills icons properly in the UI.
@@ -233,6 +229,12 @@ public class SkillsManager : MonoBehaviour
     static int SortBySkillIndex(Skill skill1, Skill skill2)
     {
         return skill1.skillIndex.CompareTo(skill2.skillIndex);
+    }
+
+    // Used to set the iventory ui for the number of max skills allowed
+    public void setInventorySkillSlots()
+    {
+        inventory.CheckActiveSkillSlots();
     }
     
 }

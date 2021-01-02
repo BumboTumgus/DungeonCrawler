@@ -143,6 +143,7 @@ public class HitBox : MonoBehaviour
                 if (!damageOverload)
                 {
                     // Check to see if the attack hit.
+                    //Debug.Log(myStats);
                     damageDealt = myStats.baseDamage * (myStats.baseDamageScaling + ((float)myStats.Str * myStats.weaponStrScaling) + ((float)myStats.Dex * myStats.weaponDexScaling) + ((float)myStats.Vit * myStats.weaponVitScaling) + ((float)myStats.Spd * myStats.weaponSpdScaling) + ((float)myStats.Int * myStats.weaponIntScaling) + ((float)myStats.Wis * myStats.weaponWisScaling) + ((float)myStats.Cha * myStats.weaponChaScaling));
                 }
 

@@ -148,7 +148,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ea128b040f8b0af4c9d2de400aaff30a, type: 2}
+  - {fileID: 2100000, guid: bad6ee09ebfedf142a1a51bf9efffa72, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -226,7 +226,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ea128b040f8b0af4c9d2de400aaff30a, type: 2}
+  - {fileID: 2100000, guid: bad6ee09ebfedf142a1a51bf9efffa72, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -304,7 +304,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ea128b040f8b0af4c9d2de400aaff30a, type: 2}
+  - {fileID: 2100000, guid: bad6ee09ebfedf142a1a51bf9efffa72, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -414,18 +414,8 @@ MonoBehaviour:
   itemType: 6
   skillName: 0
   itemRarity: 4
-  vitMod: 32
-  strMod: 14
-  dexMod: 2
-  spdMod: -8
-  intMod: 0
-  wisMod: 0
-  chaMod: 0
-  baseAttackDelay: 0
-  hitMax: 0
-  hitBase: 0
-  critChance: 0
-  critMod: 0
+  attacksPerSecond: 0
+  baseDamageScaling: 0
   vitScaling: 0
   strScaling: 0
   dexScaling: 0
@@ -434,21 +424,14 @@ MonoBehaviour:
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 0
-  health: 183
-  mana: 22
-  armor: 45
-  resistance: 22
-  healthRegen: 8.9
-  manaRegen: 1.5
-  aflameResist: 0.74
-  asleepResist: 0.43
-  stunResist: 0.3
-  curseResist: 0.24
-  bleedResist: 0.47
-  poisonResist: 0.68
-  corrosionResist: 0.24
-  frostbiteResist: 0.31
-  knockbackResist: 0.26
+  garenteedTraits: 080000000900000000000000060000000a00000010000000
+  garenteedTraitValues:
+  - 68
+  - 98
+  - 8
+  - 130
+  - 8
+  - 0.9
 --- !u!114 &2887244764410035059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -521,7 +504,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ea128b040f8b0af4c9d2de400aaff30a, type: 2}
+  - {fileID: 2100000, guid: bad6ee09ebfedf142a1a51bf9efffa72, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

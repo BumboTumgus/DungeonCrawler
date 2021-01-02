@@ -148,7 +148,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ea128b040f8b0af4c9d2de400aaff30a, type: 2}
+  - {fileID: 2100000, guid: e99d7ac8e5f146a47b6e078f248df616, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -226,7 +226,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ea128b040f8b0af4c9d2de400aaff30a, type: 2}
+  - {fileID: 2100000, guid: e99d7ac8e5f146a47b6e078f248df616, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -335,18 +335,8 @@ MonoBehaviour:
   itemType: 6
   skillName: 0
   itemRarity: 2
-  vitMod: 9
-  strMod: 0
-  dexMod: 0
-  spdMod: -3
-  intMod: 2
-  wisMod: 0
-  chaMod: 0
-  baseAttackDelay: 0
-  hitMax: 0
-  hitBase: 0
-  critChance: 0
-  critMod: 0
+  attacksPerSecond: 0
+  baseDamageScaling: 0
   vitScaling: 0
   strScaling: 0
   dexScaling: 0
@@ -355,21 +345,16 @@ MonoBehaviour:
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 0
-  health: 50
-  mana: 22
-  armor: 14
-  resistance: 12
-  healthRegen: 3
-  manaRegen: 1.6
-  aflameResist: 0.24
-  asleepResist: 0.34
-  stunResist: 0.15
-  curseResist: 0.07
-  bleedResist: 0.41
-  poisonResist: 0.21
-  corrosionResist: 0.15
-  frostbiteResist: 0.87
-  knockbackResist: 0.24
+  garenteedTraits: 0800000009000000000000000e00000012000000130000001400000015000000
+  garenteedTraitValues:
+  - 15
+  - 25
+  - 4
+  - 0.2
+  - 0.15
+  - 0.2
+  - 0.3
+  - 0.6
 --- !u!114 &-5745027650243697455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,7 +424,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ea128b040f8b0af4c9d2de400aaff30a, type: 2}
+  - {fileID: 2100000, guid: e99d7ac8e5f146a47b6e078f248df616, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -517,7 +502,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ea128b040f8b0af4c9d2de400aaff30a, type: 2}
+  - {fileID: 2100000, guid: e99d7ac8e5f146a47b6e078f248df616, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -599,7 +584,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ea128b040f8b0af4c9d2de400aaff30a, type: 2}
+  - {fileID: 2100000, guid: e99d7ac8e5f146a47b6e078f248df616, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

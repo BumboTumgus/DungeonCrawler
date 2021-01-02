@@ -102,8 +102,8 @@ public class Item : MonoBehaviour
     {
         for(int index = 0; index < garenteedTraits.Length; index++)
         {
-            Debug.Log("we added a garenteed trait of: " + garenteedTraits[index]);
-            itemTraits.Add(new ItemTrait(garenteedTraits[index], garenteedTraitValues[index]));
+            //Debug.Log("we added a garenteed trait of: " + garenteedTraits[index]);
+            AddTrait(garenteedTraits[index], garenteedTraitValues[index]);
         }
     }
     /*
@@ -172,7 +172,10 @@ public class Item : MonoBehaviour
 
         GetComponentInChildren<Light>().enabled = true;
 
-        GetComponent<SphereCollider>().enabled = true;
+        //GetComponent<SphereCollider>().enabled = true;
+        //Debug.Log("we should be hucking this boi in");
+        transform.rotation = Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0));
+        ItemPopIn(transform.position + transform.forward * Random.Range(0.5f, 2f));
     }
 
     // Used to make the item pop into the air and land at a specific spot.
@@ -185,6 +188,7 @@ public class Item : MonoBehaviour
 
     IEnumerator PopIn(Vector3 targetPosition)
     {
+        //Debug.Log("item poppin in");
         float currentTimer = 0;
         float targetTimer = 0.5f;
         float yOriginal = transform.position.y;
@@ -220,6 +224,75 @@ public class Item : MonoBehaviour
 
         GetComponent<SphereCollider>().enabled = true;
         itemPickUpAllowed = true;
+    }
+
+    // Used to add an item trait to this item.
+    private void AddTrait(ItemTrait.TraitType selectedTrait, float value)
+    {
+        bool traitExists = false;
+        foreach (ItemTrait itemTrait in itemTraits)
+            if (itemTrait.traitType == selectedTrait)
+            {
+                itemTrait.traitBonus += value;
+                traitExists = true;
+            }
+
+        if (!traitExists)
+            itemTraits.Add(new ItemTrait(selectedTrait, value));
+    }
+    // Overload that uses a full item trait instead of components
+    private void AddTrait(ItemTrait previousItemTrait)
+    {
+        bool traitExists = false;
+        foreach (ItemTrait itemTrait in itemTraits)
+            if (itemTrait.traitType == previousItemTrait.traitType)
+            {
+                itemTrait.traitBonus += previousItemTrait.traitBonus;
+                traitExists = true;
+            }
+
+        if (!traitExists)
+            itemTraits.Add(previousItemTrait);
+    }
+
+    // Used to add random traits to the item. These are added on top of any garenteed traits the item would have.
+    public void AddRandomTraits()
+    {
+        if (itemType == ItemType.Weapon || itemType == ItemType.TwoHandWeapon || itemType == ItemType.Armor || itemType == ItemType.Helmet || itemType == ItemType.Legs || itemType == ItemType.Trinket)
+        {
+            // How many traits will this item have.
+            int traitCount = 0;
+            switch (itemRarity)
+            {
+                case ItemRarity.Common:
+                    traitCount = Random.Range(1, 2);
+                    break;
+                case ItemRarity.Uncommon:
+                    traitCount = Random.Range(2, 3);
+                    break;
+                case ItemRarity.Rare:
+                    traitCount = Random.Range(3, 5);
+                    break;
+                case ItemRarity.Legendary:
+                    traitCount = Random.Range(5, 7);
+                    break;
+                case ItemRarity.Masterwork:
+                    traitCount = Random.Range(7, 11);
+                    break;
+                default:
+                    break;
+            }
+            if (itemType == ItemType.TwoHandWeapon)
+                traitCount *= 2;
+
+            for (int index = 0; index < traitCount; index++)
+            {
+                ItemTrait tempTrait = new ItemTrait();
+                tempTrait.GetRandomTrait();
+                tempTrait.GetRandomTraitValue(itemRarity);
+                AddTrait(tempTrait);
+            }
+        }
     }
 
 }

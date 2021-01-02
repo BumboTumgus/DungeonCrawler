@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2555268148046510341}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 10.03, y: 0, z: -6.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -60,7 +60,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Blessing Of Flames
-  description: Granst a large amount of vitality and health regen
+  description: Grants all allies in an area <color=#ad2a2a>100% increased heath regen</color>,
+    <color=#f49910>50% fire resistance</color>, <color=#0db9c6>25% frostbite resistance</color>,
+    <color=#585547>10% curse resistance</color>, <color=#c0201e>10% bleed resistance</color>,
+    <color=#168523>10% corrosion resistance</color>, and <color=#7ece1e>10% poison
+    resistance</color> for 15 seconds.
   itemGearID: 92
   itemtorsoID: 0
   itemUpperRightArmID: 0
@@ -87,18 +91,8 @@ MonoBehaviour:
   itemType: 8
   skillName: 7
   itemRarity: 2
-  vitMod: 0
-  strMod: 0
-  dexMod: 0
-  spdMod: 0
-  intMod: 0
-  wisMod: 0
-  chaMod: 0
-  baseAttackDelay: 0
-  hitMax: 0
-  hitBase: 0
-  critChance: 0
-  critMod: 0
+  attacksPerSecond: 0
+  baseDamageScaling: 0
   vitScaling: 0
   strScaling: 0
   dexScaling: 0
@@ -107,21 +101,8 @@ MonoBehaviour:
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 0
-  health: 0
-  mana: 0
-  armor: 0
-  resistance: 0
-  healthRegen: 0
-  manaRegen: 0
-  aflameResist: 0
-  asleepResist: 0
-  stunResist: 0
-  curseResist: 0
-  bleedResist: 0
-  poisonResist: 0
-  corrosionResist: 0
-  frostbiteResist: 0
-  knockbackResist: 0
+  garenteedTraits: 
+  garenteedTraitValues: []
 --- !u!114 &-519646679852043516
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9800,7 +9800,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9215630892825959778}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 11.02, y: 0, z: -6.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -9834,7 +9834,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Giants Strength
-  description: grants increased STR, VIT, and Size at the cost of SPD, Dex, and wis.
+  description: Doubles your <color=#ee9149>Str</color> and <color=#f76a6a>Vit</color>
+    for 12 seconds, and increases your <color=white>size by 25%</color> for the duration.
+    Reduces your <color=#fff071>Dex</color>, <color=#a1ff7a>Spd</color>, <color=#7cf2f9>Int</color>,
+    <color=#8c91fc>Wis</color>, and <color=#f27eeb>Cha</color> by 50% as well. You
+    take <color=white>25% reduced damage</color> for the duration of the spell.
   itemGearID: 92
   itemtorsoID: 0
   itemUpperRightArmID: 0
@@ -9861,18 +9865,8 @@ MonoBehaviour:
   itemType: 8
   skillName: 8
   itemRarity: 2
-  vitMod: 0
-  strMod: 0
-  dexMod: 0
-  spdMod: 0
-  intMod: 0
-  wisMod: 0
-  chaMod: 0
-  baseAttackDelay: 0
-  hitMax: 0
-  hitBase: 0
-  critChance: 0
-  critMod: 0
+  attacksPerSecond: 0
+  baseDamageScaling: 0
   vitScaling: 0
   strScaling: 0
   dexScaling: 0
@@ -9881,21 +9875,8 @@ MonoBehaviour:
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 0
-  health: 0
-  mana: 0
-  armor: 0
-  resistance: 0
-  healthRegen: 0
-  manaRegen: 0
-  aflameResist: 0
-  asleepResist: 0
-  stunResist: 0
-  curseResist: 0
-  bleedResist: 0
-  poisonResist: 0
-  corrosionResist: 0
-  frostbiteResist: 0
-  knockbackResist: 0
+  garenteedTraits: 
+  garenteedTraitValues: []
 --- !u!114 &8124715713470712520
 MonoBehaviour:
   m_ObjectHideFlags: 0
