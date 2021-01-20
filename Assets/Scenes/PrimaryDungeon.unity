@@ -249,6 +249,7 @@ MonoBehaviour:
   walkableFloor: {fileID: 2034865334}
   enemyCount: 3
   chestCount: 3
+  roomTarget: 20
   currentRoomGenTimer: 0
 --- !u!4 &923378356
 Transform:
@@ -504,6 +505,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 9026940564953828083, guid: 421bcb84e36f26743b51ded3ec607e58,
+        type: 3}
+      propertyPath: rayMask.m_Bits
+      value: 1024
+      objectReference: {fileID: 0}
     - target: {fileID: 9026940564977226016, guid: 421bcb84e36f26743b51ded3ec607e58,
         type: 3}
       propertyPath: m_Name

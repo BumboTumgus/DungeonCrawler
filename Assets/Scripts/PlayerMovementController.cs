@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour
 {
+    // a state machine that dictates the actions the player can take.
     public enum PlayerState { Idle, Moving, Airborne, Rolling, Sprinting, Attacking, Downed, Dead, Stunned, Asleep, CastingNoMovement, CastingRollOut, CastingWithMovement, Jumping}
     public PlayerState playerState = PlayerState.Idle;
 
-    [HideInInspector] public bool menuOpen = false;
-    public GameObject inventoryWindow;
+    [HideInInspector] public bool menuOpen = false;                   // USed to lock movement if the menu is open.
+    public GameObject inventoryWindow;                                // a public reference to the gameobject that is the inventory window.
 
-    [SerializeField] private float movementSpeed = 2f;
-    private float currentSpeed = 0f;
-    private float speedSmoothVelocity = 0f;
+    [SerializeField] private float movementSpeed = 2f;                // our base movespeed, gets overridden based on the characters stats in the stats script.
+    private float currentSpeed = 0f;                                  // the current speed we are moving at.
+    private float speedSmoothVelocity = 0f;                                         
     private float speedSmoothTime = 0.1f;
-    private float rotationSpeed = 0.1f;
+    private float rotationSpeed = 0.1f;                               // how fast the player rotates towards a target
 
-    private Transform mainCameraTransform = null;
+    private Transform mainCameraTransform = null;                     // The position of the camera follwing us
 
-    private CharacterController controller = null;
+    private CharacterController controller = null;                    // Other connected components we grab at launch
     private PlayerInputs inputs = null;
     private Animator anim = null;
     private BuffsManager buffsManager;
@@ -27,15 +28,15 @@ public class PlayerMovementController : MonoBehaviour
     private Inventory inventory;
     private CameraControls cameraControls;
 
-    private bool attackReady = true;
+    private bool attackReady = true;                                  // a check to see if we can launch an attack, gets flicked off whern we attack and on when we wait long enough
 
-    private bool rollReady = true;
+    private bool rollReady = true;                                    // a check to see if we can roll, flicks off when we roll and on when we wait long enoguh
 
-    private bool grounded = true;
-    private float gravityVectorStrength = 0f;
-    private Ray groundRay;
+    private bool grounded = true;                                     // is the character on walkable ground. Used for jumping, rlling, and other movement
+    private float gravityVectorStrength = 0f;                         // the current downward force of gravity, so the player accelerates towards the ground.
+    private Ray groundRay;                                            // an uncreated ray used to check to see if are near / on the ground
     private RaycastHit groundRayHit;
-    [SerializeField] private LayerMask groundingRayMask = 1 << 10;
+    [SerializeField] private LayerMask groundingRayMask = 1 << 10;    // ensures the ray will only check for the COLLIDABLE ENVIRONMENT layer.
 
     private const float GRAVITY = 0.4f;
     private const float GROUNDING_RAY_LENGTH = 0.7f;
@@ -44,7 +45,7 @@ public class PlayerMovementController : MonoBehaviour
     private const float ROLL_ANIMSPEED_MULITPLIER = 0.6f;
     //private const float POSITIONAL_DIFFERENCE_OFFSET = 0.1f;
 
-    // Start is called before the first frame update
+    // Start is called before the first frame update. Herte we grab a;; the connected scripts on the gameobject
     void Start()
     {
         mainCameraTransform = Camera.main.transform;
@@ -72,6 +73,7 @@ public class PlayerMovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Temperary solution for testing death and revive mechanics.
         if (Input.GetKeyDown(KeyCode.K))
             PlayerDowned();
         if (Input.GetKeyDown(KeyCode.L))
@@ -164,7 +166,7 @@ public class PlayerMovementController : MonoBehaviour
         // Create the desired movement direction vector, a combination of both times thir respective inputs normalized to give us a direction.
         Vector3 desiredMoveDirection = (forward * movementInput.y + right * movementInput.x).normalized;
 
-        // Rotate towards the target move direction.
+        // Rotate towards the target move direction. Set the animation speed in the animator so the character walks properly.
         if (desiredMoveDirection != Vector3.zero)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMoveDirection), rotationSpeed);
@@ -189,6 +191,7 @@ public class PlayerMovementController : MonoBehaviour
         // Shoot a ray, if it we hit we are grounded if not we are no longer grounded. If we just jumped ignore this and set us as not grounded.
         if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping)
         {
+            // if the ray hit the ground, set us as grounded, snap us to the ground, and change the state while updating the aniamtion.
             grounded = true;
             gravityVectorStrength = 0;
 
@@ -204,6 +207,7 @@ public class PlayerMovementController : MonoBehaviour
         }
         else
         {
+            // if we are np longer grounded switch the state and and animation.
             grounded = false;
             anim.SetBool("Grounded", false);
             if(playerState != PlayerState.Jumping)

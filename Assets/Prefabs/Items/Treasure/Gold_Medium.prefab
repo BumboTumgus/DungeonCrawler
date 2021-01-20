@@ -254,25 +254,15 @@ MonoBehaviour:
   instantPickup: 1
   previousOwner: {fileID: 0}
   currentStack: 100
-  maxStack: 500
+  maxStack: 9999
   artwork: {fileID: 21300000, guid: c66abc208a22db9449eee45682a6f6bd, type: 3}
   inventoryIndex: 0
   goldValue: 1
   itemType: 1
   skillName: 0
   itemRarity: 0
-  vitMod: 0
-  strMod: 0
-  dexMod: 0
-  spdMod: 0
-  intMod: 0
-  wisMod: 0
-  chaMod: 0
-  baseAttackDelay: 0
-  hitMax: 0
-  hitBase: 0
-  critChance: 0
-  critMod: 0
+  attacksPerSecond: 0
+  baseDamageScaling: 0
   vitScaling: 0
   strScaling: 0
   dexScaling: 0
@@ -281,21 +271,8 @@ MonoBehaviour:
   wisScaling: 0
   chaScaling: 0
   itemMoveset: 0
-  health: 0
-  mana: 0
-  armor: 0
-  resistance: 0
-  healthRegen: 0
-  manaRegen: 0
-  aflameResist: 0
-  asleepResist: 0
-  stunResist: 0
-  curseResist: 0
-  bleedResist: 0
-  poisonResist: 0
-  corrosionResist: 0
-  frostbiteResist: 0
-  knockbackResist: 0
+  garenteedTraits: 
+  garenteedTraitValues: []
 --- !u!114 &-1954908568432862226
 MonoBehaviour:
   m_ObjectHideFlags: 0
