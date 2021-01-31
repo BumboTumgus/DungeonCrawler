@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
 
         currentPlayers = GameObject.FindGameObjectsWithTag("Player");
 
-        StartCoroutine(Initialization());
+        //StartCoroutine(Initialization());
     }
 
     //The corotuine that runs on level start.
