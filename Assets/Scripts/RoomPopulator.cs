@@ -39,6 +39,7 @@ public class RoomPopulator : MonoBehaviour
             {
                 GameObject randomEnemy = floorManager.enemies[Random.Range(0, floorManager.enemies.Length)];
 
+                /*
                 // Check to see if the we have a suitable enemy, if we do spawn it if not pick another.
                 if(randomEnemy.GetComponent<PlayerStats>().enemyCost <= enemyCount)
                 {
@@ -49,6 +50,7 @@ public class RoomPopulator : MonoBehaviour
                         transform.rotation);
                     enemyCount -= randomEnemy.GetComponent<PlayerStats>().enemyCost;
                 }
+                */
             }
         }
 

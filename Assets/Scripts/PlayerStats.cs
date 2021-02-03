@@ -8,72 +8,66 @@ public class PlayerStats : MonoBehaviour
     public string playerTitle = "Mighty";
 
     public float baseDamage = 1;
-    private float baseBaseDamage = 8;
-    private float baseDamageGrowth = 1;
+    public float baseBaseDamage = 8;
+    public float baseDamageGrowth = 1;
 
-    public float baseDamageScaling = 1;
-    public float weaponVitScaling = 0;
-    public float weaponStrScaling = 0f;
-    //public float weaponBonusStrScaling = 0;
-    public float weaponDexScaling = 0f;
-    //public float weaponBonusDexScaling = 0;
-    public float weaponSpdScaling = 0;
-    public float weaponIntScaling = 0;
-    public float weaponWisScaling = 0;
-    public float weaponChaScaling = 0;
-    [HideInInspector] public List<float> weaponAttackSpeeds = new List<float>();
-    [HideInInspector] public List<float> weaponBaseDamages = new List<float>();
+    public float health = 100;
+    public float healthMax = 100;
+    public float bonusHealth = 0;
+    public float baseHealth = 125;
+    public float baseHealthGrowth = 40;
+
+    [HideInInspector] public List<float> weaponBaseAttacksPerSecond = new List<float>();
+    [HideInInspector] public List<Item> weaponsToHitWith = new List<Item>();
     [HideInInspector] public List<float> cooldownReductionSources = new List<float>();
+
+    public HitBox basicAttack1;
+    public HitBox basicAttack2;
 
     public float currentAttackDelay = 13; // 10 is fast, 100 is really slow.
     
-    public float attackRange = 2;
+    public float attackRange = 2; 
 
     public float attackSpeed = 1;
-    public float weaponAttackSpeed = 1;
+    public float weaponAttacksPerSecond = 1;
     public float bonusAttackSpeed = 0;
-    public float health = 100;
-    public float healthMax = 100;
-    public float mana = 100;
-    public float manaMax = 100;
-    public float armor = 5;
-    public float magicResist = 5;
+
+    public float armor = 0;
+    public float armorReductionMultiplier = 1;
+    public float armorShreddedBonusDamage = 0f;
+
     public float speed = 4;
-    public float strafeSpeed = 2;
-    public float acceleration = 2;
-    public float damageReduction = 0;
+    public float movespeedPercentMultiplier = 1;
+
+    public float damageReductionMultiplier = 1;
+
     public float healthRegen = 1;
-    public float manaRegen = 1;
-    public float bonusHealth = 0;
-    public float bonusMana = 0;
     public float bonusHealthRegen = 0;
-    public float bonusManaRegen = 0;
+    public float baseHealthRegen = 1f;
+    public float baseHealthRegenGrowth = 0.3333f;
+
     public float cooldownReduction = 0;
 
     public int level = 1;
     public float exp = 0;
     public float expTarget = 100;
-    public float expMultiplier;
+
     public float sizeMultiplier = 1f;
 
-    public int Str = 5;
-    public int Vit = 5;
-    public int Dex = 5;
-    public int Spd = 5;
-    public int Int = 5;
-    public int Wis = 5;
-    public int Cha = 5;
-
-    public int StrLvl = 1;
-    public int VitLvl = 1;
-    public int DexLvl = 1;
-    public int SpdLvl = 1;
-    public int IntLvl = 1;
-    public int WisLvl = 1;
-    public int ChaLvl = 1;
+    public float aflameResistance = 0f;
+    public float frostbiteResistance = 0f;
+    public float overchargeResistance = 0f;
+    public float overgrowthResistance = 0f;
+    public float sunderResistance = 0f;
+    public float windshearResistance = 0f;
+    public float stunResistance = 0f;
+    public float knockbackResistance = 0f;
+    public float sleepResistance = 0f;
+    public float bleedResistance = 0f;
+    public float poisonResistance = 0f;
+    public float slowResistance = 0f;
 
     public BarManager healthBar;
-    public BarManager manaBar;
     public StatUpdater myStats;
 
     [HideInInspector] public bool invulnerable = false;
@@ -92,21 +86,12 @@ public class PlayerStats : MonoBehaviour
 
     [HideInInspector] public bool dead = false;
 
-    public float agroRange = 3;
-    public int enemyCost = 1;
-    public Color[] damageColors;
-
-    public Color levelUpColor;
-
     private DamageNumberManager damageNumberManager;
-    private bool recentlyDamaged = false;
-    private float recentlyDamagedTimer = 0;
-
-    private const float RECENTLY_DAMAGED_TIMER_START = 1f;
+    private BuffsManager buffManager;
+    public ComboManager comboManager;
 
     [SerializeField] private GameObject enemyHealthBar;
 
-    private AfflictionManager afflictions;
     private SkillsManager skills;
 
     private void Start()
@@ -116,12 +101,17 @@ public class PlayerStats : MonoBehaviour
 
         StatSetup(true, true);
         damageNumberManager = GetComponent<DamageNumberManager>();
-        afflictions = GetComponent<AfflictionManager>();
+        buffManager = GetComponent<BuffsManager>();
         skills = GetComponent<SkillsManager>();
 
-        if(CompareTag("Enemy"))
+        if (CompareTag("Enemy"))
         {
             EnemyManager.instance.enemyStats.Add(this);
+        }
+        else
+        {
+            UpdateWeaponsToHitWith();
+            comboManager = GetComponent<ComboManager>();
         }
 
     }
@@ -131,40 +121,24 @@ public class PlayerStats : MonoBehaviour
         //USed for debugging to add exp.
         if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
             AddExp(1000);
-
-        // USed for added afflcitions and debugging.
-        if (Input.GetKeyDown(KeyCode.Keypad0) && CompareTag("Player"))
-        {
-            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Aflame, 30);
-            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Asleep, 30);
-            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Bleed, 30);
-            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Corrosion, 30);
-            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Curse, 30);
-            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Frostbite, 30);
-            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Poison, 30);
-            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Stun, 30);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Keypad1) && CompareTag("Player"))
-            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Aflame, 30);
-        if (Input.GetKeyDown(KeyCode.Keypad2) && CompareTag("Player"))
-            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Asleep, 30);
-        if (Input.GetKeyDown(KeyCode.Keypad3) && CompareTag("Player"))
-            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Bleed, 30);
-        if (Input.GetKeyDown(KeyCode.Keypad4) && CompareTag("Player"))
-            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Corrosion, 30);
-        if (Input.GetKeyDown(KeyCode.Keypad5) && CompareTag("Player"))
-            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Curse, 30);
-        if (Input.GetKeyDown(KeyCode.Keypad6) && CompareTag("Player"))
-            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Frostbite, 30);
-        if (Input.GetKeyDown(KeyCode.Keypad7) && CompareTag("Player"))
-            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Poison, 30);
-        if (Input.GetKeyDown(KeyCode.Keypad8) && CompareTag("Player"))
-            afflictions.AddAffliction(AfflictionManager.AfflictionTypes.Stun, 30);
         if (Input.GetKeyDown(KeyCode.P) && CompareTag("Player"))
             AddExp(25);
         if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
             TakeDamage(10,false, HitBox.DamageType.Physical);
+        if (Input.GetKeyDown(KeyCode.U) && CompareTag("Player"))
+            comboManager.AddComboCounter(1);
+        if (Input.GetKeyDown(KeyCode.Keypad0) && CompareTag("Player"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Aflame, 1, baseDamage);
+        if (Input.GetKeyDown(KeyCode.Keypad1) && CompareTag("Player"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, 1, baseDamage);
+        if (Input.GetKeyDown(KeyCode.Keypad2) && CompareTag("Player"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, 1, baseDamage);
+        if (Input.GetKeyDown(KeyCode.Keypad3) && CompareTag("Player"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Overgrown, 1, baseDamage);
+        if (Input.GetKeyDown(KeyCode.Keypad4) && CompareTag("Player"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Windshear, 1, baseDamage);
+        if (Input.GetKeyDown(KeyCode.Keypad5) && CompareTag("Player"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Sunder, 1, baseDamage);
 
         // Health and mana regen logic.
         if (!dead)
@@ -172,39 +146,21 @@ public class PlayerStats : MonoBehaviour
             float revitalizeBonus = 0f;
             if (revitalizeBuff)
             {
-                revitalizeBonus = (Vit * 0.2f + bonusHealthRegen) * (1 - (health / healthMax)) * 2f;
-                healthRegen = Vit * 0.2f + bonusHealthRegen + (revitalizeBonus * revitalizeCount);
+                //revitalizeBonus = (Vit * 0.2f + bonusHealthRegen) * (1 - (health / healthMax)) * 2f;
+                //healthRegen = Vit * 0.2f + bonusHealthRegen + (revitalizeBonus * revitalizeCount);
                 myStats.UpdateHealthManaBarValues(this);
             }
 
             health += healthRegen * Time.deltaTime;
-            mana += manaRegen * Time.deltaTime;
         }
+
         if (health > healthMax)
             health = healthMax;
         else if(myStats != null)
             myStats.UpdateHealthManaBarValues(this);
-        if (mana > manaMax)
-            mana = manaMax;
-        else if (myStats != null)
-            myStats.UpdateHealthManaBarValues(this);
+
         // Update the health bar.
         healthBar.targetValue = health;
-        if (manaBar != null)
-            manaBar.targetValue = mana;
-
-        // Regen poise if we havent been hit in a while, if not increment the timer.
-        //if (!recentlyDamaged)
-        //{
-            //if (poise < poiseMax)
-                //poise += poiseMax / 3 * Time.deltaTime;
-        //}
-        //else
-        //{
-            //recentlyDamagedTimer -= Time.deltaTime;
-            //if (recentlyDamagedTimer <= 0)
-               // recentlyDamaged = false;
-        //}
     }
 
     // Used to set up the stats at the start of the game and every time we level.
@@ -212,37 +168,27 @@ public class PlayerStats : MonoBehaviour
     {
         baseDamage = baseBaseDamage + baseDamageGrowth * level;
 
-        healthMax = 20 + 3 * level + 5 * Vit + 2 * Str + Dex + Spd + Int + Wis + Cha + bonusHealth;
+        healthMax = baseHealth + baseHealthGrowth * level + bonusHealthRegen;
         if (health > healthMax)
             health = healthMax;
+
         // If we level up set the health to the max.
         if (LeveledUp)
             health = healthMax;
 
-        manaMax = 20 + 3 * level + 5 * Wis + Int + bonusMana;
-        if (mana > manaMax)
-            mana = manaMax;
-        // If we level up set the mana to the max.
-        if (LeveledUp)
-            mana = manaMax;
-
         // Ste up our health and manaRegen;
-        healthRegen = Vit * 0.2f + bonusHealthRegen;
-        manaRegen = Wis * 0.4f + Int * 0.1f + bonusManaRegen;
+        healthRegen = baseHealthRegen + baseHealthRegenGrowth * level + bonusHealthRegen;
 
         // Set up the characters speed. enemies are half as fast as normal.
-        speed = 2.5f + (float) Spd / 10;
         if (gameObject.tag == "Enemy")
             speed *= 1.3f;
-        attackSpeed = 1 + 0.05f * Spd + 0.02f * Dex + bonusAttackSpeed + (weaponAttackSpeed - 1);
-        strafeSpeed = speed / 2;
-        acceleration = speed;
+
+        //attackSpeed = 1 + 0.05f * Spd + 0.02f * Dex + bonusAttackSpeed + (weaponAttackSpeed - 1);
+
         if (transform.CompareTag("Enemy"))
             GetComponent<UnityEngine.AI.NavMeshAgent>().speed = speed;
 
-        cooldownReduction = Wis * 0.005f;
-        if (cooldownReduction > 0.5f)
-            cooldownReduction = 0.5f;
+        cooldownReduction = 0;
 
         foreach(float cdr in cooldownReductionSources)
         {
@@ -254,22 +200,10 @@ public class PlayerStats : MonoBehaviour
             cooldownReduction += totalAmountToReduce;
         }
 
-        // Sets up the characters poise, which is their resistance to being staggered.
-        // poiseMax = Str + Vit;
-        // if (gameObject.CompareTag("Player"))
-            // poiseMax += 20;
-
         if (changeHealthBars)
         {
             // Sets up the health and mana Bars.
             healthBar.Initialize(healthMax, false, true, health);
-            if (manaBar != null)
-                manaBar.Initialize(manaMax, false, true, mana);
-            if(CompareTag("Player"))
-            {
-                healthBar.GetComponent<BarResizer>().ResizeBar(healthMax / 3 + 90);
-                manaBar.GetComponent<BarResizer>().ResizeBar(manaMax / 3 + 90); 
-            }
         }
 
         if(myStats != null)
@@ -287,33 +221,12 @@ public class PlayerStats : MonoBehaviour
         {
             exp -= expTarget;
             level++;
-            LevelUp();
             expTarget = level * 100;
-            GetComponent<DamageNumberManager>().SpawnFlavorText("Level Up!", levelUpColor);
+            GetComponent<DamageNumberManager>().SpawnFlavorText("Level Up!", UiPopUpTextColorBank.instance.damageColors[0]);
             StatSetup(true, true);
             GetComponent<SkillsManager>().ps[40].Play();
             Debug.Log("Level Up");
         }
-    }
-
-    // USed to add base stats to the player when they gain a level
-    public void LevelUp()
-    {
-        if (level % StrLvl == 0)
-            Str++;
-        if (level % VitLvl == 0)
-            Vit++;
-        if (level % DexLvl == 0)
-            Dex++;
-        if (level % SpdLvl == 0)
-            Spd++;
-        if (level % IntLvl == 0)
-            Int++;
-        if (level % WisLvl == 0)
-            Wis++;
-        if (level % ChaLvl == 0)
-            Cha++;
-        StatSetup(true, true);
     }
 
     //USed to ugrade the enemies base stats of the enemies
@@ -329,24 +242,8 @@ public class PlayerStats : MonoBehaviour
         StatSetup(false, true);
     }
 
-    // USed to use some mana, if we do not have enpugh, then return false;
-    public bool UseMana(float amount)
-    {
-        bool enoughMana = true;
-
-        // Check to see if we have enough mana
-        if (mana > amount)
-        {
-            mana -= amount;
-        }
-        else
-            enoughMana = false;
-
-        return enoughMana;
-    }
-
     // Used to heal Health
-    public void HealHealth(float amount, bool crit, HitBox.DamageType damage)
+    public void HealHealth(float amount, HitBox.DamageType damage)
     {
         health += amount;
         if (health > healthMax)
@@ -356,17 +253,14 @@ public class PlayerStats : MonoBehaviour
         switch (damage)
         {
             case HitBox.DamageType.Healing:
-                chosenColor = damageColors[5];
-                break;
-            case HitBox.DamageType.HealingCrit:
-                chosenColor = damageColors[6];
+                chosenColor = UiPopUpTextColorBank.instance.damageColors[14];
                 break;
             default:
                 break;
         }
 
         // Spawn the damage number.
-        SpawnFlavorText(amount, crit, chosenColor);
+        SpawnFlavorText(amount, false, chosenColor);
     }
 
     // Used to take damage
@@ -376,10 +270,14 @@ public class PlayerStats : MonoBehaviour
         {
             if (damage != HitBox.DamageType.True)
             {
-                if (damageReduction < 100)
-                    amount *= (100f - damageReduction) / 100f;
+                if (damageReductionMultiplier + armorShreddedBonusDamage > 0)
+                {
+                    amount *= (damageReductionMultiplier + armorShreddedBonusDamage);
+                }
                 else
                     amount = 0;
+
+                amount -= armor * armorReductionMultiplier;
             }
 
             if(asleep)
@@ -397,8 +295,6 @@ public class PlayerStats : MonoBehaviour
                 health -= amount;
             if (health < 0)
                 health = 0;
-            recentlyDamaged = true;
-            recentlyDamagedTimer = RECENTLY_DAMAGED_TIMER_START;
 
             if (CompareTag("Enemy") && GetComponent<EnemyCombatController>() != null && GetComponent<EnemyCombatController>().onHitActionHierarchy.Length > 0)
                 GetComponent<EnemyCombatController>().CheckOnHitActionHierarchy();
@@ -410,19 +306,34 @@ public class PlayerStats : MonoBehaviour
             switch (damage)
             {
                 case HitBox.DamageType.Physical:
-                    chosenColor = damageColors[0];
+                    chosenColor = UiPopUpTextColorBank.instance.damageColors[0];
                     break;
-                case HitBox.DamageType.Magical:
-                    chosenColor = damageColors[1];
+                case HitBox.DamageType.Fire:
+                    chosenColor = UiPopUpTextColorBank.instance.damageColors[2];
+                    break;
+                case HitBox.DamageType.Ice:
+                    chosenColor = UiPopUpTextColorBank.instance.damageColors[3];
+                    break;
+                case HitBox.DamageType.Lightning:
+                    chosenColor = UiPopUpTextColorBank.instance.damageColors[4];
+                    break;
+                case HitBox.DamageType.Nature:
+                    chosenColor = UiPopUpTextColorBank.instance.damageColors[5];
+                    break;
+                case HitBox.DamageType.Earth:
+                    chosenColor = UiPopUpTextColorBank.instance.damageColors[6];
+                    break;
+                case HitBox.DamageType.Wind:
+                    chosenColor = UiPopUpTextColorBank.instance.damageColors[7];
+                    break;
+                case HitBox.DamageType.Poison:
+                    chosenColor = UiPopUpTextColorBank.instance.damageColors[9];
+                    break;
+                case HitBox.DamageType.Bleed:
+                    chosenColor = UiPopUpTextColorBank.instance.damageColors[8];
                     break;
                 case HitBox.DamageType.True:
-                    chosenColor = damageColors[2];
-                    break;
-                case HitBox.DamageType.PhysicalCrit:
-                    chosenColor = damageColors[3];
-                    break;
-                case HitBox.DamageType.MagicalCrit:
-                    chosenColor = damageColors[4];
+                    chosenColor = UiPopUpTextColorBank.instance.damageColors[1];
                     break;
                 default:
                     break;
@@ -435,31 +346,6 @@ public class PlayerStats : MonoBehaviour
                 EntityDeath();
         }
     }
-    /*
-    // Used to take damage and overide the cvolor of the text
-    public void TakeDamage(float amount, bool crit, Color colorOveride)
-    {
-        if (health > 0)
-        {
-            if (amount > 0 )
-                health -= amount;
-            if (health < 0)
-                health = 0;
-            recentlyDamaged = true;
-            recentlyDamagedTimer = RECENTLY_DAMAGED_TIMER_START;
-
-            // Update the health bar.
-            healthBar.targetValue = health;
-
-            // Spawn the damage number.
-            SpawnFlavorText(amount, crit, colorOveride);
-
-            // If we are dead, call the death logic method.
-            if (health <= 0 && !dead)
-                EntityDeath();
-        }
-    }
-    */
 
     // Used when this object dies. What will happen afterwards?
     public void EntityDeath()
@@ -483,13 +369,13 @@ public class PlayerStats : MonoBehaviour
             // If any player was agrod onto us, end their combat. and add exp to all players.
             foreach (GameObject player in players)
             {
-                player.GetComponent<PlayerStats>().AddExp(Vit + Str + Cha + Spd + Dex + Int + Wis);
+                player.GetComponent<PlayerStats>().AddExp(100);
                 playerAverageLevel += player.GetComponent<PlayerStats>().level;
             }
             playerAverageLevel /= players.Length;
 
             // Create the exp value text the player sees when an enmy dies.
-            GetComponent<DamageNumberManager>().SpawnEXPValue(Vit + Str + Cha + Spd + Dex + Int + Wis);
+            GetComponent<DamageNumberManager>().SpawnEXPValue(100);
 
             // Destroy the health bar, queue the destruction of all children and set their parents to null, then destroy ourself.
             healthBar.transform.parent.GetComponent<UiFollowTarget>().RemoveFromCullList();
@@ -519,11 +405,6 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    // Used to spawn the damage numbers or flavor text from our character.
-    public void SpawnFlavorText(float amount, bool crit)
-    {
-        damageNumberManager.SpawnNumber(amount, crit);
-    }
     // Used to spawn the damage numbers or flavor text from our character, with a color overide
     public void SpawnFlavorText(float amount, bool crit, Color colorOveride)
     {
@@ -554,120 +435,40 @@ public class PlayerStats : MonoBehaviour
         //Debug.Log("adding stats");
         if(item.itemType == Item.ItemType.Weapon || item.itemType == Item.ItemType.TwoHandWeapon)
         {
-            weaponVitScaling += item.vitScaling;
-            //weaponBonusStrScaling += item.strScaling;
-            // weaponBonusDexScaling += item.dexScaling;
-            weaponStrScaling += item.strScaling;
-            weaponDexScaling += item.dexScaling;
-            weaponSpdScaling += item.spdScaling;
-            weaponIntScaling += item.intScaling;
-            weaponWisScaling += item.wisScaling;
-            weaponChaScaling += item.chaScaling;
 
-            weaponAttackSpeeds.Add(item.attacksPerSecond);
+            weaponBaseAttacksPerSecond.Add(item.attacksPerSecond);
 
             float totalWeaponAttackSpeeds = 0f;
-            if (weaponAttackSpeeds.Count > 0)
+            if (weaponBaseAttacksPerSecond.Count > 0)
             {
-                foreach (float value in weaponAttackSpeeds)
+                foreach (float value in weaponBaseAttacksPerSecond)
                     totalWeaponAttackSpeeds += value;
-                if (weaponAttackSpeeds.Count > 2)
-                    totalWeaponAttackSpeeds -= 1;
-                weaponAttackSpeed = totalWeaponAttackSpeeds;
+                if (weaponBaseAttacksPerSecond.Count >= 2)
+                    totalWeaponAttackSpeeds /= 2;
+                weaponAttacksPerSecond = totalWeaponAttackSpeeds;
             }
             else
-                weaponAttackSpeed = 1;
+                weaponAttacksPerSecond = 1;
 
-            weaponBaseDamages.Add(item.baseDamageScaling);
-
-            float totalWeaponBaseDamages = 0;
-            if(weaponBaseDamages.Count > 0)
-            {
-                foreach (float value in weaponBaseDamages)
-                    totalWeaponBaseDamages += value;
-                if (weaponBaseDamages.Count > 2)
-                    totalWeaponBaseDamages -= 1;
-                baseDamageScaling = totalWeaponBaseDamages;
-            }
-            else
-                baseDamageScaling = 1;
-
+            weaponsToHitWith.Add(item);
+            UpdateWeaponsToHitWith();
         }
 
         foreach(ItemTrait trait in item.itemTraits)
         {
             switch (trait.traitType)
             {
-                case ItemTrait.TraitType.Vit:
-                    Vit += (int) trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.Str:
-                    Str += (int)trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.Dex:
-                    Dex += (int)trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.Spd:
-                    Spd += (int)trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.Int:
-                    Int += (int)trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.Wis:
-                    Wis += (int)trait.traitBonus;
-                    break;
                 case ItemTrait.TraitType.Health:
                     bonusHealth += trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.Mana:
-                    bonusMana += trait.traitBonus;
                     break;
                 case ItemTrait.TraitType.Armor:
                     armor += trait.traitBonus;
                     break;
-                case ItemTrait.TraitType.Resistance:
-                    magicResist += trait.traitBonus;
-                    break;
                 case ItemTrait.TraitType.HealthRegen:
                     bonusHealthRegen += trait.traitBonus;
                     break;
-                case ItemTrait.TraitType.ManaRegen:
-                    bonusManaRegen += trait.traitBonus;
-                    break;
                 case ItemTrait.TraitType.CooldownReduction:
                     cooldownReductionSources.Add(trait.traitBonus);
-                    break;
-                case ItemTrait.TraitType.SpellSlots:
-                    skills.maxSkillNumber += Mathf.RoundToInt(trait.traitBonus);
-                    if(compelteStatSetup)
-                        skills.setInventorySkillSlots();
-                    break;
-                case ItemTrait.TraitType.AflameResistance:
-                    afflictions.aflameResist += trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.AsleepResistance:
-                    afflictions.sleepResist += trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.StunResistance:
-                    afflictions.stunResist += trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.CurseResistance:
-                    afflictions.curseResist += trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.BleedResistance:
-                    afflictions.bleedResist += trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.PoisonResistance:
-                    afflictions.poisonResist += trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.CorrosionResistance:
-                    afflictions.corrosionResist += trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.FrostbiteResistance:
-                    afflictions.frostbiteResist += trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.KnockbackResistance:
-                    afflictions.knockBackResist += trait.traitBonus;
                     break;
                 case ItemTrait.TraitType.AttackSpeed:
                     bonusAttackSpeed += trait.traitBonus;
@@ -686,86 +487,39 @@ public class PlayerStats : MonoBehaviour
         //Debug.Log("removing stats");
         if (item.itemType == Item.ItemType.Weapon || item.itemType == Item.ItemType.TwoHandWeapon)
         {
-            weaponVitScaling -= item.vitScaling;
-            //weaponBonusStrScaling -= item.strScaling;
-            //weaponBonusDexScaling -= item.dexScaling;
-            weaponStrScaling -= item.strScaling;
-            weaponDexScaling -= item.dexScaling;
-            weaponSpdScaling -= item.spdScaling;
-            weaponIntScaling -= item.intScaling;
-            weaponWisScaling -= item.wisScaling;
-            weaponChaScaling -= item.chaScaling;
 
-            weaponAttackSpeeds.Remove(item.attacksPerSecond);
+            weaponBaseAttacksPerSecond.Remove(item.attacksPerSecond);
 
             float totalWeaponAttackSpeeds = 0f;
-            if (weaponAttackSpeeds.Count > 0)
+            if (weaponBaseAttacksPerSecond.Count > 0)
             {
-                foreach (float value in weaponAttackSpeeds)
+                foreach (float value in weaponBaseAttacksPerSecond)
                     totalWeaponAttackSpeeds += value;
-                if (weaponAttackSpeeds.Count > 2)
+                if (weaponBaseAttacksPerSecond.Count > 2)
                     totalWeaponAttackSpeeds -= 1;
-                weaponAttackSpeed = totalWeaponAttackSpeeds;
+                weaponAttacksPerSecond = totalWeaponAttackSpeeds;
             }
             else
             {
-                weaponAttackSpeed = 1;
+                weaponAttacksPerSecond = 1;
             }
 
-            weaponBaseDamages.Remove(item.baseDamageScaling);
-
-            float totalWeaponBaseDamages = 0;
-            if (weaponBaseDamages.Count > 0)
-            {
-                foreach (float value in weaponBaseDamages)
-                    totalWeaponBaseDamages += value;
-                if (weaponBaseDamages.Count > 2)
-                    totalWeaponBaseDamages -= 1;
-                baseDamageScaling = totalWeaponBaseDamages;
-            }
-            else
-                baseDamageScaling = 1;
+            weaponsToHitWith.Remove(item);
+            UpdateWeaponsToHitWith();
         }
 
         foreach (ItemTrait trait in item.itemTraits)
         {
             switch (trait.traitType)
             {
-                case ItemTrait.TraitType.Vit:
-                    Vit -= (int)trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.Str:
-                    Str -= (int)trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.Dex:
-                    Dex -= (int)trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.Spd:
-                    Spd -= (int)trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.Int:
-                    Int -= (int)trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.Wis:
-                    Wis -= (int)trait.traitBonus;
-                    break;
                 case ItemTrait.TraitType.Health:
                     bonusHealth -= trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.Mana:
-                    bonusMana -= trait.traitBonus;
                     break;
                 case ItemTrait.TraitType.Armor:
                     armor -= trait.traitBonus;
                     break;
-                case ItemTrait.TraitType.Resistance:
-                    magicResist -= trait.traitBonus;
-                    break;
                 case ItemTrait.TraitType.HealthRegen:
                     bonusHealthRegen -= trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.ManaRegen:
-                    bonusManaRegen -= trait.traitBonus;
                     break;
                 case ItemTrait.TraitType.CooldownReduction:
                     cooldownReductionSources.Remove(trait.traitBonus);
@@ -774,33 +528,6 @@ public class PlayerStats : MonoBehaviour
                     skills.maxSkillNumber -= Mathf.RoundToInt(trait.traitBonus);
                     if(completeStatSetup)
                         skills.setInventorySkillSlots();
-                    break;
-                case ItemTrait.TraitType.AflameResistance:
-                    afflictions.aflameResist -= trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.AsleepResistance:
-                    afflictions.sleepResist -= trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.StunResistance:
-                    afflictions.stunResist -= trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.CurseResistance:
-                    afflictions.curseResist -= trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.BleedResistance:
-                    afflictions.bleedResist -= trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.PoisonResistance:
-                    afflictions.poisonResist -= trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.CorrosionResistance:
-                    afflictions.corrosionResist -= trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.FrostbiteResistance:
-                    afflictions.frostbiteResist -= trait.traitBonus;
-                    break;
-                case ItemTrait.TraitType.KnockbackResistance:
-                    afflictions.knockBackResist -= trait.traitBonus;
                     break;
                 case ItemTrait.TraitType.AttackSpeed:
                     bonusAttackSpeed -= trait.traitBonus;
@@ -935,6 +662,85 @@ public class PlayerStats : MonoBehaviour
             ephemeralCount += amount;
             if (ephemeralCount <= 0)
                 ephemeral = false;
+        }
+    }
+
+    // USed to updates the hitboxes fopr our basic attack weapons.
+    public void UpdateWeaponsToHitWith()
+    {
+        switch (weaponsToHitWith.Count)
+        {
+            case 0:
+                basicAttack2.gameObject.SetActive(false);
+                basicAttack1.damage = baseDamage;
+                basicAttack1.damageType = HitBox.DamageType.Physical;
+                break;
+            case 1:
+                basicAttack2.gameObject.SetActive(false);
+                basicAttack1.damage = weaponsToHitWith[0].baseDamageScaling * baseDamage;
+                basicAttack1.stacksToAdd = weaponsToHitWith[0].stacksToAddOnHit;
+                basicAttack1.damageType = weaponsToHitWith[0].damageType;
+                break;
+            case 2:
+                basicAttack2.gameObject.SetActive(true);
+                basicAttack1.damage = weaponsToHitWith[0].baseDamageScaling * baseDamage;
+                basicAttack1.stacksToAdd = weaponsToHitWith[0].stacksToAddOnHit;
+                basicAttack1.damageType = weaponsToHitWith[0].damageType;
+                basicAttack2.damage = weaponsToHitWith[1].baseDamageScaling * baseDamage;
+                basicAttack2.stacksToAdd = weaponsToHitWith[1].stacksToAddOnHit;
+                basicAttack2.damageType = weaponsToHitWith[1].damageType;
+                break;
+            default:
+                break;
+        }
+    }
+
+    // Used when we lose armor. If we lose more armor then oyur max we start taking increased damage.
+    public void ChangeArmor(float percentageToChangeBy)
+    {
+        Debug.Log("we are changing the armor percentage by " + percentageToChangeBy);
+        if (percentageToChangeBy < 0)
+        {
+            // negative case, we are removing armor.
+            if (armorReductionMultiplier > 0)
+            {
+                // case we can put all the percentahe in the armor shred.
+                if (armorReductionMultiplier + percentageToChangeBy > 0)
+                    armorReductionMultiplier += percentageToChangeBy;
+                else
+                {
+                    // case we put as much armor reduction as we cannand have reached zero so now we are adding to the increased damage percentage.
+                    percentageToChangeBy += armorReductionMultiplier;
+                    armorReductionMultiplier = 0;
+                    armorShreddedBonusDamage -= percentageToChangeBy;
+                }
+            }
+            // case armor is already shredded, put the percventage in increased damage.
+            else
+                armorShreddedBonusDamage -= percentageToChangeBy;
+        }
+        else
+        {
+            // case the value is positive.
+            if(armorShreddedBonusDamage - percentageToChangeBy > 0)
+            {
+                // case we are fully shredded and are taking bonus damage, and the value doesnt fully remove it.
+                armorShreddedBonusDamage -= percentageToChangeBy;
+            }
+            else
+            {
+                if(armorShreddedBonusDamage == 0)
+                {
+                    // case ther is no bonus shredde damage so we can add our value directly to the armor.
+                    armorReductionMultiplier += percentageToChangeBy;
+                }
+                else
+                {
+                    percentageToChangeBy -= armorShreddedBonusDamage;
+                    armorShreddedBonusDamage = 0;
+                    armorReductionMultiplier += percentageToChangeBy;
+                }
+            }
         }
     }
 }

@@ -150,6 +150,11 @@ public class PlayerMovementController : MonoBehaviour
 
     private void Move()
     {
+        if (playerStats.movespeedPercentMultiplier >= 0.1f)
+            anim.SetFloat("AnimSpeed", 1 * playerStats.movespeedPercentMultiplier);
+        else
+            anim.SetFloat("AnimSpeed", 1 * 0.1f);
+
         // Create a vector that houses our move inputs
         Vector2 movementInput = new Vector2(Input.GetAxisRaw(inputs.horizontalInput), Input.GetAxisRaw(inputs.verticalInput));
 
@@ -170,13 +175,21 @@ public class PlayerMovementController : MonoBehaviour
         if (desiredMoveDirection != Vector3.zero)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMoveDirection), rotationSpeed);
-            anim.SetFloat("Speed", 1);
+            if(playerStats.movespeedPercentMultiplier > 0.1f)
+                anim.SetFloat("Speed", 1 * playerStats.movespeedPercentMultiplier);
+            else
+                anim.SetFloat("Speed", 1 * 0.1f);
         }
         else
             anim.SetFloat("Speed", 0);
 
         // Set up the players speed.
-        float targetSpeed = movementSpeed * movementInput.magnitude;
+        float targetSpeed = 0;
+        if (playerStats.movespeedPercentMultiplier > 0.1f)
+            targetSpeed = movementSpeed * desiredMoveDirection.magnitude * playerStats.movespeedPercentMultiplier;
+        else
+            targetSpeed = movementSpeed * desiredMoveDirection.magnitude * 0.1f;
+
         currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
 
         controller.Move(desiredMoveDirection * currentSpeed * Time.deltaTime);
@@ -252,7 +265,13 @@ public class PlayerMovementController : MonoBehaviour
     IEnumerator Roll()
     {
         rollReady = false;
+
         anim.SetTrigger("Roll");
+        if(playerStats.movespeedPercentMultiplier >= 0.25f)
+            anim.SetFloat("AnimSpeed", 1 * playerStats.movespeedPercentMultiplier);
+        else
+            anim.SetFloat("AnimSpeed", 1 * 0.25f);
+
         playerState = PlayerState.Rolling;
 
         // here we see if we are on fire, if so lower the duration of the debuff.
@@ -262,12 +281,8 @@ public class PlayerMovementController : MonoBehaviour
             if (buff.myType == BuffsManager.BuffType.Aflame)
             {
                 //Debug.Log("we found one");
-                buff.currentTimer += 7;
-                AfflictionManager afflictionManager = GetComponent<AfflictionManager>();
-
-                afflictionManager.currentAflameValue -= ((7 / buff.duration) * 100);
-                if (afflictionManager.currentAflameValue < 0.1f)
-                    afflictionManager.RemoveBar(buff.myType);
+                buff.RemoveStacks(Mathf.RoundToInt(buff.currentStacks / 2), false);
+                // remove stacks of aflame here.-------------------------------------------------------------
             }
         }
         
@@ -298,11 +313,16 @@ public class PlayerMovementController : MonoBehaviour
         // Create the timers for the roll duration
         float currentTimer = 0;
         // This represents the time we must wait: the base length of the animation clip times the speed modifier inherent in the animation clip editor plus some leeway for when the animation ends and blends away.
-        float targetTimer = 0.8f / ROLL_ANIMSPEED_MULITPLIER * 0.7f;
+        float targetTimer = 0;
+        if(playerStats.movespeedPercentMultiplier >= 0.25f)
+            targetTimer = 0.8f / ROLL_ANIMSPEED_MULITPLIER * 0.7f * (1 / playerStats.movespeedPercentMultiplier);
+        else
+            targetTimer = 0.8f / ROLL_ANIMSPEED_MULITPLIER * 0.7f * 4;
+
         //float targetTimer = anim.GetCurrentAnimatorClipInfo(5).Length;
         //Debug.Log("the target timer is: " + targetTimer);
 
-        while(currentTimer < targetTimer)
+        while (currentTimer < targetTimer)
         {
             currentTimer += Time.deltaTime;
             
@@ -310,7 +330,12 @@ public class PlayerMovementController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMoveDirection), rotationSpeed);
 
             // Set up the players speed.
-            float targetSpeed = movementSpeed * ROLL_SPEED_MULTIPLIER;
+            float targetSpeed = 0;
+            if (playerStats.movespeedPercentMultiplier >= 0.25f)
+                targetSpeed = movementSpeed * ROLL_SPEED_MULTIPLIER * playerStats.movespeedPercentMultiplier;
+            else
+                targetSpeed = movementSpeed * ROLL_SPEED_MULTIPLIER * 0.25f;
+
             currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
 
             controller.Move(desiredMoveDirection * currentSpeed * Time.deltaTime);
@@ -339,13 +364,29 @@ public class PlayerMovementController : MonoBehaviour
     {
         attackReady = false;
         anim.SetTrigger("Attack");
-        anim.SetFloat("AttackAnimSpeed", playerStats.attackSpeed);
+        float baseWeaponAttackSpeed = 1f;
+        switch (playerStats.weaponBaseAttacksPerSecond.Count)
+        {
+            case 0:
+                baseWeaponAttackSpeed = 1f;
+                break;
+            case 1:
+                baseWeaponAttackSpeed = playerStats.weaponBaseAttacksPerSecond[0];
+                break;
+            case 2:
+                baseWeaponAttackSpeed = (playerStats.weaponBaseAttacksPerSecond[0] + playerStats.weaponBaseAttacksPerSecond[1]) / 2;
+                break;
+            default:
+                baseWeaponAttackSpeed = 1f;
+                break;
+        }
+        anim.SetFloat("AttackAnimSpeed", baseWeaponAttackSpeed * playerStats.attackSpeed);
         playerState = PlayerState.Attacking;
 
         // set up our timers here.
         float currentTimer = 0;
         // This represents the time we must wait: the base length of the animation clip times the speed modifier inherent in the animation clip editor plus some leeway for when the animation ends and blends away.
-        float targetTimer = 0.8f / playerStats.attackSpeed;
+        float targetTimer =  (1 / baseWeaponAttackSpeed) / playerStats.attackSpeed;
         //Debug.Log("the target timer is: " + targetTimer);
         bool breakLoop = false;
 

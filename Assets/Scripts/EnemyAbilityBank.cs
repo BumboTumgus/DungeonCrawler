@@ -114,7 +114,7 @@ public class EnemyAbilityBank : MonoBehaviour
 
                     // Instantiate the object, set it's damage and aim it at the player.
                     GameObject groundSlam = Instantiate(spellProjectiles[1], rayhit.point, Quaternion.identity);
-                    groundSlam.GetComponent<HitBox>().damage = myStats.baseDamage * (1 + (myStats.Str * 0.1f));
+                    groundSlam.GetComponent<HitBox>().damage = myStats.baseDamage * 1;
                     groundSlam.GetComponent<HitBox>().myStats = myStats;
                 }
 
@@ -143,7 +143,7 @@ public class EnemyAbilityBank : MonoBehaviour
                 hitboxLaunched = true;
                 // Instantiate the obhect, set it's damage and aim it at the player.
                 GameObject groundSlam = Instantiate(spellProjectiles[0], transform.position + transform.forward * 2, transform.rotation);
-                groundSlam.GetComponent<HitBox>().damage = myStats.baseDamage * (5 + (myStats.Str * 0.25f));
+                groundSlam.GetComponent<HitBox>().damage = myStats.baseDamage * 5;
                 groundSlam.GetComponent<HitBox>().myStats = myStats;
             }
             movementManager.RotateToTarget(combatController.myTarget.transform.position);
@@ -205,7 +205,7 @@ public class EnemyAbilityBank : MonoBehaviour
                 // Instantiate the obhect, set it's damage and aim it at the player.
                 Vector3 forward = combatController.myTarget.transform.position - transform.position;
                 GameObject tracer = Instantiate(spellProjectiles[0], transform.position + Vector3.up, Quaternion.LookRotation(forward, Vector3.up));
-                tracer.GetComponent<HitBox>().damage = myStats.baseDamage * (4 + (myStats.Int * 0.15f));
+                tracer.GetComponent<HitBox>().damage = myStats.baseDamage * 4;
                 tracer.GetComponent<HitBox>().myStats = myStats;
                 tracer.GetComponent<ProjectileBehaviour>().target = combatController.myTarget.transform;
             }
@@ -234,7 +234,7 @@ public class EnemyAbilityBank : MonoBehaviour
                 // Instantiate the obhect, set it's damage and aim it at the player.
                 Vector3 forward = combatController.myTarget.transform.position - transform.position;
                 GameObject axe = Instantiate(spellProjectiles[0], transform.position + Vector3.up, Quaternion.LookRotation(forward, Vector3.up));
-                axe.GetComponent<HitBox>().damage = myStats.baseDamage * (2 + (myStats.Dex * 0.2f));
+                axe.GetComponent<HitBox>().damage = myStats.baseDamage * 2;
                 axe.GetComponent<HitBox>().myStats = myStats;
             }
             movementManager.RotateToTarget(combatController.myTarget.transform.position);
@@ -264,7 +264,7 @@ public class EnemyAbilityBank : MonoBehaviour
                 hitboxLaunched = true;
                 // Instantiate the obhect, set it's damage and aim it at the player.
                 GameObject groundSlam = Instantiate(spellProjectiles[0], transform.position + transform.forward * 2, transform.rotation);
-                groundSlam.GetComponent<HitBox>().damage = myStats.baseDamage * (3 + (myStats.Str * 0.5f));
+                groundSlam.GetComponent<HitBox>().damage = myStats.baseDamage * 3;
                 groundSlam.GetComponent<HitBox>().myStats = myStats;
                 spellParticles[0].Stop();
                 spellParticles[1].Stop();
@@ -327,7 +327,7 @@ public class EnemyAbilityBank : MonoBehaviour
                 // Instantiate the obhect, set it's damage and aim it at the player.
                 Vector3 forward = combatController.myTarget.transform.position - transform.position;
                 GameObject acidShot = Instantiate(spellProjectiles[0], transform.position + Vector3.up, Quaternion.LookRotation(forward, Vector3.up));
-                acidShot.GetComponent<HitBox>().damage = myStats.baseDamage * (1 + (myStats.Int * 0.1f));
+                acidShot.GetComponent<HitBox>().damage = myStats.baseDamage * 1;
                 acidShot.GetComponent<HitBox>().myStats = myStats;
             }
             movementManager.RotateToTarget(combatController.myTarget.transform.position);
@@ -359,7 +359,7 @@ public class EnemyAbilityBank : MonoBehaviour
                 {
                     Vector3 forward = (combatController.myTarget.transform.position + combatController.myTarget.transform.right * (-2 + i)) - transform.position;
                     GameObject snakeShot = Instantiate(spellProjectiles[0], transform.position + Vector3.up, Quaternion.LookRotation(forward, Vector3.up));
-                    snakeShot.GetComponent<HitBox>().damage = myStats.baseDamage * (1 + (myStats.Int * 0.1f));
+                    snakeShot.GetComponent<HitBox>().damage = myStats.baseDamage * 1;
                     snakeShot.GetComponent<HitBox>().myStats = myStats;
                 }
             }

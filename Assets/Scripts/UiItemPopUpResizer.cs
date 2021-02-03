@@ -30,8 +30,6 @@ public class UiItemPopUpResizer : MonoBehaviour
     public Color[] itemOutlineColors;
     public Sprite[] itemTypeSprites;
     public Color[] traitTextColors;
-    public GameObject scalingObject;
-    public Transform scalingParent;
 
     private SkillBank skillBank;
     private RectTransform primaryPopUp;
@@ -209,58 +207,11 @@ public class UiItemPopUpResizer : MonoBehaviour
             if (index > 1)
                 Destroy(traitContainer.GetChild(index).gameObject);
         }
-        for(int index = 0; index < scalingParent.childCount; index++)
-        {
-            Destroy(scalingParent.GetChild(index).gameObject);
-        }
-    }
-
-    private void SetScalings(Item item)
-    {
-        //int currentIndex = 0;
-        for (int scalingIndex = 0; scalingIndex < 6; scalingIndex++)
-        {
-            float target = 0;
-            switch (scalingIndex)
-            {
-                case 0:
-                    target = item.vitScaling / 0.1f;
-                    break;
-                case 1:
-                    target = item.strScaling / 0.1f;
-                    break;
-                case 2:
-                    target = item.dexScaling / 0.1f;
-                    break;
-                case 3:
-                    target = item.spdScaling / 0.1f;
-                    break;
-                case 4:
-                    target = item.intScaling / 0.1f;
-                    break;
-                case 5:
-                    target = item.wisScaling / 0.1f;
-                    break;
-                case 6:
-                    target = item.chaScaling / 0.1f;
-                    break;
-                default:
-                    break;
-            }
-            //Debug.Log("target for " + scalingIndex + " is " + target);
-
-            for (int index = 0; index < target; index++)
-            {
-                GameObject scaling = Instantiate(scalingObject, scalingParent);
-                scaling.GetComponent<ScalingIconInitializer>().SetScalingImage(scalingIndex);
-            }
-        }
     }
 
     // Used to populate the popup with the traits we have.
     private void PopulatePopUp(Item item)
     {
-        SetScalings(item);
         // Sets up the traits for the popup.
         for(int index = 0; index < item.itemTraits.Count; index ++)
         {

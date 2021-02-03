@@ -17,7 +17,7 @@ public class EnemyManager : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if (instance == null)
             instance = this;
@@ -38,7 +38,7 @@ public class EnemyManager : MonoBehaviour
         if (currentTimer >= targetTimer)
         {
             currentTimer -= targetTimer;
-            Debug.Log("upgrading all the enemies stats");
+            //Debug.Log("upgrading all the enemies stats");
             foreach(PlayerStats stats in enemyStats)
             {
                 stats.LevelUpEnemy(enemyLevel);

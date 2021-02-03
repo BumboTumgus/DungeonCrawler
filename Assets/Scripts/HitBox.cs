@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class HitBox : MonoBehaviour
 {
-    public enum DamageType {Physical, Magical, True, Healing, PhysicalCrit, MagicalCrit, HealingCrit}
+    public enum DamageType {Physical, Fire, Ice, Lightning, Nature, Earth, Wind, Poison, Bleed, True, Healing}
     public DamageType damageType;
 
     public float damage = 5;
+    public int stacksToAdd = 0;
     public bool crit = false;
     public bool damageOverload = false;
     public bool procsOnHits = false;
@@ -23,8 +24,6 @@ public class HitBox : MonoBehaviour
     public bool disjointedHitbox = false;
 
     public bool bypassCrit = false;
-    public bool forceChangeDamageColor = false;
-    public Color damageColorOverride;
 
     private void Start()
     {
@@ -59,11 +58,13 @@ public class HitBox : MonoBehaviour
                 bool attackCrit = false;
 
                 float damageDealt = damage;
+                /*
                 if (!damageOverload)
                 {
                     // Check to see if the attack hit.
-                    damageDealt = myStats.baseDamage * (myStats.baseDamageScaling + ((float)myStats.Str * myStats.weaponStrScaling) + ((float)myStats.Dex * myStats.weaponDexScaling) + ((float)myStats.Vit * myStats.weaponVitScaling) + ((float)myStats.Spd * myStats.weaponSpdScaling) + ((float)myStats.Int * myStats.weaponIntScaling) + ((float)myStats.Wis * myStats.weaponWisScaling) + ((float)myStats.Cha * myStats.weaponChaScaling));
+                    damageDealt = myStats.baseDamage * 1;
                 }
+                */
                 // Debug.Log("we should check the on hits here.");
 
                 if (projectile && procsOnHits || projectileAOE && procsOnHits)
@@ -71,26 +72,6 @@ public class HitBox : MonoBehaviour
                 else if (procsOnHits)
                     transform.root.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this);
 
-                /*
-                if (myStats.weaponHitspeeds.Count > 0)
-                {
-                    if (Random.Range(0, 100) >= 100 - myStats.weaponCritChance - myStats.weaponBonusCritChance|| bypassCrit)
-                    {
-                        damageDealt *= (myStats.weaponCritMod + myStats.weaponBonusCritMod);
-                        attackCrit = true;
-                        bypassCrit = false;
-                    }
-                }
-                else
-                {
-                    if (Random.Range(0, 100) >= 95 || bypassCrit)
-                    {
-                        damageDealt *= 2;
-                        attackCrit = true;
-                        bypassCrit = false;
-                    }
-                }
-                */
                 if (bypassCrit)
                 {
                     attackCrit = true;
@@ -98,33 +79,43 @@ public class HitBox : MonoBehaviour
                     bypassCrit = false;
                 }
 
-                switch (damageType)
+                if (damageType != DamageType.Healing)
                 {
-                    case DamageType.Physical:
-                        damageDealt -= enemyStats.armor;
-                        break;
-                    case DamageType.Magical:
-                        damageDealt -= enemyStats.magicResist;
-                        break;
-                    case DamageType.True:
-                        break;
-                    case DamageType.PhysicalCrit:
-                        damageDealt -= enemyStats.armor;
-                        break;
-                    case DamageType.MagicalCrit:
-                        damageDealt -= enemyStats.magicResist;
-                        break;
-                    default:
-                        break;
-                }
-
-                //if(!forceChangeDamageColor)
-                if (damageType != DamageType.Healing && damageType != DamageType.HealingCrit)
+                    if(damageType != DamageType.Physical && damageType != DamageType.True)
+                    {
+                        switch (damageType)
+                        {
+                            case DamageType.Fire:
+                                enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Aflame, stacksToAdd, myStats.baseDamage);
+                                break;
+                            case DamageType.Ice:
+                                enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, stacksToAdd, myStats.baseDamage);
+                                break;
+                            case DamageType.Lightning:
+                                enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, stacksToAdd, myStats.baseDamage);
+                                break;
+                            case DamageType.Nature:
+                                enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overgrown, stacksToAdd, myStats.baseDamage);
+                                break;
+                            case DamageType.Earth:
+                                enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Sunder, stacksToAdd, myStats.baseDamage);
+                                break;
+                            case DamageType.Wind:
+                                enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Windshear, stacksToAdd, myStats.baseDamage);
+                                break;
+                            case DamageType.Poison:
+                                break;
+                            case DamageType.Bleed:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                     enemyStats.TakeDamage(damageDealt, attackCrit, damageType);
+                    myStats.comboManager.AddComboCounter(1);
+                }
                 else
-                    enemyStats.HealHealth(damageDealt, attackCrit, damageType);
-                //else
-                    //enemyStats.TakeDamage(damageDealt, attackCrit, damageColorOverride);
+                    enemyStats.HealHealth(damageDealt, damageType);
             }
             // Player Logic
             else if (other.CompareTag("Player") && hitPlayers)
@@ -140,20 +131,13 @@ public class HitBox : MonoBehaviour
                 bool attackCrit = false;
 
                 float damageDealt = damage;
+                /*
                 if (!damageOverload)
                 {
-                    // Check to see if the attack hit.
-                    //Debug.Log(myStats);
-                    damageDealt = myStats.baseDamage * (myStats.baseDamageScaling + ((float)myStats.Str * myStats.weaponStrScaling) + ((float)myStats.Dex * myStats.weaponDexScaling) + ((float)myStats.Vit * myStats.weaponVitScaling) + ((float)myStats.Spd * myStats.weaponSpdScaling) + ((float)myStats.Int * myStats.weaponIntScaling) + ((float)myStats.Wis * myStats.weaponWisScaling) + ((float)myStats.Cha * myStats.weaponChaScaling));
-                }
-
-                /*
-                if (!bypassCrit && Random.Range(0, 100) >= 100 - myStats.weaponCritChance - myStats.weaponBonusCritChance)
-                {
-                    damageDealt *= (myStats.weaponCritMod + myStats.weaponBonusCritMod);
-                    attackCrit = true;
+                    damageDealt = myStats.baseDamage * 1;
                 }
                 */
+
                 if (bypassCrit)
                 {
                     attackCrit = true;
@@ -161,37 +145,39 @@ public class HitBox : MonoBehaviour
                     bypassCrit = false;
                 }
 
-                switch (damageType)
+                if (damageType != DamageType.Healing)
                 {
-                    case DamageType.Physical:
-                        damageDealt -= enemyStats.armor;
-                        break;
-                    case DamageType.Magical:
-                        damageDealt -= enemyStats.magicResist;
-                        break;
-                    case DamageType.True:
-                        break;
-                    case DamageType.Healing:
-                        break;
-                    case DamageType.PhysicalCrit:
-                        damageDealt -= enemyStats.armor;
-                        break;
-                    case DamageType.MagicalCrit:
-                        damageDealt -= enemyStats.magicResist;
-                        break;
-                    case DamageType.HealingCrit:
-                        break;
-                    default:
-                        break;
-                }
-                //Debug.Log("the player shall take: " + damageDealt + " damage");
-                //if (!forceChangeDamageColor)
-                if (damageType != DamageType.Healing && damageType != DamageType.HealingCrit)
+                    if (damageType != DamageType.Physical && damageType != DamageType.True)
+                    {
+                        switch (damageType)
+                        {
+                            case DamageType.Fire:
+                                enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Aflame, stacksToAdd, myStats.baseDamage);
+                                break;
+                            case DamageType.Ice:
+                                enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, stacksToAdd, myStats.baseDamage);
+                                break;
+                            case DamageType.Lightning:
+                                enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, stacksToAdd, myStats.baseDamage);
+                                break;
+                            case DamageType.Nature:
+                                break;
+                            case DamageType.Earth:
+                                break;
+                            case DamageType.Wind:
+                                break;
+                            case DamageType.Poison:
+                                break;
+                            case DamageType.Bleed:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                     enemyStats.TakeDamage(damageDealt, attackCrit, damageType);
+                }
                 else
-                    enemyStats.HealHealth(damageDealt, attackCrit, damageType);
-                //else
-                //enemyStats.TakeDamage(damageDealt, attackCrit, damageColorOverride);
+                    enemyStats.HealHealth(damageDealt, damageType);
             }
         }
     }

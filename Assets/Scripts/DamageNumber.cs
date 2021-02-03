@@ -6,8 +6,10 @@ using UnityEngine.UI;
 public class DamageNumber : MonoBehaviour
 {
     public bool xMovementEnabled = true;
+    public bool shieldIconOverride = false;
 
     private Text damageText;
+    private Image shieldImage;
     private float xMovement;
 
     private const float MAX_X_MOVEMENT = 3.5f;
@@ -25,11 +27,18 @@ public class DamageNumber : MonoBehaviour
     // Called by the damage number manager to insatntiate and setup this damage number.
     public void SetDamageNumber(string value, Color textColor, float sizeMod)
     {
-        damageText = GetComponentInChildren<Text>();
-        damageText.text = value;
-        damageText.fontSize = (int) Mathf.Round(damageText.fontSize * sizeMod);
-        damageText.color = textColor;
-
+        if (!shieldIconOverride)
+        {
+            damageText = GetComponentInChildren<Text>();
+            damageText.text = value;
+            damageText.fontSize = (int)Mathf.Round(damageText.fontSize * sizeMod);
+            damageText.color = textColor;
+        }
+        else
+        {
+            shieldImage = GetComponentInChildren<Image>();
+            shieldImage.color = textColor;
+        }
         StartCoroutine(NumberMovement());
     }
 
@@ -38,20 +47,42 @@ public class DamageNumber : MonoBehaviour
     {
         // Set up the timer and start the vertical movement animation and fade.
         float currentTimer = 0;
-        damageText.GetComponent<Animator>().Play("DamageNumberPop");
+        if(!shieldIconOverride)
+            damageText.GetComponent<Animator>().Play("DamageNumberPop");
+        else
+            shieldImage.GetComponent<Animator>().Play("ResistShieldPop");
 
-        while(currentTimer < LIFETIME)
+        if (!shieldIconOverride)
         {
-            // Increment the timer and move the text side to side.
-            currentTimer += Time.deltaTime;
-            if (xMovementEnabled)
+            while (currentTimer < LIFETIME)
             {
-                damageText.transform.Translate(xMovement, 0, 0);
-                xMovement *= X_DECAY_SPEED;
-            }
+                // Increment the timer and move the text side to side.
+                currentTimer += Time.deltaTime;
+                if (xMovementEnabled)
+                {
+                    damageText.transform.Translate(xMovement, 0, 0);
+                    xMovement *= X_DECAY_SPEED;
+                }
 
-            yield return new WaitForEndOfFrame();
+                yield return new WaitForEndOfFrame();
+            }
         }
+        else
+        {
+            while (currentTimer < LIFETIME)
+            {
+                // Increment the timer and move the text side to side.
+                currentTimer += Time.deltaTime;
+                if (xMovementEnabled)
+                {
+                    shieldImage.transform.Translate(xMovement, 0, 0);
+                    xMovement *= X_DECAY_SPEED;
+                }
+
+                yield return new WaitForEndOfFrame();
+            }
+        }
+
 
         // Destroy ourselves.
         GetComponent<UiFollowTarget>().RemoveFromCullList();

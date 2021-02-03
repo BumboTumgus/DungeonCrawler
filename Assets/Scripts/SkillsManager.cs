@@ -115,7 +115,7 @@ public class SkillsManager : MonoBehaviour
                 switch (addedSkill.skillName)
                 {
                     case SkillNames.Revitalize:
-                        GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.Revitalize);
+                        GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.Revitalize, stats.baseDamage);
                         stats.revitalizeCount++;
                         break;
                 }
@@ -151,7 +151,7 @@ public class SkillsManager : MonoBehaviour
                         {
                             Buff buff = GetComponent<BuffsManager>().activeBuffs[buffIndex];
                             if (buff.myType == BuffsManager.BuffType.Revitalize)
-                                buff.RemoveStacks(1);
+                                buff.RemoveStacks(1, true);
                             stats.revitalizeCount--;
                         }
                         break;

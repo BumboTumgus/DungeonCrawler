@@ -11,20 +11,25 @@ public class HitBoxBuff : MonoBehaviour
     [SerializeField] private bool hitPlayers = false;
     [SerializeField] private bool hitSelf = false;
 
-    public float aflameValue = 0;
-    public float asleepValue = 0;
-    public float stunValue = 0;
-    public float curseValue = 0;
-    public float bleedValue = 0;
-    public float poisonValue = 0;
-    public float corrosionValue = 0;
-    public float frostbiteValue = 0;
+    public int aflameValue = 0;
+    public int frostbiteValue = 0;
+    public int overchargeValue = 0;
+    public int overgrownValue = 0;
+    public int sunderValue = 0;
+    public int windshearValue = 0;
+    public int knockbackValue = 0;
+    public int asleepValue = 0;
+    public int stunValue = 0;
+    public int bleedValue = 0;
+    public int poisonValue = 0;
+
+    public float baseDamage = 0;
 
     public void BuffSelf()
     {
         //Debug.Log("buffing self");
         if (hitSelf)
-            transform.root.GetComponent<BuffsManager>().NewBuff(buff);
+            transform.root.GetComponent<BuffsManager>().NewBuff(buff, baseDamage);
     }
 
     // USed to add afllictions to the caster of this spell.
@@ -33,21 +38,27 @@ public class HitBoxBuff : MonoBehaviour
         if (hitSelf)
         {
             if (aflameValue > 0)
-                transform.root.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Aflame, aflameValue);
-            if (asleepValue > 0)
-                transform.root.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Asleep, asleepValue);
-            if (stunValue > 0)
-                transform.root.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Stun, stunValue);
-            if (curseValue > 0)
-                transform.root.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Curse, curseValue);
-            if (bleedValue > 0)
-                transform.root.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Bleed, bleedValue);
-            if (poisonValue > 0)
-                transform.root.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Poison, poisonValue);
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Aflame, aflameValue, baseDamage);
             if (frostbiteValue > 0)
-                transform.root.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Frostbite, frostbiteValue);
-            if (corrosionValue > 0)
-                transform.root.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Corrosion, corrosionValue);
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, frostbiteValue, baseDamage);
+            if (overchargeValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, overchargeValue, baseDamage);
+            if (overgrownValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overgrown, overgrownValue, baseDamage);
+            if (sunderValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Sunder, sunderValue, baseDamage);
+            if (windshearValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Windshear, windshearValue, baseDamage);
+            if (knockbackValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Knockback, knockbackValue, baseDamage);
+            if (asleepValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Asleep, asleepValue, baseDamage);
+            if (stunValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Stunned, stunValue, baseDamage);
+            if (bleedValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Bleeding, bleedValue, baseDamage);
+            if (poisonValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, poisonValue, baseDamage);
         }
     }
 
@@ -57,45 +68,57 @@ public class HitBoxBuff : MonoBehaviour
         if (other.CompareTag("Enemy") && hitEnemies)
         {
             if(applyBuff)
-                other.GetComponent<BuffsManager>().NewBuff(buff);
+                other.GetComponent<BuffsManager>().NewBuff(buff, baseDamage);
             if (aflameValue > 0)
-                other.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Aflame, aflameValue);
-            if (asleepValue > 0)
-                other.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Asleep, asleepValue);
-            if (stunValue > 0)
-                other.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Stun, stunValue);
-            if (curseValue > 0)
-                other.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Curse, curseValue);
-            if (bleedValue > 0)
-                other.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Bleed, bleedValue);
-            if (poisonValue > 0)
-                other.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Poison, poisonValue);
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Aflame, aflameValue, baseDamage);
             if (frostbiteValue > 0)
-                other.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Frostbite, frostbiteValue);
-            if (corrosionValue > 0)
-                other.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Corrosion, corrosionValue);
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, frostbiteValue, baseDamage);
+            if (overchargeValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, overchargeValue, baseDamage);
+            if (overgrownValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overgrown, overgrownValue, baseDamage);
+            if (sunderValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Sunder, sunderValue, baseDamage);
+            if (windshearValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Windshear, windshearValue, baseDamage);
+            if (knockbackValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Knockback, knockbackValue, baseDamage);
+            if (asleepValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Asleep, asleepValue, baseDamage);
+            if (stunValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Stunned, stunValue, baseDamage);
+            if (bleedValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Bleeding, bleedValue, baseDamage);
+            if (poisonValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, poisonValue, baseDamage);
             //Debug.Log("adding buff to enemy");
         }
         else if (other.CompareTag("Player") && hitPlayers)
         {
             if (applyBuff)
-                other.GetComponent<BuffsManager>().NewBuff(buff);
+                other.GetComponent<BuffsManager>().NewBuff(buff, baseDamage);
             if (aflameValue > 0)
-                other.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Aflame, aflameValue);
-            if (asleepValue > 0)
-                other.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Asleep, asleepValue);
-            if (stunValue > 0)
-                other.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Stun, stunValue);
-            if (curseValue > 0)
-                other.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Curse, curseValue);
-            if (bleedValue > 0)
-                other.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Bleed, bleedValue);
-            if (poisonValue > 0)
-                other.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Poison, poisonValue);
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Aflame, aflameValue, baseDamage);
             if (frostbiteValue > 0)
-                other.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Frostbite, frostbiteValue);
-            if (corrosionValue > 0)
-                other.GetComponent<AfflictionManager>().AddAffliction(AfflictionManager.AfflictionTypes.Corrosion, corrosionValue);
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, frostbiteValue, baseDamage);
+            if (overchargeValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, overchargeValue, baseDamage);
+            if (overgrownValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overgrown, overgrownValue, baseDamage);
+            if (sunderValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Sunder, sunderValue, baseDamage);
+            if (windshearValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Windshear, windshearValue, baseDamage);
+            if (knockbackValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Knockback, knockbackValue, baseDamage);
+            if (asleepValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Asleep, asleepValue, baseDamage);
+            if (stunValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Stunned, stunValue, baseDamage);
+            if (bleedValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Bleeding, bleedValue, baseDamage);
+            if (poisonValue > 0)
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, poisonValue, baseDamage);
             //Debug.Log("adding buff to player");
         }
     }

@@ -86,19 +86,12 @@ public class Skill : MonoBehaviour
                 connectedBar.gameObject.SetActive(false);
             }
         }
-        else
-        {
-            if (skillCost > myManager.stats.mana)
-                noManaOverlay.SetActive(true);
-            else
-                noManaOverlay.SetActive(false);
-        }
     }
 
     // Called When the skill is going to be used.
     public void UseSkill()
     {
-        if (skillReady && myManager.stats.UseMana(skillCost))
+        if (skillReady)
         {
             Debug.Log("The skill " + skillName + " has been used");
             switch (skillName)
@@ -222,7 +215,7 @@ public class Skill : MonoBehaviour
             {
                 //myManager.ps[16].Play();
                 GameObject naturePulse = Instantiate(myManager.skillProjectiles[3], targetIndicator.transform.position, targetIndicator.transform.rotation);
-                naturePulse.GetComponent<HitBox>().damage = myManager.stats.baseDamage * (1.5f + 0.2f * myManager.stats.Vit); 
+                naturePulse.GetComponent<HitBox>().damage = myManager.stats.baseDamage * 1.5f; 
                 // 200% + 10% per int
                 naturePulse.GetComponent<HitBox>().myStats = myManager.stats;
                 anim.SetTrigger("ProjectileFired");
@@ -284,7 +277,7 @@ public class Skill : MonoBehaviour
         currentTimer = 0;
         targetTimer = 10f;
 
-        float damageToTake = myManager.stats.baseDamage * (0.2f + (0.02f * myManager.stats.Int));
+        float damageToTake = myManager.stats.baseDamage * 0.2f;
         myManager.hitBoxes.hitboxes[6].GetComponent<HitBox>().damage = damageToTake;
         float currentTickTimer = 0;
         while(currentTimer < targetTimer)
@@ -296,7 +289,7 @@ public class Skill : MonoBehaviour
                 currentTickTimer -= targetTimer / 20;
                 myManager.hitBoxes.LaunchHitBox(6);
                 //myManager.hitBoxes.buffboxes[7].GetComponent<HitBoxBuff>().AfflictSelf();
-                myManager.stats.TakeDamage(damageToTake / 2, false, HitBox.DamageType.Magical);
+                myManager.stats.TakeDamage(damageToTake / 2, false, HitBox.DamageType.Physical);
             }
             yield return null;
         }
@@ -318,7 +311,7 @@ public class Skill : MonoBehaviour
             currentTimer += Time.deltaTime;
             yield return null;
         }
-        myManager.hitBoxes.hitboxes[4].GetComponent<HitBox>().damage = myManager.stats.baseDamage * (1 + (0.15f * myManager.stats.Dex));
+        myManager.hitBoxes.hitboxes[4].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 1f;
         myManager.hitBoxes.LaunchHitBox(4);
         myManager.ps[29].Play();
         myManager.ps[30].Play();
@@ -342,7 +335,7 @@ public class Skill : MonoBehaviour
             currentTimer += Time.deltaTime;
             yield return null;
         }
-        myManager.hitBoxes.hitboxes[5].GetComponent<HitBox>().damage = myManager.stats.baseDamage * (3 + (0.3f * myManager.stats.Dex));
+        myManager.hitBoxes.hitboxes[5].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 3f;
         myManager.hitBoxes.LaunchHitBox(5);
         myManager.ps[33].Play();
         myManager.ps[34].Play();
@@ -395,7 +388,7 @@ public class Skill : MonoBehaviour
                     myManager.inputs.attackReleased = false;
                     GameObject earthernSpear = Instantiate(myManager.skillProjectiles[2], transform.position + new Vector3(0, 1, 0), transform.rotation);
                     earthernSpear.transform.LookAt(targetIndicator.transform.position);
-                    earthernSpear.GetComponent<HitBox>().damage = myManager.stats.baseDamage * (1f + (0.2f * myManager.stats.Int));
+                    earthernSpear.GetComponent<HitBox>().damage = myManager.stats.baseDamage * 1f;
                     earthernSpear.GetComponent<HitBox>().myStats = myManager.stats;
                     anim.SetTrigger("ProjectileFired");
                     myManager.ps[28].Play();
@@ -452,7 +445,7 @@ public class Skill : MonoBehaviour
                 Debug.Log("The input was pressed");
                 //myManager.ps[16].Play();
                 GameObject boulderFist = Instantiate(myManager.skillProjectiles[1], targetIndicator.transform.position, targetIndicator.transform.root.rotation);
-                boulderFist.GetComponent<HitBoxTerrain>().damage = myManager.stats.baseDamage * (3f + 0.3f * myManager.stats.Int);
+                boulderFist.GetComponent<HitBoxTerrain>().damage = myManager.stats.baseDamage * 3f;
                 anim.SetTrigger("ProjectileFired");
                 Destroy(targetIndicator);
                 myManager.ps[28].Play();
@@ -485,7 +478,7 @@ public class Skill : MonoBehaviour
             if (!playParticles && currentTimer > targetTimer * 0.5f)
             {
                 GameObject terrain = Instantiate(myManager.skillProjectiles[0], transform.root.position, transform.root.rotation);
-                terrain.GetComponent<HitBoxTerrain>().damage = myManager.stats.baseDamage * (5f + (0.5f * myManager.stats.Int));
+                terrain.GetComponent<HitBoxTerrain>().damage = myManager.stats.baseDamage * (5f);
                 myManager.ps[28].Play();
                 playParticles = true;
             }
@@ -624,7 +617,7 @@ public class Skill : MonoBehaviour
         pc.playerState = PlayerMovementController.PlayerState.CastingRollOut;
         myManager.ps[6].Play();
         bool playParticles = false;
-        myManager.hitBoxes.hitboxes[1].GetComponent<HitBox>().damage = myManager.stats.baseDamage * (4 * (myManager.stats.Str * 0.3f + myManager.stats.Dex * 0.3f));
+        myManager.hitBoxes.hitboxes[1].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 4f;
 
         while(currentTimer < targetTimer)
         {
@@ -719,7 +712,7 @@ public class Skill : MonoBehaviour
             {
                 myManager.ps[14].Play();
                 myManager.ps[15].Play();
-                myManager.hitBoxes.hitboxes[2].GetComponent<HitBox>().damage = myManager.stats.baseDamage * (2f * (0.2f * myManager.stats.Dex + 0.2f * myManager.stats.Spd));
+                myManager.hitBoxes.hitboxes[2].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 2f;
                 myManager.hitBoxes.LaunchHitBox(2);
                 playParticles = true;
             }
@@ -810,12 +803,12 @@ public class Skill : MonoBehaviour
                 // flicker hitbox
                 if (!maxDamage)
                 {
-                    myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damage = myManager.stats.baseDamage * (6f + (myManager.stats.Str * 0.4f)) * chargePercent;
+                    myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 6f * chargePercent;
                     myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damageType = HitBox.DamageType.Physical;
                 }
                 else
                 {
-                    myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damage = myManager.stats.baseDamage * (9f + (myManager.stats.Str * 0.6f));
+                    myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 9f;
                     myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damageType = HitBox.DamageType.True;
                 }
 

@@ -23,6 +23,9 @@ public class Item : MonoBehaviour
 
     public bool itemPickUpAllowed = true;
 
+    public HitBox.DamageType damageType;
+    public int stacksToAddOnHit = 0;
+
     public enum HelmetType {NoFeatures, NoHair, AllFeatures};
     public HelmetType helmetType;
 
@@ -46,26 +49,8 @@ public class Item : MonoBehaviour
     public enum ItemRarity { Common, Uncommon, Rare, Legendary, Masterwork}
     public ItemRarity itemRarity = ItemRarity.Common;
 
-    // Equipable Stats (weapons armor and trinkets)
-    /*
-    public int vitMod;
-    public int strMod;
-    public int dexMod;
-    public int spdMod;
-    public int intMod;
-    public int wisMod;
-    public int chaMod;
-    */
     public float attacksPerSecond;
     public float baseDamageScaling;
-    
-    public float vitScaling = 0;
-    public float strScaling = 0;
-    public float dexScaling = 0;
-    public float spdScaling = 0;
-    public float intScaling = 0;
-    public float wisScaling = 0;
-    public float chaScaling = 0;
 
     public int itemMoveset = 0;
 
