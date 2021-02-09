@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovementController : MonoBehaviour
 {
     // a state machine that dictates the actions the player can take.
-    public enum PlayerState { Idle, Moving, Airborne, Rolling, Sprinting, Attacking, Downed, Dead, Stunned, Asleep, CastingNoMovement, CastingRollOut, CastingWithMovement, Jumping}
+    public enum PlayerState { Idle, Moving, Airborne, Rolling, Sprinting, Attacking, Downed, Dead, Stunned, Asleep, Frozen, CastingNoMovement, CastingRollOut, CastingWithMovement, Jumping, KnockedBack}
     public PlayerState playerState = PlayerState.Idle;
 
     [HideInInspector] public bool menuOpen = false;                   // USed to lock movement if the menu is open.
@@ -27,10 +27,12 @@ public class PlayerMovementController : MonoBehaviour
     private HitBoxManager hitBoxManager;
     private Inventory inventory;
     private CameraControls cameraControls;
+    private RagdollManager ragdollManager;
 
     private bool attackReady = true;                                  // a check to see if we can launch an attack, gets flicked off whern we attack and on when we wait long enough
 
     private bool rollReady = true;                                    // a check to see if we can roll, flicks off when we roll and on when we wait long enoguh
+    private IEnumerator rollCoroutine;
 
     private bool grounded = true;                                     // is the character on walkable ground. Used for jumping, rlling, and other movement
     private float gravityVectorStrength = 0f;                         // the current downward force of gravity, so the player accelerates towards the ground.
@@ -43,6 +45,7 @@ public class PlayerMovementController : MonoBehaviour
     private const float JUMP_POWER = 0.18f;
     private const float ROLL_SPEED_MULTIPLIER = 2f;
     private const float ROLL_ANIMSPEED_MULITPLIER = 0.6f;
+
     //private const float POSITIONAL_DIFFERENCE_OFFSET = 0.1f;
 
     // Start is called before the first frame update. Herte we grab a;; the connected scripts on the gameobject
@@ -58,6 +61,7 @@ public class PlayerMovementController : MonoBehaviour
         hitBoxManager = GetComponent<HitBoxManager>();
         cameraControls = mainCameraTransform.GetComponentInChildren<CameraControls>();
         inventory = GetComponent<Inventory>();
+        ragdollManager = GetComponent<RagdollManager>();
 
         // This is used to grab the length of animation clips
         //float AnimTestTimer = 99;
@@ -78,6 +82,12 @@ public class PlayerMovementController : MonoBehaviour
             PlayerDowned();
         if (Input.GetKeyDown(KeyCode.L))
             PlayerRevived();
+
+        if (Input.GetKeyDown(KeyCode.Alpha1) && CompareTag("Player"))
+            KnockbackLaunch(Vector3.up + transform.forward * 3);
+        if (Input.GetKeyDown(KeyCode.Alpha2) && CompareTag("Player"))
+            playerStats.knockedBack = false;
+
         switch (playerState)
         {
             case PlayerState.Idle:
@@ -122,12 +132,21 @@ public class PlayerMovementController : MonoBehaviour
                 CheckRoll();
                 break;
             case PlayerState.Downed:
+                ApplyGravity();
                 break;
             case PlayerState.Dead:
+                ApplyGravity();
                 break;
             case PlayerState.Stunned:
+                ApplyGravity();
+                break;
+            case PlayerState.Frozen:
+                ApplyGravity();
                 break;
             case PlayerState.Asleep:
+                ApplyGravity();
+                break;
+            case PlayerState.KnockedBack:
                 break;
             case PlayerState.CastingNoMovement:
                 ApplyGravity();
@@ -214,17 +233,23 @@ public class PlayerMovementController : MonoBehaviour
 
             //Debug.Log("The positional difference is: " + positionalDifference + ". Our transform is: " + transform.position);
 
-            anim.SetBool("Grounded", true);
-            if (playerState == PlayerState.Airborne)
-                playerState = PlayerState.Idle;
+            if (!playerStats.stunned && !playerStats.knockedBack && !playerStats.asleep && !playerStats.frozen)
+            {
+                anim.SetBool("Grounded", true);
+                if (playerState == PlayerState.Airborne)
+                    playerState = PlayerState.Idle;
+            }
         }
         else
         {
             // if we are np longer grounded switch the state and and animation.
-            grounded = false;
-            anim.SetBool("Grounded", false);
-            if(playerState != PlayerState.Jumping)
-                playerState = PlayerState.Airborne;
+            if (!playerStats.stunned && !playerStats.knockedBack && !playerStats.asleep && !playerStats.frozen)
+            {
+                grounded = false;
+                anim.SetBool("Grounded", false);
+                if (playerState != PlayerState.Jumping)
+                    playerState = PlayerState.Airborne;
+            }
 
             Vector3 gravityVector = Vector3.zero;
 
@@ -250,21 +275,31 @@ public class PlayerMovementController : MonoBehaviour
         playerState = PlayerState.Jumping;
         grounded = false;
         gravityVectorStrength = JUMP_POWER;
+
         yield return new WaitForSeconds(0.5f);
-        playerState = PlayerState.Airborne;
+
+        if (playerStats.frozen || playerStats.stunned || playerStats.asleep || playerStats.knockedBack)
+            Debug.Log("we have some sort of cc on us");
+        else
+            playerState = PlayerState.Airborne;
     }
 
     // Used to check and see if the player has started a roll action.
     private void CheckRoll()
     {
         if (Input.GetAxisRaw(inputs.rollInput) != 0 && grounded && (playerState != PlayerState.Airborne && playerState != PlayerState.Stunned) && rollReady && !menuOpen)
-            StartCoroutine(Roll());
+        {
+            rollCoroutine = Roll();
+            StartCoroutine(rollCoroutine);
+        }
     }
 
     // Used to compelte the roll logic.
     IEnumerator Roll()
     {
         rollReady = false;
+
+        buffsManager.ProcOnRoll();
 
         anim.SetTrigger("Roll");
         if(playerStats.movespeedPercentMultiplier >= 0.25f)
@@ -340,6 +375,7 @@ public class PlayerMovementController : MonoBehaviour
 
             controller.Move(desiredMoveDirection * currentSpeed * Time.deltaTime);
 
+
             yield return new WaitForFixedUpdate();
         }
 
@@ -362,6 +398,7 @@ public class PlayerMovementController : MonoBehaviour
     // Used to start the attack logic.
     IEnumerator Attack()
     {
+        buffsManager.ProcOnAttack();
         attackReady = false;
         anim.SetTrigger("Attack");
         float baseWeaponAttackSpeed = 1f;
@@ -396,7 +433,7 @@ public class PlayerMovementController : MonoBehaviour
             currentTimer += Time.deltaTime;
 
             // Break away from this coroutine if we start a roll.
-            if (playerState == PlayerState.Rolling || playerStats.stunned || playerStats.asleep)
+            if (playerState == PlayerState.Rolling || playerStats.stunned || playerStats.asleep || playerStats.knockedBack || playerStats.frozen)
             {
                 breakLoop = true;
                 break;
@@ -435,6 +472,8 @@ public class PlayerMovementController : MonoBehaviour
     // The stunned coroutine. Makes the player unable to take action.
     IEnumerator Stunned()
     {
+        if(!playerStats.frozen)
+            anim.SetFloat("FrozenMultiplier", 1f);
         playerStats.stunned = true;
         playerState = PlayerState.Stunned;
         anim.SetBool("Stunned", true);
@@ -442,18 +481,21 @@ public class PlayerMovementController : MonoBehaviour
         while (playerStats.stunned)
             yield return null;
 
-        playerState = PlayerState.Idle;
         playerStats.stunned = false;
-        anim.SetBool("Stunned", false);
+        if (!playerStats.frozen)
+        {
+            anim.SetBool("Stunned", false);
+            playerState = PlayerState.Idle;
+        }
     }
 
-    // Used when the player gets stunned
+    // Used when the player gets put to sleep
     public void AsleepLaunch()
     {
         StartCoroutine(Asleep());
     }
 
-    // The stunned coroutine. Makes the player unable to take action.
+    // The asleep coroutine. Makes the player unable to take action.
     IEnumerator Asleep()
     {
         playerStats.asleep = true;
@@ -466,6 +508,57 @@ public class PlayerMovementController : MonoBehaviour
         playerState = PlayerState.Idle;
         playerStats.asleep = false;
         anim.SetBool("Sleeping", false);
+    }
+
+    // Used when the player gets frozen
+    public void FrozenLaunch()
+    {
+        StartCoroutine(Frozen());
+    }
+
+    // The asleep coroutine. Makes the player unable to take action.
+    IEnumerator Frozen()
+    {
+        playerStats.frozen = true;
+        playerState = PlayerState.Frozen;
+        anim.SetBool("Stunned", true);
+        anim.SetFloat("FrozenMultiplier", 0f);
+
+        while (playerStats.frozen)
+            yield return null;
+
+        playerStats.frozen = false;
+
+        if (!playerStats.stunned)
+        {
+            anim.SetBool("Stunned", false);
+            playerState = PlayerState.Idle;
+        }
+        anim.SetFloat("FrozenMultiplier", 1f);
+    }
+
+    // Used when the player gets frozen
+    public void KnockbackLaunch(Vector3 directionOfKnockback)
+    {
+        StartCoroutine(Knockback(directionOfKnockback));
+    }
+
+    // The asleep coroutine. Makes the player unable to take action.
+    IEnumerator Knockback(Vector3 directionalKnockback)
+    {
+        if(rollCoroutine != null)
+            StopCoroutine(rollCoroutine);
+        rollReady = true;
+
+        playerStats.knockedBack = true;
+        playerState = PlayerState.KnockedBack;
+        ragdollManager.EnableRagDollState(directionalKnockback);
+
+        while (playerStats.knockedBack)
+            yield return null;
+
+        ragdollManager.DisableRagDollState();
+        playerState = PlayerState.Idle;
     }
 
     // Used to make the player do a pickup animation.

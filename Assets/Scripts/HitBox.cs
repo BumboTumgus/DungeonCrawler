@@ -104,8 +104,10 @@ public class HitBox : MonoBehaviour
                                 enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Windshear, stacksToAdd, myStats.baseDamage);
                                 break;
                             case DamageType.Poison:
+                                enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, stacksToAdd, myStats.baseDamage);
                                 break;
                             case DamageType.Bleed:
+                                enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Bleeding, stacksToAdd, myStats.baseDamage);
                                 break;
                             default:
                                 break;

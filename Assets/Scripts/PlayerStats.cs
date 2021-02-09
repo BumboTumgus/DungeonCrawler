@@ -74,7 +74,9 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public bool untargetable = false;
     [HideInInspector] public bool invisibile = false;
     [HideInInspector] public bool stunned = false;
+    [HideInInspector] public bool knockedBack = false;
     [HideInInspector] public bool asleep = false;
+    [HideInInspector] public bool frozen = false;
     [HideInInspector] public bool bleeding = false;
     [HideInInspector] public bool ephemeral = false;
     [HideInInspector] public float invulnerableCount = 0;
@@ -89,6 +91,7 @@ public class PlayerStats : MonoBehaviour
     private DamageNumberManager damageNumberManager;
     private BuffsManager buffManager;
     public ComboManager comboManager;
+
 
     [SerializeField] private GameObject enemyHealthBar;
 
@@ -127,6 +130,7 @@ public class PlayerStats : MonoBehaviour
             TakeDamage(10,false, HitBox.DamageType.Physical);
         if (Input.GetKeyDown(KeyCode.U) && CompareTag("Player"))
             comboManager.AddComboCounter(1);
+
         if (Input.GetKeyDown(KeyCode.Keypad0) && CompareTag("Player"))
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Aflame, 1, baseDamage);
         if (Input.GetKeyDown(KeyCode.Keypad1) && CompareTag("Player"))
@@ -139,6 +143,18 @@ public class PlayerStats : MonoBehaviour
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Windshear, 1, baseDamage);
         if (Input.GetKeyDown(KeyCode.Keypad5) && CompareTag("Player"))
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Sunder, 1, baseDamage);
+        if (Input.GetKeyDown(KeyCode.Keypad6) && CompareTag("Player"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Bleeding, 1, baseDamage);
+        if (Input.GetKeyDown(KeyCode.Keypad7) && CompareTag("Player"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, 1, baseDamage);
+
+
+        if (Input.GetKeyDown(KeyCode.Keypad8) && CompareTag("Player"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Frozen, 1, baseDamage);
+        if (Input.GetKeyDown(KeyCode.Keypad9) && CompareTag("Player"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Asleep, 1, baseDamage);
+        if (Input.GetKeyDown(KeyCode.KeypadPeriod) && CompareTag("Player"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, baseDamage);
 
         // Health and mana regen logic.
         if (!dead)

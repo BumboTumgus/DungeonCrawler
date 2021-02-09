@@ -112,6 +112,27 @@ public class Buff : MonoBehaviour
             connectedIcon.GetComponent<Animator>().SetBool("AlmostDone", false);
         }
 
+        // reset one time aprticle effects of the target.
+        if(reset)
+        {
+            switch (myType)
+            {
+                case BuffsManager.BuffType.Frozen:
+                    foreach (ParticleSystem ps in effectParticleSystem)
+                        ps.Stop();
+                    foreach (ParticleSystem ps in effectParticleSystem)
+                        ps.Play();
+                    break;
+                case BuffsManager.BuffType.Asleep:
+                    foreach (ParticleSystem ps in effectParticleSystem)
+                        ps.Stop();
+                    foreach (ParticleSystem ps in effectParticleSystem)
+                        ps.Play();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     // Used to add stacks and stats per stat to the target.
@@ -320,6 +341,8 @@ public class Buff : MonoBehaviour
             connectedPlayer.stunned = false;
         else if (myType == BuffsManager.BuffType.Asleep)
             connectedPlayer.asleep = false;
+        else if (myType == BuffsManager.BuffType.Frozen)
+            connectedPlayer.frozen = false;
         else if (myType == BuffsManager.BuffType.Bleeding)
             connectedPlayer.bleeding = false;
         else if (myType == BuffsManager.BuffType.Revitalize)

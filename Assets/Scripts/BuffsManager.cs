@@ -10,7 +10,7 @@ public class BuffsManager : MonoBehaviour
     public Transform canvasParent;
     public GameObject buffIconPrefab;
 
-    public enum BuffType { Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, EmboldeningEmbers, FlameStrike, AspectOfRage, BlessingOfFlames, Rampage,
+    public enum BuffType { Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, Frozen, EmboldeningEmbers, FlameStrike, AspectOfRage, BlessingOfFlames, Rampage,
                             GiantStrength, ToxicRipple, KillerInstinct, PoisonedMud, StrangleThorn, SoothingStone, Deadeye, WrathOfTheRagingWind, FrozenBarrier, SoothingStream,
                             NaturePulse, Revitalize};
     
@@ -43,6 +43,9 @@ public class BuffsManager : MonoBehaviour
                 resistance = stats.aflameResistance;
                 break;
             case BuffType.Frostbite:
+                resistance = stats.frostbiteResistance;
+                break;
+            case BuffType.Frozen:
                 resistance = stats.frostbiteResistance;
                 break;
             case BuffType.Overcharge:
@@ -87,6 +90,8 @@ public class BuffsManager : MonoBehaviour
                             break;
                         case BuffType.Frostbite:
                             break;
+                        case BuffType.Frozen:
+                            break;
                         case BuffType.Overcharge:
                             break;
                         case BuffType.Overgrown:
@@ -110,7 +115,7 @@ public class BuffsManager : MonoBehaviour
                     }
                 }
                     //here i would spawn a resisted 
-                    Debug.Log("resisted");
+                    //Debug.Log("resisted");
             }
         }
         else
@@ -156,6 +161,13 @@ public class BuffsManager : MonoBehaviour
                     if (activeBuff.myType == BuffType.Aflame)
                     {
                         activeBuff.RemoveStacks(1, false);
+                        buffDealtWith = true;
+                    }
+                    break;
+                case BuffType.Frozen:
+                    if (activeBuff.myType == BuffType.Aflame)
+                    {
+                        activeBuff.RemoveStacks(5, false);
                         buffDealtWith = true;
                     }
                     break;
@@ -256,6 +268,25 @@ public class BuffsManager : MonoBehaviour
                     psSystems[2].Play();
 
                     break;
+                case BuffType.Frozen:
+
+                    Buff frozen = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    frozen.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[7];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[1];
+
+                    activeBuffs.Add(frozen);
+
+                    frozen.myType = buff;
+                    frozen.connectedPlayer = stats;
+                    frozen.infiniteDuration = false;
+                    frozen.duration = 5f;
+                    GetComponent<PlayerMovementController>().FrozenLaunch();
+
+                    frozen.effectParticleSystem.Add(psSystems[12]);
+                    psSystems[12].Play();
+
+                    break;
                 case BuffType.Overcharge:
 
                     Buff overcharge = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
@@ -351,13 +382,71 @@ public class BuffsManager : MonoBehaviour
                     psSystems[8].Play();
 
                     break;
+                case BuffType.Bleeding:
+
+                    Buff bleeding = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    bleeding.connectedIcon = buffIcon;
+                    bleeding.iconStacks = buffIcon.GetComponentInChildren<Text>();
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[6];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[6];
+
+                    activeBuffs.Add(bleeding);
+
+                    bleeding.myType = buff;
+                    bleeding.maxStacks = 100;
+                    bleeding.currentStacks = 1;
+                    bleeding.stackable = true;
+                    bleeding.stackSingleFalloff = false;
+                    bleeding.connectedPlayer = stats;
+                    bleeding.infiniteDuration = false;
+                    bleeding.duration = 5;
+
+                    bleeding.DPS = baseDamage * 0.3f;
+                    bleeding.damageType = HitBox.DamageType.Bleed;
+
+                    stats.bleeding = true;
+
+                    bleeding.effectParticleSystem.Add(psSystems[9]);
+                    psSystems[9].Play();
+                    psSystems[10].Play();
+
+                    break;
+                case BuffType.Poisoned:
+                    Buff poisoned = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    poisoned.connectedIcon = buffIcon;
+                    poisoned.iconStacks = buffIcon.GetComponentInChildren<Text>();
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[6];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[7];
+
+                    activeBuffs.Add(poisoned);
+
+                    poisoned.myType = buff;
+                    poisoned.maxStacks = 100;
+                    poisoned.currentStacks = 1;
+                    poisoned.stackable = true;
+                    poisoned.stackSingleFalloff = false;
+                    poisoned.connectedPlayer = stats;
+                    poisoned.infiniteDuration = false;
+                    poisoned.duration = 20;
+
+                    if (stats.healthMax * 0.001f < baseDamage * 0.1f)
+                        poisoned.DPS = baseDamage * 0.1f;
+                    else if (stats.healthMax * 0.001f > baseDamage * 5)
+                        poisoned.DPS = baseDamage * 5f;
+                    else
+                        poisoned.DPS = stats.healthMax * 0.001f;
+
+                    poisoned.damageType = HitBox.DamageType.Poison;
+
+                    poisoned.effectParticleSystem.Add(psSystems[11]);
+                    psSystems[11].Play();
+                    break;
                 case BuffType.Asleep:
 
-                    //Debug.Log("Adding asleep debuff");
-                    //uiPopupManager.SpawnFlavorText("Asleep!", damageColors[5]);
                     Buff asleep = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     asleep.connectedIcon = buffIcon;
-                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[0];
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[8];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[8];
 
                     activeBuffs.Add(asleep);
 
@@ -367,17 +456,18 @@ public class BuffsManager : MonoBehaviour
                     asleep.duration = 5;
                     asleep.DPS = 0;
                     GetComponent<PlayerMovementController>().AsleepLaunch();
-                    asleep.effectParticleSystem.Add(psSystems[1]);
-                    psSystems[1].Play();
+                    asleep.effectParticleSystem.Add(psSystems[13]);
+                    asleep.effectParticleSystem.Add(psSystems[14]);
+                    psSystems[13].Play();
+                    psSystems[14].Play();
 
                     break;
                 case BuffType.Stunned:
 
-                    //Debug.Log("Adding stun debuff");
-                    //uiPopupManager.SpawnFlavorText("Cursed!", damageColors[6]);
                     Buff stunned = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     stunned.connectedIcon = buffIcon;
-                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[0];
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[9];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[9];
 
                     activeBuffs.Add(stunned);
 
@@ -387,53 +477,10 @@ public class BuffsManager : MonoBehaviour
                     stunned.duration = 2;
                     stunned.DPS = 0;
                     GetComponent<PlayerMovementController>().StunLaunch();
-                    stunned.effectParticleSystem.Add(psSystems[2]);
-                    psSystems[2].Play();
-
-                    break;
-                case BuffType.Bleeding:
-
-                    //Debug.Log("Adding bleed debuff");
-                    //uiPopupManager.SpawnFlavorText("Bleeding!", damageColors[2]);
-                    Buff bleed = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
-                    bleed.connectedIcon = buffIcon;
-                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[0];
-
-                    activeBuffs.Add(bleed);
-
-                    bleed.myType = buff;
-                    bleed.connectedPlayer = stats;
-                    bleed.infiniteDuration = false;
-                    bleed.duration = 10;
-                    bleed.DPS = stats.healthMax * 0.025f;
-                    //bleed.damageColor = damageColors[2];
-                    stats.bleeding = true;
-                    stats.TakeDamage(stats.healthMax * 0.25f, false, HitBox.DamageType.Physical);
-                    bleed.effectParticleSystem.Add(psSystems[6]);
-                    psSystems[6].Play();
-                    psSystems[5].Play();
-
-                    break;
-                case BuffType.Poisoned:
-
-                    //Debug.Log("Adding poison debuff");
-                    //uiPopupManager.SpawnFlavorText("Poisoned!", damageColors[3]);
-                    Buff poisoned = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
-                    poisoned.connectedIcon = buffIcon;
-                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[0];
-
-                    activeBuffs.Add(poisoned);
-
-                    poisoned.myType = buff;
-                    poisoned.connectedPlayer = stats;
-                    poisoned.infiniteDuration = false;
-                    poisoned.duration = 20;
-                    poisoned.DPS = stats.healthMax * 0.05f;
-                    poisoned.damageType = HitBox.DamageType.Physical;
-                    poisoned.effectParticleSystem.Add(psSystems[8]);
-                    poisoned.effectParticleSystem.Add(psSystems[9]);
-                    psSystems[8].Play();
-                    psSystems[9].Play();
+                    stunned.effectParticleSystem.Add(psSystems[15]);
+                    stunned.effectParticleSystem.Add(psSystems[16]);
+                    psSystems[15].Play(); 
+                    psSystems[16].Play();
 
                     break;
                 case BuffType.EmboldeningEmbers:
@@ -826,6 +873,40 @@ public class BuffsManager : MonoBehaviour
                     }
                     */
                     buff.currentTimer = buff.duration;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void ProcOnAttack()
+    {
+
+        foreach (Buff buff in activeBuffs)
+        {
+            switch (buff.myType)
+            {
+                case BuffType.Bleeding:
+                    psSystems[10].Play();
+                    stats.TakeDamage(buff.DPS * buff.currentStacks, false, buff.damageType);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+
+    public void ProcOnRoll()
+    {
+        foreach (Buff buff in activeBuffs)
+        {
+            switch (buff.myType)
+            {
+                case BuffType.Bleeding:
+                    psSystems[10].Play();
+                    stats.TakeDamage(buff.DPS * buff.currentStacks, false, buff.damageType);
                     break;
                 default:
                     break;
