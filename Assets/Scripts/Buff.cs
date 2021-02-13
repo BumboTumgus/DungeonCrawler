@@ -345,6 +345,8 @@ public class Buff : MonoBehaviour
             connectedPlayer.frozen = false;
         else if (myType == BuffsManager.BuffType.Bleeding)
             connectedPlayer.bleeding = false;
+        else if (myType == BuffsManager.BuffType.Knockback)
+            connectedPlayer.knockedBack = false;
         else if (myType == BuffsManager.BuffType.Revitalize)
         {
             connectedPlayer.revitalizeBuff = false;

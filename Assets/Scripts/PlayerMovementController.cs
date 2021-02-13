@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovementController : MonoBehaviour
 {
     // a state machine that dictates the actions the player can take.
-    public enum PlayerState { Idle, Moving, Airborne, Rolling, Sprinting, Attacking, Downed, Dead, Stunned, Asleep, Frozen, CastingNoMovement, CastingRollOut, CastingWithMovement, Jumping, KnockedBack}
+    public enum PlayerState { Idle, Moving, Airborne, Rolling, Sprinting, Attacking, Downed, Dead, LossOfControl, LossOfControlNoGravity, CastingNoMovement, CastingRollOut, CastingWithMovement, Jumping}
     public PlayerState playerState = PlayerState.Idle;
 
     [HideInInspector] public bool menuOpen = false;                   // USed to lock movement if the menu is open.
@@ -13,7 +13,7 @@ public class PlayerMovementController : MonoBehaviour
 
     [SerializeField] private float movementSpeed = 2f;                // our base movespeed, gets overridden based on the characters stats in the stats script.
     private float currentSpeed = 0f;                                  // the current speed we are moving at.
-    private float speedSmoothVelocity = 0f;                                         
+    private float speedSmoothVelocity = 0f;
     private float speedSmoothTime = 0.1f;
     private float rotationSpeed = 0.1f;                               // how fast the player rotates towards a target
 
@@ -33,6 +33,7 @@ public class PlayerMovementController : MonoBehaviour
 
     private bool rollReady = true;                                    // a check to see if we can roll, flicks off when we roll and on when we wait long enoguh
     private IEnumerator rollCoroutine;
+    private IEnumerator attackCoroutine;
 
     private bool grounded = true;                                     // is the character on walkable ground. Used for jumping, rlling, and other movement
     private float gravityVectorStrength = 0f;                         // the current downward force of gravity, so the player accelerates towards the ground.
@@ -40,11 +41,14 @@ public class PlayerMovementController : MonoBehaviour
     private RaycastHit groundRayHit;
     [SerializeField] private LayerMask groundingRayMask = 1 << 10;    // ensures the ray will only check for the COLLIDABLE ENVIRONMENT layer.
 
+
+
     private const float GRAVITY = 0.4f;
     private const float GROUNDING_RAY_LENGTH = 0.7f;
     private const float JUMP_POWER = 0.18f;
     private const float ROLL_SPEED_MULTIPLIER = 2f;
     private const float ROLL_ANIMSPEED_MULITPLIER = 0.6f;
+
 
     //private const float POSITIONAL_DIFFERENCE_OFFSET = 0.1f;
 
@@ -62,16 +66,6 @@ public class PlayerMovementController : MonoBehaviour
         cameraControls = mainCameraTransform.GetComponentInChildren<CameraControls>();
         inventory = GetComponent<Inventory>();
         ragdollManager = GetComponent<RagdollManager>();
-
-        // This is used to grab the length of animation clips
-        //float AnimTestTimer = 99;
-        //RuntimeAnimatorController ac = anim.runtimeAnimatorController;
-        //for(int i = 0; i < ac.animationClips.Length; i ++)
-        //{
-        //    if (ac.animationClips[i].name == "ArmedAttackDual3_Cleaned")
-        //        AnimTestTimer = ac.animationClips[i].length;
-        //}
-        //Debug.Log(AnimTestTimer);
     }
 
     // Update is called once per frame
@@ -84,7 +78,7 @@ public class PlayerMovementController : MonoBehaviour
             PlayerRevived();
 
         if (Input.GetKeyDown(KeyCode.Alpha1) && CompareTag("Player"))
-            KnockbackLaunch(Vector3.up + transform.forward * 3);
+            KnockbackLaunch(Vector3.up + transform.forward * 10);
         if (Input.GetKeyDown(KeyCode.Alpha2) && CompareTag("Player"))
             playerStats.knockedBack = false;
 
@@ -137,16 +131,10 @@ public class PlayerMovementController : MonoBehaviour
             case PlayerState.Dead:
                 ApplyGravity();
                 break;
-            case PlayerState.Stunned:
+            case PlayerState.LossOfControl:
                 ApplyGravity();
                 break;
-            case PlayerState.Frozen:
-                ApplyGravity();
-                break;
-            case PlayerState.Asleep:
-                ApplyGravity();
-                break;
-            case PlayerState.KnockedBack:
+            case PlayerState.LossOfControlNoGravity:
                 break;
             case PlayerState.CastingNoMovement:
                 ApplyGravity();
@@ -261,6 +249,21 @@ public class PlayerMovementController : MonoBehaviour
 
     }
 
+    // Used to snap our character to the floor is possible.
+    public void SnapToFloor()
+    {
+        Ray groundRay = new Ray(transform.position + Vector3.up * 0.5f, Vector3.down);
+        RaycastHit groundRayHit;
+
+        // Shoot a ray, if it we hit we are grounded if not we are no longer grounded. If we just jumped ignore this and set us as not grounded.
+        if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH * 1.4f, groundingRayMask))
+        {
+            Vector3 positionalDifference = groundRayHit.point - transform.position + Vector3.up * 0.02f;
+            transform.position += positionalDifference;
+            //controller.Move(positionalDifference);
+        }
+    }
+
     // Used to check if the player's jump imput was pressed.
     private void CheckJump()
     {
@@ -278,8 +281,10 @@ public class PlayerMovementController : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        if (playerStats.frozen || playerStats.stunned || playerStats.asleep || playerStats.knockedBack)
-            Debug.Log("we have some sort of cc on us");
+        if (playerState == PlayerState.LossOfControl || playerState == PlayerState.LossOfControlNoGravity)
+        {
+            //Debug.Log("we have some sort of cc on us");
+        }
         else
             playerState = PlayerState.Airborne;
     }
@@ -287,7 +292,7 @@ public class PlayerMovementController : MonoBehaviour
     // Used to check and see if the player has started a roll action.
     private void CheckRoll()
     {
-        if (Input.GetAxisRaw(inputs.rollInput) != 0 && grounded && (playerState != PlayerState.Airborne && playerState != PlayerState.Stunned) && rollReady && !menuOpen)
+        if (Input.GetAxisRaw(inputs.rollInput) != 0 && grounded && (playerState != PlayerState.Airborne && playerState != PlayerState.LossOfControl && playerState != PlayerState.LossOfControlNoGravity) && rollReady && !menuOpen)
         {
             rollCoroutine = Roll();
             StartCoroutine(rollCoroutine);
@@ -392,7 +397,10 @@ public class PlayerMovementController : MonoBehaviour
     private void CheckAttack()
     {
         if (Input.GetAxisRaw(inputs.attackInput) != 0 && attackReady && !playerStats.stunned && !playerStats.asleep && !menuOpen)
-            StartCoroutine(Attack());
+        {
+            attackCoroutine = Attack();
+            StartCoroutine(attackCoroutine);
+        }
     }
 
     // Used to start the attack logic.
@@ -433,7 +441,7 @@ public class PlayerMovementController : MonoBehaviour
             currentTimer += Time.deltaTime;
 
             // Break away from this coroutine if we start a roll.
-            if (playerState == PlayerState.Rolling || playerStats.stunned || playerStats.asleep || playerStats.knockedBack || playerStats.frozen)
+            if (playerState == PlayerState.Rolling || playerState == PlayerState.LossOfControl || playerState == PlayerState.LossOfControlNoGravity)
             {
                 breakLoop = true;
                 break;
@@ -475,18 +483,15 @@ public class PlayerMovementController : MonoBehaviour
         if(!playerStats.frozen)
             anim.SetFloat("FrozenMultiplier", 1f);
         playerStats.stunned = true;
-        playerState = PlayerState.Stunned;
+        playerState = PlayerState.LossOfControl;
         anim.SetBool("Stunned", true);
 
         while (playerStats.stunned)
             yield return null;
 
         playerStats.stunned = false;
-        if (!playerStats.frozen)
-        {
-            anim.SetBool("Stunned", false);
-            playerState = PlayerState.Idle;
-        }
+
+        CheckForOtherLoseOfControlEffects();
     }
 
     // Used when the player gets put to sleep
@@ -499,15 +504,16 @@ public class PlayerMovementController : MonoBehaviour
     IEnumerator Asleep()
     {
         playerStats.asleep = true;
-        playerState = PlayerState.Asleep;
+        playerState = PlayerState.LossOfControl;
         anim.SetBool("Sleeping", true);
 
         while (playerStats.asleep)
             yield return null;
 
-        playerState = PlayerState.Idle;
         playerStats.asleep = false;
         anim.SetBool("Sleeping", false);
+
+        CheckForOtherLoseOfControlEffects();
     }
 
     // Used when the player gets frozen
@@ -520,7 +526,7 @@ public class PlayerMovementController : MonoBehaviour
     IEnumerator Frozen()
     {
         playerStats.frozen = true;
-        playerState = PlayerState.Frozen;
+        playerState = PlayerState.LossOfControl;
         anim.SetBool("Stunned", true);
         anim.SetFloat("FrozenMultiplier", 0f);
 
@@ -529,18 +535,19 @@ public class PlayerMovementController : MonoBehaviour
 
         playerStats.frozen = false;
 
-        if (!playerStats.stunned)
-        {
-            anim.SetBool("Stunned", false);
-            playerState = PlayerState.Idle;
-        }
         anim.SetFloat("FrozenMultiplier", 1f);
+
+        CheckForOtherLoseOfControlEffects();
     }
 
     // Used when the player gets frozen
     public void KnockbackLaunch(Vector3 directionOfKnockback)
     {
+        ragdollManager.StopAllCoroutines();
+        anim.ResetTrigger("GettingUpFacingDown");
+        anim.ResetTrigger("GettingUpFacingUp");
         StartCoroutine(Knockback(directionOfKnockback));
+        GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.Knockback, 0);
     }
 
     // The asleep coroutine. Makes the player unable to take action.
@@ -550,15 +557,71 @@ public class PlayerMovementController : MonoBehaviour
             StopCoroutine(rollCoroutine);
         rollReady = true;
 
+        if (attackCoroutine != null)
+            StopCoroutine(attackCoroutine);
+        attackReady = true;
+
         playerStats.knockedBack = true;
-        playerState = PlayerState.KnockedBack;
+        playerState = PlayerState.LossOfControlNoGravity;
         ragdollManager.EnableRagDollState(directionalKnockback);
 
-        while (playerStats.knockedBack)
-            yield return null;
+        float currentTimer = 0;
+        float targetTimer = 0.2f;
 
-        ragdollManager.DisableRagDollState();
-        playerState = PlayerState.Idle;
+        while (playerStats.knockedBack)
+        {
+            currentTimer += Time.deltaTime;
+            if(currentTimer >= targetTimer)
+            {
+                currentTimer -= targetTimer;
+
+                if (ragdollManager.CanWeGetUpVelocityPoll())
+                {
+                    ragdollManager.DisableRagDollState();
+                    break;
+                }
+            }
+
+            yield return null;
+        }
+
+        playerState = PlayerState.LossOfControl;
+        ragdollManager.LerpBonesToGetUpAnim();
+
+        yield return new WaitForSeconds(ragdollManager.lerpTime);
+
+        currentTimer = 0f;
+        targetTimer = 0.5f;
+
+        for(int index = 0; index < 6; index++)
+        {
+            //Debug.Log(anim.GetLayerName(index));
+            anim.SetLayerWeight(index, 0);
+        }
+
+        if (ragdollManager.getUpFaceUp)
+            anim.SetTrigger("GettingUpFacingDown");
+        else
+            anim.SetTrigger("GettingUpFacingUp");
+        anim.enabled = true;
+
+        // player is getting up.
+        while (playerStats.knockedBack)
+        {
+            currentTimer += Time.deltaTime;
+            if (currentTimer >= targetTimer)
+                buffsManager.AttemptRemovalOfBuff(BuffsManager.BuffType.Knockback);
+
+            yield return null;
+        }
+
+        for (int index = 0; index < 6; index++)
+        {
+            //Debug.Log(anim.GetLayerName(index));
+            anim.SetLayerWeight(index, 1);
+        }
+
+        CheckForOtherLoseOfControlEffects();
     }
 
     // Used to make the player do a pickup animation.
@@ -623,6 +686,17 @@ public class PlayerMovementController : MonoBehaviour
             //Debug.Log("We have entered a new room");
             GameManager.instance.ShowRoom(other.transform.parent.GetComponent<RoomManager>());
         }
+    }
+
+    private void CheckForOtherLoseOfControlEffects()
+    {
+        if (playerStats.knockedBack)
+            playerState = PlayerState.LossOfControlNoGravity;
+        else if (playerStats.stunned || playerStats.frozen || playerStats.asleep)
+            playerState = PlayerState.LossOfControl;
+        else
+            playerState = PlayerState.Idle;
+
     }
 
 }

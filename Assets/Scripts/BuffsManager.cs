@@ -483,6 +483,26 @@ public class BuffsManager : MonoBehaviour
                     psSystems[16].Play();
 
                     break;
+                case BuffType.Knockback:
+
+                    Buff knockback = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    knockback.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[10];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[10];
+
+                    activeBuffs.Add(knockback);
+
+                    knockback.myType = buff;
+                    knockback.connectedPlayer = stats;
+                    knockback.infiniteDuration = true;
+                    knockback.DPS = 0;
+
+                    //knockback.effectParticleSystem.Add(psSystems[15]);
+                    //knockback.effectParticleSystem.Add(psSystems[16]);
+                    //psSystems[15].Play();
+                    //psSystems[16].Play();
+
+                    break;
                 case BuffType.EmboldeningEmbers:
 
                     //Debug.Log("Adding emboldening embers buff");
@@ -694,15 +714,35 @@ public class BuffsManager : MonoBehaviour
         }
     }
 
-    // Used to remove an active buff.
+    // Used to remove an active buff. 
+    // DO NOT CALL THIS TO REMVOE A BUFF CALL THE ENDBUFF() on the buff itself.
     public void RemoveBuff(Buff buffToRemove)
     {
+        //Debug.Log("removing buff: " + buffToRemove);
         activeBuffs.Remove(buffToRemove);
         activeIcons.Remove(buffToRemove.connectedIcon);
         UpdateIconLocations();
         // Call the icon reshuffle here.
         Destroy(buffToRemove.connectedIcon);
         Destroy(buffToRemove);
+    }
+
+    // Checks through all our buffs, if we find one that buff will be removed.
+    public void AttemptRemovalOfBuff (BuffType buffTypeToCheckFor)
+    {
+        //Debug.Log("attmpting removal of buff:");
+        Buff buffToRemove = null;
+        foreach(Buff buff in activeBuffs)
+        {
+            if(buff.myType == buffTypeToCheckFor)
+            {
+                buffToRemove = buff;
+                break;
+            }
+        }
+
+        if (buffToRemove != null)
+            buffToRemove.EndBuff();
     }
     
     // Used to position all the icons based on their index.
