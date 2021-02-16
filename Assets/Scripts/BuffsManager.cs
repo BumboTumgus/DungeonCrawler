@@ -281,7 +281,11 @@ public class BuffsManager : MonoBehaviour
                     frozen.connectedPlayer = stats;
                     frozen.infiniteDuration = false;
                     frozen.duration = 5f;
-                    GetComponent<PlayerMovementController>().FrozenLaunch();
+
+                    if (CompareTag("Player"))
+                        GetComponent<PlayerMovementController>().FrozenLaunch();
+                    else
+                        GetComponent<EnemyCrowdControlManager>().FrozenLaunch();
 
                     frozen.effectParticleSystem.Add(psSystems[12]);
                     psSystems[12].Play();
@@ -455,7 +459,12 @@ public class BuffsManager : MonoBehaviour
                     asleep.infiniteDuration = false;
                     asleep.duration = 5;
                     asleep.DPS = 0;
-                    GetComponent<PlayerMovementController>().AsleepLaunch();
+
+                    if (CompareTag("Player"))
+                        GetComponent<PlayerMovementController>().AsleepLaunch();
+                    else
+                        GetComponent<EnemyCrowdControlManager>().AsleepLaunch();
+
                     asleep.effectParticleSystem.Add(psSystems[13]);
                     asleep.effectParticleSystem.Add(psSystems[14]);
                     psSystems[13].Play();
@@ -476,7 +485,12 @@ public class BuffsManager : MonoBehaviour
                     stunned.infiniteDuration = false;
                     stunned.duration = 2;
                     stunned.DPS = 0;
-                    GetComponent<PlayerMovementController>().StunLaunch();
+
+                    if (CompareTag("Player"))
+                        GetComponent<PlayerMovementController>().StunLaunch();
+                    else
+                        GetComponent<EnemyCrowdControlManager>().StunLaunch();
+
                     stunned.effectParticleSystem.Add(psSystems[15]);
                     stunned.effectParticleSystem.Add(psSystems[16]);
                     psSystems[15].Play(); 

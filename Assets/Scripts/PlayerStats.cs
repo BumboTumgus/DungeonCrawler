@@ -36,7 +36,7 @@ public class PlayerStats : MonoBehaviour
     public float armorReductionMultiplier = 1;
     public float armorShreddedBonusDamage = 0f;
 
-    public float speed = 4;
+    public float speed = 2.5f;
     public float movespeedPercentMultiplier = 1;
 
     public float damageReductionMultiplier = 1;
@@ -149,11 +149,11 @@ public class PlayerStats : MonoBehaviour
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, 1, baseDamage);
 
 
-        if (Input.GetKeyDown(KeyCode.Keypad8) && CompareTag("Player"))
+        if (Input.GetKeyDown(KeyCode.Keypad8))
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Frozen, 1, baseDamage);
-        if (Input.GetKeyDown(KeyCode.Keypad9) && CompareTag("Player"))
+        if (Input.GetKeyDown(KeyCode.Keypad9))
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Asleep, 1, baseDamage);
-        if (Input.GetKeyDown(KeyCode.KeypadPeriod) && CompareTag("Player"))
+        if (Input.GetKeyDown(KeyCode.KeypadPeriod))
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, baseDamage);
 
         // Health and mana regen logic.
@@ -195,14 +195,8 @@ public class PlayerStats : MonoBehaviour
         // Ste up our health and manaRegen;
         healthRegen = baseHealthRegen + baseHealthRegenGrowth * level + bonusHealthRegen;
 
-        // Set up the characters speed. enemies are half as fast as normal.
-        if (gameObject.tag == "Enemy")
-            speed *= 1.3f;
-
-        //attackSpeed = 1 + 0.05f * Spd + 0.02f * Dex + bonusAttackSpeed + (weaponAttackSpeed - 1);
-
         if (transform.CompareTag("Enemy"))
-            GetComponent<UnityEngine.AI.NavMeshAgent>().speed = speed;
+            GetComponent<UnityEngine.AI.NavMeshAgent>().speed = speed * movespeedPercentMultiplier;
 
         cooldownReduction = 0;
 

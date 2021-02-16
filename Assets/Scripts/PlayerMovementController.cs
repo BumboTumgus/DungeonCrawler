@@ -79,8 +79,6 @@ public class PlayerMovementController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1) && CompareTag("Player"))
             KnockbackLaunch(Vector3.up + transform.forward * 10);
-        if (Input.GetKeyDown(KeyCode.Alpha2) && CompareTag("Player"))
-            playerStats.knockedBack = false;
 
         switch (playerState)
         {
@@ -695,8 +693,10 @@ public class PlayerMovementController : MonoBehaviour
         else if (playerStats.stunned || playerStats.frozen || playerStats.asleep)
             playerState = PlayerState.LossOfControl;
         else
+        {
+            anim.SetBool("Stunned", false);
             playerState = PlayerState.Idle;
-
+        }
     }
 
 }

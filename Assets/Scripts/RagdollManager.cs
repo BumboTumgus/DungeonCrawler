@@ -11,12 +11,15 @@ public class RagdollManager : MonoBehaviour
 
     public float lerpTime = 0.33f;
 
-    private Collider[] colliders;
+    [SerializeField] private Collider[] colliders;
     private Animator animator;
     private CharacterController controller;
-    private GameObject playerModel;
+    private EnemyMovementManager enemyController;
+    private GameObject entityModel;
     private Transform rootTransform;
     private Transform playerHips;
+
+    private bool playerEntity = true;
 
     [SerializeField] private Transform[] bonesToLerp = new Transform[20];
 
@@ -151,12 +154,18 @@ public class RagdollManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (CompareTag("Enemy"))
+            playerEntity = false;
+        else
+            playerEntity = true;
+
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
-        playerModel = transform.Find("PlayerModel").gameObject;
-        rootTransform = playerModel.transform.Find("Root");
-        playerHips = playerModel.transform.Find("Root").Find("Hips").transform;
-        colliders = playerModel.transform.Find("Root").GetComponentsInChildren<Collider>();
+        enemyController = GetComponent<EnemyMovementManager>();
+        entityModel = transform.Find("EntityModel").gameObject;
+        rootTransform = entityModel.transform.Find("Root");
+        playerHips = entityModel.transform.Find("Root").Find("Hips").transform;
+        colliders = entityModel.transform.Find("Root").GetComponentsInChildren<Collider>();
 
         IntializeRagdoll();
     }
@@ -172,9 +181,14 @@ public class RagdollManager : MonoBehaviour
     {
         ragdollEnabled = true;
         animator.enabled = false;
-        playerModel.transform.parent = null;
-        cameraFollow.playerTarget = playerHips;
-        GetComponent<CharacterController>().enabled = false;
+        entityModel.transform.parent = null;
+
+        if (playerEntity)
+        {
+            cameraFollow.playerTarget = playerHips;
+            GetComponent<CharacterController>().enabled = false;
+        }
+
         //Debug.Log("the force we are adding to everything is: " + knockbackDirection * KNOCKBACK_MULTIPLIER);
 
         foreach (Collider col in colliders)
@@ -187,14 +201,24 @@ public class RagdollManager : MonoBehaviour
         }
 
         colliders[0].GetComponent<Rigidbody>().AddForce(knockbackDirection * KNOCKBACK_MULTIPLIER, ForceMode.Impulse);
+
+        if(!playerEntity)
+        {
+            GetComponent<Rigidbody>().isKinematic = true;
+            GetComponent<CapsuleCollider>().enabled = false;
+        }
     }
 
     private void IntializeRagdoll()
     {
+        Debug.Log("initializing ragdoll");
         ragdollEnabled = false;
 
-        cameraFollow.playerTarget = transform;
-        GetComponent<CharacterController>().enabled = true;
+        if (playerEntity)
+        {
+            cameraFollow.playerTarget = transform;
+            GetComponent<CharacterController>().enabled = true;
+        }
 
         foreach (Collider col in colliders)
         {
@@ -203,16 +227,26 @@ public class RagdollManager : MonoBehaviour
             col.GetComponent<Rigidbody>().isKinematic = true;
         }
 
+        if(!playerEntity)
+        {
+            GetComponent<Rigidbody>().isKinematic = false;
+            GetComponent<CapsuleCollider>().enabled = true;
+        }
+
     }
 
     public void DisableRagDollState()
     {
         ragdollEnabled = false;
-        cameraFollow.playerTarget = transform;
-        GetComponent<CharacterController>().enabled = true;
 
-        // Set the playercharacter to face the direction of the hips, and we set our height to the grounds height.
-        GetComponent<PlayerMovementController>().SnapToFloor();
+        if (playerEntity)
+        {
+            cameraFollow.playerTarget = transform;
+            GetComponent<CharacterController>().enabled = true;
+            // Set the playercharacter to face the direction of the hips, and we set our height to the grounds height.
+            GetComponent<PlayerMovementController>().SnapToFloor();
+        }
+
 
         // Rotates the priamry transform to face the direction of the hips.
         if (Vector3.Angle(Vector3.up, colliders[0].transform.up) > 90)
@@ -252,16 +286,16 @@ public class RagdollManager : MonoBehaviour
         playerHips.parent = null;
 
         // Sets the player model to rotate and follow the primary transform.
-        playerModel.transform.parent = transform;
-        playerModel.transform.localPosition = Vector3.zero;
-        playerModel.transform.localRotation = Quaternion.identity;
+        entityModel.transform.parent = transform;
+        entityModel.transform.localPosition = Vector3.zero;
+        entityModel.transform.localRotation = Quaternion.identity;
 
         // Move the root back in now that the rotation is done.
         playerHips.parent = rootTransform;
 
         // Moves the hips to be in the same place in the player model.
         Vector3 positionalDifference = Vector3.zero;
-        positionalDifference = playerModel.transform.position - colliders[0].transform.position;
+        positionalDifference = entityModel.transform.position - colliders[0].transform.position;
         colliders[0].transform.position += positionalDifference + Vector3.up * 0.16f;
 
         // Zero out all the velocities of the rigidbodies
@@ -270,6 +304,12 @@ public class RagdollManager : MonoBehaviour
             col.enabled = false;
             col.GetComponent<Rigidbody>().velocity = Vector3.zero;
             col.GetComponent<Rigidbody>().isKinematic = true;
+        }
+
+        if (!playerEntity)
+        {
+            GetComponent<Rigidbody>().isKinematic = false;
+            GetComponent<CapsuleCollider>().enabled = true;
         }
     }
 

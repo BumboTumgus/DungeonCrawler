@@ -41,7 +41,7 @@ public class EnemyMovementManager : MonoBehaviour
     public void SetTarget(Vector3 Position)
     {
         agent.destination = Position;
-        agent.speed = myStats.speed;
+        agent.speed = myStats.speed * myStats.movespeedPercentMultiplier;
         arrivedAtTarget = false;
     }
 

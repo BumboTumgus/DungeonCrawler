@@ -158,7 +158,6 @@ public class EnemyAbilityBank : MonoBehaviour
         //Debug.Log("We are now ephemeral");
         float currentTimer = 0;
         float targetTimer = 5;
-        combatController.SwitchAction(EnemyCombatController.ActionType.Backpeddle);
         myStats.AddEphemeralSource(1);
         GetComponent<Collider>().enabled = false;
 

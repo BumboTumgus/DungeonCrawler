@@ -7,16 +7,6 @@ public class EnemyCombatController : MonoBehaviour
     public bool patrol = false;
     public bool inCombat = false;
     public float agroRange = 20f;
-    public float waitChance = 0f;
-    public float backpeddleChance = 0f;
-    public float circleMinRange = 3;
-    public float circleMaxRange = 7;
-    public float circleSpeedMultiplier = 0.7f;
-    public float waitMinRange = 1;
-    public float waitMaxRange = 5;
-    public float backpeddleMinRange = 1;
-    public float backpeddleMaxRange = 1;
-    public float backpeddleSpeedMultiplier = 0.7f;
     public bool usePrimaryAttack = true;
 
     public EnemyAbilityBank.EnemyAbility specialOneAbility;
@@ -24,28 +14,19 @@ public class EnemyCombatController : MonoBehaviour
     public float specialOneRange = 100;
     public float specialTwoRange = 100;
 
-    public float circleCooldown = 3f;
-    public float tauntCooldown = 3f;
-    public float waitCooldown = 3f;
-    public float backpeddleCooldown = 3f;
     public float specialOneCooldown = 5f;
     public float specialTwoCooldown = 5f;
     public float onHitSpecialOneCooldown = 5f;
 
     public EnemyAbilityBank.EnemyAbility onHitSpecialOne;
 
-
-    [SerializeField] private float circleCurrentCooldown = 0f;
-    [SerializeField] private float tauntCurrentCooldown = 0f;
-    [SerializeField] private float waitCurrentCooldown = 0f;
-    [SerializeField] private float backpeddleCurrentCooldown = 0f;
     [SerializeField] private float specialOneCurrentCooldown = 0f;
     [SerializeField] private float specialTwoCurrentCooldown = 0f;
     [SerializeField] private float onHitSpecialOneCurrentCooldown = 0f;
 
     public GameObject myTarget;
     // A list of potential actions or behaviours
-    public enum ActionType { Attack, ChaseTarget, CircleTarget, TauntTarget, MaintainDistance, ChaseLowTargets, RetreatWhenLow, RetreatWhenNoLeader, Idle, Patrolling, SpecialOne, SpecialTwo, SpecialThree, SpecialFour, LosingAgro, WaitInCombat, Backpeddle, OnHitSpecialOne};
+    public enum ActionType { Attack, ChaseTarget, MaintainDistance, RetreatWhenLow, Idle, SpecialOne, SpecialTwo, SpecialThree, SpecialFour, LosingAgro, OnHitSpecialOne, LossOfControl};
     public ActionType myCurrentAction = ActionType.Idle;
 
     // This is the action hierarchy List, The actions go in in order of importance.s
@@ -78,11 +59,10 @@ public class EnemyCombatController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha2) && CompareTag("Enemy"))
+            GetComponent<EnemyCrowdControlManager>().KnockbackLaunch(Vector3.up + transform.forward * 10);
+
         myStats.currentAttackDelay += Time.deltaTime;
-        circleCurrentCooldown += Time.deltaTime;
-        tauntCurrentCooldown += Time.deltaTime;
-        waitCurrentCooldown += Time.deltaTime;
-        backpeddleCurrentCooldown += Time.deltaTime;
         specialOneCurrentCooldown += Time.deltaTime;
         specialTwoCurrentCooldown += Time.deltaTime;
         onHitSpecialOneCurrentCooldown += Time.deltaTime;
@@ -101,24 +81,15 @@ public class EnemyCombatController : MonoBehaviour
             case ActionType.ChaseTarget:
                 StartCoroutine(ChaseTarget());
                 break;
-            case ActionType.CircleTarget:
-                StartCoroutine(CircleTarget());
-                break;
-            case ActionType.TauntTarget:
-                StartCoroutine(Taunt());
                 break;
             case ActionType.MaintainDistance:
                 break;
-            case ActionType.ChaseLowTargets:
-                break;
             case ActionType.RetreatWhenLow:
                 break;
-            case ActionType.RetreatWhenNoLeader:
+            case ActionType.LossOfControl:
                 break;
             case ActionType.Idle:
                 StartCoroutine(Idle());
-                break;
-            case ActionType.Patrolling:
                 break;
             case ActionType.SpecialOne:
                 specialOneCurrentCooldown = 0;
@@ -137,12 +108,6 @@ public class EnemyCombatController : MonoBehaviour
             case ActionType.LosingAgro:
                 StartCoroutine(LosingAgro());
                 break;
-            case ActionType.WaitInCombat:
-                StartCoroutine(WaitInCombat());
-                break;
-            case ActionType.Backpeddle:
-                StartCoroutine(Backpeddle());
-                break;
             case ActionType.OnHitSpecialOne:
                 onHitSpecialOneCurrentCooldown = 0;
                 myCurrentAction = ActionType.OnHitSpecialOne;
@@ -159,6 +124,7 @@ public class EnemyCombatController : MonoBehaviour
         movementManager.StopMovement();
         anim.SetFloat("Speed", 0);
         myCurrentAction = ActionType.Idle;
+        inCombat = false;
 
         float targetTimer = 0.2f;
         float currentTimer = 0;
@@ -188,7 +154,7 @@ public class EnemyCombatController : MonoBehaviour
         anim.SetFloat("Speed", 1);
 
         float currentTimer = 0;
-        float targetTimer = 0.15f;
+        float targetTimer = 0.1f;
         while(inCombat)
         {
             currentTimer += Time.deltaTime;
@@ -294,141 +260,6 @@ public class EnemyCombatController : MonoBehaviour
             }
             yield return new WaitForEndOfFrame();
         }
-    }
-
-    // Used to taunt the enemy, used as a spereate idle animation. Sometimes completed afetr attack.
-    IEnumerator Taunt()
-    {
-        tauntCurrentCooldown = 0;
-        myCurrentAction = ActionType.TauntTarget;
-        float currentTimer = 0;
-        float targetTimer = 2;
-        anim.SetTrigger("Taunt");
-        movementManager.StopMovement();
-
-        while (currentTimer < targetTimer)
-        {
-            currentTimer += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        }
-
-        tauntCurrentCooldown = 0;
-        //ActionType[] actions = { ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.WaitInCombat, ActionType.Attack};
-        //float[] chances = { 25, 25, waitChance, 100};
-        //RollChanceForActions(actions, chances);
-        CheckActionHierarchy();
-    }
-
-    // Used to start circling the target.
-    IEnumerator CircleTarget()
-    {
-        circleCurrentCooldown = 0;
-        myCurrentAction = ActionType.CircleTarget;
-        movementManager.StopMovement();
-        float currentTimer = 0;
-        float targetTimer = Random.Range(3, 10);
-        float targetRadiusFromTarget = Random.Range(circleMinRange, circleMaxRange);
-        float currentPointTimer = 0;
-        float targetPointTimer = 0.1f;
-        float direction = Random.Range(0, 100);
-        anim.SetBool("Strafing", true);
-        anim.SetFloat("Speed", 1);
-        if (direction > 50)
-            anim.SetFloat("Direction", 1);
-        else
-            anim.SetFloat("Direction", -1);
-
-        while (currentTimer < targetTimer)
-        {
-            // increment the timers.
-            currentTimer += Time.deltaTime;
-            currentPointTimer += Time.deltaTime;
-
-            // If we waited loing enough, grab a new target for us to run to.
-            if(currentPointTimer > targetPointTimer)
-            {
-                currentPointTimer -= targetPointTimer;
-                Vector3 slidePosition = Vector3.zero; 
-                if (direction > 50)
-                    slidePosition = transform.position + (transform.right * targetRadiusFromTarget).normalized * 2;
-                else
-                    slidePosition = transform.position + (-transform.right * targetRadiusFromTarget).normalized * 2;
-
-                //Debug.DrawRay(transform.position + Vector3.up, (slidePosition - transform.position), Color.green, 2f);
-                movementManager.MoveToTarget(slidePosition, myStats.speed * circleSpeedMultiplier);
-            }
-            movementManager.RotateToTarget(myTarget.transform.position);
-            yield return new WaitForEndOfFrame();
-        }
-
-        movementManager.StopMovement();
-        anim.SetBool("Strafing", false);
-        anim.SetFloat("Direction", 0);
-        anim.SetFloat("Speed", 0);
-
-        circleCurrentCooldown = 0;
-        //ActionType[] actions = { ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.TauntTarget, ActionType.WaitInCombat, ActionType.Attack};
-        //float[] chances = { 25, 25, tauntTargetChance, waitChance * 5, 100 };
-        //RollChanceForActions(actions, chances);
-        CheckActionHierarchy();
-    }
-
-    // The wait in combat coroutine. This is called when the enemy should take a break as to not run down the player all the time.
-    IEnumerator WaitInCombat()
-    {
-        waitCurrentCooldown = 0;
-        movementManager.StopMovement();
-        anim.SetFloat("Speed", 0);
-        myCurrentAction = ActionType.WaitInCombat;
-
-        float targetTimer = Random.Range(waitMinRange, waitMaxRange);
-        float currentTimer = 0;
-        while (inCombat)
-        {
-            // Increment the time and see if we surpassed our check target.
-            currentTimer += Time.deltaTime;
-            if (currentTimer > targetTimer)
-                break;
-            yield return new WaitForEndOfFrame();
-        }
-        waitCurrentCooldown = 0;
-        CheckActionHierarchy();
-    }
-
-    // Used to make the target backpeddle for a bit then wait.
-    IEnumerator Backpeddle()
-    {
-        backpeddleCurrentCooldown = 0;
-        movementManager.StopMovement();
-        anim.SetFloat("Speed", -1);
-
-        myCurrentAction = ActionType.Backpeddle;
-        float targetTimer = Random.Range(backpeddleMinRange, backpeddleMaxRange);
-        float currentTimer = 0;
-        float currentPositionTimer = 0;
-        float targetPositionTimer = 0.2f;
-        while(inCombat)
-        {
-            currentTimer += Time.deltaTime;
-            currentPositionTimer += Time.deltaTime;
-            if (currentTimer > targetTimer)
-                break;
-            if(currentPositionTimer > targetPositionTimer)
-            {
-                currentPositionTimer -= targetPositionTimer;
-                movementManager.MoveToTarget(transform.position + transform.forward * -1, myStats.speed * backpeddleSpeedMultiplier);
-                movementManager.RotateToTarget(myTarget.transform.position);
-            }
-            yield return new WaitForEndOfFrame();
-        }
-        
-        anim.SetFloat("Speed", 0);
-
-        backpeddleCurrentCooldown = 0;
-        //ActionType[] actions = {ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.TauntTarget, ActionType.CircleTarget, ActionType.WaitInCombat };
-        //float[] chances = { 25, 25, tauntTargetChance * 4, circleTargetChance * 2, 100 };
-        //RollChanceForActions(actions, chances);
-        CheckActionHierarchy();
     }
 
     // Thsi method checks the dustance between myself and the target
@@ -549,14 +380,6 @@ public class EnemyCombatController : MonoBehaviour
         bool actionReady = true;
         switch (action)
         {
-            case ActionType.CircleTarget:
-                if (circleCurrentCooldown < circleCooldown)
-                    actionReady = false;
-                break;
-            case ActionType.TauntTarget:
-                if (tauntCurrentCooldown < tauntCooldown)
-                    actionReady = false;
-                break;
             case ActionType.SpecialOne:
                 if (specialOneCurrentCooldown < specialOneCooldown)
                     actionReady = false;
@@ -567,14 +390,6 @@ public class EnemyCombatController : MonoBehaviour
                 if (specialTwoCurrentCooldown < specialTwoCooldown)
                     actionReady = false;
                 else if (specialTwoAbility == EnemyAbilityBank.EnemyAbility.None)
-                    actionReady = false;
-                break;
-            case ActionType.WaitInCombat:
-                if (waitCurrentCooldown < waitCooldown)
-                    actionReady = false;
-                break;
-            case ActionType.Backpeddle:
-                if (backpeddleCurrentCooldown < backpeddleCooldown)
                     actionReady = false;
                 break;
             default:
@@ -663,21 +478,9 @@ public class EnemyCombatController : MonoBehaviour
                 case ActionType.ChaseTarget:
                     actionFound = true;
                     break;
-                case ActionType.CircleTarget:
-                    if (circleCurrentCooldown > circleCooldown && Random.Range(0, 100) > 100 - actionChances[index])
-                        actionFound = true;
-                    break;
-                case ActionType.TauntTarget:
-                    if (tauntCurrentCooldown > tauntCooldown && Random.Range(0, 100) > 100 - actionChances[index])
-                        actionFound = true;
-                    break;
                 case ActionType.MaintainDistance:
                     break;
-                case ActionType.ChaseLowTargets:
-                    break;
                 case ActionType.RetreatWhenLow:
-                    break;
-                case ActionType.RetreatWhenNoLeader:
                     break;
                 case ActionType.SpecialOne:
                     if (specialOneCurrentCooldown > specialOneCooldown && Random.Range(0, 100) > 100 - actionChances[index])
@@ -691,14 +494,6 @@ public class EnemyCombatController : MonoBehaviour
                     break;
                 case ActionType.SpecialFour:
                     break;
-                case ActionType.WaitInCombat:
-                    if (waitCurrentCooldown > waitCooldown && Random.Range(0, 100) > 100 - actionChances[index] && CheckDistance(specialOneRange, myTarget.transform))
-                        actionFound = true;
-                    break;
-                case ActionType.Backpeddle:
-                    if (backpeddleCurrentCooldown > backpeddleCooldown && Random.Range(0, 100) > 100 - actionChances[index] && CheckDistance(specialTwoRange, myTarget.transform))
-                        actionFound = true;
-                    break;
                 default:
                     break;
             }
@@ -711,4 +506,5 @@ public class EnemyCombatController : MonoBehaviour
             }
         }
     }
+
 }
