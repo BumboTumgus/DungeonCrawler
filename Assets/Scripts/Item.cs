@@ -130,7 +130,10 @@ public class Item : MonoBehaviour
 
         ParticleSystem[] particles = GetComponentsInChildren<ParticleSystem>();
         foreach (ParticleSystem system in particles)
+        {
             system.Stop();
+            system.Clear();
+        }
 
         if(GetComponentInChildren<Light>())
             GetComponentInChildren<Light>().enabled = false;

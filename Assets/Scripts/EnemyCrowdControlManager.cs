@@ -99,13 +99,17 @@ public class EnemyCrowdControlManager : MonoBehaviour
     // Used when the player gets frozen
     public void KnockbackLaunch(Vector3 directionOfKnockback)
     {
-        movementManager.StopMovement();
+        // Check to see if the knockback works and goes through.
+        if (Random.Range(0, 100) > myStats.knockbackResistance * 100)
+        {
+            movementManager.StopMovement();
 
-        ragdollManager.StopAllCoroutines();
-        anim.ResetTrigger("GettingUpFacingDown");
-        anim.ResetTrigger("GettingUpFacingUp");
-        StartCoroutine(Knockback(directionOfKnockback));
-        GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.Knockback, 0);
+            ragdollManager.StopAllCoroutines();
+            anim.ResetTrigger("GettingUpFacingDown");
+            anim.ResetTrigger("GettingUpFacingUp");
+            StartCoroutine(Knockback(directionOfKnockback));
+            GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.Knockback, 0);
+        }
     }
 
     // The asleep coroutine. Makes the player unable to take action.

@@ -19,11 +19,9 @@ public class SkillsManager : MonoBehaviour
 
     public ParticleSystem[] ps;
 
-    public enum SkillNames { BlinkStrike, EmboldeningEmbers, FlameStrike, SeveringStrike, ShatteredEarth, AspectOfRage, Rampage, BlessingOfFlames,
+    public enum SkillNames { SweepingBlow, Rapislash, SkywardSlash, BladeVolley, BlinkStrike, TremorStab, LeapStrike, Takedown, Impale, Counter, SeveringStrike, Whirlwind, ShatteredEarth, FallingSword, SenateSlash, EmboldeningEmbers, FlameStrike, AspectOfRage, Rampage, BlessingOfFlames,
                             GiantStrength, EarthernPlateau, BoulderFist, EarthernSpear, CausticEdge, ToxicRipple, KillerInstinct, NaturePulse,
-                            Revitalize, PoisonedMud, StrangleThorn, SoothingStone, Deadeye, ShearingCyclone, WindHarpoon, SplitswordStrikes,
-                            ThunderLance, LightningStorm, WrathOfTheRagingWinds, BladeBarrage, ViolentZephyr, Permafrost, IceBarrage, FrozenBarrier,
-                            SoothingStream, SwirlingVortex};
+                            Revitalize};
 
     public Transform skillsContainer;
 
@@ -48,41 +46,8 @@ public class SkillsManager : MonoBehaviour
         foreach (ParticleSystem particle in ps)
             particle.Stop();
         //AddSkill(0, SkillNames.ToxicRipple);
-        //AddSkill(1, SkillNames.CausticEdge);
-        //AddSkill(2, SkillNames.NaturePulse);
-        //AddSkill(3, SkillNames.Revitalize);
-    }
-    /**
-    // USed to check the inputs to see if a skill is at that index that should be 
-    private void CheckSkillInput(int index)
-    {
-        foreach (Skill skill in mySkills)
-        {
-            if (skill.skillIndex == index)
-                skill.UseSkill();
-        }
     }
 
-    private void Update()
-    {
-        if (Input.GetAxisRaw(inputs.skill0Input) == 1 && inputs.skill0Released)
-            CheckSkillInput(0);
-        if (Input.GetAxisRaw(inputs.skill1Input) == 1 && inputs.skill1Released)
-            CheckSkillInput(1);
-        if (Input.GetAxisRaw(inputs.skill2Input) == 1 && inputs.skill2Released)
-            CheckSkillInput(2);
-        if (Input.GetAxisRaw(inputs.skill3Input) == 1 && inputs.skill3Released)
-            CheckSkillInput(3);
-        if (Input.GetAxisRaw(inputs.skill4Input) == 1 && inputs.skill4Released)
-            CheckSkillInput(4);
-        if (Input.GetAxisRaw(inputs.skill5Input) == 1 && inputs.skill5Released)
-            CheckSkillInput(5);
-        if (Input.GetAxisRaw(inputs.skill6Input) == 1 && inputs.skill6Released)
-            CheckSkillInput(6);
-        if (Input.GetAxisRaw(inputs.skill7Input) == 1 && inputs.skill7Released)
-            CheckSkillInput(7);
-    }
-    */
     // Used to add a new skill to our player at an index.
     public void AddSkill(int index, SkillNames skillName)
     {
@@ -102,6 +67,7 @@ public class SkillsManager : MonoBehaviour
             addedSkill.skillIndex = index;
             addedSkill.myManager = this;
             addedSkill.pc = GetComponent<PlayerMovementController>();
+            addedSkill.stats = GetComponent<PlayerStats>();
             addedSkill.anim = GetComponent<Animator>();
             addedSkill.currentCooldown = addedSkill.targetCooldown;
             addedIcon.transform.GetChild(1).GetComponent<Image>().sprite = addedSkill.skillIcon;

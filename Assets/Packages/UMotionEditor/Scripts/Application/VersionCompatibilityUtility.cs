@@ -81,6 +81,18 @@ namespace UMotionEditor
             }
         }
 
+        public static bool Unity2020_2_OrNewer
+        {
+            get
+            {
+                #if UNITY_2020_2_OR_NEWER
+                return true;
+                #else
+                return false;
+                #endif
+            }
+        }
+
         public static bool UsesScriptableRenderPipeline
         {
             get

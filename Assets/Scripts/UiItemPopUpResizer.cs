@@ -68,7 +68,7 @@ public class UiItemPopUpResizer : MonoBehaviour
 
             if (skillBank.GrabSkillCooldown(targetItem.skillName) > 0)
             {
-                spellCostText.text = string.Format("{0} mp", skillBank.GrabSkillCost(targetItem.skillName));
+                //spellCostText.text = string.Format("{0} mp", skillBank.GrabSkillCost(targetItem.skillName));
                 spellCooldownText.text = string.Format("{0:0.0} sec", skillBank.GrabSkillCooldown(targetItem.skillName));
             }
             else

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovementController : MonoBehaviour
 {
     // a state machine that dictates the actions the player can take.
-    public enum PlayerState { Idle, Moving, Airborne, Rolling, Sprinting, Attacking, Downed, Dead, LossOfControl, LossOfControlNoGravity, CastingNoMovement, CastingRollOut, CastingWithMovement, Jumping}
+    public enum PlayerState { Idle, Moving, Airborne, Rolling, Sprinting, Attacking, Downed, Dead, LossOfControl, LossOfControlNoGravity, CastingNoMovement, CastingRollOut, CastingWithMovement, CastingAerial, Jumping}
     public PlayerState playerState = PlayerState.Idle;
 
     [HideInInspector] public bool menuOpen = false;                   // USed to lock movement if the menu is open.
@@ -40,7 +40,6 @@ public class PlayerMovementController : MonoBehaviour
     private Ray groundRay;                                            // an uncreated ray used to check to see if are near / on the ground
     private RaycastHit groundRayHit;
     [SerializeField] private LayerMask groundingRayMask = 1 << 10;    // ensures the ray will only check for the COLLIDABLE ENVIRONMENT layer.
-
 
 
     private const float GRAVITY = 0.4f;
@@ -79,6 +78,8 @@ public class PlayerMovementController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1) && CompareTag("Player"))
             KnockbackLaunch(Vector3.up + transform.forward * 10);
+        if (Input.GetKeyDown(KeyCode.V) && CompareTag("Player"))
+            GetComponent<HitBoxManager>().PlayParticles(1);
 
         switch (playerState)
         {
@@ -147,6 +148,9 @@ public class PlayerMovementController : MonoBehaviour
                 CheckJump();
                 CheckRoll();
                 break;
+            case PlayerState.CastingAerial:
+                ApplyGravity();
+                break;
             default:
                 break;
         }
@@ -207,7 +211,7 @@ public class PlayerMovementController : MonoBehaviour
         RaycastHit groundRayHit;
 
         // Shoot a ray, if it we hit we are grounded if not we are no longer grounded. If we just jumped ignore this and set us as not grounded.
-        if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping)
+        if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
         {
             // if the ray hit the ground, set us as grounded, snap us to the ground, and change the state while updating the aniamtion.
             grounded = true;
@@ -233,7 +237,7 @@ public class PlayerMovementController : MonoBehaviour
             {
                 grounded = false;
                 anim.SetBool("Grounded", false);
-                if (playerState != PlayerState.Jumping)
+                if (playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
                     playerState = PlayerState.Airborne;
             }
 
@@ -266,18 +270,29 @@ public class PlayerMovementController : MonoBehaviour
     private void CheckJump()
     {
         if (Input.GetAxisRaw(inputs.jumpInput) != 0 && grounded && !menuOpen)
-            StartCoroutine(Jump());
+            StartCoroutine(Jump(JUMP_POWER, 0.5f, true));
+    }
+
+    //USed to apply the jump force.
+    public void ApplyJumpForce(float jumpStrength)
+    {
+        StartCoroutine(Jump(jumpStrength, 0.3f, false));
     }
 
     // Used to complete the jump logic 
-    IEnumerator Jump()
+    IEnumerator Jump(float jumpPower, float timeAppliedFor, bool setTrigger)
     {
-        anim.SetTrigger("Jump");
-        playerState = PlayerState.Jumping;
-        grounded = false;
-        gravityVectorStrength = JUMP_POWER;
+        Debug.Log("we have launched with a force of " + jumpPower + " and and bool of: " + setTrigger);
+        if (setTrigger)
+        {
+            anim.SetTrigger("Jump");
+            playerState = PlayerState.Jumping;
+        }
 
-        yield return new WaitForSeconds(0.5f);
+        grounded = false;
+        gravityVectorStrength = jumpPower;
+
+        yield return new WaitForSeconds(timeAppliedFor);
 
         if (playerState == PlayerState.LossOfControl || playerState == PlayerState.LossOfControlNoGravity)
         {
@@ -293,6 +308,13 @@ public class PlayerMovementController : MonoBehaviour
         if (Input.GetAxisRaw(inputs.rollInput) != 0 && grounded && (playerState != PlayerState.Airborne && playerState != PlayerState.LossOfControl && playerState != PlayerState.LossOfControlNoGravity) && rollReady && !menuOpen)
         {
             rollCoroutine = Roll();
+            anim.applyRootMotion = false;
+
+            // This resets all oither attack based animations
+            anim.Play("Idle", 3);
+            anim.Play("Idle", 4);
+            anim.Play("SwitchAnims", 1);
+
             StartCoroutine(rollCoroutine);
         }
     }
@@ -541,11 +563,15 @@ public class PlayerMovementController : MonoBehaviour
     // Used when the player gets frozen
     public void KnockbackLaunch(Vector3 directionOfKnockback)
     {
-        ragdollManager.StopAllCoroutines();
-        anim.ResetTrigger("GettingUpFacingDown");
-        anim.ResetTrigger("GettingUpFacingUp");
-        StartCoroutine(Knockback(directionOfKnockback));
-        GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.Knockback, 0);
+        // Check to see if the knockback works and goes through.
+        if (Random.Range(0, 100) > playerStats.knockbackResistance * 100)
+        {
+            ragdollManager.StopAllCoroutines();
+            anim.ResetTrigger("GettingUpFacingDown");
+            anim.ResetTrigger("GettingUpFacingUp");
+            StartCoroutine(Knockback(directionOfKnockback));
+            GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.Knockback, 0);
+        }
     }
 
     // The asleep coroutine. Makes the player unable to take action.
@@ -686,7 +712,8 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 
-    private void CheckForOtherLoseOfControlEffects()
+    // Called afetr any other negative effects end to see if we shoudl regain control of our player or not.
+    public void CheckForOtherLoseOfControlEffects()
     {
         if (playerStats.knockedBack)
             playerState = PlayerState.LossOfControlNoGravity;
@@ -699,4 +726,21 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 
+    // Used to make the player move in this desired direction for the duration of a skill.
+    public void SkillMovement(Vector3 direction, float distancePerSecond)
+    {
+        controller.Move(direction * distancePerSecond * Time.deltaTime);
+    }
+
+    //USed when we start a skill, stop all other coroutines in the player movement that would impede it.
+    public void SkillCastCoroutineClear()
+    {
+        if (rollCoroutine != null)
+            StopCoroutine(rollCoroutine);
+        rollReady = true;
+
+        if (attackCoroutine != null)
+            StopCoroutine(attackCoroutine);
+        attackReady = true;
+    }    
 }

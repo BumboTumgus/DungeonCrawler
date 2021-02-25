@@ -708,7 +708,6 @@ public class PlayerStats : MonoBehaviour
     // Used when we lose armor. If we lose more armor then oyur max we start taking increased damage.
     public void ChangeArmor(float percentageToChangeBy)
     {
-        Debug.Log("we are changing the armor percentage by " + percentageToChangeBy);
         if (percentageToChangeBy < 0)
         {
             // negative case, we are removing armor.

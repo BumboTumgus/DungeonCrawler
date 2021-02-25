@@ -11,7 +11,6 @@ public class Skill : MonoBehaviour
     public float targetCooldown = 10;
     public bool skillReady = false;
     public bool passive = false;
-    public float skillCost = 0;
 
     public BarManager connectedBar;
     public GameObject noManaOverlay;
@@ -21,6 +20,7 @@ public class Skill : MonoBehaviour
     public SkillsManager myManager;
     public Animator anim;
     public PlayerMovementController pc;
+    public PlayerStats stats;
     public GameObject targetIndicator;
 
     private Coroutine earthernSpear;
@@ -91,11 +91,27 @@ public class Skill : MonoBehaviour
     // Called When the skill is going to be used.
     public void UseSkill()
     {
-        if (skillReady)
+        if (skillReady && pc.playerState != PlayerMovementController.PlayerState.Rolling && pc.playerState != PlayerMovementController.PlayerState.CastingAerial && pc.playerState != PlayerMovementController.PlayerState.CastingNoMovement && pc.playerState != PlayerMovementController.PlayerState.CastingRollOut
+             && pc.playerState != PlayerMovementController.PlayerState.CastingWithMovement)
         {
             Debug.Log("The skill " + skillName + " has been used");
+
+            pc.SkillCastCoroutineClear();
+
             switch (skillName)
             {
+                case SkillsManager.SkillNames.SweepingBlow:
+                    StartCoroutine(SweepingBlow());
+                    break;
+                case SkillsManager.SkillNames.Rapislash:
+                    StartCoroutine(Rapislash());
+                    break;
+                case SkillsManager.SkillNames.SkywardSlash:
+                    StartCoroutine(SkywardSlash());
+                    break;
+                case SkillsManager.SkillNames.BladeVolley:
+                    StartCoroutine(BladeVolley());
+                    break;
                 case SkillsManager.SkillNames.BlinkStrike:
                     StartCoroutine(BlinkStrike());
                     break;
@@ -176,6 +192,128 @@ public class Skill : MonoBehaviour
         }
         // else
             // Debug.Log("Skill not ready");
+    }
+
+    // USed to cast the spell sweeping edge.
+    IEnumerator SweepingBlow()
+    {
+        anim.SetTrigger("SweepingBlow");
+        anim.applyRootMotion = true;
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+
+        float targetTimer = 1.85f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingRollOut;
+
+        myManager.hitBoxes.hitboxes[2].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 2f;
+        myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 3f;
+
+        Vector3 directionToMove = transform.forward;
+        float distance = 3;
+        float distancePerSecond = distance / targetTimer;
+
+        while (currentTimer < targetTimer)
+        {
+            pc.SkillMovement(directionToMove, distancePerSecond);
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        anim.applyRootMotion = false;
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell rapislash
+    IEnumerator Rapislash()
+    {
+        anim.SetTrigger("Rapislash");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+
+        float targetTimer = 1.33f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        myManager.hitBoxes.hitboxes[4].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 1.4f;
+
+        Vector3 directionToMove = transform.forward;
+        float distance = 2;
+        float distancePerSecond = distance / targetTimer;
+
+
+        while (currentTimer < targetTimer)
+        {
+            pc.SkillMovement(directionToMove, distancePerSecond);
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell skyward slash.
+    IEnumerator SkywardSlash()
+    {
+        anim.SetTrigger("SkywardSlash");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+
+        float targetTimer = 1f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingAerial;
+
+        myManager.hitBoxes.hitboxes[5].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 7f;
+        //pc.StartCoroutine(pc.Jump(0.2f, 0.3f, false));
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+    // USed to cast the spell blade volley.
+    IEnumerator BladeVolley()
+    {
+        anim.SetTrigger("BladeVolley");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+
+        bool bladesThrown = false;
+
+        float targetTimer = 0.467f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        myManager.hitBoxes.hitboxes[6].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 0.5f;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            if (!bladesThrown && currentTimer / targetTimer >= 0.43f)
+            {
+                // shoot the blades.
+                bladesThrown = true;
+
+                Vector3 target = Camera.main.transform.position + Camera.main.transform.forward * 100;
+
+                Debug.LogError("knife thrown");
+                for (int index = 0; index <= 4; index++)
+                {
+                    GameObject blade = Instantiate(myManager.skillProjectiles[0], transform.position + Vector3.up + transform.forward, transform.rotation);
+                    blade.transform.LookAt(target);
+
+                    Vector3 rotation = blade.transform.rotation.eulerAngles;
+                    rotation.y += (index - 2) * 8;
+                    blade.transform.rotation = Quaternion.Euler(rotation);
+
+                    blade.GetComponent<HitBox>().damage = myManager.stats.baseDamage * 0.33f;
+                    blade.GetComponent<HitBox>().myStats = myManager.stats;
+                }
+            }
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
     }
 
     // USed to cast the spell nature pulse at the enemies

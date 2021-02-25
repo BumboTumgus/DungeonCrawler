@@ -114,6 +114,7 @@ public class HitBox : MonoBehaviour
                         }
                     }
                     enemyStats.TakeDamage(damageDealt, attackCrit, damageType);
+
                     myStats.comboManager.AddComboCounter(1);
                 }
                 else

@@ -6,6 +6,7 @@ public class HitBoxManager : MonoBehaviour
 {
     public List<GameObject> hitboxes = new List<GameObject>();
     public List<GameObject> buffboxes = new List<GameObject>();
+    public List<ParticleSystem> hiteffects = new List<ParticleSystem>();
     private PlayerStats playerStats;
 
     // USed to disable all hitboxes at the start of the game.
@@ -14,9 +15,11 @@ public class HitBoxManager : MonoBehaviour
         playerStats = GetComponent<PlayerStats>();
 
         foreach (GameObject hitbox in hitboxes)
-            hitbox.GetComponent<SphereCollider>().enabled = false;
+            hitbox.GetComponent<Collider>().enabled = false;
         foreach (GameObject hitbox in buffboxes)
-            hitbox.GetComponent<SphereCollider>().enabled = false;
+            hitbox.GetComponent<Collider>().enabled = false;
+        foreach (ParticleSystem ps in hiteffects)
+            ps.Stop();
     }
 
     // A public method soley used to launch the hit box from another class.
@@ -33,22 +36,35 @@ public class HitBoxManager : MonoBehaviour
         StartCoroutine(BuffBoxFlicker(index));
     }
 
+    // Used to play the particles in one of our particle systems.
+    public void PlayParticles(int index)
+    {
+        Debug.LogError("FREESE");
+        hiteffects[index].Play();
+    }
+
+    // Used to stop the particles in one of our particle systems.
+    public void StopParticles(int index)
+    {
+        hiteffects[index].Stop();
+    }
+
     // Used to launch an attack
     IEnumerator HitBoxFlicker(int index)
     {
         //Debug.Log("we are flickering hitbox " + index);
-        hitboxes[index].GetComponent<SphereCollider>().enabled = true;
+        hitboxes[index].GetComponent<Collider>().enabled = true;
         yield return new WaitForFixedUpdate();
-        hitboxes[index].GetComponent<SphereCollider>().enabled = false;
+        hitboxes[index].GetComponent<Collider>().enabled = false;
     }
 
     // Used to launch a buff
     IEnumerator BuffBoxFlicker(int index)
     {
         //Debug.Log("flciekred on");
-        buffboxes[index].GetComponent<SphereCollider>().enabled = true;
+        buffboxes[index].GetComponent<Collider>().enabled = true;
         yield return new WaitForFixedUpdate();
-        buffboxes[index].GetComponent<SphereCollider>().enabled = false;
+        buffboxes[index].GetComponent<Collider>().enabled = false;
         //Debug.Log("flciekred off");
     }
 }
