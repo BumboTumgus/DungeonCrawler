@@ -113,7 +113,7 @@ public class HitBoxBuff : MonoBehaviour
                 {
                     knockbackDirection = (other.transform.position - transform.position).normalized;
                 }
-                Debug.Log("The knckback direction is: " + knockbackDirection);
+                //Debug.Log("The knckback direction is: " + knockbackDirection);
                 other.GetComponent<EnemyCrowdControlManager>().KnockbackLaunch(knockbackDirection * knockbackStrength);
             }
             if (asleep)

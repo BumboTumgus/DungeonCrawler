@@ -115,23 +115,48 @@ public class Skill : MonoBehaviour
                 case SkillsManager.SkillNames.BlinkStrike:
                     StartCoroutine(BlinkStrike());
                     break;
+                case SkillsManager.SkillNames.TremorStab:
+                    StartCoroutine(TremorStab());
+                    break;
+                case SkillsManager.SkillNames.LeapStrike:
+                    StartCoroutine(LeapStrike());
+                    break;
+                case SkillsManager.SkillNames.Takedown:
+                    StartCoroutine(Takedown());
+                    break;
+                case SkillsManager.SkillNames.Impale:
+                    StartCoroutine(Impale());
+                    break;
+                case SkillsManager.SkillNames.Counter:
+                    StartCoroutine(Counter());
+                    break;
+                case SkillsManager.SkillNames.SeveringStrike:
+                    StartCoroutine(SeveringStrike());
+                    break;
+                case SkillsManager.SkillNames.Whirlwind:
+                    StartCoroutine(Whirlwind());
+                    break;
+                case SkillsManager.SkillNames.ShatteredEarth:
+                    StartCoroutine(ShatteredEarth());
+                    break;
+                case SkillsManager.SkillNames.FallingSword:
+                    StartCoroutine(FallingSword());
+                    break;
+                case SkillsManager.SkillNames.SenateSlash:
+                    StartCoroutine(SenateSlash());
+                    break;
+                //--------------------------------------------------------------------------------------------
                 case SkillsManager.SkillNames.EmboldeningEmbers:
                     StartCoroutine(EmboldeningEmbers());
                     break;
                 case SkillsManager.SkillNames.FlameStrike:
                     StartCoroutine(FlameStrike());
                     break;
-                case SkillsManager.SkillNames.SeveringStrike:
-                    StartCoroutine(SeveringStrike());
-                    break;
                 case SkillsManager.SkillNames.AspectOfRage:
                     StartCoroutine(AspectOfRage());
                     break;
                 case SkillsManager.SkillNames.BlessingOfFlames:
                     StartCoroutine(BlessingOfFlames());
-                    break;
-                case SkillsManager.SkillNames.ShatteredEarth:
-                    StartCoroutine(ShatteredEarth());
                     break;
                 case SkillsManager.SkillNames.GiantStrength:
                     StartCoroutine(GiantStrength());
@@ -198,28 +223,29 @@ public class Skill : MonoBehaviour
     IEnumerator SweepingBlow()
     {
         anim.SetTrigger("SweepingBlow");
-        anim.applyRootMotion = true;
+        //anim.applyRootMotion = true;
         anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
 
-        float targetTimer = 1.85f / stats.attackSpeed;
+        float targetTimer = 1.85f / stats.attackSpeed / 1.3f;
         float currentTimer = 0;
-        pc.playerState = PlayerMovementController.PlayerState.CastingRollOut;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
 
         myManager.hitBoxes.hitboxes[2].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 2f;
         myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 3f;
 
-        Vector3 directionToMove = transform.forward;
-        float distance = 3;
-        float distancePerSecond = distance / targetTimer;
+        //Vector3 directionToMove = transform.forward;
+        //float distance = 3;
+        //float distancePerSecond = distance / targetTimer;
 
         while (currentTimer < targetTimer)
         {
-            pc.SkillMovement(directionToMove, distancePerSecond);
+            //pc.SkillMovement(directionToMove, distancePerSecond);
             currentTimer += Time.deltaTime;
             yield return null;
         }
 
-        anim.applyRootMotion = false;
+        //anim.applyRootMotion = false;
         pc.CheckForOtherLoseOfControlEffects();
     }
 
@@ -228,6 +254,7 @@ public class Skill : MonoBehaviour
     {
         anim.SetTrigger("Rapislash");
         anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
 
         float targetTimer = 1.33f / stats.attackSpeed;
         float currentTimer = 0;
@@ -235,14 +262,14 @@ public class Skill : MonoBehaviour
 
         myManager.hitBoxes.hitboxes[4].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 1.4f;
 
-        Vector3 directionToMove = transform.forward;
-        float distance = 2;
-        float distancePerSecond = distance / targetTimer;
+        //Vector3 directionToMove = transform.forward;
+        //float distance = 2;
+        // float distancePerSecond = distance / targetTimer;
 
 
         while (currentTimer < targetTimer)
         {
-            pc.SkillMovement(directionToMove, distancePerSecond);
+            //pc.SkillMovement(directionToMove, distancePerSecond);
             currentTimer += Time.deltaTime;
             yield return null;
         }
@@ -255,6 +282,7 @@ public class Skill : MonoBehaviour
     {
         anim.SetTrigger("SkywardSlash");
         anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
 
         float targetTimer = 1f / stats.attackSpeed;
         float currentTimer = 0;
@@ -271,19 +299,19 @@ public class Skill : MonoBehaviour
 
         pc.CheckForOtherLoseOfControlEffects();
     }
+
     // USed to cast the spell blade volley.
     IEnumerator BladeVolley()
     {
         anim.SetTrigger("BladeVolley");
         anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
 
         bool bladesThrown = false;
 
         float targetTimer = 0.467f / stats.attackSpeed;
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
-
-        myManager.hitBoxes.hitboxes[6].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 0.5f;
 
         while (currentTimer < targetTimer)
         {
@@ -295,7 +323,7 @@ public class Skill : MonoBehaviour
 
                 Vector3 target = Camera.main.transform.position + Camera.main.transform.forward * 100;
 
-                Debug.LogError("knife thrown");
+                //Debug.LogError("knife thrown");
                 for (int index = 0; index <= 4; index++)
                 {
                     GameObject blade = Instantiate(myManager.skillProjectiles[0], transform.position + Vector3.up + transform.forward, transform.rotation);
@@ -303,6 +331,7 @@ public class Skill : MonoBehaviour
 
                     Vector3 rotation = blade.transform.rotation.eulerAngles;
                     rotation.y += (index - 2) * 8;
+                    rotation.x -= 3;
                     blade.transform.rotation = Quaternion.Euler(rotation);
 
                     blade.GetComponent<HitBox>().damage = myManager.stats.baseDamage * 0.33f;
@@ -316,6 +345,448 @@ public class Skill : MonoBehaviour
         pc.CheckForOtherLoseOfControlEffects();
     }
 
+    // Used to cast blink strike.
+    IEnumerator BlinkStrike()
+    {
+        anim.SetBool("BlinkStrike", true);
+        float targetTimer = 0.5f / myManager.stats.attackSpeed;
+        float currentTimer = 0;
+
+        pc.playerState = PlayerMovementController.PlayerState.CastingNoMovement;
+        pc.SnapToFaceCamera();
+
+        myManager.hitBoxes.hitboxes[6].GetComponent<HitBox>().damage = stats.baseDamage * 4f;
+        myManager.hitBoxes.PlayParticles(9);
+        myManager.hitBoxes.PlayParticles(10);
+
+        // Create a vector that houses our move inputs
+        Vector3 desiredMoveDirection = transform.forward.normalized;
+        desiredMoveDirection.y = 0;
+        desiredMoveDirection = desiredMoveDirection.normalized;
+
+        // The dash portion of the dash.
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return null;
+
+            myManager.characterController.Move(desiredMoveDirection * 20 * Time.deltaTime * myManager.stats.movespeedPercentMultiplier);
+
+            if (CheckRayHit(14, new Ray(transform.position, transform.forward), 2) ||
+                CheckRayHit(14, new Ray(transform.position + transform.right * 0.5f, transform.forward), 2) ||
+                CheckRayHit(14, new Ray(transform.position + transform.right * -0.5f, transform.forward), 2))
+                break;
+        }
+
+        myManager.hitBoxes.StopParticles(10);
+
+        // This is the hit portion of the dash.
+        currentTimer = 0;
+        targetTimer = 0.8f / myManager.stats.attackSpeed;
+        anim.SetBool("BlinkStrike", false);
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+    // USed to cast the spell Tremor Stab
+
+    IEnumerator TremorStab()
+    {
+        anim.SetTrigger("TremorStab");
+        //anim.applyRootMotion = true;
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 2.167f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingNoMovement;
+
+        myManager.hitBoxes.hitboxes[10].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 3f;
+
+        //Vector3 directionToMove = transform.forward;
+        //float distance = 3;
+        //float distancePerSecond = distance / targetTimer;
+
+        while (currentTimer < targetTimer)
+        {
+            //pc.SkillMovement(directionToMove, distancePerSecond);
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        //anim.applyRootMotion = false;
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+    // USed to cast the spell Leap strike
+
+    IEnumerator LeapStrike()
+    {
+        anim.SetTrigger("LeapStrike");
+        //anim.applyRootMotion = true;
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 0.467f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingAerial;
+
+        myManager.hitBoxes.hitboxes[11].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 5f;
+
+        Vector3 desiredMoveDirection = transform.forward.normalized;
+        desiredMoveDirection.y = 0;
+        desiredMoveDirection = desiredMoveDirection.normalized;
+
+        while (currentTimer < targetTimer)
+        {
+            //pc.SkillMovement(directionToMove, distancePerSecond);
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        //wait until we hit the ground
+        while(!anim.GetBool("Grounded"))
+        {
+            yield return null;
+            myManager.characterController.Move(desiredMoveDirection * 15 * Time.deltaTime * myManager.stats.movespeedPercentMultiplier);
+        }
+
+        targetTimer = 0.75f / stats.attackSpeed;
+        currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            //pc.SkillMovement(directionToMove, distancePerSecond);
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+
+        //anim.applyRootMotion = false;
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell takedown
+    IEnumerator Takedown()
+    {
+        anim.SetTrigger("Takedown");
+        //anim.applyRootMotion = true;
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.65f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        myManager.hitBoxes.hitboxes[12].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 2f;
+
+        //Vector3 directionToMove = transform.forward;
+        //float distance = 3;
+        //float distancePerSecond = distance / targetTimer;
+
+        while (currentTimer < targetTimer)
+        {
+            //pc.SkillMovement(directionToMove, distancePerSecond);
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        //anim.applyRootMotion = false;
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Impale
+    IEnumerator Impale()
+    {
+        anim.SetTrigger("Impale");
+        //anim.applyRootMotion = true;
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.3f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        myManager.hitBoxes.hitboxes[13].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 4f;
+
+        //Vector3 directionToMove = transform.forward;
+        //float distance = 3;
+        //float distancePerSecond = distance / targetTimer;
+
+        while (currentTimer < targetTimer)
+        {
+            //pc.SkillMovement(directionToMove, distancePerSecond);
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        //anim.applyRootMotion = false;
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Counter
+    IEnumerator Counter()
+    {
+        anim.SetTrigger("Counter");
+        //anim.applyRootMotion = true;
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 0.917f * 0.4f;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingNoMovement;
+        stats.counter = true;
+        stats.counterDamage = 0;
+
+        //Vector3 directionToMove = transform.forward;
+        //float distance = 3;
+        //float distancePerSecond = distance / targetTimer;
+
+        while (currentTimer < targetTimer)
+        {
+            //pc.SkillMovement(directionToMove, distancePerSecond);
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        if (stats.counterDamage > 0)
+            StartCoroutine(CounterStrike());
+        else
+            StartCoroutine(CounterEndLag());
+    }
+
+    // The endlag of counter if we didnt block anything
+    IEnumerator CounterEndLag()
+    {
+        stats.counter = false;
+        float targetTimer = 0.917f * 0.6f;
+        float currentTimer = 0f;
+
+        while (currentTimer < targetTimer)
+        {
+            //pc.SkillMovement(directionToMove, distancePerSecond);
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        //anim.applyRootMotion = false;
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    IEnumerator CounterStrike()
+    {
+        anim.SetTrigger("CounterStrike");
+        stats.counter = false;
+        stats.AddInvulnerablitySource(1);
+        float targetTimer = 1.6f / 4 / stats.attackSpeed;
+        float currentTimer = 0f;
+
+        float counterDamage = myManager.stats.baseDamage * 3f * (stats.counterDamage / (stats.baseDamage * 2));
+        if (counterDamage < stats.baseDamage)
+            counterDamage = stats.baseDamage;
+        else if (counterDamage > stats.baseDamage * 20)
+            counterDamage = stats.baseDamage * 20;
+        Debug.Log("the damag absorbed is: " + stats.counterDamage + ". the damage we will deal is: " + counterDamage);
+
+        myManager.hitBoxes.hitboxes[14].GetComponent<HitBox>().damage = counterDamage;
+
+        while (currentTimer < targetTimer)
+        {
+            //pc.SkillMovement(directionToMove, distancePerSecond);
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        //anim.applyRootMotion = false;
+        stats.AddInvulnerablitySource(-1);
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // Used to cast the Severing Strike spell, a giant slam attack that armor breaks enemies enemies
+    IEnumerator SeveringStrike()
+    {
+        anim.SetTrigger("SeveringStrike");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        myManager.hitBoxes.hitboxes[15].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 4f;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Whirlwind
+    IEnumerator Whirlwind()
+    {
+        anim.SetBool("Whirlwind", true);
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 5f;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+        stats.movespeedPercentMultiplier -= 0.5f;
+
+        myManager.hitBoxes.hitboxes[16].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 0.5f;
+
+        while (currentTimer < targetTimer)
+        {
+            //pc.SkillMovement(directionToMove, distancePerSecond);
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        anim.SetBool("Whirlwind", false);
+        stats.movespeedPercentMultiplier += 0.5f;
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast ShatteredEarth
+    IEnumerator ShatteredEarth()
+    {
+        anim.SetBool("ShatteredEarth", true);
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+        float currentTimeCharging = 0;
+        float maximumChargeTime = 15f;
+        float maxDamageChargeTime = 10f / myManager.stats.attackSpeed;
+        bool maxDamage = false;
+        stats.movespeedPercentMultiplier -= 0.5f;
+
+        // begin the charging process.
+        while (currentTimeCharging < maximumChargeTime)
+        {
+            currentTimeCharging += Time.deltaTime;
+            if (!maxDamage && currentTimeCharging > maxDamageChargeTime)
+            {
+                maxDamage = true;
+                myManager.hitBoxes.PlayParticles(25);
+            }
+            // Check for an attack input, if so release this attack.
+            if (Input.GetAxisRaw(myManager.inputs.attackInput) == 1 && myManager.inputs.attackReleased)
+                break;
+
+            yield return null;
+        }
+
+        float chargePercent = currentTimeCharging / maxDamageChargeTime;
+        // begin the SLAM.
+        float currentTimer = 0;
+        float targetTimer = 1.6f / 2 / stats.attackSpeed;
+        anim.SetBool("ShatteredEarth", false);
+
+        if (!maxDamage)
+        {
+            myManager.hitBoxes.hitboxes[17].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 10f * chargePercent;
+            myManager.hitBoxes.hitboxes[17].GetComponent<HitBox>().damageType = HitBox.DamageType.Physical;
+        }
+        else
+        {
+            myManager.hitBoxes.hitboxes[17].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 15f;
+            myManager.hitBoxes.hitboxes[17].GetComponent<HitBox>().damageType = HitBox.DamageType.True;
+        }
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        stats.movespeedPercentMultiplier += 0.5f;
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    //USed to cast the spell falling sword.
+    IEnumerator FallingSword()
+    {
+        anim.SetTrigger("FallingSword");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 0.467f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingAerial;
+
+        myManager.hitBoxes.hitboxes[18].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 2f;
+
+        Vector3 desiredMoveDirection = transform.forward.normalized;
+        desiredMoveDirection.y = 0;
+        desiredMoveDirection = desiredMoveDirection.normalized;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        //wait until we hit the ground
+        while (!anim.GetBool("Grounded"))
+        {
+            yield return null;
+            myManager.characterController.Move(desiredMoveDirection * 8 * Time.deltaTime * myManager.stats.movespeedPercentMultiplier);
+        }
+
+        targetTimer = 1f / stats.attackSpeed;
+        currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            //pc.SkillMovement(directionToMove, distancePerSecond);
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Senate Slash
+    IEnumerator SenateSlash()
+    {
+        anim.SetTrigger("SenateSlash");
+        //anim.applyRootMotion = true;
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.3f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingNoMovement;
+
+        myManager.hitBoxes.hitboxes[19].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 15f;
+
+        Vector3 desiredMoveDirection = transform.forward.normalized;
+        desiredMoveDirection.y = 0;
+        desiredMoveDirection = desiredMoveDirection.normalized;
+
+        while (currentTimer < targetTimer)
+        {
+            if(currentTimer / targetTimer >= 0.2f)
+            myManager.characterController.Move(desiredMoveDirection * 8 * Time.deltaTime * myManager.stats.attackSpeed);
+            //pc.SkillMovement(directionToMove, distancePerSecond);
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        //anim.applyRootMotion = false;
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
     // USed to cast the spell nature pulse at the enemies
     IEnumerator NaturePulse()
     {
@@ -324,7 +795,7 @@ public class Skill : MonoBehaviour
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
 
-        myManager.ps[27].Play();
+        //myManager.ps[27].Play();
 
         while (currentTimer < targetTimer)
         {
@@ -365,7 +836,7 @@ public class Skill : MonoBehaviour
             yield return null;
         }
 
-        myManager.ps[27].Stop();
+        //myManager.ps[27].Stop();
         anim.ResetTrigger("BoulderFist");
         pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
@@ -384,10 +855,10 @@ public class Skill : MonoBehaviour
             yield return null;
         }
 
-        myManager.ps[38].Play();
-        myManager.ps[39].Play();
-        myManager.hitBoxes.LaunchBuffBox(6);
-        myManager.hitBoxes.buffboxes[6].GetComponent<HitBoxBuff>().BuffSelf();
+        //myManager.ps[38].Play();
+        //myManager.ps[39].Play();
+        //myManager.hitBoxes.LaunchBuffBox(6);
+        //myManager.hitBoxes.buffboxes[6].GetComponent<HitBoxBuff>().BuffSelf();
         pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 
@@ -398,7 +869,7 @@ public class Skill : MonoBehaviour
         float targetTimer = 0.5f;
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingRollOut;
-        myManager.ps[35].Play();
+        //myManager.ps[35].Play();
         
         while (currentTimer < targetTimer)
         {
@@ -407,9 +878,9 @@ public class Skill : MonoBehaviour
         }
 
         pc.playerState = PlayerMovementController.PlayerState.Idle;
-        myManager.ps[35].Stop();
-        myManager.ps[36].Play();
-        myManager.ps[37].Play();
+        //myManager.ps[35].Stop();
+        //myManager.ps[36].Play();
+        //myManager.ps[37].Play();
         myManager.hitBoxes.LaunchBuffBox(5);
         myManager.hitBoxes.buffboxes[5].GetComponent<HitBoxBuff>().BuffSelf();
         currentTimer = 0;
@@ -431,8 +902,8 @@ public class Skill : MonoBehaviour
             }
             yield return null;
         }
-        myManager.ps[36].Stop();
-        myManager.ps[37].Stop();
+        //myManager.ps[36].Stop();
+        //myManager.ps[37].Stop();
 
     }
 
@@ -451,8 +922,8 @@ public class Skill : MonoBehaviour
         }
         myManager.hitBoxes.hitboxes[4].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 1f;
         myManager.hitBoxes.LaunchHitBox(4);
-        myManager.ps[29].Play();
-        myManager.ps[30].Play();
+        //myManager.ps[29].Play();
+        //myManager.ps[30].Play();
         currentTimer = 0;
         targetTimer = 0.22f;
         
@@ -463,8 +934,8 @@ public class Skill : MonoBehaviour
         }
 
         myManager.hitBoxes.LaunchHitBox(4);
-        myManager.ps[31].Play();
-        myManager.ps[32].Play();
+        //myManager.ps[31].Play();
+        //myManager.ps[32].Play();
         currentTimer = 0;
         targetTimer = 0.5f / myManager.stats.attackSpeed;
         
@@ -475,8 +946,8 @@ public class Skill : MonoBehaviour
         }
         myManager.hitBoxes.hitboxes[5].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 3f;
         myManager.hitBoxes.LaunchHitBox(5);
-        myManager.ps[33].Play();
-        myManager.ps[34].Play();
+        //myManager.ps[33].Play();
+        //myManager.ps[34].Play();
 
         pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
@@ -490,7 +961,7 @@ public class Skill : MonoBehaviour
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
 
-        myManager.ps[27].Play();
+        //myManager.ps[27].Play();
 
         while (currentTimer < targetTimer)
         {
@@ -529,7 +1000,7 @@ public class Skill : MonoBehaviour
                     earthernSpear.GetComponent<HitBox>().damage = myManager.stats.baseDamage * 1f;
                     earthernSpear.GetComponent<HitBox>().myStats = myManager.stats;
                     anim.SetTrigger("ProjectileFired");
-                    myManager.ps[28].Play();
+                    //myManager.ps[28].Play();
                     targetSelected = true;
                 }
 
@@ -540,7 +1011,7 @@ public class Skill : MonoBehaviour
         anim.ResetTrigger("EarthernSpear");
         Destroy(targetIndicator);
 
-        myManager.ps[27].Stop();
+        //myManager.ps[27].Stop();
         pc.playerState = PlayerMovementController.PlayerState.Idle;
 
     }
@@ -553,7 +1024,7 @@ public class Skill : MonoBehaviour
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
         
-        myManager.ps[27].Play();
+        //myManager.ps[27].Play();
 
         while (currentTimer < targetTimer)
         {
@@ -586,14 +1057,14 @@ public class Skill : MonoBehaviour
                 boulderFist.GetComponent<HitBoxTerrain>().damage = myManager.stats.baseDamage * 3f;
                 anim.SetTrigger("ProjectileFired");
                 Destroy(targetIndicator);
-                myManager.ps[28].Play();
+                //myManager.ps[28].Play();
                 targetSelected = true;
             }
 
             yield return null;
         }
 
-        myManager.ps[27].Stop();
+        //myManager.ps[27].Stop();
         anim.ResetTrigger("BoulderFist");
         pc.playerState = PlayerMovementController.PlayerState.Idle;
 
@@ -606,7 +1077,7 @@ public class Skill : MonoBehaviour
         float targetTimer = 1f;
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingRollOut;
-        myManager.ps[27].Play();
+        //myManager.ps[27].Play();
         //myManager.controller.speedMultiplier = 0.4f;
         bool playParticles = false;
 
@@ -617,13 +1088,13 @@ public class Skill : MonoBehaviour
             {
                 GameObject terrain = Instantiate(myManager.skillProjectiles[0], transform.root.position, transform.root.rotation);
                 terrain.GetComponent<HitBoxTerrain>().damage = myManager.stats.baseDamage * (5f);
-                myManager.ps[28].Play();
+                //myManager.ps[28].Play();
                 playParticles = true;
             }
             yield return null;
         }
 
-        myManager.ps[27].Stop();
+        //myManager.ps[27].Stop();
         //myManager.controller.speedMultiplier = 1f;
         pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
@@ -642,7 +1113,7 @@ public class Skill : MonoBehaviour
             currentTimer += Time.deltaTime;
             if (!playParticles && currentTimer > targetTimer * 0.5f)
             {
-                myManager.ps[26].Play();
+                //myManager.ps[26].Play();
                 myManager.hitBoxes.LaunchBuffBox(4);
                 myManager.hitBoxes.buffboxes[4].GetComponent<HitBoxBuff>().BuffSelf();
                 playParticles = true;
@@ -660,7 +1131,7 @@ public class Skill : MonoBehaviour
         float targetTimer = 1f;
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
-        myManager.ps[17].Play();
+        //myManager.ps[17].Play();
         bool playParticles = false;
 
         while (currentTimer < targetTimer)
@@ -668,7 +1139,7 @@ public class Skill : MonoBehaviour
             currentTimer += Time.deltaTime;
             if (!playParticles && currentTimer > targetTimer * 0.5f)
             {
-                myManager.ps[16].Play();
+                //myManager.ps[16].Play();
                 myManager.hitBoxes.LaunchBuffBox(2);
                 myManager.hitBoxes.buffboxes[2].GetComponent<HitBoxBuff>().BuffSelf();
                 playParticles = true;
@@ -676,7 +1147,7 @@ public class Skill : MonoBehaviour
             yield return null;
         }
 
-        myManager.ps[17].Stop();
+        //myManager.ps[17].Stop();
         pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 
@@ -687,9 +1158,9 @@ public class Skill : MonoBehaviour
         float targetTimer = 1f;
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingNoMovement;
-        myManager.ps[0].Play();
-        myManager.ps[1].Play();
-        myManager.ps[2].Play();
+        //myManager.ps[0].Play();
+        //myManager.ps[1].Play();
+        //myManager.ps[2].Play();
         bool playParticles = false;
 
         while (currentTimer < targetTimer)
@@ -697,7 +1168,7 @@ public class Skill : MonoBehaviour
             currentTimer += Time.deltaTime;
             if (!playParticles && currentTimer > targetTimer * 0.5f)
             {
-                myManager.ps[18].Play();
+                //myManager.ps[18].Play();
                 myManager.hitBoxes.LaunchBuffBox(3);
                 myManager.hitBoxes.buffboxes[3].GetComponent<HitBoxBuff>().BuffSelf();
                 playParticles = true;
@@ -705,9 +1176,9 @@ public class Skill : MonoBehaviour
             yield return null;
         }
 
-        myManager.ps[0].Stop();
-        myManager.ps[1].Stop();
-        myManager.ps[2].Stop();
+        //myManager.ps[0].Stop();
+        //myManager.ps[1].Stop();
+        //myManager.ps[2].Stop();
         pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 
@@ -718,9 +1189,9 @@ public class Skill : MonoBehaviour
         float targetTimer = 1f;
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingNoMovement;
-        myManager.ps[0].Play();
-        myManager.ps[1].Play();
-        myManager.ps[2].Play();
+        //myManager.ps[0].Play();
+        //myManager.ps[1].Play();
+        //myManager.ps[2].Play();
         bool playParticles = false;
 
         while(currentTimer < targetTimer)
@@ -728,9 +1199,9 @@ public class Skill : MonoBehaviour
             currentTimer += Time.deltaTime;
             if(!playParticles && currentTimer > targetTimer * 0.5f)
             {
-                myManager.ps[3].Play();
-                myManager.ps[4].Play();
-                myManager.ps[5].Play();
+                //myManager.ps[3].Play();
+                //myManager.ps[4].Play();
+               // myManager.ps[5].Play();
                 myManager.hitBoxes.LaunchBuffBox(0);
                 myManager.hitBoxes.hitboxes[7].GetComponent<HitBox>().damage = myManager.stats.healthMax / 4f;
                 myManager.hitBoxes.LaunchHitBox(7);
@@ -740,124 +1211,9 @@ public class Skill : MonoBehaviour
             yield return null;
         }
 
-        myManager.ps[0].Stop();
-        myManager.ps[1].Stop();
-        myManager.ps[2].Stop();
-        pc.playerState = PlayerMovementController.PlayerState.Idle;
-    }
-
-    // Used to cast the Severing Strike spell, a giant slam attack that stuns enemies
-    IEnumerator SeveringStrike()
-    {
-        anim.SetTrigger("SeveringStrike");
-        float targetTimer = 1f;
-        float currentTimer = 0;
-        pc.playerState = PlayerMovementController.PlayerState.CastingRollOut;
-        myManager.ps[6].Play();
-        bool playParticles = false;
-        myManager.hitBoxes.hitboxes[1].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 4f;
-
-        while(currentTimer < targetTimer)
-        {
-            currentTimer += Time.deltaTime;
-            if (!playParticles && currentTimer > targetTimer * 0.5f)
-            {
-                myManager.ps[7].Play();
-                myManager.ps[8].Play();
-                myManager.ps[9].Play();
-                myManager.hitBoxes.LaunchHitBox(1);
-                playParticles = true;
-            }
-            yield return null;
-        }
-        
-        myManager.ps[6].Stop();
-        pc.playerState = PlayerMovementController.PlayerState.Idle;
-    }
-
-    // Used to cast blink strike.
-    IEnumerator BlinkStrike()
-    {
-        anim.SetBool("BlinkStrike", true);
-        float targetTimer = 0.5f / myManager.stats.attackSpeed;
-        float currentTimer = 0;
-        pc.playerState = PlayerMovementController.PlayerState.CastingNoMovement;
-        myManager.ps[10].Play();
-        myManager.ps[11].Play();
-        myManager.ps[12].Play();
-        bool playParticles = false;
-        //myManager.hitBoxes.hitboxes[2].GetComponent<HitBox>().damage = 25 + myManager.stats.Str * 2 + myManager.stats.weaponHitbase + myManager.stats.weaponHitMax;
-
-        // Create a vector that houses our move inputs
-        Vector2 movementInput = new Vector2(Input.GetAxisRaw(myManager.inputs.horizontalInput), Input.GetAxisRaw(myManager.inputs.verticalInput));
-        Vector3 desiredMoveDirection = Vector3.zero;
-
-        // if the movement inputs are greater than 0.2, theyll always snap from 1 to 0, then do the logic for a roll in the movement direction.
-        if (movementInput.sqrMagnitude >= 0.2f)
-        {
-            //Debug.Log("There is a movement input");
-            Vector3 forward = Camera.main.transform.forward;
-            Vector3 right = Camera.main.transform.right;
-
-            // Set up our directions based on the camera position, zero out the y values and normalize their directions.
-            forward.y = 0;
-            right.y = 0;
-
-            forward.Normalize();
-            right.Normalize();
-
-            // Create the desired movement direction vector, a combination of both times thir respective inputs normalized to give us a direction.
-            desiredMoveDirection = (forward * movementInput.y + right * movementInput.x).normalized;
-        }
-        else
-            desiredMoveDirection = transform.forward.normalized;
-
-        // The dash portion of the dash.
-        while (currentTimer < targetTimer)
-        {
-            currentTimer += Time.deltaTime;
-            yield return null;
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMoveDirection), 0.1f);
-            myManager.characterController.Move(desiredMoveDirection * 20 * Time.deltaTime * myManager.stats.attackSpeed);
-
-            //myManager.rb.velocity = transform.forward * 2000 * Time.deltaTime;
-            //myManager.rb.angularVelocity = Vector3.zero;
-
-            if (CheckRayHit(14, new Ray(transform.position, transform.forward), 2) ||
-                CheckRayHit(14, new Ray(transform.position + transform.right * 0.5f, transform.forward), 2) ||
-                CheckRayHit(14, new Ray(transform.position + transform.right * -0.5f, transform.forward), 2))
-                break;
-        }
-
-        myManager.ps[10].Stop();
-        myManager.ps[12].Stop();
-        myManager.ps[13].Play();
-        myManager.ps[6].Play();
-        // This is the hit portion of the dash.
-        currentTimer = 0;
-        targetTimer = 0.5f / myManager.stats.attackSpeed;
-        anim.SetBool("BlinkStrike", false);
-        float rbSpeedMultiplier = 1f;
-
-        while (currentTimer < targetTimer)
-        {
-            currentTimer += Time.deltaTime;
-            //myManager.rb.velocity = transform.forward * 2000 * Time.deltaTime * rbSpeedMultiplier;
-            //myManager.rb.angularVelocity = Vector3.zero;
-            rbSpeedMultiplier *= 0.8f;
-            if (!playParticles && currentTimer > targetTimer * 0.5f)
-            {
-                myManager.ps[14].Play();
-                myManager.ps[15].Play();
-                myManager.hitBoxes.hitboxes[2].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 2f;
-                myManager.hitBoxes.LaunchHitBox(2);
-                playParticles = true;
-            }
-            yield return null;
-        }
-
-        myManager.ps[6].Stop();
+        //myManager.ps[0].Stop();
+        //myManager.ps[1].Stop();
+        //myManager.ps[2].Stop();
         pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 
@@ -882,80 +1238,6 @@ public class Skill : MonoBehaviour
             yield return null;
         }
         
-        pc.playerState = PlayerMovementController.PlayerState.Idle;
-    }
-
-    // USed to cast ShatteredEarth
-    IEnumerator ShatteredEarth()
-    {
-        anim.SetBool("ShatteredEarth", true);
-        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
-        float currentTimeCharging = 0;
-        float maximumChargeTime = 10f;
-        float maxDamageChargeTime = 5f / myManager.stats.attackSpeed;
-        bool maxDamage = false;
-        myManager.ps[19].Play();
-        //myManager.controller.speedMultiplier = 0.4f;
-        // set our movespeed to like 50 percent of standard speed.
-
-        // begin the charging process.
-        while(currentTimeCharging < maximumChargeTime)
-        {
-            currentTimeCharging += Time.deltaTime;
-            if(!maxDamage && currentTimeCharging > maxDamageChargeTime)
-            {
-                maxDamage = true;
-                myManager.ps[20].Play();
-                myManager.ps[21].Play();
-                myManager.ps[22].Play();
-            }
-            // Check for an attack input, if so release this attack.
-            if (Input.GetAxisRaw(myManager.inputs.attackInput) == 1 && myManager.inputs.attackReleased)
-                break;
-
-            yield return null;
-        }
-
-        myManager.ps[19].Stop();
-        myManager.ps[20].Stop();
-        myManager.ps[21].Stop();
-        myManager.ps[22].Stop();
-
-        float chargePercent = currentTimeCharging / maxDamageChargeTime;
-        // begin the SLAM.
-        float currentTimer = 0;
-        float targetTimer = 1f;
-        bool particlesPlayed = false;
-        anim.SetBool("ShatteredEarth", false);
-        while (currentTimer < targetTimer)
-        {
-            currentTimer += Time.deltaTime;
-            if(!particlesPlayed && currentTimer > targetTimer * 0.5f)
-            {
-                particlesPlayed = true;
-                // play particles for hit
-
-                myManager.ps[23].Play();
-                myManager.ps[24].Play();
-                myManager.ps[25].Play();
-                // flicker hitbox
-                if (!maxDamage)
-                {
-                    myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 6f * chargePercent;
-                    myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damageType = HitBox.DamageType.Physical;
-                }
-                else
-                {
-                    myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 9f;
-                    myManager.hitBoxes.hitboxes[3].GetComponent<HitBox>().damageType = HitBox.DamageType.True;
-                }
-
-                myManager.hitBoxes.LaunchHitBox(3);
-            }
-            yield return null;
-        }
-
-        //myManager.controller.speedMultiplier = 1f;
         pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 

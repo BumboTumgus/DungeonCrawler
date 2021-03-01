@@ -10,7 +10,7 @@ public class BuffsManager : MonoBehaviour
     public Transform canvasParent;
     public GameObject buffIconPrefab;
 
-    public enum BuffType { Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, Frozen, EmboldeningEmbers, FlameStrike, AspectOfRage, BlessingOfFlames, Rampage,
+    public enum BuffType { Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, Frozen, ArmorBroken, EmboldeningEmbers, FlameStrike, AspectOfRage, BlessingOfFlames, Rampage,
                             GiantStrength, ToxicRipple, KillerInstinct, PoisonedMud, StrangleThorn, SoothingStone, Deadeye, WrathOfTheRagingWind, FrozenBarrier, SoothingStream,
                             NaturePulse, Revitalize};
     
@@ -517,6 +517,26 @@ public class BuffsManager : MonoBehaviour
                     //psSystems[16].Play();
 
                     break;
+                case BuffType.ArmorBroken:
+
+                    Buff armorBroken = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    armorBroken.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[11];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[9];
+
+                    activeBuffs.Add(armorBroken);
+
+                    armorBroken.myType = buff;
+                    armorBroken.connectedPlayer = stats;
+                    armorBroken.infiniteDuration = false;
+                    armorBroken.duration = 10;
+
+                    armorBroken.ChangeDefensiveStats(true, 0f, 0f, -0.4f, 0f);
+
+                    psSystems[17].Play();
+
+                    break;
+                    //----------------------------------------------------------------------------------------------------------------------------------
                 case BuffType.EmboldeningEmbers:
 
                     //Debug.Log("Adding emboldening embers buff");

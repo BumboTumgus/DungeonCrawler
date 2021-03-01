@@ -39,7 +39,7 @@ public class HitBoxManager : MonoBehaviour
     // Used to play the particles in one of our particle systems.
     public void PlayParticles(int index)
     {
-        Debug.LogError("FREESE");
+        //Debug.LogError("FREESE");
         hiteffects[index].Play();
     }
 

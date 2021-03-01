@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovementController : MonoBehaviour
 {
     // a state machine that dictates the actions the player can take.
-    public enum PlayerState { Idle, Moving, Airborne, Rolling, Sprinting, Attacking, Downed, Dead, LossOfControl, LossOfControlNoGravity, CastingNoMovement, CastingRollOut, CastingWithMovement, CastingAerial, Jumping}
+    public enum PlayerState { Idle, Moving, Airborne, Rolling, Sprinting, Attacking, Downed, Dead, LossOfControl, LossOfControlNoGravity, CastingNoMovement, CastingRollOut, CastingWithMovement, CastingAerial, CastingIgnoreGravity, Jumping}
     public PlayerState playerState = PlayerState.Idle;
 
     [HideInInspector] public bool menuOpen = false;                   // USed to lock movement if the menu is open.
@@ -30,6 +30,9 @@ public class PlayerMovementController : MonoBehaviour
     private RagdollManager ragdollManager;
 
     private bool attackReady = true;                                  // a check to see if we can launch an attack, gets flicked off whern we attack and on when we wait long enough
+    private bool recentlyAttacked = false;
+    private float currentTimeSinceLastAttack = 0f;
+    private float targetTimeSinceLastAttack = 3f;
 
     private bool rollReady = true;                                    // a check to see if we can roll, flicks off when we roll and on when we wait long enoguh
     private IEnumerator rollCoroutine;
@@ -41,6 +44,7 @@ public class PlayerMovementController : MonoBehaviour
     private RaycastHit groundRayHit;
     [SerializeField] private LayerMask groundingRayMask = 1 << 10;    // ensures the ray will only check for the COLLIDABLE ENVIRONMENT layer.
 
+    private float gravityModifier = 1f;
 
     private const float GRAVITY = 0.4f;
     private const float GROUNDING_RAY_LENGTH = 0.7f;
@@ -54,7 +58,7 @@ public class PlayerMovementController : MonoBehaviour
     // Start is called before the first frame update. Herte we grab a;; the connected scripts on the gameobject
     void Start()
     {
-        mainCameraTransform = Camera.main.transform;
+        mainCameraTransform = Camera.main.transform.parent;
 
         controller = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
@@ -70,16 +74,17 @@ public class PlayerMovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Temperary solution for testing death and revive mechanics.
-        if (Input.GetKeyDown(KeyCode.K))
-            PlayerDowned();
-        if (Input.GetKeyDown(KeyCode.L))
-            PlayerRevived();
-
-        if (Input.GetKeyDown(KeyCode.Alpha1) && CompareTag("Player"))
-            KnockbackLaunch(Vector3.up + transform.forward * 10);
-        if (Input.GetKeyDown(KeyCode.V) && CompareTag("Player"))
-            GetComponent<HitBoxManager>().PlayParticles(1);
+        // This is logic to ensure our character rotates towards the proper target.
+        if(recentlyAttacked)
+        {
+            currentTimeSinceLastAttack += Time.deltaTime;
+            if(currentTimeSinceLastAttack >= targetTimeSinceLastAttack)
+            {
+                recentlyAttacked = false;
+                anim.SetBool("FaceAttackDirection", false);
+                currentTimeSinceLastAttack = 0;
+            }
+        }
 
         switch (playerState)
         {
@@ -148,6 +153,8 @@ public class PlayerMovementController : MonoBehaviour
                 CheckJump();
                 CheckRoll();
                 break;
+            case PlayerState.CastingIgnoreGravity:
+                break;
             case PlayerState.CastingAerial:
                 ApplyGravity();
                 break;
@@ -183,7 +190,9 @@ public class PlayerMovementController : MonoBehaviour
         // Rotate towards the target move direction. Set the animation speed in the animator so the character walks properly.
         if (desiredMoveDirection != Vector3.zero)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMoveDirection), rotationSpeed);
+            if (!recentlyAttacked)
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMoveDirection), rotationSpeed);
+
             if(playerStats.movespeedPercentMultiplier > 0.1f)
                 anim.SetFloat("Speed", 1 * playerStats.movespeedPercentMultiplier);
             else
@@ -191,6 +200,16 @@ public class PlayerMovementController : MonoBehaviour
         }
         else
             anim.SetFloat("Speed", 0);
+
+        if(recentlyAttacked)
+        {
+            Vector3 cameraRotation = Camera.main.transform.forward;
+            cameraRotation.y = 0;
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(cameraRotation, Vector3.up), rotationSpeed);
+
+            anim.SetFloat("RelativeXMovement", movementInput.x);
+            anim.SetFloat("RelativeZMovement", movementInput.y);
+        }
 
         // Set up the players speed.
         float targetSpeed = 0;
@@ -216,6 +235,7 @@ public class PlayerMovementController : MonoBehaviour
             // if the ray hit the ground, set us as grounded, snap us to the ground, and change the state while updating the aniamtion.
             grounded = true;
             gravityVectorStrength = 0;
+            gravityModifier = 1;
 
             Vector3 positionalDifference = groundRayHit.point - transform.position;
             //positionalDifference.y -= POSITIONAL_DIFFERENCE_OFFSET;
@@ -237,13 +257,17 @@ public class PlayerMovementController : MonoBehaviour
             {
                 grounded = false;
                 anim.SetBool("Grounded", false);
+
                 if (playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
+                {
+                    //Debug.Log("we were jumping or casting an aeril skill so set us to airborne");
                     playerState = PlayerState.Airborne;
+                }
             }
 
             Vector3 gravityVector = Vector3.zero;
 
-            gravityVectorStrength -= GRAVITY * Time.deltaTime;
+            gravityVectorStrength -= GRAVITY * gravityModifier * Time.deltaTime;
             gravityVector.y = gravityVectorStrength;
 
             controller.Move(gravityVector);
@@ -282,7 +306,7 @@ public class PlayerMovementController : MonoBehaviour
     // Used to complete the jump logic 
     IEnumerator Jump(float jumpPower, float timeAppliedFor, bool setTrigger)
     {
-        Debug.Log("we have launched with a force of " + jumpPower + " and and bool of: " + setTrigger);
+        //Debug.Log("we have launched with a force of " + jumpPower + " and and bool of: " + setTrigger);
         if (setTrigger)
         {
             anim.SetTrigger("Jump");
@@ -294,7 +318,7 @@ public class PlayerMovementController : MonoBehaviour
 
         yield return new WaitForSeconds(timeAppliedFor);
 
-        if (playerState == PlayerState.LossOfControl || playerState == PlayerState.LossOfControlNoGravity)
+        if (playerState == PlayerState.LossOfControl || playerState == PlayerState.LossOfControlNoGravity )
         {
             //Debug.Log("we have some sort of cc on us");
         }
@@ -333,6 +357,11 @@ public class PlayerMovementController : MonoBehaviour
             anim.SetFloat("AnimSpeed", 1 * 0.25f);
 
         playerState = PlayerState.Rolling;
+
+        // Ensures we face forward after a roll.
+        recentlyAttacked = false;
+        anim.SetBool("FaceAttackDirection", false);
+        currentTimeSinceLastAttack = 0;
 
         // here we see if we are on fire, if so lower the duration of the debuff.
         foreach (Buff buff in buffsManager.activeBuffs)
@@ -428,6 +457,11 @@ public class PlayerMovementController : MonoBehaviour
     {
         buffsManager.ProcOnAttack();
         attackReady = false;
+
+        recentlyAttacked = true;
+        currentTimeSinceLastAttack = 0;
+        anim.SetBool("FaceAttackDirection", true);
+
         anim.SetTrigger("Attack");
         float baseWeaponAttackSpeed = 1f;
         switch (playerStats.weaponBaseAttacksPerSecond.Count)
@@ -742,5 +776,23 @@ public class PlayerMovementController : MonoBehaviour
         if (attackCoroutine != null)
             StopCoroutine(attackCoroutine);
         attackReady = true;
-    }    
+    }
+    
+    //USed t ensure the plyer faces the direction they are attacking
+    public void SnapToFaceCamera()
+    {
+        Vector3 cameraRotation = Camera.main.transform.forward;
+        cameraRotation.y = 0;
+        transform.rotation = Quaternion.LookRotation(cameraRotation, Vector3.up);
+
+        recentlyAttacked = true;
+        currentTimeSinceLastAttack = 0;
+        anim.SetBool("FaceAttackDirection", true);
+    }
+
+    // USed to change the gravity modifier so we fall faster. Must be in a method so the animation clips can access it.
+    public void ChangeGravityModifier(float value)
+    {
+        gravityModifier = value;
+    }
 }

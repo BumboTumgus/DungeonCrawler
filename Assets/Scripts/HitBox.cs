@@ -36,7 +36,7 @@ public class HitBox : MonoBehaviour
     {
         //Debug.Log("we have colldied with collided with: " + other.name);
         // Projectile logic, we are a projectile and hit an object on the collidable envorioment or interactable layer.
-        if ((projectile && other.gameObject.layer == 10) || (projectile && other.gameObject.layer == 9) || (projectile && other.gameObject.layer == 14 && hitEnemies) || (projectile && other.gameObject.layer == 13 && hitPlayers))
+        if ((projectile && other.gameObject.layer == 10) || (projectile && other.gameObject.layer == 14 && hitEnemies) || (projectile && other.gameObject.layer == 13 && hitPlayers))
         {
             //Debug.Log("we hit an object that is in the collidable or interable layer");
             if(GetComponent<ProjectileBehaviour>())

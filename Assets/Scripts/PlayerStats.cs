@@ -79,6 +79,8 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public bool frozen = false;
     [HideInInspector] public bool bleeding = false;
     [HideInInspector] public bool ephemeral = false;
+    [HideInInspector] public float counterDamage = 0;
+    [HideInInspector] public bool counter = false;
     [HideInInspector] public float invulnerableCount = 0;
     [HideInInspector] public float untargetableCount = 0;
     [HideInInspector] public float invisibleCount = 0;
@@ -127,7 +129,7 @@ public class PlayerStats : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P) && CompareTag("Player"))
             AddExp(25);
         if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
-            TakeDamage(10,false, HitBox.DamageType.Physical);
+            TakeDamage(50,false, HitBox.DamageType.Physical);
         if (Input.GetKeyDown(KeyCode.U) && CompareTag("Player"))
             comboManager.AddComboCounter(1);
 
@@ -155,6 +157,8 @@ public class PlayerStats : MonoBehaviour
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Asleep, 1, baseDamage);
         if (Input.GetKeyDown(KeyCode.KeypadPeriod))
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, baseDamage);
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) && CompareTag("Player"))
+            buffManager.NewBuff(BuffsManager.BuffType.ArmorBroken, baseDamage);
 
         // Health and mana regen logic.
         if (!dead)
@@ -234,7 +238,7 @@ public class PlayerStats : MonoBehaviour
             expTarget = level * 100;
             GetComponent<DamageNumberManager>().SpawnFlavorText("Level Up!", UiPopUpTextColorBank.instance.damageColors[0]);
             StatSetup(true, true);
-            GetComponent<SkillsManager>().ps[40].Play();
+            GetComponent<HitBoxManager>().PlayParticles(8);
             Debug.Log("Level Up");
         }
     }
@@ -278,6 +282,12 @@ public class PlayerStats : MonoBehaviour
     {
         if (health > 0)
         {
+            if (counter)
+            {
+                counterDamage += amount;
+                amount = 0;
+            }
+
             if (damage != HitBox.DamageType.True)
             {
                 if (damageReductionMultiplier + armorShreddedBonusDamage > 0)

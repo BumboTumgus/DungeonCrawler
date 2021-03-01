@@ -17,11 +17,9 @@ public class SkillsManager : MonoBehaviour
     public LayerMask targettingRayMaskHitEnemies;
     public InventoryUiManager inventory;
 
-    public ParticleSystem[] ps;
-
     public enum SkillNames { SweepingBlow, Rapislash, SkywardSlash, BladeVolley, BlinkStrike, TremorStab, LeapStrike, Takedown, Impale, Counter, SeveringStrike, Whirlwind, ShatteredEarth, FallingSword, SenateSlash, EmboldeningEmbers, FlameStrike, AspectOfRage, Rampage, BlessingOfFlames,
-                            GiantStrength, EarthernPlateau, BoulderFist, EarthernSpear, CausticEdge, ToxicRipple, KillerInstinct, NaturePulse,
-                            Revitalize};
+        GiantStrength, EarthernPlateau, BoulderFist, EarthernSpear, CausticEdge, ToxicRipple, KillerInstinct, NaturePulse,
+        Revitalize };
 
     public Transform skillsContainer;
 
@@ -43,9 +41,6 @@ public class SkillsManager : MonoBehaviour
         hitBoxes = GetComponent<HitBoxManager>();
         cameraControls = Camera.main.GetComponent<CameraControls>();
         characterController = GetComponent<CharacterController>();
-        foreach (ParticleSystem particle in ps)
-            particle.Stop();
-        //AddSkill(0, SkillNames.ToxicRipple);
     }
 
     // Used to add a new skill to our player at an index.
@@ -202,5 +197,21 @@ public class SkillsManager : MonoBehaviour
     {
         inventory.CheckActiveSkillSlots();
     }
+
+    public void SpawnDisjointedSkillEffect(SkillNames skill)
+    {
+        switch (skill)
+        {
+            case SkillNames.FallingSword:
+                GameObject swordCircle = Instantiate(skillProjectiles[1], transform.position + Vector3.up * 0.1f, Quaternion.identity);
+                swordCircle.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
+                swordCircle.GetComponent<HitBox>().myStats = stats;
+                break;
+            default:
+                break;
+        }
+    }
+
+
     
 }

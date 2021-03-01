@@ -211,7 +211,7 @@ public class RagdollManager : MonoBehaviour
 
     private void IntializeRagdoll()
     {
-        Debug.Log("initializing ragdoll");
+        //Debug.Log("initializing ragdoll");
         ragdollEnabled = false;
 
         if (playerEntity)
