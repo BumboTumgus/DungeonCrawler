@@ -17,9 +17,9 @@ public class SkillsManager : MonoBehaviour
     public LayerMask targettingRayMaskHitEnemies;
     public InventoryUiManager inventory;
 
-    public enum SkillNames { SweepingBlow, Rapislash, SkywardSlash, BladeVolley, BlinkStrike, TremorStab, LeapStrike, Takedown, Impale, Counter, SeveringStrike, Whirlwind, ShatteredEarth, FallingSword, SenateSlash, EmboldeningEmbers, FlameStrike, AspectOfRage, Rampage, BlessingOfFlames,
-        GiantStrength, EarthernPlateau, BoulderFist, EarthernSpear, CausticEdge, ToxicRipple, KillerInstinct, NaturePulse,
-        Revitalize };
+    public enum SkillNames { SweepingBlow, Rapislash, SkywardSlash, BladeVolley, BlinkStrike, TremorStab, LeapStrike, Takedown, Impale, Counter, SeveringStrike, Whirlwind, ShatteredEarth, FallingSword, SenateSlash, 
+        Firebolt, Ignition, EmboldeningEmbers, Firebeads, HeatPulse, FlameStrike, Flamewalker, WitchPyre, Combustion, RingOfFire, BlessingOfFlames, Immolate, Firestorm, Fireweave, Fireball,
+        AspectOfRage, Rampage, GiantStrength, EarthernPlateau, BoulderFist, EarthernSpear, CausticEdge, ToxicRipple, KillerInstinct, NaturePulse, Revitalize };
 
     public Transform skillsContainer;
 
@@ -206,6 +206,52 @@ public class SkillsManager : MonoBehaviour
                 GameObject swordCircle = Instantiate(skillProjectiles[1], transform.position + Vector3.up * 0.1f, Quaternion.identity);
                 swordCircle.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
                 swordCircle.GetComponent<HitBox>().myStats = stats;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void ShootProjectileForward(SkillNames skill)
+    {
+        Vector3 target = Vector3.zero;
+        switch (skill)
+        {
+            case SkillNames.Firebolt:
+                target = Camera.main.transform.position + Camera.main.transform.forward * 100;
+
+                GameObject fireball = Instantiate(skillProjectiles[2], transform.position + Vector3.up + transform.forward, transform.rotation);
+                fireball.transform.LookAt(target);
+
+                Vector3 rotation = fireball.transform.rotation.eulerAngles;
+                rotation.x -= 3;
+                fireball.transform.rotation = Quaternion.Euler(rotation);
+
+                fireball.GetComponent<HitBox>().damage = stats.baseDamage * 0.33f;
+                fireball.GetComponent<HitBox>().myStats = stats;
+                break;
+
+            case SkillNames.Firebeads:
+                GameObject firebead1 = Instantiate(skillProjectiles[3], transform.position + Vector3.up + transform.forward, transform.rotation);
+                GameObject firebead2 = Instantiate(skillProjectiles[3], transform.position + Vector3.up + transform.right, transform.rotation);
+                GameObject firebead3 = Instantiate(skillProjectiles[3], transform.position + Vector3.up + transform.forward * -1, transform.rotation);
+                GameObject firebead4 = Instantiate(skillProjectiles[3], transform.position + Vector3.up + transform.right * -1, transform.rotation);
+
+                firebead1.GetComponent<HitBox>().damage = stats.baseDamage * 0.2f;
+                firebead1.GetComponent<HitBox>().myStats = stats;
+                firebead1.transform.LookAt(transform.position + transform.right * 100 + Vector3.up);
+
+                firebead2.GetComponent<HitBox>().damage = stats.baseDamage * 0.2f;
+                firebead2.GetComponent<HitBox>().myStats = stats;
+                firebead2.transform.LookAt(transform.position + transform.forward * -100 + Vector3.up);
+
+                firebead3.GetComponent<HitBox>().damage = stats.baseDamage * 0.2f;
+                firebead3.GetComponent<HitBox>().myStats = stats;
+                firebead3.transform.LookAt(transform.position + transform.right * -100 + Vector3.up);
+
+                firebead4.GetComponent<HitBox>().damage = stats.baseDamage * 0.2f;
+                firebead4.GetComponent<HitBox>().myStats = stats;
+                firebead4.transform.LookAt(transform.position + transform.forward * 100 + Vector3.up);
                 break;
             default:
                 break;

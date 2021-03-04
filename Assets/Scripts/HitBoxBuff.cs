@@ -9,7 +9,7 @@ public class HitBoxBuff : MonoBehaviour
 
     [SerializeField] private bool hitEnemies = false;
     [SerializeField] private bool hitPlayers = false;
-    [SerializeField] private bool hitSelf = false;
+    public bool hitSelf = false;
 
     public int aflameValue = 0;
     public int frostbiteValue = 0;

@@ -75,7 +75,7 @@ public class PlayerMovementController : MonoBehaviour
     void Update()
     {
         // This is logic to ensure our character rotates towards the proper target.
-        if(recentlyAttacked)
+        if(recentlyAttacked && !playerStats.channeling)
         {
             currentTimeSinceLastAttack += Time.deltaTime;
             if(currentTimeSinceLastAttack >= targetTimeSinceLastAttack)
@@ -141,6 +141,7 @@ public class PlayerMovementController : MonoBehaviour
             case PlayerState.LossOfControlNoGravity:
                 break;
             case PlayerState.CastingNoMovement:
+                anim.SetFloat("Speed", 0);
                 ApplyGravity();
                 break;
             case PlayerState.CastingRollOut:
@@ -503,6 +504,7 @@ public class PlayerMovementController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
+        currentTimeSinceLastAttack = 0;
         //Debug.Log("the attack has ended");
         if (!breakLoop)
             playerState = PlayerState.Idle;

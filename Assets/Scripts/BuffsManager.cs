@@ -536,27 +536,30 @@ public class BuffsManager : MonoBehaviour
                     psSystems[17].Play();
 
                     break;
-                    //----------------------------------------------------------------------------------------------------------------------------------
                 case BuffType.EmboldeningEmbers:
 
                     //Debug.Log("Adding emboldening embers buff");
                     Buff embers = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     embers.connectedIcon = buffIcon;
-                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[0];
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[12];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[0];
 
                     activeBuffs.Add(embers);
 
                     embers.myType = buff;
                     embers.connectedPlayer = stats;
                     embers.infiniteDuration = false;
-                    embers.duration = 10;
-                    embers.effectParticleSystem.Add(psSystems[17]);
-                    embers.effectParticleSystem.Add(psSystems[18]);
-                    psSystems[17].Play();
+                    embers.ChangeOffensiveStats(true, 0.5f, 0.25f);
+                    embers.ChangeDefensiveStats(true, stats.healthMax * 0.2f, 0, 0, 0);
+                    embers.duration = 15;
+
+                    embers.effectParticleSystem.Add(psSystems[19]);
                     psSystems[18].Play();
                     psSystems[19].Play();
 
                     break;
+                //----------------------------------------------------------------------------------------------------------------------------------
+
                 case BuffType.FlameStrike:
 
                     //Debug.Log("Adding flame strike buff");

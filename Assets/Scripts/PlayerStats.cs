@@ -79,6 +79,7 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public bool frozen = false;
     [HideInInspector] public bool bleeding = false;
     [HideInInspector] public bool ephemeral = false;
+    [HideInInspector] public bool channeling = false;
     [HideInInspector] public float counterDamage = 0;
     [HideInInspector] public bool counter = false;
     [HideInInspector] public float invulnerableCount = 0;
@@ -191,6 +192,8 @@ public class PlayerStats : MonoBehaviour
         healthMax = baseHealth + baseHealthGrowth * level + bonusHealthRegen;
         if (health > healthMax)
             health = healthMax;
+
+        attackSpeed = 1 + bonusAttackSpeed;
 
         // If we level up set the health to the max.
         if (LeveledUp)

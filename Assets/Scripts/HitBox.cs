@@ -10,7 +10,6 @@ public class HitBox : MonoBehaviour
     public float damage = 5;
     public int stacksToAdd = 0;
     public bool crit = false;
-    public bool damageOverload = false;
     public bool procsOnHits = false;
 
     [SerializeField] private bool hitEnemies = false;
@@ -39,7 +38,7 @@ public class HitBox : MonoBehaviour
         if ((projectile && other.gameObject.layer == 10) || (projectile && other.gameObject.layer == 14 && hitEnemies) || (projectile && other.gameObject.layer == 13 && hitPlayers))
         {
             //Debug.Log("we hit an object that is in the collidable or interable layer");
-            if(GetComponent<ProjectileBehaviour>())
+            if(GetComponent<ProjectileBehaviour>() && !GetComponent<ProjectileBehaviour>().piercing)
                 GetComponent<ProjectileBehaviour>().DestroyProjectile();
         }
 

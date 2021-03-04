@@ -4,57 +4,57 @@ using UnityEngine;
 
 public class CameraShakeManager : MonoBehaviour
 {
+    public float cameraShakeAmount = 0;
 
     enum CameraPositions {Center, TopLeft, TopRight, BottomLeft, BottomRight};
     Transform cameraToShake;
-    public float cameraShakeAmount = 0;
+    bool coroutineEnabled = false;
 
 
     // Start is called before the first frame update
     void Start()
     {
         cameraToShake = Camera.main.transform;
-        StartCoroutine(CameraShake());
     }
 
     IEnumerator CameraShake()
     {
-        while (enabled)
+        coroutineEnabled = true;
+        while (cameraShakeAmount > 0)
         {
-            while (cameraShakeAmount > 0)
-            {
-                SnapCameraToPosition(CameraPositions.TopRight);
-                yield return new WaitForEndOfFrame();
-                SnapCameraToPosition(CameraPositions.TopLeft);
-                yield return new WaitForEndOfFrame();
-                SnapCameraToPosition(CameraPositions.Center);
-                yield return new WaitForEndOfFrame();
+            SnapCameraToPosition(CameraPositions.TopRight);
+            yield return new WaitForEndOfFrame();
+            SnapCameraToPosition(CameraPositions.TopLeft);
+            yield return new WaitForEndOfFrame();
+            SnapCameraToPosition(CameraPositions.Center);
+            yield return new WaitForEndOfFrame();
 
-                cameraShakeAmount *= 0.8f;
-                if (cameraShakeAmount <= 0.05f)
-                    cameraShakeAmount = 0;
+            cameraShakeAmount *= 0.8f;
+            if (cameraShakeAmount <= 0.05f)
+                cameraShakeAmount = 0;
 
 
-                SnapCameraToPosition(CameraPositions.BottomRight);
-                yield return new WaitForEndOfFrame();
-                SnapCameraToPosition(CameraPositions.BottomLeft);
-                yield return new WaitForEndOfFrame();
-                SnapCameraToPosition(CameraPositions.Center);
-                yield return new WaitForEndOfFrame();
+            SnapCameraToPosition(CameraPositions.BottomRight);
+            yield return new WaitForEndOfFrame();
+            SnapCameraToPosition(CameraPositions.BottomLeft);
+            yield return new WaitForEndOfFrame();
+            SnapCameraToPosition(CameraPositions.Center);
+            yield return new WaitForEndOfFrame();
 
-                cameraShakeAmount *= 0.8f;
-                if (cameraShakeAmount <= 0.05f)
-                    cameraShakeAmount = 0;
-            }
-            cameraToShake.localPosition = Vector3.zero;
-
-            yield return new WaitForSeconds(0.05f);
+            cameraShakeAmount *= 0.8f;
+            if (cameraShakeAmount <= 0.05f)
+                cameraShakeAmount = 0;
         }
+        cameraToShake.localPosition = Vector3.zero;
+
+        coroutineEnabled = false;
     }
 
     public void AddCameraShake(float value)
     {
         cameraShakeAmount += value;
+        if (!coroutineEnabled)
+            StartCoroutine(CameraShake());
     }
 
     private void SnapCameraToPosition(CameraPositions camPos)

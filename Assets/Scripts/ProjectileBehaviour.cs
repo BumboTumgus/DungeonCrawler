@@ -6,8 +6,10 @@ public class ProjectileBehaviour : MonoBehaviour
 {
     public float projectileSpeed = 5;
     public float projectileLifetime = 10f;
+    public bool piercing = false;
     public bool hitAOE = false;
     public bool trackTarget = false;
+    public float YSpin = 0;
     public float trackingStrength = 0.1f;
     public Transform target = null;
     public List<ParticleSystem> particleTrails = new List<ParticleSystem>();
@@ -29,6 +31,14 @@ public class ProjectileBehaviour : MonoBehaviour
         if(trackTarget)
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation((target.position + Vector3.up) - transform.position), trackingStrength);
         transform.position += transform.forward * projectileSpeed * Time.deltaTime;
+
+        if(YSpin != 0)
+        {
+            Vector3 rotation = transform.rotation.eulerAngles;
+            rotation.y += YSpin * Time.deltaTime;
+            transform.rotation = Quaternion.Euler(rotation);
+            YSpin *= 0.995f;
+        }
 
         currentLifetime += Time.deltaTime;
         if (currentLifetime > projectileLifetime)

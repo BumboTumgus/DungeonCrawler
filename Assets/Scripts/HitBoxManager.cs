@@ -33,19 +33,23 @@ public class HitBoxManager : MonoBehaviour
     public void LaunchBuffBox(int index)
     {
         //Debug.Log("launching buff box");
+        if (buffboxes[index].GetComponent<HitBoxBuff>().hitSelf)
+            buffboxes[index].GetComponent<HitBoxBuff>().BuffSelf();
+
         StartCoroutine(BuffBoxFlicker(index));
     }
 
     // Used to play the particles in one of our particle systems.
     public void PlayParticles(int index)
     {
-        //Debug.LogError("FREESE");
+        //Debug.Log("Playing particles " + index);
         hiteffects[index].Play();
     }
 
     // Used to stop the particles in one of our particle systems.
     public void StopParticles(int index)
     {
+        //Debug.Log("Stopping particles " + index);
         hiteffects[index].Stop();
     }
 

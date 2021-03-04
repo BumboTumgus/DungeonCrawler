@@ -73,11 +73,27 @@ public class SkillBank : MonoBehaviour
                 skillToSet.targetCooldown = 16f;
                 skillToSet.skillIcon = skillIcons[14];
                 break;
-            //-----------------------------------------------------------------------------------------------------------------------------
-            case SkillsManager.SkillNames.EmboldeningEmbers:
-                skillToSet.targetCooldown = 15f;
-                skillToSet.skillIcon = skillIcons[1];
+            case SkillsManager.SkillNames.Firebolt:
+                skillToSet.targetCooldown = 5f;
+                skillToSet.skillIcon = skillIcons[15];
                 break;
+            case SkillsManager.SkillNames.Ignition:
+                skillToSet.targetCooldown = 14f;
+                skillToSet.skillIcon = skillIcons[16];
+                break;
+            case SkillsManager.SkillNames.EmboldeningEmbers:
+                skillToSet.targetCooldown = 30f;
+                skillToSet.skillIcon = skillIcons[17];
+                break;
+            case SkillsManager.SkillNames.Firebeads:
+                skillToSet.targetCooldown = 15f;
+                skillToSet.skillIcon = skillIcons[18];
+                break;
+            case SkillsManager.SkillNames.HeatPulse:
+                skillToSet.targetCooldown = 11f;
+                skillToSet.skillIcon = skillIcons[19];
+                break;
+            //-----------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.FlameStrike:
                 skillToSet.targetCooldown = 40f;
                 skillToSet.skillIcon = skillIcons[2];
@@ -187,10 +203,22 @@ public class SkillBank : MonoBehaviour
             case SkillsManager.SkillNames.SenateSlash:
                 cooldown = 16f;
                 break;
-            //---------------------------------------------------------------------------------------------------------------------------------------------------------
+            case SkillsManager.SkillNames.Firebolt:
+                cooldown = 5f;
+                break;
+            case SkillsManager.SkillNames.Ignition:
+                cooldown = 14f;
+                break;
             case SkillsManager.SkillNames.EmboldeningEmbers:
+                cooldown = 30f;
+                break;
+            case SkillsManager.SkillNames.Firebeads:
                 cooldown = 15f;
                 break;
+            case SkillsManager.SkillNames.HeatPulse:
+                cooldown = 11f;
+                break;
+            //---------------------------------------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.FlameStrike:
                 cooldown = 40f;
                 break;

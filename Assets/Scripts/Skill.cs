@@ -94,7 +94,7 @@ public class Skill : MonoBehaviour
         if (skillReady && pc.playerState != PlayerMovementController.PlayerState.Rolling && pc.playerState != PlayerMovementController.PlayerState.CastingAerial && pc.playerState != PlayerMovementController.PlayerState.CastingNoMovement && pc.playerState != PlayerMovementController.PlayerState.CastingRollOut
              && pc.playerState != PlayerMovementController.PlayerState.CastingWithMovement)
         {
-            Debug.Log("The skill " + skillName + " has been used");
+            //Debug.Log("The skill " + skillName + " has been used");
 
             pc.SkillCastCoroutineClear();
 
@@ -145,10 +145,22 @@ public class Skill : MonoBehaviour
                 case SkillsManager.SkillNames.SenateSlash:
                     StartCoroutine(SenateSlash());
                     break;
-                //--------------------------------------------------------------------------------------------
+                case SkillsManager.SkillNames.Firebolt:
+                    StartCoroutine(Firebolt());
+                    break;
+                case SkillsManager.SkillNames.Ignition:
+                    StartCoroutine(Ignition());
+                    break;
                 case SkillsManager.SkillNames.EmboldeningEmbers:
                     StartCoroutine(EmboldeningEmbers());
                     break;
+                case SkillsManager.SkillNames.Firebeads:
+                    StartCoroutine(Firebeads());
+                    break;
+                case SkillsManager.SkillNames.HeatPulse:
+                    StartCoroutine(HeatPulse());
+                    break;
+                //--------------------------------------------------------------------------------------------
                 case SkillsManager.SkillNames.FlameStrike:
                     StartCoroutine(FlameStrike());
                     break;
@@ -640,6 +652,7 @@ public class Skill : MonoBehaviour
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
         stats.movespeedPercentMultiplier -= 0.5f;
+        myManager.stats.channeling = true;
 
         myManager.hitBoxes.hitboxes[16].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 0.5f;
 
@@ -652,6 +665,7 @@ public class Skill : MonoBehaviour
 
         anim.SetBool("Whirlwind", false);
         stats.movespeedPercentMultiplier += 0.5f;
+        myManager.stats.channeling = false;
         pc.CheckForOtherLoseOfControlEffects();
     }
 
@@ -785,6 +799,117 @@ public class Skill : MonoBehaviour
         pc.CheckForOtherLoseOfControlEffects();
     }
 
+    // USed to cast the spell firebolt
+    IEnumerator Firebolt()
+    {
+        anim.SetTrigger("Firebolt");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.25f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Ignition
+    IEnumerator Ignition()
+    {
+        anim.SetBool("Ignition", true);
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+        myManager.stats.channeling = true;
+
+        float targetTimer = 5f;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+        stats.movespeedPercentMultiplier -= 0.2f;
+
+        myManager.hitBoxes.hitboxes[20].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 0.5f;
+
+        while (currentTimer < targetTimer)
+        {
+            //pc.SkillMovement(directionToMove, distancePerSecond);
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        anim.SetBool("Ignition", false);
+        stats.movespeedPercentMultiplier += 0.2f;
+        myManager.stats.channeling = false;
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // Used to use the Emboldening Embers spell, an AoE buff for all allies.
+    IEnumerator EmboldeningEmbers()
+    {
+        anim.SetTrigger("EmboldeningEmbers");
+        float targetTimer = 0.767f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingNoMovement;
+        anim.SetFloat("Speed", 0);
+        myManager.hitBoxes.hitboxes[7].GetComponent<HitBox>().damage = myManager.stats.healthMax / 4f;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell firebeads
+    IEnumerator Firebeads()
+    {
+        anim.SetTrigger("Firebeads");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = .833f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell heatPulse
+    IEnumerator HeatPulse()
+    {
+        anim.SetTrigger("HeatPulse");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        myManager.hitBoxes.hitboxes[21].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 3f;
+
+        float targetTimer = 1f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     // USed to cast the spell nature pulse at the enemies
@@ -1182,40 +1307,6 @@ public class Skill : MonoBehaviour
         pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 
-    // Used to use the Emboldening Embers spell, an AoE buff for all allies.
-    IEnumerator EmboldeningEmbers()
-    {
-        anim.SetTrigger("EmboldeningEmbers");
-        float targetTimer = 1f;
-        float currentTimer = 0;
-        pc.playerState = PlayerMovementController.PlayerState.CastingNoMovement;
-        //myManager.ps[0].Play();
-        //myManager.ps[1].Play();
-        //myManager.ps[2].Play();
-        bool playParticles = false;
-
-        while(currentTimer < targetTimer)
-        {
-            currentTimer += Time.deltaTime;
-            if(!playParticles && currentTimer > targetTimer * 0.5f)
-            {
-                //myManager.ps[3].Play();
-                //myManager.ps[4].Play();
-               // myManager.ps[5].Play();
-                myManager.hitBoxes.LaunchBuffBox(0);
-                myManager.hitBoxes.hitboxes[7].GetComponent<HitBox>().damage = myManager.stats.healthMax / 4f;
-                myManager.hitBoxes.LaunchHitBox(7);
-                myManager.hitBoxes.buffboxes[0].GetComponent<HitBoxBuff>().BuffSelf();
-                playParticles = true;
-            }
-            yield return null;
-        }
-
-        //myManager.ps[0].Stop();
-        //myManager.ps[1].Stop();
-        //myManager.ps[2].Stop();
-        pc.playerState = PlayerMovementController.PlayerState.Idle;
-    }
 
     //USed to cast FlameStrike
     IEnumerator FlameStrike()
