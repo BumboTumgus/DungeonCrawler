@@ -352,6 +352,8 @@ public class Buff : MonoBehaviour
             connectedPlayer.revitalizeBuff = false;
             connectedPlayer.healthRegen = connectedPlayer.baseHealthRegen + connectedPlayer.baseHealthRegenGrowth * connectedPlayer.level + connectedPlayer.bonusHealthRegen;
         }
+        else if (myType == BuffsManager.BuffType.FlameWalker)
+            connectedPlayer.flameWalkerEnabled = false;
 
         // We do not change it if its a stackable buff since this method is called after we already remvoed all the stats associated with the buff, this would put us into negatives.
         if (!stackable)

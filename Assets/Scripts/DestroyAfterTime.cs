@@ -5,6 +5,7 @@ using UnityEngine;
 public class DestroyAfterTime : MonoBehaviour
 {
     public float targetTimer = 5;
+    public float flickerDelay = 0f;
     public bool attachedHitBox = false;
     private float currentTimer = 0;
 
@@ -19,6 +20,7 @@ public class DestroyAfterTime : MonoBehaviour
     void Update()
     {
         currentTimer += Time.deltaTime;
+
         if (currentTimer > targetTimer)
             Destroy(gameObject);
     }
@@ -26,6 +28,7 @@ public class DestroyAfterTime : MonoBehaviour
     // USed to make the attached hitbox, if applicable, flicekr to hit enemies.
     IEnumerator FlickerHitbox()
     {
+        yield return new WaitForSeconds(flickerDelay);
         Collider col = GetComponent<Collider>();
         col.enabled = true;
         yield return new WaitForFixedUpdate();

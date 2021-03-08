@@ -46,6 +46,9 @@ public class PlayerMovementController : MonoBehaviour
 
     private float gravityModifier = 1f;
 
+    private float flameWalkerDistance = 0;
+    private float flameWalkerDistanceTarget = 10f;
+
     private const float GRAVITY = 0.4f;
     private const float GROUNDING_RAY_LENGTH = 0.7f;
     private const float JUMP_POWER = 0.18f;
@@ -222,6 +225,22 @@ public class PlayerMovementController : MonoBehaviour
         currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
 
         controller.Move(desiredMoveDirection * currentSpeed * Time.deltaTime);
+
+        // If we have the flamewalker buff active, increase this the more we move.
+        if (playerStats.flameWalkerEnabled)
+        {
+            flameWalkerDistance += currentSpeed * Time.deltaTime;
+
+            if(flameWalkerDistance >= flameWalkerDistanceTarget)
+            {
+                flameWalkerDistance -= flameWalkerDistanceTarget;
+
+                GameObject flamewalkerDamage = Instantiate(GetComponent<SkillsManager>().skillProjectiles[5], transform.position + Vector3.up * 0.1f, Quaternion.identity);
+                flamewalkerDamage.GetComponent<HitBox>().damage = playerStats.baseDamage * 0.8f;
+                flamewalkerDamage.GetComponent<HitBox>().myStats = playerStats;
+            }
+        }
+
     }
 
     // Applies a downward force to the player if they are not grounded

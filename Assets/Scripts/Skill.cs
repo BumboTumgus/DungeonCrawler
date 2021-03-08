@@ -160,10 +160,22 @@ public class Skill : MonoBehaviour
                 case SkillsManager.SkillNames.HeatPulse:
                     StartCoroutine(HeatPulse());
                     break;
-                //--------------------------------------------------------------------------------------------
                 case SkillsManager.SkillNames.FlameStrike:
                     StartCoroutine(FlameStrike());
                     break;
+                case SkillsManager.SkillNames.Flamewalker:
+                    StartCoroutine(FlameWalker());
+                    break;
+                case SkillsManager.SkillNames.WitchPyre:
+                    StartCoroutine(WitchPyre());
+                    break;
+                case SkillsManager.SkillNames.Combustion:
+                    StartCoroutine(Combustion());
+                    break;
+                case SkillsManager.SkillNames.RingOfFire:
+                    StartCoroutine(RingOfFire());
+                    break;
+                //--------------------------------------------------------------------------------------------
                 case SkillsManager.SkillNames.AspectOfRage:
                     StartCoroutine(AspectOfRage());
                     break;
@@ -910,6 +922,113 @@ public class Skill : MonoBehaviour
 
         pc.CheckForOtherLoseOfControlEffects();
     }
+
+    //USed to cast FlameStrike
+    IEnumerator FlameStrike()
+    {
+        anim.SetTrigger("FlameStrike");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.333f / stats.attackSpeed;
+        float currentTimer = 0;
+
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    //USed to cast FlameWalker
+    IEnumerator FlameWalker()
+    {
+        anim.SetTrigger("Flamewalker");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.267f / stats.attackSpeed;
+        float currentTimer = 0;
+
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell firebolt
+    IEnumerator WitchPyre()
+    {
+        anim.SetTrigger("WitchPyre");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.75f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell firebolt
+    IEnumerator Combustion()
+    {
+        anim.SetTrigger("Combustion");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.833f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell firebolt
+    IEnumerator RingOfFire()
+    {
+        anim.SetTrigger("RingOfFire");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.85f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     // USed to cast the spell nature pulse at the enemies
@@ -1307,30 +1426,6 @@ public class Skill : MonoBehaviour
         pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 
-
-    //USed to cast FlameStrike
-    IEnumerator FlameStrike()
-    {
-        anim.SetTrigger("FlameStrike");
-        float targetTimer = 0.4f;
-        float currentTimer = 0;
-        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
-        bool playParticles = false;
-
-        while (currentTimer < targetTimer)
-        {
-            currentTimer += Time.deltaTime;
-            if (!playParticles && currentTimer > targetTimer * 0.5f)
-            {
-                myManager.hitBoxes.LaunchBuffBox(1);
-                myManager.hitBoxes.buffboxes[1].GetComponent<HitBoxBuff>().BuffSelf();
-                playParticles = true;
-            }
-            yield return null;
-        }
-        
-        pc.playerState = PlayerMovementController.PlayerState.Idle;
-    }
 
     // USed by abiltiies to cast a ray and returns true if it hit an object in the layer in question.
     private bool CheckRayHit(int layerToCheck, Ray ray, float length)

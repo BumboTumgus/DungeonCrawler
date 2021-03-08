@@ -207,9 +207,58 @@ public class SkillsManager : MonoBehaviour
                 swordCircle.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
                 swordCircle.GetComponent<HitBox>().myStats = stats;
                 break;
+            case SkillNames.RingOfFire:
+                GameObject ringOfFire = Instantiate(skillProjectiles[8], transform.position, Quaternion.identity);
+                ringOfFire.GetComponent<HitBox>().damage = stats.baseDamage * 3f;
+                ringOfFire.GetComponent<HitBox>().myStats = stats;
+                GameObject ringOfFireDOT = Instantiate(skillProjectiles[9], transform.position, Quaternion.identity);
+                ringOfFireDOT.GetComponent<HitBox>().damage = stats.baseDamage * 0.4f;
+                ringOfFireDOT.GetComponent<HitBox>().myStats = stats;
+                break;
             default:
                 break;
         }
+    }
+
+    public void SpawnDisjointedSkillEffectAtCursor(SkillNames skill)
+    {
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        RaycastHit rayhit = new RaycastHit();
+        Vector3 targetPositon = Vector3.zero;
+
+        if(Physics.Raycast(ray, out rayhit, 100, targettingRayMaskHitEnemies))
+        {
+            if(rayhit.transform.gameObject.layer == 14)
+            {
+                // we hit an enemy
+                targetPositon = rayhit.transform.position;
+            }
+            else
+                targetPositon = rayhit.point;
+        }
+        else
+        {
+            // what if we dont hit anything? default to 10 units in front of the player.
+            targetPositon = transform.position + transform.forward * 10;
+        }
+
+        switch (skill)
+        {
+            case SkillNames.WitchPyre:
+                GameObject witchPyre = Instantiate(skillProjectiles[6], targetPositon, Quaternion.identity);
+                witchPyre.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
+                witchPyre.GetComponent<HitBox>().myStats = stats;
+                break;
+            case SkillNames.Combustion:
+                GameObject combustion = Instantiate(skillProjectiles[7], targetPositon + Vector3.up, Quaternion.identity);
+                combustion.GetComponent<HitBox>().damage = stats.baseDamage * 3f;
+                combustion.GetComponent<HitBox>().myStats = stats;
+                break;
+            default:
+                break;
+        }
+
+
     }
 
     public void ShootProjectileForward(SkillNames skill)

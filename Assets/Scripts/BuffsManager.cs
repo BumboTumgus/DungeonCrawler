@@ -10,7 +10,10 @@ public class BuffsManager : MonoBehaviour
     public Transform canvasParent;
     public GameObject buffIconPrefab;
 
-    public enum BuffType { Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, Frozen, ArmorBroken, EmboldeningEmbers, FlameStrike, AspectOfRage, BlessingOfFlames, Rampage,
+    public List<ParticleSystem> weaponEffectsLeft = new List<ParticleSystem>();
+    public List<ParticleSystem> weaponEffectsRight = new List<ParticleSystem>();
+
+    public enum BuffType { Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, Frozen, ArmorBroken, EmboldeningEmbers, FlameStrike, FlameWalker, AspectOfRage, BlessingOfFlames, Rampage,
                             GiantStrength, ToxicRipple, KillerInstinct, PoisonedMud, StrangleThorn, SoothingStone, Deadeye, WrathOfTheRagingWind, FrozenBarrier, SoothingStream,
                             NaturePulse, Revitalize};
     
@@ -20,17 +23,28 @@ public class BuffsManager : MonoBehaviour
     private SkillsManager skillManager;
     private DamageNumberManager uiPopupManager;
 
+    private List<ParticleSystem.MinMaxCurve> weaponEffectRateOverTime = new List<ParticleSystem.MinMaxCurve>();
+
 
     // Grabs the players stats for use when calculating buff strength.
     private void Start()
     {
+        foreach (ParticleSystem ps in weaponEffectsRight)
+            weaponEffectRateOverTime.Add(ps.emission.rateOverTime);
+
         stats = GetComponent<PlayerStats>();
         uiPopupManager = GetComponent<DamageNumberManager>();
         effects = GetComponent<EffectsManager>();
         skillManager = GetComponent<SkillsManager>();
+
         foreach (ParticleSystem ps in psSystems)
             if(ps != null)
                 ps.Stop();
+
+        foreach (ParticleSystem ps in weaponEffectsLeft)
+            ps.Stop();
+        foreach (ParticleSystem ps in weaponEffectsRight)
+            ps.Stop();
     }
 
     // USed tyo see if our player resists the buff being added
@@ -141,8 +155,13 @@ public class BuffsManager : MonoBehaviour
             if (activeBuff.myType == buff)
             {
                 buffDealtWith = true;
-                if(activeBuff.stackable)
-                    activeBuff.AddStack(1);
+                if (activeBuff.stackable)
+                {
+                    if (activeBuff.myType == BuffType.FlameStrike)
+                        activeBuff.AddStack(5);
+                    else
+                        activeBuff.AddStack(1);
+                }
                 else
                     activeBuff.AddTime(0, true);
                 break;
@@ -558,30 +577,65 @@ public class BuffsManager : MonoBehaviour
                     psSystems[19].Play();
 
                     break;
-                //----------------------------------------------------------------------------------------------------------------------------------
 
                 case BuffType.FlameStrike:
 
                     //Debug.Log("Adding flame strike buff");
                     Buff flameStrike = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     flameStrike.connectedIcon = buffIcon;
-                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[0];
+                    flameStrike.iconStacks = buffIcon.GetComponentInChildren<Text>();
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[13];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[0];
 
                     activeBuffs.Add(flameStrike);
 
                     flameStrike.myType = buff;
+                    flameStrike.maxStacks = 5;
+                    flameStrike.currentStacks = 4;
+                    flameStrike.stackable = true;
+                    flameStrike.stackSingleFalloff = false;
                     flameStrike.connectedPlayer = stats;
                     flameStrike.infiniteDuration = false;
                     flameStrike.duration = 15;
-                    //flameStrike.damageColor = damageColors[0];
-                    flameStrike.effectParticleSystem.Add(psSystems[20]);
-                    flameStrike.effectParticleSystem.Add(psSystems[21]);
-                    flameStrike.effectParticleSystem.Add(psSystems[22]);
+
+                    flameStrike.AddStack(1);
+
+                    flameStrike.effectParticleSystem.Add(weaponEffectsLeft[0]);
+                    flameStrike.effectParticleSystem.Add(weaponEffectsRight[0]);
+
+                    weaponEffectsLeft[0].Play();
+                    weaponEffectsRight[0].Play();
+
+                    break;
+                case BuffType.FlameWalker:
+
+                    //Debug.Log("Adding flame strike buff");
+                    Buff flameWalker = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    flameWalker.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[14];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[0];
+
+                    activeBuffs.Add(flameWalker);
+
+                    flameWalker.myType = buff;
+                    flameWalker.connectedPlayer = stats;
+                    flameWalker.infiniteDuration = false;
+                    flameWalker.duration = 15;
+                    flameWalker.ChangeOffensiveStats(true, 0, 0.5f);
+
+                    stats.flameWalkerEnabled = true;
+
+                    flameWalker.effectParticleSystem.Add(psSystems[20]);
+                    flameWalker.effectParticleSystem.Add(psSystems[21]);
+                    flameWalker.effectParticleSystem.Add(psSystems[22]);
+
                     psSystems[20].Play();
                     psSystems[21].Play();
                     psSystems[22].Play();
 
                     break;
+                //----------------------------------------------------------------------------------------------------------------------------------
+
                 case BuffType.AspectOfRage:
 
                     //Debug.Log("Adding aspect of Rage buff");
@@ -819,11 +873,10 @@ public class BuffsManager : MonoBehaviour
             switch (buff.myType)
             {
                 case BuffType.FlameStrike:
-                    target.GetComponent<PlayerStats>().TakeDamage(buff.onHitDamageAmount, false, HitBox.DamageType.Physical);
-                    psSystems[23].Play();
-                    psSystems[24].Play();
-                    psSystems[25].Play();
-                    psSystems[26].Play();
+                    GameObject flamestrikeHit = Instantiate(GetComponent<SkillsManager>().skillProjectiles[4], target.transform.position + Vector3.up + new Vector3(Random.Range(-0.25f, 0.25f), Random.Range(-0.25f, 0.25f), Random.Range(-0.25f, 0.25f)), Quaternion.identity);
+                    flamestrikeHit.GetComponent<HitBox>().myStats = stats;
+                    flamestrikeHit.GetComponent<HitBox>().damage = stats.baseDamage * 0.7f;
+                    buff.RemoveStacks(1, false);
                     break;
                 case BuffType.KillerInstinct:
                     //Debug.Log("killer instinct hit has been procced");
@@ -987,6 +1040,78 @@ public class BuffsManager : MonoBehaviour
                     break;
                 default:
                     break;
+            }
+        }
+    }
+
+
+    // USed to update the location and mesh shape of all our weapon particles.
+    public void UpdateWeaponEffectsLeft(Vector3 position, Vector3 scale, Quaternion rotation, Mesh mesh)
+    {
+        for (int index = 0; index < weaponEffectsLeft.Count; index++)
+        {
+            ParticleSystem ps = weaponEffectsLeft[index];
+
+            if (mesh != null)
+            {
+                ps.transform.position = position;
+                ps.transform.rotation = rotation;
+
+                var shapeMod = ps.shape;
+                shapeMod.shapeType = ParticleSystemShapeType.Mesh;
+                shapeMod.scale = new Vector3(scale.x / 100, scale.y / 100, scale.z / 100);
+                shapeMod.mesh = mesh;
+
+                var emmissionMod = ps.emission;
+                emmissionMod.rateOverTime = weaponEffectRateOverTime[index];
+            }
+            else
+            {
+                ps.transform.localPosition = position;
+                ps.transform.rotation = rotation;
+
+                var shapeMod = ps.shape;
+                shapeMod.shapeType = ParticleSystemShapeType.Sphere;
+                shapeMod.scale = new Vector3(1, 1, 1);
+                shapeMod.mesh = mesh;
+
+                var emmissionMod = ps.emission;
+                emmissionMod.rateOverTime = 0;
+            }
+        }
+    }
+    // USed to update the location and mesh shape of all our weapon particles.
+    public void UpdateWeaponEffectsRight(Vector3 position, Vector3 scale, Quaternion rotation, Mesh mesh)
+    {
+        for(int index = 0; index < weaponEffectsRight.Count; index++)
+        {
+            ParticleSystem ps = weaponEffectsRight[index];
+
+            if (mesh != null)
+            {
+                ps.transform.position = position;
+                ps.transform.rotation = rotation;
+
+                var shapeMod = ps.shape;
+                shapeMod.shapeType = ParticleSystemShapeType.Mesh;
+                shapeMod.scale = new Vector3(scale.x / 100, scale.y / 100, scale.z / 100);
+                shapeMod.mesh = mesh;
+
+                var emmissionMod = ps.emission;
+                emmissionMod.rateOverTime = weaponEffectRateOverTime[index];
+            }
+            else
+            {
+                ps.transform.localPosition = position;
+                ps.transform.rotation = rotation;
+
+                var shapeMod = ps.shape;
+                shapeMod.shapeType = ParticleSystemShapeType.Sphere;
+                shapeMod.scale = new Vector3(1, 1, 1);
+                shapeMod.mesh = mesh;
+
+                var emmissionMod = ps.emission;
+                emmissionMod.rateOverTime = 0;
             }
         }
     }

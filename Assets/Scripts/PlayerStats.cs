@@ -80,6 +80,7 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public bool bleeding = false;
     [HideInInspector] public bool ephemeral = false;
     [HideInInspector] public bool channeling = false;
+    [HideInInspector] public bool flameWalkerEnabled = false;
     [HideInInspector] public float counterDamage = 0;
     [HideInInspector] public bool counter = false;
     [HideInInspector] public float invulnerableCount = 0;

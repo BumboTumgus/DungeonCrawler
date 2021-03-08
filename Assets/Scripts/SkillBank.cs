@@ -93,11 +93,27 @@ public class SkillBank : MonoBehaviour
                 skillToSet.targetCooldown = 11f;
                 skillToSet.skillIcon = skillIcons[19];
                 break;
-            //-----------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.FlameStrike:
-                skillToSet.targetCooldown = 40f;
-                skillToSet.skillIcon = skillIcons[2];
+                skillToSet.targetCooldown = 15f;
+                skillToSet.skillIcon = skillIcons[20];
                 break;
+            case SkillsManager.SkillNames.Flamewalker:
+                skillToSet.targetCooldown = 30f;
+                skillToSet.skillIcon = skillIcons[21];
+                break;
+            case SkillsManager.SkillNames.WitchPyre:
+                skillToSet.targetCooldown = 11f;
+                skillToSet.skillIcon = skillIcons[22];
+                break;
+            case SkillsManager.SkillNames.Combustion:
+                skillToSet.targetCooldown = 6f;
+                skillToSet.skillIcon = skillIcons[23];
+                break;
+            case SkillsManager.SkillNames.RingOfFire:
+                skillToSet.targetCooldown = 40f;
+                skillToSet.skillIcon = skillIcons[24];
+                break;
+            //-----------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.AspectOfRage:
                 skillToSet.targetCooldown = 90f;
                 skillToSet.skillIcon = skillIcons[4];
@@ -218,10 +234,22 @@ public class SkillBank : MonoBehaviour
             case SkillsManager.SkillNames.HeatPulse:
                 cooldown = 11f;
                 break;
-            //---------------------------------------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.FlameStrike:
+                cooldown = 15f;
+                break;
+            case SkillsManager.SkillNames.Flamewalker:
+                cooldown = 30f;
+                break;
+            case SkillsManager.SkillNames.WitchPyre:
+                cooldown = 11f;
+                break;
+            case SkillsManager.SkillNames.Combustion:
+                cooldown = 6f;
+                break;
+            case SkillsManager.SkillNames.RingOfFire:
                 cooldown = 40f;
                 break;
+            //---------------------------------------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.AspectOfRage:
                 cooldown = 70f;
                 break;

@@ -7,6 +7,7 @@ public class HitBoxManager : MonoBehaviour
     public List<GameObject> hitboxes = new List<GameObject>();
     public List<GameObject> buffboxes = new List<GameObject>();
     public List<ParticleSystem> hiteffects = new List<ParticleSystem>();
+
     private PlayerStats playerStats;
 
     // USed to disable all hitboxes at the start of the game.

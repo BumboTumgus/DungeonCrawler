@@ -66,6 +66,7 @@ public class PlayerGearManager : MonoBehaviour
     public Material primaryMaterial;
 
     private List<Material> previousMaterials = new List<Material>();
+    private BuffsManager weaponBuffs;
 
     int headStartingIndex;
     int hairStyleStartingIndex;
@@ -74,6 +75,8 @@ public class PlayerGearManager : MonoBehaviour
 
     private void Start()
     {
+        weaponBuffs = GetComponent<BuffsManager>();
+
         leftHandWeapons = new GameObject[leftHandWeaponParent.childCount];
         rightHandWeapons = new GameObject[rightHandWeaponParent.childCount];
 
@@ -162,6 +165,7 @@ public class PlayerGearManager : MonoBehaviour
             leftKnees[index] = leftKneeParent.GetChild(index).gameObject;
 
         HideAllItems();
+
     }
 
     // Used to hide all the weapons, or a specific one at an index.
@@ -169,9 +173,12 @@ public class PlayerGearManager : MonoBehaviour
     { 
         foreach (GameObject weapon in rightHandWeapons)
             weapon.SetActive(false);
+        weaponBuffs.UpdateWeaponEffectsRight(Vector3.zero, Vector3.zero, Quaternion.identity, null);
+
         foreach (GameObject weapon in leftHandWeapons)
             weapon.SetActive(false);
-        
+        weaponBuffs.UpdateWeaponEffectsLeft(Vector3.zero, Vector3.zero, Quaternion.identity, null);
+
         foreach (GameObject armor in torsos)
             armor.SetActive(false);
         foreach (GameObject armor in rightUpperArms)
@@ -251,12 +258,19 @@ public class PlayerGearManager : MonoBehaviour
                 break;
             case Item.ItemType.Weapon:
                 if (item.equippedToRightHand)
+                {
                     rightHandWeapons[item.itemGearID].SetActive(false);
+                    weaponBuffs.UpdateWeaponEffectsRight(Vector3.zero, Vector3.zero, Quaternion.identity, null);
+                }
                 else
+                {
                     leftHandWeapons[item.itemGearID].SetActive(false);
+                    weaponBuffs.UpdateWeaponEffectsLeft(Vector3.zero, Vector3.zero, Quaternion.identity, null);
+                }
                 break;
             case Item.ItemType.TwoHandWeapon:
                 rightHandWeapons[item.itemGearID].SetActive(false);
+                weaponBuffs.UpdateWeaponEffectsRight(Vector3.zero, Vector3.zero, Quaternion.identity, null);
                 break;
             case Item.ItemType.Helmet:
                 switch (item.helmetType)
@@ -328,12 +342,19 @@ public class PlayerGearManager : MonoBehaviour
                 break;
             case Item.ItemType.Weapon:
                 if (item.equippedToRightHand)
+                {
                     rightHandWeapons[item.itemGearID].SetActive(true);
+                    weaponBuffs.UpdateWeaponEffectsRight(rightHandWeapons[item.itemGearID].transform.position, rightHandWeapons[item.itemGearID].transform.localScale, rightHandWeapons[item.itemGearID].transform.rotation, rightHandWeapons[item.itemGearID].GetComponent<MeshFilter>().mesh);
+                }
                 else
+                {
                     leftHandWeapons[item.itemGearID].SetActive(true);
+                    weaponBuffs.UpdateWeaponEffectsRight(leftHandWeapons[item.itemGearID].transform.position, leftHandWeapons[item.itemGearID].transform.localScale, leftHandWeapons[item.itemGearID].transform.rotation, leftHandWeapons[item.itemGearID].GetComponent<MeshFilter>().mesh);
+                }
                 break;
             case Item.ItemType.TwoHandWeapon:
                 rightHandWeapons[item.itemGearID].SetActive(true);
+                weaponBuffs.UpdateWeaponEffectsRight(rightHandWeapons[item.itemGearID].transform.position, rightHandWeapons[item.itemGearID].transform.localScale, rightHandWeapons[item.itemGearID].transform.rotation, rightHandWeapons[item.itemGearID].GetComponent<MeshFilter>().mesh);
                 break;
             case Item.ItemType.Helmet:
                 switch (item.helmetType)
