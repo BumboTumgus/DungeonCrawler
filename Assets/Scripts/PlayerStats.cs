@@ -81,6 +81,7 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public bool ephemeral = false;
     [HideInInspector] public bool channeling = false;
     [HideInInspector] public bool flameWalkerEnabled = false;
+    [HideInInspector] public bool immolationEnabled = false;
     [HideInInspector] public float counterDamage = 0;
     [HideInInspector] public bool counter = false;
     [HideInInspector] public float invulnerableCount = 0;
@@ -92,8 +93,12 @@ public class PlayerStats : MonoBehaviour
 
     [HideInInspector] public bool dead = false;
 
+    private float immolateCurrentTimer = 0;
+    private float immolateTargetTimer = 0.5f;
+
     private DamageNumberManager damageNumberManager;
     private BuffsManager buffManager;
+    private HitBoxManager hitboxManager;
     public ComboManager comboManager;
 
 
@@ -110,6 +115,7 @@ public class PlayerStats : MonoBehaviour
         damageNumberManager = GetComponent<DamageNumberManager>();
         buffManager = GetComponent<BuffsManager>();
         skills = GetComponent<SkillsManager>();
+        hitboxManager = GetComponent<HitBoxManager>();
 
         if (CompareTag("Enemy"))
         {
@@ -131,7 +137,7 @@ public class PlayerStats : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P) && CompareTag("Player"))
             AddExp(25);
         if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
-            TakeDamage(50,false, HitBox.DamageType.Physical);
+            TakeDamage(50, false, HitBox.DamageType.Physical, 0);
         if (Input.GetKeyDown(KeyCode.U) && CompareTag("Player"))
             comboManager.AddComboCounter(1);
 
@@ -180,6 +186,30 @@ public class PlayerStats : MonoBehaviour
             health = healthMax;
         else if(myStats != null)
             myStats.UpdateHealthManaBarValues(this);
+
+        // immolation logic.
+        if (immolationEnabled)
+        {
+            immolateCurrentTimer += Time.deltaTime;
+            if (immolateCurrentTimer >= immolateTargetTimer)
+            {
+                immolateCurrentTimer -= immolateTargetTimer;
+                // flicker the hit box.
+                hitboxManager.hitboxes[22].GetComponent<HitBox>().damage =  baseDamage * 0.5f;
+                foreach (Buff buff in buffManager.activeBuffs)
+                {
+                    if(buff.myType == BuffsManager.BuffType.Aflame)
+                    {
+                        hitboxManager.hitboxes[22].GetComponent<HitBox>().damage = ((buff.currentStacks * 0.045f) + 0.5f) * baseDamage;
+                        break;
+                    }
+                }
+
+                hitboxManager.LaunchHitBox(22);
+            }
+        }
+        else
+            immolateCurrentTimer = 0;
 
         // Update the health bar.
         healthBar.targetValue = health;
@@ -282,7 +312,7 @@ public class PlayerStats : MonoBehaviour
     }
 
     // Used to take damage
-    public void TakeDamage(float amount, bool crit, HitBox.DamageType damage)
+    public void TakeDamage(float amount, bool crit, HitBox.DamageType damage, float comboCount)
     {
         if (health > 0)
         {
@@ -292,16 +322,23 @@ public class PlayerStats : MonoBehaviour
                 amount = 0;
             }
 
+            if (immolationEnabled && damage == HitBox.DamageType.Fire)
+            {
+                amount *= 0.1f;
+            }
+
             if (damage != HitBox.DamageType.True)
             {
+                // if th percent reduced damag and the percet increasd damage from armor are greater then 0, we multipluy the damage by the value.
                 if (damageReductionMultiplier + armorShreddedBonusDamage > 0)
                 {
-                    amount *= (damageReductionMultiplier + armorShreddedBonusDamage);
+                    amount *= damageReductionMultiplier + armorShreddedBonusDamage;
                 }
                 else
                     amount = 0;
 
-                amount -= armor * armorReductionMultiplier;
+                if(armor * armorReductionMultiplier - (comboCount * 0.1f)> 0)
+                    amount -= armor * armorReductionMultiplier - (comboCount * 0.1f);
             }
 
             if(asleep)
@@ -315,6 +352,7 @@ public class PlayerStats : MonoBehaviour
                 }
                 amount *= 2f;
             }
+
             if (amount > 0)
                 health -= amount;
             if (health < 0)
@@ -374,6 +412,7 @@ public class PlayerStats : MonoBehaviour
     // Used when this object dies. What will happen afterwards?
     public void EntityDeath()
     {
+        Debug.Log("SOmething died");
         dead = true;
         // Three cases, player death, player summon death, or an enemy death.
         if(gameObject.CompareTag("Enemy"))
@@ -389,34 +428,39 @@ public class PlayerStats : MonoBehaviour
                 players[index] = gm.currentPlayers[index];
             }
 
-            float playerAverageLevel = 0;
             // If any player was agrod onto us, end their combat. and add exp to all players.
             foreach (GameObject player in players)
-            {
-                player.GetComponent<PlayerStats>().AddExp(100);
-                playerAverageLevel += player.GetComponent<PlayerStats>().level;
-            }
-            playerAverageLevel /= players.Length;
+                player.GetComponent<PlayerStats>().AddExp(exp);
 
             // Create the exp value text the player sees when an enmy dies.
-            GetComponent<DamageNumberManager>().SpawnEXPValue(100);
+            GetComponent<DamageNumberManager>().SpawnEXPValue(exp);
 
             // Destroy the health bar, queue the destruction of all children and set their parents to null, then destroy ourself.
             healthBar.transform.parent.GetComponent<UiFollowTarget>().RemoveFromCullList();
             Destroy(healthBar.transform.parent.gameObject);
 
-            GetComponent<Animator>().SetTrigger("Downed");
+            GetComponent<Animator>().SetTrigger("Downed"); 
+            EnemyManager.instance.enemyStats.Remove(this);
 
+            Animator anim = GetComponent<Animator>();
+            for(int animIndex = 0; animIndex < 6; animIndex++)
+                anim.Play("Idle", animIndex);
 
             // Destroy all the now usless components while the enemy dies.
-            Destroy(GetComponent<CapsuleCollider>());
-            Destroy(GetComponent<UnityEngine.AI.NavMeshAgent>());
-            Destroy(GetComponent<DamageNumberManager>());
             Destroy(GetComponent<Rigidbody>());
+            Destroy(GetComponent<CapsuleCollider>());
+            Destroy(GetComponent<DamageNumberManager>());
+            Destroy(GetComponent<HitBoxManager>());
+            Destroy(GetComponent<UnityEngine.AI.NavMeshAgent>());
+            Destroy(GetComponent<BuffsManager>());
             Destroy(GetComponent<EnemyMovementManager>());
             Destroy(GetComponent<EnemyCombatController>());
+            Destroy(GetComponent<EnemyCrowdControlManager>());
+            Destroy(GetComponent<EnemyAbilityBank>());
+            Destroy(GetComponent<RagdollManager>()); 
 
             Destroy(gameObject, 5);
+            Destroy(this);
         }
         else if (gameObject.CompareTag("Player"))
         {

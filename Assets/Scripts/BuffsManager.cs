@@ -13,7 +13,7 @@ public class BuffsManager : MonoBehaviour
     public List<ParticleSystem> weaponEffectsLeft = new List<ParticleSystem>();
     public List<ParticleSystem> weaponEffectsRight = new List<ParticleSystem>();
 
-    public enum BuffType { Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, Frozen, ArmorBroken, EmboldeningEmbers, FlameStrike, FlameWalker, AspectOfRage, BlessingOfFlames, Rampage,
+    public enum BuffType { Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, Frozen, ArmorBroken, EmboldeningEmbers, FlameStrike, FlameWalker, BlessingOfFlames, Immolation, AspectOfRage, Rampage,
                             GiantStrength, ToxicRipple, KillerInstinct, PoisonedMud, StrangleThorn, SoothingStone, Deadeye, WrathOfTheRagingWind, FrozenBarrier, SoothingStream,
                             NaturePulse, Revitalize};
     
@@ -556,8 +556,6 @@ public class BuffsManager : MonoBehaviour
 
                     break;
                 case BuffType.EmboldeningEmbers:
-
-                    //Debug.Log("Adding emboldening embers buff");
                     Buff embers = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     embers.connectedIcon = buffIcon;
                     buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[12];
@@ -579,8 +577,6 @@ public class BuffsManager : MonoBehaviour
                     break;
 
                 case BuffType.FlameStrike:
-
-                    //Debug.Log("Adding flame strike buff");
                     Buff flameStrike = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     flameStrike.connectedIcon = buffIcon;
                     flameStrike.iconStacks = buffIcon.GetComponentInChildren<Text>();
@@ -608,8 +604,6 @@ public class BuffsManager : MonoBehaviour
 
                     break;
                 case BuffType.FlameWalker:
-
-                    //Debug.Log("Adding flame strike buff");
                     Buff flameWalker = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     flameWalker.connectedIcon = buffIcon;
                     buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[14];
@@ -632,6 +626,50 @@ public class BuffsManager : MonoBehaviour
                     psSystems[20].Play();
                     psSystems[21].Play();
                     psSystems[22].Play();
+
+                    break;
+                case BuffType.BlessingOfFlames:
+                    Buff blessingOfFlames = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    blessingOfFlames.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[15];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[0];
+
+                    activeBuffs.Add(blessingOfFlames);
+
+                    blessingOfFlames.myType = buff;
+                    blessingOfFlames.connectedPlayer = stats;
+                    blessingOfFlames.infiniteDuration = false;
+                    blessingOfFlames.duration = 15;
+                    blessingOfFlames.ChangeDefensiveStats(true, 0, 5, 0, 0.25f);
+                    blessingOfFlames.ChangeResistanceStats(true, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f);
+
+                    blessingOfFlames.effectParticleSystem.Add(psSystems[23]);
+
+                    psSystems[23].Play();
+
+                    break;
+                case BuffType.Immolation:
+                    Buff immolation = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    immolation.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[16];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[0];
+
+                    activeBuffs.Add(immolation);
+
+                    immolation.myType = buff;
+                    immolation.connectedPlayer = stats;
+                    immolation.infiniteDuration = false;
+                    immolation.duration = 10;
+                    immolation.ChangeResistanceStats(true, -10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+                    for (int index = 0; index < 30; index++)
+                        NewBuff(BuffType.Aflame, stats.baseDamage);
+
+                    stats.immolationEnabled = true;
+
+                    immolation.effectParticleSystem.Add(psSystems[24]);
+
+                    psSystems[24].Play();
 
                     break;
                 //----------------------------------------------------------------------------------------------------------------------------------
@@ -657,23 +695,6 @@ public class BuffsManager : MonoBehaviour
                     psSystems[27].Play();
                     psSystems[28].Play();
                     psSystems[29].Play();
-
-                    break;
-                case BuffType.BlessingOfFlames:
-                    //Debug.Log("Adding blessing of flames buff");
-                    Buff blessingOfFlames = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
-                    blessingOfFlames.connectedIcon = buffIcon;
-                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[0];
-
-                    activeBuffs.Add(blessingOfFlames);
-
-                    blessingOfFlames.myType = buff;
-                    blessingOfFlames.connectedPlayer = stats;
-                    blessingOfFlames.infiniteDuration = false;
-                    blessingOfFlames.duration = 15;
-                    //blessingOfFlames.ChangeResistanceStats(true, 0.5f, 0, 0, 0.1f, 0.1f, 0.1f, 0.3f, 0.1f, 0);
-                    blessingOfFlames.effectParticleSystem.Add(psSystems[30]);
-                    psSystems[30].Play();
 
                     break;
                 case BuffType.Rampage:
@@ -918,7 +939,7 @@ public class BuffsManager : MonoBehaviour
                     {
                         // proc the lightning blast.
                         targetBM.psSystems[4].Play();
-                        target.GetComponent<PlayerStats>().TakeDamage(0.4f * stats.baseDamage * buff.currentStacks, false, HitBox.DamageType.Lightning);
+                        target.GetComponent<PlayerStats>().TakeDamage(0.4f * stats.baseDamage * buff.currentStacks, false, HitBox.DamageType.Lightning, stats.comboManager.currentcombo);
                         // remove the buff
                         buff.EndBuff();
                         index --;
@@ -930,9 +951,9 @@ public class BuffsManager : MonoBehaviour
                         // proc the nature blast
                         targetBM.psSystems[6].Play();
                         if(target.GetComponent<PlayerStats>().healthMax / 100 >= stats.baseDamage * 0.8f)
-                            target.GetComponent<PlayerStats>().TakeDamage(0.8f * stats.baseDamage * buff.currentStacks, false, HitBox.DamageType.Nature);
+                            target.GetComponent<PlayerStats>().TakeDamage(0.8f * stats.baseDamage * buff.currentStacks, false, HitBox.DamageType.Nature, stats.comboManager.currentcombo);
                         else
-                            target.GetComponent<PlayerStats>().TakeDamage(target.GetComponent<PlayerStats>().healthMax / 100 * buff.currentStacks, false, HitBox.DamageType.Nature);
+                            target.GetComponent<PlayerStats>().TakeDamage(target.GetComponent<PlayerStats>().healthMax / 100 * buff.currentStacks, false, HitBox.DamageType.Nature, stats.comboManager.currentcombo);
                         // remove the buff
                         buff.EndBuff();
                         index--;
@@ -979,7 +1000,7 @@ public class BuffsManager : MonoBehaviour
             switch (buff.myType)
             {
                 case BuffType.FlameStrike:
-                    target.GetComponent<PlayerStats>().TakeDamage(buff.onHitDamageAmount, false, HitBox.DamageType.Physical);
+                    target.GetComponent<PlayerStats>().TakeDamage(buff.onHitDamageAmount, false, HitBox.DamageType.Fire, stats.comboManager.currentcombo);
                     psSystems[23].Play();
                     psSystems[24].Play();
                     psSystems[25].Play();
@@ -1019,7 +1040,7 @@ public class BuffsManager : MonoBehaviour
             {
                 case BuffType.Bleeding:
                     psSystems[10].Play();
-                    stats.TakeDamage(buff.DPS * buff.currentStacks, false, buff.damageType);
+                    stats.TakeDamage(buff.DPS * buff.currentStacks, false, buff.damageType, 0);
                     break;
                 default:
                     break;
@@ -1036,7 +1057,7 @@ public class BuffsManager : MonoBehaviour
             {
                 case BuffType.Bleeding:
                     psSystems[10].Play();
-                    stats.TakeDamage(buff.DPS * buff.currentStacks, false, buff.damageType);
+                    stats.TakeDamage(buff.DPS * buff.currentStacks, false, buff.damageType, 0);
                     break;
                 default:
                     break;
@@ -1113,6 +1134,15 @@ public class BuffsManager : MonoBehaviour
                 var emmissionMod = ps.emission;
                 emmissionMod.rateOverTime = 0;
             }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        for(int index = activeBuffs.Count - 1; index >= 0; index--)
+        {
+            Debug.Log("Destroying the buff: " + activeBuffs[index].myType);
+            Destroy(activeBuffs[index]);
         }
     }
 }

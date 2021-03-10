@@ -175,12 +175,24 @@ public class Skill : MonoBehaviour
                 case SkillsManager.SkillNames.RingOfFire:
                     StartCoroutine(RingOfFire());
                     break;
+                case SkillsManager.SkillNames.BlessingOfFlames:
+                    StartCoroutine(BlessingOfFlames());
+                    break;
+                case SkillsManager.SkillNames.Immolate:
+                    StartCoroutine(Immolate());
+                    break;
+                case SkillsManager.SkillNames.Firestorm:
+                    StartCoroutine(Firestorm());
+                    break;
+                case SkillsManager.SkillNames.Fireweave:
+                    StartCoroutine(Fireweave());
+                    break;
+                case SkillsManager.SkillNames.Fireball:
+                    StartCoroutine(Fireball());
+                    break;
                 //--------------------------------------------------------------------------------------------
                 case SkillsManager.SkillNames.AspectOfRage:
                     StartCoroutine(AspectOfRage());
-                    break;
-                case SkillsManager.SkillNames.BlessingOfFlames:
-                    StartCoroutine(BlessingOfFlames());
                     break;
                 case SkillsManager.SkillNames.GiantStrength:
                     StartCoroutine(GiantStrength());
@@ -966,7 +978,7 @@ public class Skill : MonoBehaviour
         pc.CheckForOtherLoseOfControlEffects();
     }
 
-    // USed to cast the spell firebolt
+    // USed to cast the spell witchpyre
     IEnumerator WitchPyre()
     {
         anim.SetTrigger("WitchPyre");
@@ -987,7 +999,7 @@ public class Skill : MonoBehaviour
         pc.CheckForOtherLoseOfControlEffects();
     }
 
-    // USed to cast the spell firebolt
+    // USed to cast the spell combustion
     IEnumerator Combustion()
     {
         anim.SetTrigger("Combustion");
@@ -1008,7 +1020,7 @@ public class Skill : MonoBehaviour
         pc.CheckForOtherLoseOfControlEffects();
     }
 
-    // USed to cast the spell firebolt
+    // USed to cast the spell ring of fire
     IEnumerator RingOfFire()
     {
         anim.SetTrigger("RingOfFire");
@@ -1016,6 +1028,111 @@ public class Skill : MonoBehaviour
         pc.SnapToFaceCamera();
 
         float targetTimer = 1.85f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell blessing of flames
+    IEnumerator BlessingOfFlames()
+    {
+        anim.SetTrigger("BlessingOfFlames");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.25f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Immolate
+    IEnumerator Immolate()
+    {
+        anim.SetTrigger("Immolate");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.583f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Firestorm
+    IEnumerator Firestorm()
+    {
+        anim.SetTrigger("Firestorm");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 2.367f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Fireweave
+    IEnumerator Fireweave()
+    {
+        anim.SetTrigger("Fireweave");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.667f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell fireball
+    IEnumerator Fireball()
+    {
+        anim.SetTrigger("Fireball");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.583f / stats.attackSpeed;
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
 
@@ -1142,7 +1259,7 @@ public class Skill : MonoBehaviour
                 currentTickTimer -= targetTimer / 20;
                 myManager.hitBoxes.LaunchHitBox(6);
                 //myManager.hitBoxes.buffboxes[7].GetComponent<HitBoxBuff>().AfflictSelf();
-                myManager.stats.TakeDamage(damageToTake / 2, false, HitBox.DamageType.Physical);
+                myManager.stats.TakeDamage(damageToTake / 2, false, HitBox.DamageType.Physical, 0);
             }
             yield return null;
         }
@@ -1392,37 +1509,6 @@ public class Skill : MonoBehaviour
         }
 
         //myManager.ps[17].Stop();
-        pc.playerState = PlayerMovementController.PlayerState.Idle;
-    }
-
-    // Used by the player to cast blessings of flames, a buff that grants a player increased defensive stats and health regen for a short time.
-    IEnumerator BlessingOfFlames()
-    {
-        anim.SetTrigger("EmboldeningEmbers");
-        float targetTimer = 1f;
-        float currentTimer = 0;
-        pc.playerState = PlayerMovementController.PlayerState.CastingNoMovement;
-        //myManager.ps[0].Play();
-        //myManager.ps[1].Play();
-        //myManager.ps[2].Play();
-        bool playParticles = false;
-
-        while (currentTimer < targetTimer)
-        {
-            currentTimer += Time.deltaTime;
-            if (!playParticles && currentTimer > targetTimer * 0.5f)
-            {
-                //myManager.ps[18].Play();
-                myManager.hitBoxes.LaunchBuffBox(3);
-                myManager.hitBoxes.buffboxes[3].GetComponent<HitBoxBuff>().BuffSelf();
-                playParticles = true;
-            }
-            yield return null;
-        }
-
-        //myManager.ps[0].Stop();
-        //myManager.ps[1].Stop();
-        //myManager.ps[2].Stop();
         pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 

@@ -179,7 +179,7 @@ public class HitBoxTerrain : MonoBehaviour
                             break;
                     }
                 }
-                enemyStats.TakeDamage(damageDealt, attackCrit, damageType);
+                enemyStats.TakeDamage(damageDealt, attackCrit, damageType, myStats.comboManager.currentcombo);
                 myStats.comboManager.AddComboCounter(1);
             }
             else
@@ -228,7 +228,7 @@ public class HitBoxTerrain : MonoBehaviour
                             break;
                     }
                 }
-                enemyStats.TakeDamage(damageDealt, attackCrit, damageType);
+                enemyStats.TakeDamage(damageDealt, attackCrit, damageType, 0);
             }
             else
                 enemyStats.HealHealth(damageDealt, damageType);

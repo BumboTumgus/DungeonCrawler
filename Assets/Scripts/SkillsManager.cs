@@ -215,6 +215,45 @@ public class SkillsManager : MonoBehaviour
                 ringOfFireDOT.GetComponent<HitBox>().damage = stats.baseDamage * 0.4f;
                 ringOfFireDOT.GetComponent<HitBox>().myStats = stats;
                 break;
+            case SkillNames.Firestorm:
+                for(int index = 0; index < 15; index++)
+                {
+                    bool succesfulLocationSelected = false;
+                    Vector3 targetPosition = Vector3.zero;
+
+                    while (!succesfulLocationSelected)
+                    {
+                        Ray ray = new Ray(transform.position + new Vector3(Random.Range(-8, 8), 5, Random.Range(-8, 8)), Vector3.down);
+                        RaycastHit rayhit;
+
+                        if (Physics.Raycast(ray, out rayhit, 15, targettingRayMask))
+                        {
+                            targetPosition = rayhit.point;
+                            succesfulLocationSelected = true;
+                            break;
+                        }
+                    }
+
+                    GameObject firepillar = Instantiate(skillProjectiles[6], targetPosition, Quaternion.identity);
+
+                    float scaleModifier = Random.Range(0.5f, 1f);
+                    firepillar.transform.localScale = new Vector3(scaleModifier, scaleModifier, scaleModifier);
+
+                    firepillar.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f * scaleModifier;
+                    firepillar.GetComponent<HitBox>().myStats = stats;
+                }
+                break;
+            case SkillNames.Fireweave:
+                for (int index = 0; index < 3; index++)
+                {
+                    GameObject fireweave = Instantiate(skillProjectiles[10], transform.position + Vector3.up * 2, Quaternion.Euler(new Vector3(Random.Range(-45, -90), Random.Range(0, 360), 0)));
+                    fireweave.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
+                    fireweave.GetComponent<HitBox>().myStats = stats;
+
+                    if (EnemyManager.instance.enemyStats.Count > 0)
+                        fireweave.GetComponent<ProjectileBehaviour>().target = EnemyManager.instance.enemyStats[Random.Range(0, EnemyManager.instance.enemyStats.Count)].transform;
+                }
+                break;
             default:
                 break;
         }
@@ -224,33 +263,34 @@ public class SkillsManager : MonoBehaviour
     {
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         RaycastHit rayhit = new RaycastHit();
-        Vector3 targetPositon = Vector3.zero;
+        Vector3 targetPosition = Vector3.zero;
 
         if(Physics.Raycast(ray, out rayhit, 100, targettingRayMaskHitEnemies))
         {
             if(rayhit.transform.gameObject.layer == 14)
             {
                 // we hit an enemy
-                targetPositon = rayhit.transform.position;
+                targetPosition = rayhit.transform.position;
             }
             else
-                targetPositon = rayhit.point;
+                targetPosition = rayhit.point;
         }
         else
         {
             // what if we dont hit anything? default to 10 units in front of the player.
-            targetPositon = transform.position + transform.forward * 10;
+            targetPosition = transform.position + transform.forward * 10;
         }
 
         switch (skill)
         {
             case SkillNames.WitchPyre:
-                GameObject witchPyre = Instantiate(skillProjectiles[6], targetPositon, Quaternion.identity);
-                witchPyre.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
+                GameObject witchPyre = Instantiate(skillProjectiles[6], targetPosition, Quaternion.identity);
+                witchPyre.transform.localScale = new Vector3(2, 2, 2);
+                witchPyre.GetComponent<HitBox>().damage = stats.baseDamage * 0.7f;
                 witchPyre.GetComponent<HitBox>().myStats = stats;
                 break;
             case SkillNames.Combustion:
-                GameObject combustion = Instantiate(skillProjectiles[7], targetPositon + Vector3.up, Quaternion.identity);
+                GameObject combustion = Instantiate(skillProjectiles[7], targetPosition + Vector3.up, Quaternion.identity);
                 combustion.GetComponent<HitBox>().damage = stats.baseDamage * 3f;
                 combustion.GetComponent<HitBox>().myStats = stats;
                 break;
@@ -269,15 +309,15 @@ public class SkillsManager : MonoBehaviour
             case SkillNames.Firebolt:
                 target = Camera.main.transform.position + Camera.main.transform.forward * 100;
 
-                GameObject fireball = Instantiate(skillProjectiles[2], transform.position + Vector3.up + transform.forward, transform.rotation);
-                fireball.transform.LookAt(target);
+                GameObject firebolt = Instantiate(skillProjectiles[2], transform.position + Vector3.up + transform.forward, transform.rotation);
+                firebolt.transform.LookAt(target);
 
-                Vector3 rotation = fireball.transform.rotation.eulerAngles;
+                Vector3 rotation = firebolt.transform.rotation.eulerAngles;
                 rotation.x -= 3;
-                fireball.transform.rotation = Quaternion.Euler(rotation);
+                firebolt.transform.rotation = Quaternion.Euler(rotation);
 
-                fireball.GetComponent<HitBox>().damage = stats.baseDamage * 0.33f;
-                fireball.GetComponent<HitBox>().myStats = stats;
+                firebolt.GetComponent<HitBox>().damage = stats.baseDamage * 0.33f;
+                firebolt.GetComponent<HitBox>().myStats = stats;
                 break;
 
             case SkillNames.Firebeads:
@@ -302,6 +342,21 @@ public class SkillsManager : MonoBehaviour
                 firebead4.GetComponent<HitBox>().myStats = stats;
                 firebead4.transform.LookAt(transform.position + transform.forward * 100 + Vector3.up);
                 break;
+
+            case SkillNames.Fireball:
+                target = Camera.main.transform.position + Camera.main.transform.forward * 100;
+
+                GameObject fireball = Instantiate(skillProjectiles[11], transform.position + Vector3.up * 2, transform.rotation);
+                fireball.transform.LookAt(target);
+
+                Vector3 fireballRotation = fireball.transform.rotation.eulerAngles;
+                fireballRotation.x -= 3;
+                fireball.transform.rotation = Quaternion.Euler(fireballRotation);
+
+                fireball.GetComponent<HitBox>().damage = stats.baseDamage * 8f;
+                fireball.GetComponent<HitBox>().myStats = stats;
+                break;
+
             default:
                 break;
         }

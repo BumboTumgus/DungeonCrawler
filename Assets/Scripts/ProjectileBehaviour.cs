@@ -28,7 +28,7 @@ public class ProjectileBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(trackTarget)
+        if(trackTarget && target != null)
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation((target.position + Vector3.up) - transform.position), trackingStrength);
         transform.position += transform.forward * projectileSpeed * Time.deltaTime;
 

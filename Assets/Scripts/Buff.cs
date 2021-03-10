@@ -89,9 +89,9 @@ public class Buff : MonoBehaviour
                     //connectedPlayer.TakeDamage(DPS * targetDamageTickTimer, false, damageColor);
                 //else
                 if(!stackable)
-                    connectedPlayer.TakeDamage(DPS * targetDamageTickTimer, false, damageType);
+                    connectedPlayer.TakeDamage(DPS * targetDamageTickTimer, false, damageType, 0);
                 else
-                    connectedPlayer.TakeDamage(DPS * currentStacks * targetDamageTickTimer, false, damageType);
+                    connectedPlayer.TakeDamage(DPS * currentStacks * targetDamageTickTimer, false, damageType, 0);
 
 
             }
@@ -354,6 +354,11 @@ public class Buff : MonoBehaviour
         }
         else if (myType == BuffsManager.BuffType.FlameWalker)
             connectedPlayer.flameWalkerEnabled = false;
+        else if (myType == BuffsManager.BuffType.Immolation)
+        {
+            connectedPlayer.immolationEnabled = false;
+            connectedPlayer.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffsManager.BuffType.Aflame);
+        }
 
         // We do not change it if its a stackable buff since this method is called after we already remvoed all the stats associated with the buff, this would put us into negatives.
         if (!stackable)

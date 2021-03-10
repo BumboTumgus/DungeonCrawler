@@ -113,14 +113,30 @@ public class SkillBank : MonoBehaviour
                 skillToSet.targetCooldown = 40f;
                 skillToSet.skillIcon = skillIcons[24];
                 break;
+            case SkillsManager.SkillNames.BlessingOfFlames:
+                skillToSet.targetCooldown = 30f;
+                skillToSet.skillIcon = skillIcons[25];
+                break;
+            case SkillsManager.SkillNames.Immolate:
+                skillToSet.targetCooldown = 30f;
+                skillToSet.skillIcon = skillIcons[26];
+                break;
+            case SkillsManager.SkillNames.Firestorm:
+                skillToSet.targetCooldown = 36f;
+                skillToSet.skillIcon = skillIcons[27];
+                break;
+            case SkillsManager.SkillNames.Fireweave:
+                skillToSet.targetCooldown = 22f;
+                skillToSet.skillIcon = skillIcons[28];
+                break;
+            case SkillsManager.SkillNames.Fireball:
+                skillToSet.targetCooldown = 26f;
+                skillToSet.skillIcon = skillIcons[29];
+                break;
             //-----------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.AspectOfRage:
                 skillToSet.targetCooldown = 90f;
                 skillToSet.skillIcon = skillIcons[4];
-                break;
-            case SkillsManager.SkillNames.BlessingOfFlames:
-                skillToSet.targetCooldown = 70f;
-                skillToSet.skillIcon = skillIcons[5];
                 break;
             case SkillsManager.SkillNames.Rampage:
                 skillToSet.targetCooldown = 0f;
@@ -249,15 +265,27 @@ public class SkillBank : MonoBehaviour
             case SkillsManager.SkillNames.RingOfFire:
                 cooldown = 40f;
                 break;
+            case SkillsManager.SkillNames.BlessingOfFlames:
+                cooldown = 30f;
+                break;
+            case SkillsManager.SkillNames.Immolate:
+                cooldown = 30f;
+                break;
+            case SkillsManager.SkillNames.Firestorm:
+                cooldown = 36f;
+                break;
+            case SkillsManager.SkillNames.Fireweave:
+                cooldown = 22f;
+                break;
+            case SkillsManager.SkillNames.Fireball:
+                cooldown = 26f;
+                break;
             //---------------------------------------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.AspectOfRage:
                 cooldown = 70f;
                 break;
             case SkillsManager.SkillNames.Rampage:
                 cooldown = 0f;
-                break;
-            case SkillsManager.SkillNames.BlessingOfFlames:
-                cooldown = 20f;
                 break;
             case SkillsManager.SkillNames.GiantStrength:
                 cooldown = 30f;

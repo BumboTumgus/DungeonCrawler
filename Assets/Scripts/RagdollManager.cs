@@ -752,4 +752,9 @@ public class RagdollManager : MonoBehaviour
             }
         }
     }
+
+    private void OnDestroy()
+    {
+        entityModel.transform.parent = transform;
+    }
 }
