@@ -190,6 +190,21 @@ public class Skill : MonoBehaviour
                 case SkillsManager.SkillNames.Fireball:
                     StartCoroutine(Fireball());
                     break;
+                case SkillsManager.SkillNames.IceSpike:
+                    StartCoroutine(IceSpike());
+                    break;
+                case SkillsManager.SkillNames.IceShards:
+                    StartCoroutine(IceShards());
+                    break;
+                case SkillsManager.SkillNames.HarshWinds:
+                    StartCoroutine(HarshWinds());
+                    break;
+                case SkillsManager.SkillNames.IcicleBarrage:
+                    StartCoroutine(IcicleBarrage());
+                    break;
+                case SkillsManager.SkillNames.FrozenBarricade:
+                    StartCoroutine(FrozenBarricade());
+                    break;
                 //--------------------------------------------------------------------------------------------
                 case SkillsManager.SkillNames.AspectOfRage:
                     StartCoroutine(AspectOfRage());
@@ -1146,6 +1161,115 @@ public class Skill : MonoBehaviour
         pc.CheckForOtherLoseOfControlEffects();
     }
 
+    // USed to cast the spell icespike
+    IEnumerator IceSpike()
+    {
+        anim.SetTrigger("IceSpike");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 0.75f * 2 / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell iceShards
+    IEnumerator IceShards()
+    {
+        anim.SetTrigger("IceShards");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 0.667f * 2/ stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell harsh Winds
+    IEnumerator HarshWinds()
+    {
+        anim.SetTrigger("HarshWinds");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 0.9f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell IcicleBarrage
+    IEnumerator IcicleBarrage()
+    {
+        anim.SetBool("IcicleBarrage", true);
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+        myManager.stats.channeling = true;
+
+        float targetTimer = 5f;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+        stats.movespeedPercentMultiplier -= 0.2f;
+
+        while (currentTimer < targetTimer)
+        {
+            //pc.SkillMovement(directionToMove, distancePerSecond);
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        anim.SetBool("IcicleBarrage", false);
+        stats.movespeedPercentMultiplier += 0.2f;
+        myManager.stats.channeling = false;
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell frozen barricade
+    IEnumerator FrozenBarricade()
+    {
+        anim.SetTrigger("FrozenBarricade");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.183f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     // USed to cast the spell nature pulse at the enemies

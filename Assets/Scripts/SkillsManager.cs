@@ -295,6 +295,21 @@ public class SkillsManager : MonoBehaviour
                 combustion.GetComponent<HitBox>().damage = stats.baseDamage * 3f;
                 combustion.GetComponent<HitBox>().myStats = stats;
                 break;
+            case SkillNames.IceShards:
+                GameObject iceShards = Instantiate(skillProjectiles[13], targetPosition + Vector3.up, Quaternion.identity);
+                iceShards.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
+                iceShards.GetComponent<HitBox>().myStats = stats;
+                break;
+            case SkillNames.HarshWinds:
+                GameObject harshWinds = Instantiate(skillProjectiles[14], targetPosition + Vector3.up, Quaternion.identity);
+
+                Vector3 rotation = harshWinds.transform.rotation.eulerAngles;
+                rotation.y -= Random.Range(0, 360);
+                harshWinds.transform.rotation = Quaternion.Euler(rotation);
+
+                harshWinds.GetComponent<HitBox>().damage = stats.baseDamage * 1f;
+                harshWinds.GetComponent<HitBox>().myStats = stats;
+                break;
             default:
                 break;
         }
@@ -356,6 +371,42 @@ public class SkillsManager : MonoBehaviour
 
                 fireball.GetComponent<HitBox>().damage = stats.baseDamage * 8f;
                 fireball.GetComponent<HitBox>().myStats = stats;
+                break;
+
+            case SkillNames.IceSpike:
+                target = Camera.main.transform.position + Camera.main.transform.forward * 100;
+
+                for (int index = 0; index <= 2; index++)
+                {
+                    GameObject iceSpike = Instantiate(skillProjectiles[12], transform.position + Vector3.up + transform.forward, transform.rotation);
+                    iceSpike.transform.LookAt(target);
+
+                    Vector3 iceSpikeRotation = iceSpike.transform.rotation.eulerAngles;
+                    iceSpikeRotation.y += (index - 1) * 10;
+                    iceSpikeRotation.x -= 3;
+                    iceSpike.transform.rotation = Quaternion.Euler(iceSpikeRotation);
+
+                    iceSpike.GetComponent<HitBox>().damage = stats.baseDamage * 1f;
+                    iceSpike.GetComponent<HitBox>().myStats = stats;
+                }
+                break;
+
+            case SkillNames.IcicleBarrage:
+                target = Camera.main.transform.position + Camera.main.transform.forward * 100;
+
+                for (int index = 0; index <= 2; index++)
+                {
+                    GameObject icicle = Instantiate(skillProjectiles[15], transform.position + Vector3.up + transform.forward, transform.rotation);
+                    icicle.transform.LookAt(target);
+
+                    Vector3 iceSpikeRotation = icicle.transform.rotation.eulerAngles;
+                    iceSpikeRotation.y += Random.Range(12, -12);
+                    iceSpikeRotation.x += Random.Range(12, -12);
+                    icicle.transform.rotation = Quaternion.Euler(iceSpikeRotation);
+
+                    icicle.GetComponent<HitBox>().damage = stats.baseDamage * 0.25f;
+                    icicle.GetComponent<HitBox>().myStats = stats;
+                }
                 break;
 
             default:

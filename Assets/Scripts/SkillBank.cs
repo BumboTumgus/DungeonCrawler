@@ -133,6 +133,26 @@ public class SkillBank : MonoBehaviour
                 skillToSet.targetCooldown = 26f;
                 skillToSet.skillIcon = skillIcons[29];
                 break;
+            case SkillsManager.SkillNames.IceSpike:
+                skillToSet.targetCooldown = 6f;
+                skillToSet.skillIcon = skillIcons[30];
+                break;
+            case SkillsManager.SkillNames.IceShards:
+                skillToSet.targetCooldown = 10f;
+                skillToSet.skillIcon = skillIcons[31];
+                break;
+            case SkillsManager.SkillNames.HarshWinds:
+                skillToSet.targetCooldown = 30f;
+                skillToSet.skillIcon = skillIcons[32];
+                break;
+            case SkillsManager.SkillNames.IcicleBarrage:
+                skillToSet.targetCooldown = 14f;
+                skillToSet.skillIcon = skillIcons[33];
+                break;
+            case SkillsManager.SkillNames.FrozenBarricade:
+                skillToSet.targetCooldown = 16f;
+                skillToSet.skillIcon = skillIcons[34];
+                break;
             //-----------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.AspectOfRage:
                 skillToSet.targetCooldown = 90f;
@@ -279,6 +299,21 @@ public class SkillBank : MonoBehaviour
                 break;
             case SkillsManager.SkillNames.Fireball:
                 cooldown = 26f;
+                break;
+            case SkillsManager.SkillNames.IceSpike:
+                cooldown = 6f;
+                break;
+            case SkillsManager.SkillNames.IceShards:
+                cooldown = 10f;
+                break;
+            case SkillsManager.SkillNames.HarshWinds:
+                cooldown = 30f;
+                break;
+            case SkillsManager.SkillNames.IcicleBarrage:
+                cooldown = 14f;
+                break;
+            case SkillsManager.SkillNames.FrozenBarricade:
+                cooldown = 16f;
                 break;
             //---------------------------------------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.AspectOfRage:
