@@ -12,8 +12,8 @@ public class HitBox : MonoBehaviour
     public bool crit = false;
     public bool procsOnHits = false;
 
-    [SerializeField] private bool hitEnemies = false;
-    [SerializeField] private bool hitPlayers = false;
+    public bool hitEnemies = false;
+    public bool hitPlayers = false;
 
     public PlayerStats myStats;
     public PlayerStats enemyStats;
@@ -35,10 +35,16 @@ public class HitBox : MonoBehaviour
     {
         //Debug.Log("we have colldied with collided with: " + other.name);
         // Projectile logic, we are a projectile and hit an object on the collidable envorioment or interactable layer.
-        if ((projectile && other.gameObject.layer == 10) || (projectile && other.gameObject.layer == 14 && hitEnemies) || (projectile && other.gameObject.layer == 13 && hitPlayers))
+        if ((projectile && other.gameObject.layer == 14 && hitEnemies) || (projectile && other.gameObject.layer == 13 && hitPlayers))
         {
             //Debug.Log("we hit an object that is in the collidable or interable layer");
-            if(GetComponent<ProjectileBehaviour>() && !GetComponent<ProjectileBehaviour>().piercing)
+            if(GetComponent<ProjectileBehaviour>() && !GetComponent<ProjectileBehaviour>().piercesTargets)
+                GetComponent<ProjectileBehaviour>().DestroyProjectile();
+        }
+        else if ((projectile && other.gameObject.layer == 10))
+        {
+            //Debug.Log("we hit an object that is in the collidable or interable layer");
+            if (GetComponent<ProjectileBehaviour>() && !GetComponent<ProjectileBehaviour>().piercesWalls)
                 GetComponent<ProjectileBehaviour>().DestroyProjectile();
         }
 
@@ -139,6 +145,11 @@ public class HitBox : MonoBehaviour
                     damageDealt = myStats.baseDamage * 1;
                 }
                 */
+
+                if (projectile && procsOnHits || projectileAOE && procsOnHits)
+                    myStats.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this);
+                else if (procsOnHits)
+                    transform.root.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this);
 
                 if (bypassCrit)
                 {

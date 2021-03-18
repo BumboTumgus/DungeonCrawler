@@ -22,7 +22,12 @@ public class DestroyAfterTime : MonoBehaviour
         currentTimer += Time.deltaTime;
 
         if (currentTimer > targetTimer)
-            Destroy(gameObject);
+        {
+            if (!GetComponent<ProximityHitBoxLauncher>())
+                Destroy(gameObject);
+            else
+                GetComponent<ProximityHitBoxLauncher>().LaunchExplosion();
+        }
     }
 
     // USed to make the attached hitbox, if applicable, flicekr to hit enemies.

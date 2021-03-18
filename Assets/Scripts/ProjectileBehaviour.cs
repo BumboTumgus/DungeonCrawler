@@ -6,7 +6,8 @@ public class ProjectileBehaviour : MonoBehaviour
 {
     public float projectileSpeed = 5;
     public float projectileLifetime = 10f;
-    public bool piercing = false;
+    public bool piercesTargets = false;
+    public bool piercesWalls = false;
     public bool hitAOE = false;
     public bool trackTarget = false;
     public float YSpin = 0;

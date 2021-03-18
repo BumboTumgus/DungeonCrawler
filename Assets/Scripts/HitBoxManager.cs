@@ -54,6 +54,14 @@ public class HitBoxManager : MonoBehaviour
         hiteffects[index].Stop();
     }
 
+    // Used to stop the particles in one of our particle systems.
+    public void StopAndClearParticles(int index)
+    {
+        //Debug.Log("Stopping particles " + index);
+        hiteffects[index].Clear();
+        hiteffects[index].Stop();
+    }
+
     // Used to launch an attack
     IEnumerator HitBoxFlicker(int index)
     {

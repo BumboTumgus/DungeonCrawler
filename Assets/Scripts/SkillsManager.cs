@@ -8,6 +8,7 @@ public class SkillsManager : MonoBehaviour
     public List<Skill> mySkills = new List<Skill>();
     public List<GameObject> mySkillBars = new List<GameObject>();
     public List<GameObject> skillProjectiles = new List<GameObject>();
+    public List<SpellMirrorManager> spellMirrors = new List<SpellMirrorManager>();
     public List<Color> damageColors = new List<Color>();
     public GameObject skillIconPrefab;
     public Transform iconParent;
@@ -42,6 +43,8 @@ public class SkillsManager : MonoBehaviour
         hitBoxes = GetComponent<HitBoxManager>();
         cameraControls = Camera.main.GetComponent<CameraControls>();
         characterController = GetComponent<CharacterController>();
+
+        StartCoroutine(SpellMirrorTargetUpdater());
     }
 
     // Used to add a new skill to our player at an index.
@@ -255,8 +258,168 @@ public class SkillsManager : MonoBehaviour
                         fireweave.GetComponent<ProjectileBehaviour>().target = EnemyManager.instance.enemyStats[Random.Range(0, EnemyManager.instance.enemyStats.Count)].transform;
                 }
                 break;
+
+            case SkillNames.FrozenBarricade:
+                for(int index = 0; index < 5; index++)
+                {
+                    Vector3 targetBarricadePosition = transform.position + (transform.forward * ((Mathf.Abs(index - 2)) * -2 + 5)) + transform.right * ((index - 2) * 4f);
+
+                    GameObject frozenBarricade = Instantiate(skillProjectiles[16], targetBarricadePosition, Quaternion.identity);
+                    frozenBarricade.GetComponent<HitBox>().damage = stats.baseDamage * 3f;
+                    frozenBarricade.GetComponent<HitBox>().myStats = stats;
+                }
+                break;
+
+            case SkillNames.RayOfIce:
+
+                Ray iceRayRay = new Ray(transform.position + Vector3.up, transform.forward);
+                RaycastHit iceRayhit = new RaycastHit();
+                Vector3 iceRayTargetPosition = Vector3.zero;
+
+                if(Physics.Raycast(iceRayRay, out iceRayhit, 25, targettingRayMaskHitEnemies))
+                {
+                    iceRayTargetPosition = iceRayhit.point;
+                }
+                else
+                    iceRayTargetPosition = transform.position + Vector3.up + transform.forward * 25;
+
+                GameObject rayOfIceExplosion = Instantiate(skillProjectiles[21], iceRayTargetPosition, Quaternion.identity);
+                rayOfIceExplosion.GetComponent<HitBox>().damage = stats.baseDamage * 0.2f;
+                rayOfIceExplosion.GetComponent<HitBox>().myStats = stats;
+                break;
+
+            case SkillNames.IceArmor:
+                GameObject iceArmorPop = Instantiate(skillProjectiles[22], transform.position + Vector3.up, Quaternion.identity);
+                iceArmorPop.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
+                iceArmorPop.GetComponent<HitBox>().myStats = stats;
+                break;
+
             default:
                 break;
+        }
+
+        if(spellMirrors.Count > 0)
+        {
+            foreach(SpellMirrorManager spellMirror in spellMirrors)
+            {
+                Ray rayDownwards = new Ray(spellMirror.transform.position, Vector3.down);
+                RaycastHit rayHitDownwards;
+                Vector3 downwardsTargetPosition = Vector3.zero;
+
+
+                if (Physics.Raycast(rayDownwards, out rayHitDownwards, 100, targettingRayMaskHitEnemies))
+                {
+                    if (rayHitDownwards.transform.gameObject.layer == 14)
+                    {
+                        // we hit an enemy
+                        downwardsTargetPosition = rayHitDownwards.transform.position;
+                    }
+                    else
+                        downwardsTargetPosition = rayHitDownwards.point;
+                }
+                else
+                {
+                    // what if we dont hit anything? default to 10 units in front of the player.
+                    downwardsTargetPosition = spellMirror.transform.position + Vector3.down * 10;
+                }
+
+
+                switch (skill)
+                {
+                    case SkillNames.FallingSword:
+                        GameObject swordCircle = Instantiate(skillProjectiles[1], downwardsTargetPosition + Vector3.up * 0.1f, Quaternion.identity);
+                        swordCircle.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
+                        swordCircle.GetComponent<HitBox>().myStats = stats;
+                        break;
+                    case SkillNames.RingOfFire:
+                        GameObject ringOfFire = Instantiate(skillProjectiles[8], downwardsTargetPosition, Quaternion.identity);
+                        ringOfFire.GetComponent<HitBox>().damage = stats.baseDamage * 1.5f;
+                        ringOfFire.GetComponent<HitBox>().myStats = stats;
+                        GameObject ringOfFireDOT = Instantiate(skillProjectiles[9], downwardsTargetPosition, Quaternion.identity);
+                        ringOfFireDOT.GetComponent<HitBox>().damage = stats.baseDamage * 0.2f;
+                        ringOfFireDOT.GetComponent<HitBox>().myStats = stats;
+                        break;
+                    case SkillNames.Firestorm:
+                        for (int index = 0; index < 15; index++)
+                        {
+                            bool succesfulLocationSelected = false;
+                            Vector3 targetPosition = Vector3.zero;
+
+                            while (!succesfulLocationSelected)
+                            {
+                                Ray ray = new Ray(transform.position + new Vector3(Random.Range(-8, 8), 5, Random.Range(-8, 8)), Vector3.down);
+                                RaycastHit rayhit;
+
+                                if (Physics.Raycast(ray, out rayhit, 15, targettingRayMask))
+                                {
+                                    targetPosition = rayhit.point;
+                                    succesfulLocationSelected = true;
+                                    break;
+                                }
+                            }
+
+                            GameObject firepillar = Instantiate(skillProjectiles[6], targetPosition, Quaternion.identity);
+
+                            float scaleModifier = Random.Range(0.25f, 0.5f);
+                            firepillar.transform.localScale = new Vector3(scaleModifier, scaleModifier, scaleModifier);
+
+                            firepillar.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f * scaleModifier;
+                            firepillar.GetComponent<HitBox>().myStats = stats;
+                        }
+                        break;
+                    case SkillNames.Fireweave:
+                        for (int index = 0; index < 3; index++)
+                        {
+                            GameObject fireweave = Instantiate(skillProjectiles[10], transform.position + transform.forward, Quaternion.Euler(spellMirror.transform.forward + new Vector3(Random.Range(-45, -90), Random.Range(0, 360), 0)));
+                            fireweave.GetComponent<HitBox>().damage = stats.baseDamage * 0.25f;
+                            fireweave.GetComponent<HitBox>().myStats = stats;
+
+                            if (EnemyManager.instance.enemyStats.Count > 0)
+                                fireweave.GetComponent<ProjectileBehaviour>().target = EnemyManager.instance.enemyStats[Random.Range(0, EnemyManager.instance.enemyStats.Count)].transform;
+                        }
+                        break;
+
+                    case SkillNames.FrozenBarricade:
+                        for (int index = 0; index < 5; index++)
+                        {
+                            Vector3 spellMirrorForward = spellMirror.transform.forward;
+                            spellMirrorForward.y = 0;
+                            Vector3 targetBarricadePosition = downwardsTargetPosition + (spellMirrorForward * ((Mathf.Abs(index - 2)) * -2 + 5)) + spellMirror.transform.right * ((index - 2) * 4f);
+
+                            GameObject frozenBarricade = Instantiate(skillProjectiles[16], targetBarricadePosition, Quaternion.identity);
+                            frozenBarricade.GetComponent<HitBox>().damage = stats.baseDamage * 1.5f;
+                            frozenBarricade.GetComponent<HitBox>().myStats = stats;
+                        }
+                        break;
+
+                    case SkillNames.RayOfIce:
+
+                        Ray iceRayRay = new Ray(spellMirror.transform.position, spellMirror.transform.forward);
+                        RaycastHit iceRayhit = new RaycastHit();
+                        Vector3 iceRayTargetPosition = Vector3.zero;
+
+                        if (Physics.Raycast(iceRayRay, out iceRayhit, 25, targettingRayMaskHitEnemies))
+                        {
+                            iceRayTargetPosition = iceRayhit.point;
+                        }
+                        else
+                            iceRayTargetPosition = spellMirror.transform.position + spellMirror.transform.forward * 25;
+
+                        GameObject rayOfIceExplosion = Instantiate(skillProjectiles[21], iceRayTargetPosition, Quaternion.identity);
+                        rayOfIceExplosion.GetComponent<HitBox>().damage = stats.baseDamage * 0.1f;
+                        rayOfIceExplosion.GetComponent<HitBox>().myStats = stats;
+                        break;
+
+                    case SkillNames.IceArmor:
+                        GameObject iceArmorPop = Instantiate(skillProjectiles[22], spellMirror.transform.position, Quaternion.identity);
+                        iceArmorPop.GetComponent<HitBox>().damage = stats.baseDamage * 0.25f;
+                        iceArmorPop.GetComponent<HitBox>().myStats = stats;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
         }
     }
 
@@ -310,11 +473,106 @@ public class SkillsManager : MonoBehaviour
                 harshWinds.GetComponent<HitBox>().damage = stats.baseDamage * 1f;
                 harshWinds.GetComponent<HitBox>().myStats = stats;
                 break;
+            case SkillNames.Blizzard:
+                GameObject blizzard = Instantiate(skillProjectiles[19], targetPosition + Vector3.up, Quaternion.identity);
+
+                Vector3 blizzardRotation = blizzard.transform.rotation.eulerAngles;
+                blizzardRotation.y -= Random.Range(0, 360);
+                blizzard.transform.rotation = Quaternion.Euler(blizzardRotation);
+
+                blizzard.GetComponent<HitBox>().damage = stats.baseDamage * 2f;
+                blizzard.GetComponent<HitBox>().myStats = stats;
+                break;
+            case SkillNames.IceArtillery:
+                GameObject artillery = Instantiate(skillProjectiles[20], targetPosition + Vector3.up * 0.1f, Quaternion.identity);
+
+                artillery.GetComponent<HitBox>().damage = stats.baseDamage * 0.4f;
+                artillery.GetComponent<HitBox>().myStats = stats;
+                break;
+
+            case SkillNames.SpellMirror:
+                GameObject spellMirror = Instantiate(skillProjectiles[23], targetPosition + Vector3.up * 3f, Quaternion.identity);
+
+                StartCoroutine(SpellMirrorLifetime(spellMirror.GetComponent<SpellMirrorManager>()));
+                break;
             default:
                 break;
         }
 
+        if(spellMirrors.Count > 0)
+        {
+            foreach(SpellMirrorManager spellMirror in spellMirrors)
+            {
+                Ray spellMirrorRay = new Ray(spellMirror.transform.position, spellMirror.transform.forward);
+                RaycastHit spellMirrorRayHit = new RaycastHit();
+                Vector3 spellMirrorTargetPosition = Vector3.zero;
 
+                if (Physics.Raycast(spellMirrorRay, out spellMirrorRayHit, 100, targettingRayMaskHitEnemies))
+                {
+                    if (spellMirrorRayHit.transform.gameObject.layer == 14)
+                    {
+                        // we hit an enemy
+                        spellMirrorTargetPosition = spellMirrorRayHit.transform.position;
+                    }
+                    else
+                        spellMirrorTargetPosition = spellMirrorRayHit.point;
+                }
+                else
+                {
+                    // what if we dont hit anything? default to 10 units in front of the player.
+                    spellMirrorTargetPosition = spellMirror.transform.position + spellMirror.transform.forward * 10;
+                }
+
+                switch (skill)
+                {
+                    case SkillNames.WitchPyre:
+                        GameObject witchPyre = Instantiate(skillProjectiles[6], spellMirrorTargetPosition, Quaternion.identity);
+                        witchPyre.transform.localScale = new Vector3(1, 1, 1);
+                        witchPyre.GetComponent<HitBox>().damage = stats.baseDamage * 0.35f;
+                        witchPyre.GetComponent<HitBox>().myStats = stats;
+                        break;
+                    case SkillNames.Combustion:
+                        GameObject combustion = Instantiate(skillProjectiles[7], spellMirrorTargetPosition + Vector3.up, Quaternion.identity);
+                        combustion.GetComponent<HitBox>().damage = stats.baseDamage * 1.5f;
+                        combustion.GetComponent<HitBox>().myStats = stats;
+                        break;
+                    case SkillNames.IceShards:
+                        GameObject iceShards = Instantiate(skillProjectiles[13], spellMirrorTargetPosition + Vector3.up, Quaternion.identity);
+                        iceShards.GetComponent<HitBox>().damage = stats.baseDamage * 0.25f;
+                        iceShards.GetComponent<HitBox>().myStats = stats;
+                        break;
+                    case SkillNames.HarshWinds:
+                        GameObject harshWinds = Instantiate(skillProjectiles[14], spellMirrorTargetPosition + Vector3.up, Quaternion.identity);
+
+                        Vector3 rotation = harshWinds.transform.rotation.eulerAngles;
+                        rotation.y -= Random.Range(0, 360);
+                        harshWinds.transform.rotation = Quaternion.Euler(rotation);
+
+                        harshWinds.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
+                        harshWinds.GetComponent<HitBox>().myStats = stats;
+                        break;
+                    case SkillNames.Blizzard:
+                        GameObject blizzard = Instantiate(skillProjectiles[19], spellMirrorTargetPosition + Vector3.up, Quaternion.identity);
+
+                        Vector3 blizzardRotation = blizzard.transform.rotation.eulerAngles;
+                        blizzardRotation.y -= Random.Range(0, 360);
+                        blizzard.transform.rotation = Quaternion.Euler(blizzardRotation);
+
+                        blizzard.GetComponent<HitBox>().damage = stats.baseDamage * 1f;
+                        blizzard.GetComponent<HitBox>().myStats = stats;
+                        break;
+                    case SkillNames.IceArtillery:
+                        GameObject artillery = Instantiate(skillProjectiles[20], spellMirrorTargetPosition + Vector3.up * 0.1f, Quaternion.identity);
+
+                        artillery.GetComponent<HitBox>().damage = stats.baseDamage * 0.2f;
+                        artillery.GetComponent<HitBox>().myStats = stats;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
     }
 
     public void ShootProjectileForward(SkillNames skill)
@@ -409,11 +667,158 @@ public class SkillsManager : MonoBehaviour
                 }
                 break;
 
+            case SkillNames.IceJavelin:
+                target = Camera.main.transform.position + Camera.main.transform.forward * 100;
+
+                GameObject iceJavelin = Instantiate(skillProjectiles[17], transform.position + Vector3.up * 1.25f + transform.right * 0.5f, transform.rotation);
+                iceJavelin.transform.LookAt(target);
+
+                Vector3 iceJavelinRotation = iceJavelin.transform.rotation.eulerAngles;
+                iceJavelinRotation.x -= 3;
+                iceJavelin.transform.rotation = Quaternion.Euler(iceJavelinRotation);
+
+                iceJavelin.GetComponent<HitBox>().damage = stats.baseDamage * 5f;
+                iceJavelin.GetComponent<HitBox>().myStats = stats;
+                break;
+
             default:
                 break;
         }
+
+        if(spellMirrors.Count > 0)
+        {
+            foreach(SpellMirrorManager spellMirror in spellMirrors)
+            {
+                switch (skill)
+                {
+                    case SkillNames.Firebolt:
+                        GameObject firebolt = Instantiate(skillProjectiles[2], spellMirror.transform.position + spellMirror.transform.forward, spellMirror.transform.rotation);
+
+                        firebolt.GetComponent<HitBox>().damage = stats.baseDamage * 0.16f;
+                        firebolt.GetComponent<HitBox>().myStats = stats;
+                        break;
+
+                    case SkillNames.Firebeads:
+                        GameObject firebead1 = Instantiate(skillProjectiles[3], spellMirror.transform.position + transform.forward, transform.rotation);
+                        GameObject firebead2 = Instantiate(skillProjectiles[3], spellMirror.transform.position + transform.right, transform.rotation);
+                        GameObject firebead3 = Instantiate(skillProjectiles[3], spellMirror.transform.position + transform.forward * -1, transform.rotation);
+                        GameObject firebead4 = Instantiate(skillProjectiles[3], spellMirror.transform.position + transform.right * -1, transform.rotation);
+
+                        firebead1.GetComponent<HitBox>().damage = stats.baseDamage * 0.1f;
+                        firebead1.GetComponent<HitBox>().myStats = stats;
+                        firebead1.transform.LookAt(spellMirror.transform.position + transform.right * 100);
+
+                        firebead2.GetComponent<HitBox>().damage = stats.baseDamage * 0.1f;
+                        firebead2.GetComponent<HitBox>().myStats = stats;
+                        firebead2.transform.LookAt(spellMirror.transform.position + transform.forward * -100);
+
+                        firebead3.GetComponent<HitBox>().damage = stats.baseDamage * 0.1f;
+                        firebead3.GetComponent<HitBox>().myStats = stats;
+                        firebead3.transform.LookAt(spellMirror.transform.position + transform.right * -100);
+
+                        firebead4.GetComponent<HitBox>().damage = stats.baseDamage * 0.1f;
+                        firebead4.GetComponent<HitBox>().myStats = stats;
+                        firebead4.transform.LookAt(spellMirror.transform.position + transform.forward * 100);
+                        break;
+
+                    case SkillNames.Fireball:
+
+                        GameObject fireball = Instantiate(skillProjectiles[11], spellMirror.transform.position, spellMirror.transform.rotation);
+
+                        fireball.GetComponent<HitBox>().damage = stats.baseDamage * 4f;
+                        fireball.GetComponent<HitBox>().myStats = stats;
+                        break;
+
+                    case SkillNames.IceSpike:
+                        for (int index = 0; index <= 2; index++)
+                        {
+                            GameObject iceSpike = Instantiate(skillProjectiles[12], spellMirror.transform.position + spellMirror.transform.forward, spellMirror.transform.rotation);
+
+                            Vector3 iceSpikeRotation = iceSpike.transform.rotation.eulerAngles;
+                            iceSpikeRotation.y += (index - 1) * 10;
+                            iceSpike.transform.rotation = Quaternion.Euler(iceSpikeRotation);
+
+                            iceSpike.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
+                            iceSpike.GetComponent<HitBox>().myStats = stats;
+                        }
+                        break;
+
+                    case SkillNames.IcicleBarrage:
+                        for (int index = 0; index <= 2; index++)
+                        {
+                            GameObject icicle = Instantiate(skillProjectiles[15], spellMirror.transform.position + spellMirror.transform.forward, spellMirror.transform.rotation);
+
+                            Vector3 iceSpikeRotation = icicle.transform.rotation.eulerAngles;
+                            iceSpikeRotation.y += Random.Range(12, -12);
+                            iceSpikeRotation.x += Random.Range(12, -12);
+                            icicle.transform.rotation = Quaternion.Euler(iceSpikeRotation);
+
+                            icicle.GetComponent<HitBox>().damage = stats.baseDamage * 0.125f;
+                            icicle.GetComponent<HitBox>().myStats = stats;
+                        }
+                        break;
+
+                    case SkillNames.IceJavelin:
+                        GameObject iceJavelin = Instantiate(skillProjectiles[17], spellMirror.transform.position + spellMirror.transform.forward, spellMirror.transform.rotation);
+
+                        iceJavelin.GetComponent<HitBox>().damage = stats.baseDamage * 2.5f;
+                        iceJavelin.GetComponent<HitBox>().myStats = stats;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
     }
 
+    IEnumerator SpellMirrorLifetime(SpellMirrorManager spellMirror)
+    {
+        spellMirrors.Add(spellMirror);
 
+        yield return new WaitForSeconds(15);
+
+        spellMirrors.Remove(spellMirror);
+        Instantiate(skillProjectiles[24], spellMirror.transform.position, Quaternion.identity);
+
+        Destroy(spellMirror.gameObject);
+    }
+
+    IEnumerator SpellMirrorTargetUpdater()
+    {
+        while(!stats.dead)
+        {
+            if (spellMirrors.Count > 0)
+            {
+                // create the target that all the mirrors must face.
+                Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+                RaycastHit rayhit = new RaycastHit();
+                Vector3 targetPosition = Vector3.zero;
+
+                if (Physics.Raycast(ray, out rayhit, 100, targettingRayMaskHitEnemies))
+                {
+                    if (rayhit.transform.gameObject.layer == 14)
+                    {
+                        // we hit an enemy
+                        targetPosition = rayhit.transform.position;
+                    }
+                    else
+                        targetPosition = rayhit.point;
+                }
+                else
+                {
+                    // what if we dont hit anything? default to 10 units in front of the player.
+                    targetPosition = transform.position + transform.forward * 10;
+                }
+
+                foreach (SpellMirrorManager spellMirror in spellMirrors)
+                {
+                    spellMirror.targetToFace = targetPosition;
+                }
+            }
+
+            yield return new WaitForSeconds(0.25f);
+        }
+    }
     
 }

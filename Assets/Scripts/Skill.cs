@@ -205,6 +205,36 @@ public class Skill : MonoBehaviour
                 case SkillsManager.SkillNames.FrozenBarricade:
                     StartCoroutine(FrozenBarricade());
                     break;
+                case SkillsManager.SkillNames.IceJavelin:
+                    StartCoroutine(IceJavelin());
+                    break;
+                case SkillsManager.SkillNames.Glacier:
+                    StartCoroutine(Glacier());
+                    break;
+                case SkillsManager.SkillNames.FrostNova:
+                    StartCoroutine(FrostNova());
+                    break;
+                case SkillsManager.SkillNames.FrostsKiss:
+                    StartCoroutine(FrostsKiss());
+                    break;
+                case SkillsManager.SkillNames.Blizzard:
+                    StartCoroutine(Blizzard());
+                    break;
+                case SkillsManager.SkillNames.IceArtillery:
+                    StartCoroutine(IceArtillery());
+                    break;
+                case SkillsManager.SkillNames.RayOfIce:
+                    StartCoroutine(RayOfIce());
+                    break;
+                case SkillsManager.SkillNames.IceArmor:
+                    StartCoroutine(IceArmor());
+                    break;
+                case SkillsManager.SkillNames.AbsoluteZero:
+                    StartCoroutine(AbsoluteZero());
+                    break;
+                case SkillsManager.SkillNames.SpellMirror:
+                    StartCoroutine(SpellMirror());
+                    break;
                 //--------------------------------------------------------------------------------------------
                 case SkillsManager.SkillNames.AspectOfRage:
                     StartCoroutine(AspectOfRage());
@@ -1258,6 +1288,225 @@ public class Skill : MonoBehaviour
         pc.SnapToFaceCamera();
 
         float targetTimer = 1.183f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell ice javelin
+    IEnumerator IceJavelin()
+    {
+        anim.SetTrigger("IceJavelin");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.233f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell glacier
+    IEnumerator Glacier()
+    {
+        anim.SetTrigger("Glacier");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.183f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell frost nova
+    IEnumerator FrostNova()
+    {
+        anim.SetTrigger("FrostNova");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        myManager.hitBoxes.hitboxes[23].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 3f;
+
+        float targetTimer = 1.55f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell frosts Kiss
+    IEnumerator FrostsKiss()
+    {
+        anim.SetTrigger("FrostsKiss");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.583f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell blizzard
+    IEnumerator Blizzard()
+    {
+        anim.SetTrigger("Blizzard");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.617f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Ice Artillery
+    IEnumerator IceArtillery()
+    {
+        anim.SetTrigger("IceArtillery");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.333f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Ray of ice
+    IEnumerator RayOfIce()
+    {
+        anim.SetBool("RayOfIce", true);
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+        myManager.stats.channeling = true;
+        stats.movespeedPercentMultiplier -= 0.5f;
+
+        float targetTimer = 5f;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        stats.movespeedPercentMultiplier += 0.5f;
+        myManager.stats.channeling = false;
+        anim.SetBool("RayOfIce", false);
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Ice Armor
+    IEnumerator IceArmor()
+    {
+        anim.SetTrigger("IceArmor");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.417f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Absolute Zero
+    IEnumerator AbsoluteZero()
+    {
+        anim.SetTrigger("AbsoluteZero");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        myManager.hitBoxes.hitboxes[24].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 8f;
+
+        float targetTimer = 2f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Spell Mirror
+    IEnumerator SpellMirror()
+    {
+        anim.SetTrigger("SpellMirror");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.3f / stats.attackSpeed;
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
 

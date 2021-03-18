@@ -153,6 +153,46 @@ public class SkillBank : MonoBehaviour
                 skillToSet.targetCooldown = 16f;
                 skillToSet.skillIcon = skillIcons[34];
                 break;
+            case SkillsManager.SkillNames.IceJavelin:
+                skillToSet.targetCooldown = 15f;
+                skillToSet.skillIcon = skillIcons[35];
+                break;
+            case SkillsManager.SkillNames.Glacier:
+                skillToSet.targetCooldown = 30;
+                skillToSet.skillIcon = skillIcons[36];
+                break;
+            case SkillsManager.SkillNames.FrostNova:
+                skillToSet.targetCooldown = 12f;
+                skillToSet.skillIcon = skillIcons[37];
+                break;
+            case SkillsManager.SkillNames.FrostsKiss:
+                skillToSet.targetCooldown = 15f;
+                skillToSet.skillIcon = skillIcons[38];
+                break;
+            case SkillsManager.SkillNames.Blizzard:
+                skillToSet.targetCooldown = 60f;
+                skillToSet.skillIcon = skillIcons[39];
+                break;
+            case SkillsManager.SkillNames.IceArtillery:
+                skillToSet.targetCooldown = 22f;
+                skillToSet.skillIcon = skillIcons[40];
+                break;
+            case SkillsManager.SkillNames.RayOfIce:
+                skillToSet.targetCooldown = 20f;
+                skillToSet.skillIcon = skillIcons[41];
+                break;
+            case SkillsManager.SkillNames.IceArmor:
+                skillToSet.targetCooldown = 30f;
+                skillToSet.skillIcon = skillIcons[42];
+                break;
+            case SkillsManager.SkillNames.AbsoluteZero:
+                skillToSet.targetCooldown = 45f;
+                skillToSet.skillIcon = skillIcons[43];
+                break;
+            case SkillsManager.SkillNames.SpellMirror:
+                skillToSet.targetCooldown = 40f;
+                skillToSet.skillIcon = skillIcons[44];
+                break;
             //-----------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.AspectOfRage:
                 skillToSet.targetCooldown = 90f;
@@ -314,6 +354,36 @@ public class SkillBank : MonoBehaviour
                 break;
             case SkillsManager.SkillNames.FrozenBarricade:
                 cooldown = 16f;
+                break;
+            case SkillsManager.SkillNames.IceJavelin:
+                cooldown = 15f;
+                break;
+            case SkillsManager.SkillNames.Glacier:
+                cooldown = 30f;
+                break;
+            case SkillsManager.SkillNames.FrostNova:
+                cooldown = 12f;
+                break;
+            case SkillsManager.SkillNames.FrostsKiss:
+                cooldown = 15f;
+                break;
+            case SkillsManager.SkillNames.Blizzard:
+                cooldown = 60f;
+                break;
+            case SkillsManager.SkillNames.IceArtillery:
+                cooldown = 22f;
+                break;
+            case SkillsManager.SkillNames.RayOfIce:
+                cooldown = 20f;
+                break;
+            case SkillsManager.SkillNames.IceArmor:
+                cooldown = 30f;
+                break;
+            case SkillsManager.SkillNames.AbsoluteZero:
+                cooldown = 45f;
+                break;
+            case SkillsManager.SkillNames.SpellMirror:
+                cooldown = 40f;
                 break;
             //---------------------------------------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.AspectOfRage:

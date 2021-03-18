@@ -349,7 +349,7 @@ public class PlayerGearManager : MonoBehaviour
                 else
                 {
                     leftHandWeapons[item.itemGearID].SetActive(true);
-                    weaponBuffs.UpdateWeaponEffectsRight(leftHandWeapons[item.itemGearID].transform.position, leftHandWeapons[item.itemGearID].transform.localScale, leftHandWeapons[item.itemGearID].transform.rotation, leftHandWeapons[item.itemGearID].GetComponent<MeshFilter>().mesh);
+                    weaponBuffs.UpdateWeaponEffectsLeft(leftHandWeapons[item.itemGearID].transform.position, leftHandWeapons[item.itemGearID].transform.localScale, leftHandWeapons[item.itemGearID].transform.rotation, leftHandWeapons[item.itemGearID].GetComponent<MeshFilter>().mesh);
                 }
                 break;
             case Item.ItemType.TwoHandWeapon:

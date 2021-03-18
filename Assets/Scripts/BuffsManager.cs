@@ -13,7 +13,7 @@ public class BuffsManager : MonoBehaviour
     public List<ParticleSystem> weaponEffectsLeft = new List<ParticleSystem>();
     public List<ParticleSystem> weaponEffectsRight = new List<ParticleSystem>();
 
-    public enum BuffType { Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, Frozen, ArmorBroken, EmboldeningEmbers, FlameStrike, FlameWalker, BlessingOfFlames, Immolation, AspectOfRage, Rampage,
+    public enum BuffType { Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, Frozen, ArmorBroken, EmboldeningEmbers, FlameStrike, FlameWalker, BlessingOfFlames, Immolation, Glacier, FrostsKiss, IceArmor, AspectOfRage, Rampage,
                             GiantStrength, ToxicRipple, KillerInstinct, PoisonedMud, StrangleThorn, SoothingStone, Deadeye, WrathOfTheRagingWind, FrozenBarrier, SoothingStream,
                             NaturePulse, Revitalize};
     
@@ -579,22 +579,15 @@ public class BuffsManager : MonoBehaviour
                 case BuffType.FlameStrike:
                     Buff flameStrike = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
                     flameStrike.connectedIcon = buffIcon;
-                    flameStrike.iconStacks = buffIcon.GetComponentInChildren<Text>();
                     buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[13];
                     buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[0];
 
                     activeBuffs.Add(flameStrike);
 
                     flameStrike.myType = buff;
-                    flameStrike.maxStacks = 5;
-                    flameStrike.currentStacks = 4;
-                    flameStrike.stackable = true;
-                    flameStrike.stackSingleFalloff = false;
                     flameStrike.connectedPlayer = stats;
                     flameStrike.infiniteDuration = false;
                     flameStrike.duration = 15;
-
-                    flameStrike.AddStack(1);
 
                     flameStrike.effectParticleSystem.Add(weaponEffectsLeft[0]);
                     flameStrike.effectParticleSystem.Add(weaponEffectsRight[0]);
@@ -670,6 +663,67 @@ public class BuffsManager : MonoBehaviour
                     immolation.effectParticleSystem.Add(psSystems[24]);
 
                     psSystems[24].Play();
+
+                    break;
+
+                case BuffType.Glacier:
+                    Buff glacier = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    glacier.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[17];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[1];
+
+                    activeBuffs.Add(glacier);
+
+                    glacier.myType = buff;
+                    glacier.connectedPlayer = stats;
+                    glacier.infiniteDuration = false;
+                    glacier.duration = 5;
+                    glacier.ChangeDefensiveStats(true, 0, stats.healthMax / 10, 0, 0);
+                    glacier.ChangePlayerStatusLocks(true, 1, 0, 0);
+
+                    NewBuff(BuffType.Frozen, 0);
+
+                    break;
+
+                case BuffType.FrostsKiss:
+                    Buff frostsKiss = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    frostsKiss.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[18];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[1];
+
+                    activeBuffs.Add(frostsKiss);
+
+                    frostsKiss.myType = buff;
+                    frostsKiss.connectedPlayer = stats;
+                    frostsKiss.infiniteDuration = false;
+                    frostsKiss.duration = 15;
+
+                    frostsKiss.effectParticleSystem.Add(weaponEffectsLeft[3]);
+                    frostsKiss.effectParticleSystem.Add(weaponEffectsRight[3]);
+
+                    weaponEffectsLeft[3].Play();
+                    weaponEffectsRight[3].Play();
+
+                    break;
+
+                case BuffType.IceArmor:
+                    Buff iceArmor = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    iceArmor.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[19];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[1];
+
+                    activeBuffs.Add(iceArmor);
+
+                    iceArmor.myType = buff;
+                    iceArmor.connectedPlayer = stats;
+                    iceArmor.infiniteDuration = false;
+                    iceArmor.duration = 15;
+                    iceArmor.ChangeDefensiveStats(true, 0, 0, stats.armor * 0.3f, 0.25f);
+                    iceArmor.ChangeOffensiveStats(true, 0, -0.25f);
+
+                    iceArmor.effectParticleSystem.Add(psSystems[25]);
+
+                    psSystems[25].Play();
 
                     break;
                 //----------------------------------------------------------------------------------------------------------------------------------
@@ -877,15 +931,18 @@ public class BuffsManager : MonoBehaviour
     {
         // Debug.Log("proccing on hits");
         // Check if we have any skills that apply buffs on hit.
-        foreach (Skill skill in skillManager.mySkills)
+        if (CompareTag("Player"))
         {
-            switch (skill.skillName)
+            foreach (Skill skill in skillManager.mySkills)
             {
-                case SkillsManager.SkillNames.Rampage:
-                    NewBuff(BuffType.Rampage, 0);
-                    break;
-                default:
-                    break;
+                switch (skill.skillName)
+                {
+                    case SkillsManager.SkillNames.Rampage:
+                        NewBuff(BuffType.Rampage, 0);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -897,7 +954,23 @@ public class BuffsManager : MonoBehaviour
                     GameObject flamestrikeHit = Instantiate(GetComponent<SkillsManager>().skillProjectiles[4], target.transform.position + Vector3.up + new Vector3(Random.Range(-0.25f, 0.25f), Random.Range(-0.25f, 0.25f), Random.Range(-0.25f, 0.25f)), Quaternion.identity);
                     flamestrikeHit.GetComponent<HitBox>().myStats = stats;
                     flamestrikeHit.GetComponent<HitBox>().damage = stats.baseDamage * 0.7f;
-                    buff.RemoveStacks(1, false);
+                    break;
+                case BuffType.FrostsKiss:
+                    GameObject frostsKissProjectile = Instantiate(GetComponent<SkillsManager>().skillProjectiles[18], transform.position + Vector3.up * 2, Quaternion.Euler(Random.Range(-75, -90), Random.Range(0,360), 0));
+                    frostsKissProjectile.GetComponent<HitBox>().myStats = stats;
+                    frostsKissProjectile.GetComponent<HitBox>().damage = stats.baseDamage * 1f;
+                    frostsKissProjectile.GetComponent<ProjectileBehaviour>().target = target.transform;
+
+                    if(skillManager.spellMirrors.Count > 0)
+                    {
+                        foreach(SpellMirrorManager spellMirror in skillManager.spellMirrors)
+                        {
+                            GameObject frostsKissProjectileMirror = Instantiate(GetComponent<SkillsManager>().skillProjectiles[18], spellMirror.transform.position, spellMirror.transform.rotation);
+                            frostsKissProjectileMirror.GetComponent<HitBox>().myStats = stats;
+                            frostsKissProjectileMirror.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
+                            frostsKissProjectileMirror.GetComponent<ProjectileBehaviour>().target = target.transform;
+                        }
+                    }
                     break;
                 case BuffType.KillerInstinct:
                     //Debug.Log("killer instinct hit has been procced");
@@ -972,6 +1045,13 @@ public class BuffsManager : MonoBehaviour
                 case BuffType.Bleeding:
                     break;
                 case BuffType.Poisoned:
+                    break;
+                case BuffType.IceArmor:
+                    if (target.CompareTag("Player"))
+                    {
+                        target.GetComponent<SkillsManager>().SpawnDisjointedSkillEffect(SkillsManager.SkillNames.IceArmor);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -1000,12 +1080,11 @@ public class BuffsManager : MonoBehaviour
             switch (buff.myType)
             {
                 case BuffType.FlameStrike:
-                    target.GetComponent<PlayerStats>().TakeDamage(buff.onHitDamageAmount, false, HitBox.DamageType.Fire, stats.comboManager.currentcombo);
-                    psSystems[23].Play();
-                    psSystems[24].Play();
-                    psSystems[25].Play();
-                    psSystems[26].Play();
+                    GameObject flamestrikeHit = Instantiate(GetComponent<SkillsManager>().skillProjectiles[4], target.transform.position + Vector3.up + new Vector3(Random.Range(-0.25f, 0.25f), Random.Range(-0.25f, 0.25f), Random.Range(-0.25f, 0.25f)), Quaternion.identity);
+                    flamestrikeHit.GetComponent<HitBox>().myStats = stats;
+                    flamestrikeHit.GetComponent<HitBox>().damage = stats.baseDamage * 0.7f;
                     break;
+
                 case BuffType.KillerInstinct:
                     Debug.Log("killer instinct hit has been procced");
                     hitbox.bypassCrit = true;
