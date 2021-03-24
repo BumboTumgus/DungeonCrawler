@@ -21,7 +21,9 @@ public class SkillsManager : MonoBehaviour
     public enum SkillNames { SweepingBlow, Rapislash, SkywardSlash, BladeVolley, BlinkStrike, TremorStab, LeapStrike, Takedown, Impale, Counter, SeveringStrike, Whirlwind, ShatteredEarth, FallingSword, SenateSlash, 
         Firebolt, Ignition, EmboldeningEmbers, Firebeads, HeatPulse, FlameStrike, Flamewalker, WitchPyre, Combustion, RingOfFire, BlessingOfFlames, Immolate, Firestorm, Fireweave, Fireball,
         IceSpike, IceShards, HarshWinds, IcicleBarrage, FrozenBarricade, IceJavelin, Glacier, FrostNova, FrostsKiss, Blizzard, IceArtillery, RayOfIce, IceArmor, AbsoluteZero, SpellMirror,
-        AspectOfRage, Rampage, GiantStrength, EarthernPlateau, BoulderFist, EarthernSpear, CausticEdge, ToxicRipple, KillerInstinct, NaturePulse, Revitalize };
+        EarthernSpear, EarthernUrchin, IdolOfTremors, BoulderFist, StoneStrike, EarthernPlateau, GiantStrength, RockShot, StalagmiteSmash, UnstableEarth, Tremorfall, GaiasCyclone, CaveIn, StonePrison, Earthquake,
+        Airgust, SecondWind, Airblade, Aeroslash, Aeroburst, WrathOfTheWind, OrbOfShredding, Multislash, Aerolaunch, WhirlwindSlash, Aerobarrage, PressureDrop, TwinTwisters, Vortex, GroundZero,
+        AspectOfRage, Rampage, CausticEdge, ToxicRipple, KillerInstinct, NaturePulse, Revitalize };
 
     public Transform skillsContainer;
 
