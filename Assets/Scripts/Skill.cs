@@ -145,6 +145,9 @@ public class Skill : MonoBehaviour
                 case SkillsManager.SkillNames.SenateSlash:
                     StartCoroutine(SenateSlash());
                     break;
+
+
+
                 case SkillsManager.SkillNames.Firebolt:
                     StartCoroutine(Firebolt());
                     break;
@@ -190,6 +193,9 @@ public class Skill : MonoBehaviour
                 case SkillsManager.SkillNames.Fireball:
                     StartCoroutine(Fireball());
                     break;
+
+
+
                 case SkillsManager.SkillNames.IceSpike:
                     StartCoroutine(IceSpike());
                     break;
@@ -235,58 +241,26 @@ public class Skill : MonoBehaviour
                 case SkillsManager.SkillNames.SpellMirror:
                     StartCoroutine(SpellMirror());
                     break;
-                //--------------------------------------------------------------------------------------------
-                case SkillsManager.SkillNames.AspectOfRage:
-                    StartCoroutine(AspectOfRage());
+
+
+
+                case SkillsManager.SkillNames.EarthernSpear:
+                    StartCoroutine(EarthernSpears());
                     break;
-                case SkillsManager.SkillNames.GiantStrength:
-                    StartCoroutine(GiantStrength());
+                case SkillsManager.SkillNames.EarthernUrchin:
+                    StartCoroutine(EarthernUrchin());
+                    break;
+                case SkillsManager.SkillNames.IdolOfTremors:
+                    StartCoroutine(IdolOfTremors());
+                    break;
+                case SkillsManager.SkillNames.BoulderFist:
+                    StartCoroutine(BoulderFist());
+                    break;
+                case SkillsManager.SkillNames.StoneStrike:
+                    StartCoroutine(StoneStrike());
                     break;
                 case SkillsManager.SkillNames.EarthernPlateau:
                     StartCoroutine(EarthernPlateau());
-                    break;
-                case SkillsManager.SkillNames.BoulderFist:
-                    if (boulderFist != null)
-                    {
-                        if (targetIndicator != null)
-                            Destroy(targetIndicator);
-                        anim.ResetTrigger("BoulderFist");
-                        anim.ResetTrigger("ProjectileFired");
-                        StopCoroutine(boulderFist);
-                    }
-                    boulderFist = StartCoroutine(BoulderFist());
-                    break;
-                case SkillsManager.SkillNames.EarthernSpear:
-                    if (earthernSpear != null)
-                    {
-                        if (targetIndicator != null)
-                            Destroy(targetIndicator);
-                        anim.ResetTrigger("EarthernSpear");
-                        anim.ResetTrigger("ProjectileFired");
-                        anim.SetBool("Multifire", false);
-                        StopCoroutine(earthernSpear);
-                    }
-                    earthernSpear = StartCoroutine(EarthernSpear());
-                    break;
-                case SkillsManager.SkillNames.CausticEdge:
-                    StartCoroutine(CausticEdge());
-                    break;
-                case SkillsManager.SkillNames.ToxicRipple:
-                    StartCoroutine(ToxicRipple());
-                    break;
-                case SkillsManager.SkillNames.KillerInstinct:
-                    StartCoroutine(KillerInstinct());
-                    break;
-                case SkillsManager.SkillNames.NaturePulse:
-                    if (naturePulse != null)
-                    {
-                        if (targetIndicator != null)
-                            Destroy(targetIndicator);
-                        anim.ResetTrigger("BoulderFist");
-                        anim.ResetTrigger("ProjectileFired");
-                        StopCoroutine(naturePulse);
-                    }
-                    naturePulse = StartCoroutine(NaturePulse());
                     break;
                 default:
                     break;
@@ -868,6 +842,9 @@ public class Skill : MonoBehaviour
         pc.CheckForOtherLoseOfControlEffects();
     }
 
+
+
+
     // USed to cast the spell firebolt
     IEnumerator Firebolt()
     {
@@ -1190,6 +1167,9 @@ public class Skill : MonoBehaviour
 
         pc.CheckForOtherLoseOfControlEffects();
     }
+
+
+
 
     // USed to cast the spell icespike
     IEnumerator IceSpike()
@@ -1519,6 +1499,137 @@ public class Skill : MonoBehaviour
 
         pc.CheckForOtherLoseOfControlEffects();
     }
+
+
+
+    // USed to cast the spell earthern spear
+    IEnumerator EarthernSpears()
+    {
+        anim.SetTrigger("EarthernSpears");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell earthern urchin
+    IEnumerator EarthernUrchin()
+    {
+        anim.SetTrigger("EarthernUrchin");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell idol of tremors
+    IEnumerator IdolOfTremors()
+    {
+        anim.SetTrigger("IdolOfTremors");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 0.75f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell boulder fist
+    IEnumerator BoulderFist()
+    {
+        anim.SetTrigger("BoulderFist");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell stone strike
+    IEnumerator StoneStrike()
+    {
+        anim.SetTrigger("StoneStrike");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.483f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Eathern Plateau
+    IEnumerator EarthernPlateau()
+    {
+        anim.SetTrigger("EarthernPlateau");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.183f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+
+
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     // USed to cast the spell nature pulse at the enemies
@@ -1683,178 +1794,6 @@ public class Skill : MonoBehaviour
         //myManager.ps[33].Play();
         //myManager.ps[34].Play();
 
-        pc.playerState = PlayerMovementController.PlayerState.Idle;
-    }
-
-    // Used to cast the spell earthern spear at the enemies.
-    IEnumerator EarthernSpear()
-    {
-        Debug.Log("starting skill");
-        anim.SetTrigger("EarthernSpear");
-        float targetTimer = 0.25f;
-        float currentTimer = 0;
-        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
-
-        //myManager.ps[27].Play();
-
-        while (currentTimer < targetTimer)
-        {
-            currentTimer += Time.deltaTime;
-            yield return null;
-        }
-
-        anim.SetBool("Multifire", true);
-        targetIndicator = Instantiate(myManager.targetIndicatorCircle);
-        for (int index = 0; index < 3; index++)
-        {
-            bool targetSelected = false;
-            while (!targetSelected)
-            {
-                // shoot a ray, and set the indicator toi the rays location.
-                Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward * 100);
-                RaycastHit hit;
-                Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * 100, Color.red);
-                if (Physics.Raycast(ray, out hit, 100f, myManager.targettingRayMaskHitEnemies))
-                {
-                    targetIndicator.transform.position = hit.point;
-                    targetIndicator.transform.rotation = Quaternion.Euler(new Vector3(hit.normal.z * 90, 0, hit.normal.x * -90));
-                }
-
-                //string skillInput = GetInput();
-
-                // If i attack launch the attack at the targtted position and continue the animation.
-                if (Input.GetAxisRaw(myManager.inputs.attackInput) == 1 && myManager.inputs.attackReleased)
-                {
-                    // Debug.Log("The input was pressed");
-                    //myManager.ps[16].Play();
-                    Debug.Log("we have shot a spear");
-                    myManager.inputs.attackReleased = false;
-                    GameObject earthernSpear = Instantiate(myManager.skillProjectiles[2], transform.position + new Vector3(0, 1, 0), transform.rotation);
-                    earthernSpear.transform.LookAt(targetIndicator.transform.position);
-                    earthernSpear.GetComponent<HitBox>().damage = myManager.stats.baseDamage * 1f;
-                    earthernSpear.GetComponent<HitBox>().myStats = myManager.stats;
-                    anim.SetTrigger("ProjectileFired");
-                    //myManager.ps[28].Play();
-                    targetSelected = true;
-                }
-
-                yield return null;
-            }
-        }
-        anim.SetBool("Multifire", false);
-        anim.ResetTrigger("EarthernSpear");
-        Destroy(targetIndicator);
-
-        //myManager.ps[27].Stop();
-        pc.playerState = PlayerMovementController.PlayerState.Idle;
-
-    }
-
-    // USed to cast the spell boulder fist, a spell that summons a boulder fist at the target location, dealing damage.
-    IEnumerator BoulderFist()
-    {
-        anim.SetTrigger("BoulderFist");
-        float targetTimer = 0.25f;
-        float currentTimer = 0;
-        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
-        
-        //myManager.ps[27].Play();
-
-        while (currentTimer < targetTimer)
-        {
-            currentTimer += Time.deltaTime;
-            yield return null;
-        }
-
-        bool targetSelected = false;
-        targetIndicator = Instantiate(myManager.targetIndicatorCircle);
-        while (!targetSelected)
-        {
-            // shoot a ray, and set the indicator toi the rays location.
-            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward * 100);
-            RaycastHit hit;
-            Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * 100, Color.red);
-            if(Physics.Raycast(ray, out hit, 100f, myManager.targettingRayMask))
-            {
-                targetIndicator.transform.position = hit.point;
-                targetIndicator.transform.rotation = Quaternion.Euler(new Vector3(hit.normal.z * 90, 0, hit.normal.x * -90));
-            }
-
-            string skillInput = GetInput();
-
-            // If i attack launch the attack at the targtted position and continue the animation.
-            if (Input.GetAxisRaw(myManager.inputs.attackInput) == 1 && myManager.inputs.attackReleased)
-            {
-                Debug.Log("The input was pressed");
-                //myManager.ps[16].Play();
-                GameObject boulderFist = Instantiate(myManager.skillProjectiles[1], targetIndicator.transform.position, targetIndicator.transform.root.rotation);
-                boulderFist.GetComponent<HitBoxTerrain>().damage = myManager.stats.baseDamage * 3f;
-                anim.SetTrigger("ProjectileFired");
-                Destroy(targetIndicator);
-                //myManager.ps[28].Play();
-                targetSelected = true;
-            }
-
-            yield return null;
-        }
-
-        //myManager.ps[27].Stop();
-        anim.ResetTrigger("BoulderFist");
-        pc.playerState = PlayerMovementController.PlayerState.Idle;
-
-    }
-
-    // Used to cast earthern plateau, a terrain shaping spell that does damage in anb AOE based on your armpr.
-    IEnumerator EarthernPlateau()
-    {
-        anim.SetTrigger("EarthernPlateau");
-        float targetTimer = 1f;
-        float currentTimer = 0;
-        pc.playerState = PlayerMovementController.PlayerState.CastingRollOut;
-        //myManager.ps[27].Play();
-        //myManager.controller.speedMultiplier = 0.4f;
-        bool playParticles = false;
-
-        while (currentTimer < targetTimer)
-        {
-            currentTimer += Time.deltaTime;
-            if (!playParticles && currentTimer > targetTimer * 0.5f)
-            {
-                GameObject terrain = Instantiate(myManager.skillProjectiles[0], transform.root.position, transform.root.rotation);
-                terrain.GetComponent<HitBoxTerrain>().damage = myManager.stats.baseDamage * (5f);
-                //myManager.ps[28].Play();
-                playParticles = true;
-            }
-            yield return null;
-        }
-
-        //myManager.ps[27].Stop();
-        //myManager.controller.speedMultiplier = 1f;
-        pc.playerState = PlayerMovementController.PlayerState.Idle;
-    }
-
-    // Used to cast giants strength, a buff that increases strength defense and hp but severly decreases mobility.
-    IEnumerator GiantStrength()
-    {
-        anim.SetTrigger("GiantsStrength");
-        float targetTimer = 1f;
-        float currentTimer = 0;
-        pc.playerState = PlayerMovementController.PlayerState.CastingRollOut;
-        bool playParticles = false;
-
-        while (currentTimer < targetTimer) 
-        {
-            currentTimer += Time.deltaTime;
-            if (!playParticles && currentTimer > targetTimer * 0.5f)
-            {
-                //myManager.ps[26].Play();
-                myManager.hitBoxes.LaunchBuffBox(4);
-                myManager.hitBoxes.buffboxes[4].GetComponent<HitBoxBuff>().BuffSelf();
-                playParticles = true;
-            }
-            yield return null;
-        }
-        
         pc.playerState = PlayerMovementController.PlayerState.Idle;
     }
 

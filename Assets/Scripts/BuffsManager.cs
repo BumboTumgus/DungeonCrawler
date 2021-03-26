@@ -13,7 +13,7 @@ public class BuffsManager : MonoBehaviour
     public List<ParticleSystem> weaponEffectsLeft = new List<ParticleSystem>();
     public List<ParticleSystem> weaponEffectsRight = new List<ParticleSystem>();
 
-    public enum BuffType { Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, Frozen, ArmorBroken, EmboldeningEmbers, FlameStrike, FlameWalker, BlessingOfFlames, Immolation, Glacier, FrostsKiss, IceArmor, AspectOfRage, Rampage,
+    public enum BuffType { Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, Frozen, ArmorBroken, EmboldeningEmbers, FlameStrike, FlameWalker, BlessingOfFlames, Immolation, Glacier, FrostsKiss, IceArmor, StoneStrike, AspectOfRage, Rampage,
                             GiantStrength, ToxicRipple, KillerInstinct, PoisonedMud, StrangleThorn, SoothingStone, Deadeye, WrathOfTheRagingWind, FrozenBarrier, SoothingStream,
                             NaturePulse, Revitalize};
     
@@ -726,6 +726,27 @@ public class BuffsManager : MonoBehaviour
                     psSystems[25].Play();
 
                     break;
+
+                case BuffType.StoneStrike:
+                    Buff stoneStrike = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    stoneStrike.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[20];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[5];
+
+                    activeBuffs.Add(stoneStrike);
+
+                    stoneStrike.myType = buff;
+                    stoneStrike.connectedPlayer = stats;
+                    stoneStrike.infiniteDuration = false;
+                    stoneStrike.duration = 15;
+
+                    stoneStrike.effectParticleSystem.Add(weaponEffectsLeft[7]);
+                    stoneStrike.effectParticleSystem.Add(weaponEffectsRight[7]);
+
+                    weaponEffectsLeft[7].Play();
+                    weaponEffectsRight[7].Play();
+
+                    break;
                 //----------------------------------------------------------------------------------------------------------------------------------
 
                 case BuffType.AspectOfRage:
@@ -955,6 +976,7 @@ public class BuffsManager : MonoBehaviour
                     flamestrikeHit.GetComponent<HitBox>().myStats = stats;
                     flamestrikeHit.GetComponent<HitBox>().damage = stats.baseDamage * 0.7f;
                     break;
+
                 case BuffType.FrostsKiss:
                     GameObject frostsKissProjectile = Instantiate(GetComponent<SkillsManager>().skillProjectiles[18], transform.position + Vector3.up * 2, Quaternion.Euler(Random.Range(-75, -90), Random.Range(0,360), 0));
                     frostsKissProjectile.GetComponent<HitBox>().myStats = stats;
@@ -972,6 +994,13 @@ public class BuffsManager : MonoBehaviour
                         }
                     }
                     break;
+
+                case BuffType.StoneStrike:
+                    target.GetComponent<EnemyCrowdControlManager>().KnockbackLaunch((transform.forward + Vector3.up * 0.5f) * 15);
+                    target.GetComponent<PlayerStats>().TakeDamage(stats.baseDamage, false, HitBox.DamageType.Earth, stats.comboManager.currentcombo);
+                    StartCoroutine(RemoveBuffNextFrame(buff));
+                    break;
+
                 case BuffType.KillerInstinct:
                     //Debug.Log("killer instinct hit has been procced");
                     hitbox.bypassCrit = true;
@@ -1058,58 +1087,6 @@ public class BuffsManager : MonoBehaviour
         }
     }
     
-    // USed to proc my onhit effects onto an enemy
-    public void ProcOnHits(GameObject target, HitBoxTerrain hitbox)
-    {
-        //Debug.Log("proccing on hits");
-        // Check if we have any skills that apply buffs on hit.
-        foreach (Skill skill in skillManager.mySkills)
-        {
-            switch (skill.skillName)
-            {
-                case SkillsManager.SkillNames.Rampage:
-                    NewBuff(BuffType.Rampage, 0);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        foreach (Buff buff in activeBuffs)
-        {
-            switch (buff.myType)
-            {
-                case BuffType.FlameStrike:
-                    GameObject flamestrikeHit = Instantiate(GetComponent<SkillsManager>().skillProjectiles[4], target.transform.position + Vector3.up + new Vector3(Random.Range(-0.25f, 0.25f), Random.Range(-0.25f, 0.25f), Random.Range(-0.25f, 0.25f)), Quaternion.identity);
-                    flamestrikeHit.GetComponent<HitBox>().myStats = stats;
-                    flamestrikeHit.GetComponent<HitBox>().damage = stats.baseDamage * 0.7f;
-                    break;
-
-                case BuffType.KillerInstinct:
-                    Debug.Log("killer instinct hit has been procced");
-                    hitbox.bypassCrit = true;
-                    /*
-                    switch (hitbox.damageType)
-                    {
-                        case HitBox.DamageType.Physical:
-                            hitbox.damageType = HitBox.DamageType.PhysicalCrit;
-                            break;
-                        case HitBox.DamageType.Magical:
-                            hitbox.damageType = HitBox.DamageType.MagicalCrit;
-                            break;
-                        case HitBox.DamageType.Healing:
-                            hitbox.damageType = HitBox.DamageType.HealingCrit;
-                            break;
-                    }
-                    */
-                    buff.currentTimer = buff.duration;
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
     public void ProcOnAttack()
     {
 
@@ -1142,6 +1119,13 @@ public class BuffsManager : MonoBehaviour
                     break;
             }
         }
+    }
+
+    IEnumerator RemoveBuffNextFrame(Buff buffToRemove)
+    {
+        yield return new WaitForEndOfFrame();
+        if (buffToRemove != null)
+            buffToRemove.EndBuff();
     }
 
 

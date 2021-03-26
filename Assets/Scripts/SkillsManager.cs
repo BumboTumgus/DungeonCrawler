@@ -497,6 +497,28 @@ public class SkillsManager : MonoBehaviour
 
                 StartCoroutine(SpellMirrorLifetime(spellMirror.GetComponent<SpellMirrorManager>()));
                 break;
+
+            case SkillNames.EarthernUrchin:
+                GameObject earthernUrchin = Instantiate(skillProjectiles[26], targetPosition + Vector3.up, Quaternion.identity);
+
+                earthernUrchin.GetComponent<HitBox>().damage = stats.baseDamage * 3f;
+                earthernUrchin.GetComponent<HitBox>().myStats = stats;
+                break;
+
+            case SkillNames.IdolOfTremors:
+                GameObject idolOfTremors = Instantiate(skillProjectiles[27], targetPosition, Quaternion.identity);
+
+                idolOfTremors.GetComponentInChildren<HitBox>().damage = stats.baseDamage * 1f;
+                idolOfTremors.GetComponentInChildren<HitBox>().myStats = stats;
+                break;
+
+            case SkillNames.BoulderFist:
+                GameObject boulderFist = Instantiate(skillProjectiles[28], targetPosition, transform.rotation);
+
+                boulderFist.GetComponentInChildren<HitBox>().damage = stats.baseDamage * 4f;
+                boulderFist.GetComponentInChildren<HitBox>().myStats = stats;
+                boulderFist.GetComponent<HitBoxBuff>().knockbackDirection = transform.forward + Vector3.up * 0.5f;
+                break;
             default:
                 break;
         }
@@ -570,6 +592,32 @@ public class SkillsManager : MonoBehaviour
                         artillery.GetComponent<HitBox>().myStats = stats;
                         break;
 
+                    case SkillNames.EarthernUrchin:
+                        GameObject earthernUrchin = Instantiate(skillProjectiles[26], spellMirrorTargetPosition + Vector3.up, Quaternion.identity);
+
+                        earthernUrchin.GetComponent<HitBox>().damage = stats.baseDamage * 1.5f;
+                        earthernUrchin.GetComponent<HitBox>().myStats = stats;
+                        break;
+                    case SkillNames.IdolOfTremors:
+                        GameObject idolOfTremors = Instantiate(skillProjectiles[27], spellMirrorTargetPosition, Quaternion.identity);
+
+                        idolOfTremors.GetComponentInChildren<HitBox>().damage = stats.baseDamage * 0.5f;
+                        idolOfTremors.GetComponentInChildren<HitBox>().myStats = stats;
+                        break;
+
+                    case SkillNames.BoulderFist:
+
+                        GameObject boulderFist = Instantiate(skillProjectiles[28], spellMirrorTargetPosition, spellMirror.transform.rotation);
+
+                        Vector3 boulderFistRotation = boulderFist.transform.rotation.eulerAngles;
+                        boulderFistRotation.x = 0;
+                        boulderFistRotation.z = 0;
+                        boulderFist.transform.rotation = Quaternion.Euler(boulderFistRotation);
+
+                        boulderFist.GetComponentInChildren<HitBox>().damage = stats.baseDamage * 2f;
+                        boulderFist.GetComponentInChildren<HitBox>().myStats = stats;
+                        boulderFist.GetComponent<HitBoxBuff>().knockbackDirection = transform.forward + Vector3.up * 0.5f;
+                        break;
                     default:
                         break;
                 }
@@ -683,6 +731,19 @@ public class SkillsManager : MonoBehaviour
                 iceJavelin.GetComponent<HitBox>().myStats = stats;
                 break;
 
+            case SkillNames.EarthernSpear:
+                target = Camera.main.transform.position + Camera.main.transform.forward * 100;
+
+                GameObject earthernSpear = Instantiate(skillProjectiles[25], transform.position + Vector3.up + transform.forward, transform.rotation);
+                earthernSpear.transform.LookAt(target);
+
+                Vector3 spearRotation = earthernSpear.transform.rotation.eulerAngles;
+                spearRotation.x -= 3;
+                earthernSpear.transform.rotation = Quaternion.Euler(spearRotation);
+
+                earthernSpear.GetComponent<HitBox>().damage = stats.baseDamage * 1f;
+                earthernSpear.GetComponent<HitBox>().myStats = stats;
+                break;
             default:
                 break;
         }
@@ -767,6 +828,12 @@ public class SkillsManager : MonoBehaviour
                         iceJavelin.GetComponent<HitBox>().myStats = stats;
                         break;
 
+                    case SkillNames.EarthernSpear:
+                        GameObject earthernSpear = Instantiate(skillProjectiles[25], spellMirror.transform.position + spellMirror.transform.forward, spellMirror.transform.rotation);
+
+                        earthernSpear.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
+                        earthernSpear.GetComponent<HitBox>().myStats = stats;
+                        break;
                     default:
                         break;
                 }

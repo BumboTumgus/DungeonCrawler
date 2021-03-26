@@ -73,6 +73,9 @@ public class SkillBank : MonoBehaviour
                 skillToSet.targetCooldown = 16f;
                 skillToSet.skillIcon = skillIcons[14];
                 break;
+
+
+
             case SkillsManager.SkillNames.Firebolt:
                 skillToSet.targetCooldown = 5f;
                 skillToSet.skillIcon = skillIcons[15];
@@ -133,6 +136,9 @@ public class SkillBank : MonoBehaviour
                 skillToSet.targetCooldown = 26f;
                 skillToSet.skillIcon = skillIcons[29];
                 break;
+
+
+
             case SkillsManager.SkillNames.IceSpike:
                 skillToSet.targetCooldown = 6f;
                 skillToSet.skillIcon = skillIcons[30];
@@ -193,6 +199,33 @@ public class SkillBank : MonoBehaviour
                 skillToSet.targetCooldown = 40f;
                 skillToSet.skillIcon = skillIcons[44];
                 break;
+
+
+
+            case SkillsManager.SkillNames.EarthernSpear:
+                skillToSet.targetCooldown = 6f;
+                skillToSet.skillIcon = skillIcons[45];
+                break;
+            case SkillsManager.SkillNames.EarthernUrchin:
+                skillToSet.targetCooldown = 10f;
+                skillToSet.skillIcon = skillIcons[46];
+                break;
+            case SkillsManager.SkillNames.IdolOfTremors:
+                skillToSet.targetCooldown = 10f;
+                skillToSet.skillIcon = skillIcons[47];
+                break;
+            case SkillsManager.SkillNames.BoulderFist:
+                skillToSet.targetCooldown = 8f;
+                skillToSet.skillIcon = skillIcons[48];
+                break;
+            case SkillsManager.SkillNames.StoneStrike:
+                skillToSet.targetCooldown = 5f;
+                skillToSet.skillIcon = skillIcons[49];
+                break;
+            case SkillsManager.SkillNames.EarthernPlateau:
+                skillToSet.targetCooldown = 20f;
+                skillToSet.skillIcon = skillIcons[50];
+                break;
             //-----------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.AspectOfRage:
                 skillToSet.targetCooldown = 90f;
@@ -202,22 +235,6 @@ public class SkillBank : MonoBehaviour
                 skillToSet.targetCooldown = 0f;
                 skillToSet.passive = true;
                 skillToSet.skillIcon = skillIcons[6];
-                break;
-            case SkillsManager.SkillNames.GiantStrength:
-                skillToSet.targetCooldown = 30f;
-                skillToSet.skillIcon = skillIcons[8];
-                break;
-            case SkillsManager.SkillNames.EarthernPlateau:
-                skillToSet.targetCooldown = 26f;
-                skillToSet.skillIcon = skillIcons[9];
-                break;
-            case SkillsManager.SkillNames.BoulderFist:
-                skillToSet.targetCooldown = 6f;
-                skillToSet.skillIcon = skillIcons[10];
-                break;
-            case SkillsManager.SkillNames.EarthernSpear:
-                skillToSet.targetCooldown = 10f;
-                skillToSet.skillIcon = skillIcons[11];
                 break;
             case SkillsManager.SkillNames.CausticEdge:
                 skillToSet.targetCooldown = 12;
@@ -295,6 +312,9 @@ public class SkillBank : MonoBehaviour
             case SkillsManager.SkillNames.SenateSlash:
                 cooldown = 16f;
                 break;
+
+
+
             case SkillsManager.SkillNames.Firebolt:
                 cooldown = 5f;
                 break;
@@ -340,6 +360,9 @@ public class SkillBank : MonoBehaviour
             case SkillsManager.SkillNames.Fireball:
                 cooldown = 26f;
                 break;
+
+
+
             case SkillsManager.SkillNames.IceSpike:
                 cooldown = 6f;
                 break;
@@ -385,6 +408,27 @@ public class SkillBank : MonoBehaviour
             case SkillsManager.SkillNames.SpellMirror:
                 cooldown = 40f;
                 break;
+
+
+
+            case SkillsManager.SkillNames.EarthernSpear:
+                cooldown = 6f;
+                break;
+            case SkillsManager.SkillNames.EarthernUrchin:
+                cooldown = 10f;
+                break;
+            case SkillsManager.SkillNames.IdolOfTremors:
+                cooldown = 10f;
+                break;
+            case SkillsManager.SkillNames.BoulderFist:
+                cooldown = 8f;
+                break;
+            case SkillsManager.SkillNames.StoneStrike:
+                cooldown = 5f;
+                break;
+            case SkillsManager.SkillNames.EarthernPlateau:
+                cooldown = 20f;
+                break;
             //---------------------------------------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.AspectOfRage:
                 cooldown = 70f;
@@ -394,15 +438,6 @@ public class SkillBank : MonoBehaviour
                 break;
             case SkillsManager.SkillNames.GiantStrength:
                 cooldown = 30f;
-                break;
-            case SkillsManager.SkillNames.EarthernPlateau:
-                cooldown = 26f;
-                break;
-            case SkillsManager.SkillNames.BoulderFist:
-                cooldown = 6f;
-                break;
-            case SkillsManager.SkillNames.EarthernSpear:
-                cooldown = 10f;
                 break;
             case SkillsManager.SkillNames.CausticEdge:
                 cooldown = 12f;
