@@ -226,6 +226,18 @@ public class SkillBank : MonoBehaviour
                 skillToSet.targetCooldown = 20f;
                 skillToSet.skillIcon = skillIcons[50];
                 break;
+            case SkillsManager.SkillNames.GiantStrength:
+                skillToSet.targetCooldown = 30f;
+                skillToSet.skillIcon = skillIcons[51];
+                break;
+            case SkillsManager.SkillNames.RockShot:
+                skillToSet.targetCooldown = 9f;
+                skillToSet.skillIcon = skillIcons[52];
+                break;
+            case SkillsManager.SkillNames.StalagmiteSmash:
+                skillToSet.targetCooldown = 14f;
+                skillToSet.skillIcon = skillIcons[53];
+                break;
             //-----------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.AspectOfRage:
                 skillToSet.targetCooldown = 90f;
@@ -429,15 +441,21 @@ public class SkillBank : MonoBehaviour
             case SkillsManager.SkillNames.EarthernPlateau:
                 cooldown = 20f;
                 break;
+            case SkillsManager.SkillNames.GiantStrength:
+                cooldown = 30f;
+                break;
+            case SkillsManager.SkillNames.RockShot:
+                cooldown = 9f;
+                break;
+            case SkillsManager.SkillNames.StalagmiteSmash:
+                cooldown = 14f;
+                break;
             //---------------------------------------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.AspectOfRage:
                 cooldown = 70f;
                 break;
             case SkillsManager.SkillNames.Rampage:
                 cooldown = 0f;
-                break;
-            case SkillsManager.SkillNames.GiantStrength:
-                cooldown = 30f;
                 break;
             case SkillsManager.SkillNames.CausticEdge:
                 cooldown = 12f;

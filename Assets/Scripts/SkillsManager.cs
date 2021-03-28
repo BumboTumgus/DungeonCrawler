@@ -519,6 +519,20 @@ public class SkillsManager : MonoBehaviour
                 boulderFist.GetComponentInChildren<HitBox>().myStats = stats;
                 boulderFist.GetComponent<HitBoxBuff>().knockbackDirection = transform.forward + Vector3.up * 0.5f;
                 break;
+
+            case SkillNames.EarthernPlateau:
+                GameObject earthernPlateau = Instantiate(skillProjectiles[29], targetPosition, transform.rotation);
+
+                earthernPlateau.GetComponentInChildren<HitBox>().damage = stats.baseDamage * 2f;
+                earthernPlateau.GetComponentInChildren<HitBox>().myStats = stats;
+                break;
+
+            case SkillNames.StalagmiteSmash:
+                GameObject stalagmiteSmash = Instantiate(skillProjectiles[31], targetPosition, transform.rotation);
+
+                stalagmiteSmash.GetComponentInChildren<HitBox>().damage = stats.baseDamage * 3f;
+                stalagmiteSmash.GetComponentInChildren<HitBox>().myStats = stats;
+                break;
             default:
                 break;
         }
@@ -617,6 +631,20 @@ public class SkillsManager : MonoBehaviour
                         boulderFist.GetComponentInChildren<HitBox>().damage = stats.baseDamage * 2f;
                         boulderFist.GetComponentInChildren<HitBox>().myStats = stats;
                         boulderFist.GetComponent<HitBoxBuff>().knockbackDirection = transform.forward + Vector3.up * 0.5f;
+                        break;
+
+                    case SkillNames.EarthernPlateau:
+                        GameObject earthernPlateau = Instantiate(skillProjectiles[29], spellMirrorTargetPosition, transform.rotation);
+
+                        earthernPlateau.GetComponentInChildren<HitBox>().damage = stats.baseDamage * 1f;
+                        earthernPlateau.GetComponentInChildren<HitBox>().myStats = stats;
+                        break;
+
+                    case SkillNames.StalagmiteSmash:
+                        GameObject stalagmiteSmash = Instantiate(skillProjectiles[31], spellMirrorTargetPosition, transform.rotation);
+
+                        stalagmiteSmash.GetComponentInChildren<HitBox>().damage = stats.baseDamage * 1.5f;
+                        stalagmiteSmash.GetComponentInChildren<HitBox>().myStats = stats;
                         break;
                     default:
                         break;
@@ -744,6 +772,20 @@ public class SkillsManager : MonoBehaviour
                 earthernSpear.GetComponent<HitBox>().damage = stats.baseDamage * 1f;
                 earthernSpear.GetComponent<HitBox>().myStats = stats;
                 break;
+
+            case SkillNames.RockShot:
+                target = Camera.main.transform.position + Camera.main.transform.forward * 100;
+
+                GameObject rockShot = Instantiate(skillProjectiles[30], transform.position + Vector3.up + transform.forward, transform.rotation);
+                rockShot.transform.LookAt(target);
+
+                Vector3 rockShotRotation = rockShot.transform.rotation.eulerAngles;
+                rockShotRotation.x -= 3;
+                rockShot.transform.rotation = Quaternion.Euler(rockShotRotation);
+
+                rockShot.GetComponent<HitBox>().damage = stats.baseDamage * 4f;
+                rockShot.GetComponent<HitBox>().myStats = stats;
+                break;
             default:
                 break;
         }
@@ -833,6 +875,13 @@ public class SkillsManager : MonoBehaviour
 
                         earthernSpear.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
                         earthernSpear.GetComponent<HitBox>().myStats = stats;
+                        break;
+
+                    case SkillNames.RockShot:
+                        GameObject rockShot = Instantiate(skillProjectiles[30], spellMirror.transform.position + spellMirror.transform.forward, spellMirror.transform.rotation);
+
+                        rockShot.GetComponent<HitBox>().damage = stats.baseDamage * 2f;
+                        rockShot.GetComponent<HitBox>().myStats = stats;
                         break;
                     default:
                         break;

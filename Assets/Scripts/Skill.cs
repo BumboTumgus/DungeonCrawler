@@ -262,6 +262,15 @@ public class Skill : MonoBehaviour
                 case SkillsManager.SkillNames.EarthernPlateau:
                     StartCoroutine(EarthernPlateau());
                     break;
+                case SkillsManager.SkillNames.GiantStrength:
+                    StartCoroutine(GiantStrength());
+                    break;
+                case SkillsManager.SkillNames.RockShot:
+                    StartCoroutine(RockShot());
+                    break;
+                case SkillsManager.SkillNames.StalagmiteSmash:
+                    StartCoroutine(StalagmiteSmash());
+                    break;
                 default:
                     break;
             }
@@ -1615,6 +1624,69 @@ public class Skill : MonoBehaviour
         pc.SnapToFaceCamera();
 
         float targetTimer = 1.183f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Giant Strength
+    IEnumerator GiantStrength()
+    {
+        anim.SetTrigger("GiantsStrength");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.05f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Rock Shot
+    IEnumerator RockShot()
+    {
+        anim.SetTrigger("RockShot");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.633f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Stalagmite Smash
+    IEnumerator StalagmiteSmash()
+    {
+        anim.SetTrigger("StalagmiteSmash");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.217f / stats.attackSpeed;
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
 

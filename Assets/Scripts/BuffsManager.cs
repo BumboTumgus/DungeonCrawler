@@ -13,8 +13,9 @@ public class BuffsManager : MonoBehaviour
     public List<ParticleSystem> weaponEffectsLeft = new List<ParticleSystem>();
     public List<ParticleSystem> weaponEffectsRight = new List<ParticleSystem>();
 
-    public enum BuffType { Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, Frozen, ArmorBroken, EmboldeningEmbers, FlameStrike, FlameWalker, BlessingOfFlames, Immolation, Glacier, FrostsKiss, IceArmor, StoneStrike, AspectOfRage, Rampage,
-                            GiantStrength, ToxicRipple, KillerInstinct, PoisonedMud, StrangleThorn, SoothingStone, Deadeye, WrathOfTheRagingWind, FrozenBarrier, SoothingStream,
+    public enum BuffType { Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, Frozen, ArmorBroken, EmboldeningEmbers, FlameStrike, FlameWalker, BlessingOfFlames, Immolation, Glacier, FrostsKiss, IceArmor, StoneStrike, 
+                            GiantStrength, 
+        AspectOfRage, Rampage, ToxicRipple, KillerInstinct, PoisonedMud, StrangleThorn, SoothingStone, Deadeye, WrathOfTheRagingWind, FrozenBarrier, SoothingStream,
                             NaturePulse, Revitalize};
     
     [SerializeField] private ParticleSystem[] psSystems;
@@ -747,6 +748,30 @@ public class BuffsManager : MonoBehaviour
                     weaponEffectsRight[7].Play();
 
                     break;
+
+                case BuffType.GiantStrength:
+                    Buff giantStrength = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    giantStrength.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[21];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[5];
+
+                    activeBuffs.Add(giantStrength);
+
+                    giantStrength.myType = buff;
+                    giantStrength.infiniteDuration = false;
+                    giantStrength.duration = 15f;
+                    giantStrength.connectedPlayer = stats;
+                    giantStrength.ChangeSize(true, 0.5f);
+                    giantStrength.ChangeDefensiveStats(true, 0, 0, 0, 0.25f);
+                    giantStrength.ChangeOffensiveStats(true, stats.attackSpeed * -0.4f, stats.movespeedPercentMultiplier * -0.4f);
+
+                    giantStrength.effectParticleSystem.Add(psSystems[26]);
+
+                    psSystems[26].Play();
+
+                    GetComponent<PlayerGearManager>().ChangeMaterialToNewMaterial(PlayerGearManager.MaterialOverrides.GiantStrength);
+
+                    break;
                 //----------------------------------------------------------------------------------------------------------------------------------
 
                 case BuffType.AspectOfRage:
@@ -794,25 +819,6 @@ public class BuffsManager : MonoBehaviour
                     rampage.ChangeOffensiveStats(true, 0.04f, 0);
                     //rampage.effectParticleSystem.Add(psSystems[30]);
                     //psSystems[30].Play();
-
-                    break;
-                case BuffType.GiantStrength:
-                    //Debug.Log("adding giant Strength buff");
-                    Buff giantStrength = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
-                    giantStrength.connectedIcon = buffIcon;
-                    giantStrength.iconStacks = buffIcon.GetComponentInChildren<Text>();
-                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[0];
-
-                    activeBuffs.Add(giantStrength);
-
-                    giantStrength.myType = buff;
-                    giantStrength.infiniteDuration = false;
-                    giantStrength.duration = 12f;
-                    giantStrength.connectedPlayer = stats;
-                    giantStrength.ChangeSize(true, 0.25f);
-                    giantStrength.ChangeDefensiveStats(true, 0, 0, 0, 0.25f);
-                    giantStrength.effectParticleSystem.Add(psSystems[31]);
-                    psSystems[31].Play();
 
                     break;
                 case BuffType.ToxicRipple:

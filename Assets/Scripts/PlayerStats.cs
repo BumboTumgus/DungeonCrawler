@@ -685,7 +685,7 @@ public class PlayerStats : MonoBehaviour
         if (amount > 0)
         {
             invisibile = true;
-            GetComponent<PlayerGearManager>().InvisibilityChange(true);
+            GetComponent<PlayerGearManager>().ChangeMaterialToNewMaterial(PlayerGearManager.MaterialOverrides.Invisible);
             invisibleCount += amount;
         }
         else if (amount < 0)
@@ -696,7 +696,7 @@ public class PlayerStats : MonoBehaviour
             {
                 Debug.Log("the invisible count is lower than it should be");
                 invisibile = false;
-                GetComponent<PlayerGearManager>().InvisibilityChange(false);
+                GetComponent<PlayerGearManager>().ResetToOriginalMaterial();
             }
         }
     }
