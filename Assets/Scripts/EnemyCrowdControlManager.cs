@@ -31,6 +31,7 @@ public class EnemyCrowdControlManager : MonoBehaviour
     IEnumerator Stunned()
     {
         movementManager.StopMovement();
+        movementManager.enableMovement = false;
 
         if (!myStats.frozen)
             anim.SetFloat("FrozenMultiplier", 1f);
@@ -40,8 +41,6 @@ public class EnemyCrowdControlManager : MonoBehaviour
 
         while (myStats.stunned)
             yield return null;
-
-        myStats.stunned = false;
 
         CheckForOtherLoseOfControlEffects();
     }
@@ -186,6 +185,7 @@ public class EnemyCrowdControlManager : MonoBehaviour
         else
         {
             anim.SetBool("Stunned", false);
+            movementManager.enableMovement = true;
             combatController.SwitchAction(EnemyCombatController.ActionType.Idle);
         }
 

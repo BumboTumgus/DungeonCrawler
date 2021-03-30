@@ -97,6 +97,7 @@ public class Skill : MonoBehaviour
             //Debug.Log("The skill " + skillName + " has been used");
 
             pc.SkillCastCoroutineClear();
+            bool successfulSkillUse = true;
 
             switch (skillName)
             {
@@ -271,13 +272,42 @@ public class Skill : MonoBehaviour
                 case SkillsManager.SkillNames.StalagmiteSmash:
                     StartCoroutine(StalagmiteSmash());
                     break;
+                case SkillsManager.SkillNames.UnstableEarth:
+                    StartCoroutine(UnstableEarth());
+                    break;
+                case SkillsManager.SkillNames.Tremorfall:
+                    if (pc.playerState == PlayerMovementController.PlayerState.Airborne || pc.playerState == PlayerMovementController.PlayerState.Jumping)
+                        StartCoroutine(Tremorfall());
+                    else
+                        successfulSkillUse = false;
+                    break;
+                case SkillsManager.SkillNames.GaiasCyclone:
+                    StartCoroutine(GaiasCyclone());
+                    break;
+                case SkillsManager.SkillNames.CaveIn:
+                    StartCoroutine(CaveIn());
+                    break;
+                case SkillsManager.SkillNames.StonePrison:
+                    StartCoroutine(StonePrison());
+                    break;
+                case SkillsManager.SkillNames.Earthquake:
+                    StartCoroutine(Earthquake());
+                    break;
                 default:
                     break;
             }
-            currentCooldown = 0;
-            skillReady = false;
-            connectedBar.gameObject.SetActive(true);
-            noManaOverlay.SetActive(false);
+
+            if (successfulSkillUse)
+            {
+                currentCooldown = 0;
+                skillReady = false;
+                connectedBar.gameObject.SetActive(true);
+                noManaOverlay.SetActive(false);
+            }
+            else
+            {
+                Debug.Log("Skill not used since we do not match the criteria for using it.");
+            }
         }
         // else
             // Debug.Log("Skill not ready");
@@ -1700,6 +1730,140 @@ public class Skill : MonoBehaviour
         pc.CheckForOtherLoseOfControlEffects();
     }
 
+    // USed to cast the spell Unstable Earth
+    IEnumerator UnstableEarth()
+    {
+        anim.SetTrigger("UnstableEarth");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Tremorfall
+    IEnumerator Tremorfall()
+    {
+        anim.SetTrigger("Tremorfall");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.167f / 2 / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingAerial;
+
+        while (anim.GetBool("Grounded") == false)
+        {
+            yield return null;
+        }
+
+        pc.playerState = PlayerMovementController.PlayerState.CastingNoMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell GaiasCyclone
+    IEnumerator GaiasCyclone()
+    {
+        anim.SetTrigger("GaiasCyclone");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 0.833f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Cave In
+    IEnumerator CaveIn()
+    {
+        anim.SetTrigger("CaveIn");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 2.367f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Stone Prison
+    IEnumerator StonePrison()
+    {
+        anim.SetTrigger("StonePrison");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.3f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Earthquake
+    IEnumerator Earthquake()
+    {
+        anim.SetTrigger("Earthquake");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.617f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        myManager.hitBoxes.hitboxes[25].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 3f;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
 
 
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

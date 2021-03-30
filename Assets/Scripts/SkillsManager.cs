@@ -296,6 +296,18 @@ public class SkillsManager : MonoBehaviour
                 iceArmorPop.GetComponent<HitBox>().myStats = stats;
                 break;
 
+            case SkillNames.UnstableEarth:
+                GameObject unstableEarth = Instantiate(skillProjectiles[32], transform.position, Quaternion.identity);
+                unstableEarth.GetComponent<HitBox>().damage = stats.baseDamage * 5f;
+                unstableEarth.GetComponent<HitBox>().myStats = stats;
+                break;
+
+            case SkillNames.Tremorfall:
+                GameObject tremorFall = Instantiate(skillProjectiles[33], transform.position, Quaternion.identity);
+                tremorFall.GetComponent<HitBox>().damage = stats.baseDamage * 5f;
+                tremorFall.GetComponent<HitBox>().myStats = stats;
+                break;
+
             default:
                 break;
         }
@@ -418,6 +430,18 @@ public class SkillsManager : MonoBehaviour
                         iceArmorPop.GetComponent<HitBox>().myStats = stats;
                         break;
 
+                    case SkillNames.UnstableEarth:
+                        GameObject unstableEarth = Instantiate(skillProjectiles[32], downwardsTargetPosition, Quaternion.identity);
+                        unstableEarth.GetComponent<HitBox>().damage = stats.baseDamage * 2.5f;
+                        unstableEarth.GetComponent<HitBox>().myStats = stats;
+                        break;
+
+                    case SkillNames.Tremorfall:
+                        GameObject tremorFall = Instantiate(skillProjectiles[33], downwardsTargetPosition, Quaternion.identity);
+                        tremorFall.GetComponent<HitBox>().damage = stats.baseDamage * 2.5f;
+                        tremorFall.GetComponent<HitBox>().myStats = stats;
+                        break;
+
                     default:
                         break;
                 }
@@ -515,23 +539,41 @@ public class SkillsManager : MonoBehaviour
             case SkillNames.BoulderFist:
                 GameObject boulderFist = Instantiate(skillProjectiles[28], targetPosition, transform.rotation);
 
-                boulderFist.GetComponentInChildren<HitBox>().damage = stats.baseDamage * 4f;
-                boulderFist.GetComponentInChildren<HitBox>().myStats = stats;
+                boulderFist.GetComponent<HitBox>().damage = stats.baseDamage * 4f;
+                boulderFist.GetComponent<HitBox>().myStats = stats;
                 boulderFist.GetComponent<HitBoxBuff>().knockbackDirection = transform.forward + Vector3.up * 0.5f;
                 break;
 
             case SkillNames.EarthernPlateau:
                 GameObject earthernPlateau = Instantiate(skillProjectiles[29], targetPosition, transform.rotation);
 
-                earthernPlateau.GetComponentInChildren<HitBox>().damage = stats.baseDamage * 2f;
-                earthernPlateau.GetComponentInChildren<HitBox>().myStats = stats;
+                earthernPlateau.GetComponent<HitBox>().damage = stats.baseDamage * 2f;
+                earthernPlateau.GetComponent<HitBox>().myStats = stats;
                 break;
 
             case SkillNames.StalagmiteSmash:
                 GameObject stalagmiteSmash = Instantiate(skillProjectiles[31], targetPosition, transform.rotation);
 
-                stalagmiteSmash.GetComponentInChildren<HitBox>().damage = stats.baseDamage * 3f;
-                stalagmiteSmash.GetComponentInChildren<HitBox>().myStats = stats;
+                stalagmiteSmash.GetComponent<HitBox>().damage = stats.baseDamage * 3f;
+                stalagmiteSmash.GetComponent<HitBox>().myStats = stats;
+                break;
+
+            case SkillNames.GaiasCyclone:
+                GameObject gaiasCyclone = Instantiate(skillProjectiles[34], targetPosition, transform.rotation);
+
+                gaiasCyclone.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
+                gaiasCyclone.GetComponent<HitBox>().myStats = stats;
+                break;
+
+            case SkillNames.CaveIn:
+                GameObject caveIn = Instantiate(skillProjectiles[35], targetPosition, transform.rotation);
+
+                caveIn.GetComponent<HitBox>().damage = stats.baseDamage * 1.5f;
+                caveIn.GetComponent<HitBox>().myStats = stats;
+                break;
+
+            case SkillNames.StonePrison:
+                GameObject stonePrison = Instantiate(skillProjectiles[36], targetPosition, transform.rotation);
                 break;
             default:
                 break;
@@ -628,24 +670,43 @@ public class SkillsManager : MonoBehaviour
                         boulderFistRotation.z = 0;
                         boulderFist.transform.rotation = Quaternion.Euler(boulderFistRotation);
 
-                        boulderFist.GetComponentInChildren<HitBox>().damage = stats.baseDamage * 2f;
-                        boulderFist.GetComponentInChildren<HitBox>().myStats = stats;
+                        boulderFist.GetComponent<HitBox>().damage = stats.baseDamage * 2f;
+                        boulderFist.GetComponent<HitBox>().myStats = stats;
                         boulderFist.GetComponent<HitBoxBuff>().knockbackDirection = transform.forward + Vector3.up * 0.5f;
                         break;
 
                     case SkillNames.EarthernPlateau:
                         GameObject earthernPlateau = Instantiate(skillProjectiles[29], spellMirrorTargetPosition, transform.rotation);
 
-                        earthernPlateau.GetComponentInChildren<HitBox>().damage = stats.baseDamage * 1f;
-                        earthernPlateau.GetComponentInChildren<HitBox>().myStats = stats;
+                        earthernPlateau.GetComponent<HitBox>().damage = stats.baseDamage * 1f;
+                        earthernPlateau.GetComponent<HitBox>().myStats = stats;
                         break;
 
                     case SkillNames.StalagmiteSmash:
                         GameObject stalagmiteSmash = Instantiate(skillProjectiles[31], spellMirrorTargetPosition, transform.rotation);
 
-                        stalagmiteSmash.GetComponentInChildren<HitBox>().damage = stats.baseDamage * 1.5f;
-                        stalagmiteSmash.GetComponentInChildren<HitBox>().myStats = stats;
+                        stalagmiteSmash.GetComponent<HitBox>().damage = stats.baseDamage * 1.5f;
+                        stalagmiteSmash.GetComponent<HitBox>().myStats = stats;
                         break;
+
+                    case SkillNames.GaiasCyclone:
+                        GameObject gaiasCyclone = Instantiate(skillProjectiles[34], spellMirrorTargetPosition, transform.rotation);
+
+                        gaiasCyclone.GetComponent<HitBox>().damage = stats.baseDamage * 0.25f;
+                        gaiasCyclone.GetComponent<HitBox>().myStats = stats;
+                        break;
+
+                    case SkillNames.CaveIn:
+                        GameObject caveIn = Instantiate(skillProjectiles[35], spellMirrorTargetPosition, transform.rotation);
+
+                        caveIn.GetComponent<HitBox>().damage = stats.baseDamage * 0.75f;
+                        caveIn.GetComponent<HitBox>().myStats = stats;
+                        break;
+
+                    case SkillNames.StonePrison:
+                        GameObject stonePrison = Instantiate(skillProjectiles[36], spellMirrorTargetPosition, transform.rotation);
+                        break;
+
                     default:
                         break;
                 }

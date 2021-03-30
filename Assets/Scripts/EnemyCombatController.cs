@@ -81,12 +81,12 @@ public class EnemyCombatController : MonoBehaviour
             case ActionType.ChaseTarget:
                 StartCoroutine(ChaseTarget());
                 break;
-                break;
             case ActionType.MaintainDistance:
                 break;
             case ActionType.RetreatWhenLow:
                 break;
             case ActionType.LossOfControl:
+                StopAllCoroutines();
                 break;
             case ActionType.Idle:
                 StartCoroutine(Idle());
@@ -165,6 +165,7 @@ public class EnemyCombatController : MonoBehaviour
                 if (CheckDistanceWallObstructed(agroRange, myTarget.transform))
                 {
                     // They are in range and we see them.
+                    Debug.Log("checking action hierarchy");
                     CheckActionHierarchy();
                     //if (!movementManager.arrivedAtTarget)
                     //{

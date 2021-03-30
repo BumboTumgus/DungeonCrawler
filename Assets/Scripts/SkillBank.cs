@@ -238,6 +238,30 @@ public class SkillBank : MonoBehaviour
                 skillToSet.targetCooldown = 14f;
                 skillToSet.skillIcon = skillIcons[53];
                 break;
+            case SkillsManager.SkillNames.UnstableEarth:
+                skillToSet.targetCooldown = 20f;
+                skillToSet.skillIcon = skillIcons[54];
+                break;
+            case SkillsManager.SkillNames.Tremorfall:
+                skillToSet.targetCooldown = 17f;
+                skillToSet.skillIcon = skillIcons[55];
+                break;
+            case SkillsManager.SkillNames.GaiasCyclone:
+                skillToSet.targetCooldown = 33f;
+                skillToSet.skillIcon = skillIcons[56];
+                break;
+            case SkillsManager.SkillNames.CaveIn:
+                skillToSet.targetCooldown = 16f;
+                skillToSet.skillIcon = skillIcons[57];
+                break;
+            case SkillsManager.SkillNames.StonePrison:
+                skillToSet.targetCooldown = 28f;
+                skillToSet.skillIcon = skillIcons[58];
+                break;
+            case SkillsManager.SkillNames.Earthquake:
+                skillToSet.targetCooldown = 60f;
+                skillToSet.skillIcon = skillIcons[59];
+                break;
             //-----------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.AspectOfRage:
                 skillToSet.targetCooldown = 90f;
@@ -449,6 +473,24 @@ public class SkillBank : MonoBehaviour
                 break;
             case SkillsManager.SkillNames.StalagmiteSmash:
                 cooldown = 14f;
+                break;
+            case SkillsManager.SkillNames.UnstableEarth:
+                cooldown = 20f;
+                break;
+            case SkillsManager.SkillNames.Tremorfall:
+                cooldown = 17f;
+                break;
+            case SkillsManager.SkillNames.GaiasCyclone:
+                cooldown = 33f;
+                break;
+            case SkillsManager.SkillNames.CaveIn:
+                cooldown = 16f;
+                break;
+            case SkillsManager.SkillNames.StonePrison:
+                cooldown = 28f;
+                break;
+            case SkillsManager.SkillNames.Earthquake:
+                cooldown = 60f;
                 break;
             //---------------------------------------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.AspectOfRage:

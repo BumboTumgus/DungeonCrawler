@@ -14,7 +14,7 @@ public class BuffsManager : MonoBehaviour
     public List<ParticleSystem> weaponEffectsRight = new List<ParticleSystem>();
 
     public enum BuffType { Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, Frozen, ArmorBroken, EmboldeningEmbers, FlameStrike, FlameWalker, BlessingOfFlames, Immolation, Glacier, FrostsKiss, IceArmor, StoneStrike, 
-                            GiantStrength, 
+                            GiantStrength, StonePrison,
         AspectOfRage, Rampage, ToxicRipple, KillerInstinct, PoisonedMud, StrangleThorn, SoothingStone, Deadeye, WrathOfTheRagingWind, FrozenBarrier, SoothingStream,
                             NaturePulse, Revitalize};
     
@@ -158,13 +158,16 @@ public class BuffsManager : MonoBehaviour
                 buffDealtWith = true;
                 if (activeBuff.stackable)
                 {
-                    if (activeBuff.myType == BuffType.FlameStrike)
-                        activeBuff.AddStack(5);
-                    else
-                        activeBuff.AddStack(1);
+                    activeBuff.AddStack(1);
                 }
                 else
+                {
                     activeBuff.AddTime(0, true);
+
+                    if (CompareTag("Enemy"))
+                        if (buff == BuffType.Asleep || buff == BuffType.Stunned || buff == BuffType.Frozen)
+                            GetComponent<EnemyMovementManager>().StopMovement();
+                }
                 break;
             }
 
@@ -762,7 +765,7 @@ public class BuffsManager : MonoBehaviour
                     giantStrength.duration = 15f;
                     giantStrength.connectedPlayer = stats;
                     giantStrength.ChangeSize(true, 0.5f);
-                    giantStrength.ChangeDefensiveStats(true, 0, 0, 0, 0.25f);
+                    giantStrength.ChangeDefensiveStats(true, 0, 0, 0, -0.25f);
                     giantStrength.ChangeOffensiveStats(true, stats.attackSpeed * -0.4f, stats.movespeedPercentMultiplier * -0.4f);
 
                     giantStrength.effectParticleSystem.Add(psSystems[26]);
@@ -770,6 +773,22 @@ public class BuffsManager : MonoBehaviour
                     psSystems[26].Play();
 
                     GetComponent<PlayerGearManager>().ChangeMaterialToNewMaterial(PlayerGearManager.MaterialOverrides.GiantStrength);
+
+                    break;
+
+                case BuffType.StonePrison:
+                    Buff stonePrison = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    stonePrison.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[22];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[5];
+
+                    activeBuffs.Add(stonePrison);
+
+                    stonePrison.myType = buff;
+                    stonePrison.infiniteDuration = false;
+                    stonePrison.duration = 1f;
+                    stonePrison.connectedPlayer = stats;
+                    stonePrison.ChangeDefensiveStats(true, 0, 0, 0, 0.5f);
 
                     break;
                 //----------------------------------------------------------------------------------------------------------------------------------
@@ -1210,7 +1229,7 @@ public class BuffsManager : MonoBehaviour
     {
         for(int index = activeBuffs.Count - 1; index >= 0; index--)
         {
-            Debug.Log("Destroying the buff: " + activeBuffs[index].myType);
+            //Debug.Log("Destroying the buff: " + activeBuffs[index].myType);
             Destroy(activeBuffs[index]);
         }
     }

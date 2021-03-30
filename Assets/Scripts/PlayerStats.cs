@@ -264,7 +264,7 @@ public class PlayerStats : MonoBehaviour
         exp += value;
         if (myStats != null)
             myStats.SetStatValues(this);
-        Debug.Log("+" + value + " || " + exp + " / " + expTarget);
+        //Debug.Log("+" + value + " || " + exp + " / " + expTarget);
         while (exp >= expTarget)
         {
             exp -= expTarget;
@@ -412,7 +412,7 @@ public class PlayerStats : MonoBehaviour
     // Used when this object dies. What will happen afterwards?
     public void EntityDeath()
     {
-        Debug.Log("SOmething died");
+        //Debug.Log("SOmething died");
         dead = true;
         // Three cases, player death, player summon death, or an enemy death.
         if(gameObject.CompareTag("Enemy"))

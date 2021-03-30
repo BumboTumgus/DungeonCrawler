@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-[RequireComponent(typeof(HitBox))]
 public class HitBoxFlickerer : MonoBehaviour
 {
     private Collider hitbox;
