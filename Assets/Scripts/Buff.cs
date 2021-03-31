@@ -35,6 +35,7 @@ public class Buff : MonoBehaviour
     
     public float atkSpdSC = 0;
     public float movespeedSC = 0;
+    public float damagePercentageSC = 0;
 
     public float aflameResistSC = 0;
     public float frostbiteResistSC = 0;
@@ -170,8 +171,8 @@ public class Buff : MonoBehaviour
                 ChangeDefensiveStats(false, healthSC * amount, healthRegenSC * amount, armorSC * amount, damageReductionSC * amount);
 
             // If we changed offensive stats, add more stacks
-            if (atkSpdSC != 0 || movespeedSC != 0)
-                ChangeOffensiveStats(false, atkSpdSC * amount, movespeedSC * amount);
+            if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0)
+                ChangeOffensiveStats(false, atkSpdSC * amount, movespeedSC * amount, damagePercentageSC * amount);
 
             // If we changed our resistance based stats, remove more stacks
             if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0 || overchargeResistSC != 0 || overgrowthResistSC != 0 || sunderResistSC != 0 || windshearResistSC != 0)
@@ -218,8 +219,8 @@ public class Buff : MonoBehaviour
             ChangeDefensiveStats(false, healthSC * amount,  healthRegenSC * amount,  armorSC * amount, damageReductionSC * amount);
 
         // If we changed offensive stats, remove more stacks
-        if (atkSpdSC != 0 || movespeedSC != 0)
-            ChangeOffensiveStats(false, atkSpdSC * amount, movespeedSC * amount);
+        if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0)
+            ChangeOffensiveStats(false, atkSpdSC * amount, movespeedSC * amount, damagePercentageSC * amount);
 
         // If we changed our resistance based stats, remove more stacks
         if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0 || overchargeResistSC != 0 || overgrowthResistSC != 0 || sunderResistSC != 0 || windshearResistSC != 0)
@@ -262,15 +263,17 @@ public class Buff : MonoBehaviour
     }
 
     //USed to add offensive stast to the player
-    public void ChangeOffensiveStats(bool changeStatsChangeValue, float atkSpeedGain, float movespeedGain)
+    public void ChangeOffensiveStats(bool changeStatsChangeValue, float atkSpeedGain, float movespeedGain, float damagePercentageGain)
     {
         connectedPlayer.bonusAttackSpeed += atkSpeedGain;
         connectedPlayer.movespeedPercentMultiplier += movespeedGain;
+        connectedPlayer.damageIncreaseMultiplier += damagePercentageGain;
 
         if (changeStatsChangeValue)
         {
             atkSpdSC = atkSpeedGain;
             movespeedSC = movespeedGain;
+            damagePercentageSC = damagePercentageGain;
         }
 
         connectedPlayer.StatSetup(false, true);
@@ -371,8 +374,8 @@ public class Buff : MonoBehaviour
                 ChangeDefensiveStats(true, healthSC * -1, healthRegenSC * -1, armorSC * -1, damageReductionSC * -1);
 
             // If we changed offensive stats, change em back.
-            if (atkSpdSC != 0 || movespeedSC != 0)
-                ChangeOffensiveStats(true,  atkSpdSC * -1, movespeedSC * -1);
+            if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0)
+                ChangeOffensiveStats(true,  atkSpdSC * -1, movespeedSC * -1, damagePercentageSC * -1);
 
             // If we changed our resistance based stats, change em back.
             if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 ||  frostbiteResistSC != 0 || knockBackResistSC != 0 || overchargeResistSC != 0 || overgrowthResistSC != 0|| sunderResistSC != 0 || windshearResistSC != 0)
@@ -393,8 +396,8 @@ public class Buff : MonoBehaviour
                 ChangeDefensiveStats(true, healthSC * -1 * currentStacks, healthRegenSC * -1 * currentStacks, armorSC * -1 * currentStacks, damageReductionSC * -1 * currentStacks);
 
             // If we changed offensive stats, change em back.
-            if (atkSpdSC != 0 || movespeedSC != 0)
-                ChangeOffensiveStats(true, atkSpdSC * -1 * currentStacks, movespeedSC * -1 * currentStacks);
+            if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0)
+                ChangeOffensiveStats(true, atkSpdSC * -1 * currentStacks, movespeedSC * -1 * currentStacks, damagePercentageSC * -1 * currentStacks);
 
             // If we changed our resistance based stats, change em back.
             if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0 || overchargeResistSC != 0 || overgrowthResistSC != 0 || sunderResistSC != 0 || windshearResistSC != 0)

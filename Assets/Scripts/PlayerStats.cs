@@ -40,6 +40,7 @@ public class PlayerStats : MonoBehaviour
     public float movespeedPercentMultiplier = 1;
 
     public float damageReductionMultiplier = 1;
+    public float damageIncreaseMultiplier = 1;
 
     public float healthRegen = 1;
     public float bonusHealthRegen = 0;

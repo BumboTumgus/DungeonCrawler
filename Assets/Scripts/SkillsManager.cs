@@ -308,6 +308,19 @@ public class SkillsManager : MonoBehaviour
                 tremorFall.GetComponent<HitBox>().myStats = stats;
                 break;
 
+            case SkillNames.Airgust:
+                GameObject airgust = Instantiate(skillProjectiles[37], transform.position + transform.forward + Vector3.up, transform.rotation);
+                airgust.GetComponent<HitBox>().damage = stats.baseDamage * 1f;
+                airgust.GetComponent<HitBox>().myStats = stats;
+                airgust.GetComponent<HitBoxBuff>().knockbackDirection = transform.forward + (Vector3.up * 0.25f);
+                break;
+
+            case SkillNames.Aeroburst:
+                GameObject aeroburst = Instantiate(skillProjectiles[40], transform.position + Vector3.up, transform.rotation);
+                aeroburst.GetComponent<HitBox>().damage = stats.baseDamage * 3f;
+                aeroburst.GetComponent<HitBox>().myStats = stats;
+                break;
+
             default:
                 break;
         }
@@ -440,6 +453,19 @@ public class SkillsManager : MonoBehaviour
                         GameObject tremorFall = Instantiate(skillProjectiles[33], downwardsTargetPosition, Quaternion.identity);
                         tremorFall.GetComponent<HitBox>().damage = stats.baseDamage * 2.5f;
                         tremorFall.GetComponent<HitBox>().myStats = stats;
+                        break;
+
+                    case SkillNames.Airgust:
+                        GameObject airgust = Instantiate(skillProjectiles[37], spellMirror.transform.position + spellMirror.transform.forward, spellMirror.transform.rotation );
+                        airgust.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
+                        airgust.GetComponent<HitBox>().myStats = stats;
+                        airgust.GetComponent<HitBoxBuff>().knockbackDirection = transform.forward + (Vector3.up * 0.25f);
+                        break;
+
+                    case SkillNames.Aeroburst:
+                        GameObject aeroburst = Instantiate(skillProjectiles[40], downwardsTargetPosition + Vector3.up, spellMirror.transform.rotation);
+                        aeroburst.GetComponent<HitBox>().damage = stats.baseDamage * 1.5f;
+                        aeroburst.GetComponent<HitBox>().myStats = stats;
                         break;
 
                     default:
@@ -847,6 +873,35 @@ public class SkillsManager : MonoBehaviour
                 rockShot.GetComponent<HitBox>().damage = stats.baseDamage * 4f;
                 rockShot.GetComponent<HitBox>().myStats = stats;
                 break;
+
+            case SkillNames.Airblade:
+                target = Camera.main.transform.position + Camera.main.transform.forward * 100;
+
+                GameObject airblade = Instantiate(skillProjectiles[38], transform.position + Vector3.up + transform.forward, transform.rotation);
+                airblade.transform.LookAt(target);
+
+                Vector3 airbladeRotation = airblade.transform.rotation.eulerAngles;
+                airbladeRotation.x -= 3;
+                airblade.transform.rotation = Quaternion.Euler(airbladeRotation);
+
+                airblade.GetComponent<HitBox>().damage = stats.baseDamage * 4f;
+                airblade.GetComponent<HitBox>().myStats = stats;
+                break;
+
+            case SkillNames.Aeroslash:
+                target = Camera.main.transform.position + Camera.main.transform.forward * 100;
+
+                GameObject aeroslash = Instantiate(skillProjectiles[39], transform.position + Vector3.up + transform.forward, transform.rotation);
+                aeroslash.transform.LookAt(target);
+
+                Vector3 aeroslashRotation = aeroslash.transform.rotation.eulerAngles;
+                aeroslashRotation.x -= 3;
+                aeroslash.transform.rotation = Quaternion.Euler(aeroslashRotation);
+
+                aeroslash.GetComponent<HitBox>().damage = stats.baseDamage * 0.8f;
+                aeroslash.GetComponent<HitBox>().myStats = stats;
+                break;
+
             default:
                 break;
         }
@@ -943,6 +998,20 @@ public class SkillsManager : MonoBehaviour
 
                         rockShot.GetComponent<HitBox>().damage = stats.baseDamage * 2f;
                         rockShot.GetComponent<HitBox>().myStats = stats;
+                        break;
+
+                    case SkillNames.Airblade:
+                        GameObject airblade = Instantiate(skillProjectiles[38], spellMirror.transform.position + spellMirror.transform.forward, spellMirror.transform.rotation);
+
+                        airblade.GetComponent<HitBox>().damage = stats.baseDamage * 2f;
+                        airblade.GetComponent<HitBox>().myStats = stats;
+                        break;
+
+                    case SkillNames.Aeroslash:
+                        GameObject aeroslash = Instantiate(skillProjectiles[39], spellMirror.transform.position + spellMirror.transform.forward, spellMirror.transform.rotation);
+
+                        aeroslash.GetComponent<HitBox>().damage = stats.baseDamage * 0.4f;
+                        aeroslash.GetComponent<HitBox>().myStats = stats;
                         break;
                     default:
                         break;

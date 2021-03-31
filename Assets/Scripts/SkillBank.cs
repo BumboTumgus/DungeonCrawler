@@ -262,6 +262,42 @@ public class SkillBank : MonoBehaviour
                 skillToSet.targetCooldown = 60f;
                 skillToSet.skillIcon = skillIcons[59];
                 break;
+
+
+
+
+            case SkillsManager.SkillNames.Airgust:
+                skillToSet.targetCooldown = 6f;
+                skillToSet.skillIcon = skillIcons[60];
+                break;
+            case SkillsManager.SkillNames.SecondWind:
+                skillToSet.targetCooldown = 10f;
+                skillToSet.skillIcon = skillIcons[61];
+                break;
+            case SkillsManager.SkillNames.Airblade:
+                skillToSet.targetCooldown = 5f;
+                skillToSet.skillIcon = skillIcons[62];
+                break;
+            case SkillsManager.SkillNames.Aeroslash:
+                skillToSet.targetCooldown = 12f;
+                skillToSet.skillIcon = skillIcons[63];
+                break;
+            case SkillsManager.SkillNames.Aeroburst:
+                skillToSet.targetCooldown = 11f;
+                skillToSet.skillIcon = skillIcons[64];
+                break;
+            case SkillsManager.SkillNames.WrathOfTheWind:
+                skillToSet.targetCooldown = 30f;
+                skillToSet.skillIcon = skillIcons[65];
+                break;
+            case SkillsManager.SkillNames.OrbOfShredding:
+                skillToSet.targetCooldown = 16f;
+                skillToSet.skillIcon = skillIcons[66];
+                break;
+            case SkillsManager.SkillNames.Multislash:
+                skillToSet.targetCooldown = 12f;
+                skillToSet.skillIcon = skillIcons[67];
+                break;
             //-----------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.AspectOfRage:
                 skillToSet.targetCooldown = 90f;
@@ -491,6 +527,34 @@ public class SkillBank : MonoBehaviour
                 break;
             case SkillsManager.SkillNames.Earthquake:
                 cooldown = 60f;
+                break;
+
+
+
+
+            case SkillsManager.SkillNames.Airgust:
+                cooldown = 6f;
+                break;
+            case SkillsManager.SkillNames.SecondWind:
+                cooldown = 10f;
+                break;
+            case SkillsManager.SkillNames.Airblade:
+                cooldown = 5f;
+                break;
+            case SkillsManager.SkillNames.Aeroslash:
+                cooldown = 12f;
+                break;
+            case SkillsManager.SkillNames.Aeroburst:
+                cooldown = 11f;
+                break;
+            case SkillsManager.SkillNames.WrathOfTheWind:
+                cooldown = 30f;
+                break;
+            case SkillsManager.SkillNames.OrbOfShredding:
+                cooldown = 16f;
+                break;
+            case SkillsManager.SkillNames.Multislash:
+                cooldown = 12f;
                 break;
             //---------------------------------------------------------------------------------------------------------------------------------------------------------
             case SkillsManager.SkillNames.AspectOfRage:

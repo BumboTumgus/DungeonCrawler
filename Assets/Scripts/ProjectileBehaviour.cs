@@ -5,6 +5,7 @@ using UnityEngine;
 public class ProjectileBehaviour : MonoBehaviour
 {
     public float projectileSpeed = 5;
+    public float projectileSpeedDecay = 0f;
     public float projectileLifetime = 10f;
     public bool piercesTargets = false;
     public bool piercesWalls = false;
@@ -31,6 +32,7 @@ public class ProjectileBehaviour : MonoBehaviour
     {
         if(trackTarget && target != null)
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation((target.position + Vector3.up) - transform.position), trackingStrength);
+
         transform.position += transform.forward * projectileSpeed * Time.deltaTime;
 
         if(YSpin != 0)
@@ -39,6 +41,17 @@ public class ProjectileBehaviour : MonoBehaviour
             rotation.y += YSpin * Time.deltaTime;
             transform.rotation = Quaternion.Euler(rotation);
             YSpin *= 0.995f;
+        }
+
+        if (projectileSpeedDecay > 0)
+        {
+            projectileSpeed = Mathf.Lerp(projectileSpeed, 0, projectileSpeedDecay);
+
+            if(projectileSpeed <= 0.1f)
+            {
+                projectileSpeed = 0;
+                projectileSpeedDecay = 0;
+            }
         }
 
         currentLifetime += Time.deltaTime;

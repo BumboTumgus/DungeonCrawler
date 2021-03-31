@@ -293,6 +293,33 @@ public class Skill : MonoBehaviour
                 case SkillsManager.SkillNames.Earthquake:
                     StartCoroutine(Earthquake());
                     break;
+
+
+
+                case SkillsManager.SkillNames.Airgust:
+                    StartCoroutine(Airgust());
+                    break;
+                case SkillsManager.SkillNames.SecondWind:
+                    StartCoroutine(SecondWind());
+                    break;
+                case SkillsManager.SkillNames.Airblade:
+                    StartCoroutine(Airblade());
+                    break;
+                case SkillsManager.SkillNames.Aeroslash:
+                    StartCoroutine(Aeroslash());
+                    break;
+                case SkillsManager.SkillNames.Aeroburst:
+                    StartCoroutine(Aeroburst());
+                    break;
+                case SkillsManager.SkillNames.WrathOfTheWind:
+                    StartCoroutine(WrathOfTheWind());
+                    break;
+                case SkillsManager.SkillNames.OrbOfShredding:
+                    StartCoroutine(OrbOfShredding());
+                    break;
+                case SkillsManager.SkillNames.Multislash:
+                    StartCoroutine(Multislash());
+                    break;
                 default:
                     break;
             }
@@ -1865,6 +1892,178 @@ public class Skill : MonoBehaviour
         pc.CheckForOtherLoseOfControlEffects();
     }
 
+
+
+
+    // USed to cast the spell Air gust
+    IEnumerator Airgust()
+    {
+        anim.SetTrigger("Airgust");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.25f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Second Wind
+    IEnumerator SecondWind()
+    {
+        anim.SetTrigger("SecondWind");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 0.767f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        myManager.hitBoxes.buffboxes[10].GetComponent<HitBox>().damage = myManager.stats.healthMax * 0.33f;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Airblade
+    IEnumerator Airblade()
+    {
+        anim.SetTrigger("Airblade");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 0.467f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Aeroslash
+    IEnumerator Aeroslash()
+    {
+        anim.SetTrigger("Aeroslash");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 0.75f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Aeroburst
+    IEnumerator Aeroburst()
+    {
+        anim.SetTrigger("Aeroburst");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.55f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell WrathOfTheWind
+    IEnumerator WrathOfTheWind()
+    {
+        anim.SetTrigger("WrathOfTheWind");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.583f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell OrbOfShredding
+    IEnumerator OrbOfShredding()
+    {
+        anim.SetTrigger("OrbOfShredding");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.333f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Multislash
+    IEnumerator Multislash()
+    {
+        anim.SetTrigger("Multislash");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.483f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
 
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
