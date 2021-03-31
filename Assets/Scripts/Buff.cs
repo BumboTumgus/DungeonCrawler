@@ -350,11 +350,12 @@ public class Buff : MonoBehaviour
             connectedPlayer.bleeding = false;
         else if (myType == BuffsManager.BuffType.Knockback)
             connectedPlayer.knockedBack = false;
-        else if (myType == BuffsManager.BuffType.Revitalize)
+        /*else if (myType == BuffsManager.BuffType.Revitalize)
         {
             connectedPlayer.revitalizeBuff = false;
             connectedPlayer.healthRegen = connectedPlayer.baseHealthRegen + connectedPlayer.baseHealthRegenGrowth * connectedPlayer.level + connectedPlayer.bonusHealthRegen;
         }
+        */
         else if (myType == BuffsManager.BuffType.FlameWalker)
             connectedPlayer.flameWalkerEnabled = false;
         else if (myType == BuffsManager.BuffType.Immolation)

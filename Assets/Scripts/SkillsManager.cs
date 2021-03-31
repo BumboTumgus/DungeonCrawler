@@ -77,6 +77,7 @@ public class SkillsManager : MonoBehaviour
             mySkillBars.Add(addedIcon);
             PositionSkillIcons();
 
+            /*
             // If this skill is a passive, add this buff.
             if(addedSkill.passive)
                 switch (addedSkill.skillName)
@@ -86,6 +87,7 @@ public class SkillsManager : MonoBehaviour
                         stats.revitalizeCount++;
                         break;
                 }
+            */
         }
         else
             Debug.Log("You have too many skills already!");
@@ -109,6 +111,7 @@ public class SkillsManager : MonoBehaviour
         {
             //Debug.Log("The skill " + skillToRemove.skillName + " has been removed");
 
+            /*
             // If this skill is a passive, remove this buff.
             if (skillToRemove.passive)
                 switch (skillToRemove.skillName)
@@ -123,6 +126,7 @@ public class SkillsManager : MonoBehaviour
                         }
                         break;
                 }
+            */
 
             mySkillBars.Remove(skillToRemove.connectedBar.transform.parent.gameObject);
             mySkills.Remove(skillToRemove);
