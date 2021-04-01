@@ -165,7 +165,7 @@ public class EnemyCombatController : MonoBehaviour
                 if (CheckDistanceWallObstructed(agroRange, myTarget.transform))
                 {
                     // They are in range and we see them.
-                    Debug.Log("checking action hierarchy");
+                    //Debug.Log("checking action hierarchy");
                     CheckActionHierarchy();
                     //if (!movementManager.arrivedAtTarget)
                     //{

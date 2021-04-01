@@ -325,6 +325,12 @@ public class SkillsManager : MonoBehaviour
                 aeroburst.GetComponent<HitBox>().myStats = stats;
                 break;
 
+            case SkillNames.Aerolaunch:
+                GameObject aerolaunch = Instantiate(skillProjectiles[43], transform.position, transform.rotation);
+                aerolaunch.GetComponent<HitBox>().damage = stats.baseDamage * 3f;
+                aerolaunch.GetComponent<HitBox>().myStats = stats;
+                break;
+
             default:
                 break;
         }
@@ -470,6 +476,12 @@ public class SkillsManager : MonoBehaviour
                         GameObject aeroburst = Instantiate(skillProjectiles[40], downwardsTargetPosition + Vector3.up, spellMirror.transform.rotation);
                         aeroburst.GetComponent<HitBox>().damage = stats.baseDamage * 1.5f;
                         aeroburst.GetComponent<HitBox>().myStats = stats;
+                        break;
+
+                    case SkillNames.Aerolaunch:
+                        GameObject aerolaunch = Instantiate(skillProjectiles[43], downwardsTargetPosition, Quaternion.identity);
+                        aerolaunch.GetComponent<HitBox>().damage = stats.baseDamage * 1.5f;
+                        aerolaunch.GetComponent<HitBox>().myStats = stats;
                         break;
 
                     default:
@@ -906,6 +918,34 @@ public class SkillsManager : MonoBehaviour
                 aeroslash.GetComponent<HitBox>().myStats = stats;
                 break;
 
+            case SkillNames.OrbOfShredding:
+                target = Camera.main.transform.position + Camera.main.transform.forward * 100;
+
+                GameObject orbOfShredding = Instantiate(skillProjectiles[41], transform.position + Vector3.up + transform.forward, transform.rotation);
+                orbOfShredding.transform.LookAt(target);
+
+                Vector3 orbOfShreddingRotation = orbOfShredding.transform.rotation.eulerAngles;
+                orbOfShreddingRotation.x -= 3;
+                orbOfShredding.transform.rotation = Quaternion.Euler(orbOfShreddingRotation);
+
+                orbOfShredding.GetComponent<HitBox>().damage = stats.baseDamage * 0.4f;
+                orbOfShredding.GetComponent<HitBox>().myStats = stats;
+                break;
+
+            case SkillNames.WhirlwindSlash:
+
+                for (int index = 0; index < 5; index++)
+                {
+                    GameObject whirlwindSlash = Instantiate(skillProjectiles[44], transform.position + Vector3.up + transform.forward, transform.rotation);
+
+                    Vector3 whrilwindSlashRotation = new Vector3(Random.Range(-20,20), Random.Range(0,360), Random.Range(-10,10));
+                    whirlwindSlash.transform.rotation = Quaternion.Euler(whrilwindSlashRotation);
+
+                    whirlwindSlash.GetComponent<HitBox>().damage = stats.baseDamage * 1.2f;
+                    whirlwindSlash.GetComponent<HitBox>().myStats = stats;
+                }
+                break;
+
             default:
                 break;
         }
@@ -1016,6 +1056,13 @@ public class SkillsManager : MonoBehaviour
 
                         aeroslash.GetComponent<HitBox>().damage = stats.baseDamage * 0.4f;
                         aeroslash.GetComponent<HitBox>().myStats = stats;
+                        break;
+
+                    case SkillNames.OrbOfShredding:
+                        GameObject orbOfShredding = Instantiate(skillProjectiles[41], spellMirror.transform.position + spellMirror.transform.forward, spellMirror.transform.rotation);
+
+                        orbOfShredding.GetComponent<HitBox>().damage = stats.baseDamage * 0.4f;
+                        orbOfShredding.GetComponent<HitBox>().myStats = stats;
                         break;
                     default:
                         break;

@@ -298,36 +298,33 @@ public class SkillBank : MonoBehaviour
                 skillToSet.targetCooldown = 12f;
                 skillToSet.skillIcon = skillIcons[67];
                 break;
-            //-----------------------------------------------------------------------------------------------------------------------------
-            case SkillsManager.SkillNames.AspectOfRage:
-                skillToSet.targetCooldown = 90f;
-                skillToSet.skillIcon = skillIcons[4];
+            case SkillsManager.SkillNames.Aerolaunch:
+                skillToSet.targetCooldown = 15f;
+                skillToSet.skillIcon = skillIcons[68];
                 break;
-            case SkillsManager.SkillNames.Rampage:
-                skillToSet.targetCooldown = 0f;
-                skillToSet.passive = true;
-                skillToSet.skillIcon = skillIcons[6];
+            case SkillsManager.SkillNames.WhirlwindSlash:
+                skillToSet.targetCooldown = 20f;
+                skillToSet.skillIcon = skillIcons[69];
                 break;
-            case SkillsManager.SkillNames.CausticEdge:
-                skillToSet.targetCooldown = 12;
-                skillToSet.skillIcon = skillIcons[12];
+            case SkillsManager.SkillNames.Aerobarrage:
+                skillToSet.targetCooldown = 18f;
+                skillToSet.skillIcon = skillIcons[70];
                 break;
-            case SkillsManager.SkillNames.ToxicRipple:
-                skillToSet.targetCooldown = 60f;
-                skillToSet.skillIcon = skillIcons[13];
+            case SkillsManager.SkillNames.PressureDrop:
+                skillToSet.targetCooldown = 24f;
+                skillToSet.skillIcon = skillIcons[71];
                 break;
-            case SkillsManager.SkillNames.KillerInstinct:
-                skillToSet.targetCooldown = 30f;
-                skillToSet.skillIcon = skillIcons[14];
+            case SkillsManager.SkillNames.TwinTwisters:
+                skillToSet.targetCooldown = 28f;
+                skillToSet.skillIcon = skillIcons[72];
                 break;
-            case SkillsManager.SkillNames.NaturePulse:
-                skillToSet.targetCooldown = 3f;
-                skillToSet.skillIcon = skillIcons[15];
+            case SkillsManager.SkillNames.Vortex:
+                skillToSet.targetCooldown = 45f;
+                skillToSet.skillIcon = skillIcons[73];
                 break;
-            case SkillsManager.SkillNames.Revitalize:
-                skillToSet.targetCooldown = 0f;
-                skillToSet.passive = true;
-                skillToSet.skillIcon = skillIcons[16];
+            case SkillsManager.SkillNames.GroundZero:
+                skillToSet.targetCooldown = 45f;
+                skillToSet.skillIcon = skillIcons[74];
                 break;
             default:
                 break;
@@ -556,27 +553,26 @@ public class SkillBank : MonoBehaviour
             case SkillsManager.SkillNames.Multislash:
                 cooldown = 12f;
                 break;
-            //---------------------------------------------------------------------------------------------------------------------------------------------------------
-            case SkillsManager.SkillNames.AspectOfRage:
-                cooldown = 70f;
+            case SkillsManager.SkillNames.Aerolaunch:
+                cooldown = 15f;
                 break;
-            case SkillsManager.SkillNames.Rampage:
-                cooldown = 0f;
+            case SkillsManager.SkillNames.WhirlwindSlash:
+                cooldown = 20f;
                 break;
-            case SkillsManager.SkillNames.CausticEdge:
-                cooldown = 12f;
+            case SkillsManager.SkillNames.Aerobarrage:
+                cooldown = 18f;
                 break;
-            case SkillsManager.SkillNames.ToxicRipple:
-                cooldown = 60f;
+            case SkillsManager.SkillNames.PressureDrop:
+                cooldown = 24f;
                 break;
-            case SkillsManager.SkillNames.KillerInstinct:
-                cooldown = 30f;
+            case SkillsManager.SkillNames.TwinTwisters:
+                cooldown = 28f;
                 break;
-            case SkillsManager.SkillNames.NaturePulse:
-                cooldown = 3f;
+            case SkillsManager.SkillNames.Vortex:
+                cooldown = 45f;
                 break;
-            case SkillsManager.SkillNames.Revitalize:
-                cooldown = 0f;
+            case SkillsManager.SkillNames.GroundZero:
+                cooldown = 45f;
                 break;
             default:
                 break;

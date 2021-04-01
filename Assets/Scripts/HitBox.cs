@@ -43,7 +43,7 @@ public class HitBox : MonoBehaviour
         }
         else if ((projectile && other.gameObject.layer == 10))
         {
-            Debug.Log("we hit an object that is in the collidable or interable layer");
+            //Debug.Log("we hit an object that is in the collidable or interable layer");
             if (GetComponent<ProjectileBehaviour>() && !GetComponent<ProjectileBehaviour>().piercesWalls)
                 GetComponent<ProjectileBehaviour>().DestroyProjectile();
         }

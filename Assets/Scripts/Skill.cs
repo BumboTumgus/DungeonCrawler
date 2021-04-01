@@ -320,6 +320,27 @@ public class Skill : MonoBehaviour
                 case SkillsManager.SkillNames.Multislash:
                     StartCoroutine(Multislash());
                     break;
+                case SkillsManager.SkillNames.Aerolaunch:
+                    StartCoroutine(Aerolaunch());
+                    break;
+                case SkillsManager.SkillNames.WhirlwindSlash:
+                    StartCoroutine(WhirlwindSlash());
+                    break;
+                case SkillsManager.SkillNames.Aerobarrage:
+                    StartCoroutine(Aerobarrage());
+                    break;
+                case SkillsManager.SkillNames.PressureDrop:
+                    StartCoroutine(PressureDrop());
+                    break;
+                case SkillsManager.SkillNames.TwinTwisters:
+                    StartCoroutine(TwinTwisters());
+                    break;
+                case SkillsManager.SkillNames.Vortex:
+                    StartCoroutine(Vortex());
+                    break;
+                case SkillsManager.SkillNames.GroundZero:
+                    StartCoroutine(GroundZero());
+                    break;
                 default:
                     break;
             }
@@ -2052,6 +2073,163 @@ public class Skill : MonoBehaviour
         pc.SnapToFaceCamera();
 
         float targetTimer = 1.483f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell aerolaunch
+    IEnumerator Aerolaunch()
+    {
+        anim.SetTrigger("Aerolaunch");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingAerial;
+        //pc.StartCoroutine(pc.Jump(0.2f, 0.3f, false));
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell WhirlwindSlash
+    IEnumerator WhirlwindSlash()
+    {
+        anim.SetBool("WhirlwindSlash", true);
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 5f;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+        stats.movespeedPercentMultiplier -= 0.5f;
+        myManager.stats.channeling = true;
+
+        while (currentTimer < targetTimer)
+        {
+            //pc.SkillMovement(directionToMove, distancePerSecond);
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        anim.SetBool("WhirlwindSlash", false);
+        stats.movespeedPercentMultiplier += 0.5f;
+        myManager.stats.channeling = false;
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Aerobarrage
+    IEnumerator Aerobarrage()
+    {
+        anim.SetBool("Aerobarrage", true);
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+        myManager.stats.channeling = true;
+
+        float targetTimer = 5f;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+        stats.movespeedPercentMultiplier -= 0.2f;
+
+        while (currentTimer < targetTimer)
+        {
+            //pc.SkillMovement(directionToMove, distancePerSecond);
+            currentTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        anim.SetBool("Aerobarrage", false);
+        stats.movespeedPercentMultiplier += 0.2f;
+        myManager.stats.channeling = false;
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell PressureDrop
+    IEnumerator PressureDrop()
+    {
+        anim.SetTrigger("PressureDrop");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.667f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell TwinTwisters
+    IEnumerator TwinTwisters()
+    {
+        anim.SetTrigger("TwinTwisters");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 0.833f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell Vortex
+    IEnumerator Vortex()
+    {
+        anim.SetTrigger("Vortex");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 1.617f / stats.attackSpeed;
+        float currentTimer = 0;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        pc.CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed to cast the spell GroundZero
+    IEnumerator GroundZero()
+    {
+        anim.SetTrigger("GroundZero");
+        anim.SetFloat("AttackAnimSpeed", stats.attackSpeed);
+        pc.SnapToFaceCamera();
+
+        float targetTimer = 2.167f / stats.attackSpeed;
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
 

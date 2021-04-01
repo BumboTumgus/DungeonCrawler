@@ -16,7 +16,7 @@ public class BuffsManager : MonoBehaviour
     public enum BuffType
     {
         Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, Frozen, ArmorBroken, EmboldeningEmbers, FlameStrike, FlameWalker, BlessingOfFlames, Immolation, Glacier, FrostsKiss, IceArmor, StoneStrike,
-        GiantStrength, StonePrison, SecondWind, WrathOftheWind
+        GiantStrength, StonePrison, SecondWind, WrathOftheWind, Multislash
     };
 
     [SerializeField] private ParticleSystem[] psSystems;
@@ -836,6 +836,25 @@ public class BuffsManager : MonoBehaviour
                     weaponEffectsRight[11].Play();
 
                     break;
+
+                case BuffType.Multislash:
+                    Buff multislash = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    multislash.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[25];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[4];
+
+                    activeBuffs.Add(multislash);
+
+                    multislash.myType = buff;
+                    multislash.infiniteDuration = false;
+                    multislash.duration = 10f;
+                    multislash.connectedPlayer = stats;
+
+                    multislash.effectParticleSystem.Add(psSystems[29]);
+
+                    psSystems[29].Play();
+
+                    break;
                 default:
                     break;
             }
@@ -910,8 +929,10 @@ public class BuffsManager : MonoBehaviour
         }
         */
 
-        foreach (Buff buff in activeBuffs)
+        // Do we have a buff that procs as a onhit.
+        for (int index = 0; index < activeBuffs.Count; index++)
         {
+            Buff buff = activeBuffs[index];
             switch (buff.myType)
             {
                 case BuffType.FlameStrike:
@@ -943,26 +964,31 @@ public class BuffsManager : MonoBehaviour
                     target.GetComponent<PlayerStats>().TakeDamage(stats.baseDamage, false, HitBox.DamageType.Earth, stats.comboManager.currentcombo);
                     StartCoroutine(RemoveBuffNextFrame(buff));
                     break;
-                    /*
-                case BuffType.KillerInstinct:
-                    //Debug.Log("killer instinct hit has been procced");
-                    hitbox.bypassCrit = true;
-
-                    switch (hitbox.damageType)
-                    {
-                        case HitBox.DamageType.Physical:
-                            hitbox.damageType = HitBox.DamageType.PhysicalCrit;
-                            break;
-                        case HitBox.DamageType.Magical:
-                            hitbox.damageType = HitBox.DamageType.MagicalCrit;
-                            break;
-                        case HitBox.DamageType.Healing:
-                            hitbox.damageType = HitBox.DamageType.HealingCrit;
-                            break;
-                    }
-                    */
-                    buff.currentTimer = buff.duration;
+                case BuffType.Multislash:
+                    StartCoroutine(MultislashDamage(hitbox.damage / 2, hitbox.crit, target.GetComponentInChildren<PlayerStats>()));
+                    Instantiate(GetComponent<SkillsManager>().skillProjectiles[42], target.transform.position + Vector3.up, Quaternion.identity); 
+                    StartCoroutine(RemoveBuffNextFrame(buff));
                     break;
+                /*
+            case BuffType.KillerInstinct:
+                //Debug.Log("killer instinct hit has been procced");
+                hitbox.bypassCrit = true;
+
+                switch (hitbox.damageType)
+                {
+                    case HitBox.DamageType.Physical:
+                        hitbox.damageType = HitBox.DamageType.PhysicalCrit;
+                        break;
+                    case HitBox.DamageType.Magical:
+                        hitbox.damageType = HitBox.DamageType.MagicalCrit;
+                        break;
+                    case HitBox.DamageType.Healing:
+                        hitbox.damageType = HitBox.DamageType.HealingCrit;
+                        break;
+                }
+                buff.currentTimer = buff.duration;
+                break;
+                */
                 default:
                     break;
             }
@@ -1149,6 +1175,16 @@ public class BuffsManager : MonoBehaviour
         {
             //Debug.Log("Destroying the buff: " + activeBuffs[index].myType);
             Destroy(activeBuffs[index]);
+        }
+    }
+
+    IEnumerator MultislashDamage(float damage, bool crit, PlayerStats target)
+    {
+        for (int index = 0; index < 3; index++)
+        {
+            stats.comboManager.AddComboCounter(1);
+            target.TakeDamage(damage, crit, HitBox.DamageType.Wind, stats.comboManager.currentcombo);
+            yield return new WaitForSeconds(0.33f);
         }
     }
 }
