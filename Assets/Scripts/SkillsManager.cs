@@ -331,6 +331,12 @@ public class SkillsManager : MonoBehaviour
                 aerolaunch.GetComponent<HitBox>().myStats = stats;
                 break;
 
+            case SkillNames.Vortex:
+                GameObject vortex = Instantiate(skillProjectiles[47], transform.position + Vector3.up, transform.rotation);
+                vortex.GetComponent<HitBox>().damage = stats.baseDamage * 0.66f;
+                vortex.GetComponent<HitBox>().myStats = stats;
+                break;
+
             default:
                 break;
         }
@@ -484,6 +490,12 @@ public class SkillsManager : MonoBehaviour
                         aerolaunch.GetComponent<HitBox>().myStats = stats;
                         break;
 
+                    case SkillNames.Vortex:
+                        GameObject vortex = Instantiate(skillProjectiles[47], downwardsTargetPosition + Vector3.up, transform.rotation);
+                        vortex.GetComponent<HitBox>().damage = stats.baseDamage * 0.33f;
+                        vortex.GetComponent<HitBox>().myStats = stats;
+                        break;
+
                     default:
                         break;
                 }
@@ -617,6 +629,22 @@ public class SkillsManager : MonoBehaviour
             case SkillNames.StonePrison:
                 GameObject stonePrison = Instantiate(skillProjectiles[36], targetPosition, transform.rotation);
                 break;
+
+            case SkillNames.TwinTwisters:
+                GameObject twinTwisters = Instantiate(skillProjectiles[46], targetPosition, transform.rotation);
+
+                twinTwisters.GetComponent<HitBox>().damage = stats.baseDamage * 0.4f;
+                twinTwisters.GetComponent<HitBox>().myStats = stats;
+
+                GameObject twinTwistersTwo = Instantiate(skillProjectiles[46], targetPosition, transform.rotation);
+
+                Vector3 twinTwisterRotation = twinTwistersTwo.transform.rotation.eulerAngles;
+                twinTwisterRotation.y -= Random.Range(0, 360);
+                twinTwistersTwo.transform.rotation = Quaternion.Euler(twinTwisterRotation);
+
+                twinTwistersTwo.GetComponent<HitBox>().damage = stats.baseDamage * 0.4f;
+                twinTwistersTwo.GetComponent<HitBox>().myStats = stats;
+                break;
             default:
                 break;
         }
@@ -749,6 +777,21 @@ public class SkillsManager : MonoBehaviour
                         GameObject stonePrison = Instantiate(skillProjectiles[36], spellMirrorTargetPosition, transform.rotation);
                         break;
 
+                    case SkillNames.TwinTwisters:
+                        GameObject twinTwisters = Instantiate(skillProjectiles[46], spellMirrorTargetPosition, transform.rotation);
+
+                        twinTwisters.GetComponent<HitBox>().damage = stats.baseDamage * 0.2f;
+                        twinTwisters.GetComponent<HitBox>().myStats = stats;
+
+                        GameObject twinTwistersTwo = Instantiate(skillProjectiles[46], spellMirrorTargetPosition, transform.rotation);
+
+                        Vector3 twinTwisterRotation = twinTwistersTwo.transform.rotation.eulerAngles;
+                        twinTwisterRotation.y -= Random.Range(0, 360);
+                        twinTwistersTwo.transform.rotation = Quaternion.Euler(twinTwisterRotation);
+
+                        twinTwistersTwo.GetComponent<HitBox>().damage = stats.baseDamage * 0.2f;
+                        twinTwistersTwo.GetComponent<HitBox>().myStats = stats;
+                        break;
                     default:
                         break;
                 }
@@ -946,6 +989,24 @@ public class SkillsManager : MonoBehaviour
                 }
                 break;
 
+            case SkillNames.Aerobarrage:
+                target = Camera.main.transform.position + Camera.main.transform.forward * 100;
+
+                for (int index = 0; index < 3; index++)
+                {
+                    GameObject aerobarrage = Instantiate(skillProjectiles[45], transform.position + Vector3.up + transform.forward, transform.rotation);
+                    aerobarrage.transform.LookAt(target);
+
+                    Vector3 aerobarrageRotation = aerobarrage.transform.rotation.eulerAngles;
+                    aerobarrageRotation.x -= 3;
+                    aerobarrageRotation.y += Random.Range(20,33) * (index - 1) + Random.Range(-5, 5);
+                    aerobarrage.transform.rotation = Quaternion.Euler(aerobarrageRotation);
+
+                    aerobarrage.GetComponent<HitBox>().damage = stats.baseDamage * 1f;
+                    aerobarrage.GetComponent<HitBox>().myStats = stats;
+                }
+                break;
+
             default:
                 break;
         }
@@ -1063,6 +1124,29 @@ public class SkillsManager : MonoBehaviour
 
                         orbOfShredding.GetComponent<HitBox>().damage = stats.baseDamage * 0.4f;
                         orbOfShredding.GetComponent<HitBox>().myStats = stats;
+                        break;
+
+                    case SkillNames.WhirlwindSlash:
+                            GameObject whirlwindSlash = Instantiate(skillProjectiles[44], spellMirror.transform.position, spellMirror.transform.rotation);
+
+                            whirlwindSlash.GetComponent<HitBox>().damage = stats.baseDamage * 0.6f;
+                            whirlwindSlash.GetComponent<HitBox>().myStats = stats;
+                        break;
+
+
+                    case SkillNames.Aerobarrage:
+
+                        for (int index = 0; index < 3; index++)
+                        {
+                            GameObject aerobarrage = Instantiate(skillProjectiles[45], spellMirror.transform.position, spellMirror.transform.rotation);
+
+                            Vector3 aerobarrageRotation = aerobarrage.transform.rotation.eulerAngles;
+                            aerobarrageRotation.y += Random.Range(20, 33) * (index - 1) + Random.Range(-5, 5);
+                            aerobarrage.transform.rotation = Quaternion.Euler(aerobarrageRotation);
+
+                            aerobarrage.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
+                            aerobarrage.GetComponent<HitBox>().myStats = stats;
+                        }
                         break;
                     default:
                         break;

@@ -167,7 +167,7 @@ public class Buff : MonoBehaviour
         if (amount != 0)
         {
             // If we changed the defensive stats, add more stacks
-            if (healthSC != 0 || healthRegenSC != 0 || armorSC != 0 )
+            if (healthSC != 0 || healthRegenSC != 0 || armorSC != 0 || damageReductionSC != 0)
                 ChangeDefensiveStats(false, healthSC * amount, healthRegenSC * amount, armorSC * amount, damageReductionSC * amount);
 
             // If we changed offensive stats, add more stacks
@@ -215,7 +215,7 @@ public class Buff : MonoBehaviour
         // Adding the stat change.
 
         // If we changed the defensive stats, remove more stacks
-        if (healthSC != 0 || healthRegenSC != 0 || armorSC != 0 )
+        if (healthSC != 0 || healthRegenSC != 0 || armorSC != 0 || damageReductionSC != 0)
             ChangeDefensiveStats(false, healthSC * amount,  healthRegenSC * amount,  armorSC * amount, damageReductionSC * amount);
 
         // If we changed offensive stats, remove more stacks
@@ -371,7 +371,7 @@ public class Buff : MonoBehaviour
         {
 
             // If we changed the defensive stats, change them back.
-            if (healthSC != 0 || healthRegenSC != 0 || armorSC != 0 )
+            if (healthSC != 0 || healthRegenSC != 0 || armorSC != 0 || damageReductionSC != 0)
                 ChangeDefensiveStats(true, healthSC * -1, healthRegenSC * -1, armorSC * -1, damageReductionSC * -1);
 
             // If we changed offensive stats, change em back.
@@ -393,7 +393,7 @@ public class Buff : MonoBehaviour
         else
         {
             // If we changed the defensive stats, change them back.
-            if (healthSC != 0 || healthRegenSC != 0 || armorSC != 0)
+            if (healthSC != 0 || healthRegenSC != 0 || armorSC != 0 || damageReductionSC != 0)
                 ChangeDefensiveStats(true, healthSC * -1 * currentStacks, healthRegenSC * -1 * currentStacks, armorSC * -1 * currentStacks, damageReductionSC * -1 * currentStacks);
 
             // If we changed offensive stats, change em back.

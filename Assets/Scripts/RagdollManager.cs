@@ -179,6 +179,7 @@ public class RagdollManager : MonoBehaviour
     // USed to enable or disable the ragdoll behaviour from the knockback effect.
     public void EnableRagDollState(Vector3 knockbackDirection)
     {
+        StopAllCoroutines();
         ragdollEnabled = true;
         animator.enabled = false;
         entityModel.transform.parent = null;
@@ -186,7 +187,7 @@ public class RagdollManager : MonoBehaviour
         if (playerEntity)
         {
             cameraFollow.playerTarget = playerHips;
-            GetComponent<CharacterController>().enabled = false;
+            //GetComponent<CharacterController>().enabled = false;
         }
 
         //Debug.Log("the force we are adding to everything is: " + knockbackDirection * KNOCKBACK_MULTIPLIER);
@@ -205,7 +206,7 @@ public class RagdollManager : MonoBehaviour
         if(!playerEntity)
         {
             GetComponent<Rigidbody>().isKinematic = true;
-            GetComponent<CapsuleCollider>().enabled = false;
+            //GetComponent<CapsuleCollider>().enabled = false;
         }
     }
 
@@ -217,7 +218,7 @@ public class RagdollManager : MonoBehaviour
         if (playerEntity)
         {
             cameraFollow.playerTarget = transform;
-            GetComponent<CharacterController>().enabled = true;
+            //GetComponent<CharacterController>().enabled = true;
         }
 
         foreach (Collider col in colliders)
@@ -230,7 +231,7 @@ public class RagdollManager : MonoBehaviour
         if(!playerEntity)
         {
             GetComponent<Rigidbody>().isKinematic = false;
-            GetComponent<CapsuleCollider>().enabled = true;
+            //GetComponent<CapsuleCollider>().enabled = true;
         }
 
     }
@@ -242,7 +243,7 @@ public class RagdollManager : MonoBehaviour
         if (playerEntity)
         {
             cameraFollow.playerTarget = transform;
-            GetComponent<CharacterController>().enabled = true;
+            //GetComponent<CharacterController>().enabled = true;
             // Set the playercharacter to face the direction of the hips, and we set our height to the grounds height.
             GetComponent<PlayerMovementController>().SnapToFloor();
         }
@@ -309,7 +310,7 @@ public class RagdollManager : MonoBehaviour
         if (!playerEntity)
         {
             GetComponent<Rigidbody>().isKinematic = false;
-            GetComponent<CapsuleCollider>().enabled = true;
+            //GetComponent<CapsuleCollider>().enabled = true;
         }
     }
 

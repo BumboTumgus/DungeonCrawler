@@ -168,6 +168,8 @@ public class PlayerStats : MonoBehaviour
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, baseDamage);
         if (Input.GetKeyDown(KeyCode.KeypadEnter) && CompareTag("Player"))
             buffManager.NewBuff(BuffsManager.BuffType.ArmorBroken, baseDamage);
+        if (Input.GetKeyDown(KeyCode.KeypadPlus) && CompareTag("Player"))
+            GetComponent<PlayerMovementController>().KnockbackLaunch((transform.forward + Vector3.up) * 5);
 
         // Health and mana regen logic.
         if (!dead)

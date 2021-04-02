@@ -37,6 +37,7 @@ public class PlayerMovementController : MonoBehaviour
     private bool rollReady = true;                                    // a check to see if we can roll, flicks off when we roll and on when we wait long enoguh
     private IEnumerator rollCoroutine;
     private IEnumerator attackCoroutine;
+    private IEnumerator knockbackCoroutine;
 
     private bool grounded = true;                                     // is the character on walkable ground. Used for jumping, rlling, and other movement
     private float gravityVectorStrength = 0f;                         // the current downward force of gravity, so the player accelerates towards the ground.
@@ -624,7 +625,14 @@ public class PlayerMovementController : MonoBehaviour
             ragdollManager.StopAllCoroutines();
             anim.ResetTrigger("GettingUpFacingDown");
             anim.ResetTrigger("GettingUpFacingUp");
-            StartCoroutine(Knockback(directionOfKnockback));
+
+            anim.Play("Idle", 6);
+
+            if (knockbackCoroutine != null)
+                StopCoroutine(knockbackCoroutine);
+            knockbackCoroutine = Knockback(directionOfKnockback);
+            StartCoroutine(knockbackCoroutine);
+
             GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.Knockback, 0);
         }
     }

@@ -16,7 +16,7 @@ public class BuffsManager : MonoBehaviour
     public enum BuffType
     {
         Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, Frozen, ArmorBroken, EmboldeningEmbers, FlameStrike, FlameWalker, BlessingOfFlames, Immolation, Glacier, FrostsKiss, IceArmor, StoneStrike,
-        GiantStrength, StonePrison, SecondWind, WrathOftheWind, Multislash
+        GiantStrength, StonePrison, SecondWind, WrathOftheWind, Multislash, PressureDrop
     };
 
     [SerializeField] private ParticleSystem[] psSystems;
@@ -855,6 +855,24 @@ public class BuffsManager : MonoBehaviour
                     psSystems[29].Play();
 
                     break;
+
+                case BuffType.PressureDrop:
+                    Buff pressureDrop = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    pressureDrop.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[26];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[4];
+
+                    activeBuffs.Add(pressureDrop);
+
+                    pressureDrop.myType = buff;
+                    pressureDrop.infiniteDuration = false;
+                    pressureDrop.duration = 10f;
+                    pressureDrop.connectedPlayer = stats;
+                    pressureDrop.ChangeDefensiveStats(true, 0, 0, 0, 1.5f);
+                    pressureDrop.ChangeOffensiveStats(true, 0, stats.movespeedPercentMultiplier * -0.5f, 0);
+
+                    break;
+
                 default:
                     break;
             }
@@ -1049,6 +1067,9 @@ public class BuffsManager : MonoBehaviour
                     {
                         target.GetComponent<SkillsManager>().SpawnDisjointedSkillEffect(SkillsManager.SkillNames.IceArmor);
                     }
+                    break;
+                case BuffType.PressureDrop:
+                    targetBM.StartCoroutine(RemoveBuffNextFrame(buff));
                     break;
                 default:
                     break;

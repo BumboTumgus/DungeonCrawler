@@ -26,6 +26,7 @@ public class HitBoxBuff : MonoBehaviour
     public bool knockback = false;
     public float knockbackStrength = 0;
     public bool knockbackFromCenter = false;
+    public bool knockForwardFromLocalTransform = false;
     public Vector3 knockbackDirection = Vector3.zero;
 
     public float baseDamage = 0;
@@ -64,6 +65,9 @@ public class HitBoxBuff : MonoBehaviour
                 {
                     knockbackDirection = (transform.root.position - transform.position).normalized;
                 }
+
+                if(knockForwardFromLocalTransform)
+                    knockbackDirection = transform.forward;
 
                 if (CompareTag("Player"))
                     transform.root.GetComponent<PlayerMovementController>().KnockbackLaunch(knockbackDirection * knockbackStrength);
@@ -113,6 +117,11 @@ public class HitBoxBuff : MonoBehaviour
                 {
                     knockbackDirection = (other.transform.position - transform.position).normalized;
                 }
+
+
+                if (knockForwardFromLocalTransform)
+                    knockbackDirection = transform.forward;
+
                 //Debug.Log("The knckback direction is: " + knockbackDirection);
                 other.GetComponent<EnemyCrowdControlManager>().KnockbackLaunch(knockbackDirection * knockbackStrength);
             }
@@ -153,7 +162,12 @@ public class HitBoxBuff : MonoBehaviour
                 if (knockbackFromCenter)
                 {
                     knockbackDirection = (other.transform.position - transform.position).normalized;
+                    Debug.Log(knockbackDirection);
                 }
+
+
+                if (knockForwardFromLocalTransform)
+                    knockbackDirection = transform.forward;
 
                 other.GetComponent<PlayerMovementController>().KnockbackLaunch(knockbackDirection * knockbackStrength);
             }

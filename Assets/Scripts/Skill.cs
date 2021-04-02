@@ -2120,6 +2120,8 @@ public class Skill : MonoBehaviour
         stats.movespeedPercentMultiplier -= 0.5f;
         myManager.stats.channeling = true;
 
+        myManager.hitBoxes.hitboxes[27].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 5f;
+
         while (currentTimer < targetTimer)
         {
             //pc.SkillMovement(directionToMove, distancePerSecond);
