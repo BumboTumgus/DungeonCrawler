@@ -9856,6 +9856,7 @@ Transform:
   - {fileID: 252812339409550132}
   - {fileID: 8786602574879135852}
   - {fileID: 252812339921678881}
+  - {fileID: 7516871476484347559}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9899,6 +9900,7 @@ MonoBehaviour:
   projectileAOE: 1
   disjointedHitbox: 1
   bypassCrit: 0
+  screenShakeAmount: 0
 --- !u!136 &981777022171416847
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9944,6 +9946,7 @@ MonoBehaviour:
   knockback: 1
   knockbackStrength: 15
   knockbackFromCenter: 0
+  knockForwardFromLocalTransform: 0
   knockbackDirection: {x: 0, y: 0, z: 0}
   baseDamage: 0
 --- !u!1 &7281500433890803323
@@ -14776,6 +14779,65 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!1 &7973638324978367948
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7516871476484347559}
+  - component: {fileID: 3527093507953636756}
+  - component: {fileID: 7800502896351526015}
+  m_Layer: 17
+  m_Name: BoulderFist_CamShakeHitBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7516871476484347559
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7973638324978367948}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4565182308883961903}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3527093507953636756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7973638324978367948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54e2d87e63ef6ac4e9b5e31065322749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeAmount: 0.3
+  flickerDelay: 0.05
+--- !u!135 &7800502896351526015
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7973638324978367948}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 6
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8786602574879135842
 GameObject:
   m_ObjectHideFlags: 0
@@ -29473,15 +29535,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c2aeee1b76a85841aaf05859a95934f, type: 3}
---- !u!4 &252812339921678881 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 451270, guid: 4c2aeee1b76a85841aaf05859a95934f,
-    type: 3}
-  m_PrefabInstance: {fileID: 252812339921490151}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &252812339921413287 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 193600, guid: 4c2aeee1b76a85841aaf05859a95934f,
+    type: 3}
+  m_PrefabInstance: {fileID: 252812339921490151}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &252812339921678881 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 451270, guid: 4c2aeee1b76a85841aaf05859a95934f,
     type: 3}
   m_PrefabInstance: {fileID: 252812339921490151}
   m_PrefabAsset: {fileID: 0}

@@ -24,6 +24,8 @@ public class HitBox : MonoBehaviour
 
     public bool bypassCrit = false;
 
+    public float screenShakeAmount = 0;
+
     private void Start()
     {
         // Grab our player stats from our parent.
@@ -128,6 +130,7 @@ public class HitBox : MonoBehaviour
             // Player Logic
             else if (other.CompareTag("Player") && hitPlayers)
             {
+
                 //Debug.Log("we have hit a player");
                 enemyStats = other.GetComponent<PlayerStats>();
                 
