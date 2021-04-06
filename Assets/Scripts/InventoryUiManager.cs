@@ -18,6 +18,7 @@ public class InventoryUiManager : MonoBehaviour
     public GameObject legsSlot;
 
     public Color[] itemOutlineColors;
+    public Color[] skillIconColors;
 
     private void Start()
     {
@@ -48,6 +49,40 @@ public class InventoryUiManager : MonoBehaviour
         Image targetImage = slotToUpdate.transform.Find("ItemPanel").Find("ItemImage").GetComponent<Image>();
         targetImage.color = new Color(255, 255, 255, 255);
         targetImage.sprite = item.artwork;
+
+        if(item.itemType == Item.ItemType.Skill)
+        {
+            switch (item.damageType)
+            {
+                case HitBox.DamageType.Physical:
+                    targetImage.color = skillIconColors[0];
+                    break;
+                case HitBox.DamageType.Fire:
+                    targetImage.color = skillIconColors[1];
+                    break;
+                case HitBox.DamageType.Ice:
+                    targetImage.color = skillIconColors[2];
+                    break;
+                case HitBox.DamageType.Lightning:
+                    targetImage.color = skillIconColors[3];
+                    break;
+                case HitBox.DamageType.Nature:
+                    targetImage.color = skillIconColors[4];
+                    break;
+                case HitBox.DamageType.Earth:
+                    targetImage.color = skillIconColors[6];
+                    break;
+                case HitBox.DamageType.Wind:
+                    targetImage.color = skillIconColors[5];
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            targetImage.color = new Color(255, 255, 255, 255);
+        }
 
         // If we have more then one in this stack of item enable the counter.
         if (item.currentStack > 1)

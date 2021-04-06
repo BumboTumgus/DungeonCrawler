@@ -79,6 +79,7 @@ public class Skill : MonoBehaviour
             {
                 currentCooldown = targetCooldown;
                 skillReady = true;
+                connectedBar.Initialize(targetCooldown, false, true, 0);
                 connectedBar.gameObject.SetActive(false);
             }
         }

@@ -484,7 +484,15 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                     if (slotType == SlotType.Skill && otherSlotType == SlotType.Skill)
                     {
                         Debug.Log("Skill to Skill");
+
+                        if(dropZoneItem.attachedItem != null)
+                            transform.parent.GetComponent<InventoryUiManager>().playerSkills.SwapSkills(movedItem.myParent.GetComponent<ItemDropZone>().slotIndex, movedItem.attachedItem.GetComponent<Item>().skillName, dropZoneItem.transform.parent.GetComponent<ItemDropZone>().slotIndex, dropZoneItem.attachedItem.GetComponent<Item>().skillName);
+                        else
+                            transform.parent.GetComponent<InventoryUiManager>().playerSkills.SwapSkills(movedItem.myParent.GetComponent<ItemDropZone>().slotIndex, movedItem.attachedItem.GetComponent<Item>().skillName, slotIndex);
+
+                        /*
                         transform.parent.GetComponent<InventoryUiManager>().playerSkills.AddSkill(slotIndex, movedItem.attachedItem.GetComponent<Item>().skillName);
+
                         // There will always be an item that is being moved, but we need to check if the other panel has an item attached.
                         if (dropZoneItem.attachedItem != null)
                         {
@@ -494,13 +502,14 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                         else
                             // There is no item, so we need to remove this skill from the first index.
                             transform.parent.GetComponent<InventoryUiManager>().playerSkills.RemoveSkill(movedItem.myParent.GetComponent<ItemDropZone>().slotIndex);
+                        */
                     }
 
                     // This is the logic if we are moving from a full skill slot the the ivnentory, where we remove the skill.
                     else if (otherSlotType == SlotType.Skill)
                     {
                         Debug.Log("Skill to invenotry");
-                        // If the inventory slot is blank..
+                        // If the inventory slot is blank.
                         if (dropZoneItem.attachedItem == null)
                             transform.parent.GetComponent<InventoryUiManager>().playerSkills.RemoveSkill(movedItem.myParent.GetComponent<ItemDropZone>().slotIndex);
                         else

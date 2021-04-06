@@ -10,6 +10,7 @@ public class SkillsManager : MonoBehaviour
     public List<GameObject> skillProjectiles = new List<GameObject>();
     public List<SpellMirrorManager> spellMirrors = new List<SpellMirrorManager>();
     public List<Color> damageColors = new List<Color>();
+    public float[] storedRemainingCooldowns;
     public GameObject skillIconPrefab;
     public Transform iconParent;
     public int maxSkillNumber = 3;
@@ -38,6 +39,8 @@ public class SkillsManager : MonoBehaviour
 
     private void Start()
     {
+        storedRemainingCooldowns = new float[3];
+
         skillBank = FindObjectOfType<SkillBank>();
         inputs = GetComponent<PlayerInputs>();
         stats = GetComponent<PlayerStats>();
@@ -47,6 +50,59 @@ public class SkillsManager : MonoBehaviour
         characterController = GetComponent<CharacterController>();
 
         StartCoroutine(SpellMirrorTargetUpdater());
+    }
+
+    private void Update()
+    {
+        // Lowers our stored cooldowns.
+        for (int index = 0; index < storedRemainingCooldowns.Length; index++)
+        {
+            if (storedRemainingCooldowns[index] > 0)
+            {
+                storedRemainingCooldowns[index] -= Time.deltaTime;
+                if (storedRemainingCooldowns[index] < 0)
+                    storedRemainingCooldowns[index] = 0;
+            }
+        }
+    }
+
+    //USed to swap two skills in two index places with one another
+    public void SwapSkills(int cursorSkillIndex, SkillNames cursorSkillName, int otherSlotSkillIndex, SkillNames otherSlotSkillName)
+    {
+        Debug.Log(string.Format("I am swapping skill {0} at index {1} with skill {2} at index {3}.", cursorSkillName, cursorSkillIndex, otherSlotSkillName, otherSlotSkillIndex));
+
+        Skill cursorSkill = GetSkillWithIndexValue(cursorSkillIndex);
+        Skill otherSlotSkill = GetSkillWithIndexValue(otherSlotSkillIndex);
+
+        // Store each of the skills current cooldowns into the OPPOSITE index so they can be pulled from when we add skills into both.
+        float cursorSkillCDOverride = otherSlotSkill.targetCooldown - otherSlotSkill.currentCooldown;
+        float otherSlotSkillCDOverride = cursorSkill.targetCooldown - cursorSkill.currentCooldown;
+
+        RemoveSkill(otherSlotSkillIndex);
+        RemoveSkill(cursorSkillIndex);
+
+        storedRemainingCooldowns[cursorSkillIndex] = cursorSkillCDOverride;
+        storedRemainingCooldowns[otherSlotSkillIndex] = otherSlotSkillCDOverride;
+
+        AddSkill(cursorSkillIndex, otherSlotSkillName); 
+        AddSkill(otherSlotSkillIndex, cursorSkillName);
+
+
+    }
+    // Theis is called if there is no skill in the other slot. We essentially move the skill over to a new slot.
+    public void SwapSkills(int cursorSkillIndex, SkillNames cursorSkillName, int otherSlotSkillIndex)
+    {
+        Debug.Log(string.Format("I am swapping skill {0} at index {1} with no other skill at index {2}.", cursorSkillName, cursorSkillIndex, otherSlotSkillIndex));
+
+        Skill cursorSkill = GetSkillWithIndexValue(cursorSkillIndex);
+
+        storedRemainingCooldowns[otherSlotSkillIndex] = cursorSkill.targetCooldown - cursorSkill.currentCooldown;
+
+        AddSkill(otherSlotSkillIndex, cursorSkillName);
+
+        RemoveSkill(cursorSkillIndex);
+
+        storedRemainingCooldowns[cursorSkillIndex] = 0;
     }
 
     // Used to add a new skill to our player at an index.
@@ -66,16 +122,19 @@ public class SkillsManager : MonoBehaviour
             addedSkill.targetCooldown *= (1 - stats.cooldownReduction);
             //Debug.Log("the target cd post CDR is set: " + addedSkill.targetCooldown);
 
+            addedSkill.currentCooldown = addedSkill.targetCooldown - storedRemainingCooldowns[index];
+            storedRemainingCooldowns[index] = 0;
 
             // Add this skills bar to the container as well.
             addedSkill.connectedBar = addedIcon.GetComponentInChildren<BarManager>();
-            addedSkill.connectedBar.Initialize(addedSkill.targetCooldown, true, false, 0);
+            addedSkill.connectedBar.Initialize(addedSkill.targetCooldown - addedSkill.currentCooldown, true, false, 0);
             addedSkill.skillIndex = index;
             addedSkill.myManager = this;
+
             addedSkill.pc = GetComponent<PlayerMovementController>();
             addedSkill.stats = GetComponent<PlayerStats>();
             addedSkill.anim = GetComponent<Animator>();
-            addedSkill.currentCooldown = addedSkill.targetCooldown;
+
             addedIcon.transform.GetChild(2).GetComponent<Image>().sprite = addedSkill.skillIcon;
             addedIcon.transform.GetChild(2).GetComponent<Image>().color = addedSkill.skillIconColor;
             addedIcon.transform.GetChild(0).GetComponent<Image>().color = addedSkill.rarityBorderColor;
@@ -148,6 +207,7 @@ public class SkillsManager : MonoBehaviour
                         break;
                 }
             */
+            storedRemainingCooldowns[index] = skillToRemove.targetCooldown - skillToRemove.currentCooldown;
 
             mySkillBars.Remove(skillToRemove.connectedBar.transform.parent.gameObject);
             mySkills.Remove(skillToRemove);
@@ -215,6 +275,22 @@ public class SkillsManager : MonoBehaviour
                     mySkillBars[index].transform.localPosition = new Vector3(20 + 40 * (index - centerIndex), 25, 0);
             }
         }
+    }
+
+    private Skill GetSkillWithIndexValue(int index)
+    {
+        Skill skillToReturn = null;
+
+        foreach(Skill skill in mySkills)
+        {
+            if(skill.skillIndex == index)
+            {
+                skillToReturn = skill;
+                break;
+            }
+        }
+
+        return skillToReturn;
     }
 
     // My compare method for my list of skills so i can reorganize it based ion thwe individual skills skill indexs.
