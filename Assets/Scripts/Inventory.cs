@@ -240,24 +240,24 @@ public class Inventory : MonoBehaviour
                 break;
             case ItemDropZone.SlotType.Trinket:
                 trinkets.Add(item);
-                stats.AddItemStats(item, true);
+                stats.AddItemStats(item, true, false);
                 break;
             case ItemDropZone.SlotType.Weapon:
                 weapons.Add(item);
                 CheckMoveset();
-                stats.AddItemStats(item, true);
+                stats.AddItemStats(item, true, false);
                 gearManager.ShowItem(item);
                 break;
             case ItemDropZone.SlotType.Armor:
-                stats.AddItemStats(item, true);
+                stats.AddItemStats(item, true, false);
                 gearManager.ShowItem(item);
                 break;
             case ItemDropZone.SlotType.Helmet:
-                stats.AddItemStats(item, true);
+                stats.AddItemStats(item, true, false);
                 gearManager.ShowItem(item);
                 break;
             case ItemDropZone.SlotType.Leggings:
-                stats.AddItemStats(item, true);
+                stats.AddItemStats(item, true, false);
                 gearManager.ShowItem(item);
                 break;
             default:
@@ -274,24 +274,24 @@ public class Inventory : MonoBehaviour
                 break;
             case ItemDropZone.SlotType.Trinket:
                 trinkets.Remove(item);
-                stats.RemoveItemStats(item, true);
+                stats.RemoveItemStats(item, true, false);
                 break;
             case ItemDropZone.SlotType.Weapon:
                 weapons.Remove(item);
                 CheckMoveset();
-                stats.RemoveItemStats(item, true);
+                stats.RemoveItemStats(item, true, false);
                 gearManager.HideItem(item);
                 break;
             case ItemDropZone.SlotType.Armor:
-                stats.RemoveItemStats(item, true);
+                stats.RemoveItemStats(item, true, false);
                 gearManager.HideItem(item);
                 break;
             case ItemDropZone.SlotType.Helmet:
-                stats.RemoveItemStats(item, true);
+                stats.RemoveItemStats(item, true, false);
                 gearManager.HideItem(item);
                 break;
             case ItemDropZone.SlotType.Leggings:
-                stats.RemoveItemStats(item, true);
+                stats.RemoveItemStats(item, true, false);
                 gearManager.HideItem(item);
                 break;
             default:
@@ -311,6 +311,8 @@ public class Inventory : MonoBehaviour
             item.equippedToRightHand = false;
         else
             item.equippedToRightHand = true;
+
+        stats.myStats.UpdateTooltips(stats);
 
         gearManager.ShowItem(item);
     }

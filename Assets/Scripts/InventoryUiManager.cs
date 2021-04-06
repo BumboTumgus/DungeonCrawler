@@ -76,14 +76,6 @@ public class InventoryUiManager : MonoBehaviour
             default:
                 break;
         }
-
-        // experiemtnal making thenumbers appear.
-        if (item.inventoryIndex < 5)
-        {
-            //Debug.Log(" I am making the hotkey number appear");
-            slotToUpdate.transform.Find("HotbarNumber").SetAsLastSibling();
-            slotToUpdate.transform.Find("HotbarNumber").gameObject.SetActive(true);
-        }
     }
 
     public void UpdateInventorySlot(int index)

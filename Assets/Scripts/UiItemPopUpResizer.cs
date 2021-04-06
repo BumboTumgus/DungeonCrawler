@@ -93,8 +93,6 @@ public class UiItemPopUpResizer : MonoBehaviour
             {
                 if (trait.traitType == ItemTrait.TraitType.Armor)
                     armorValue = trait.traitBonus;
-                if (trait.traitType == ItemTrait.TraitType.Resistance)
-                    resistanceValue = trait.traitBonus;
             }
 
             armorText.text = string.Format("{0}", (int) armorValue);
@@ -220,101 +218,99 @@ public class UiItemPopUpResizer : MonoBehaviour
 
             switch (item.itemTraits[index].traitType)
             {
-                case ItemTrait.TraitType.Vit:
-                    traitText.GetComponent<Text>().text = string.Format("+{0} Vit", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[0];
-                    break;
-                case ItemTrait.TraitType.Str:
-                    traitText.GetComponent<Text>().text = string.Format("+{0} Str", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[1];
-                    break;
-                case ItemTrait.TraitType.Dex:
-                    traitText.GetComponent<Text>().text = string.Format("+{0} Dex", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[2];
-                    break;
-                case ItemTrait.TraitType.Spd:
-                    traitText.GetComponent<Text>().text = string.Format("+{0} Spd", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[3];
-                    break;
-                case ItemTrait.TraitType.Int:
-                    traitText.GetComponent<Text>().text = string.Format("+{0} Int", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[4];
-                    break;
-                case ItemTrait.TraitType.Wis:
-                    traitText.GetComponent<Text>().text = string.Format("+{0} Wis", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[5];
-                    break;
-                case ItemTrait.TraitType.Health:
-                    traitText.GetComponent<Text>().text = string.Format("+{0} Health", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[17];
-                    break;
-                case ItemTrait.TraitType.Mana:
-                    traitText.GetComponent<Text>().text = string.Format("+{0} Mana", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[18];
-                    break;
                 case ItemTrait.TraitType.Armor:
-                    traitText.GetComponent<Text>().text = string.Format("+{0} Armor", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[15];
-                    if (item.itemType == Item.ItemType.Helmet || item.itemType == Item.ItemType.Armor || item.itemType == Item.ItemType.Legs || item.itemType == Item.ItemType.Trinket)
-                        Destroy(traitText);
-                    break;
-                case ItemTrait.TraitType.Resistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0} Resistance", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[16];
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0} Armor", item.itemTraits[index].traitBonus);
+                    traitText.GetComponent<Text>().color = traitTextColors[0];
                     if (item.itemType == Item.ItemType.Helmet || item.itemType == Item.ItemType.Armor || item.itemType == Item.ItemType.Legs || item.itemType == Item.ItemType.Trinket)
                         Destroy(traitText);
                     break;
                 case ItemTrait.TraitType.HealthRegen:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0} Health Regen Per 5 Seconds", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[17];
-                    break;
-                case ItemTrait.TraitType.ManaRegen:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0} Mana Regen Per 5 Seconds", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[18];
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0} Health regen per second", item.itemTraits[index].traitBonus);
+                    traitText.GetComponent<Text>().color = traitTextColors[3];
                     break;
                 case ItemTrait.TraitType.CooldownReduction:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0}% Cooldown Reduction", item.itemTraits[index].traitBonus * 100);
-                    traitText.GetComponent<Text>().color = traitTextColors[20];
-                    break;
-                case ItemTrait.TraitType.SpellSlots:
-                    traitText.GetComponent<Text>().text = string.Format("+{0} Spell Slots", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[4];
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0}% Cooldown reduction", item.itemTraits[index].traitBonus * 100);
+                    traitText.GetComponent<Text>().color = traitTextColors[16];
                     break;
                 case ItemTrait.TraitType.AflameResistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0}% Fire Resistance", item.itemTraits[index].traitBonus * 100);
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0}% Fire resist", item.itemTraits[index].traitBonus * 100);
+                    traitText.GetComponent<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.FrostbiteResistance:
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0}% Frostbite resist", item.itemTraits[index].traitBonus * 100);
+                    traitText.GetComponent<Text>().color = traitTextColors[5];
+                    break;
+                case ItemTrait.TraitType.OverchargeResistance:
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0}% Lightning resist", item.itemTraits[index].traitBonus * 100);
                     traitText.GetComponent<Text>().color = traitTextColors[6];
                     break;
-                case ItemTrait.TraitType.AsleepResistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0}% Sleep Resistance", item.itemTraits[index].traitBonus * 100);
+                case ItemTrait.TraitType.OvergrowthResistance:
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0}% Nature resist", item.itemTraits[index].traitBonus * 100);
                     traitText.GetComponent<Text>().color = traitTextColors[7];
                     break;
-                case ItemTrait.TraitType.StunResistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0}% Stun Resistance", item.itemTraits[index].traitBonus * 100);
+                case ItemTrait.TraitType.WindshearResistance:
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0}% Wind resist", item.itemTraits[index].traitBonus * 100);
                     traitText.GetComponent<Text>().color = traitTextColors[8];
                     break;
-                case ItemTrait.TraitType.CurseResistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0}% Curse Resistance", item.itemTraits[index].traitBonus * 100);
+                case ItemTrait.TraitType.SunderResistance:
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0}% Earth resist", item.itemTraits[index].traitBonus * 100);
                     traitText.GetComponent<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.BleedResistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0}% Bleed Resistance", item.itemTraits[index].traitBonus * 100);
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0}% Bleed resist", item.itemTraits[index].traitBonus * 100);
                     traitText.GetComponent<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.PoisonResistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0}% Poison Resistance", item.itemTraits[index].traitBonus * 100);
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0}% Poison resist", item.itemTraits[index].traitBonus * 100);
                     traitText.GetComponent<Text>().color = traitTextColors[11];
                     break;
-                case ItemTrait.TraitType.FrostbiteResistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0}% Frostbite Resistance", item.itemTraits[index].traitBonus * 100);
+                case ItemTrait.TraitType.AsleepResistance:
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0}% Sleep resist", item.itemTraits[index].traitBonus * 100);
                     traitText.GetComponent<Text>().color = traitTextColors[12];
                     break;
-                case ItemTrait.TraitType.KnockbackResistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0}% Knockback Resistance", item.itemTraits[index].traitBonus * 100);
+                case ItemTrait.TraitType.StunResistance:
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0}% Stun resist", item.itemTraits[index].traitBonus * 100);
                     traitText.GetComponent<Text>().color = traitTextColors[13];
+                    break;
+                case ItemTrait.TraitType.KnockbackResistance:
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0}% Knockback resist", item.itemTraits[index].traitBonus * 100);
+                    traitText.GetComponent<Text>().color = traitTextColors[14];
                     break;
                 case ItemTrait.TraitType.AttackSpeed:
                     traitText.GetComponent<Text>().text = string.Format("+{0:0.0}% Attack Speed", item.itemTraits[index].traitBonus * 100);
-                    traitText.GetComponent<Text>().color = traitTextColors[19];
+                    traitText.GetComponent<Text>().color = traitTextColors[15];
+                    break;
+                case ItemTrait.TraitType.HealthFlat:
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0} Health", item.itemTraits[index].traitBonus);
+                    traitText.GetComponent<Text>().color = traitTextColors[3];
+                    break;
+                case ItemTrait.TraitType.HealthPercent:
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0}% Increased health", item.itemTraits[index].traitBonus);
+                    traitText.GetComponent<Text>().color = traitTextColors[3];
+                    break;
+                case ItemTrait.TraitType.HealingOnHit:
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0} Health on hit", item.itemTraits[index].traitBonus);
+                    traitText.GetComponent<Text>().color = traitTextColors[2];
+                    break;
+                case ItemTrait.TraitType.HealingOnKill:
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0} Health on hit", item.itemTraits[index].traitBonus);
+                    traitText.GetComponent<Text>().color = traitTextColors[2];
+                    break;
+                case ItemTrait.TraitType.MoveSpeed:
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0}% Movespeed", item.itemTraits[index].traitBonus);
+                    traitText.GetComponent<Text>().color = traitTextColors[16];
+                    break;
+                case ItemTrait.TraitType.Jumps:
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0} Jumps", item.itemTraits[index].traitBonus);
+                    traitText.GetComponent<Text>().color = traitTextColors[16];
+                    break;
+                case ItemTrait.TraitType.CritChance:
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0}% Critical strike chance", item.itemTraits[index].traitBonus);
+                    traitText.GetComponent<Text>().color = traitTextColors[2];
+                    break;
+                case ItemTrait.TraitType.CritDamage:
+                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0}% Critical strike damage", item.itemTraits[index].traitBonus);
+                    traitText.GetComponent<Text>().color = traitTextColors[2];
                     break;
                 default:
                     break;

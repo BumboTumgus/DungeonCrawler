@@ -11,6 +11,10 @@ public class StatUpdater : MonoBehaviour
     float attackSpeed;
     float baseDamage;
     float aflameResistance;
+    float overchargeResistance;
+    float overgrowthResistance;
+    float sunderResistance;
+    float windshearResistance;
     float asleepResistance;
     float stunResistance;
     float bleedResistance;
@@ -18,6 +22,7 @@ public class StatUpdater : MonoBehaviour
     float frostbiteResistance;
     float knockbackResistance;
     float cooldownReduction;
+    float damageIncreaseMultiplier;
     List<Item> weaponsToHitWith = new List<Item>();
     public BarManager expBar;
     public BarManager healthBar;
@@ -36,36 +41,68 @@ public class StatUpdater : MonoBehaviour
         SetExpBarsValues(stats);
         SetHealthManaBarValues(stats);
 
-        transform.Find("Health_Value").GetComponent<Text>().text = string.Format("{0:0}",stats.health) + " / " + stats.healthMax;
-        transform.Find("HealthRegen_Value").GetComponent<Text>().text = string.Format("{0:0.0}", stats.healthRegen);
+        //transform.Find("Health_Value").GetComponent<Text>().text = string.Format("{0:0}",stats.health) + " / " + stats.healthMax;
+        //transform.Find("HealthRegen_Value").GetComponent<Text>().text = string.Format("{0:0.0}", stats.healthRegen);
 
         transform.Find("Armor_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.armor);
+        transform.Find("Armor_Value").GetComponent<Text>().fontSize = 26;
 
         switch (stats.weaponsToHitWith.Count)
         {
             case 0:
-                transform.Find("AttackDamage_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.baseDamage);
+                transform.Find("AttackDamageRightHand_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.baseDamage * stats.damageIncreaseMultiplier);
+                transform.Find("AttackDamageLeftHand_Value").GetComponent<Text>().text = string.Format("{0:0}", 0);
                 break;
             case 1:
-                transform.Find("AttackDamage_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.weaponsToHitWith[0].baseDamageScaling * stats.baseDamage);
+                transform.Find("AttackDamageRightHand_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.weaponsToHitWith[0].baseDamageScaling * stats.baseDamage * stats.damageIncreaseMultiplier);
+                transform.Find("AttackDamageLeftHand_Value").GetComponent<Text>().text = string.Format("{0:0}", 0);
                 break;
             case 2:
-                transform.Find("AttackDamage_Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0}", stats.weaponsToHitWith[0].baseDamageScaling * stats.baseDamage, stats.weaponsToHitWith[1].baseDamageScaling * stats.baseDamage);
+                if(stats.weaponsToHitWith[0].equippedToRightHand)
+                {
+                    transform.Find("AttackDamageRightHand_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.weaponsToHitWith[0].baseDamageScaling * stats.baseDamage * stats.damageIncreaseMultiplier);
+                    transform.Find("AttackDamageLeftHand_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.weaponsToHitWith[1].baseDamageScaling * stats.baseDamage * stats.damageIncreaseMultiplier);
+                }
+                else
+                {
+                    transform.Find("AttackDamageRightHand_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.weaponsToHitWith[1].baseDamageScaling * stats.baseDamage * stats.damageIncreaseMultiplier);
+                    transform.Find("AttackDamageLeftHand_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.weaponsToHitWith[0].baseDamageScaling * stats.baseDamage * stats.damageIncreaseMultiplier);
+                }
+
                 break;
             default:
                 break;
         }
+        transform.Find("AttackDamageRightHand_Value").GetComponent<Text>().fontSize = 26;
+        transform.Find("AttackDamageLeftHand_Value").GetComponent<Text>().fontSize = 26;
 
         transform.Find("AttackSpeed_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.attackSpeed * 100 );
         transform.Find("CooldownReduction_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.cooldownReduction * 100);
+        transform.Find("AttackSpeed_Value").GetComponent<Text>().fontSize = 26;
+        transform.Find("CooldownReduction_Value").GetComponent<Text>().fontSize = 26;
 
-        transform.Find("AflameResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.aflameResistance * 100);
         transform.Find("AsleepResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.sleepResistance * 100);
         transform.Find("StunResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.stunResistance * 100);
+        transform.Find("KnockbackResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.knockbackResistance * 100);
         transform.Find("BleedResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.bleedResistance * 100);
         transform.Find("PoisonResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.poisonResistance * 100);
+        transform.Find("AflameResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.aflameResistance * 100);
         transform.Find("FrostbiteResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.frostbiteResistance * 100);
-        transform.Find("KnockbackResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.knockbackResistance * 100);
+        transform.Find("OverchargeResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.overchargeResistance * 100);
+        transform.Find("NatureResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.overgrowthResistance * 100);
+        transform.Find("SunderedResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.sunderResistance * 100);
+        transform.Find("WindshearResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.windshearResistance * 100);
+        transform.Find("AsleepResistance_Value").GetComponent<Text>().fontSize = 24;
+        transform.Find("StunResistance_Value").GetComponent<Text>().fontSize = 24;
+        transform.Find("KnockbackResistance_Value").GetComponent<Text>().fontSize = 24;
+        transform.Find("BleedResistance_Value").GetComponent<Text>().fontSize = 24;
+        transform.Find("PoisonResistance_Value").GetComponent<Text>().fontSize = 24;
+        transform.Find("AflameResistance_Value").GetComponent<Text>().fontSize = 24;
+        transform.Find("FrostbiteResistance_Value").GetComponent<Text>().fontSize = 24;
+        transform.Find("OverchargeResistance_Value").GetComponent<Text>().fontSize = 24;
+        transform.Find("NatureResistance_Value").GetComponent<Text>().fontSize = 24;
+        transform.Find("SunderedResistance_Value").GetComponent<Text>().fontSize = 24;
+        transform.Find("WindshearResistance_Value").GetComponent<Text>().fontSize = 24;
 
         UpdateTooltips(stats);
     }
@@ -77,8 +114,10 @@ public class StatUpdater : MonoBehaviour
         healthBar.SetValue(stats.health, true);
         healthBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0}", stats.health, stats.healthMax);
         healthBar.transform.Find("HealthBarFill").Find("RegenValue").GetComponent<Text>().text = string.Format("+{0:0.0} hp/5", stats.healthRegen);
+        healthBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().fontSize = 30;
+        healthBar.transform.Find("HealthBarFill").Find("RegenValue").GetComponent<Text>().fontSize = 30;
 
-        transform.Find("Health_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.health) + " / " + stats.healthMax;
+        //transform.Find("Health_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.health) + " / " + stats.healthMax;
     }
 
     public void UpdateHealthManaBarValues(PlayerStats stats)
@@ -88,15 +127,19 @@ public class StatUpdater : MonoBehaviour
         if (!mouseWithItemHovered)
         {
             healthBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0}", stats.health, stats.healthMax);
+            healthBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().fontSize = 30;
         }
         else
         {
             if (healthMax - stats.healthMax < 0)
                 healthBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0} <color=#ea4553>{2:0}</color>", stats.health, stats.healthMax, healthMax - stats.healthMax);
+
             else if (healthMax - stats.healthMax > 0)
                 healthBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0} <color=#60d46e>+{2:0}</color>", stats.health, stats.healthMax, healthMax - stats.healthMax);
+            
+            healthBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().fontSize = 26;
         }
-        healthBar.transform.Find("HealthBarFill").Find("RegenValue").GetComponent<Text>().text = string.Format("+{0:0.0} hp/5", stats.healthRegen);
+        healthBar.transform.Find("HealthBarFill").Find("RegenValue").GetComponent<Text>().text = string.Format("+{0:0.0} hp/second", stats.healthRegen);
     }
 
     //USed to set the exp bar's value and its text
@@ -116,34 +159,167 @@ public class StatUpdater : MonoBehaviour
         else if (healthMax - stats.healthMax > 0)
             healthBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0} <color=#60d46e>+{2:0}</color>", stats.health, stats.healthMax, healthMax - stats.healthMax);
 
+        if (healthMax - stats.healthMax != 0)
+            healthBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().fontSize = 26;
+        else
+            healthBar.transform.Find("HealthBarFill").Find("Value").GetComponent<Text>().fontSize = 30;
+
+
         DrawTextPlusStatChange(transform.Find("Armor_Value").GetComponent<Text>(), stats.armor, armor, 0);
 
-        //Debug.Log("the local weapons to hit with count comaprwe to the actual one is: " + weaponsToHitWith.Count + " | " + stats.weaponsToHitWith.Count);
-        switch (weaponsToHitWith.Count)
+        if (armor - stats.armor != 0)
+            transform.Find("Armor_Value").GetComponent<Text>().fontSize = 20;
+        else
+            transform.Find("Armor_Value").GetComponent<Text>().fontSize = 26;
+
+        float newRightHandWeapon = 0;
+        float newLeftHandWeapon = 0;
+        float currentRightHandWeapon = 0;
+        float currentLeftHandWeapon = 0;
+
+        switch (stats.weaponsToHitWith.Count)
         {
             case 0:
-                transform.Find("AttackDamage_Value").GetComponent<Text>().text = string.Format("{0:0}", baseDamage);
+                currentRightHandWeapon = stats.baseDamage * stats.damageIncreaseMultiplier;
+                currentLeftHandWeapon = 0;
                 break;
             case 1:
-                transform.Find("AttackDamage_Value").GetComponent<Text>().text = string.Format("{0:0}", weaponsToHitWith[0].baseDamageScaling * baseDamage);
+                currentRightHandWeapon = stats.weaponsToHitWith[0].baseDamageScaling * stats.baseDamage * stats.damageIncreaseMultiplier;
+                currentLeftHandWeapon = 0;
                 break;
             case 2:
-                transform.Find("AttackDamage_Value").GetComponent<Text>().text = string.Format("{0:0} / {1:0}", weaponsToHitWith[0].baseDamageScaling * baseDamage, weaponsToHitWith[1].baseDamageScaling * baseDamage);
+                if (stats.weaponsToHitWith[0].equippedToRightHand)
+                {
+                    currentRightHandWeapon = stats.weaponsToHitWith[0].baseDamageScaling * stats.baseDamage * stats.damageIncreaseMultiplier;
+                    currentLeftHandWeapon = stats.weaponsToHitWith[1].baseDamageScaling * stats.baseDamage * stats.damageIncreaseMultiplier;
+                }
+                else
+                {
+                    currentRightHandWeapon = stats.weaponsToHitWith[1].baseDamageScaling * stats.baseDamage * stats.damageIncreaseMultiplier;
+                    currentLeftHandWeapon = stats.weaponsToHitWith[0].baseDamageScaling * stats.baseDamage * stats.damageIncreaseMultiplier;
+                }
                 break;
             default:
                 break;
         }
 
+        //Debug.Log("the new weapons are being evaluated: their count is: " + weaponsToHitWith.Count);
+        switch (weaponsToHitWith.Count)
+        {
+            case 0:
+                newRightHandWeapon = stats.baseDamage * damageIncreaseMultiplier;
+                newLeftHandWeapon = 0;
+                break;
+            case 1:
+                newRightHandWeapon = weaponsToHitWith[0].baseDamageScaling * stats.baseDamage * damageIncreaseMultiplier;
+                newLeftHandWeapon = 0;
+                break;
+            case 2:
+                if (weaponsToHitWith[0].equippedToRightHand)
+                {
+                    newRightHandWeapon = weaponsToHitWith[0].baseDamageScaling * stats.baseDamage * damageIncreaseMultiplier;
+                    newLeftHandWeapon = weaponsToHitWith[1].baseDamageScaling * stats.baseDamage * damageIncreaseMultiplier;
+                }
+                else
+                {
+                    newRightHandWeapon = weaponsToHitWith[1].baseDamageScaling * stats.baseDamage * damageIncreaseMultiplier;
+                    newLeftHandWeapon = weaponsToHitWith[0].baseDamageScaling * stats.baseDamage * damageIncreaseMultiplier;
+                }
+                break;
+            default:
+                break;
+        }
+        //Debug.Log("new left to current left is: " + newLeftHandWeapon + " | " + currentLeftHandWeapon);
+       // Debug.Log("new right to current left is: " + newRightHandWeapon + " | " + currentRightHandWeapon);
+        DrawTextPlusStatChange(transform.Find("AttackDamageRightHand_Value").GetComponent<Text>(), currentRightHandWeapon, newRightHandWeapon, 0);
+        DrawTextPlusStatChange(transform.Find("AttackDamageLeftHand_Value").GetComponent<Text>(), currentLeftHandWeapon, newLeftHandWeapon, 0);
+
+        if (currentRightHandWeapon - newRightHandWeapon != 0)
+            transform.Find("AttackDamageRightHand_Value").GetComponent<Text>().fontSize = 20;
+        else
+            transform.Find("AttackDamageRightHand_Value").GetComponent<Text>().fontSize = 26;
+        if (currentLeftHandWeapon - newLeftHandWeapon != 0)
+            transform.Find("AttackDamageLeftHand_Value").GetComponent<Text>().fontSize = 20;
+        else
+            transform.Find("AttackDamageLeftHand_Value").GetComponent<Text>().fontSize = 26;
+
         DrawTextPlusStatChangePercentage(transform.Find("AttackSpeed_Value").GetComponent<Text>(), stats.attackSpeed * 100f, attackSpeed * 100f);
         DrawTextPlusStatChangePercentage(transform.Find("CooldownReduction_Value").GetComponent<Text>(), stats.cooldownReduction * 100f, cooldownReduction * 100f);
+        if (attackSpeed - stats.attackSpeed != 0)
+            transform.Find("AttackSpeed_Value").GetComponent<Text>().fontSize = 14;
+        else
+            transform.Find("AttackSpeed_Value").GetComponent<Text>().fontSize = 26;
+        if (cooldownReduction - stats.cooldownReduction != 0)
+            transform.Find("CooldownReduction_Value").GetComponent<Text>().fontSize = 14;
+        else
+            transform.Find("CooldownReduction_Value").GetComponent<Text>().fontSize = 26;
 
-        DrawTextPlusStatChangePercentage(transform.Find("AflameResistance_Value").GetComponent<Text>(), stats.aflameResistance * 100, aflameResistance * 100);
         DrawTextPlusStatChangePercentage(transform.Find("AsleepResistance_Value").GetComponent<Text>(), stats.sleepResistance * 100, asleepResistance * 100);
         DrawTextPlusStatChangePercentage(transform.Find("StunResistance_Value").GetComponent<Text>(), stats.stunResistance * 100, stunResistance * 100);
+        DrawTextPlusStatChangePercentage(transform.Find("KnockbackResistance_Value").GetComponent<Text>(), stats.knockbackResistance * 100, knockbackResistance * 100);
         DrawTextPlusStatChangePercentage(transform.Find("BleedResistance_Value").GetComponent<Text>(), stats.bleedResistance * 100, bleedResistance * 100);
         DrawTextPlusStatChangePercentage(transform.Find("PoisonResistance_Value").GetComponent<Text>(), stats.poisonResistance * 100, poisonResistance * 100);
+        DrawTextPlusStatChangePercentage(transform.Find("AflameResistance_Value").GetComponent<Text>(), stats.aflameResistance * 100, aflameResistance * 100);
         DrawTextPlusStatChangePercentage(transform.Find("FrostbiteResistance_Value").GetComponent<Text>(), stats.frostbiteResistance * 100, frostbiteResistance * 100);
-        DrawTextPlusStatChangePercentage(transform.Find("KnockbackResistance_Value").GetComponent<Text>(), stats.knockbackResistance * 100, knockbackResistance * 100);
+        DrawTextPlusStatChangePercentage(transform.Find("OverchargeResistance_Value").GetComponent<Text>(), stats.overchargeResistance * 100, overchargeResistance * 100);
+        DrawTextPlusStatChangePercentage(transform.Find("NatureResistance_Value").GetComponent<Text>(), stats.overgrowthResistance * 100, overgrowthResistance * 100);
+        DrawTextPlusStatChangePercentage(transform.Find("SunderedResistance_Value").GetComponent<Text>(), stats.sunderResistance * 100, sunderResistance * 100);
+        DrawTextPlusStatChangePercentage(transform.Find("WindshearResistance_Value").GetComponent<Text>(), stats.windshearResistance * 100, windshearResistance * 100);
+
+        if (asleepResistance - stats.sleepResistance != 0)
+            transform.Find("AsleepResistance_Value").GetComponent<Text>().fontSize = 16;
+        else
+            transform.Find("AsleepResistance_Value").GetComponent<Text>().fontSize = 24;
+
+        if (stunResistance - stats.stunResistance != 0)
+            transform.Find("StunResistance_Value").GetComponent<Text>().fontSize = 16;
+        else
+            transform.Find("StunResistance_Value").GetComponent<Text>().fontSize = 24;
+
+        if (knockbackResistance - stats.knockbackResistance != 0)
+            transform.Find("KnockbackResistance_Value").GetComponent<Text>().fontSize = 16;
+        else
+            transform.Find("KnockbackResistance_Value").GetComponent<Text>().fontSize = 24;
+
+        if (bleedResistance - stats.bleedResistance != 0)
+            transform.Find("BleedResistance_Value").GetComponent<Text>().fontSize = 16;
+        else
+            transform.Find("BleedResistance_Value").GetComponent<Text>().fontSize = 24;
+
+        if (poisonResistance - stats.poisonResistance != 0)
+            transform.Find("PoisonResistance_Value").GetComponent<Text>().fontSize = 16;
+        else
+            transform.Find("PoisonResistance_Value").GetComponent<Text>().fontSize = 24;
+
+        if (aflameResistance - stats.aflameResistance != 0)
+            transform.Find("AflameResistance_Value").GetComponent<Text>().fontSize = 16;
+        else
+            transform.Find("AflameResistance_Value").GetComponent<Text>().fontSize = 24;
+
+        if (frostbiteResistance - stats.frostbiteResistance != 0)
+            transform.Find("FrostbiteResistance_Value").GetComponent<Text>().fontSize = 16;
+        else
+            transform.Find("FrostbiteResistance_Value").GetComponent<Text>().fontSize = 24;
+
+        if (overchargeResistance - stats.overchargeResistance != 0)
+            transform.Find("OverchargeResistance_Value").GetComponent<Text>().fontSize = 16;
+        else
+            transform.Find("OverchargeResistance_Value").GetComponent<Text>().fontSize = 24;
+
+        if (overgrowthResistance - stats.overgrowthResistance != 0)
+            transform.Find("NatureResistance_Value").GetComponent<Text>().fontSize = 16;
+        else
+            transform.Find("NatureResistance_Value").GetComponent<Text>().fontSize = 24;
+
+        if (sunderResistance - stats.sunderResistance != 0)
+            transform.Find("SunderedResistance_Value").GetComponent<Text>().fontSize = 16;
+        else
+            transform.Find("SunderedResistance_Value").GetComponent<Text>().fontSize = 24;
+
+        if (windshearResistance - stats.windshearResistance != 0)
+            transform.Find("WindshearResistance_Value").GetComponent<Text>().fontSize = 16;
+        else
+            transform.Find("WindshearResistance_Value").GetComponent<Text>().fontSize = 24;
     }
 
     // Used to draw the stat changes of percentage based Calculations
@@ -217,11 +393,21 @@ public class StatUpdater : MonoBehaviour
         poisonResistance = stats.poisonResistance;
         frostbiteResistance = stats.frostbiteResistance;
         knockbackResistance = stats.knockbackResistance;
+        overchargeResistance = stats.overchargeResistance;
+        overgrowthResistance = stats.overgrowthResistance;
+        sunderResistance = stats.sunderResistance;
+        windshearResistance = stats.windshearResistance;
 
-        weaponsToHitWith = stats.weaponsToHitWith;
+        damageIncreaseMultiplier = stats.damageIncreaseMultiplier;
 
-        if (cooldownReduction > 0.5f)
-            cooldownReduction = 0.5f;
+        //Debug.Log("we are assigning the weapons tyo hit with here. the count of the one pased in is: " + stats.weaponsToHitWith.Count);
+        weaponsToHitWith = new List<Item>();
+
+        foreach (Item item in stats.weaponsToHitWith)
+            weaponsToHitWith.Add(item);
+        //Debug.Log("we have assigned it to our ours should match now. our is " + weaponsToHitWith.Count + " and should match " + stats.weaponsToHitWith.Count);
+
+        cooldownReduction = 0;
 
         foreach (float cdr in stats.cooldownReductionSources)
         {
@@ -237,39 +423,270 @@ public class StatUpdater : MonoBehaviour
     // Used to update all the tooltips.
     public void UpdateTooltips(PlayerStats stats)
     {
+        Debug.Log("Tooltips updated");
         for (int index = 0; index < tooltips.Length; index ++)
         {
             switch (index) 
             {
                 case 0:
-                    tooltips[index].text = string.Format("You are currently taking <color=#F3FC56>{0:0} reduced damage</color> from <color=#FFBE2F>physical attacks</color>", stats.armor);
+                    tooltips[index].text = string.Format("You are currently taking <color=#F3FC56>{0:0.0}% reduced damage</color>.",  (1 - (100 / (100 + stats.armor))) * 100);
+                    break;
+                case 1:
+                    switch (stats.weaponsToHitWith.Count)
+                    {
+                        case 0:
+                            tooltips[index].text = string.Format("Your basic attacks with your bare fists deal <color=#ffbe2f>{0:0} physical damage</color> before multipliers and effects.", stats.baseDamage);
+                            break;
+                        case 1:
+                            string weaponDamageAndOnHits = "";
+                            switch (stats.weaponsToHitWith[0].damageType)
+                            {
+                                case HitBox.DamageType.Physical:
+                                    weaponDamageAndOnHits = string.Format("<color=#ffbe2f>{0:0} physical damage</color> before multipliers and effects.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling);
+                                    break;
+                                case HitBox.DamageType.Fire:
+                                    weaponDamageAndOnHits = string.Format("<color=#ff932e>{0:0} fire damage</color> before multipliers and effects, and <color=#ff932e>adds {1:0} aflame stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                    break;
+                                case HitBox.DamageType.Ice:
+                                    weaponDamageAndOnHits = string.Format("<color=#5ad9f5>{0:0} ice damage</color> before multipliers and effects, and <color=#5ad9f5>adds {1:0} frostbite stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                    break;
+                                case HitBox.DamageType.Lightning:
+                                    weaponDamageAndOnHits = string.Format("<color=#ca65ff>{0:0} lightning damage</color> before multipliers and effects, and <color=#ca65ff>adds {1:0} overcharge stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                    break;
+                                case HitBox.DamageType.Nature:
+                                    weaponDamageAndOnHits = string.Format("<color=#4ed477>{0:0} nature damage</color> before multipliers and effects, and <color=#4ed477>adds {1:0} overgrowth stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                    break;
+                                case HitBox.DamageType.Earth:
+                                    weaponDamageAndOnHits = string.Format("<color=#b0946c>{0:0} earth damage</color> before multipliers and effects, and <color=#b0946c>adds {1:0} sunder stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                    break;
+                                case HitBox.DamageType.Wind:
+                                    weaponDamageAndOnHits = string.Format("<color=#abd1e0>{0:0} wind damage</color> before multipliers and effects, and <color=#abd1e0>adds {1:0} windshear stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                    break;
+                                case HitBox.DamageType.Poison:
+                                    weaponDamageAndOnHits = string.Format("<color=#ffbe2f>{0:0} physical damage</color> before multipliers and effects, and <color=#7ece1e>adds {1:0} poison stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                    break;
+                                case HitBox.DamageType.Bleed:
+                                    weaponDamageAndOnHits = string.Format("<color=#ffbe2f>{0:0} physical damage</color> before multipliers and effects, and <color=#c0201e>adds {1:0} bleed stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            tooltips[index].text = "Your basic attacks with your right hand weapon deal " + weaponDamageAndOnHits;
+                            break;
+                        case 2:
+                            if (stats.weaponsToHitWith[0].equippedToRightHand)
+                            {
+                                string weaponDamageAndOnHitsRight = "";
+                                switch (stats.weaponsToHitWith[0].damageType)
+                                {
+                                    case HitBox.DamageType.Physical:
+                                        weaponDamageAndOnHitsRight = string.Format("<color=#ffbe2f>{0:0} physical damage</color> before multipliers and effects.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling);
+                                        break;
+                                    case HitBox.DamageType.Fire:
+                                        weaponDamageAndOnHitsRight = string.Format("<color=#ff932e>{0:0} fire damage</color> before multipliers and effects, and <color=#ff932e>adds {1:0} aflame stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Ice:
+                                        weaponDamageAndOnHitsRight = string.Format("<color=#5ad9f5>{0:0} ice damage</color> before multipliers and effects, and <color=#5ad9f5>adds {1:0} frostbite stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Lightning:
+                                        weaponDamageAndOnHitsRight = string.Format("<color=#ca65ff>{0:0} lightning damage</color> before multipliers and effects, and <color=#ca65ff>adds {1:0} overcharge stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Nature:
+                                        weaponDamageAndOnHitsRight = string.Format("<color=#4ed477>{0:0} nature damage</color> before multipliers and effects, and <color=#4ed477>adds {1:0} overgrowth stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Earth:
+                                        weaponDamageAndOnHitsRight = string.Format("<color=#b0946c>{0:0} earth damage</color> before multipliers and effects, and <color=#b0946c>adds {1:0} sunder stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Wind:
+                                        weaponDamageAndOnHitsRight = string.Format("<color=#abd1e0>{0:0} wind damage</color> before multipliers and effects, and <color=#abd1e0>adds {1:0} windshear stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Poison:
+                                        weaponDamageAndOnHitsRight = string.Format("<color=#ffbe2f>{0:0} physical damage</color> before multipliers and effects, and <color=#7ece1e>adds {1:0} poison stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Bleed:
+                                        weaponDamageAndOnHitsRight = string.Format("<color=#ffbe2f>{0:0} physical damage</color> before multipliers and effects, and <color=#c0201e>adds {1:0} bleed stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                tooltips[index].text = "Your basic attacks with your right hand weapon deal " + weaponDamageAndOnHitsRight;
+                            }
+                            else
+                            {
+                                string weaponDamageAndOnHitsLeft = "";
+                                switch (stats.weaponsToHitWith[1].damageType)
+                                {
+                                    case HitBox.DamageType.Physical:
+                                        weaponDamageAndOnHitsLeft = string.Format("<color=#ffbe2f>{0:0} physical damage</color> before multipliers and effects.", stats.baseDamage * stats.weaponsToHitWith[1].baseDamageScaling);
+                                        break;
+                                    case HitBox.DamageType.Fire:
+                                        weaponDamageAndOnHitsLeft = string.Format("<color=#ff932e>{0:0} fire damage</color> before multipliers and effects, and <color=#ff932e>adds {1:0} aflame stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[1].baseDamageScaling, stats.weaponsToHitWith[1].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Ice:
+                                        weaponDamageAndOnHitsLeft = string.Format("<color=#5ad9f5>{0:0} ice damage</color> before multipliers and effects, and <color=#5ad9f5>adds {1:0} frostbite stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[1].baseDamageScaling, stats.weaponsToHitWith[1].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Lightning:
+                                        weaponDamageAndOnHitsLeft = string.Format("<color=#ca65ff>{0:0} lightning damage</color> before multipliers and effects, and <color=#ca65ff>adds {1:0} overcharge stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[1].baseDamageScaling, stats.weaponsToHitWith[1].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Nature:
+                                        weaponDamageAndOnHitsLeft = string.Format("<color=#4ed477>{0:0} nature damage</color> before multipliers and effects, and <color=#4ed477>adds {1:0} overgrowth stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[1].baseDamageScaling, stats.weaponsToHitWith[1].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Earth:
+                                        weaponDamageAndOnHitsLeft = string.Format("<color=#b0946c>{0:0} earth damage</color> before multipliers and effects, and <color=#b0946c>adds {1:0} sunder stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[1].baseDamageScaling, stats.weaponsToHitWith[1].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Wind:
+                                        weaponDamageAndOnHitsLeft = string.Format("<color=#abd1e0>{0:0} wind damage</color> before multipliers and effects, and <color=#abd1e0>adds {1:0} windshear stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[1].baseDamageScaling, stats.weaponsToHitWith[1].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Poison:
+                                        weaponDamageAndOnHitsLeft = string.Format("<color=#ffbe2f>{0:0} physical damage</color> before multipliers and effects, and <color=#7ece1e>adds {1:0} poison stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[1].baseDamageScaling, stats.weaponsToHitWith[1].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Bleed:
+                                        weaponDamageAndOnHitsLeft = string.Format("<color=#ffbe2f>{0:0} physical damage</color> before multipliers and effects, and <color=#c0201e>adds {1:0} bleed stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[1].baseDamageScaling, stats.weaponsToHitWith[1].stacksToAddOnHit);
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                tooltips[index].text = "Your basic attacks with your right hand weapon deal " + weaponDamageAndOnHitsLeft;
+
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 case 2:
-                    tooltips[index].text = string.Format("You deal <color=#E45B5B>{0:0}</color> <color=#FFBE2F>physical damage</color>, before multipliers and effects, on your <color=#E45B5B>basic attacks</color> and <color=#E45B5B>roll attacks</color>.", stats.baseDamage * 1);
+                    switch (stats.weaponsToHitWith.Count)
+                    {
+                        case 0:
+                            tooltips[index].text = string.Format("You do not have a weapon equipped in your left hand slot.", stats.baseDamage);
+                            break;
+                        case 1:
+                            tooltips[index].text = string.Format("You do not have a weapon equipped in your left hand slot.", stats.baseDamage);
+                            break;
+                        case 2:
+                            if (stats.weaponsToHitWith[1].equippedToRightHand)
+                            {
+                                string weaponDamageAndOnHitsRight = "";
+                                switch (stats.weaponsToHitWith[0].damageType)
+                                {
+                                    case HitBox.DamageType.Physical:
+                                        weaponDamageAndOnHitsRight = string.Format("<color=#ffbe2f>{0:0} physical damage</color> before multipliers and effects.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling);
+                                        break;
+                                    case HitBox.DamageType.Fire:
+                                        weaponDamageAndOnHitsRight = string.Format("<color=#ff932e>{0:0} fire damage</color> before multipliers and effects, and <color=#ff932e>adds {1:0} aflame stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Ice:
+                                        weaponDamageAndOnHitsRight = string.Format("<color=#5ad9f5>{0:0} ice damage</color> before multipliers and effects, and <color=#5ad9f5>adds {1:0} frostbite stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Lightning:
+                                        weaponDamageAndOnHitsRight = string.Format("<color=#ca65ff>{0:0} lightning damage</color> before multipliers and effects, and <color=#ca65ff>adds {1:0} overcharge stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Nature:
+                                        weaponDamageAndOnHitsRight = string.Format("<color=#4ed477>{0:0} nature damage</color> before multipliers and effects, and <color=#4ed477>adds {1:0} overgrowth stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Earth:
+                                        weaponDamageAndOnHitsRight = string.Format("<color=#b0946c>{0:0} earth damage</color> before multipliers and effects, and <color=#b0946c>adds {1:0} sunder stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Wind:
+                                        weaponDamageAndOnHitsRight = string.Format("<color=#abd1e0>{0:0} wind damage</color> before multipliers and effects, and <color=#abd1e0>adds {1:0} windshear stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Poison:
+                                        weaponDamageAndOnHitsRight = string.Format("<color=#ffbe2f>{0:0} physical damage</color> before multipliers and effects, and <color=#7ece1e>adds {1:0} poison stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Bleed:
+                                        weaponDamageAndOnHitsRight = string.Format("<color=#ffbe2f>{0:0} physical damage</color> before multipliers and effects, and <color=#c0201e>adds {1:0} bleed stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[0].baseDamageScaling, stats.weaponsToHitWith[0].stacksToAddOnHit);
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                tooltips[index].text = "Your basic attacks with your right hand weapon deal " + weaponDamageAndOnHitsRight;
+                            }
+                            else
+                            {
+                                string weaponDamageAndOnHitsLeft = "";
+                                switch (stats.weaponsToHitWith[1].damageType)
+                                {
+                                    case HitBox.DamageType.Physical:
+                                        weaponDamageAndOnHitsLeft = string.Format("<color=#ffbe2f>{0:0} physical damage</color> before multipliers and effects.", stats.baseDamage * stats.weaponsToHitWith[1].baseDamageScaling);
+                                        break;
+                                    case HitBox.DamageType.Fire:
+                                        weaponDamageAndOnHitsLeft = string.Format("<color=#ff932e>{0:0} fire damage</color> before multipliers and effects, and <color=#ff932e>adds {1:0} aflame stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[1].baseDamageScaling, stats.weaponsToHitWith[1].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Ice:
+                                        weaponDamageAndOnHitsLeft = string.Format("<color=#5ad9f5>{0:0} ice damage</color> before multipliers and effects, and <color=#5ad9f5>adds {1:0} frostbite stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[1].baseDamageScaling, stats.weaponsToHitWith[1].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Lightning:
+                                        weaponDamageAndOnHitsLeft = string.Format("<color=#ca65ff>{0:0} lightning damage</color> before multipliers and effects, and <color=#ca65ff>adds {1:0} overcharge stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[1].baseDamageScaling, stats.weaponsToHitWith[1].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Nature:
+                                        weaponDamageAndOnHitsLeft = string.Format("<color=#4ed477>{0:0} nature damage</color> before multipliers and effects, and <color=#4ed477>adds {1:0} overgrowth stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[1].baseDamageScaling, stats.weaponsToHitWith[1].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Earth:
+                                        weaponDamageAndOnHitsLeft = string.Format("<color=#b0946c>{0:0} earth damage</color> before multipliers and effects, and <color=#b0946c>adds {1:0} sunder stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[1].baseDamageScaling, stats.weaponsToHitWith[1].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Wind:
+                                        weaponDamageAndOnHitsLeft = string.Format("<color=#abd1e0>{0:0} wind damage</color> before multipliers and effects, and <color=#abd1e0>adds {1:0} windshear stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[1].baseDamageScaling, stats.weaponsToHitWith[1].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Poison:
+                                        weaponDamageAndOnHitsLeft = string.Format("<color=#ffbe2f>{0:0} physical damage</color> before multipliers and effects, and <color=#7ece1e>adds {1:0} poison stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[1].baseDamageScaling, stats.weaponsToHitWith[1].stacksToAddOnHit);
+                                        break;
+                                    case HitBox.DamageType.Bleed:
+                                        weaponDamageAndOnHitsLeft = string.Format("<color=#ffbe2f>{0:0} physical damage</color> before multipliers and effects, and <color=#c0201e>adds {1:0} bleed stacks</color> per strike.", stats.baseDamage * stats.weaponsToHitWith[1].baseDamageScaling, stats.weaponsToHitWith[1].stacksToAddOnHit);
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                tooltips[index].text = "Your basic attacks with your left hand weapon deal " + weaponDamageAndOnHitsLeft;
+
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 case 3:
-                    tooltips[index].text = string.Format("The current percent speed at which we <color=#E45B5B>attack</color> and complete animations is <color=#E5BE5D>{0:0}%</color>", stats.attackSpeed * 100);
+                    tooltips[index].text = string.Format("The current percent speed at which we <color=#E45B5B>attack</color> and complete ability animations is <color=#E5BE5D>{0:0}%</color>", stats.attackSpeed * 100);
                     break;
                 case 4:
-                    tooltips[index].text = string.Format("The percentage we've reduced our <color=#5DB1E5>ability cooldowns</color> by is <color=#5DB1E5>{0:0.0}</color>%. Cooldown Reduction scales multiplicatively with itself.", stats.cooldownReduction * 100);
+                    tooltips[index].text = string.Format("The percentage we've reduced our <color=#5DB1E5>ability cooldowns</color> by is <color=#5DB1E5>{0:0.0}%</color>. Cooldown Reduction scales multiplicatively with itself.", stats.cooldownReduction * 100);
+                    break;
+                case 5:
+                    tooltips[index].text = string.Format("Reduces the chance of receiving the <color=#ff932e>aflame debuff by {0:0.0}%</color>. Being set <color=#ff932e>aflame</color> deals <color=#ff932e>20% base damage as fire damage</color> a stack per second for 10 seconds, with a maximum of 100 stacks. <color=#5DB1E5>Rolling</color> reduces the current amount of <color=#ff932e>aflame</color> stacks by half.", stats.aflameResistance * 100);
+                    break;
+                case 6:
+                    tooltips[index].text = string.Format("Reduces the chance of receiving the <color=#5ad9f5>frostbite debuff</color> and <color=#5ad9f5>frozen debuff by {0:0.0}%. Frostbite</color> lowers <color=#E5BE5D>attack speed</color> and <color=#5DB1E5>movespeed</color> by 1% per stack, and deals <color=#5ad9f5>5% base damage as ice damage</color> per stack per second for 10 seconds, with a maximum of 100 stacks. Being <color=#5ad9f5>frozen</color> makes you unable to move for 5 seconds.", stats.frostbiteResistance * 100);
+                    break;
+                case 7:
+                    tooltips[index].text = string.Format("Reduces the chance of receiving the <color=#ca65ff>overcharge debuff by {0:0.0}%</color>. Striking an enemy with stacks of <color=#ca65ff>overcharge</color> with a non-lightning damage attack consumes the <color=#ca65ff>overcharge</color> stacks to deal a bonus <color=#ca65ff>40% base damage as lightning damage</color> per stack, with a maximum of 100 stacks. <color=#ca65ff>Overcharge</color> stacks last 10 seconds.", stats.overchargeResistance * 100);
+                    break;
+                case 8:
+                    tooltips[index].text = string.Format("Reduces the chance of receiving the <color=#4ed477>overgrowth debuff by {0:0.0}%</color>. Striking an enemy with stacks of <color=#4ed477>overgrowth</color> with a non-nature damage attack consumes the <color=#4ed477>overgrowth</color> stacks to deal a bonus 1% of the targets <color=#ad2a2a>maximum health</color> as <color=#4ed477>nature damage</color> per stack, with a maximum of 100 stacks. The maximum damage per stack is capped at 80% base damage. <color=#4ed477>Overgrowth</color> stacks last for 10 seconds.", stats.overgrowthResistance * 100);
+                    break;
+                case 9:
+                    tooltips[index].text = string.Format("Reduces the chance of receiving the <color=#abd1e0>windshear debuff by {0:0.0}%. Windshear</color> <color=#F3FC56>reduces armor by 1%</color> per stack for 10 seconds, with a maximum of 100 stacks.", stats.windshearResistance * 100);
+                    break;
+                case 10:
+                    tooltips[index].text = string.Format("Reduces the chance of receiving the <color=#b0946c>sunder debuff by {0:0.0}%. Sunder</color> reduces <color=#f93dff>resistances</color> to debuffs by 1% per stack for 10 seconds, with a maximum of 100 stacks.", stats.sunderResistance * 100);
+                    break;
+                case 11:
+                    tooltips[index].text = string.Format("Reduces the chance of receiving the <color=#c0201e>bleed debuff by {0:0.0}%. Bleed</color> deals <color=#c0201e>30% base damage</color> a second a stack for 5 seconds, with a maximum of 100 stacks. <color=#ffbe2f>Attacking</color> or <color=#5DB1E5>rolling</color> deals an additional <color=#c0201e>30% base damage</color> a stack to the target", stats.bleedResistance * 100);
+                    break;
+                case 12:
+                    tooltips[index].text = string.Format("Reduces the chance of receiving the <color=#7ece1e>poison debuff by {0:0.0}%. Poison deals 0.1%</color> of the targets <color=#ad2a2a>maximum health</color> per stack per second for 20 seconds, with a maximum of 100 stacks. The minimum damage is equal to <color=#7ece1e>10% base damage</color> per stack. The maximum damage is <color=#7ece1e>500% base damage</color> per stack.", stats.poisonResistance * 100);
                     break;
                 case 13:
-                    tooltips[index].text = string.Format("Reduce the amount of <color=#7B6A91>sleep affliction</color> you recieve by <color=#7B6A91>{0:0.0}%</color>. Being put to sleep <color=#D9B529>stuns</color> you for a long time. The next source of damage you take is increased, but breaks the effect.", stats.sleepResistance * 100);
+                    tooltips[index].text = string.Format("Reduces the chance of receiving the <color=#7b6a91>sleep debuff by {0:0.0}%. Sleep</color> renders you unable to take action for 5 seconds. Being struck removes the <color=#7b6a91>sleep debuff</color> but increases the <color=#ffbe2f>damage of the attack that awoke you by 200%</color>", stats.sleepResistance * 100);
                     break;
                 case 14:
-                    tooltips[index].text = string.Format("Reduce the amount of <color=#D9B529>stun affliction</color> you recieve by <color=#D9B529>{0:0.0}%</color>. Being stunned renders you <color=#D9B529>unable to take action</color> for a short period of time.", stats.stunResistance * 100);
+                    tooltips[index].text = string.Format("Reduces the chance of receiving the <color=#d9b529>stun debuff by {0:0.0}%. Stun</color> renders you unable to take action for 2 seconds.", stats.stunResistance * 100);
                     break;
-                case 16:
-                    tooltips[index].text = string.Format("Reduce the amount <color=#C0201E> bleed affliction</color> you recieve by <color=#C0201E>{0:0.0}%</color>. Being bled means you will take a small amount of <color=#FFBE2F>physical damage</color> over time, but a large amount of <color=#FFBE2F>physical damage</color> when you attack or roll.", stats.bleedResistance * 100);
-                    break;
-                case 17:
-                    tooltips[index].text = string.Format("Reduce the amount of <color=#7ECE1E>poison affliction</color> you recieve by <color=#7ECE1E>{0:0.0}%</color>. Being poisoned makes you take a large amount of <color=#B756FA>magic damage</color> over a long duration.", stats.poisonResistance * 100);
-                    break;
-                case 19:
-                    tooltips[index].text = string.Format("Reduce the amount of <color=#0DB9C6>frostbite affliction</color> you recieve by <color=#0DB9C6>{0:0.0}%</color>. Being frostbitten reduces your <color=#A1FF7A>movespeed</color> and <color=#E5BE5D>attack speed</color> to nearly zero for a few seconds.", stats.frostbiteResistance * 100);
-                    break;
-                case 20:
-                    tooltips[index].text = string.Format("Reduce the amount of <color=#7B8ADC>knockback</color> you recieve by <color=#7B8ADC>{0:0.0}%</color>. Being knocked back <color=#7B8ADC>launches you</color> in the direction of the attack.", stats.knockbackResistance * 100);
+                case 15:
+                    tooltips[index].text = string.Format("Reduces the chance of receiving the <color=#7b8adc>knockback debuff by {0:0.0}%. Knockback</color> launches you in a specified direction and renders you unable to take action.", stats.knockbackResistance * 100);
                     break;
                 default:
                     break;

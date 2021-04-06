@@ -14,12 +14,15 @@ public class PlayerStats : MonoBehaviour
     public float health = 100;
     public float healthMax = 100;
     public float bonusHealth = 0;
+    public float bonusPercentHealth = 1;
     public float baseHealth = 125;
     public float baseHealthGrowth = 40;
 
     [HideInInspector] public List<float> weaponBaseAttacksPerSecond = new List<float>();
     [HideInInspector] public List<Item> weaponsToHitWith = new List<Item>();
+
     [HideInInspector] public List<float> cooldownReductionSources = new List<float>();
+    public float cooldownReduction = 0;
 
     public HitBox basicAttack1;
     public HitBox basicAttack2;
@@ -38,6 +41,7 @@ public class PlayerStats : MonoBehaviour
 
     public float speed = 2.5f;
     public float movespeedPercentMultiplier = 1;
+    public int jumps = 1;
 
     public float damageReductionMultiplier = 1;
     public float damageIncreaseMultiplier = 1;
@@ -47,13 +51,14 @@ public class PlayerStats : MonoBehaviour
     public float baseHealthRegen = 1f;
     public float baseHealthRegenGrowth = 0.3333f;
 
-    public float cooldownReduction = 0;
-
     public int level = 1;
     public float exp = 0;
     public float expTarget = 100;
 
     public float sizeMultiplier = 1f;
+
+    public float critChance = 0f;
+    public float critDamageMultiplier = 1.5f;
 
     public float aflameResistance = 0f;
     public float frostbiteResistance = 0f;
@@ -67,6 +72,9 @@ public class PlayerStats : MonoBehaviour
     public float bleedResistance = 0f;
     public float poisonResistance = 0f;
     public float slowResistance = 0f;
+
+    public float healingOnHit = 0;
+    public float healingOnKill = 0;
 
     public BarManager healthBar;
     public StatUpdater myStats;
@@ -89,8 +97,8 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public float untargetableCount = 0;
     [HideInInspector] public float invisibleCount = 0;
     [HideInInspector] public float ephemeralCount = 0;
-    [HideInInspector] public float revitalizeCount = 0;
-    [HideInInspector] public bool revitalizeBuff = false;
+    //[HideInInspector] public float revitalizeCount = 0;
+    //[HideInInspector] public bool revitalizeBuff = false;
 
     [HideInInspector] public bool dead = false;
 
@@ -172,6 +180,7 @@ public class PlayerStats : MonoBehaviour
             GetComponent<PlayerMovementController>().KnockbackLaunch((transform.forward + Vector3.up) * 5);
 
         // Health and mana regen logic.
+        /*
         if (!dead)
         {
             float revitalizeBonus = 0f;
@@ -182,8 +191,10 @@ public class PlayerStats : MonoBehaviour
                 myStats.UpdateHealthManaBarValues(this);
             }
 
-            health += healthRegen * Time.deltaTime;
         }
+        */
+        if(!dead)
+            health += healthRegen * Time.deltaTime;
 
         if (health > healthMax)
             health = healthMax;
@@ -223,7 +234,7 @@ public class PlayerStats : MonoBehaviour
     {
         baseDamage = baseBaseDamage + baseDamageGrowth * level;
 
-        healthMax = baseHealth + baseHealthGrowth * level + bonusHealthRegen;
+        healthMax = (baseHealth + baseHealthGrowth * level + bonusHealth) * bonusPercentHealth;
         if (health > healthMax)
             health = healthMax;
 
@@ -340,8 +351,8 @@ public class PlayerStats : MonoBehaviour
                 else
                     amount = 0;
 
-                if(armor * armorReductionMultiplier - (comboCount * 0.1f)> 0)
-                    amount -= armor * armorReductionMultiplier - (comboCount * 0.1f);
+                if (armor * armorReductionMultiplier - comboCount > 0)
+                    amount *= 100 / (100 + (armor * armorReductionMultiplier - comboCount));
             }
 
             if(asleep)
@@ -501,7 +512,7 @@ public class PlayerStats : MonoBehaviour
     }
 
     // Adds the item stats to our current Stats
-    public void AddItemStats(Item item, bool compelteStatSetup)
+    public void AddItemStats(Item item, bool compelteStatSetup, bool statCompare)
     {
         //Debug.Log("adding stats");
         if(item.itemType == Item.ItemType.Weapon || item.itemType == Item.ItemType.TwoHandWeapon)
@@ -521,7 +532,9 @@ public class PlayerStats : MonoBehaviour
             else
                 weaponAttacksPerSecond = 1;
 
+            //Debug.Log("adding the weapon to the list");
             weaponsToHitWith.Add(item);
+            //Debug.Log("the count should increase here : " + weaponsToHitWith.Count);
             UpdateWeaponsToHitWith();
         }
 
@@ -529,8 +542,11 @@ public class PlayerStats : MonoBehaviour
         {
             switch (trait.traitType)
             {
-                case ItemTrait.TraitType.Health:
+                case ItemTrait.TraitType.HealthFlat:
                     bonusHealth += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.HealthPercent:
+                    bonusPercentHealth += trait.traitBonus;
                     break;
                 case ItemTrait.TraitType.Armor:
                     armor += trait.traitBonus;
@@ -538,11 +554,62 @@ public class PlayerStats : MonoBehaviour
                 case ItemTrait.TraitType.HealthRegen:
                     bonusHealthRegen += trait.traitBonus;
                     break;
+                case ItemTrait.TraitType.HealingOnHit:
+                    healingOnHit += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.HealingOnKill:
+                    healingOnKill += trait.traitBonus;
+                    break;
                 case ItemTrait.TraitType.CooldownReduction:
                     cooldownReductionSources.Add(trait.traitBonus);
                     break;
                 case ItemTrait.TraitType.AttackSpeed:
                     bonusAttackSpeed += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.MoveSpeed:
+                    movespeedPercentMultiplier += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.CritChance:
+                    critChance += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.CritDamage:
+                    critDamageMultiplier += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Jumps:
+                    jumps += (int)trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.AflameResistance:
+                    aflameResistance += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.FrostbiteResistance:
+                    frostbiteResistance += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.SunderResistance:
+                    sunderResistance += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.WindshearResistance:
+                    windshearResistance += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.OverchargeResistance:
+                    overchargeResistance += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.OvergrowthResistance:
+                    overgrowthResistance += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.BleedResistance:
+                    bleedResistance += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.PoisonResistance:
+                    poisonResistance += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.StunResistance:
+                    stunResistance += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.AsleepResistance:
+                    sleepResistance += trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.KnockbackResistance:
+                    knockbackResistance += trait.traitBonus;
                     break;
                 default:
                     break;
@@ -550,10 +617,12 @@ public class PlayerStats : MonoBehaviour
         }
             if (compelteStatSetup)
                 StatSetup(false, true);
+            if (statCompare)
+                StatSetup(false, false);
     }
 
     //Remvoes the item stats from our current Stats
-    public void RemoveItemStats(Item item, bool completeStatSetup)
+    public void RemoveItemStats(Item item, bool completeStatSetup, bool statCompare)
     {
         //Debug.Log("removing stats");
         if (item.itemType == Item.ItemType.Weapon || item.itemType == Item.ItemType.TwoHandWeapon)
@@ -583,8 +652,11 @@ public class PlayerStats : MonoBehaviour
         {
             switch (trait.traitType)
             {
-                case ItemTrait.TraitType.Health:
+                case ItemTrait.TraitType.HealthFlat:
                     bonusHealth -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.HealthPercent:
+                    bonusPercentHealth -= trait.traitBonus;
                     break;
                 case ItemTrait.TraitType.Armor:
                     armor -= trait.traitBonus;
@@ -592,47 +664,100 @@ public class PlayerStats : MonoBehaviour
                 case ItemTrait.TraitType.HealthRegen:
                     bonusHealthRegen -= trait.traitBonus;
                     break;
+                case ItemTrait.TraitType.HealingOnHit:
+                    healingOnHit -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.HealingOnKill:
+                    healingOnKill -= trait.traitBonus;
+                    break;
                 case ItemTrait.TraitType.CooldownReduction:
                     cooldownReductionSources.Remove(trait.traitBonus);
-                    break;
-                case ItemTrait.TraitType.SpellSlots:
-                    skills.maxSkillNumber -= Mathf.RoundToInt(trait.traitBonus);
-                    if(completeStatSetup)
-                        skills.setInventorySkillSlots();
                     break;
                 case ItemTrait.TraitType.AttackSpeed:
                     bonusAttackSpeed -= trait.traitBonus;
                     break;
+                case ItemTrait.TraitType.MoveSpeed:
+                    movespeedPercentMultiplier -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.CritChance:
+                    critChance -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.CritDamage:
+                    critDamageMultiplier -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.Jumps:
+                    jumps -= (int) trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.AflameResistance:
+                    aflameResistance -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.FrostbiteResistance:
+                    frostbiteResistance -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.SunderResistance:
+                    sunderResistance -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.WindshearResistance:
+                    windshearResistance -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.OverchargeResistance:
+                    overchargeResistance -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.OvergrowthResistance:
+                    overgrowthResistance -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.BleedResistance:
+                    bleedResistance -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.PoisonResistance:
+                    poisonResistance -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.StunResistance:
+                    stunResistance -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.AsleepResistance:
+                    sleepResistance -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.KnockbackResistance:
+                    knockbackResistance -= trait.traitBonus;
+                    break;
+
                 default:
                     break;
             }
         }
         if (completeStatSetup)
             StatSetup(false, true);
+        if (statCompare)
+            StatSetup(false, false);
     }
 
     // USed to check what the stats would be if we removed the stats of the other item in that slot and replaced it with this item's
     public void CheckStatChange(Item itemToAdd, Item[] itemsToRemove)
     {
+        //Debug.Log("Check stat change");
         // Remove the stats, add in the new ones, then we ship off these new stats to be used as the comparison.
         if (itemsToRemove.Length > 0)
             foreach (Item item in itemsToRemove)
                 if(item != null)
-                    RemoveItemStats(item, false);
+                    RemoveItemStats(item, false, true);
         if(itemToAdd != false)
-            AddItemStats(itemToAdd, false);
+            AddItemStats(itemToAdd, false, true);
 
+        //Debug.Log("created new stats here");
+        //Debug.Log("weapons to hit with coutn is: " + weaponsToHitWith.Count);
         myStats.AssignPotentialStats(this);
 
         // Remove the new stats, add in the old ones.
         if (itemsToRemove.Length > 0)
             foreach (Item item in itemsToRemove)
                 if (item != null)
-                    AddItemStats(item, false);
+                    AddItemStats(item, false, true);
         if (itemToAdd != false)
-            RemoveItemStats(itemToAdd, false);
+            RemoveItemStats(itemToAdd, false, true);
 
         myStats.mouseWithItemHovered = true;
+        //Debug.Log("Launching comapre method in stat updater");
         myStats.CompareStatValues(this);
     }
 
