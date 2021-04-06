@@ -423,7 +423,7 @@ public class StatUpdater : MonoBehaviour
     // Used to update all the tooltips.
     public void UpdateTooltips(PlayerStats stats)
     {
-        Debug.Log("Tooltips updated");
+        //Debug.Log("Tooltips updated");
         for (int index = 0; index < tooltips.Length; index ++)
         {
             switch (index) 

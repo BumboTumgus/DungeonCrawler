@@ -52,18 +52,23 @@ public class SkillsManager : MonoBehaviour
     // Used to add a new skill to our player at an index.
     public void AddSkill(int index, SkillNames skillName)
     {
+        //Debug.Log("we are adding a skill and i dont know the target cd");
         if (index < maxSkillNumber)
         {
             RemoveSkill(index);
 
             Skill addedSkill = skillsContainer.gameObject.AddComponent<Skill>();
             GameObject addedIcon = Instantiate(skillIconPrefab, iconParent);
-            
+
+            //Debug.Log("below is where the target cd is set: " + addedSkill.targetCooldown);
             skillBank.SetSkill(skillName, addedSkill);
+            //Debug.Log("the target cd is set: " + addedSkill.targetCooldown);
+            addedSkill.targetCooldown *= (1 - stats.cooldownReduction);
+            //Debug.Log("the target cd post CDR is set: " + addedSkill.targetCooldown);
+
 
             // Add this skills bar to the container as well.
             addedSkill.connectedBar = addedIcon.GetComponentInChildren<BarManager>();
-            addedSkill.noManaOverlay = addedIcon.transform.Find("NoManaOverlay").gameObject;
             addedSkill.connectedBar.Initialize(addedSkill.targetCooldown, true, false, 0);
             addedSkill.skillIndex = index;
             addedSkill.myManager = this;
@@ -71,7 +76,10 @@ public class SkillsManager : MonoBehaviour
             addedSkill.stats = GetComponent<PlayerStats>();
             addedSkill.anim = GetComponent<Animator>();
             addedSkill.currentCooldown = addedSkill.targetCooldown;
-            addedIcon.transform.GetChild(1).GetComponent<Image>().sprite = addedSkill.skillIcon;
+            addedIcon.transform.GetChild(2).GetComponent<Image>().sprite = addedSkill.skillIcon;
+            addedIcon.transform.GetChild(2).GetComponent<Image>().color = addedSkill.skillIconColor;
+            addedIcon.transform.GetChild(0).GetComponent<Image>().color = addedSkill.rarityBorderColor;
+            addedIcon.GetComponent<Image>().color = addedSkill.skillBackgroundColor;
 
             mySkills.Add(addedSkill);
             mySkillBars.Add(addedIcon);
@@ -91,6 +99,19 @@ public class SkillsManager : MonoBehaviour
         }
         else
             Debug.Log("You have too many skills already!");
+    }
+
+    public void UpdateCooldownSkillCooldowns()
+    {
+        foreach(Skill skill in mySkills)
+        {
+            float currentCDRatio = skill.currentCooldown / skill.targetCooldown;
+
+            skillBank.SetSkill(skill.skillName, skill);
+            skill.targetCooldown *= (1 - stats.cooldownReduction);
+            skill.currentCooldown = skill.targetCooldown * currentCDRatio;
+            skill.connectedBar.Initialize(skill.targetCooldown, false, true, skill.currentCooldown);
+        }
     }
 
     // SUed to remove a skill at an index.
@@ -170,15 +191,15 @@ public class SkillsManager : MonoBehaviour
                 // Odds Case, the center of the array is found.
                 int centerIndex = (int)((float) mySkillBars.Count / 2 - 0.5f);
                 // Debug.Log(centerIndex + " | " + mySkillBars.Count);
-                mySkillBars[centerIndex].transform.localPosition = new Vector3(0, 6, 0);
+                mySkillBars[centerIndex].transform.localPosition = new Vector3(0, 25, 0);
 
                 // everything below this index is placed to the left.
                 for (int index = centerIndex - 1; index > -1; index--)
-                    mySkillBars[index].transform.localPosition = new Vector3(-40 * (centerIndex - index), 6, 0);
+                    mySkillBars[index].transform.localPosition = new Vector3(-40 * (centerIndex - index), 25, 0);
                 
                 // everything above this index is placed to the right.
                 for (int index = centerIndex + 1; index < mySkillBars.Count; index++)
-                    mySkillBars[index].transform.localPosition = new Vector3(40 * (index - centerIndex), 6, 0);
+                    mySkillBars[index].transform.localPosition = new Vector3(40 * (index - centerIndex), 25, 0);
             }
             else
             {
@@ -187,11 +208,11 @@ public class SkillsManager : MonoBehaviour
                 
                 // everything below this index is placed to the left.
                 for (int index = centerIndex - 1; index > -1; index--)
-                    mySkillBars[index].transform.localPosition = new Vector3(-20 + -40 * (centerIndex - 1 - index), 6, 0);
+                    mySkillBars[index].transform.localPosition = new Vector3(-20 + -40 * (centerIndex - 1 - index), 25, 0);
 
                 // everything above this index is placed to the right.
                 for (int index = centerIndex; index < mySkillBars.Count; index++)
-                    mySkillBars[index].transform.localPosition = new Vector3(20 + 40 * (index - centerIndex), 6, 0);
+                    mySkillBars[index].transform.localPosition = new Vector3(20 + 40 * (index - centerIndex), 25, 0);
             }
         }
     }

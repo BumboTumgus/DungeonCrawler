@@ -120,11 +120,12 @@ public class PlayerStats : MonoBehaviour
         // If we do not have a heathbar, set it up now.
         HealthBarSetup();
 
-        StatSetup(true, true);
         damageNumberManager = GetComponent<DamageNumberManager>();
         buffManager = GetComponent<BuffsManager>();
         skills = GetComponent<SkillsManager>();
         hitboxManager = GetComponent<HitBoxManager>();
+
+        StatSetup(true, true);
 
         if (CompareTag("Enemy"))
         {
@@ -261,6 +262,9 @@ public class PlayerStats : MonoBehaviour
             // add it back to total
             cooldownReduction += totalAmountToReduce;
         }
+
+        if(CompareTag("Player"))
+            skills.UpdateCooldownSkillCooldowns();
 
         if (changeHealthBars)
         {
