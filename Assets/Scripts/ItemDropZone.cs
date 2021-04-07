@@ -49,7 +49,7 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                     }
                     break;
                 case SlotType.Trinket:
-                    if (currentItemType == Item.ItemType.Trinket && movedItem.myParent.GetComponent<ItemDropZone>().slotType != SlotType.Trinket)
+                    if ((currentItemType == Item.ItemType.TrinketRing || currentItemType == Item.ItemType.TrinketNecklace || currentItemType == Item.ItemType.TrinketCape || currentItemType == Item.ItemType.TrinketWaistItem) && movedItem.myParent.GetComponent<ItemDropZone>().slotType != SlotType.Trinket)
                         suitableSlot = true;
                     break;
                 case SlotType.Weapon:
@@ -178,7 +178,7 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                         }
                         break;
                     case SlotType.Trinket:
-                        if (currentItemType == Item.ItemType.Trinket)
+                        if (currentItemType == Item.ItemType.TrinketWaistItem || currentItemType == Item.ItemType.TrinketRing || currentItemType == Item.ItemType.TrinketNecklace || currentItemType == Item.ItemType.TrinketCape)
                             suitableSlot = true;
                         break;
                     case SlotType.Weapon:
@@ -232,7 +232,10 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                     validTarget = true;
                     break;
                 case SlotType.Trinket:
-                    if (movedItem.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.Trinket)
+                    if (movedItem.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.TrinketWaistItem ||
+                        movedItem.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.TrinketRing ||
+                        movedItem.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.TrinketNecklace ||
+                        movedItem.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.TrinketCape)
                         validTarget = true;
                     break;
                 case SlotType.Weapon:

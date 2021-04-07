@@ -42,7 +42,7 @@ public class Item : MonoBehaviour
 
     public int goldValue;
 
-    public enum ItemType { Consumable, Gold, Trinket, Weapon, TwoHandWeapon, Helmet, Legs, Armor, Skill};
+    public enum ItemType {TrinketRing, Weapon, TwoHandWeapon, Helmet, Legs, Armor, Shield, MagicBooster, Skill, TrinketCape, TrinketNecklace, TrinketWaistItem};
     public ItemType itemType;
     public SkillsManager.SkillNames skillName;
 
@@ -246,40 +246,37 @@ public class Item : MonoBehaviour
     // Used to add random traits to the item. These are added on top of any garenteed traits the item would have.
     public void AddRandomTraits()
     {
-        if (itemType == ItemType.Weapon || itemType == ItemType.TwoHandWeapon || itemType == ItemType.Armor || itemType == ItemType.Helmet || itemType == ItemType.Legs || itemType == ItemType.Trinket)
+        // How many traits will this item have.
+        int traitCount = 0;
+        switch (itemRarity)
         {
-            // How many traits will this item have.
-            int traitCount = 0;
-            switch (itemRarity)
-            {
-                case ItemRarity.Common:
-                    traitCount = Random.Range(1, 2);
-                    break;
-                case ItemRarity.Uncommon:
-                    traitCount = Random.Range(2, 3);
-                    break;
-                case ItemRarity.Rare:
-                    traitCount = Random.Range(3, 5);
-                    break;
-                case ItemRarity.Legendary:
-                    traitCount = Random.Range(5, 7);
-                    break;
-                case ItemRarity.Masterwork:
-                    traitCount = Random.Range(7, 11);
-                    break;
-                default:
-                    break;
-            }
-            if (itemType == ItemType.TwoHandWeapon)
-                traitCount *= 2;
+            case ItemRarity.Common:
+                traitCount = Random.Range(1, 2);
+                break;
+            case ItemRarity.Uncommon:
+                traitCount = Random.Range(2, 3);
+                break;
+            case ItemRarity.Rare:
+                traitCount = Random.Range(3, 5);
+                break;
+            case ItemRarity.Legendary:
+                traitCount = Random.Range(5, 7);
+                break;
+            case ItemRarity.Masterwork:
+                traitCount = Random.Range(7, 11);
+                break;
+            default:
+                break;
+        }
+        if (itemType == ItemType.TwoHandWeapon)
+            traitCount *= 2;
 
-            for (int index = 0; index < traitCount; index++)
-            {
-                ItemTrait tempTrait = new ItemTrait();
-                tempTrait.GetRandomTrait();
-                tempTrait.GetRandomTraitValue(itemRarity);
-                AddTrait(tempTrait);
-            }
+        for (int index = 0; index < traitCount; index++)
+        {
+            ItemTrait tempTrait = new ItemTrait();
+            tempTrait.GetRandomTrait();
+            tempTrait.GetRandomTraitValue(itemRarity);
+            AddTrait(tempTrait);
         }
     }
 

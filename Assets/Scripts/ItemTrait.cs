@@ -6,7 +6,7 @@ using UnityEngine;
 public class ItemTrait
 {
     public enum TraitType { HealthFlat, HealthPercent, HealthRegen, HealingOnHit, HealingOnKill, Armor, CooldownReduction, AflameResistance, FrostbiteResistance, WindshearResistance, SunderResistance, OverchargeResistance, OvergrowthResistance, AsleepResistance, StunResistance,
-        BleedResistance, PoisonResistance, KnockbackResistance, AttackSpeed, MoveSpeed, CritChance, CritDamage, Jumps};
+        BleedResistance, PoisonResistance, KnockbackResistance, AttackSpeed, MoveSpeed, CritChance, CritDamage, Jumps, FlatDamageReduction};
     public TraitType traitType;
     public float traitBonus;
 
@@ -24,7 +24,7 @@ public class ItemTrait
     // Used to grab a random trait from the bin of availible traits.
     public void GetRandomTrait()
     {
-        int randomTrait = Random.Range(0, 24);
+        int randomTrait = Random.Range(0, 17);
         switch (randomTrait)
         {
             case 0:
@@ -62,6 +62,9 @@ public class ItemTrait
                 break;
             case 11:
                 traitType = TraitType.Jumps;
+                break;
+            case 16:
+                traitType = TraitType.FlatDamageReduction;
                 break;
             default:
                 break;
@@ -618,6 +621,28 @@ public class ItemTrait
                         break;
                     case Item.ItemRarity.Masterwork:
                         traitBonus = 3;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case TraitType.FlatDamageReduction:
+                switch (rarity)
+                {
+                    case Item.ItemRarity.Common:
+                        traitBonus = Random.Range(1, 3);
+                        break;
+                    case Item.ItemRarity.Uncommon:
+                        traitBonus = Random.Range(2, 6);
+                        break;
+                    case Item.ItemRarity.Rare:
+                        traitBonus = Random.Range(4, 11);
+                        break;
+                    case Item.ItemRarity.Legendary:
+                        traitBonus = Random.Range(7, 16);
+                        break;
+                    case Item.ItemRarity.Masterwork:
+                        traitBonus = Random.Range(10, 26);
                         break;
                     default:
                         break;

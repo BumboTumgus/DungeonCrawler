@@ -39,6 +39,8 @@ public class PlayerStats : MonoBehaviour
     public float armorReductionMultiplier = 1;
     public float armorShreddedBonusDamage = 0f;
 
+    public float flatDamageReduction = 0;
+
     public float speed = 2.5f;
     public float movespeedPercentMultiplier = 1;
     public int jumps = 1;
@@ -345,6 +347,18 @@ public class PlayerStats : MonoBehaviour
                 amount *= 0.1f;
             }
 
+            if (asleep)
+            {
+                asleep = false;
+                // disable the sleeping debuff.
+                foreach (Buff buff in GetComponent<BuffsManager>().activeBuffs)
+                {
+                    if (buff.myType == BuffsManager.BuffType.Asleep)
+                        buff.EndBuff();
+                }
+                amount *= 2f;
+            }
+
             if (damage != HitBox.DamageType.True)
             {
                 // if th percent reduced damag and the percet increasd damage from armor are greater then 0, we multipluy the damage by the value.
@@ -357,18 +371,8 @@ public class PlayerStats : MonoBehaviour
 
                 if (armor * armorReductionMultiplier - comboCount > 0)
                     amount *= 100 / (100 + (armor * armorReductionMultiplier - comboCount));
-            }
 
-            if(asleep)
-            {
-                asleep = false;
-                // disable the sleeping debuff.
-                foreach (Buff buff in GetComponent<BuffsManager>().activeBuffs)
-                {
-                    if (buff.myType == BuffsManager.BuffType.Asleep)
-                        buff.EndBuff();
-                }
-                amount *= 2f;
+                amount -= flatDamageReduction;
             }
 
             if (amount > 0)
@@ -615,6 +619,9 @@ public class PlayerStats : MonoBehaviour
                 case ItemTrait.TraitType.KnockbackResistance:
                     knockbackResistance += trait.traitBonus;
                     break;
+                case ItemTrait.TraitType.FlatDamageReduction:
+                    flatDamageReduction += trait.traitBonus;
+                    break;
                 default:
                     break;
             }
@@ -724,6 +731,9 @@ public class PlayerStats : MonoBehaviour
                     break;
                 case ItemTrait.TraitType.KnockbackResistance:
                     knockbackResistance -= trait.traitBonus;
+                    break;
+                case ItemTrait.TraitType.FlatDamageReduction:
+                    flatDamageReduction -= trait.traitBonus;
                     break;
 
                 default:

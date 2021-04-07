@@ -276,7 +276,13 @@ public class PlayerGearManager : MonoBehaviour
     {
         switch (item.itemType)
         {
-            case Item.ItemType.Trinket:
+            case Item.ItemType.TrinketCape:
+                break;
+            case Item.ItemType.TrinketRing:
+                break;
+            case Item.ItemType.TrinketNecklace:
+                break;
+            case Item.ItemType.TrinketWaistItem:
                 break;
             case Item.ItemType.Weapon:
                 if (item.equippedToRightHand)
@@ -400,7 +406,13 @@ public class PlayerGearManager : MonoBehaviour
     {
         switch (item.itemType)
         {
-            case Item.ItemType.Trinket:
+            case Item.ItemType.TrinketCape:
+                break;
+            case Item.ItemType.TrinketRing:
+                break;
+            case Item.ItemType.TrinketNecklace:
+                break;
+            case Item.ItemType.TrinketWaistItem:
                 break;
             case Item.ItemType.Weapon:
                 if (item.equippedToRightHand)

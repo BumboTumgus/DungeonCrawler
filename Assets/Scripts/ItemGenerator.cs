@@ -34,11 +34,29 @@ public class ItemGenerator : MonoBehaviour
     public GameObject[] helmetsLegendary;
     public GameObject[] helmetsMasterwork;
 
-    public GameObject[] trinketsCommon;
-    public GameObject[] trinketsUncommon;
-    public GameObject[] trinketsRare;
-    public GameObject[] trinketsLegendary;
-    public GameObject[] trinketsMasterwork;
+    public GameObject[] trinketsCapeCommon;
+    public GameObject[] trinketsCapeUncommon;
+    public GameObject[] trinketsCapeRare;
+    public GameObject[] trinketsCapeLegendary;
+    public GameObject[] trinketsCapeMasterwork;
+
+    public GameObject[] trinketsRingCommon;
+    public GameObject[] trinketsRingUncommon;
+    public GameObject[] trinketsRingRare;
+    public GameObject[] trinketsRingLegendary;
+    public GameObject[] trinketsRingMasterwork;
+
+    public GameObject[] trinketsNecklaceCommon;
+    public GameObject[] trinketsNecklaceUncommon;
+    public GameObject[] trinketsNecklaceRare;
+    public GameObject[] trinketsNecklaceLegendary;
+    public GameObject[] trinketsNecklaceMasterwork;
+
+    public GameObject[] trinketsWaistCommon;
+    public GameObject[] trinketsWaistUncommon;
+    public GameObject[] trinketsWaistRare;
+    public GameObject[] trinketsWaistLegendary;
+    public GameObject[] trinketsWaistMasterwork;
 
     public GameObject[] consumablesCommon;
     public GameObject[] consumablesUncommon;
@@ -62,7 +80,6 @@ public class ItemGenerator : MonoBehaviour
     private const float legArmorRC = 10;
     private const float helmetsRC = 10;
     private const float trinketsRC = 12;
-    private const float consumablesRC = 10;
     private const float skillsRC = 18;
 
     private const float commonRC = 40;
@@ -76,11 +93,11 @@ public class ItemGenerator : MonoBehaviour
     {
         GameObject itemRolled = null;
 
-        float itemDiceRoll = Random.Range(0, weapon1hRC + weapon2hRC + chestArmorRC + legArmorRC + helmetsRC + trinketsRC + consumablesRC + skillsRC);
-        Item.ItemType itemType = Item.ItemType.Consumable;
+        float itemDiceRoll = Random.Range(0, weapon1hRC + weapon2hRC + chestArmorRC + legArmorRC + helmetsRC + trinketsRC + skillsRC);
+        Item.ItemType itemType = Item.ItemType.Weapon;
         float itemRarityDiceRoll = Random.Range(0, 145) + rarityLevelMod;
         Item.ItemRarity itemRarity = Item.ItemRarity.Common;
-        
+
         // Rolls the item type and compares its value in the table below.
         if (itemDiceRoll <= weapon1hRC)
             itemType = Item.ItemType.Weapon;
@@ -93,10 +110,27 @@ public class ItemGenerator : MonoBehaviour
         else if (itemDiceRoll <= weapon1hRC + weapon2hRC + chestArmorRC + legArmorRC + helmetsRC)
             itemType = Item.ItemType.Helmet;
         else if (itemDiceRoll <= weapon1hRC + weapon2hRC + chestArmorRC + legArmorRC + helmetsRC + trinketsRC)
-            itemType = Item.ItemType.Trinket;
-        else if (itemDiceRoll <= weapon1hRC + weapon2hRC + chestArmorRC + legArmorRC + helmetsRC + trinketsRC + consumablesRC)
-            itemType = Item.ItemType.Consumable;
-        else if (itemDiceRoll <= weapon1hRC + weapon2hRC + chestArmorRC + legArmorRC + helmetsRC + trinketsRC + consumablesRC + skillsRC)
+        {
+            int randomIndex = Random.Range(0, 4);
+            switch (randomIndex)
+            {
+                case 0:
+                    itemType = Item.ItemType.TrinketCape;
+                    break;
+                case 1:
+                    itemType = Item.ItemType.TrinketNecklace;
+                    break;
+                case 2:
+                    itemType = Item.ItemType.TrinketRing;
+                    break;
+                case 3:
+                    itemType = Item.ItemType.TrinketWaistItem;
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if (itemDiceRoll <= weapon1hRC + weapon2hRC + chestArmorRC + legArmorRC + helmetsRC + trinketsRC + skillsRC)
             itemType = Item.ItemType.Skill;
 
         if (itemRarityDiceRoll <= commonRC)
@@ -113,45 +147,89 @@ public class ItemGenerator : MonoBehaviour
         // This assigns us a bank of items for us to use.
         switch (itemType)
         {
-            case Item.ItemType.Consumable:
+            case Item.ItemType.TrinketCape:
                 switch (itemRarity)
                 {
                     case Item.ItemRarity.Common:
-                        itemRolled = consumablesCommon[Random.Range(0, consumablesCommon.Length)];
+                        itemRolled = trinketsCapeCommon[Random.Range(0, trinketsCapeCommon.Length)];
                         break;
                     case Item.ItemRarity.Uncommon:
-                        itemRolled = consumablesUncommon[Random.Range(0, consumablesUncommon.Length)];
+                        itemRolled = trinketsCapeUncommon[Random.Range(0, trinketsCapeUncommon.Length)];
                         break;
                     case Item.ItemRarity.Rare:
-                        itemRolled = consumablesRare[Random.Range(0, consumablesRare.Length)];
+                        itemRolled = trinketsCapeRare[Random.Range(0, trinketsCapeRare.Length)];
                         break;
                     case Item.ItemRarity.Legendary:
-                        itemRolled = consumablesLegendary[Random.Range(0, consumablesLegendary.Length)];
+                        itemRolled = trinketsCapeLegendary[Random.Range(0, trinketsCapeLegendary.Length)];
                         break;
                     case Item.ItemRarity.Masterwork:
-                        itemRolled = consumablesMasterwork[Random.Range(0, consumablesMasterwork.Length)];
+                        itemRolled = trinketsCapeMasterwork[Random.Range(0, trinketsCapeMasterwork.Length)];
                         break;
                     default:
                         break;
                 }
                 break;
-            case Item.ItemType.Trinket:
+            case Item.ItemType.TrinketNecklace:
                 switch (itemRarity)
                 {
                     case Item.ItemRarity.Common:
-                        itemRolled = trinketsCommon[Random.Range(0, trinketsCommon.Length)];
+                        itemRolled = trinketsNecklaceCommon[Random.Range(0, trinketsNecklaceCommon.Length)];
                         break;
                     case Item.ItemRarity.Uncommon:
-                        itemRolled = trinketsUncommon[Random.Range(0, trinketsUncommon.Length)];
+                        itemRolled = trinketsNecklaceUncommon[Random.Range(0, trinketsNecklaceUncommon.Length)];
                         break;
                     case Item.ItemRarity.Rare:
-                        itemRolled = trinketsRare[Random.Range(0, trinketsRare.Length)];
+                        itemRolled = trinketsNecklaceRare[Random.Range(0, trinketsNecklaceRare.Length)];
                         break;
                     case Item.ItemRarity.Legendary:
-                        itemRolled = trinketsLegendary[Random.Range(0, trinketsLegendary.Length)];
+                        itemRolled = trinketsNecklaceLegendary[Random.Range(0, trinketsNecklaceLegendary.Length)];
                         break;
                     case Item.ItemRarity.Masterwork:
-                        itemRolled = trinketsMasterwork[Random.Range(0, trinketsMasterwork.Length)];
+                        itemRolled = trinketsNecklaceMasterwork[Random.Range(0, trinketsNecklaceMasterwork.Length)];
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case Item.ItemType.TrinketRing:
+                switch (itemRarity)
+                {
+                    case Item.ItemRarity.Common:
+                        itemRolled = trinketsRingCommon[Random.Range(0, trinketsRingCommon.Length)];
+                        break;
+                    case Item.ItemRarity.Uncommon:
+                        itemRolled = trinketsRingUncommon[Random.Range(0, trinketsRingUncommon.Length)];
+                        break;
+                    case Item.ItemRarity.Rare:
+                        itemRolled = trinketsRingRare[Random.Range(0, trinketsRingRare.Length)];
+                        break;
+                    case Item.ItemRarity.Legendary:
+                        itemRolled = trinketsRingLegendary[Random.Range(0, trinketsRingLegendary.Length)];
+                        break;
+                    case Item.ItemRarity.Masterwork:
+                        itemRolled = trinketsRingMasterwork[Random.Range(0, trinketsRingMasterwork.Length)];
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case Item.ItemType.TrinketWaistItem:
+                switch (itemRarity)
+                {
+                    case Item.ItemRarity.Common:
+                        itemRolled = trinketsWaistCommon[Random.Range(0, trinketsWaistCommon.Length)];
+                        break;
+                    case Item.ItemRarity.Uncommon:
+                        itemRolled = trinketsWaistUncommon[Random.Range(0, trinketsWaistUncommon.Length)];
+                        break;
+                    case Item.ItemRarity.Rare:
+                        itemRolled = trinketsWaistRare[Random.Range(0, trinketsWaistRare.Length)];
+                        break;
+                    case Item.ItemRarity.Legendary:
+                        itemRolled = trinketsWaistLegendary[Random.Range(0, trinketsWaistLegendary.Length)];
+                        break;
+                    case Item.ItemRarity.Masterwork:
+                        itemRolled = trinketsWaistMasterwork[Random.Range(0, trinketsWaistMasterwork.Length)];
                         break;
                     default:
                         break;
