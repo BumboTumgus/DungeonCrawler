@@ -241,11 +241,15 @@ public class Inventory : MonoBehaviour
             case ItemDropZone.SlotType.Trinket:
                 trinkets.Add(item);
                 stats.AddItemStats(item, true, false);
+                gearManager.ShowItem(item);
                 break;
             case ItemDropZone.SlotType.Weapon:
+                Debug.Log("we are transferring in a item called: " + item.itemName);
                 weapons.Add(item);
                 CheckMoveset();
+                Debug.Log(" we added the items stats here");
                 stats.AddItemStats(item, true, false);
+                Debug.Log(" the item should appear here");
                 gearManager.ShowItem(item);
                 break;
             case ItemDropZone.SlotType.Armor:
@@ -275,6 +279,7 @@ public class Inventory : MonoBehaviour
             case ItemDropZone.SlotType.Trinket:
                 trinkets.Remove(item);
                 stats.RemoveItemStats(item, true, false);
+                gearManager.HideItem(item);
                 break;
             case ItemDropZone.SlotType.Weapon:
                 weapons.Remove(item);

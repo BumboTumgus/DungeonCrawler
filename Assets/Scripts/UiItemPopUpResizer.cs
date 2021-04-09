@@ -243,9 +243,9 @@ public class UiItemPopUpResizer : MonoBehaviour
                 itemTypeImage.sprite = itemTypeSprites[7];
                 itemTypeText.text = "Shield";
                 break;
-            case Item.ItemType.TrinketNecklace:
+            case Item.ItemType.TrinketBracelet:
                 itemTypeImage.sprite = itemTypeSprites[8];
-                itemTypeText.text = "Necklace";
+                itemTypeText.text = "Bracelet";
                 break;
             case Item.ItemType.TrinketCape:
                 itemTypeImage.sprite = itemTypeSprites[9];

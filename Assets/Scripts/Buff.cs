@@ -364,7 +364,7 @@ public class Buff : MonoBehaviour
             connectedPlayer.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffsManager.BuffType.Aflame);
         }
         else if (myType == BuffsManager.BuffType.GiantStrength)
-            connectedPlayer.GetComponent<PlayerGearManager>().ResetToOriginalMaterial();
+            connectedPlayer.GetComponent<PlayerGearManager>().RemoveMaterialOverride(PlayerGearManager.MaterialOverrideCode.GiantStrength);
 
         // We do not change it if its a stackable buff since this method is called after we already remvoed all the stats associated with the buff, this would put us into negatives.
         if (!stackable)

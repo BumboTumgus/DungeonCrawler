@@ -32,6 +32,11 @@ public class PlayerGearManager : MonoBehaviour
     public Transform leftLegParent;
     public Transform rightKneeParent;
     public Transform leftKneeParent;
+
+    public Transform ringParent;
+    public Transform braceletParent;
+    public Transform capeParent;
+    public Transform waistParent;
     
     public GameObject[] leftHandWeapons;
     public GameObject[] rightHandWeapons;
@@ -62,11 +67,24 @@ public class PlayerGearManager : MonoBehaviour
     public GameObject[] rightKnees;
     public GameObject[] leftKnees;
 
-    public enum MaterialOverrides { Invisible, GiantStrength}
+    public GameObject[] rings;
+    public GameObject[] bracelets;
+    public GameObject[] capes;
+    public GameObject[] waistTrinkets;
+
+    public enum MaterialOverrideCode { Invisible, GiantStrength}
     public List<Material> materials = new List<Material>();
 
+    public class MaterialOverride
+    {
+        public float priority = 0;
+        public Material mat = null;
+        public MaterialOverrideCode matCode;
+    }
+    public List<MaterialOverride> matOverrides = new List<MaterialOverride>();
+    private Material currentMaterialOverride = null;
+
     private BuffsManager weaponBuffs;
-    private bool materialOverriden = false;
 
     [SerializeField] private Material[] previousMaterials = new Material[25];
 
@@ -107,6 +125,11 @@ public class PlayerGearManager : MonoBehaviour
         leftLegs = new GameObject[leftLegParent.childCount];
         rightKnees = new GameObject[rightKneeParent.childCount];
         leftKnees = new GameObject[leftKneeParent.childCount];
+
+        rings = new GameObject[ringParent.childCount];
+        bracelets = new GameObject[braceletParent.childCount];
+        capes = new GameObject[capeParent.childCount];
+        waistTrinkets = new GameObject[waistParent.childCount];
 
         // grab all the weapons for setting and hiding purposes.
         for (int index = 0; index < leftHandWeaponParent.childCount; index++)
@@ -165,6 +188,16 @@ public class PlayerGearManager : MonoBehaviour
             rightKnees[index] = rightKneeParent.GetChild(index).gameObject;
         for (int index = 0; index < leftKneeParent.childCount; index++)
             leftKnees[index] = leftKneeParent.GetChild(index).gameObject;
+
+        //Grab all the rings and other trinkets for setting and hiding purposes.
+        for (int index = 0; index < ringParent.childCount; index++)
+            rings[index] = ringParent.GetChild(index).gameObject;
+        for (int index = 0; index < braceletParent.childCount; index++)
+            bracelets[index] = braceletParent.GetChild(index).gameObject;
+        for (int index = 0; index < capeParent.childCount; index++)
+            capes[index] = capeParent.GetChild(index).gameObject;
+        for (int index = 0; index < waistParent.childCount; index++)
+            waistTrinkets[index] = waistParent.GetChild(index).gameObject;
 
         HideAllItems();
 
@@ -234,7 +267,16 @@ public class PlayerGearManager : MonoBehaviour
         foreach (GameObject armor in leftKnees)
             armor.SetActive(false);
 
-        // Here I show the base chest items, the onme we decide are the "base values".
+        foreach (GameObject ring in rings)
+            ring.SetActive(false);
+        foreach (GameObject bracelet in bracelets)
+            bracelet.SetActive(false);
+        foreach (GameObject cape in capes)
+            cape.SetActive(false);
+        foreach (GameObject trinket in waistTrinkets)
+            trinket.SetActive(false);
+
+        // Here I show the base chest items, the one we decide are the "base values".
         torsos[0].SetActive(true);
         previousMaterials[2] = torsos[0].GetComponent<SkinnedMeshRenderer>().material;
 
@@ -277,14 +319,53 @@ public class PlayerGearManager : MonoBehaviour
         switch (item.itemType)
         {
             case Item.ItemType.TrinketCape:
+                capes[item.itemGearID].SetActive(false);
+                if(capes[item.itemGearID].GetComponent<SkinnedMeshRenderer>())
+                    capes[item.itemGearID].GetComponent<SkinnedMeshRenderer>().material = previousMaterials[27];
+                else
+                    capes[item.itemGearID].GetComponent<MeshRenderer>().material = previousMaterials[27];
                 break;
             case Item.ItemType.TrinketRing:
+                rings[item.itemGearID].SetActive(false);
+                rings[item.itemGearID].GetComponent<MeshRenderer>().material = previousMaterials[25];
                 break;
-            case Item.ItemType.TrinketNecklace:
+            case Item.ItemType.TrinketBracelet:
+                bracelets[item.itemGearID].SetActive(false);
+                bracelets[item.itemGearID].GetComponent<MeshRenderer>().material = previousMaterials[26];
                 break;
             case Item.ItemType.TrinketWaistItem:
+                waistTrinkets[item.itemGearID].SetActive(false);
+                waistTrinkets[item.itemGearID].GetComponent<SkinnedMeshRenderer>().material = previousMaterials[28];
                 break;
             case Item.ItemType.Weapon:
+                if (item.equippedToRightHand)
+                {
+                    rightHandWeapons[item.itemGearID].SetActive(false);
+                    rightHandWeapons[item.itemGearID].GetComponent<MeshRenderer>().material = previousMaterials[1];
+                    weaponBuffs.UpdateWeaponEffectsRight(Vector3.zero, Vector3.zero, Quaternion.identity, null);
+                }
+                else
+                {
+                    leftHandWeapons[item.itemGearID].SetActive(false);
+                    leftHandWeapons[item.itemGearID].GetComponent<MeshRenderer>().material = previousMaterials[0];
+                    weaponBuffs.UpdateWeaponEffectsLeft(Vector3.zero, Vector3.zero, Quaternion.identity, null);
+                }
+                break;
+            case Item.ItemType.Shield:
+                if (item.equippedToRightHand)
+                {
+                    rightHandWeapons[item.itemGearID].SetActive(false);
+                    rightHandWeapons[item.itemGearID].GetComponent<MeshRenderer>().material = previousMaterials[1];
+                    weaponBuffs.UpdateWeaponEffectsRight(Vector3.zero, Vector3.zero, Quaternion.identity, null);
+                }
+                else
+                {
+                    leftHandWeapons[item.itemGearID].SetActive(false);
+                    leftHandWeapons[item.itemGearID].GetComponent<MeshRenderer>().material = previousMaterials[0];
+                    weaponBuffs.UpdateWeaponEffectsLeft(Vector3.zero, Vector3.zero, Quaternion.identity, null);
+                }
+                break;
+            case Item.ItemType.MagicBooster:
                 if (item.equippedToRightHand)
                 {
                     rightHandWeapons[item.itemGearID].SetActive(false);
@@ -327,7 +408,7 @@ public class PlayerGearManager : MonoBehaviour
                 facialHairs[facialHairsStartingIndex].SetActive(true);
                 break;
             case Item.ItemType.Legs:
-                Debug.Log("we are hiding the leggings");
+                //Debug.Log("we are hiding the leggings");
                 hips[item.itemtorsoID].SetActive(false);
                 hips[item.itemtorsoID].GetComponent<SkinnedMeshRenderer>().material = previousMaterials[20];
                 rightLegs[item.itemLowerRightArmID].SetActive(false);
@@ -353,7 +434,7 @@ public class PlayerGearManager : MonoBehaviour
                 previousMaterials[24] = null;
                 break;
             case Item.ItemType.Armor:
-                Debug.Log("we are hiding the armor");
+                //Debug.Log("we are hiding the armor");
                 torsos[item.itemtorsoID].SetActive(false);
                 torsos[item.itemtorsoID].GetComponent<SkinnedMeshRenderer>().material = previousMaterials[2];
                 rightUpperArms[item.itemUpperRightArmID].SetActive(false);
@@ -407,12 +488,37 @@ public class PlayerGearManager : MonoBehaviour
         switch (item.itemType)
         {
             case Item.ItemType.TrinketCape:
+                capes[item.itemGearID].SetActive(true);
+                if (capes[item.itemGearID].GetComponent<SkinnedMeshRenderer>())
+                    previousMaterials[27] = capes[item.itemGearID].GetComponent<SkinnedMeshRenderer>().material;
+                else
+                    previousMaterials[27] = capes[item.itemGearID].GetComponent<MeshRenderer>().material;
+
+                if(currentMaterialOverride != null)
+                {
+                    if (capes[item.itemGearID].GetComponent<SkinnedMeshRenderer>())
+                        capes[item.itemGearID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
+                    else
+                        capes[item.itemGearID].GetComponent<MeshRenderer>().material = currentMaterialOverride;
+                }
                 break;
             case Item.ItemType.TrinketRing:
+                rings[item.itemGearID].SetActive(true);
+                previousMaterials[25] = rings[item.itemGearID].GetComponent<MeshRenderer>().material;
+                if (currentMaterialOverride != null)
+                    rings[item.itemGearID].GetComponent<MeshRenderer>().material = currentMaterialOverride;
                 break;
-            case Item.ItemType.TrinketNecklace:
+            case Item.ItemType.TrinketBracelet:
+                bracelets[item.itemGearID].SetActive(true);
+                previousMaterials[26] = bracelets[item.itemGearID].GetComponent<MeshRenderer>().material;
+                if (currentMaterialOverride != null)
+                    bracelets[item.itemGearID].GetComponent<MeshRenderer>().material = currentMaterialOverride;
                 break;
             case Item.ItemType.TrinketWaistItem:
+                waistTrinkets[item.itemGearID].SetActive(true);
+                previousMaterials[28] = waistTrinkets[item.itemGearID].GetComponent<SkinnedMeshRenderer>().material;
+                if (currentMaterialOverride != null)
+                    waistTrinkets[item.itemGearID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
                 break;
             case Item.ItemType.Weapon:
                 if (item.equippedToRightHand)
@@ -421,6 +527,9 @@ public class PlayerGearManager : MonoBehaviour
                     if(rightHandWeapons[item.itemGearID].GetComponent<MeshRenderer>() != null)
                         previousMaterials[1] = rightHandWeapons[item.itemGearID].GetComponent<MeshRenderer>().material;
                     weaponBuffs.UpdateWeaponEffectsRight(rightHandWeapons[item.itemGearID].transform.position, rightHandWeapons[item.itemGearID].transform.localScale, rightHandWeapons[item.itemGearID].transform.rotation, rightHandWeapons[item.itemGearID].GetComponent<MeshFilter>().mesh);
+
+                    if (currentMaterialOverride != null)
+                        rightHandWeapons[item.itemGearID].GetComponent<MeshRenderer>().material = currentMaterialOverride;
                 }
                 else
                 {
@@ -428,6 +537,53 @@ public class PlayerGearManager : MonoBehaviour
                     if (leftHandWeapons[item.itemGearID].GetComponent<MeshRenderer>() != null)
                         previousMaterials[0] = leftHandWeapons[item.itemGearID].GetComponent<MeshRenderer>().material;
                     weaponBuffs.UpdateWeaponEffectsLeft(leftHandWeapons[item.itemGearID].transform.position, leftHandWeapons[item.itemGearID].transform.localScale, leftHandWeapons[item.itemGearID].transform.rotation, leftHandWeapons[item.itemGearID].GetComponent<MeshFilter>().mesh);
+
+                    if (currentMaterialOverride != null)
+                        leftHandWeapons[item.itemGearID].GetComponent<MeshRenderer>().material = currentMaterialOverride;
+                }
+                break;
+            case Item.ItemType.Shield:
+                if (item.equippedToRightHand)
+                {
+                    rightHandWeapons[item.itemGearID].SetActive(true);
+                    if (rightHandWeapons[item.itemGearID].GetComponent<MeshRenderer>() != null)
+                        previousMaterials[1] = rightHandWeapons[item.itemGearID].GetComponent<MeshRenderer>().material;
+                    weaponBuffs.UpdateWeaponEffectsRight(rightHandWeapons[item.itemGearID].transform.position, rightHandWeapons[item.itemGearID].transform.localScale, rightHandWeapons[item.itemGearID].transform.rotation, rightHandWeapons[item.itemGearID].GetComponent<MeshFilter>().mesh);
+
+                    if (currentMaterialOverride != null)
+                        rightHandWeapons[item.itemGearID].GetComponent<MeshRenderer>().material = currentMaterialOverride;
+                }
+                else
+                {
+                    leftHandWeapons[item.itemGearID].SetActive(true);
+                    if (leftHandWeapons[item.itemGearID].GetComponent<MeshRenderer>() != null)
+                        previousMaterials[0] = leftHandWeapons[item.itemGearID].GetComponent<MeshRenderer>().material;
+                    weaponBuffs.UpdateWeaponEffectsLeft(leftHandWeapons[item.itemGearID].transform.position, leftHandWeapons[item.itemGearID].transform.localScale, leftHandWeapons[item.itemGearID].transform.rotation, leftHandWeapons[item.itemGearID].GetComponent<MeshFilter>().mesh);
+
+                    if (currentMaterialOverride != null)
+                        leftHandWeapons[item.itemGearID].GetComponent<MeshRenderer>().material = currentMaterialOverride;
+                }
+                break;
+            case Item.ItemType.MagicBooster:
+                if (item.equippedToRightHand)
+                {
+                    rightHandWeapons[item.itemGearID].SetActive(true);
+                    if (rightHandWeapons[item.itemGearID].GetComponent<MeshRenderer>() != null)
+                        previousMaterials[1] = rightHandWeapons[item.itemGearID].GetComponent<MeshRenderer>().material;
+                    weaponBuffs.UpdateWeaponEffectsRight(rightHandWeapons[item.itemGearID].transform.position, rightHandWeapons[item.itemGearID].transform.localScale, rightHandWeapons[item.itemGearID].transform.rotation, rightHandWeapons[item.itemGearID].GetComponent<MeshFilter>().mesh);
+
+                    if (currentMaterialOverride != null)
+                        rightHandWeapons[item.itemGearID].GetComponent<MeshRenderer>().material = currentMaterialOverride;
+                }
+                else
+                {
+                    leftHandWeapons[item.itemGearID].SetActive(true);
+                    if (leftHandWeapons[item.itemGearID].GetComponent<MeshRenderer>() != null)
+                        previousMaterials[0] = leftHandWeapons[item.itemGearID].GetComponent<MeshRenderer>().material;
+                    weaponBuffs.UpdateWeaponEffectsLeft(leftHandWeapons[item.itemGearID].transform.position, leftHandWeapons[item.itemGearID].transform.localScale, leftHandWeapons[item.itemGearID].transform.rotation, leftHandWeapons[item.itemGearID].GetComponent<MeshFilter>().mesh);
+
+                    if (currentMaterialOverride != null)
+                        leftHandWeapons[item.itemGearID].GetComponent<MeshRenderer>().material = currentMaterialOverride;
                 }
                 break;
             case Item.ItemType.TwoHandWeapon:
@@ -435,6 +591,9 @@ public class PlayerGearManager : MonoBehaviour
                 if (rightHandWeapons[item.itemGearID].GetComponent<MeshRenderer>() != null)
                     previousMaterials[1] = rightHandWeapons[item.itemGearID].GetComponent<MeshRenderer>().material;
                 weaponBuffs.UpdateWeaponEffectsRight(rightHandWeapons[item.itemGearID].transform.position, rightHandWeapons[item.itemGearID].transform.localScale, rightHandWeapons[item.itemGearID].transform.rotation, rightHandWeapons[item.itemGearID].GetComponent<MeshFilter>().mesh);
+
+                if (currentMaterialOverride != null)
+                    rightHandWeapons[item.itemGearID].GetComponent<MeshRenderer>().material = currentMaterialOverride;
                 break;
             case Item.ItemType.Helmet:
                 switch (item.helmetType)
@@ -447,6 +606,9 @@ public class PlayerGearManager : MonoBehaviour
 
                         helmetNoFeatures[item.itemGearID].SetActive(true);
                         previousMaterials[17] = helmetNoFeatures[item.itemGearID].GetComponent<SkinnedMeshRenderer>().material;
+
+                        if (currentMaterialOverride != null)
+                            helmetNoFeatures[item.itemGearID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
                         break;
                     case Item.HelmetType.NoHair:
                         heads[headStartingIndex].SetActive(true);
@@ -455,7 +617,10 @@ public class PlayerGearManager : MonoBehaviour
                         facialHairs[facialHairsStartingIndex].SetActive(true);
 
                         helmetNoHair[item.itemGearID].SetActive(true);
-                        previousMaterials[18] = helmetNoHair[item.itemGearID].GetComponent<SkinnedMeshRenderer>().material;
+                        previousMaterials[19] = helmetNoHair[item.itemGearID].GetComponent<SkinnedMeshRenderer>().material;
+
+                        if (currentMaterialOverride != null)
+                            helmetNoHair[item.itemGearID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
                         break;
                     case Item.HelmetType.AllFeatures:
                         heads[headStartingIndex].SetActive(true);
@@ -464,14 +629,16 @@ public class PlayerGearManager : MonoBehaviour
                         facialHairs[facialHairsStartingIndex].SetActive(true);
 
                         helmetAllFeatures[item.itemGearID].SetActive(true);
-                        previousMaterials[19] = helmetAllFeatures[item.itemGearID].GetComponent<SkinnedMeshRenderer>().material;
+                        previousMaterials[18] = helmetAllFeatures[item.itemGearID].GetComponent<SkinnedMeshRenderer>().material;
+
+                        if (currentMaterialOverride != null)
+                            helmetAllFeatures[item.itemGearID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
                         break;
                     default:
                         break;
                 }
                 break;
             case Item.ItemType.Legs:
-                //Debug.Log("we are showing the leggings");
                 hips[0].SetActive(false);
                 rightLegs[0].SetActive(false);
                 leftLegs[0].SetActive(false);
@@ -492,6 +659,17 @@ public class PlayerGearManager : MonoBehaviour
                 leftKnees[item.itemLeftElbowID].SetActive(true);
                 if (leftKnees[item.itemLeftElbowID].GetComponent<SkinnedMeshRenderer>() != null)
                     previousMaterials[24] = leftKnees[item.itemLeftElbowID].GetComponent<SkinnedMeshRenderer>().material;
+
+                if (currentMaterialOverride != null)
+                {
+                    hips[item.itemtorsoID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
+                    rightLegs[item.itemLowerRightArmID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
+                    leftLegs[item.itemLowerLeftArmID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
+                    if (rightKnees[item.itemRightElbowID].GetComponent<SkinnedMeshRenderer>() != null)
+                        rightKnees[item.itemRightElbowID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
+                    if (leftKnees[item.itemLeftElbowID].GetComponent<SkinnedMeshRenderer>() != null)
+                        leftKnees[item.itemLeftElbowID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
+                }
                 break;
             case Item.ItemType.Armor:
                 //Debug.Log("we are showing the armor");
@@ -534,31 +712,108 @@ public class PlayerGearManager : MonoBehaviour
                 leftShoulders[item.itemLeftShoulderID].SetActive(true);
                 if (leftShoulders[item.itemLeftShoulderID].GetComponent<SkinnedMeshRenderer>() != null)
                     previousMaterials[12] = leftShoulders[item.itemLeftShoulderID].GetComponent<SkinnedMeshRenderer>().material;
+
+
+                if (currentMaterialOverride != null)
+                {
+                    torsos[item.itemtorsoID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
+                    rightUpperArms[item.itemUpperRightArmID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
+                    rightLowerArms[item.itemLowerRightArmID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
+                    leftUpperArms[item.itemUpperLeftArmID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
+                    leftLowerArms[item.itemLowerLeftArmID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
+                    leftHands[item.itemLeftHandID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
+                    rightHands[item.itemRightHandID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
+
+                    if (rightElbows[item.itemRightElbowID].GetComponent<SkinnedMeshRenderer>() != null)
+                        rightElbows[item.itemRightElbowID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
+                    if (leftElbows[item.itemLeftElbowID].GetComponent<SkinnedMeshRenderer>() != null)
+                        leftElbows[item.itemLeftElbowID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
+
+                    if (rightShoulders[item.itemRightShoulderID].GetComponent<SkinnedMeshRenderer>() != null)
+                        rightShoulders[item.itemRightShoulderID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
+                    if (leftShoulders[item.itemLeftShoulderID].GetComponent<SkinnedMeshRenderer>() != null)
+                        leftShoulders[item.itemLeftShoulderID].GetComponent<SkinnedMeshRenderer>().material = currentMaterialOverride;
+                }
                 break;
             default:
                 break;
         }
     }
 
-    // Used to apply the a new material to all gear, or none.
-    public void ChangeMaterialToNewMaterial(MaterialOverrides materialChoice)
+    // USed to add a ew material Ovveride
+    public void AddMaterialOverride(MaterialOverrideCode materialChoice)
     {
-        materialOverriden = true;
-
-        Material materialToChangeTo = null;
+        MaterialOverride matOverride = new MaterialOverride();
 
         switch (materialChoice)
         {
-            case MaterialOverrides.Invisible:
-                materialToChangeTo = materials[0];
+            case MaterialOverrideCode.Invisible:
+                matOverride.mat = materials[0];
+                matOverride.priority = 0;
                 break;
-            case MaterialOverrides.GiantStrength:
-                materialToChangeTo = materials[1];
+            case MaterialOverrideCode.GiantStrength:
+                matOverride.mat = materials[1];
+                matOverride.priority = 1;
                 break;
             default:
                 break;
         }
+        matOverride.matCode = materialChoice;
 
+        matOverrides.Add(matOverride);
+
+        EvaluateMaterialOverrides();
+    }
+
+    // Used to Remove a material ovveride
+    public void RemoveMaterialOverride(MaterialOverrideCode materialChoice)
+    {
+        MaterialOverride matToRemove = null;
+
+        foreach(MaterialOverride matOverride in matOverrides)
+        {
+            if(matOverride.matCode == materialChoice)
+            {
+                matToRemove = matOverride;
+                break;
+            }
+        }
+
+        matOverrides.Remove(matToRemove);
+
+        EvaluateMaterialOverrides();
+    }
+
+    // Used to check tyhe hierarchy to find the material that has the highest priorty and apply it.
+    public void EvaluateMaterialOverrides()
+    {
+        if (matOverrides.Count > 0)
+        {
+            float highestPriority = 1000;
+
+            foreach (MaterialOverride matOverride in matOverrides)
+            {
+                if (matOverride.priority < highestPriority)
+                {
+                    highestPriority = matOverride.priority;
+                    currentMaterialOverride = matOverride.mat;
+                }
+            }
+
+            ChangeMaterialToNewMaterial(currentMaterialOverride);
+        }
+        else
+        {
+            currentMaterialOverride = null;
+            ResetToOriginalMaterial();
+        }
+    }
+
+    // Used to apply the a new material to all gear, or none.
+    public void ChangeMaterialToNewMaterial(Material mat)
+    {
+
+        Material materialToChangeTo = mat;
 
         foreach (GameObject go in leftHandWeapons)
             if (go.activeInHierarchy)
@@ -645,11 +900,25 @@ public class PlayerGearManager : MonoBehaviour
         foreach (GameObject go in leftKnees)
             if (go.activeInHierarchy && go.GetComponent<SkinnedMeshRenderer>() != null)
                 go.GetComponent<SkinnedMeshRenderer>().material = materialToChangeTo;
+
+        foreach (GameObject go in capes)
+            if (go.activeInHierarchy && go.GetComponent<SkinnedMeshRenderer>())
+                go.GetComponent<SkinnedMeshRenderer>().material = materialToChangeTo;
+            else if (go.activeInHierarchy && go.GetComponent<MeshRenderer>())
+                go.GetComponent<MeshRenderer>().material = materialToChangeTo;
+        foreach (GameObject go in rings)
+            if (go.activeInHierarchy)
+                go.GetComponent<MeshRenderer>().material = materialToChangeTo;
+        foreach (GameObject go in bracelets)
+            if (go.activeInHierarchy)
+                go.GetComponent<MeshRenderer>().material = materialToChangeTo;
+        foreach (GameObject go in waistTrinkets)
+            if (go.activeInHierarchy)
+                go.GetComponent<SkinnedMeshRenderer>().material = materialToChangeTo;
     }
 
     public void ResetToOriginalMaterial()
     {
-        materialOverriden = false;
 
         foreach (GameObject go in leftHandWeapons)
             if (go.activeInHierarchy)
@@ -729,5 +998,20 @@ public class PlayerGearManager : MonoBehaviour
         foreach (GameObject go in leftKnees)
             if (go.activeInHierarchy && go.GetComponent<SkinnedMeshRenderer>() != null)
                 go.GetComponent<SkinnedMeshRenderer>().material = previousMaterials[24];
+
+        foreach (GameObject go in capes)
+            if (go.activeInHierarchy && go.GetComponent<SkinnedMeshRenderer>())
+                go.GetComponent<SkinnedMeshRenderer>().material = previousMaterials[27];
+            else if (go.activeInHierarchy && go.GetComponent<MeshRenderer>())
+                go.GetComponent<MeshRenderer>().material = previousMaterials[27];
+        foreach (GameObject go in rings)
+            if (go.activeInHierarchy)
+                go.GetComponent<MeshRenderer>().material = previousMaterials[25];
+        foreach (GameObject go in bracelets)
+            if (go.activeInHierarchy)
+                go.GetComponent<MeshRenderer>().material = previousMaterials[26];
+        foreach (GameObject go in waistTrinkets)
+            if (go.activeInHierarchy)
+                go.GetComponent<SkinnedMeshRenderer>().material = previousMaterials[28];
     }
 }

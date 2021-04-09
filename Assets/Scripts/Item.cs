@@ -42,7 +42,7 @@ public class Item : MonoBehaviour
 
     public int goldValue;
 
-    public enum ItemType {TrinketRing, Weapon, TwoHandWeapon, Helmet, Legs, Armor, Shield, MagicBooster, Skill, TrinketCape, TrinketNecklace, TrinketWaistItem};
+    public enum ItemType {TrinketRing, Weapon, TwoHandWeapon, Helmet, Legs, Armor, Shield, MagicBooster, Skill, TrinketCape, TrinketBracelet, TrinketWaistItem};
     public ItemType itemType;
     public SkillsManager.SkillNames skillName;
 

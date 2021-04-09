@@ -49,12 +49,12 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                     }
                     break;
                 case SlotType.Trinket:
-                    if ((currentItemType == Item.ItemType.TrinketRing || currentItemType == Item.ItemType.TrinketNecklace || currentItemType == Item.ItemType.TrinketCape || currentItemType == Item.ItemType.TrinketWaistItem) && movedItem.myParent.GetComponent<ItemDropZone>().slotType != SlotType.Trinket)
+                    if ((currentItemType == Item.ItemType.TrinketRing || currentItemType == Item.ItemType.TrinketBracelet || currentItemType == Item.ItemType.TrinketCape || currentItemType == Item.ItemType.TrinketWaistItem) && movedItem.myParent.GetComponent<ItemDropZone>().slotType != SlotType.Trinket)
                         suitableSlot = true;
                     break;
                 case SlotType.Weapon:
                     // If we have a weapon, and this weapon is not coming from anopther weapon slot and there is not a 2h hand weapon ion the other connected slot, show the stats
-                    if ((currentItemType == Item.ItemType.Weapon || currentItemType == Item.ItemType.TwoHandWeapon) && movedItem.myParent.GetComponent<ItemDropZone>().slotType != SlotType.Weapon)
+                    if ((currentItemType == Item.ItemType.Weapon || currentItemType == Item.ItemType.TwoHandWeapon || currentItemType == Item.ItemType.Shield || currentItemType == Item.ItemType.MagicBooster) && movedItem.myParent.GetComponent<ItemDropZone>().slotType != SlotType.Weapon)
                     {
                         //Debug.Log(" we are moving a weapon over the weapon slot");
                         suitableSlot = true;
@@ -178,11 +178,11 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                         }
                         break;
                     case SlotType.Trinket:
-                        if (currentItemType == Item.ItemType.TrinketWaistItem || currentItemType == Item.ItemType.TrinketRing || currentItemType == Item.ItemType.TrinketNecklace || currentItemType == Item.ItemType.TrinketCape)
+                        if (currentItemType == Item.ItemType.TrinketWaistItem || currentItemType == Item.ItemType.TrinketRing || currentItemType == Item.ItemType.TrinketBracelet || currentItemType == Item.ItemType.TrinketCape)
                             suitableSlot = true;
                         break;
                     case SlotType.Weapon:
-                        if (currentItemType == Item.ItemType.Weapon || currentItemType == Item.ItemType.TwoHandWeapon)
+                        if (currentItemType == Item.ItemType.Weapon || currentItemType == Item.ItemType.TwoHandWeapon || currentItemType == Item.ItemType.Shield || currentItemType == Item.ItemType.MagicBooster)
                             suitableSlot = true;
                         break;
                     case SlotType.Helmet:
@@ -234,13 +234,15 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                 case SlotType.Trinket:
                     if (movedItem.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.TrinketWaistItem ||
                         movedItem.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.TrinketRing ||
-                        movedItem.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.TrinketNecklace ||
+                        movedItem.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.TrinketBracelet ||
                         movedItem.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.TrinketCape)
                         validTarget = true;
                     break;
                 case SlotType.Weapon:
                     if (movedItem.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.Weapon ||
-                        movedItem.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon)
+                        movedItem.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon ||
+                        movedItem.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.Shield ||
+                        movedItem.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.MagicBooster)
                         validTarget = true;
                     break;
                 case SlotType.Helmet:
@@ -317,7 +319,7 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
             {
                 if (dropZoneItem.attachedItem != null)
                 {
-                    if (dropZoneItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.Weapon || dropZoneItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon)
+                    if (dropZoneItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.Weapon || dropZoneItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon || dropZoneItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.MagicBooster || dropZoneItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.Shield)
                     {
                         // Debug.Log("were clear to move");
                     }
@@ -375,6 +377,8 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
             if (movedItem.myParent.GetComponent<ItemDropZone>().slotType == SlotType.Weapon && movedItem.myParent.GetComponent<ItemDropZone>().slotIndex == 0 && slotType == SlotType.Weapon && dropZoneItem.attachedItem == null)
                 validTarget = false;
 
+
+            // WE HAVE A VALID TARGET BEGIN SHIFTING IT OVER BELOW
             // If the target was valid, beign our replacement or move logic.
             if (validTarget)
             {
@@ -401,6 +405,8 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                         //Debug.Log("myPanel is currently: " + myPanel.name + ". The dropzone item is: " + dropZoneItem);
                     }
                 }
+
+
                 // make the items switch their indexes (case only works for two items)
                 if (dropZoneItem.attachedItem != null)
                 {
@@ -411,6 +417,7 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                 // The logic for when there is no itemn on this panel when we slide an item over.
                 else
                     movedItem.attachedItem.GetComponent<Item>().inventoryIndex = slotIndex;
+
 
                 // Here we need to change the actual physical item from our inventory list to our equipment, if applicable.
                 SlotType otherSlotType = movedItem.myParent.GetComponent<ItemDropZone>().slotType;
@@ -437,9 +444,12 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
 
                         transform.parent.GetComponent<InventoryUiManager>().playerInventory.TransferItem(dropZoneItem.attachedItem.GetComponent<Item>(), slotType, otherSlotType);
                     }
-                    
+
+                    //Debug.Log("The item is being transfered and equipped here");
                     transform.parent.GetComponent<InventoryUiManager>().playerInventory.TransferItem(movedItem.attachedItem.GetComponent<Item>(), otherSlotType, slotType);
                 }
+
+
 
                 bool parentSetOverride = false;
                 // Check to see if this was the right hand item slot, if its now empty, and if theres something in the left hand. If so slide it over to here.
@@ -467,6 +477,9 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                         transform.parent.GetComponent<InventoryUiManager>().playerInventory.SwitchHands(leftHandItemDraggable.attachedItem.GetComponent<Item>());
                     }
                 }
+
+
+
                 // This case is for when we are switching froma  weapon slot to a weapon slot, we just need to call the switchhands method twice.
                 if(movedItem.myParent.GetComponent<ItemDropZone>().slotType == SlotType.Weapon && slotType == SlotType.Weapon)
                 {
@@ -477,6 +490,8 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                         transform.parent.GetComponent<InventoryUiManager>().playerInventory.SwitchHands(dropZoneItem.attachedItem.GetComponent<Item>());
                     }
                 }
+
+
 
                 // This is used to equip and unequip the varying skills the player will equip.
                 if(slotType == SlotType.Skill || otherSlotType == SlotType.Skill)

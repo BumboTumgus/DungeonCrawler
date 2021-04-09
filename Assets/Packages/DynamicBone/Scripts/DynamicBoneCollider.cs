@@ -3,12 +3,12 @@
 [AddComponentMenu("Dynamic Bone/Dynamic Bone Collider")]
 public class DynamicBoneCollider : DynamicBoneColliderBase
 {
-#if UNITY_5
+#if UNITY_5_3_OR_NEWER
 	[Tooltip("The radius of the sphere or capsule.")]
 #endif	
     public float m_Radius = 0.5f;
 	
-#if UNITY_5
+#if UNITY_5_3_OR_NEWER
 	[Tooltip("The height of the capsule.")]
 #endif		
     public float m_Height = 0;
@@ -19,16 +19,16 @@ public class DynamicBoneCollider : DynamicBoneColliderBase
         m_Height = Mathf.Max(m_Height, 0);
     }
 
-    public override void Collide(ref Vector3 particlePosition, float particleRadius)
+    public override bool Collide(ref Vector3 particlePosition, float particleRadius)
     {
         float radius = m_Radius * Mathf.Abs(transform.lossyScale.x);
         float h = m_Height * 0.5f - m_Radius;
         if (h <= 0)
         {
             if (m_Bound == Bound.Outside)
-                OutsideSphere(ref particlePosition, particleRadius, transform.TransformPoint(m_Center), radius);
+                return OutsideSphere(ref particlePosition, particleRadius, transform.TransformPoint(m_Center), radius);
             else
-                InsideSphere(ref particlePosition, particleRadius, transform.TransformPoint(m_Center), radius);
+                return InsideSphere(ref particlePosition, particleRadius, transform.TransformPoint(m_Center), radius);
         }
         else
         {
@@ -51,13 +51,13 @@ public class DynamicBoneCollider : DynamicBoneColliderBase
                     break;
             }
             if (m_Bound == Bound.Outside)
-                OutsideCapsule(ref particlePosition, particleRadius, transform.TransformPoint(c0), transform.TransformPoint(c1), radius);
+                return OutsideCapsule(ref particlePosition, particleRadius, transform.TransformPoint(c0), transform.TransformPoint(c1), radius);
             else
-                InsideCapsule(ref particlePosition, particleRadius, transform.TransformPoint(c0), transform.TransformPoint(c1), radius);
+                return InsideCapsule(ref particlePosition, particleRadius, transform.TransformPoint(c0), transform.TransformPoint(c1), radius);
         }
     }
 
-    static void OutsideSphere(ref Vector3 particlePosition, float particleRadius, Vector3 sphereCenter, float sphereRadius)
+    static bool OutsideSphere(ref Vector3 particlePosition, float particleRadius, Vector3 sphereCenter, float sphereRadius)
     {
         float r = sphereRadius + particleRadius;
         float r2 = r * r;
@@ -69,10 +69,12 @@ public class DynamicBoneCollider : DynamicBoneColliderBase
         {
             float len = Mathf.Sqrt(len2);
             particlePosition = sphereCenter + d * (r / len);
+            return true;
         }
+        return false;
     }
 
-    static void InsideSphere(ref Vector3 particlePosition, float particleRadius, Vector3 sphereCenter, float sphereRadius)
+    static bool InsideSphere(ref Vector3 particlePosition, float particleRadius, Vector3 sphereCenter, float sphereRadius)
     {
         float r = sphereRadius - particleRadius;
         float r2 = r * r;
@@ -84,10 +86,12 @@ public class DynamicBoneCollider : DynamicBoneColliderBase
         {
             float len = Mathf.Sqrt(len2);
             particlePosition = sphereCenter + d * (r / len);
+            return true;
         }
+        return false;
     }
 
-    static void OutsideCapsule(ref Vector3 particlePosition, float particleRadius, Vector3 capsuleP0, Vector3 capsuleP1, float capsuleRadius)
+    static bool OutsideCapsule(ref Vector3 particlePosition, float particleRadius, Vector3 capsuleP0, Vector3 capsuleP1, float capsuleRadius)
     {
         float r = capsuleRadius + particleRadius;
         float r2 = r * r;
@@ -103,6 +107,7 @@ public class DynamicBoneCollider : DynamicBoneColliderBase
             {
                 float len = Mathf.Sqrt(len2);
                 particlePosition = capsuleP0 + d * (r / len);
+                return true;
             }
         }
         else
@@ -117,6 +122,7 @@ public class DynamicBoneCollider : DynamicBoneColliderBase
                 {
                     float len = Mathf.Sqrt(len2);
                     particlePosition = capsuleP1 + d * (r / len);
+                    return true;
                 }
             }
             else if (dl > 0)
@@ -129,12 +135,14 @@ public class DynamicBoneCollider : DynamicBoneColliderBase
                 {
                     float len = Mathf.Sqrt(len2);
                     particlePosition += d * ((r - len) / len);
+                    return true;
                 }
             }
         }
+        return false;
     }
 
-    static void InsideCapsule(ref Vector3 particlePosition, float particleRadius, Vector3 capsuleP0, Vector3 capsuleP1, float capsuleRadius)
+    static bool InsideCapsule(ref Vector3 particlePosition, float particleRadius, Vector3 capsuleP0, Vector3 capsuleP1, float capsuleRadius)
     {
         float r = capsuleRadius - particleRadius;
         float r2 = r * r;
@@ -150,6 +158,7 @@ public class DynamicBoneCollider : DynamicBoneColliderBase
             {
                 float len = Mathf.Sqrt(len2);
                 particlePosition = capsuleP0 + d * (r / len);
+                return true;
             }
         }
         else
@@ -164,6 +173,7 @@ public class DynamicBoneCollider : DynamicBoneColliderBase
                 {
                     float len = Mathf.Sqrt(len2);
                     particlePosition = capsuleP1 + d * (r / len);
+                    return true;
                 }
             }
             else if (dl > 0)
@@ -176,9 +186,11 @@ public class DynamicBoneCollider : DynamicBoneColliderBase
                 {
                     float len = Mathf.Sqrt(len2);
                     particlePosition += d * ((r - len) / len);
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     void OnDrawGizmosSelected()

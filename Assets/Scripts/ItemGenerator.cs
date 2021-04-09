@@ -58,12 +58,6 @@ public class ItemGenerator : MonoBehaviour
     public GameObject[] trinketsWaistLegendary;
     public GameObject[] trinketsWaistMasterwork;
 
-    public GameObject[] consumablesCommon;
-    public GameObject[] consumablesUncommon;
-    public GameObject[] consumablesRare;
-    public GameObject[] consumablesLegendary;
-    public GameObject[] consumablesMasterwork;
-
     public GameObject[] skillsCommon;
     public GameObject[] skillsUncommon;
     public GameObject[] skillsRare;
@@ -118,7 +112,7 @@ public class ItemGenerator : MonoBehaviour
                     itemType = Item.ItemType.TrinketCape;
                     break;
                 case 1:
-                    itemType = Item.ItemType.TrinketNecklace;
+                    itemType = Item.ItemType.TrinketBracelet;
                     break;
                 case 2:
                     itemType = Item.ItemType.TrinketRing;
@@ -169,7 +163,7 @@ public class ItemGenerator : MonoBehaviour
                         break;
                 }
                 break;
-            case Item.ItemType.TrinketNecklace:
+            case Item.ItemType.TrinketBracelet:
                 switch (itemRarity)
                 {
                     case Item.ItemRarity.Common:

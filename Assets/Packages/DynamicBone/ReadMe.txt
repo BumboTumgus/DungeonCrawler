@@ -32,10 +32,11 @@ Dynamic Bone component description:
 - Update Rate
   Internal physics simulation rate, measures in frames per seconds.
 
-- UpdateMode
-  Normal: Normal update.
+- Update Mode
+  Normal: Update physics in fixed timestamp as specified rate.
   AnimatePhysics: Updates during the physic loop in order to synchronized with the physics engine.
   UnscaledTime: Updates independently of Time.timeScale.
+  Default: Update physics every frame instead of specified rate, recommended.
 
 - Damping
   How much the bones slowed down.
@@ -48,6 +49,9 @@ Dynamic Bone component description:
 
 - Inert
   How much character's position change is ignored in physics simulation.
+
+- Friction
+  How much the bones slowed down when collide.
 
 - Radius
   Each bone can be a sphere to collide with colliders. Radius describe sphere's size.
@@ -81,6 +85,7 @@ Dynamic Bone component description:
 - Distant Disable, Reference Object, Distance To Object
   Disable physics simulation automatically if character is far from camera or player.
   If there is no reference object, default main camera is used.
+
 
 Dynamic Bone Collider component description:
 
@@ -133,3 +138,6 @@ Version History
 1.2.0 Add tool tips.
       Add plane collider.
       Add function to update parameters at runtime.
+1.2.1 Add friction parameter.
+      Update UNITY_5 to compatible with newer version.
+1.2.2 Add "Default" update mode, fix some jitter issue.

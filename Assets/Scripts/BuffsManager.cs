@@ -773,7 +773,7 @@ public class BuffsManager : MonoBehaviour
 
                     psSystems[26].Play();
 
-                    GetComponent<PlayerGearManager>().ChangeMaterialToNewMaterial(PlayerGearManager.MaterialOverrides.GiantStrength);
+                    GetComponent<PlayerGearManager>().AddMaterialOverride(PlayerGearManager.MaterialOverrideCode.GiantStrength);
 
                     break;
 

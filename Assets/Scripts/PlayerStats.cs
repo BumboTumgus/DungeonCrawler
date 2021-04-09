@@ -272,6 +272,7 @@ public class PlayerStats : MonoBehaviour
         {
             // Sets up the health and mana Bars.
             healthBar.Initialize(healthMax, false, true, health);
+            myStats.mouseWithItemHovered = false;
         }
 
         if(myStats != null)
@@ -778,6 +779,7 @@ public class PlayerStats : MonoBehaviour
     // Used wehn we want to force a stat value reset for when we are no logner hovering with an item.
     public void ForceStatRecheck()
     {
+        Debug.Log(" we have forced a stat recheck");
         myStats.mouseWithItemHovered = false;
         StatSetup(false, false);
     }
@@ -827,7 +829,7 @@ public class PlayerStats : MonoBehaviour
         if (amount > 0)
         {
             invisibile = true;
-            GetComponent<PlayerGearManager>().ChangeMaterialToNewMaterial(PlayerGearManager.MaterialOverrides.Invisible);
+            GetComponent<PlayerGearManager>().AddMaterialOverride(PlayerGearManager.MaterialOverrideCode.Invisible);
             invisibleCount += amount;
         }
         else if (amount < 0)
