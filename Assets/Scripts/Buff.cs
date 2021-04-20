@@ -35,6 +35,7 @@ public class Buff : MonoBehaviour
     public float healthRegenSC = 0;
     public float armorSC = 0;
     public float damageReductionSC = 0;
+    public float healingMultiplierSC = 0;
     
     public float atkSpdSC = 0;
     public float movespeedSC = 0;
@@ -172,6 +173,16 @@ public class Buff : MonoBehaviour
         if (myType == BuffsManager.BuffType.Bleeding && DPSMultiplier == 1 && currentStacks >= 30 && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Aflame) >= 30 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold) > 0)
             DPSMultiplier += playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold);
 
+        if (myType == BuffsManager.BuffType.Aflame && currentStacks + connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Poisoned) >= 40 - playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonGreviousWoundsOnStackThreshold)
+            && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Poisoned) > 0 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonGreviousWoundsOnStackThreshold) > 0)
+            connectedPlayer.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.GreviousWounds, playerDamageSource.baseDamage, playerDamageSource);
+        if (myType == BuffsManager.BuffType.Poisoned && currentStacks + connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Aflame) >= 40 - playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonGreviousWoundsOnStackThreshold)
+            && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Aflame) > 0 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonGreviousWoundsOnStackThreshold) > 0)
+            connectedPlayer.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.GreviousWounds, playerDamageSource.baseDamage, playerDamageSource);
+
+        if (myType == BuffsManager.BuffType.Aflame && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Poisoned) > 0 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) > 0)
+            connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Poisoned).DPSMultiplier += playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) * amount;
+
         connectedIcon.GetComponent<Animator>().SetBool("AlmostDone", false);
 
         // Setting the timer.
@@ -186,8 +197,8 @@ public class Buff : MonoBehaviour
         if (amount != 0)
         {
             // If we changed the defensive stats, add more stacks
-            if (healthSC != 0 || healthRegenSC != 0 || armorSC != 0 || damageReductionSC != 0)
-                ChangeDefensiveStats(false, healthSC * amount, healthRegenSC * amount, armorSC * amount, damageReductionSC * amount);
+            if (healthSC != 0 || healthRegenSC != 0 || armorSC != 0 || damageReductionSC != 0 || healingMultiplierSC != 0)
+                ChangeDefensiveStats(false, healthSC * amount, healthRegenSC * amount, armorSC * amount, damageReductionSC * amount, healingMultiplierSC * amount);
 
             // If we changed offensive stats, add more stacks
             if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0)
@@ -229,6 +240,9 @@ public class Buff : MonoBehaviour
         if (myType == BuffsManager.BuffType.Bleeding && DPSMultiplier >= 1 && (currentStacks < 30 || connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Aflame) < 30))
             DPSMultiplier = 1;
 
+        if (myType == BuffsManager.BuffType.Aflame && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Poisoned) > 0 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) > 0)
+            connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Poisoned).DPSMultiplier -= playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) * amount;
+
         if (changeTimer)
         {
             // Setting the timer.
@@ -243,8 +257,8 @@ public class Buff : MonoBehaviour
         // Adding the stat change.
 
         // If we changed the defensive stats, remove more stacks
-        if (healthSC != 0 || healthRegenSC != 0 || armorSC != 0 || damageReductionSC != 0)
-            ChangeDefensiveStats(false, healthSC * amount,  healthRegenSC * amount,  armorSC * amount, damageReductionSC * amount);
+        if (healthSC != 0 || healthRegenSC != 0 || armorSC != 0 || damageReductionSC != 0 || healingMultiplierSC != 0)
+            ChangeDefensiveStats(false, healthSC * amount,  healthRegenSC * amount,  armorSC * amount, damageReductionSC * amount, healingMultiplierSC * amount);
 
         // If we changed offensive stats, remove more stacks
         if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0)
@@ -308,12 +322,13 @@ public class Buff : MonoBehaviour
     }
 
     // Used to change the characters health, manan, regens, armor, and mr
-    public void ChangeDefensiveStats(bool changeStatsChangeValue, float healthGain, float healthRegenGain, float armorGain, float damageReductionGain)
+    public void ChangeDefensiveStats(bool changeStatsChangeValue, float healthGain, float healthRegenGain, float armorGain, float damageReductionGain, float healingMultiplier)
     {
         connectedPlayer.bonusHealth += healthGain;
         connectedPlayer.bonusHealthRegen += healthRegenGain;
         connectedPlayer.ChangeArmor(armorGain);
         connectedPlayer.damageReductionMultiplier += damageReductionGain;
+        connectedPlayer.healingMultiplier += healingMultiplier;
 
         if (changeStatsChangeValue)
         {
@@ -321,6 +336,7 @@ public class Buff : MonoBehaviour
             healthRegenSC = healthRegenGain;
             armorSC = armorGain;
             damageReductionSC = damageReductionGain;
+            healingMultiplierSC = healingMultiplier;
         }
         
         connectedPlayer.StatSetup(false, true);
@@ -396,13 +412,16 @@ public class Buff : MonoBehaviour
         else if (myType == BuffsManager.BuffType.GiantStrength)
             connectedPlayer.GetComponent<PlayerGearManager>().RemoveMaterialOverride(PlayerGearManager.MaterialOverrideCode.GiantStrength);
 
+        if (myType == BuffsManager.BuffType.Aflame && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Poisoned) > 0 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) > 0)
+            connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Poisoned).DPSMultiplier -= playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) * currentStacks;
+
         // We do not change it if its a stackable buff since this method is called after we already remvoed all the stats associated with the buff, this would put us into negatives.
         if (!stackable)
         {
 
             // If we changed the defensive stats, change them back.
-            if (healthSC != 0 || healthRegenSC != 0 || armorSC != 0 || damageReductionSC != 0)
-                ChangeDefensiveStats(true, healthSC * -1, healthRegenSC * -1, armorSC * -1, damageReductionSC * -1);
+            if (healthSC != 0 || healthRegenSC != 0 || armorSC != 0 || damageReductionSC != 0 || healingMultiplierSC != 0)
+                ChangeDefensiveStats(true, healthSC * -1, healthRegenSC * -1, armorSC * -1, damageReductionSC * -1, healingMultiplierSC * -1);
 
             // If we changed offensive stats, change em back.
             if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0)
@@ -423,8 +442,8 @@ public class Buff : MonoBehaviour
         else
         {
             // If we changed the defensive stats, change them back.
-            if (healthSC != 0 || healthRegenSC != 0 || armorSC != 0 || damageReductionSC != 0)
-                ChangeDefensiveStats(true, healthSC * -1 * currentStacks, healthRegenSC * -1 * currentStacks, armorSC * -1 * currentStacks, damageReductionSC * -1 * currentStacks);
+            if (healthSC != 0 || healthRegenSC != 0 || armorSC != 0 || damageReductionSC != 0 || healingMultiplierSC != 0)
+                ChangeDefensiveStats(true, healthSC * -1 * currentStacks, healthRegenSC * -1 * currentStacks, armorSC * -1 * currentStacks, damageReductionSC * -1 * currentStacks, healingMultiplierSC * -1 * currentStacks);
 
             // If we changed offensive stats, change em back.
             if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0)

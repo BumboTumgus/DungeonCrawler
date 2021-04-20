@@ -536,6 +536,34 @@ public class UiItemPopUpResizer : MonoBehaviour
                     traitText.GetComponentInChildren<Text>().text = "Consuming <color=#AB181D>blaze" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
+                case ItemTrait.TraitType.AflamePoisonBurningEnemySpreadPoisonStacksOnDeath:
+                    traitText.GetComponentInChildren<Text>().text = "Fiery <color=#93D916>contagion" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflamePoisonGreviousWoundsOnStackThreshold:
+                    traitText.GetComponentInChildren<Text>().text = "Virulent <color=#93D916>toxins" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflamePoisonPoisonReducesFireResist:
+                    traitText.GetComponentInChildren<Text>().text = "Incendiary <color=#93D916>plague" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflamePoisonFireSpellsSummonsPoisonBurst:
+                    traitText.GetComponentInChildren<Text>().text = "Infernal <color=#93D916>epidemic" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflamePoisonFireAmpsPoison:
+                    traitText.GetComponentInChildren<Text>().text = "Scalding <color=#93D916>poison" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflamePoisonPoisonCloudOnFireKill:
+                    traitText.GetComponentInChildren<Text>().text = "Toxic <color=#93D916>smoke" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflameStunPeriodBurnStun:
+                    traitText.GetComponentInChildren<Text>().text = "Dazing <color=#FFF04F>flames" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
                 default:
                     break;
             }

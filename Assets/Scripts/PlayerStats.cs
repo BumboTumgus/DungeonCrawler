@@ -41,6 +41,8 @@ public class PlayerStats : MonoBehaviour
 
     public float flatDamageReduction = 0;
 
+    public float healingMultiplier = 1;
+
     public float speed = 2.5f;
     public float movespeedPercentMultiplier = 1;
     public int jumps = 1;
@@ -112,6 +114,9 @@ public class PlayerStats : MonoBehaviour
     public PlayerStats lastHitBy;
 
     public bool traitMoreAflameStacksOnHitThresholdFatigue = false;
+    public bool traitPoisonFireSpellOnHitReady = true;
+    private float traitPoisonFireSpellOnHitCurrentTimer = 0;
+    private float traitPoisonFireSpellOnHitTargetTimer = 3;
 
     [SerializeField] private GameObject enemyHealthBar;
 
@@ -183,6 +188,8 @@ public class PlayerStats : MonoBehaviour
             buffManager.NewBuff(BuffsManager.BuffType.ArmorBroken, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.KeypadPlus) && CompareTag("Player"))
             GetComponent<PlayerMovementController>().KnockbackLaunch((transform.forward + Vector3.up) * 5, this);
+        if (Input.GetKeyDown(KeyCode.KeypadMinus))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.GreviousWounds, 1, baseDamage, this);
 
         // Health and mana regen logic.
         /*
@@ -198,7 +205,7 @@ public class PlayerStats : MonoBehaviour
 
         }
         */
-        if(!dead)
+        if (!dead)
             health += healthRegen * Time.deltaTime;
 
         if (health > healthMax)
@@ -232,6 +239,16 @@ public class PlayerStats : MonoBehaviour
 
         // Update the health bar.
         healthBar.targetValue = health;
+
+        if(!traitPoisonFireSpellOnHitReady)
+        {
+            traitPoisonFireSpellOnHitCurrentTimer += Time.deltaTime;
+            if(traitPoisonFireSpellOnHitCurrentTimer >= traitPoisonFireSpellOnHitTargetTimer)
+            {
+                traitPoisonFireSpellOnHitReady = true;
+                traitPoisonFireSpellOnHitCurrentTimer = 0;
+            }
+        }
     }
 
     // Used to set up the stats at the start of the game and every time we level.
@@ -245,12 +262,14 @@ public class PlayerStats : MonoBehaviour
 
         attackSpeed = 1 + bonusAttackSpeed;
 
+        traitPoisonFireSpellOnHitTargetTimer = 3 / attackSpeed;
+
         // If we level up set the health to the max.
         if (LeveledUp)
             health = healthMax;
 
         // Ste up our health and manaRegen;
-        healthRegen = baseHealthRegen + baseHealthRegenGrowth * level + bonusHealthRegen;
+        healthRegen = (baseHealthRegen + baseHealthRegenGrowth * level + bonusHealthRegen) * healingMultiplier;
 
         if (transform.CompareTag("Enemy"))
             GetComponent<UnityEngine.AI.NavMeshAgent>().speed = speed * movespeedPercentMultiplier;
@@ -317,22 +336,30 @@ public class PlayerStats : MonoBehaviour
     // Used to heal Health
     public void HealHealth(float amount, HitBox.DamageType damage)
     {
-        health += amount;
-        if (health > healthMax)
-            health = healthMax;
+        if (healingMultiplier > 0)
+            amount *= healingMultiplier;
+        else
+            amount = 0;
 
-        Color chosenColor = Color.white;
-        switch (damage)
+        if (amount > 0)
         {
-            case HitBox.DamageType.Healing:
-                chosenColor = UiPopUpTextColorBank.instance.damageColors[14];
-                break;
-            default:
-                break;
-        }
+            health += amount;
+            if (health > healthMax)
+                health = healthMax;
 
-        // Spawn the damage number.
-        SpawnFlavorText(amount, false, chosenColor);
+            Color chosenColor = Color.white;
+            switch (damage)
+            {
+                case HitBox.DamageType.Healing:
+                    chosenColor = UiPopUpTextColorBank.instance.damageColors[14];
+                    break;
+                default:
+                    break;
+            }
+
+            // Spawn the damage number.
+            SpawnFlavorText(amount, false, chosenColor);
+        }
     }
 
     // Used to take damage
@@ -433,12 +460,12 @@ public class PlayerStats : MonoBehaviour
 
             // If we are dead, call the death logic method.
             if (health <= 0 && !dead)
-                EntityDeath();
+                EntityDeath(damage);
         }
     }
 
     // Used when this object dies. What will happen afterwards?
-    public void EntityDeath()
+    public void EntityDeath(HitBox.DamageType damageType)
     {
         //Debug.Log("SOmething died");
         dead = true;
@@ -449,7 +476,7 @@ public class PlayerStats : MonoBehaviour
 
             // Find the player, and give them exp. If they were in combat with us, end the combat. Start the death coroutine (for a death animation).
             // Create an array of all players.
-            lastHitBy.GetComponent<BuffsManager>().ProcOnKill(gameObject);
+            lastHitBy.GetComponent<BuffsManager>().ProcOnKill(gameObject, damageType);
 
             GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
             GameObject[] players = new GameObject[gm.currentPlayers.Length];
@@ -693,6 +720,27 @@ public class PlayerStats : MonoBehaviour
                 case ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold:
                     playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
                     break;
+                case ItemTrait.TraitType.AflamePoisonBurningEnemySpreadPoisonStacksOnDeath:
+                    playerTraitManager.AddOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflamePoisonGreviousWoundsOnStackThreshold:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflamePoisonPoisonReducesFireResist:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflamePoisonFireSpellsSummonsPoisonBurst:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflamePoisonFireAmpsPoison:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflamePoisonPoisonCloudOnFireKill:
+                    playerTraitManager.AddOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameStunPeriodBurnStun:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
                 default:
                     break;
             }
@@ -867,6 +915,27 @@ public class PlayerStats : MonoBehaviour
                     playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
                     break;
                 case ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflamePoisonBurningEnemySpreadPoisonStacksOnDeath:
+                    playerTraitManager.RemoveOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflamePoisonGreviousWoundsOnStackThreshold:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflamePoisonPoisonReducesFireResist:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflamePoisonFireSpellsSummonsPoisonBurst:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflamePoisonFireAmpsPoison:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflamePoisonPoisonCloudOnFireKill:
+                    playerTraitManager.RemoveOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameStunPeriodBurnStun:
                     playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
                     break;
                 default:

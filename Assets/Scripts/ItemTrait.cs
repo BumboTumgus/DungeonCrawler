@@ -8,7 +8,8 @@ public class ItemTrait
     public enum TraitType { HealthFlat, HealthPercent, HealthRegen, HealingOnHit, HealingOnKill, Armor, CooldownReduction, AflameResistance, FrostbiteResistance, WindshearResistance, SunderResistance, OverchargeResistance, OvergrowthResistance, AsleepResistance, StunResistance,
         BleedResistance, PoisonResistance, KnockbackResistance, AttackSpeed, MoveSpeed, CritChance, CritDamage, Jumps, FlatDamageReduction, FireExplosionOnKill, MoreAflameStacksOnHitThreshold, BurnDoesMaxHpDamageAtThreshold, BasicAttacksShredArmorOnAflame, FlameVamperism, RingOfFireOnHit, AflameToSunderStackOnEarthSpell,
     SunderFurtherDecreasesFireResist, AflameSunderCritsSummonFireballs, AflameWindshearWindAttacksGainCritOnBurningTarget, AflameWindshearSummonFirePillarsOnHit, AflameWindshearWindSpellsAddFireStacks, AflamePhysicalAddFireStacksOnHit,  AflamePhysicalDamageAmpOnBurningTarget, AflamePhysicalBladeExplosionOnKill, AflamePhysicalBigHitsAddAflame,
-    AflameBleedIncreasesFlameCritChance, AflameBleedFireDamageAmpOnBleedThreshold, AflameBleedAflameAddsBleedAtThreshhold, AflameBleedAflameRemovesBleedResist, AflameBleedDamageAmpOnDoubleThreshhold};
+    AflameBleedIncreasesFlameCritChance, AflameBleedFireDamageAmpOnBleedThreshold, AflameBleedAflameAddsBleedAtThreshhold, AflameBleedAflameRemovesBleedResist, AflameBleedDamageAmpOnDoubleThreshhold, AflamePoisonBurningEnemySpreadPoisonStacksOnDeath, AflamePoisonGreviousWoundsOnStackThreshold, AflamePoisonPoisonReducesFireResist, AflamePoisonFireSpellsSummonsPoisonBurst,
+    AflamePoisonFireAmpsPoison, AflamePoisonPoisonCloudOnFireKill, AflameStunPeriodBurnStun};
     public TraitType traitType;
     public int traitBonusMultiplier = 1;
     public float traitBonus;
@@ -28,7 +29,7 @@ public class ItemTrait
     // Used to grab a random trait from the bin of availible traits.
     public void GetRandomTrait()
     {
-        int randomTrait = Random.Range(0, 36);
+        int randomTrait = Random.Range(0, 42);
         switch (randomTrait)
         {
             case 0:
@@ -158,6 +159,34 @@ public class ItemTrait
             case 35:
                 traitType = TraitType.AflameBleedDamageAmpOnDoubleThreshhold;
                 traitBonus = 0.5f;
+                break;
+            case 36:
+                traitType = TraitType.AflamePoisonBurningEnemySpreadPoisonStacksOnDeath;
+                traitBonus = 0.5f;
+                break;
+            case 37:
+                traitType = TraitType.AflamePoisonGreviousWoundsOnStackThreshold;
+                traitBonus = 4;
+                break;
+            case 38:
+                traitType = TraitType.AflamePoisonPoisonReducesFireResist;
+                traitBonus = 0.01f;
+                break;
+            case 39:
+                traitType = TraitType.AflamePoisonFireSpellsSummonsPoisonBurst;
+                traitBonus = 5f;
+                break;
+            case 40:
+                traitType = TraitType.AflamePoisonFireAmpsPoison;
+                traitBonus = 0.01f;
+                break;
+            case 41:
+                traitType = TraitType.AflamePoisonPoisonCloudOnFireKill;
+                traitBonus = 0.1f;
+                break;
+            case 42:
+                traitType = TraitType.AflameStunPeriodBurnStun;
+                traitBonus = 1f;
                 break;
             default:
                 break;
