@@ -474,6 +474,7 @@ public class Skill : MonoBehaviour
 
                     blade.GetComponent<HitBox>().damage = myManager.stats.baseDamage * 0.33f;
                     blade.GetComponent<HitBox>().myStats = myManager.stats;
+                    blade.GetComponent<HitBoxBuff>().buffOrigin = myManager.stats;
                 }
             }
 

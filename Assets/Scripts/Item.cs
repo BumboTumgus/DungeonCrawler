@@ -57,6 +57,7 @@ public class Item : MonoBehaviour
     public List<ItemTrait> itemTraits = new List<ItemTrait>();
     public ItemTrait.TraitType[] garenteedTraits;
     public float[] garenteedTraitValues;
+    public int[] garenteedTraitMultipliers;
 
     /*
     public int health;
@@ -88,7 +89,7 @@ public class Item : MonoBehaviour
         for(int index = 0; index < garenteedTraits.Length; index++)
         {
             //Debug.Log("we added a garenteed trait of: " + garenteedTraits[index]);
-            AddTrait(garenteedTraits[index], garenteedTraitValues[index]);
+            AddTrait(garenteedTraits[index], garenteedTraitValues[index], garenteedTraitMultipliers[index]);
         }
     }
     /*
@@ -215,18 +216,18 @@ public class Item : MonoBehaviour
     }
 
     // Used to add an item trait to this item.
-    private void AddTrait(ItemTrait.TraitType selectedTrait, float value)
+    private void AddTrait(ItemTrait.TraitType selectedTrait, float value, int multiplierValue)
     {
         bool traitExists = false;
         foreach (ItemTrait itemTrait in itemTraits)
             if (itemTrait.traitType == selectedTrait)
             {
-                itemTrait.traitBonus += value;
+                itemTrait.traitBonusMultiplier += multiplierValue;
                 traitExists = true;
             }
 
         if (!traitExists)
-            itemTraits.Add(new ItemTrait(selectedTrait, value));
+            itemTraits.Add(new ItemTrait(selectedTrait, value, multiplierValue));
     }
     // Overload that uses a full item trait instead of components
     private void AddTrait(ItemTrait previousItemTrait)
@@ -235,7 +236,7 @@ public class Item : MonoBehaviour
         foreach (ItemTrait itemTrait in itemTraits)
             if (itemTrait.traitType == previousItemTrait.traitType)
             {
-                itemTrait.traitBonus += previousItemTrait.traitBonus;
+                itemTrait.traitBonusMultiplier++;
                 traitExists = true;
             }
 
@@ -275,7 +276,7 @@ public class Item : MonoBehaviour
         {
             ItemTrait tempTrait = new ItemTrait();
             tempTrait.GetRandomTrait();
-            tempTrait.GetRandomTraitValue(itemRarity);
+            //tempTrait.GetRandomTraitValue(itemRarity);
             AddTrait(tempTrait);
         }
     }

@@ -6,6 +6,8 @@ public class HitBoxBuff : MonoBehaviour
 {
     public BuffsManager.BuffType buff;
     public bool applyBuff = false;
+    public bool disjointedHitbox = false;
+    public PlayerStats buffOrigin;
 
     [SerializeField] private bool hitEnemies = false;
     [SerializeField] private bool hitPlayers = false;
@@ -29,13 +31,17 @@ public class HitBoxBuff : MonoBehaviour
     public bool knockForwardFromLocalTransform = false;
     public Vector3 knockbackDirection = Vector3.zero;
 
-    public float baseDamage = 0;
+    private void Start()
+    {
+        if (!disjointedHitbox)
+            buffOrigin = transform.root.GetComponent<PlayerStats>();
+    }
 
     public void BuffSelf()
     {
         //Debug.Log("buffing self");
         if (hitSelf)
-            transform.root.GetComponent<BuffsManager>().NewBuff(buff, baseDamage);
+            transform.root.GetComponent<BuffsManager>().NewBuff(buff, buffOrigin.baseDamage, GetComponent<PlayerStats>());
     }
 
     // USed to add afllictions to the caster of this spell.
@@ -44,17 +50,17 @@ public class HitBoxBuff : MonoBehaviour
         if (hitSelf)
         {
             if (aflameValue > 0)
-                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Aflame, aflameValue, baseDamage);
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Aflame, aflameValue, buffOrigin.baseDamage, buffOrigin);
             if (frostbiteValue > 0)
-                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, frostbiteValue, baseDamage);
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, frostbiteValue, buffOrigin.baseDamage, buffOrigin);
             if (overchargeValue > 0)
-                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, overchargeValue, baseDamage);
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, overchargeValue, buffOrigin.baseDamage, buffOrigin);
             if (overgrownValue > 0)
-                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overgrown, overgrownValue, baseDamage);
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overgrown, overgrownValue, buffOrigin.baseDamage, buffOrigin);
             if (sunderValue > 0)
-                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Sunder, sunderValue, baseDamage);
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Sunder, sunderValue, buffOrigin.baseDamage, buffOrigin);
             if (windshearValue > 0)
-                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Windshear, windshearValue, baseDamage);
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Windshear, windshearValue, buffOrigin.baseDamage, buffOrigin);
             if (knockback)
             {
                 // Default case
@@ -70,20 +76,20 @@ public class HitBoxBuff : MonoBehaviour
                     knockbackDirection = transform.forward;
 
                 if (CompareTag("Player"))
-                    transform.root.GetComponent<PlayerMovementController>().KnockbackLaunch(knockbackDirection * knockbackStrength);
+                    transform.root.GetComponent<PlayerMovementController>().KnockbackLaunch(knockbackDirection * knockbackStrength, buffOrigin);
                 else
-                    transform.root.GetComponent<EnemyCrowdControlManager>().KnockbackLaunch(knockbackDirection * knockbackStrength);
+                    transform.root.GetComponent<EnemyCrowdControlManager>().KnockbackLaunch(knockbackDirection * knockbackStrength, buffOrigin);
             }
             if (asleep)
-                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Asleep, 1, baseDamage);
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Asleep, 1, buffOrigin.baseDamage, buffOrigin);
             if (stun)
-                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, baseDamage);
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, buffOrigin.baseDamage, buffOrigin);
             if (freeze)
-                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frozen, 1, baseDamage);
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frozen, 1, buffOrigin.baseDamage, buffOrigin);
             if (bleedValue > 0)
-                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Bleeding, bleedValue, baseDamage);
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Bleeding, bleedValue, buffOrigin.baseDamage, buffOrigin);
             if (poisonValue > 0)
-                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, poisonValue, baseDamage);
+                transform.root.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, poisonValue, buffOrigin.baseDamage, buffOrigin);
         }
     }
 
@@ -93,20 +99,20 @@ public class HitBoxBuff : MonoBehaviour
         if (other.CompareTag("Enemy") && hitEnemies)
         {
             if (applyBuff)
-                other.GetComponent<BuffsManager>().NewBuff(buff, baseDamage);
+                other.GetComponent<BuffsManager>().NewBuff(buff, buffOrigin.baseDamage, buffOrigin);
 
             if (aflameValue > 0)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Aflame, aflameValue, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Aflame, aflameValue, buffOrigin.baseDamage, buffOrigin);
             if (frostbiteValue > 0)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, frostbiteValue, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, frostbiteValue, buffOrigin.baseDamage, buffOrigin);
             if (overchargeValue > 0)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, overchargeValue, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, overchargeValue, buffOrigin.baseDamage, buffOrigin);
             if (overgrownValue > 0)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overgrown, overgrownValue, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overgrown, overgrownValue, buffOrigin.baseDamage, buffOrigin);
             if (sunderValue > 0)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Sunder, sunderValue, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Sunder, sunderValue, buffOrigin.baseDamage, buffOrigin);
             if (windshearValue > 0)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Windshear, windshearValue, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Windshear, windshearValue, buffOrigin.baseDamage, buffOrigin);
             if (knockback)
             {
                 // Default case
@@ -123,36 +129,36 @@ public class HitBoxBuff : MonoBehaviour
                     knockbackDirection = transform.forward;
 
                 //Debug.Log("The knckback direction is: " + knockbackDirection);
-                other.GetComponent<EnemyCrowdControlManager>().KnockbackLaunch(knockbackDirection * knockbackStrength);
+                other.GetComponent<EnemyCrowdControlManager>().KnockbackLaunch(knockbackDirection * knockbackStrength, buffOrigin);
             }
             if (asleep)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Asleep, 1, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Asleep, 1, buffOrigin.baseDamage, buffOrigin);
             if (stun)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, buffOrigin.baseDamage, buffOrigin);
             if (freeze)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frozen, 1, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frozen, 1, buffOrigin.baseDamage, buffOrigin);
             if (bleedValue > 0)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Bleeding, bleedValue, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Bleeding, bleedValue, buffOrigin.baseDamage, buffOrigin);
             if (poisonValue > 0)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, poisonValue, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, poisonValue, buffOrigin.baseDamage, buffOrigin);
         }
         else if (other.CompareTag("Player") && hitPlayers)
         {
             if (applyBuff)
-                other.GetComponent<BuffsManager>().NewBuff(buff, baseDamage);
+                other.GetComponent<BuffsManager>().NewBuff(buff, buffOrigin.baseDamage, buffOrigin);
 
             if (aflameValue > 0)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Aflame, aflameValue, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Aflame, aflameValue, buffOrigin.baseDamage, buffOrigin);
             if (frostbiteValue > 0)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, frostbiteValue, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, frostbiteValue, buffOrigin.baseDamage, buffOrigin);
             if (overchargeValue > 0)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, overchargeValue, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, overchargeValue, buffOrigin.baseDamage, buffOrigin);
             if (overgrownValue > 0)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overgrown, overgrownValue, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overgrown, overgrownValue, buffOrigin.baseDamage, buffOrigin);
             if (sunderValue > 0)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Sunder, sunderValue, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Sunder, sunderValue, buffOrigin.baseDamage, buffOrigin);
             if (windshearValue > 0)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Windshear, windshearValue, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Windshear, windshearValue, buffOrigin.baseDamage, buffOrigin);
             if (knockback)
             {
                 // Default case
@@ -169,18 +175,18 @@ public class HitBoxBuff : MonoBehaviour
                 if (knockForwardFromLocalTransform)
                     knockbackDirection = transform.forward;
 
-                other.GetComponent<PlayerMovementController>().KnockbackLaunch(knockbackDirection * knockbackStrength);
+                other.GetComponent<PlayerMovementController>().KnockbackLaunch(knockbackDirection * knockbackStrength, buffOrigin);
             }
             if (asleep)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Asleep, 1, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Asleep, 1, buffOrigin.baseDamage, buffOrigin);
             if (stun)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, buffOrigin.baseDamage, buffOrigin);
             if (freeze)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frozen, 1, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frozen, 1, buffOrigin.baseDamage, buffOrigin);
             if (bleedValue > 0)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Bleeding, bleedValue, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Bleeding, bleedValue, buffOrigin.baseDamage, buffOrigin);
             if (poisonValue > 0)
-                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, poisonValue, baseDamage);
+                other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, poisonValue, buffOrigin.baseDamage, buffOrigin);
         }
     }
 }

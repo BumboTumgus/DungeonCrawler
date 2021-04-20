@@ -244,12 +244,12 @@ public class Inventory : MonoBehaviour
                 gearManager.ShowItem(item);
                 break;
             case ItemDropZone.SlotType.Weapon:
-                Debug.Log("we are transferring in a item called: " + item.itemName);
+                //Debug.Log("we are transferring in a item called: " + item.itemName);
                 weapons.Add(item);
                 CheckMoveset();
-                Debug.Log(" we added the items stats here");
+                //Debug.Log(" we added the items stats here");
                 stats.AddItemStats(item, true, false);
-                Debug.Log(" the item should appear here");
+                //Debug.Log(" the item should appear here");
                 gearManager.ShowItem(item);
                 break;
             case ItemDropZone.SlotType.Armor:
@@ -308,18 +308,31 @@ public class Inventory : MonoBehaviour
     }
 
     // make an item switch from the left hand to the right or vice versa, but do not recalculate stats for said item.
-    public void SwitchHands(Item item)
+    public void SwitchHands(Item primaryItem, Item secondaryItem)
     {
-        gearManager.HideItem(item);
+        Debug.Log("switching hands");
+        gearManager.HideItem(primaryItem);
 
-        if (item.equippedToRightHand)
-            item.equippedToRightHand = false;
+        if (primaryItem.equippedToRightHand)
+            primaryItem.equippedToRightHand = false;
         else
-            item.equippedToRightHand = true;
+            primaryItem.equippedToRightHand = true;
+
+        if(secondaryItem != null)
+        {
+            gearManager.HideItem(secondaryItem);
+
+            if (secondaryItem.equippedToRightHand)
+                secondaryItem.equippedToRightHand = false;
+            else
+                secondaryItem.equippedToRightHand = true;
+        }
 
         stats.myStats.UpdateTooltips(stats);
 
-        gearManager.ShowItem(item);
+        gearManager.ShowItem(primaryItem);
+        if (secondaryItem != null)
+            gearManager.ShowItem(secondaryItem);
     }
 
     // Used to place an item into other incomplete stacks of said item.

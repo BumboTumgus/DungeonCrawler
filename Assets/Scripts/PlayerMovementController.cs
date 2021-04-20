@@ -617,7 +617,7 @@ public class PlayerMovementController : MonoBehaviour
     }
 
     // Used when the player gets frozen
-    public void KnockbackLaunch(Vector3 directionOfKnockback)
+    public void KnockbackLaunch(Vector3 directionOfKnockback, PlayerStats buffOrigin)
     {
         // Check to see if the knockback works and goes through.
         if (Random.Range(0, 100) > playerStats.knockbackResistance * 100)
@@ -633,7 +633,7 @@ public class PlayerMovementController : MonoBehaviour
             knockbackCoroutine = Knockback(directionOfKnockback);
             StartCoroutine(knockbackCoroutine);
 
-            GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.Knockback, 0);
+            GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.Knockback, 0, buffOrigin);
         }
     }
 

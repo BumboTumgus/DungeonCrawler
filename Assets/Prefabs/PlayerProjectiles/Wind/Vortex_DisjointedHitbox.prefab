@@ -47,6 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buff: 0
   applyBuff: 0
+  disjointedHitbox: 1
+  buffOrigin: {fileID: 0}
   hitEnemies: 1
   hitPlayers: 0
   hitSelf: 0
@@ -208,6 +210,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buff: 0
   applyBuff: 0
+  disjointedHitbox: 1
+  buffOrigin: {fileID: 0}
   hitEnemies: 1
   hitPlayers: 0
   hitSelf: 0
@@ -9960,6 +9964,7 @@ MonoBehaviour:
   projectileAOE: 1
   disjointedHitbox: 1
   bypassCrit: 0
+  screenShakeAmount: 0
 --- !u!135 &1180536109
 SphereCollider:
   m_ObjectHideFlags: 0

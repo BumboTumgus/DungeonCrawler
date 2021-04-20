@@ -16,7 +16,7 @@ public class BuffsManager : MonoBehaviour
     public enum BuffType
     {
         Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, Frozen, ArmorBroken, EmboldeningEmbers, FlameStrike, FlameWalker, BlessingOfFlames, Immolation, Glacier, FrostsKiss, IceArmor, StoneStrike,
-        GiantStrength, StonePrison, SecondWind, WrathOftheWind, Multislash, PressureDrop
+        GiantStrength, StonePrison, SecondWind, WrathOftheWind, Multislash, PressureDrop, BasicAttacksShredArmorOnAflame
     };
 
     [SerializeField] private ParticleSystem[] psSystems;
@@ -24,6 +24,7 @@ public class BuffsManager : MonoBehaviour
     private EffectsManager effects;
     private SkillsManager skillManager;
     private DamageNumberManager uiPopupManager;
+    private PlayerTraitManager playerTraitManager;
 
     private List<ParticleSystem.MinMaxCurve> weaponEffectRateOverTime = new List<ParticleSystem.MinMaxCurve>();
 
@@ -39,6 +40,9 @@ public class BuffsManager : MonoBehaviour
         effects = GetComponent<EffectsManager>();
         skillManager = GetComponent<SkillsManager>();
 
+        if (CompareTag("Player"))
+            playerTraitManager = GetComponent<PlayerTraitManager>();
+
         foreach (ParticleSystem ps in psSystems)
             if (ps != null)
                 ps.Stop();
@@ -50,7 +54,7 @@ public class BuffsManager : MonoBehaviour
     }
 
     // USed tyo see if our player resists the buff being added
-    public void CheckResistanceToBuff(BuffType buff, int stackCount, float baseDamage)
+    public void CheckResistanceToBuff(BuffType buff, int stackCount, float baseDamage, PlayerStats buffInflictor)
     {
         float resistance = 0;
         switch (buff)
@@ -97,7 +101,7 @@ public class BuffsManager : MonoBehaviour
             for (int index = 0; index < stackCount; index++)
             {
                 if (Random.Range(0, 100) > resistance * 100)
-                    NewBuff(buff, baseDamage);
+                    NewBuff(buff, baseDamage, buffInflictor);
                 else
                 {
                     switch (buff)
@@ -145,7 +149,7 @@ public class BuffsManager : MonoBehaviour
     }
 
     // Used to add a new buff to oiur player, if they already have it from this source, we refresh it instead.
-    public void NewBuff(BuffType buff, float baseDamage)
+    public void NewBuff(BuffType buff, float baseDamage, PlayerStats buffInflictor)
     {
         // Debug.Log("Addding buffs");
         bool buffDealtWith = false;
@@ -160,6 +164,8 @@ public class BuffsManager : MonoBehaviour
                 if (activeBuff.stackable)
                 {
                     activeBuff.AddStack(1);
+                    if (buffInflictor.CompareTag("Player") && buff == BuffType.Aflame && activeBuff.currentStacks >= 32 - buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedAflameAddsBleedAtThreshhold))
+                        CheckResistanceToBuff(BuffType.Bleeding, 1, buffInflictor.baseDamage, buffInflictor);
                 }
                 else
                 {
@@ -254,8 +260,12 @@ public class BuffsManager : MonoBehaviour
                     aflame.stackable = true;
                     aflame.stackSingleFalloff = false;
                     aflame.connectedPlayer = stats;
+                    aflame.playerDamageSource = buffInflictor;
                     aflame.infiniteDuration = false;
                     aflame.duration = 10;
+
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedAflameRemovesBleedResist) < 0)
+                        aflame.ChangeResistanceStats(true, 0, 0, 0, 0, 0, 0, 0, 0, buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedAflameRemovesBleedResist), 0, 0);
 
                     aflame.DPS = baseDamage * 0.2f;
                     aflame.damageType = HitBox.DamageType.Fire;
@@ -279,6 +289,7 @@ public class BuffsManager : MonoBehaviour
                     frostbite.stackable = true;
                     frostbite.stackSingleFalloff = false;
                     frostbite.connectedPlayer = stats;
+                    frostbite.playerDamageSource = buffInflictor;
                     frostbite.infiniteDuration = false;
                     frostbite.duration = 10;
 
@@ -303,6 +314,7 @@ public class BuffsManager : MonoBehaviour
 
                     frozen.myType = buff;
                     frozen.connectedPlayer = stats;
+                    frozen.playerDamageSource = buffInflictor;
                     frozen.infiniteDuration = false;
                     frozen.duration = 5f;
 
@@ -331,6 +343,7 @@ public class BuffsManager : MonoBehaviour
                     overcharge.stackable = true;
                     overcharge.stackSingleFalloff = false;
                     overcharge.connectedPlayer = stats;
+                    overcharge.playerDamageSource = buffInflictor;
                     overcharge.infiniteDuration = false;
                     overcharge.duration = 10;
 
@@ -354,6 +367,7 @@ public class BuffsManager : MonoBehaviour
                     overgrown.stackable = true;
                     overgrown.stackSingleFalloff = false;
                     overgrown.connectedPlayer = stats;
+                    overgrown.playerDamageSource = buffInflictor;
                     overgrown.infiniteDuration = false;
                     overgrown.duration = 10;
 
@@ -377,6 +391,7 @@ public class BuffsManager : MonoBehaviour
                     windshear.stackable = true;
                     windshear.stackSingleFalloff = false;
                     windshear.connectedPlayer = stats;
+                    windshear.playerDamageSource = buffInflictor;
                     windshear.infiniteDuration = false;
                     windshear.duration = 10;
 
@@ -402,10 +417,15 @@ public class BuffsManager : MonoBehaviour
                     sundered.stackable = true;
                     sundered.stackSingleFalloff = false;
                     sundered.connectedPlayer = stats;
+                    sundered.playerDamageSource = buffInflictor;
                     sundered.infiniteDuration = false;
                     sundered.duration = 10;
 
-                    sundered.ChangeResistanceStats(true, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f);
+                    if(buffInflictor.CompareTag("Player"))
+                        sundered.ChangeResistanceStats(true, -0.01f * (buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.SunderFurtherDecreasesFireResist) + 1), -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f);
+                    else
+                        sundered.ChangeResistanceStats(true, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f);
+
                     sundered.effectParticleSystem.Add(psSystems[8]);
                     psSystems[8].Play();
 
@@ -426,6 +446,7 @@ public class BuffsManager : MonoBehaviour
                     bleeding.stackable = true;
                     bleeding.stackSingleFalloff = false;
                     bleeding.connectedPlayer = stats;
+                    bleeding.playerDamageSource = buffInflictor;
                     bleeding.infiniteDuration = false;
                     bleeding.duration = 5;
 
@@ -454,6 +475,7 @@ public class BuffsManager : MonoBehaviour
                     poisoned.stackable = true;
                     poisoned.stackSingleFalloff = false;
                     poisoned.connectedPlayer = stats;
+                    poisoned.playerDamageSource = buffInflictor;
                     poisoned.infiniteDuration = false;
                     poisoned.duration = 20;
 
@@ -480,6 +502,7 @@ public class BuffsManager : MonoBehaviour
 
                     asleep.myType = buff;
                     asleep.connectedPlayer = stats;
+                    asleep.playerDamageSource = buffInflictor;
                     asleep.infiniteDuration = false;
                     asleep.duration = 5;
                     asleep.DPS = 0;
@@ -506,6 +529,7 @@ public class BuffsManager : MonoBehaviour
 
                     stunned.myType = buff;
                     stunned.connectedPlayer = stats;
+                    stunned.playerDamageSource = buffInflictor;
                     stunned.infiniteDuration = false;
                     stunned.duration = 2;
                     stunned.DPS = 0;
@@ -532,6 +556,7 @@ public class BuffsManager : MonoBehaviour
 
                     knockback.myType = buff;
                     knockback.connectedPlayer = stats;
+                    knockback.playerDamageSource = buffInflictor;
                     knockback.infiniteDuration = true;
                     knockback.DPS = 0;
 
@@ -552,6 +577,7 @@ public class BuffsManager : MonoBehaviour
 
                     armorBroken.myType = buff;
                     armorBroken.connectedPlayer = stats;
+                    armorBroken.playerDamageSource = buffInflictor;
                     armorBroken.infiniteDuration = false;
                     armorBroken.duration = 10;
 
@@ -570,6 +596,7 @@ public class BuffsManager : MonoBehaviour
 
                     embers.myType = buff;
                     embers.connectedPlayer = stats;
+                    embers.playerDamageSource = buffInflictor;
                     embers.infiniteDuration = false;
                     embers.ChangeOffensiveStats(true, 0.5f, 0.25f, 0);
                     embers.ChangeDefensiveStats(true, stats.healthMax * 0.2f, 0, 0, 0);
@@ -591,6 +618,7 @@ public class BuffsManager : MonoBehaviour
 
                     flameStrike.myType = buff;
                     flameStrike.connectedPlayer = stats;
+                    flameStrike.playerDamageSource = buffInflictor;
                     flameStrike.infiniteDuration = false;
                     flameStrike.duration = 15;
 
@@ -611,6 +639,7 @@ public class BuffsManager : MonoBehaviour
 
                     flameWalker.myType = buff;
                     flameWalker.connectedPlayer = stats;
+                    flameWalker.playerDamageSource = buffInflictor;
                     flameWalker.infiniteDuration = false;
                     flameWalker.duration = 15;
                     flameWalker.ChangeOffensiveStats(true, 0, 0.5f, 0);
@@ -636,6 +665,7 @@ public class BuffsManager : MonoBehaviour
 
                     blessingOfFlames.myType = buff;
                     blessingOfFlames.connectedPlayer = stats;
+                    blessingOfFlames.playerDamageSource = buffInflictor;
                     blessingOfFlames.infiniteDuration = false;
                     blessingOfFlames.duration = 15;
                     blessingOfFlames.ChangeDefensiveStats(true, 0, 5, 0, 0.25f);
@@ -656,12 +686,13 @@ public class BuffsManager : MonoBehaviour
 
                     immolation.myType = buff;
                     immolation.connectedPlayer = stats;
+                    immolation.playerDamageSource = buffInflictor;
                     immolation.infiniteDuration = false;
                     immolation.duration = 10;
                     immolation.ChangeResistanceStats(true, -10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
                     for (int index = 0; index < 30; index++)
-                        NewBuff(BuffType.Aflame, stats.baseDamage);
+                        NewBuff(BuffType.Aflame, stats.baseDamage, stats);
 
                     stats.immolationEnabled = true;
 
@@ -681,12 +712,13 @@ public class BuffsManager : MonoBehaviour
 
                     glacier.myType = buff;
                     glacier.connectedPlayer = stats;
+                    glacier.playerDamageSource = buffInflictor;
                     glacier.infiniteDuration = false;
                     glacier.duration = 5;
                     glacier.ChangeDefensiveStats(true, 0, stats.healthMax / 10, 0, 0);
                     glacier.ChangePlayerStatusLocks(true, 1, 0, 0);
 
-                    NewBuff(BuffType.Frozen, 0);
+                    NewBuff(BuffType.Frozen, 0, stats);
 
                     break;
 
@@ -700,6 +732,7 @@ public class BuffsManager : MonoBehaviour
 
                     frostsKiss.myType = buff;
                     frostsKiss.connectedPlayer = stats;
+                    frostsKiss.playerDamageSource = buffInflictor;
                     frostsKiss.infiniteDuration = false;
                     frostsKiss.duration = 15;
 
@@ -721,6 +754,7 @@ public class BuffsManager : MonoBehaviour
 
                     iceArmor.myType = buff;
                     iceArmor.connectedPlayer = stats;
+                    iceArmor.playerDamageSource = buffInflictor;
                     iceArmor.infiniteDuration = false;
                     iceArmor.duration = 15;
                     iceArmor.ChangeDefensiveStats(true, 0, 0, stats.armor * 0.3f, 0.25f);
@@ -742,6 +776,7 @@ public class BuffsManager : MonoBehaviour
 
                     stoneStrike.myType = buff;
                     stoneStrike.connectedPlayer = stats;
+                    stoneStrike.playerDamageSource = buffInflictor;
                     stoneStrike.infiniteDuration = false;
                     stoneStrike.duration = 15;
 
@@ -765,6 +800,7 @@ public class BuffsManager : MonoBehaviour
                     giantStrength.infiniteDuration = false;
                     giantStrength.duration = 15f;
                     giantStrength.connectedPlayer = stats;
+                    giantStrength.playerDamageSource = buffInflictor;
                     giantStrength.ChangeSize(true, 0.5f);
                     giantStrength.ChangeDefensiveStats(true, 0, 0, 0, -0.25f);
                     giantStrength.ChangeOffensiveStats(true, stats.attackSpeed * -0.4f, stats.movespeedPercentMultiplier * -0.4f, stats.damageIncreaseMultiplier * 0.5f);
@@ -789,6 +825,7 @@ public class BuffsManager : MonoBehaviour
                     stonePrison.infiniteDuration = false;
                     stonePrison.duration = 1f;
                     stonePrison.connectedPlayer = stats;
+                    stonePrison.playerDamageSource = buffInflictor;
                     stonePrison.ChangeDefensiveStats(true, 0, 0, 0, 0.5f);
 
                     break;
@@ -805,6 +842,7 @@ public class BuffsManager : MonoBehaviour
                     secondWind.infiniteDuration = false;
                     secondWind.duration = 6f;
                     secondWind.connectedPlayer = stats;
+                    secondWind.playerDamageSource = buffInflictor;
                     secondWind.ChangeOffensiveStats(true, 0.15f, 0.5f, 0);
 
                     secondWind.effectParticleSystem.Add(psSystems[27]);
@@ -827,6 +865,7 @@ public class BuffsManager : MonoBehaviour
                     wrathOfTheWind.infiniteDuration = false;
                     wrathOfTheWind.duration = 15f;
                     wrathOfTheWind.connectedPlayer = stats;
+                    wrathOfTheWind.playerDamageSource = buffInflictor;
                     wrathOfTheWind.ChangeOffensiveStats(true, stats.attackSpeed, 0, stats.damageIncreaseMultiplier * -0.5f);
 
                     wrathOfTheWind.effectParticleSystem.Add(weaponEffectsLeft[11]);
@@ -849,6 +888,7 @@ public class BuffsManager : MonoBehaviour
                     multislash.infiniteDuration = false;
                     multislash.duration = 10f;
                     multislash.connectedPlayer = stats;
+                    multislash.playerDamageSource = buffInflictor;
 
                     multislash.effectParticleSystem.Add(psSystems[29]);
 
@@ -868,9 +908,34 @@ public class BuffsManager : MonoBehaviour
                     pressureDrop.infiniteDuration = false;
                     pressureDrop.duration = 10f;
                     pressureDrop.connectedPlayer = stats;
+                    pressureDrop.playerDamageSource = buffInflictor;
                     pressureDrop.ChangeDefensiveStats(true, 0, 0, 0, 1.5f);
                     pressureDrop.ChangeOffensiveStats(true, 0, stats.movespeedPercentMultiplier * -0.5f, 0);
 
+                    break;
+
+                case BuffType.BasicAttacksShredArmorOnAflame:
+                    Buff basicAttacksShredArmorOnAflame = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    basicAttacksShredArmorOnAflame.connectedIcon = buffIcon;
+                    basicAttacksShredArmorOnAflame.iconStacks = buffIcon.GetComponentInChildren<Text>();
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[11];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[0];
+
+                    activeBuffs.Add(basicAttacksShredArmorOnAflame);
+
+                    basicAttacksShredArmorOnAflame.myType = buff;
+                    basicAttacksShredArmorOnAflame.maxStacks = buffInflictor.GetComponent<PlayerTraitManager>().CheckForOnHitValue(ItemTrait.TraitType.BasicAttacksShredArmorOnAflame);
+                    basicAttacksShredArmorOnAflame.currentStacks = 1;
+                    basicAttacksShredArmorOnAflame.stackable = true;
+                    basicAttacksShredArmorOnAflame.stackSingleFalloff = false;
+                    basicAttacksShredArmorOnAflame.infiniteDuration = false;
+                    basicAttacksShredArmorOnAflame.duration = 10f;
+                    basicAttacksShredArmorOnAflame.connectedPlayer = stats;
+                    basicAttacksShredArmorOnAflame.playerDamageSource = buffInflictor;
+                    basicAttacksShredArmorOnAflame.ChangeDefensiveStats(true, 0, 0,-0.05f, 0);
+
+
+                    Debug.Log(basicAttacksShredArmorOnAflame.maxStacks);
                     break;
 
                 default:
@@ -910,6 +975,20 @@ public class BuffsManager : MonoBehaviour
             buffToRemove.EndBuff();
     }
 
+    //USed to check to see ho many stacks of an active buff is on this target
+    public float PollForBuffStacks(BuffType buffType)
+    {
+        float buffStacks = 0;
+
+        foreach(Buff buff in activeBuffs)
+        {
+            if (buff.myType == buffType)
+                buffStacks = buff.currentStacks;
+        }
+
+        return buffStacks;
+    }
+
     // Used to position all the icons based on their index.
     private void UpdateIconLocations()
     {
@@ -925,10 +1004,45 @@ public class BuffsManager : MonoBehaviour
         }
     }
 
+    // USed to proc my onkill efffects after slaying an enemy
+    public void ProcOnKill(GameObject target)
+    {
+        if (CompareTag("Player"))
+        {
+            Debug.Log("proccing thre players on kills now");
+            // DO we have a trait that procs an onhit.
+            for (int traitIndex = 0; traitIndex < playerTraitManager.OnKillEffects.Count; traitIndex++)
+            {
+                PlayerTraitManager.TraitSource trait = playerTraitManager.OnKillEffects[traitIndex];
+
+                switch (trait.traitType)
+                {
+                    case ItemTrait.TraitType.HealingOnKill:
+                        stats.HealHealth(trait.traitValue, HitBox.DamageType.Healing);
+                        break;
+                    case ItemTrait.TraitType.FireExplosionOnKill:
+                        GameObject fireExplosionOnKill = Instantiate(GetComponent<SkillsManager>().skillProjectiles[48], target.transform.position + Vector3.up, Quaternion.identity);
+                        fireExplosionOnKill.GetComponent<HitBox>().myStats = stats;
+                        fireExplosionOnKill.GetComponent<HitBox>().damage = stats.baseDamage * 1f + (stats.baseDamage * trait.traitValue * target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Aflame));
+                        break;
+                    case ItemTrait.TraitType.AflamePhysicalBladeExplosionOnKill:
+                        if (target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Aflame) > 25)
+                        {
+                            GameObject bladeExplosionOnKill = Instantiate(GetComponent<SkillsManager>().skillProjectiles[53], target.transform.position + Vector3.up, Quaternion.identity);
+                            bladeExplosionOnKill.GetComponent<HitBox>().myStats = stats;
+                            bladeExplosionOnKill.GetComponent<HitBox>().damage = stats.baseDamage * trait.traitValue;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
     // USed to proc my onhit effects onto an enemy
     public void ProcOnHits(GameObject target, HitBox hitbox)
     {
-        // Debug.Log("proccing on hits");
         // Check if we have any skills that apply buffs on hit.
         /*
         if (CompareTag("Player"))
@@ -978,8 +1092,8 @@ public class BuffsManager : MonoBehaviour
                     break;
 
                 case BuffType.StoneStrike:
-                    target.GetComponent<EnemyCrowdControlManager>().KnockbackLaunch((transform.forward + Vector3.up * 0.5f) * 15);
-                    target.GetComponent<PlayerStats>().TakeDamage(stats.baseDamage, false, HitBox.DamageType.Earth, stats.comboManager.currentcombo);
+                    target.GetComponent<EnemyCrowdControlManager>().KnockbackLaunch((transform.forward + Vector3.up * 0.5f) * 15, stats);
+                    target.GetComponent<PlayerStats>().TakeDamage(stats.baseDamage, false, HitBox.DamageType.Earth, stats.comboManager.currentcombo, stats);
                     StartCoroutine(RemoveBuffNextFrame(buff));
                     break;
                 case BuffType.Multislash:
@@ -987,29 +1101,10 @@ public class BuffsManager : MonoBehaviour
                     Instantiate(GetComponent<SkillsManager>().skillProjectiles[42], target.transform.position + Vector3.up, Quaternion.identity); 
                     StartCoroutine(RemoveBuffNextFrame(buff));
                     break;
-                /*
-            case BuffType.KillerInstinct:
-                //Debug.Log("killer instinct hit has been procced");
-                hitbox.bypassCrit = true;
-
-                switch (hitbox.damageType)
-                {
-                    case HitBox.DamageType.Physical:
-                        hitbox.damageType = HitBox.DamageType.PhysicalCrit;
-                        break;
-                    case HitBox.DamageType.Magical:
-                        hitbox.damageType = HitBox.DamageType.MagicalCrit;
-                        break;
-                    case HitBox.DamageType.Healing:
-                        hitbox.damageType = HitBox.DamageType.HealingCrit;
-                        break;
-                }
-                buff.currentTimer = buff.duration;
-                break;
-                */
                 default:
                     break;
             }
+
         }
         BuffsManager targetBM = target.GetComponent<BuffsManager>();
 
@@ -1028,7 +1123,7 @@ public class BuffsManager : MonoBehaviour
                     {
                         // proc the lightning blast.
                         targetBM.psSystems[4].Play();
-                        target.GetComponent<PlayerStats>().TakeDamage(0.4f * stats.baseDamage * buff.currentStacks, false, HitBox.DamageType.Lightning, stats.comboManager.currentcombo);
+                        target.GetComponent<PlayerStats>().TakeDamage(0.4f * stats.baseDamage * buff.currentStacks, false, HitBox.DamageType.Lightning, stats.comboManager.currentcombo, stats);
                         // remove the buff
                         buff.EndBuff();
                         index--;
@@ -1040,9 +1135,9 @@ public class BuffsManager : MonoBehaviour
                         // proc the nature blast
                         targetBM.psSystems[6].Play();
                         if (target.GetComponent<PlayerStats>().healthMax / 100 >= stats.baseDamage * 0.8f)
-                            target.GetComponent<PlayerStats>().TakeDamage(0.8f * stats.baseDamage * buff.currentStacks, false, HitBox.DamageType.Nature, stats.comboManager.currentcombo);
+                            target.GetComponent<PlayerStats>().TakeDamage(0.8f * stats.baseDamage * buff.currentStacks, false, HitBox.DamageType.Nature, stats.comboManager.currentcombo, stats);
                         else
-                            target.GetComponent<PlayerStats>().TakeDamage(target.GetComponent<PlayerStats>().healthMax / 100 * buff.currentStacks, false, HitBox.DamageType.Nature, stats.comboManager.currentcombo);
+                            target.GetComponent<PlayerStats>().TakeDamage(target.GetComponent<PlayerStats>().healthMax / 100 * buff.currentStacks, false, HitBox.DamageType.Nature, stats.comboManager.currentcombo, stats);
                         // remove the buff
                         buff.EndBuff();
                         index--;
@@ -1075,6 +1170,95 @@ public class BuffsManager : MonoBehaviour
                     break;
             }
         }
+
+        if (CompareTag("Player"))
+        {
+            // DO we have a trait that procs an onhit.
+            for (int traitIndex = 0; traitIndex < playerTraitManager.OnHitEffects.Count; traitIndex++)
+            {
+                PlayerTraitManager.TraitSource trait = playerTraitManager.OnHitEffects[traitIndex];
+
+                float randomChance = Random.Range(0f, 100f);
+
+                switch (trait.traitType)
+                {
+                    case ItemTrait.TraitType.HealingOnHit:
+                        stats.HealHealth(trait.traitValue, HitBox.DamageType.Healing);
+                        break;
+                    case ItemTrait.TraitType.MoreAflameStacksOnHitThreshold:
+                        if(target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Aflame) >= 15 && !target.GetComponent<PlayerStats>().traitMoreAflameStacksOnHitThresholdFatigue)
+                        {
+                            target.GetComponent<PlayerStats>().traitMoreAflameStacksOnHitThresholdFatigue = true;
+                            GameObject moreAflameStacksPulse = Instantiate(GetComponent<SkillsManager>().skillProjectiles[49], target.transform.position + Vector3.up, Quaternion.identity);
+                            moreAflameStacksPulse.GetComponent<HitBoxBuff>().buffOrigin = stats;
+                            moreAflameStacksPulse.GetComponent<HitBoxBuff>().aflameValue = (int) trait.traitValue;
+                        }
+                        break;
+                    case ItemTrait.TraitType.BasicAttacksShredArmorOnAflame:
+                        if (hitbox.CompareTag("BasicAttack"))
+                            target.GetComponent<BuffsManager>().NewBuff(BuffType.BasicAttacksShredArmorOnAflame, stats.baseDamage, stats);
+                        break;
+                    case ItemTrait.TraitType.RingOfFireOnHit:
+                        if(randomChance < 20f)
+                        {
+                            GameObject ringOfFireTraitOnHit = Instantiate(GetComponent<SkillsManager>().skillProjectiles[50], target.transform.position, Quaternion.identity);
+                            ringOfFireTraitOnHit.GetComponent<HitBox>().myStats = stats;
+                            ringOfFireTraitOnHit.GetComponent<HitBox>().damage = (stats.baseDamage + (trait.traitValue * stats.baseDamage)) / 2;
+                        }
+                        break;
+                    case ItemTrait.TraitType.AflameToSunderStackOnEarthSpell:
+                        bool earthSpell = false;
+
+                        if (hitbox.GetComponent<HitBox>())
+                            if (hitbox.GetComponent<HitBox>().damageType == HitBox.DamageType.Earth)
+                                earthSpell = true;
+                        if (hitbox.GetComponent<HitBoxBuff>())
+                            if (hitbox.GetComponent<HitBoxBuff>().sunderValue > 0)
+                                earthSpell = true;
+
+                        if (earthSpell)
+                            target.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffType.Sunder, Mathf.RoundToInt(target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Aflame) * trait.traitValue), stats.baseDamage, stats);
+                        break;
+                    case ItemTrait.TraitType.AflameSunderCritsSummonFireballs:
+                        BuffsManager targetBuffManager = target.GetComponent<BuffsManager>();
+                        if (hitbox.GetComponent<HitBox>().crit && (targetBuffManager.PollForBuffStacks(BuffType.Aflame) + targetBuffManager.PollForBuffStacks(BuffType.Sunder)) >= 50 && targetBuffManager.PollForBuffStacks(BuffType.Aflame) > 0 && targetBuffManager.PollForBuffStacks(BuffType.Sunder) > 0)
+                        {
+                            GameObject aflameSunderCritFireball = Instantiate(GetComponent<SkillsManager>().skillProjectiles[51], target.transform.position + Vector3.up * 2, Quaternion.Euler(new Vector3(Random.Range(-60,-90),Random.Range(0,360),0)));
+                            aflameSunderCritFireball.GetComponent<HitBox>().myStats = stats;
+                            aflameSunderCritFireball.GetComponent<HitBox>().damage = stats.baseDamage * trait.traitValue;
+                        }
+                        break;
+                    case ItemTrait.TraitType.AflameWindshearSummonFirePillarsOnHit:
+                        if (hitbox.damageType==HitBox.DamageType.Wind && randomChance < 20f && target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Aflame) > 30)
+                        {
+                            GameObject flameGeyserOnHit = Instantiate(GetComponent<SkillsManager>().skillProjectiles[52], target.transform.position, Quaternion.identity);
+                            flameGeyserOnHit.GetComponent<HitBox>().myStats = stats;
+                            flameGeyserOnHit.GetComponent<HitBox>().damage = stats.baseDamage * trait.traitValue;
+                        }
+                        break;
+                    case ItemTrait.TraitType.AflameWindshearWindSpellsAddFireStacks:
+                        if (hitbox.damageType==HitBox.DamageType.Wind && target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Aflame) > 0 && randomChance < 10f)
+                        {
+                            GameObject moreAflameStacksPulse = Instantiate(GetComponent<SkillsManager>().skillProjectiles[49], target.transform.position + Vector3.up, Quaternion.identity);
+                            moreAflameStacksPulse.GetComponent<HitBoxBuff>().buffOrigin = stats;
+                            moreAflameStacksPulse.GetComponent<HitBoxBuff>().aflameValue = Mathf.RoundToInt(target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Aflame) * trait.traitValue);
+                        }
+                        break;
+                    case ItemTrait.TraitType.AflamePhysicalAddFireStacksOnHit:
+                        if (hitbox.damageType == HitBox.DamageType.Physical)
+                            target.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffType.Aflame, Mathf.RoundToInt(trait.traitValue), stats.baseDamage, stats);
+                        break;
+                    case ItemTrait.TraitType.AflamePhysicalBigHitsAddAflame:
+                        if (hitbox.damageType == HitBox.DamageType.Physical && hitbox.damage / stats.baseDamage > 4 && target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Aflame) > 0)
+                        {
+                            target.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffType.Aflame, Mathf.RoundToInt(target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Aflame) * trait.traitValue), stats.baseDamage, stats);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 
     public void ProcOnAttack()
@@ -1086,7 +1270,7 @@ public class BuffsManager : MonoBehaviour
             {
                 case BuffType.Bleeding:
                     psSystems[10].Play();
-                    stats.TakeDamage(buff.DPS * buff.currentStacks, false, buff.damageType, 0);
+                    stats.TakeDamage(buff.DPS * buff.currentStacks, false, buff.damageType, 0, stats);
                     break;
                 default:
                     break;
@@ -1103,7 +1287,7 @@ public class BuffsManager : MonoBehaviour
             {
                 case BuffType.Bleeding:
                     psSystems[10].Play();
-                    stats.TakeDamage(buff.DPS * buff.currentStacks, false, buff.damageType, 0);
+                    stats.TakeDamage(buff.DPS * buff.currentStacks, false, buff.damageType, 0, stats);
                     break;
                 default:
                     break;
@@ -1204,7 +1388,7 @@ public class BuffsManager : MonoBehaviour
         for (int index = 0; index < 3; index++)
         {
             stats.comboManager.AddComboCounter(1);
-            target.TakeDamage(damage, crit, HitBox.DamageType.Wind, stats.comboManager.currentcombo);
+            target.TakeDamage(damage, crit, HitBox.DamageType.Wind, stats.comboManager.currentcombo, stats);
             yield return new WaitForSeconds(0.33f);
         }
     }

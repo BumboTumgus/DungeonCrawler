@@ -9,6 +9,7 @@ public class Buff : MonoBehaviour
     public List<ParticleSystem> effectParticleSystem = new List<ParticleSystem>();
     public List<ParticleSystem> endOfBuffParticleSystem = new List<ParticleSystem>();
     public PlayerStats connectedPlayer;
+    public PlayerStats playerDamageSource;
     public GameObject connectedIcon;
     public UnityEngine.UI.Text iconStacks;
     public Color damageColor;
@@ -19,6 +20,8 @@ public class Buff : MonoBehaviour
     public float duration = 10f;
     public float currentTimer = 0f;
     public float DPS = 0f;
+    public float bonusDPS = 0f;
+    public float DPSMultiplier = 1;
     public float onHitDamageAmount = 0;
     
     public bool stackable = false;
@@ -86,13 +89,16 @@ public class Buff : MonoBehaviour
             if (currentDamageTick > targetDamageTickTimer)
             {
                 currentDamageTick -= targetDamageTickTimer;
-               // if(damageType == null)
-                    //connectedPlayer.TakeDamage(DPS * targetDamageTickTimer, false, damageColor);
+                // if(damageType == null)
+                //connectedPlayer.TakeDamage(DPS * targetDamageTickTimer, false, damageColor);
                 //else
-                if(!stackable)
-                    connectedPlayer.TakeDamage(DPS * targetDamageTickTimer, false, damageType, 0);
+                if (!stackable)
+                    connectedPlayer.TakeDamage((DPS * targetDamageTickTimer + bonusDPS) * DPSMultiplier, false, damageType, 0, playerDamageSource);
                 else
-                    connectedPlayer.TakeDamage(DPS * currentStacks * targetDamageTickTimer, false, damageType, 0);
+                    connectedPlayer.TakeDamage((DPS * currentStacks * targetDamageTickTimer + bonusDPS) * DPSMultiplier, false, damageType, 0, playerDamageSource);
+
+                if (myType == BuffsManager.BuffType.Aflame && playerDamageSource.CompareTag("Player") && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.FlameVamperism) > 0 && currentStacks >= 10)
+                    playerDamageSource.HealHealth(playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.FlameVamperism) * (int)(currentStacks / 10), HitBox.DamageType.Healing);
 
 
             }
@@ -153,6 +159,19 @@ public class Buff : MonoBehaviour
         else
             amount = 0;
 
+        if (myType == BuffsManager.BuffType.Aflame && currentStacks >= 25 && bonusDPS == 0 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BurnDoesMaxHpDamageAtThreshold) > 0)
+        {
+            bonusDPS = (connectedPlayer.healthMax / 100) * playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BurnDoesMaxHpDamageAtThreshold);
+            if (bonusDPS > playerDamageSource.baseDamage * 5)
+                bonusDPS = playerDamageSource.baseDamage * 5;
+        }
+
+        if (myType == BuffsManager.BuffType.Aflame && DPSMultiplier == 1 && currentStacks >= 30 && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) >= 30 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold) > 0)
+            DPSMultiplier += playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold);
+
+        if (myType == BuffsManager.BuffType.Bleeding && DPSMultiplier == 1 && currentStacks >= 30 && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Aflame) >= 30 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold) > 0)
+            DPSMultiplier += playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold);
+
         connectedIcon.GetComponent<Animator>().SetBool("AlmostDone", false);
 
         // Setting the timer.
@@ -200,6 +219,15 @@ public class Buff : MonoBehaviour
         else
             currentStacks += amount;
         int amountint = Mathf.RoundToInt(amount);
+
+        if (myType == BuffsManager.BuffType.Aflame && currentStacks < 25)
+            bonusDPS = 0;
+
+        if (myType == BuffsManager.BuffType.Aflame && DPSMultiplier >= 1 && (currentStacks < 30 || connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) < 30))
+            DPSMultiplier = 1;
+
+        if (myType == BuffsManager.BuffType.Bleeding && DPSMultiplier >= 1 && (currentStacks < 30 || connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Aflame) < 30))
+            DPSMultiplier = 1;
 
         if (changeTimer)
         {
@@ -350,6 +378,8 @@ public class Buff : MonoBehaviour
             connectedPlayer.bleeding = false;
         else if (myType == BuffsManager.BuffType.Knockback)
             connectedPlayer.knockedBack = false;
+        else if (myType == BuffsManager.BuffType.Aflame)
+            connectedPlayer.traitMoreAflameStacksOnHitThresholdFatigue = false;
         /*else if (myType == BuffsManager.BuffType.Revitalize)
         {
             connectedPlayer.revitalizeBuff = false;

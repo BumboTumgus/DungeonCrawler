@@ -9675,9 +9675,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileSpeed: 32
+  projectileSpeedDecay: 0
   projectileLifetime: 10
+  piercesTargets: 0
+  piercesWalls: 0
   hitAOE: 0
   trackTarget: 0
+  YSpin: 0
   trackingStrength: 0
   target: {fileID: 0}
   particleTrails:
@@ -9701,7 +9705,6 @@ MonoBehaviour:
   damage: 5
   stacksToAdd: 0
   crit: 0
-  damageOverload: 1
   procsOnHits: 0
   hitEnemies: 1
   hitPlayers: 0
@@ -9711,6 +9714,7 @@ MonoBehaviour:
   projectileAOE: 0
   disjointedHitbox: 0
   bypassCrit: 0
+  screenShakeAmount: 0
 --- !u!136 &8957749605564982885
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9739,6 +9743,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buff: 9
   applyBuff: 0
+  disjointedHitbox: 1
+  buffOrigin: {fileID: 0}
   hitEnemies: 1
   hitPlayers: 0
   hitSelf: 0
@@ -9756,6 +9762,7 @@ MonoBehaviour:
   knockback: 0
   knockbackStrength: 0
   knockbackFromCenter: 0
+  knockForwardFromLocalTransform: 0
   knockbackDirection: {x: 0, y: 0, z: 0}
   baseDamage: 0
 --- !u!54 &6297770120561685934

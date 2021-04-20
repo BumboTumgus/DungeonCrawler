@@ -318,6 +318,7 @@ public class SkillsManager : MonoBehaviour
                 GameObject ringOfFire = Instantiate(skillProjectiles[8], transform.position, Quaternion.identity);
                 ringOfFire.GetComponent<HitBox>().damage = stats.baseDamage * 3f;
                 ringOfFire.GetComponent<HitBox>().myStats = stats;
+                ringOfFire.GetComponent<HitBoxBuff>().buffOrigin = stats;
                 GameObject ringOfFireDOT = Instantiate(skillProjectiles[9], transform.position, Quaternion.identity);
                 ringOfFireDOT.GetComponent<HitBox>().damage = stats.baseDamage * 0.4f;
                 ringOfFireDOT.GetComponent<HitBox>().myStats = stats;
@@ -401,12 +402,14 @@ public class SkillsManager : MonoBehaviour
                 GameObject unstableEarth = Instantiate(skillProjectiles[32], transform.position, Quaternion.identity);
                 unstableEarth.GetComponent<HitBox>().damage = stats.baseDamage * 5f;
                 unstableEarth.GetComponent<HitBox>().myStats = stats;
+                unstableEarth.GetComponent<HitBoxBuff>().buffOrigin = stats;
                 break;
 
             case SkillNames.Tremorfall:
                 GameObject tremorFall = Instantiate(skillProjectiles[33], transform.position, Quaternion.identity);
                 tremorFall.GetComponent<HitBox>().damage = stats.baseDamage * 5f;
                 tremorFall.GetComponent<HitBox>().myStats = stats;
+                tremorFall.GetComponent<HitBoxBuff>().buffOrigin = stats;
                 break;
 
             case SkillNames.Airgust:
@@ -414,6 +417,7 @@ public class SkillsManager : MonoBehaviour
                 airgust.GetComponent<HitBox>().damage = stats.baseDamage * 1f;
                 airgust.GetComponent<HitBox>().myStats = stats;
                 airgust.GetComponent<HitBoxBuff>().knockbackDirection = transform.forward + (Vector3.up * 0.25f);
+                airgust.GetComponent<HitBoxBuff>().buffOrigin = stats;
                 break;
 
             case SkillNames.Aeroburst:
@@ -426,12 +430,18 @@ public class SkillsManager : MonoBehaviour
                 GameObject aerolaunch = Instantiate(skillProjectiles[43], transform.position, transform.rotation);
                 aerolaunch.GetComponent<HitBox>().damage = stats.baseDamage * 3f;
                 aerolaunch.GetComponent<HitBox>().myStats = stats;
+                aerolaunch.GetComponent<HitBoxBuff>().buffOrigin = stats;
                 break;
 
             case SkillNames.Vortex:
                 GameObject vortex = Instantiate(skillProjectiles[47], transform.position + Vector3.up, transform.rotation);
                 vortex.GetComponent<HitBox>().damage = stats.baseDamage * 0.66f;
                 vortex.GetComponent<HitBox>().myStats = stats;
+
+                HitBoxBuff[] hitboxBuffs = vortex.GetComponentsInChildren<HitBoxBuff>();
+                foreach (HitBoxBuff buffBox in hitboxBuffs)
+                    buffBox.buffOrigin = stats;
+
                 break;
 
             default:
@@ -475,6 +485,7 @@ public class SkillsManager : MonoBehaviour
                         GameObject ringOfFire = Instantiate(skillProjectiles[8], downwardsTargetPosition, Quaternion.identity);
                         ringOfFire.GetComponent<HitBox>().damage = stats.baseDamage * 1.5f;
                         ringOfFire.GetComponent<HitBox>().myStats = stats;
+                        ringOfFire.GetComponent<HitBoxBuff>().buffOrigin = stats;
                         GameObject ringOfFireDOT = Instantiate(skillProjectiles[9], downwardsTargetPosition, Quaternion.identity);
                         ringOfFireDOT.GetComponent<HitBox>().damage = stats.baseDamage * 0.2f;
                         ringOfFireDOT.GetComponent<HitBox>().myStats = stats;
@@ -560,12 +571,14 @@ public class SkillsManager : MonoBehaviour
                         GameObject unstableEarth = Instantiate(skillProjectiles[32], downwardsTargetPosition, Quaternion.identity);
                         unstableEarth.GetComponent<HitBox>().damage = stats.baseDamage * 2.5f;
                         unstableEarth.GetComponent<HitBox>().myStats = stats;
+                        unstableEarth.GetComponent<HitBoxBuff>().buffOrigin = stats;
                         break;
 
                     case SkillNames.Tremorfall:
                         GameObject tremorFall = Instantiate(skillProjectiles[33], downwardsTargetPosition, Quaternion.identity);
                         tremorFall.GetComponent<HitBox>().damage = stats.baseDamage * 2.5f;
                         tremorFall.GetComponent<HitBox>().myStats = stats;
+                        tremorFall.GetComponent<HitBoxBuff>().buffOrigin = stats;
                         break;
 
                     case SkillNames.Airgust:
@@ -573,6 +586,7 @@ public class SkillsManager : MonoBehaviour
                         airgust.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
                         airgust.GetComponent<HitBox>().myStats = stats;
                         airgust.GetComponent<HitBoxBuff>().knockbackDirection = transform.forward + (Vector3.up * 0.25f);
+                        airgust.GetComponent<HitBoxBuff>().buffOrigin = stats;
                         break;
 
                     case SkillNames.Aeroburst:
@@ -585,12 +599,17 @@ public class SkillsManager : MonoBehaviour
                         GameObject aerolaunch = Instantiate(skillProjectiles[43], downwardsTargetPosition, Quaternion.identity);
                         aerolaunch.GetComponent<HitBox>().damage = stats.baseDamage * 1.5f;
                         aerolaunch.GetComponent<HitBox>().myStats = stats;
+                        aerolaunch.GetComponent<HitBoxBuff>().buffOrigin = stats;
                         break;
 
                     case SkillNames.Vortex:
                         GameObject vortex = Instantiate(skillProjectiles[47], downwardsTargetPosition + Vector3.up, transform.rotation);
                         vortex.GetComponent<HitBox>().damage = stats.baseDamage * 0.33f;
                         vortex.GetComponent<HitBox>().myStats = stats;
+
+                        HitBoxBuff[] hitboxBuffs = vortex.GetComponentsInChildren<HitBoxBuff>();
+                        foreach (HitBoxBuff buffBox in hitboxBuffs)
+                            buffBox.buffOrigin = stats;
                         break;
 
                     default:
@@ -692,6 +711,7 @@ public class SkillsManager : MonoBehaviour
 
                 boulderFist.GetComponent<HitBox>().damage = stats.baseDamage * 4f;
                 boulderFist.GetComponent<HitBox>().myStats = stats;
+                boulderFist.GetComponent<HitBoxBuff>().buffOrigin = stats;
                 boulderFist.GetComponent<HitBoxBuff>().knockbackDirection = transform.forward + Vector3.up * 0.5f;
                 break;
 
@@ -707,6 +727,7 @@ public class SkillsManager : MonoBehaviour
 
                 stalagmiteSmash.GetComponent<HitBox>().damage = stats.baseDamage * 3f;
                 stalagmiteSmash.GetComponent<HitBox>().myStats = stats;
+                stalagmiteSmash.GetComponent<HitBoxBuff>().buffOrigin = stats;
                 break;
 
             case SkillNames.GaiasCyclone:
@@ -721,10 +742,12 @@ public class SkillsManager : MonoBehaviour
 
                 caveIn.GetComponent<HitBox>().damage = stats.baseDamage * 1.5f;
                 caveIn.GetComponent<HitBox>().myStats = stats;
+                caveIn.GetComponent<HitBoxBuff>().buffOrigin = stats;
                 break;
 
             case SkillNames.StonePrison:
                 GameObject stonePrison = Instantiate(skillProjectiles[36], targetPosition, transform.rotation);
+                stonePrison.GetComponent<HitBoxBuff>().buffOrigin = stats;
                 break;
 
             case SkillNames.TwinTwisters:
@@ -839,6 +862,7 @@ public class SkillsManager : MonoBehaviour
 
                         boulderFist.GetComponent<HitBox>().damage = stats.baseDamage * 2f;
                         boulderFist.GetComponent<HitBox>().myStats = stats;
+                        boulderFist.GetComponent<HitBoxBuff>().buffOrigin = stats;
                         boulderFist.GetComponent<HitBoxBuff>().knockbackDirection = transform.forward + Vector3.up * 0.5f;
                         break;
 
@@ -854,6 +878,7 @@ public class SkillsManager : MonoBehaviour
 
                         stalagmiteSmash.GetComponent<HitBox>().damage = stats.baseDamage * 1.5f;
                         stalagmiteSmash.GetComponent<HitBox>().myStats = stats;
+                        stalagmiteSmash.GetComponent<HitBoxBuff>().buffOrigin = stats;
                         break;
 
                     case SkillNames.GaiasCyclone:
@@ -868,10 +893,12 @@ public class SkillsManager : MonoBehaviour
 
                         caveIn.GetComponent<HitBox>().damage = stats.baseDamage * 0.75f;
                         caveIn.GetComponent<HitBox>().myStats = stats;
+                        caveIn.GetComponent<HitBoxBuff>().buffOrigin = stats;
                         break;
 
                     case SkillNames.StonePrison:
                         GameObject stonePrison = Instantiate(skillProjectiles[36], spellMirrorTargetPosition, transform.rotation);
+                        stonePrison.GetComponent<HitBoxBuff>().buffOrigin = stats;
                         break;
 
                     case SkillNames.TwinTwisters:
@@ -1056,6 +1083,7 @@ public class SkillsManager : MonoBehaviour
 
                 aeroslash.GetComponent<HitBox>().damage = stats.baseDamage * 0.8f;
                 aeroslash.GetComponent<HitBox>().myStats = stats;
+                aeroslash.GetComponent<HitBoxBuff>().buffOrigin = stats;
                 break;
 
             case SkillNames.OrbOfShredding:
@@ -1070,6 +1098,7 @@ public class SkillsManager : MonoBehaviour
 
                 orbOfShredding.GetComponent<HitBox>().damage = stats.baseDamage * 0.4f;
                 orbOfShredding.GetComponent<HitBox>().myStats = stats;
+                orbOfShredding.GetComponent<HitBoxBuff>().buffOrigin = stats;
                 break;
 
             case SkillNames.WhirlwindSlash:
@@ -1101,6 +1130,7 @@ public class SkillsManager : MonoBehaviour
 
                     aerobarrage.GetComponent<HitBox>().damage = stats.baseDamage * 1f;
                     aerobarrage.GetComponent<HitBox>().myStats = stats;
+                    aerobarrage.GetComponent<HitBoxBuff>().buffOrigin = stats;
                 }
                 break;
 
@@ -1214,6 +1244,7 @@ public class SkillsManager : MonoBehaviour
 
                         aeroslash.GetComponent<HitBox>().damage = stats.baseDamage * 0.4f;
                         aeroslash.GetComponent<HitBox>().myStats = stats;
+                        aeroslash.GetComponent<HitBoxBuff>().buffOrigin = stats;
                         break;
 
                     case SkillNames.OrbOfShredding:
@@ -1221,6 +1252,7 @@ public class SkillsManager : MonoBehaviour
 
                         orbOfShredding.GetComponent<HitBox>().damage = stats.baseDamage * 0.4f;
                         orbOfShredding.GetComponent<HitBox>().myStats = stats;
+                        orbOfShredding.GetComponent<HitBoxBuff>().buffOrigin = stats;
                         break;
 
                     case SkillNames.WhirlwindSlash:
@@ -1243,6 +1275,7 @@ public class SkillsManager : MonoBehaviour
 
                             aerobarrage.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
                             aerobarrage.GetComponent<HitBox>().myStats = stats;
+                            aerobarrage.GetComponent<HitBoxBuff>().buffOrigin = stats;
                         }
                         break;
                     default:

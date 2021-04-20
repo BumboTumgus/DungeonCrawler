@@ -96,7 +96,7 @@ public class EnemyCrowdControlManager : MonoBehaviour
     }
 
     // Used when the player gets frozen
-    public void KnockbackLaunch(Vector3 directionOfKnockback)
+    public void KnockbackLaunch(Vector3 directionOfKnockback, PlayerStats buffApplier)
     {
         // Check to see if the knockback works and goes through.
         if (Random.Range(0, 100) > myStats.knockbackResistance * 100)
@@ -107,7 +107,7 @@ public class EnemyCrowdControlManager : MonoBehaviour
             anim.ResetTrigger("GettingUpFacingDown");
             anim.ResetTrigger("GettingUpFacingUp");
             StartCoroutine(Knockback(directionOfKnockback));
-            GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.Knockback, 0);
+            GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.Knockback, 0, buffApplier);
         }
     }
 

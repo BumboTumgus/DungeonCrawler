@@ -60,7 +60,7 @@ public class EnemyCombatController : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha2) && CompareTag("Enemy"))
-            GetComponent<EnemyCrowdControlManager>().KnockbackLaunch(Vector3.up + transform.forward * 10);
+            GetComponent<EnemyCrowdControlManager>().KnockbackLaunch(Vector3.up + transform.forward * 10, GetComponent<PlayerStats>());
 
         myStats.currentAttackDelay += Time.deltaTime;
         specialOneCurrentCooldown += Time.deltaTime;

@@ -75,9 +75,6 @@ public class PlayerStats : MonoBehaviour
     public float poisonResistance = 0f;
     public float slowResistance = 0f;
 
-    public float healingOnHit = 0;
-    public float healingOnKill = 0;
-
     public BarManager healthBar;
     public StatUpdater myStats;
 
@@ -110,8 +107,11 @@ public class PlayerStats : MonoBehaviour
     private DamageNumberManager damageNumberManager;
     private BuffsManager buffManager;
     private HitBoxManager hitboxManager;
+    private PlayerTraitManager playerTraitManager;
     public ComboManager comboManager;
+    public PlayerStats lastHitBy;
 
+    public bool traitMoreAflameStacksOnHitThresholdFatigue = false;
 
     [SerializeField] private GameObject enemyHealthBar;
 
@@ -137,6 +137,8 @@ public class PlayerStats : MonoBehaviour
         {
             UpdateWeaponsToHitWith();
             comboManager = GetComponent<ComboManager>();
+
+            playerTraitManager = GetComponent<PlayerTraitManager>();
         }
 
     }
@@ -149,38 +151,38 @@ public class PlayerStats : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P) && CompareTag("Player"))
             AddExp(25);
         if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
-            TakeDamage(50, false, HitBox.DamageType.Physical, 0);
+            TakeDamage(50, false, HitBox.DamageType.Physical, 0, null);
         if (Input.GetKeyDown(KeyCode.U) && CompareTag("Player"))
             comboManager.AddComboCounter(1);
 
         if (Input.GetKeyDown(KeyCode.Keypad0) && CompareTag("Player"))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Aflame, 1, baseDamage);
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Aflame, 1, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.Keypad1) && CompareTag("Player"))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, 1, baseDamage);
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, 1, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.Keypad2) && CompareTag("Player"))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, 1, baseDamage);
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, 1, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.Keypad3) && CompareTag("Player"))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Overgrown, 1, baseDamage);
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Overgrown, 1, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.Keypad4) && CompareTag("Player"))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Windshear, 1, baseDamage);
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Windshear, 1, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.Keypad5) && CompareTag("Player"))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Sunder, 1, baseDamage);
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Sunder, 1, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.Keypad6) && CompareTag("Player"))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Bleeding, 1, baseDamage);
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Bleeding, 1, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.Keypad7) && CompareTag("Player"))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, 1, baseDamage);
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, 1, baseDamage, this);
 
 
         if (Input.GetKeyDown(KeyCode.Keypad8))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Frozen, 1, baseDamage);
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Frozen, 1, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.Keypad9))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Asleep, 1, baseDamage);
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Asleep, 1, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.KeypadPeriod))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, baseDamage);
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.KeypadEnter) && CompareTag("Player"))
-            buffManager.NewBuff(BuffsManager.BuffType.ArmorBroken, baseDamage);
+            buffManager.NewBuff(BuffsManager.BuffType.ArmorBroken, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.KeypadPlus) && CompareTag("Player"))
-            GetComponent<PlayerMovementController>().KnockbackLaunch((transform.forward + Vector3.up) * 5);
+            GetComponent<PlayerMovementController>().KnockbackLaunch((transform.forward + Vector3.up) * 5, this);
 
         // Health and mana regen logic.
         /*
@@ -272,7 +274,8 @@ public class PlayerStats : MonoBehaviour
         {
             // Sets up the health and mana Bars.
             healthBar.Initialize(healthMax, false, true, health);
-            myStats.mouseWithItemHovered = false;
+            if(CompareTag("Player"))
+                myStats.mouseWithItemHovered = false;
         }
 
         if(myStats != null)
@@ -333,10 +336,12 @@ public class PlayerStats : MonoBehaviour
     }
 
     // Used to take damage
-    public void TakeDamage(float amount, bool crit, HitBox.DamageType damage, float comboCount)
+    public void TakeDamage(float amount, bool crit, HitBox.DamageType damage, float comboCount, PlayerStats playerThatLastHitUs)
     {
         if (health > 0)
         {
+            lastHitBy = playerThatLastHitUs;
+
             if (counter)
             {
                 counterDamage += amount;
@@ -444,6 +449,8 @@ public class PlayerStats : MonoBehaviour
 
             // Find the player, and give them exp. If they were in combat with us, end the combat. Start the death coroutine (for a death animation).
             // Create an array of all players.
+            lastHitBy.GetComponent<BuffsManager>().ProcOnKill(gameObject);
+
             GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
             GameObject[] players = new GameObject[gm.currentPlayers.Length];
             for(int index = 0; index < players.Length; index++)
@@ -552,76 +559,139 @@ public class PlayerStats : MonoBehaviour
             switch (trait.traitType)
             {
                 case ItemTrait.TraitType.HealthFlat:
-                    bonusHealth += trait.traitBonus;
+                    bonusHealth += trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.HealthPercent:
-                    bonusPercentHealth += trait.traitBonus;
+                    bonusPercentHealth += trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.Armor:
-                    armor += trait.traitBonus;
+                    armor += trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.HealthRegen:
-                    bonusHealthRegen += trait.traitBonus;
+                    bonusHealthRegen += trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.HealingOnHit:
-                    healingOnHit += trait.traitBonus;
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
                     break;
                 case ItemTrait.TraitType.HealingOnKill:
-                    healingOnKill += trait.traitBonus;
+                    playerTraitManager.AddOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
                     break;
                 case ItemTrait.TraitType.CooldownReduction:
-                    cooldownReductionSources.Add(trait.traitBonus);
+                    cooldownReductionSources.Add(trait.traitBonus * trait.traitBonusMultiplier);
                     break;
                 case ItemTrait.TraitType.AttackSpeed:
-                    bonusAttackSpeed += trait.traitBonus;
+                    bonusAttackSpeed += trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.MoveSpeed:
-                    movespeedPercentMultiplier += trait.traitBonus;
+                    movespeedPercentMultiplier += trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.CritChance:
-                    critChance += trait.traitBonus;
+                    critChance += trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.CritDamage:
-                    critDamageMultiplier += trait.traitBonus;
+                    critDamageMultiplier += trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.Jumps:
-                    jumps += (int)trait.traitBonus;
+                    jumps += (int)trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.AflameResistance:
-                    aflameResistance += trait.traitBonus;
+                    aflameResistance += trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.FrostbiteResistance:
-                    frostbiteResistance += trait.traitBonus;
+                    frostbiteResistance += trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.SunderResistance:
-                    sunderResistance += trait.traitBonus;
+                    sunderResistance += trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.WindshearResistance:
-                    windshearResistance += trait.traitBonus;
+                    windshearResistance += trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.OverchargeResistance:
-                    overchargeResistance += trait.traitBonus;
+                    overchargeResistance += trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.OvergrowthResistance:
-                    overgrowthResistance += trait.traitBonus;
+                    overgrowthResistance += trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.BleedResistance:
-                    bleedResistance += trait.traitBonus;
+                    bleedResistance += trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.PoisonResistance:
-                    poisonResistance += trait.traitBonus;
+                    poisonResistance += trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.StunResistance:
-                    stunResistance += trait.traitBonus;
+                    stunResistance += trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.AsleepResistance:
-                    sleepResistance += trait.traitBonus;
+                    sleepResistance += trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.KnockbackResistance:
-                    knockbackResistance += trait.traitBonus;
+                    knockbackResistance += trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.FlatDamageReduction:
-                    flatDamageReduction += trait.traitBonus;
+                    flatDamageReduction += trait.traitBonus * trait.traitBonusMultiplier;
+                    break;
+                case ItemTrait.TraitType.FireExplosionOnKill:
+                    playerTraitManager.AddOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.MoreAflameStacksOnHitThreshold:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.BurnDoesMaxHpDamageAtThreshold:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.BasicAttacksShredArmorOnAflame:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.FlameVamperism:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.RingOfFireOnHit:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameToSunderStackOnEarthSpell:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.SunderFurtherDecreasesFireResist:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameSunderCritsSummonFireballs:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameWindshearWindAttacksGainCritOnBurningTarget:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameWindshearSummonFirePillarsOnHit:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameWindshearWindSpellsAddFireStacks:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflamePhysicalAddFireStacksOnHit:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflamePhysicalDamageAmpOnBurningTarget:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflamePhysicalBladeExplosionOnKill:
+                    playerTraitManager.AddOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflamePhysicalBigHitsAddAflame:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameBleedIncreasesFlameCritChance:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameBleedFireDamageAmpOnBleedThreshold:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameBleedAflameAddsBleedAtThreshhold:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameBleedAflameRemovesBleedResist:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
                     break;
                 default:
                     break;
@@ -665,78 +735,140 @@ public class PlayerStats : MonoBehaviour
             switch (trait.traitType)
             {
                 case ItemTrait.TraitType.HealthFlat:
-                    bonusHealth -= trait.traitBonus;
+                    bonusHealth -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.HealthPercent:
-                    bonusPercentHealth -= trait.traitBonus;
+                    bonusPercentHealth -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.Armor:
-                    armor -= trait.traitBonus;
+                    armor -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.HealthRegen:
-                    bonusHealthRegen -= trait.traitBonus;
+                    bonusHealthRegen -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.HealingOnHit:
-                    healingOnHit -= trait.traitBonus;
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
                     break;
                 case ItemTrait.TraitType.HealingOnKill:
-                    healingOnKill -= trait.traitBonus;
+                    playerTraitManager.RemoveOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
                     break;
                 case ItemTrait.TraitType.CooldownReduction:
-                    cooldownReductionSources.Remove(trait.traitBonus);
+                    cooldownReductionSources.Remove(trait.traitBonus * trait.traitBonusMultiplier);
                     break;
                 case ItemTrait.TraitType.AttackSpeed:
-                    bonusAttackSpeed -= trait.traitBonus;
+                    bonusAttackSpeed -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.MoveSpeed:
-                    movespeedPercentMultiplier -= trait.traitBonus;
+                    movespeedPercentMultiplier -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.CritChance:
-                    critChance -= trait.traitBonus;
+                    critChance -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.CritDamage:
-                    critDamageMultiplier -= trait.traitBonus;
+                    critDamageMultiplier -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.Jumps:
-                    jumps -= (int) trait.traitBonus;
+                    jumps -= (int) trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.AflameResistance:
-                    aflameResistance -= trait.traitBonus;
+                    aflameResistance -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.FrostbiteResistance:
-                    frostbiteResistance -= trait.traitBonus;
+                    frostbiteResistance -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.SunderResistance:
-                    sunderResistance -= trait.traitBonus;
+                    sunderResistance -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.WindshearResistance:
-                    windshearResistance -= trait.traitBonus;
+                    windshearResistance -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.OverchargeResistance:
-                    overchargeResistance -= trait.traitBonus;
+                    overchargeResistance -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.OvergrowthResistance:
-                    overgrowthResistance -= trait.traitBonus;
+                    overgrowthResistance -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.BleedResistance:
-                    bleedResistance -= trait.traitBonus;
+                    bleedResistance -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.PoisonResistance:
-                    poisonResistance -= trait.traitBonus;
+                    poisonResistance -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.StunResistance:
-                    stunResistance -= trait.traitBonus;
+                    stunResistance -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.AsleepResistance:
-                    sleepResistance -= trait.traitBonus;
+                    sleepResistance -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.KnockbackResistance:
-                    knockbackResistance -= trait.traitBonus;
+                    knockbackResistance -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
                 case ItemTrait.TraitType.FlatDamageReduction:
-                    flatDamageReduction -= trait.traitBonus;
+                    flatDamageReduction -= trait.traitBonus * trait.traitBonusMultiplier;
                     break;
-
+                case ItemTrait.TraitType.FireExplosionOnKill:
+                    playerTraitManager.RemoveOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.MoreAflameStacksOnHitThreshold:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.BurnDoesMaxHpDamageAtThreshold:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.BasicAttacksShredArmorOnAflame:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.FlameVamperism:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.RingOfFireOnHit:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameToSunderStackOnEarthSpell:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.SunderFurtherDecreasesFireResist:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameSunderCritsSummonFireballs:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameWindshearWindAttacksGainCritOnBurningTarget:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameWindshearSummonFirePillarsOnHit:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameWindshearWindSpellsAddFireStacks:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflamePhysicalAddFireStacksOnHit:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflamePhysicalDamageAmpOnBurningTarget:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflamePhysicalBladeExplosionOnKill:
+                    playerTraitManager.RemoveOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflamePhysicalBigHitsAddAflame:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameBleedIncreasesFlameCritChance:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameBleedFireDamageAmpOnBleedThreshold:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameBleedAflameAddsBleedAtThreshhold:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameBleedAflameRemovesBleedResist:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
                 default:
                     break;
             }

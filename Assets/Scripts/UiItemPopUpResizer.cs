@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +21,7 @@ public class UiItemPopUpResizer : MonoBehaviour
     public Color[] itemOutlineColors;
     public Sprite[] itemTypeSprites;
     public Color[] traitTextColors;
+    public float PopUpTraitHeight = 0f;
 
     private SkillBank skillBank;
     private RectTransform primaryPopUp;
@@ -143,7 +143,7 @@ public class UiItemPopUpResizer : MonoBehaviour
 
             itemBaseStatContainers[10].SetActive(true);
 
-            itemBaseStatsText[10].text = string.Format("{0:0.0}", skillBank.GrabSkillCooldown(targetItem.skillName) * stats.cooldownReduction);
+            itemBaseStatsText[10].text = string.Format("{0:0.0}", skillBank.GrabSkillCooldown(targetItem.skillName) * (1 - stats.cooldownReduction));
         }
         else if(targetItem.itemType == Item.ItemType.Helmet || targetItem.itemType == Item.ItemType.Armor || targetItem.itemType == Item.ItemType.Legs || targetItem.itemType == Item.ItemType.Shield)
         {
@@ -205,8 +205,9 @@ public class UiItemPopUpResizer : MonoBehaviour
         }
 
         // Sets up the description for the popup.
-        descriptionBox.GetComponent<Text>().text = targetItem.description;
-        descriptionBox.sizeDelta = new Vector2(descriptionBox.sizeDelta.x, descriptionBox.GetComponent<Text>().preferredHeight);
+        descriptionBox.GetComponentInChildren<Text>().text = targetItem.description;
+        descriptionBox.transform.Find("Text").GetComponent<RectTransform>().sizeDelta = new Vector2(descriptionBox.sizeDelta.x * 2, descriptionBox.GetComponentInChildren<Text>().preferredHeight);
+        descriptionBox.sizeDelta = new Vector2(descriptionBox.sizeDelta.x, descriptionBox.GetComponentInChildren<Text>().preferredHeight / 2);
 
         // Set the sprite's artwork based on the item type
         switch (targetItem.itemType)
@@ -305,17 +306,19 @@ public class UiItemPopUpResizer : MonoBehaviour
         ClearPopUp();
         PopulatePopUp(targetItem);
 
-        traitContainer.sizeDelta = new Vector2(traitContainer.sizeDelta.x, 13 * targetItem.itemTraits.Count + 10 + descriptionBox.sizeDelta.y);
+        PopUpTraitHeight += descriptionBox.sizeDelta.y;
+        traitContainer.sizeDelta = new Vector2(traitContainer.sizeDelta.x, PopUpTraitHeight);
         primaryPopUp.sizeDelta = new Vector2(primaryPopUp.sizeDelta.x, 170 + traitContainer.sizeDelta.y);
     }
 
     // Used to clear every trait from the previous item from the popup
     private void ClearPopUp()
     {
+        PopUpTraitHeight = 23;
         // Clear everything except the description and the description bar
         for (int index = 0; index < traitContainer.childCount; index++)
         {
-            if (index > 1)
+            if (index > 2)
                 Destroy(traitContainer.GetChild(index).gameObject);
         }
     }
@@ -327,117 +330,258 @@ public class UiItemPopUpResizer : MonoBehaviour
         for(int index = 0; index < item.itemTraits.Count; index ++)
         {
             GameObject traitText = Instantiate(popUpTextPrefab, traitContainer.transform);
-            traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(200f, 13f);
+            traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(200f, 9f);
 
             switch (item.itemTraits[index].traitType)
             {
                 case ItemTrait.TraitType.Armor:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0} Armor", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[0];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0} Armor", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[0];
                     if (item.itemType == Item.ItemType.Helmet || item.itemType == Item.ItemType.Armor || item.itemType == Item.ItemType.Legs || item.itemType == Item.ItemType.Shield)
+                    {
+                        traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(200f, 0f);
                         Destroy(traitText);
+                    }
                     break;
                 case ItemTrait.TraitType.HealthRegen:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0.0} Health regen per second", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[3];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0.0} Health regen per second", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[3];
                     break;
                 case ItemTrait.TraitType.CooldownReduction:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0}% Cooldown reduction", item.itemTraits[index].traitBonus * 100);
-                    traitText.GetComponent<Text>().color = traitTextColors[16];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Cooldown reduction", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[16];
                     break;
                 case ItemTrait.TraitType.AflameResistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0}% Fire resist", item.itemTraits[index].traitBonus * 100);
-                    traitText.GetComponent<Text>().color = traitTextColors[4];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Fire resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
                 case ItemTrait.TraitType.FrostbiteResistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0}% Frostbite resist", item.itemTraits[index].traitBonus * 100);
-                    traitText.GetComponent<Text>().color = traitTextColors[5];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Frostbite resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.OverchargeResistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0}% Lightning resist", item.itemTraits[index].traitBonus * 100);
-                    traitText.GetComponent<Text>().color = traitTextColors[6];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Lightning resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[6];
                     break;
                 case ItemTrait.TraitType.OvergrowthResistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0}% Nature resist", item.itemTraits[index].traitBonus * 100);
-                    traitText.GetComponent<Text>().color = traitTextColors[7];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Nature resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[7];
                     break;
                 case ItemTrait.TraitType.WindshearResistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0}% Wind resist", item.itemTraits[index].traitBonus * 100);
-                    traitText.GetComponent<Text>().color = traitTextColors[8];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Wind resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.SunderResistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0}% Earth resist", item.itemTraits[index].traitBonus * 100);
-                    traitText.GetComponent<Text>().color = traitTextColors[9];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Earth resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.BleedResistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0}% Bleed resist", item.itemTraits[index].traitBonus * 100);
-                    traitText.GetComponent<Text>().color = traitTextColors[10];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Bleed resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.PoisonResistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0}% Poison resist", item.itemTraits[index].traitBonus * 100);
-                    traitText.GetComponent<Text>().color = traitTextColors[11];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Poison resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
                     break;
                 case ItemTrait.TraitType.AsleepResistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0}% Sleep resist", item.itemTraits[index].traitBonus * 100);
-                    traitText.GetComponent<Text>().color = traitTextColors[12];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Sleep resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[12];
                     break;
                 case ItemTrait.TraitType.StunResistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0}% Stun resist", item.itemTraits[index].traitBonus * 100);
-                    traitText.GetComponent<Text>().color = traitTextColors[13];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Stun resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
                     break;
                 case ItemTrait.TraitType.KnockbackResistance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0}% Knockback resist", item.itemTraits[index].traitBonus * 100);
-                    traitText.GetComponent<Text>().color = traitTextColors[14];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Knockback resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
                     break;
                 case ItemTrait.TraitType.AttackSpeed:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0}% Attack Speed", item.itemTraits[index].traitBonus * 100);
-                    traitText.GetComponent<Text>().color = traitTextColors[15];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Attack speed", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[15];
                     break;
                 case ItemTrait.TraitType.HealthFlat:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0} Health", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[3];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0} Health", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[3];
                     if (item.itemType == Item.ItemType.Helmet || item.itemType == Item.ItemType.Armor || item.itemType == Item.ItemType.Legs || item.itemType == Item.ItemType.Shield)
+                    {
+                        traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(200f, 0f);
                         Destroy(traitText);
+                    }
                     break;
                 case ItemTrait.TraitType.HealthPercent:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0}% Increased health", item.itemTraits[index].traitBonus * 100);
-                    traitText.GetComponent<Text>().color = traitTextColors[3];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Increased health", item.itemTraits[index].traitBonus * 100 * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[3];
                     break;
                 case ItemTrait.TraitType.HealingOnHit:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0} Health on hit", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[2];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0} Health on hit", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[2];
                     break;
                 case ItemTrait.TraitType.HealingOnKill:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0} Health on hit", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[2];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0} Health on kill", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[2];
                     break;
                 case ItemTrait.TraitType.MoveSpeed:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0}% Movespeed", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[16];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Increased movespeed", item.itemTraits[index].traitBonus * 100 * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[16];
                     if (item.itemType == Item.ItemType.Helmet || item.itemType == Item.ItemType.Armor || item.itemType == Item.ItemType.Legs || item.itemType == Item.ItemType.Shield)
+                    {
+                        traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(200f, 0f);
                         Destroy(traitText);
+                    }
                     break;
                 case ItemTrait.TraitType.Jumps:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0} Jumps", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[16];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0} Extra jumps", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[16];
                     break;
                 case ItemTrait.TraitType.CritChance:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0}% Critical strike chance", item.itemTraits[index].traitBonus * 100);
-                    traitText.GetComponent<Text>().color = traitTextColors[1];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Critical strike chance", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.CritDamage:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0}% Critical strike damage", item.itemTraits[index].traitBonus * 100);
-                    traitText.GetComponent<Text>().color = traitTextColors[1];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Critical strike damage", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.FlatDamageReduction:
-                    traitText.GetComponent<Text>().text = string.Format("+{0:0} Flat damage reduction", item.itemTraits[index].traitBonus);
-                    traitText.GetComponent<Text>().color = traitTextColors[17];
+                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0} Flat damage reduction", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[17];
                     if (item.itemType == Item.ItemType.Helmet || item.itemType == Item.ItemType.Armor || item.itemType == Item.ItemType.Legs || item.itemType == Item.ItemType.Shield)
+                    {
+                        traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(200f, 0f);
                         Destroy(traitText);
+                    }
+                    break;
+                case ItemTrait.TraitType.FireExplosionOnKill:
+                    traitText.GetComponentInChildren<Text>().text = "Consuming blaze" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    // traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(200f, 14f);
+                    //traitText.transform.Find("Text").GetComponent<RectTransform>().sizeDelta = new Vector2(400f, 30f);
+                    break;
+                case ItemTrait.TraitType.MoreAflameStacksOnHitThreshold:
+                    traitText.GetComponentInChildren<Text>().text = "Raging inferno" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.BurnDoesMaxHpDamageAtThreshold:
+                    traitText.GetComponentInChildren<Text>().text = "Fire overwhelming" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.BasicAttacksShredArmorOnAflame:
+                    traitText.GetComponentInChildren<Text>().text = "Shredding flames" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.FlameVamperism:
+                    traitText.GetComponentInChildren<Text>().text = "Flame vamperism" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.RingOfFireOnHit:
+                    traitText.GetComponentInChildren<Text>().text = "Matrimony of flame" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflameToSunderStackOnEarthSpell:
+                    traitText.GetComponentInChildren<Text>().text = "Wrath of the <color=#B0946C>blazing earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.SunderFurtherDecreasesFireResist:
+                    traitText.GetComponentInChildren<Text>().text = "Deep rooted <color=#B0946C>flames" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflameSunderCritsSummonFireballs:
+                    traitText.GetComponentInChildren<Text>().text = "Devasting flame <color=#B0946C>geyser" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflameWindshearWindAttacksGainCritOnBurningTarget:
+                    traitText.GetComponentInChildren<Text>().text = "Blazing <color=#ABD1E0>exposure" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflameWindshearSummonFirePillarsOnHit:
+                    traitText.GetComponentInChildren<Text>().text = "Flaring <color=#ABD1E0>winds" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflameWindshearWindSpellsAddFireStacks:
+                    traitText.GetComponentInChildren<Text>().text = "Roaring <color=#ABD1E0>blaze" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflamePhysicalAddFireStacksOnHit:
+                    traitText.GetComponentInChildren<Text>().text = "Searing <color=#E94453>metal" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflamePhysicalDamageAmpOnBurningTarget:
+                    traitText.GetComponentInChildren<Text>().text = "Smoldering <color=#E94453>steel" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflamePhysicalBladeExplosionOnKill:
+                    traitText.GetComponentInChildren<Text>().text = "Red-hot <color=#E94453>metallic implosion" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflamePhysicalBigHitsAddAflame:
+                    traitText.GetComponentInChildren<Text>().text = "Searing <color=#E94453>strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflameBleedIncreasesFlameCritChance:
+                    traitText.GetComponentInChildren<Text>().text = "Searing <color=#AB181D>wounds" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflameBleedFireDamageAmpOnBleedThreshold:
+                    traitText.GetComponentInChildren<Text>().text = "Boiling <color=#AB181D>blood" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflameBleedAflameAddsBleedAtThreshhold:
+                    traitText.GetComponentInChildren<Text>().text = "Blaze of <color=#AB181D>exsanguination" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflameBleedAflameRemovesBleedResist:
+                    traitText.GetComponentInChildren<Text>().text = "Flames of <color=#AB181D>hemorrhage" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold:
+                    traitText.GetComponentInChildren<Text>().text = "Consuming <color=#AB181D>blaze" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
                 default:
                     break;
             }
+
+            PopUpTraitHeight += traitText.GetComponent<RectTransform>().sizeDelta.y;
         }
+    }
+
+    private string GetTraitValueRomanNumeral(ItemTrait itemTrait)
+    {
+        string traitNumeral = "";
+        switch (itemTrait.traitBonusMultiplier)
+        {
+            case 1:
+                traitNumeral = "";
+                break;
+            case 2:
+                traitNumeral = " - II";
+                break;
+            case 3:
+                traitNumeral = " - III";
+                break;
+            case 4:
+                traitNumeral = " - IV";
+                break;
+            case 5:
+                traitNumeral = " - V";
+                break;
+            case 6:
+                traitNumeral = " - VI";
+                break;
+            case 7:
+                traitNumeral = " - VII";
+                break;
+            case 8:
+                traitNumeral = " - VIII";
+                break;
+            case 9:
+                traitNumeral = " - IX";
+                break;
+            case 10:
+                traitNumeral = " - X";
+                break;
+            default:
+                break;
+        }
+        return traitNumeral;
     }
 }

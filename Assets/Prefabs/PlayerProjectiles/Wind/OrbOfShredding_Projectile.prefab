@@ -24167,6 +24167,7 @@ MonoBehaviour:
   projectileAOE: 1
   disjointedHitbox: 1
   bypassCrit: 0
+  screenShakeAmount: 0
 --- !u!114 &2695277099168604707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24209,6 +24210,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buff: 0
   applyBuff: 0
+  disjointedHitbox: 1
+  buffOrigin: {fileID: 0}
   hitEnemies: 1
   hitPlayers: 0
   hitSelf: 0
@@ -24226,6 +24229,7 @@ MonoBehaviour:
   knockback: 0
   knockbackStrength: 0
   knockbackFromCenter: 0
+  knockForwardFromLocalTransform: 0
   knockbackDirection: {x: 0, y: 0, z: 0}
   baseDamage: 0
 --- !u!114 &5443199804852999186

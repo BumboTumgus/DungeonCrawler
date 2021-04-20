@@ -65,6 +65,13 @@ public class HitBoxManager : MonoBehaviour
     // Used to launch an attack
     IEnumerator HitBoxFlicker(int index)
     {
+
+        if (hitboxes[index].GetComponent<HitBox>() != null)
+        {
+            hitboxes[index].GetComponent<HitBox>().critRolled = false;
+            hitboxes[index].GetComponent<HitBox>().crit = false;
+        }
+
         //Debug.Log("we are flickering hitbox " + index);
         hitboxes[index].GetComponent<Collider>().enabled = true;
         yield return new WaitForFixedUpdate();
