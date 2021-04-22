@@ -164,7 +164,7 @@ public class BuffsManager : MonoBehaviour
                 if (activeBuff.stackable)
                 {
                     activeBuff.AddStack(1);
-                    if (buffInflictor.CompareTag("Player") && buff == BuffType.Aflame && activeBuff.currentStacks >= 32 - buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedAflameAddsBleedAtThreshhold))
+                    if (buffInflictor.CompareTag("Player") && buff == BuffType.Aflame && activeBuff.currentStacks >= 32 - buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedAflameAddsBleedAtThreshhold) && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedAflameAddsBleedAtThreshhold) > 0)
                         CheckResistanceToBuff(BuffType.Bleeding, 1, buffInflictor.baseDamage, buffInflictor);
                 }
                 else
@@ -264,8 +264,11 @@ public class BuffsManager : MonoBehaviour
                     aflame.infiniteDuration = false;
                     aflame.duration = 10;
 
-                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedAflameRemovesBleedResist) < 0)
-                        aflame.ChangeResistanceStats(true, 0, 0, 0, 0, 0, 0, 0, 0, buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedAflameRemovesBleedResist), 0, 0);
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedAflameRemovesBleedResist) > 0)
+                        aflame.ChangeResistanceStats(true, 0, 0, 0, 0, 0, 0, 0, 0, buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedAflameRemovesBleedResist) * -1, 0, 0);
+
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameKnockbackAflameReducesKnockbackResist) > 0)
+                        aflame.ChangeResistanceStats(true, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameKnockbackAflameReducesKnockbackResist) * -1);
 
                     if (PollForBuffStacks(BuffType.Poisoned) > 0 && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) > 0)
                         PollForBuff(BuffType.Poisoned).DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison);
@@ -535,7 +538,6 @@ public class BuffsManager : MonoBehaviour
                     buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[9];
 
                     activeBuffs.Add(stunned);
-
                     stunned.myType = buff;
                     stunned.connectedPlayer = stats;
                     stunned.playerDamageSource = buffInflictor;
@@ -547,6 +549,13 @@ public class BuffsManager : MonoBehaviour
                         GetComponent<PlayerMovementController>().StunLaunch();
                     else
                         GetComponent<EnemyCrowdControlManager>().StunLaunch();
+
+
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameStunStunReducesFireResistance) > 0)
+                        stunned.ChangeResistanceStats(true, buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameStunStunReducesFireResistance) * -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameStunStunAmpsBurnDamage) > 0 && PollForBuff(BuffType.Aflame))
+                        PollForBuff(BuffType.Aflame).bonusDPS += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameStunStunAmpsBurnDamage);
 
                     stunned.effectParticleSystem.Add(psSystems[15]);
                     stunned.effectParticleSystem.Add(psSystems[16]);
@@ -1313,9 +1322,9 @@ public class BuffsManager : MonoBehaviour
                         if (hitbox.damageType == HitBox.DamageType.Fire && target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Poisoned) > 30 && stats.traitPoisonFireSpellOnHitReady)
                         {
                             stats.traitPoisonFireSpellOnHitReady = false;
-                            GameObject posionBurst = Instantiate(GetComponent<SkillsManager>().skillProjectiles[55], target.transform.position + Vector3.up, Quaternion.identity);
-                            posionBurst.GetComponent<HitBoxBuff>().buffOrigin = stats;
-                            posionBurst.GetComponent<HitBoxBuff>().poisonValue = Mathf.RoundToInt(trait.traitValue);
+                            GameObject poisonBurst = Instantiate(GetComponent<SkillsManager>().skillProjectiles[55], target.transform.position + Vector3.up, Quaternion.identity);
+                            poisonBurst.GetComponent<HitBoxBuff>().buffOrigin = stats;
+                            poisonBurst.GetComponent<HitBoxBuff>().poisonValue = Mathf.RoundToInt(trait.traitValue);
                         }
                         break;
                     default:

@@ -129,6 +129,13 @@ public class HitBoxBuff : MonoBehaviour
                     knockbackDirection = transform.forward;
 
                 //Debug.Log("The knckback direction is: " + knockbackDirection);
+                if (buffOrigin.CompareTag("Player") && buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameKnockbackAflameSpellsOnKnockbackedTargetExplode) > 0 && other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Aflame) >= 20)
+                {
+                    GameObject knockbackFireWave = Instantiate(buffOrigin.GetComponent<SkillsManager>().skillProjectiles[57], other.transform.position + Vector3.up, Quaternion.identity);
+                    knockbackFireWave.GetComponent<HitBox>().myStats = buffOrigin;
+                    knockbackFireWave.GetComponent<HitBox>().damage = (1 + buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameKnockbackAflameSpellsOnKnockbackedTargetExplode)) * buffOrigin.baseDamage;
+                }
+
                 other.GetComponent<EnemyCrowdControlManager>().KnockbackLaunch(knockbackDirection * knockbackStrength, buffOrigin);
             }
             if (asleep)

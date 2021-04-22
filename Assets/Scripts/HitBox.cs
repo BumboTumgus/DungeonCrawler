@@ -79,14 +79,15 @@ public class HitBox : MonoBehaviour
                 }
 
                 if (damageType == DamageType.Physical && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePhysicalDamageAmpOnBurningTarget) > 0)
-                    damageDealt *= 1 + (myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePhysicalDamageAmpOnBurningTarget) * enemyStats.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Aflame)); 
+                    damageDealt *= 1 + (myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePhysicalDamageAmpOnBurningTarget) * enemyStats.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Aflame));
 
-                if(damageType == DamageType.Fire && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedFireDamageAmpOnBleedThreshold) > 0 && enemyStats.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) >= 25)
+                if (damageType == DamageType.Fire && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameKnockbackKnockbackAmpsFireDamage) > 0 && other.GetComponent<PlayerStats>().knockedBack)
+                    damageDealt *= 1 + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameKnockbackKnockbackAmpsFireDamage);
+
+                if (damageType == DamageType.Fire && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedFireDamageAmpOnBleedThreshold) > 0 && enemyStats.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) >= 25)
                 {
-                    Debug.Log("damagedealt is: " + damageDealt);
                     damageDealt *= 1 + (myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedFireDamageAmpOnBleedThreshold) * enemyStats.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding));
                     enemyStats.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffsManager.BuffType.Bleeding);
-                    Debug.Log("damagedealt is: " + damageDealt);
                 }
 
                 if (crit)

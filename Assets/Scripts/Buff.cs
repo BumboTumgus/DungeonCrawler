@@ -104,6 +104,13 @@ public class Buff : MonoBehaviour
 
             }
         }
+
+        if(myType == BuffsManager.BuffType.Aflame && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameStunPeriodBurnStun) > 0 && connectedPlayer.traitAflameStunsPeriodicallyReady)
+        {
+            connectedPlayer.traitAflameStunsPeriodicallyReady = false;
+            connectedPlayer.traitAflameStunPeriodicallyTargetTimer = 21 - playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameStunPeriodBurnStun);
+            connectedPlayer.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, playerDamageSource.baseDamage, playerDamageSource);
+        }
     }
 
     // Used to add or reset the buff's timer.
@@ -183,6 +190,12 @@ public class Buff : MonoBehaviour
         if (myType == BuffsManager.BuffType.Aflame && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Poisoned) > 0 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) > 0)
             connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Poisoned).DPSMultiplier += playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) * amount;
 
+        if (myType == BuffsManager.BuffType.Aflame && connectedPlayer.traitAflameStunStunOnThresholdReady && currentStacks >= 16 - playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameStunStunOnThreshold) && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameStunStunOnThreshold) > 0)
+        {
+            connectedPlayer.traitAflameStunStunOnThresholdReady = false;
+            connectedPlayer.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, playerDamageSource.baseDamage, playerDamageSource);
+        }
+
         connectedIcon.GetComponent<Animator>().SetBool("AlmostDone", false);
 
         // Setting the timer.
@@ -206,7 +219,7 @@ public class Buff : MonoBehaviour
 
             // If we changed our resistance based stats, remove more stacks
             if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0 || overchargeResistSC != 0 || overgrowthResistSC != 0 || sunderResistSC != 0 || windshearResistSC != 0)
-                ChangeResistanceStats(true, aflameResistSC * amount, frostbiteResistSC * amount, overchargeResistSC * amount, overgrowthResistSC * amount, sunderResistSC * amount, frostbiteResistSC * amount, stunResistSC * amount, asleepResistSC * amount, bleedResistSC * amount, poisonResistSC * amount, knockBackResistSC * amount);
+                ChangeResistanceStats(false, aflameResistSC * amount, frostbiteResistSC * amount, overchargeResistSC * amount, overgrowthResistSC * amount, sunderResistSC * amount, frostbiteResistSC * amount, stunResistSC * amount, asleepResistSC * amount, bleedResistSC * amount, poisonResistSC * amount, knockBackResistSC * amount);
 
             // If we changed our invunerability, unatrgetability or invisibility
             if (invulnerabilitySC != 0 || untargetabilitySC != 0 || invisibilitySC != 0)
@@ -266,7 +279,7 @@ public class Buff : MonoBehaviour
 
         // If we changed our resistance based stats, remove more stacks
         if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0 || overchargeResistSC != 0 || overgrowthResistSC != 0 || sunderResistSC != 0 || windshearResistSC != 0)
-            ChangeResistanceStats(true, aflameResistSC * amount, frostbiteResistSC * amount, overchargeResistSC * amount, overgrowthResistSC * amount, sunderResistSC * amount, frostbiteResistSC * amount, stunResistSC * amount, asleepResistSC * amount, bleedResistSC * amount, poisonResistSC * amount, knockBackResistSC * amount);
+            ChangeResistanceStats(false, aflameResistSC * amount, frostbiteResistSC * amount, overchargeResistSC * amount, overgrowthResistSC * amount, sunderResistSC * amount, frostbiteResistSC * amount, stunResistSC * amount, asleepResistSC * amount, bleedResistSC * amount, poisonResistSC * amount, knockBackResistSC * amount);
 
         // If we changed our invunerability, unatrgetability or invisibility
         if (invulnerabilitySC != 0 || untargetabilitySC != 0 || invisibilitySC != 0)
@@ -289,9 +302,9 @@ public class Buff : MonoBehaviour
 
         if(changeStatsChangeValue)
         {
-            invulnerabilitySC = invulnerabilityGain;
-            invisibilitySC = invisibilityGain;
-            untargetabilitySC = untargetabilityGain;
+            invulnerabilitySC += invulnerabilityGain;
+            invisibilitySC += invisibilityGain;
+            untargetabilitySC += untargetabilityGain;
         }
     }
 
@@ -301,7 +314,7 @@ public class Buff : MonoBehaviour
         connectedPlayer.ChangeSize(sizeGain);
 
         if (changeStatsChangeValue)
-            sizeSC = sizeGain;
+            sizeSC += sizeGain;
     }
 
     //USed to add offensive stast to the player
@@ -313,9 +326,9 @@ public class Buff : MonoBehaviour
 
         if (changeStatsChangeValue)
         {
-            atkSpdSC = atkSpeedGain;
-            movespeedSC = movespeedGain;
-            damagePercentageSC = damagePercentageGain;
+            atkSpdSC += atkSpeedGain;
+            movespeedSC += movespeedGain;
+            damagePercentageSC += damagePercentageGain;
         }
 
         connectedPlayer.StatSetup(false, true);
@@ -332,11 +345,11 @@ public class Buff : MonoBehaviour
 
         if (changeStatsChangeValue)
         {
-            healthSC = healthGain;
-            healthRegenSC = healthRegenGain;
-            armorSC = armorGain;
-            damageReductionSC = damageReductionGain;
-            healingMultiplierSC = healingMultiplier;
+            healthSC += healthGain;
+            healthRegenSC += healthRegenGain;
+            armorSC += armorGain;
+            damageReductionSC += damageReductionGain;
+            healingMultiplierSC += healingMultiplier;
         }
         
         connectedPlayer.StatSetup(false, true);
@@ -359,17 +372,17 @@ public class Buff : MonoBehaviour
 
         if (changeStatsChangeValue)
         {
-            aflameResistSC = aflameGain;
-            frostbiteResistSC = frostbiteGain;
-            overchargeResistSC = overchargeGain;
-            overgrowthResistSC = overgrownGain;
-            sunderResistSC = sunderGain;
-            windshearResistSC = windshearGain;
-            stunResistSC = stunGain;
-            asleepResistSC = asleepGain;
-            bleedResistSC = bleedGain;
-            poisonResistSC = poisonGain;
-            knockBackResistSC = knockbackGain;
+            aflameResistSC += aflameGain;
+            frostbiteResistSC += frostbiteGain;
+            overchargeResistSC += overchargeGain;
+            overgrowthResistSC += overgrownGain;
+            sunderResistSC += sunderGain;
+            windshearResistSC += windshearGain;
+            stunResistSC += stunGain;
+            asleepResistSC += asleepGain;
+            bleedResistSC += bleedGain;
+            poisonResistSC += poisonGain;
+            knockBackResistSC += knockbackGain;
         }
 
         connectedPlayer.StatSetup(false, true);
@@ -385,7 +398,11 @@ public class Buff : MonoBehaviour
             ps.Play();
 
         if (myType == BuffsManager.BuffType.Stunned)
+        {
             connectedPlayer.stunned = false;
+            if (connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Aflame) && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameStunStunAmpsBurnDamage) > 0)
+                connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Aflame).bonusDPS -= playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameStunStunAmpsBurnDamage);
+        }
         else if (myType == BuffsManager.BuffType.Asleep)
             connectedPlayer.asleep = false;
         else if (myType == BuffsManager.BuffType.Frozen)
@@ -395,7 +412,10 @@ public class Buff : MonoBehaviour
         else if (myType == BuffsManager.BuffType.Knockback)
             connectedPlayer.knockedBack = false;
         else if (myType == BuffsManager.BuffType.Aflame)
+        {
             connectedPlayer.traitMoreAflameStacksOnHitThresholdFatigue = false;
+            connectedPlayer.traitAflameStunStunOnThresholdReady = true;
+        }
         /*else if (myType == BuffsManager.BuffType.Revitalize)
         {
             connectedPlayer.revitalizeBuff = false;

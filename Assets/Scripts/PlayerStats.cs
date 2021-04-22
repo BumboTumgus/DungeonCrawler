@@ -117,6 +117,10 @@ public class PlayerStats : MonoBehaviour
     public bool traitPoisonFireSpellOnHitReady = true;
     private float traitPoisonFireSpellOnHitCurrentTimer = 0;
     private float traitPoisonFireSpellOnHitTargetTimer = 3;
+    public bool traitAflameStunsPeriodicallyReady = true;
+    private float traitAflameStunPeriodicallyCurrentTimer = 0;
+    public float traitAflameStunPeriodicallyTargetTimer = 30;
+    public bool traitAflameStunStunOnThresholdReady = true;
 
     [SerializeField] private GameObject enemyHealthBar;
 
@@ -150,6 +154,7 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
+        /*
         //USed for debugging to add exp.
         if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
             AddExp(1000);
@@ -190,7 +195,7 @@ public class PlayerStats : MonoBehaviour
             GetComponent<PlayerMovementController>().KnockbackLaunch((transform.forward + Vector3.up) * 5, this);
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.GreviousWounds, 1, baseDamage, this);
-
+        */
         // Health and mana regen logic.
         /*
         if (!dead)
@@ -247,6 +252,15 @@ public class PlayerStats : MonoBehaviour
             {
                 traitPoisonFireSpellOnHitReady = true;
                 traitPoisonFireSpellOnHitCurrentTimer = 0;
+            }
+        }
+        if (!traitAflameStunsPeriodicallyReady)
+        {
+            traitAflameStunPeriodicallyCurrentTimer += Time.deltaTime;
+            if (traitAflameStunPeriodicallyCurrentTimer >= traitAflameStunPeriodicallyTargetTimer)
+            {
+                traitAflameStunsPeriodicallyReady = true;
+                traitAflameStunPeriodicallyCurrentTimer = 0;
             }
         }
     }
@@ -741,6 +755,24 @@ public class PlayerStats : MonoBehaviour
                 case ItemTrait.TraitType.AflameStunPeriodBurnStun:
                     playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
                     break;
+                case ItemTrait.TraitType.AflameStunStunOnThreshold:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameStunStunReducesFireResistance:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameStunStunAmpsBurnDamage:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameKnockbackAflameReducesKnockbackResist:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameKnockbackAflameSpellsOnKnockbackedTargetExplode:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameKnockbackKnockbackAmpsFireDamage:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
                 default:
                     break;
             }
@@ -936,6 +968,24 @@ public class PlayerStats : MonoBehaviour
                     playerTraitManager.RemoveOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
                     break;
                 case ItemTrait.TraitType.AflameStunPeriodBurnStun:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameStunStunOnThreshold:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameStunStunReducesFireResistance:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameStunStunAmpsBurnDamage:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameKnockbackAflameReducesKnockbackResist:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameKnockbackAflameSpellsOnKnockbackedTargetExplode:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.AflameKnockbackKnockbackAmpsFireDamage:
                     playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
                     break;
                 default:

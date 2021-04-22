@@ -564,6 +564,30 @@ public class UiItemPopUpResizer : MonoBehaviour
                     traitText.GetComponentInChildren<Text>().text = "Dazing <color=#FFF04F>flames" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
+                case ItemTrait.TraitType.AflameStunStunOnThreshold:
+                    traitText.GetComponentInChildren<Text>().text = "Stunning <color=#FFF04F>inferno" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflameStunStunReducesFireResistance:
+                    traitText.GetComponentInChildren<Text>().text = "Confounding <color=#FFF04F>conflagration" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflameStunStunAmpsBurnDamage:
+                    traitText.GetComponentInChildren<Text>().text = "Dazing flare <color=#FFF04F>amplification" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflameKnockbackAflameReducesKnockbackResist:
+                    traitText.GetComponentInChildren<Text>().text = "Staggering <color=#1F86CA>flames" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflameKnockbackAflameSpellsOnKnockbackedTargetExplode:
+                    traitText.GetComponentInChildren<Text>().text = "Infernal <color=#1F86CA>waves" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
+                case ItemTrait.TraitType.AflameKnockbackKnockbackAmpsFireDamage:
+                    traitText.GetComponentInChildren<Text>().text = "Searing <color=#1F86CA>impulse" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
+                    break;
                 default:
                     break;
             }
