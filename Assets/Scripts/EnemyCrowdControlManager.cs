@@ -162,7 +162,7 @@ public class EnemyCrowdControlManager : MonoBehaviour
         {
             currentTimer += Time.deltaTime;
             if (currentTimer >= targetTimer)
-                buffsManager.AttemptRemovalOfBuff(BuffsManager.BuffType.Knockback);
+                buffsManager.AttemptRemovalOfBuff(BuffsManager.BuffType.Knockback, false);
 
             yield return null;
         }

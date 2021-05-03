@@ -72,6 +72,8 @@ public class HitBox : MonoBehaviour
                         bonusCritChance += other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Aflame) * myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameWindshearWindAttacksGainCritOnBurningTarget);
                     if (damageType == DamageType.Fire && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedIncreasesFlameCritChance) > 0)
                         bonusCritChance += other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) * myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedIncreasesFlameCritChance);
+                    if ( myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthBleedBonusCritChanceOnBleedingTarget) > 0 && other.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Bleeding) && other.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Sunder))
+                        bonusCritChance += other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Sunder) * myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthBleedBonusCritChanceOnBleedingTarget);
 
                     critRolled = true;
                     if (Random.Range(0f,100f) <= (myStats.critChance + bonusCritChance) * 100)
@@ -84,19 +86,71 @@ public class HitBox : MonoBehaviour
                 if (damageType == DamageType.Fire && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameKnockbackKnockbackAmpsFireDamage) > 0 && other.GetComponent<PlayerStats>().knockedBack)
                     damageDealt *= 1 + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameKnockbackKnockbackAmpsFireDamage);
 
+
                 if (damageType == DamageType.Fire && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedFireDamageAmpOnBleedThreshold) > 0 && enemyStats.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) >= 25)
                 {
                     damageDealt *= 1 + (myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedFireDamageAmpOnBleedThreshold) * enemyStats.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding));
-                    enemyStats.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffsManager.BuffType.Bleeding);
+                    enemyStats.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffsManager.BuffType.Bleeding, true);
                 }
 
+                if (damageType == DamageType.Earth && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceEarthFrostToEarthBonusDamage) > 0 && other.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Frostbite))
+                {
+                    damageDealt *= 1 + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceEarthFrostToEarthBonusDamage) * other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Frostbite);
+                    other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Sunder, Mathf.RoundToInt(other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Frostbite) / 2), myStats.baseDamage, myStats);
+                    other.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffsManager.BuffType.Frostbite,true);
+                }
+
+                if (damageType == DamageType.Ice && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceEarthSunderAmpsIceDamage) > 0 && other.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Sunder))
+                {
+                    damageDealt *= 1 + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceEarthSunderAmpsIceDamage) * other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Sunder);
+                    other.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffsManager.BuffType.Sunder,true);
+                }
+
+                if (damageType == DamageType.Wind && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceWindWindSpellsDamageAmp) > 0 && other.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Frostbite))
+                    damageDealt *= 1 + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceWindWindSpellsDamageAmp) * other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Frostbite);
+
+                if (damageType == DamageType.Ice && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceStunIceRefreshesStun) > 0 && other.GetComponent<PlayerStats>().stunned && other.GetComponent<PlayerStats>().traitFreezeRefreshesStunReady)
+                {
+                    other.GetComponent<PlayerStats>().traitFreezeRefreshesStunReady = false;
+                    damageDealt *= 1.5f + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceStunIceRefreshesStun);
+                    other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, myStats.baseDamage, myStats);
+                }
+
+                if (damageType == DamageType.Earth && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthIncreasedDamageToLowerArmorTargets) > 0 && (myStats.armor * myStats.armorReductionMultiplier) / 3 >= (other.GetComponent<PlayerStats>().armor * other.GetComponent<PlayerStats>().armorReductionMultiplier))
+                    damageDealt *= 1.8f + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthIncreasedDamageToLowerArmorTargets);
+
+                if (damageType == DamageType.Earth && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthAmpDamageOnHealthyTargets) > 0 && other.GetComponent<PlayerStats>().health / other.GetComponent<PlayerStats>().healthMax >= 0.9f)
+                    damageDealt *= 1.25f + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthAmpDamageOnHealthyTargets);
+
+                if (damageType == DamageType.Physical && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthPhysicalSunderAmpsDamage) > 0 && other.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Sunder))
+                    damageDealt *= 1f + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthPhysicalSunderAmpsDamage) * other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Sunder);
+
+                if (damageType == DamageType.Earth && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthBleedBonusEarthDamageToBleeding) > 0 && other.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Bleeding))
+                    damageDealt *= 1f + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthBleedBonusEarthDamageToBleeding) * other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding);
+
+
+
+
+
+
+
                 if (crit)
-                    damageDealt *= myStats.critDamageMultiplier;
+                {
+                    float bonusCritDamage = 0;
+                    if (damageType == DamageType.Earth && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceEarthEarthSpellBonusCritDamage) > 0)
+                        bonusCritDamage += other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Frostbite) * myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceEarthEarthSpellBonusCritDamage);
+                    if (damageType == DamageType.Physical && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IcePhysicalFrostbiteAmpsPhysicalCritDamage) > 0)
+                        bonusCritDamage += other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Frostbite) * myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IcePhysicalFrostbiteAmpsPhysicalCritDamage);
+                    if (damageType == DamageType.Physical && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthPhysicalSunderAmpsCrits) > 0)
+                        bonusCritDamage += other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Sunder) * myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthPhysicalSunderAmpsCrits);
+
+                    damageDealt *= myStats.critDamageMultiplier + bonusCritDamage;
+                }
 
                 if (projectile && procsOnHits || projectileAOE && procsOnHits)
-                    myStats.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this);
+                    myStats.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this, damageDealt);
                 else if (procsOnHits)
-                    transform.root.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this);
+                    transform.root.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this, damageDealt);
 
                 if (damageType != DamageType.Healing)
                 {
@@ -164,10 +218,12 @@ public class HitBox : MonoBehaviour
                 }
 
                 if (projectile && procsOnHits || projectileAOE && procsOnHits)
-                    myStats.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this);
+                    myStats.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this, damageDealt);
                 else if (procsOnHits)
-                    transform.root.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this);
+                    transform.root.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this, damageDealt);
 
+                if (other.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceEnemyAttacksWeakendAtThreshold) > 0 && myStats.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Frostbite) >= 31 - other.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceEnemyAttacksWeakendAtThreshold))
+                    damageDealt *= 0.5f;
 
                 if (damageType != DamageType.Healing)
                 {

@@ -193,4 +193,52 @@ public class PlayerTraitManager : MonoBehaviour
 
         return traitValue;
     }
+
+    // Adds an on struck effect from the list we parse through
+    public void AddOnStruckEffect(ItemTrait.TraitType itemTraitType, float itemTraitValue)
+    {
+        bool traitAlreadyExists = false;
+
+        foreach (TraitSource traitSource in OnStruckEffects)
+        {
+            if (traitSource.traitType == itemTraitType)
+            {
+                traitSource.traitValue += itemTraitValue;
+                traitSource.sourceCount++;
+                traitAlreadyExists = true;
+                break;
+            }
+        }
+
+        if (!traitAlreadyExists)
+        {
+            TraitSource traitToAdd = new TraitSource();
+            traitToAdd.traitValue = itemTraitValue;
+            traitToAdd.sourceCount = 1;
+            traitToAdd.traitType = itemTraitType;
+
+            OnStruckEffects.Add(traitToAdd);
+        }
+    }
+
+    // Remove an idle effect from the list we parse through.
+    public void RemoveOnStruckEffect(ItemTrait.TraitType itemTraitType, float itemTraitValue)
+    {
+        TraitSource sourceToRemove = null;
+
+        foreach (TraitSource traitSource in OnStruckEffects)
+        {
+            if (traitSource.traitType == itemTraitType)
+            {
+                traitSource.traitValue -= itemTraitValue;
+                traitSource.sourceCount--;
+                if (traitSource.sourceCount == 0)
+                    sourceToRemove = traitSource;
+                break;
+            }
+        }
+
+        if (sourceToRemove != null)
+            OnStruckEffects.Remove(sourceToRemove);
+    }
 }

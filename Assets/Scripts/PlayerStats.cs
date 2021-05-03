@@ -92,6 +92,7 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public bool channeling = false;
     [HideInInspector] public bool flameWalkerEnabled = false;
     [HideInInspector] public bool immolationEnabled = false;
+    [HideInInspector] public bool arcticAuraEnabled = false;
     [HideInInspector] public float counterDamage = 0;
     [HideInInspector] public bool counter = false;
     [HideInInspector] public float invulnerableCount = 0;
@@ -105,6 +106,8 @@ public class PlayerStats : MonoBehaviour
 
     private float immolateCurrentTimer = 0;
     private float immolateTargetTimer = 0.5f;
+    private float arcticAuraCurrentTimer = 0;
+    private float arcticAuraTargetTimer = 2f;
 
     private DamageNumberManager damageNumberManager;
     private BuffsManager buffManager;
@@ -121,6 +124,12 @@ public class PlayerStats : MonoBehaviour
     private float traitAflameStunPeriodicallyCurrentTimer = 0;
     public float traitAflameStunPeriodicallyTargetTimer = 30;
     public bool traitAflameStunStunOnThresholdReady = true;
+    public bool traitFreezeOnThresholdReady = true;
+    public bool traitFreezeRefreshesStunReady = true;
+    public bool traitEarthMaxHpDamageReady = true;
+    public bool traitEarthAfflictionDamageAmpReady = true;
+    public bool traitEarthTrueDamageConversion = false;
+    public bool traitEarthPoisonSummonPillarOnThresholdReady = true;
 
     [SerializeField] private GameObject enemyHealthBar;
 
@@ -241,6 +250,22 @@ public class PlayerStats : MonoBehaviour
         }
         else
             immolateCurrentTimer = 0;
+
+        // artic aura logic.
+        if (arcticAuraEnabled)
+        {
+            arcticAuraCurrentTimer += Time.deltaTime;
+            if (arcticAuraCurrentTimer >= arcticAuraTargetTimer)
+            {
+                arcticAuraCurrentTimer -= arcticAuraTargetTimer;
+                // flicker the hit box.
+
+                hitboxManager.LaunchHitBox(28);
+                hitboxManager.PlayParticles(67);
+            }
+        }
+        else
+            arcticAuraCurrentTimer = 0;
 
         // Update the health bar.
         healthBar.targetValue = health;
@@ -404,6 +429,11 @@ public class PlayerStats : MonoBehaviour
                         buff.EndBuff();
                 }
                 amount *= 2f;
+            }
+
+            if(traitEarthTrueDamageConversion)
+            {
+                damage = HitBox.DamageType.True;
             }
 
             if (damage != HitBox.DamageType.True)
@@ -773,6 +803,149 @@ public class PlayerStats : MonoBehaviour
                 case ItemTrait.TraitType.AflameKnockbackKnockbackAmpsFireDamage:
                     playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
                     break;
+                case ItemTrait.TraitType.IceFreezeAtStackThreshold:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceAmpAllDamageAtThreshold:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceBasicAttacksConsumeStacksAtThreshold:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceEnemyAttacksWeakendAtThreshold:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceEnemiesGainFrostbiteOnStrikingYou:
+                    playerTraitManager.AddOnStruckEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceAddStacksToNearbyEnemies:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    arcticAuraEnabled = true;
+                    hitboxManager.hitboxes[28].GetComponent<HitBoxBuff>().frostbiteValue = Mathf.RoundToInt(playerTraitManager.CheckForIdleEffectValue(trait.traitType));
+                    break;
+                case ItemTrait.TraitType.IceAmpFrostbiteDamage:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceEarthFrostToEarthBonusDamage:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceEarthSunderAmpsIceDamage:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceEarthIceDOTAtThreshold:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceEarthEarthSpellBonusCritDamage:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceWindWindAmpsFrostbiteDamage:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceWindWindSpellsDamageAmp:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceWindIncreaseArmorShredPerFrostbite:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceWindSummonTornadoOnHit:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IcePhysicalFrostbiteAmpsPhysicalCritDamage:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IcePhysicalPhysicalVampOnFrostbite:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IcePhysicalBladeVortexOnHit:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceBleedFrostbiteAmpsBleed:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceBleedBleedDoesDamageInstantlyOnThreshold:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IcePoisonFreezingPoison:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IcePoisonFrostbiteResetsPoisonAndAmps:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IcePoisonSummonPoisonPillarOnThreshold:
+                    playerTraitManager.AddOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceStunRudeAwakening:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceStunIceRefreshesStun:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceKnockbackFrostbiteIncreasesKnockbackForce:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceKnockbackSnowEruptionOnKnockback:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceKnockbackBonusStacksOnDownedTargets:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthMaxHpDamageAtThreshold:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthAmpAllAfflictionsOnThreshhold:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthSunderedEnemiesDealLessDamage:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthRockRingExplosionOnKill:
+                    playerTraitManager.AddOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthTrueDamageAtThreshold:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthSunderFurtherReducesResistances:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthIncreasedDamageToLowerArmorTargets:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthAmpDamageOnHealthyTargets:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthHealOnCritAtSunderThreshold:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthPhysicalBonusSunderStacksOnThreshold:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthPhysicalSunderAmpsDamage:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthPhysicalSunderAmpsCrits:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthBleedBonusCritChanceOnBleedingTarget:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthBleedSunderAddsPercentageOfBleed:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthBleedBonusEarthDamageToBleeding:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthBleedBloodExplosionOnBleed:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthPoisonAddSunderedOnPoisonTick:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthPoisonSunderToPoisonConversion:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthPoisonSunderToPoisonOnCrit:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
                 default:
                     break;
             }
@@ -987,6 +1160,152 @@ public class PlayerStats : MonoBehaviour
                     break;
                 case ItemTrait.TraitType.AflameKnockbackKnockbackAmpsFireDamage:
                     playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceFreezeAtStackThreshold:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceAmpAllDamageAtThreshold:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceBasicAttacksConsumeStacksAtThreshold:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceEnemyAttacksWeakendAtThreshold:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceEnemiesGainFrostbiteOnStrikingYou:
+                    playerTraitManager.RemoveOnStruckEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceAddStacksToNearbyEnemies:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    if(playerTraitManager.CheckForIdleEffectValue(trait.traitType) <= 0)
+                        arcticAuraEnabled = false;
+                    break;
+                case ItemTrait.TraitType.IceAmpFrostbiteDamage:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceEarthFrostToEarthBonusDamage:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceEarthSunderAmpsIceDamage:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceEarthIceDOTAtThreshold:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceEarthEarthSpellBonusCritDamage:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceWindWindAmpsFrostbiteDamage:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceWindWindSpellsDamageAmp:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceWindIncreaseArmorShredPerFrostbite:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceWindSummonTornadoOnHit:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IcePhysicalFrostbiteAmpsPhysicalCritDamage:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IcePhysicalPhysicalVampOnFrostbite:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IcePhysicalBladeVortexOnHit:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceBleedFrostbiteAmpsBleed:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceBleedBleedDoesDamageInstantlyOnThreshold:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IcePoisonFreezingPoison:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IcePoisonFrostbiteResetsPoisonAndAmps:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IcePoisonSummonPoisonPillarOnThreshold:
+                    playerTraitManager.RemoveOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceStunRudeAwakening:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceStunIceRefreshesStun:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceKnockbackFrostbiteIncreasesKnockbackForce:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceKnockbackSnowEruptionOnKnockback:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.IceKnockbackBonusStacksOnDownedTargets:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthMaxHpDamageAtThreshold:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthAmpAllAfflictionsOnThreshhold:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthSunderedEnemiesDealLessDamage:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthRockRingExplosionOnKill:
+                    playerTraitManager.RemoveOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthTrueDamageAtThreshold:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthSunderFurtherReducesResistances:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthIncreasedDamageToLowerArmorTargets:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthAmpDamageOnHealthyTargets:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthHealOnCritAtSunderThreshold:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthPhysicalBonusSunderStacksOnThreshold:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthPhysicalSunderAmpsDamage:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthPhysicalSunderAmpsCrits:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthBleedBonusCritChanceOnBleedingTarget:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthBleedSunderAddsPercentageOfBleed:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthBleedBonusEarthDamageToBleeding:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthBleedBloodExplosionOnBleed:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthPoisonAddSunderedOnPoisonTick:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthPoisonSummonPillarOnThreshold:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthPoisonSunderToPoisonConversion:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthPoisonSunderToPoisonOnCrit:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
                     break;
                 default:
                     break;

@@ -27,6 +27,7 @@ public class HitBoxBuff : MonoBehaviour
     public bool freeze = false;
     public bool knockback = false;
     public float knockbackStrength = 0;
+    private float knockbackMultiplier = 1;
     public bool knockbackFromCenter = false;
     public bool knockForwardFromLocalTransform = false;
     public Vector3 knockbackDirection = Vector3.zero;
@@ -95,6 +96,7 @@ public class HitBoxBuff : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        knockbackMultiplier = 1;
         //Debug.Log("col detected");
         if (other.CompareTag("Enemy") && hitEnemies)
         {
@@ -135,8 +137,19 @@ public class HitBoxBuff : MonoBehaviour
                     knockbackFireWave.GetComponent<HitBox>().myStats = buffOrigin;
                     knockbackFireWave.GetComponent<HitBox>().damage = (1 + buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameKnockbackAflameSpellsOnKnockbackedTargetExplode)) * buffOrigin.baseDamage;
                 }
+                if (buffOrigin.CompareTag("Player") && buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceKnockbackFrostbiteIncreasesKnockbackForce) > 0 && other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Frostbite) >= 1)
+                {
+                    knockbackMultiplier += buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceKnockbackFrostbiteIncreasesKnockbackForce) * other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Frostbite);
+                }
+                if (buffOrigin.CompareTag("Player") && buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceKnockbackSnowEruptionOnKnockback) > 0 && other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Frostbite) >= 25)
+                {
+                    GameObject knockbackSnowPulse = Instantiate(buffOrigin.GetComponent<SkillsManager>().skillProjectiles[62], other.transform.position + Vector3.up, Quaternion.identity);
+                    knockbackSnowPulse.GetComponent<HitBox>().myStats = buffOrigin;
+                    knockbackSnowPulse.GetComponent<HitBox>().damage = (1 + buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceKnockbackSnowEruptionOnKnockback)) * buffOrigin.baseDamage;
+                }
 
-                other.GetComponent<EnemyCrowdControlManager>().KnockbackLaunch(knockbackDirection * knockbackStrength, buffOrigin);
+                Debug.Log("knockback multiplier is: " + knockbackMultiplier);
+                other.GetComponent<EnemyCrowdControlManager>().KnockbackLaunch(knockbackDirection * knockbackStrength * knockbackMultiplier, buffOrigin);
             }
             if (asleep)
                 other.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Asleep, 1, buffOrigin.baseDamage, buffOrigin);

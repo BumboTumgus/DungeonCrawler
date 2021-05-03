@@ -14471,12 +14471,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileSpeed: 20
+  projectileSpeedDecay: 0
   projectileLifetime: 10
   piercesTargets: 0
   piercesWalls: 0
   hitAOE: 1
   trackTarget: 0
   YSpin: 0
+  gravModifier: 0
   trackingStrength: 0
   target: {fileID: 0}
   particleTrails: []
@@ -14499,6 +14501,8 @@ MonoBehaviour:
   damage: 5
   stacksToAdd: 0
   crit: 0
+  canCrit: 1
+  critRolled: 0
   procsOnHits: 0
   hitEnemies: 1
   hitPlayers: 0
@@ -14507,7 +14511,7 @@ MonoBehaviour:
   projectile: 1
   projectileAOE: 0
   disjointedHitbox: 0
-  bypassCrit: 0
+  screenShakeAmount: 0
 --- !u!136 &5004385608059491575
 CapsuleCollider:
   m_ObjectHideFlags: 0

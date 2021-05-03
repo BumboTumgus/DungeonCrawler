@@ -9,7 +9,11 @@ public class ItemTrait
         BleedResistance, PoisonResistance, KnockbackResistance, AttackSpeed, MoveSpeed, CritChance, CritDamage, Jumps, FlatDamageReduction, FireExplosionOnKill, MoreAflameStacksOnHitThreshold, BurnDoesMaxHpDamageAtThreshold, BasicAttacksShredArmorOnAflame, FlameVamperism, RingOfFireOnHit, AflameToSunderStackOnEarthSpell,
     SunderFurtherDecreasesFireResist, AflameSunderCritsSummonFireballs, AflameWindshearWindAttacksGainCritOnBurningTarget, AflameWindshearSummonFirePillarsOnHit, AflameWindshearWindSpellsAddFireStacks, AflamePhysicalAddFireStacksOnHit,  AflamePhysicalDamageAmpOnBurningTarget, AflamePhysicalBladeExplosionOnKill, AflamePhysicalBigHitsAddAflame,
     AflameBleedIncreasesFlameCritChance, AflameBleedFireDamageAmpOnBleedThreshold, AflameBleedAflameAddsBleedAtThreshhold, AflameBleedAflameRemovesBleedResist, AflameBleedDamageAmpOnDoubleThreshhold, AflamePoisonBurningEnemySpreadPoisonStacksOnDeath, AflamePoisonGreviousWoundsOnStackThreshold, AflamePoisonPoisonReducesFireResist, AflamePoisonFireSpellsSummonsPoisonBurst,
-    AflamePoisonFireAmpsPoison, AflamePoisonPoisonCloudOnFireKill, AflameStunPeriodBurnStun, AflameStunStunOnThreshold, AflameStunStunReducesFireResistance, AflameStunStunAmpsBurnDamage, AflameKnockbackAflameReducesKnockbackResist, AflameKnockbackAflameSpellsOnKnockbackedTargetExplode, AflameKnockbackKnockbackAmpsFireDamage};
+    AflamePoisonFireAmpsPoison, AflamePoisonPoisonCloudOnFireKill, AflameStunPeriodBurnStun, AflameStunStunOnThreshold, AflameStunStunReducesFireResistance, AflameStunStunAmpsBurnDamage, AflameKnockbackAflameReducesKnockbackResist, AflameKnockbackAflameSpellsOnKnockbackedTargetExplode, AflameKnockbackKnockbackAmpsFireDamage, IceFreezeAtStackThreshold, IceAmpAllDamageAtThreshold,
+    IceBasicAttacksConsumeStacksAtThreshold, IceEnemyAttacksWeakendAtThreshold, IceEnemiesGainFrostbiteOnStrikingYou, IceAddStacksToNearbyEnemies, IceAmpFrostbiteDamage, IceEarthFrostToEarthBonusDamage, IceEarthSunderAmpsIceDamage, IceEarthIceDOTAtThreshold, IceEarthEarthSpellBonusCritDamage, IceWindWindAmpsFrostbiteDamage, IceWindWindSpellsDamageAmp, IceWindIncreaseArmorShredPerFrostbite,
+    IceWindSummonTornadoOnHit, IcePhysicalFrostbiteAmpsPhysicalCritDamage, IcePhysicalPhysicalVampOnFrostbite, IcePhysicalBladeVortexOnHit, IceBleedFrostbiteAmpsBleed, IceBleedBleedDoesDamageInstantlyOnThreshold, IcePoisonFreezingPoison, IcePoisonFrostbiteResetsPoisonAndAmps, IcePoisonSummonPoisonPillarOnThreshold, IceStunRudeAwakening, IceStunIceRefreshesStun, IceKnockbackFrostbiteIncreasesKnockbackForce,
+    IceKnockbackSnowEruptionOnKnockback, IceKnockbackBonusStacksOnDownedTargets, EarthMaxHpDamageAtThreshold, EarthAmpAllAfflictionsOnThreshhold, EarthSunderedEnemiesDealLessDamage, EarthRockRingExplosionOnKill, EarthTrueDamageAtThreshold, EarthSunderFurtherReducesResistances, EarthIncreasedDamageToLowerArmorTargets, EarthAmpDamageOnHealthyTargets, EarthHealOnCritAtSunderThreshold,
+    EarthPhysicalBonusSunderStacksOnThreshold, EarthPhysicalSunderAmpsCrits, EarthPhysicalSunderAmpsDamage, EarthBleedBonusCritChanceOnBleedingTarget, EarthBleedSunderAddsPercentageOfBleed, EarthBleedBonusEarthDamageToBleeding, EarthBleedBloodExplosionOnBleed, EarthPoisonAddSunderedOnPoisonTick, EarthPoisonSummonPillarOnThreshold, EarthPoisonSunderToPoisonConversion, EarthPoisonSunderToPoisonOnCrit};
     public TraitType traitType;
     public int traitBonusMultiplier = 1;
     public float traitBonus;
@@ -29,7 +33,7 @@ public class ItemTrait
     // Used to grab a random trait from the bin of availible traits.
     public void GetRandomTrait()
     {
-        int randomTrait = Random.Range(0, 49);
+        int randomTrait = Random.Range(0, 52);
         switch (randomTrait)
         {
             case 0:
@@ -211,6 +215,198 @@ public class ItemTrait
             case 48:
                 traitType = TraitType.AflameKnockbackKnockbackAmpsFireDamage;
                 traitBonus = 0.25f;
+                break;
+            case 49:
+                traitType = TraitType.IceFreezeAtStackThreshold;
+                traitBonus = 1f;
+                break;
+            case 50:
+                traitType = TraitType.IceAmpAllDamageAtThreshold;
+                traitBonus = 0.25f;
+                break;
+            case 51:
+                traitType = TraitType.IceBasicAttacksConsumeStacksAtThreshold;
+                traitBonus = 0.1f;
+                break;
+            case 52:
+                traitType = TraitType.IceEnemyAttacksWeakendAtThreshold;
+                traitBonus = 2f;
+                break;
+            case 53:
+                traitType = TraitType.IceEnemiesGainFrostbiteOnStrikingYou;
+                traitBonus = 3f;
+                break;
+            case 54:
+                traitType = TraitType.IceAddStacksToNearbyEnemies;
+                traitBonus = 1;
+                break;
+            case 55:
+                traitType = TraitType.IceAmpFrostbiteDamage;
+                traitBonus = 0.25f;
+                break;
+            case 56:
+                traitType = TraitType.IceEarthFrostToEarthBonusDamage;
+                traitBonus = 0.02f;
+                break;
+            case 57:
+                traitType = TraitType.IceEarthSunderAmpsIceDamage;
+                traitBonus = 0.04f;
+                break;
+            case 58:
+                traitType = TraitType.IceEarthIceDOTAtThreshold;
+                traitBonus = 0.25f;
+                break;
+            case 59:
+                traitType = TraitType.IceEarthEarthSpellBonusCritDamage;
+                traitBonus = 0.025f;
+                break;
+            case 60:
+                traitType = TraitType.IceWindWindAmpsFrostbiteDamage;
+                traitBonus = 0.1f;
+                break;
+            case 61:
+                traitType = TraitType.IceWindWindSpellsDamageAmp;
+                traitBonus = 0.03f;
+                break;
+            case 62:
+                traitType = TraitType.IceWindIncreaseArmorShredPerFrostbite;
+                traitBonus = 0.025f;
+                break;
+            case 63:
+                traitType = TraitType.IceWindSummonTornadoOnHit;
+                traitBonus = 0.25f;
+                break;
+            case 64:
+                traitType = TraitType.IcePhysicalFrostbiteAmpsPhysicalCritDamage;
+                traitBonus = 0.02f;
+                break;
+            case 65:
+                traitType = TraitType.IcePhysicalPhysicalVampOnFrostbite;
+                traitBonus = 0.01f;
+                break;
+            case 66:
+                traitType = TraitType.IcePhysicalBladeVortexOnHit;
+                traitBonus = 0.33f;
+                break;
+            case 67:
+                traitType = TraitType.IceBleedFrostbiteAmpsBleed;
+                traitBonus = 0.02f;
+                break;
+            case 68:
+                traitType = TraitType.IceBleedBleedDoesDamageInstantlyOnThreshold;
+                traitBonus = 3f;
+                break;
+            case 69:
+                traitType = TraitType.IcePoisonFreezingPoison;
+                traitBonus = 0.05f;
+                break;
+            case 70:
+                traitType = TraitType.IcePoisonFrostbiteResetsPoisonAndAmps;
+                traitBonus = 1f;
+                break;
+            case 71:
+                traitType = TraitType.IcePoisonSummonPoisonPillarOnThreshold;
+                traitBonus = 1f;
+                break;
+            case 72:
+                traitType = TraitType.IceStunRudeAwakening;
+                traitBonus = 1f;
+                break;
+            case 73:
+                traitType = TraitType.IceStunIceRefreshesStun;
+                traitBonus = 0.25f;
+                break;
+            case 74:
+                traitType = TraitType.IceKnockbackFrostbiteIncreasesKnockbackForce;
+                traitBonus = 0.05f;
+                break;
+            case 75:
+                traitType = TraitType.IceKnockbackSnowEruptionOnKnockback;
+                traitBonus = 0.1f;
+                break;
+            case 76:
+                traitType = TraitType.IceKnockbackBonusStacksOnDownedTargets;
+                traitBonus = 1f;
+                break;
+            case 77:
+                traitType = TraitType.EarthMaxHpDamageAtThreshold;
+                traitBonus = 0.01f;
+                break;
+            case 78:
+                traitType = TraitType.EarthAmpAllAfflictionsOnThreshhold;
+                traitBonus = 0.05f;
+                break;
+            case 79:
+                traitType = TraitType.EarthSunderedEnemiesDealLessDamage;
+                traitBonus = 0.02f;
+                break;
+            case 80:
+                traitType = TraitType.EarthRockRingExplosionOnKill;
+                traitBonus = 0.25f;
+                break;
+            case 81:
+                traitType = TraitType.EarthTrueDamageAtThreshold;
+                traitBonus = 1f;
+                break;
+            case 82:
+                traitType = TraitType.EarthSunderFurtherReducesResistances;
+                traitBonus = 0.05f;
+                break;
+            case 83:
+                traitType = TraitType.EarthIncreasedDamageToLowerArmorTargets;
+                traitBonus = 0.1f;
+                break;
+            case 84:
+                traitType = TraitType.EarthAmpDamageOnHealthyTargets;
+                traitBonus = 0.25f;
+                break;
+            case 85:
+                traitType = TraitType.EarthHealOnCritAtSunderThreshold;
+                traitBonus = 0.05f;
+                break;
+            case 86:
+                traitType = TraitType.EarthPhysicalBonusSunderStacksOnThreshold;
+                traitBonus = 1f;
+                break;
+            case 87:
+                traitType = TraitType.EarthPhysicalSunderAmpsCrits;
+                traitBonus = 0.02f;
+                break;
+            case 88:
+                traitType = TraitType.EarthPhysicalSunderAmpsDamage;
+                traitBonus = 0.01f;
+                break;
+            case 89:
+                traitType = TraitType.EarthBleedBonusCritChanceOnBleedingTarget;
+                traitBonus = 0.01f;
+                break;
+            case 90:
+                traitType = TraitType.EarthBleedSunderAddsPercentageOfBleed;
+                traitBonus = 0.05f;
+                break;
+            case 91:
+                traitType = TraitType.EarthBleedBonusEarthDamageToBleeding;
+                traitBonus = 0.03f;
+                break;
+            case 92:
+                traitType = TraitType.EarthBleedBloodExplosionOnBleed;
+                traitBonus = 0.25f;
+                break;
+            case 93:
+                traitType = TraitType.EarthPoisonAddSunderedOnPoisonTick;
+                traitBonus = 0.05f;
+                break;
+            case 94:
+                traitType = TraitType.EarthPoisonSummonPillarOnThreshold;
+                traitBonus = 1f;
+                break;
+            case 95:
+                traitType = TraitType.EarthPoisonSunderToPoisonConversion;
+                traitBonus = 1f;
+                break;
+            case 96:
+                traitType = TraitType.EarthPoisonSunderToPoisonOnCrit;
+                traitBonus = 1f;
                 break;
             default:
                 break;
