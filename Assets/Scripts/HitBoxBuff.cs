@@ -147,8 +147,14 @@ public class HitBoxBuff : MonoBehaviour
                     knockbackSnowPulse.GetComponent<HitBox>().myStats = buffOrigin;
                     knockbackSnowPulse.GetComponent<HitBox>().damage = (1 + buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceKnockbackSnowEruptionOnKnockback)) * buffOrigin.baseDamage;
                 }
+                if (buffOrigin.CompareTag("Player") && buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthKnockbackTremorsOnKnockback) > 0 && other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Sunder) >= 10)
+                {
+                    GameObject knockbackEarthReverb = Instantiate(buffOrigin.GetComponent<SkillsManager>().skillProjectiles[67], other.transform.position + Vector3.up * 0.1f, Quaternion.identity);
+                    knockbackEarthReverb.GetComponent<HitBox>().myStats = buffOrigin;
+                    knockbackEarthReverb.GetComponent<HitBox>().damage = (0.5f + buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthKnockbackTremorsOnKnockback)) * buffOrigin.baseDamage;
+                }
 
-                Debug.Log("knockback multiplier is: " + knockbackMultiplier);
+                //Debug.Log("knockback multiplier is: " + knockbackMultiplier);
                 other.GetComponent<EnemyCrowdControlManager>().KnockbackLaunch(knockbackDirection * knockbackStrength * knockbackMultiplier, buffOrigin);
             }
             if (asleep)

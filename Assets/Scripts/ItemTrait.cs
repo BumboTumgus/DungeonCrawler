@@ -13,7 +13,10 @@ public class ItemTrait
     IceBasicAttacksConsumeStacksAtThreshold, IceEnemyAttacksWeakendAtThreshold, IceEnemiesGainFrostbiteOnStrikingYou, IceAddStacksToNearbyEnemies, IceAmpFrostbiteDamage, IceEarthFrostToEarthBonusDamage, IceEarthSunderAmpsIceDamage, IceEarthIceDOTAtThreshold, IceEarthEarthSpellBonusCritDamage, IceWindWindAmpsFrostbiteDamage, IceWindWindSpellsDamageAmp, IceWindIncreaseArmorShredPerFrostbite,
     IceWindSummonTornadoOnHit, IcePhysicalFrostbiteAmpsPhysicalCritDamage, IcePhysicalPhysicalVampOnFrostbite, IcePhysicalBladeVortexOnHit, IceBleedFrostbiteAmpsBleed, IceBleedBleedDoesDamageInstantlyOnThreshold, IcePoisonFreezingPoison, IcePoisonFrostbiteResetsPoisonAndAmps, IcePoisonSummonPoisonPillarOnThreshold, IceStunRudeAwakening, IceStunIceRefreshesStun, IceKnockbackFrostbiteIncreasesKnockbackForce,
     IceKnockbackSnowEruptionOnKnockback, IceKnockbackBonusStacksOnDownedTargets, EarthMaxHpDamageAtThreshold, EarthAmpAllAfflictionsOnThreshhold, EarthSunderedEnemiesDealLessDamage, EarthRockRingExplosionOnKill, EarthTrueDamageAtThreshold, EarthSunderFurtherReducesResistances, EarthIncreasedDamageToLowerArmorTargets, EarthAmpDamageOnHealthyTargets, EarthHealOnCritAtSunderThreshold,
-    EarthPhysicalBonusSunderStacksOnThreshold, EarthPhysicalSunderAmpsCrits, EarthPhysicalSunderAmpsDamage, EarthBleedBonusCritChanceOnBleedingTarget, EarthBleedSunderAddsPercentageOfBleed, EarthBleedBonusEarthDamageToBleeding, EarthBleedBloodExplosionOnBleed, EarthPoisonAddSunderedOnPoisonTick, EarthPoisonSummonPillarOnThreshold, EarthPoisonSunderToPoisonConversion, EarthPoisonSunderToPoisonOnCrit};
+    EarthPhysicalBonusSunderStacksOnThreshold, EarthPhysicalSunderAmpsCrits, EarthPhysicalSunderAmpsDamage, EarthBleedBonusCritChanceOnBleedingTarget, EarthBleedSunderAddsPercentageOfBleed, EarthBleedBonusEarthDamageToBleeding, EarthBleedBloodExplosionOnBleed, EarthPoisonAddSunderedOnPoisonTick, EarthPoisonSummonPillarOnThreshold, EarthPoisonSunderToPoisonConversion, EarthPoisonSunderToPoisonOnCrit,
+    EarthStunStunOnThreshold, EarthStunBonusDamageOnStun, EarthStunKillingStunnedWithEarthRefundsCooldowns, EarthStunStunningAddsSunder, EarthStunSunderAmpsStunDamageLength, EarthKnockbackTremorsOnKnockback, EarthKnockbackSunderReducesKnockbackResistance, EarthKnockbackSummonRocksOnRecentKnockbackTarget, WindAmpsDamageTaken, WindAmpsComboArmorShred, WindTargetGainsBleedOnAttack,
+    WindSummonAerobladesOnThreshold, WindWindshearAmpsTrueDamage, WindAddMoreStacksOnInitialStack, WindMoreDamageOnMaximumStacks, WindPhysicalSummonWhirlwindOnSkillHit, WindPhysicalWindshearAmpsBasicAttacks, WindPhysicalCritsDealArmorAsDamage, WindBleedAmpBleedAtThreshold, WindBleedMoreBleedStacksAThreshold, WindBleedBleedGrantsWindCritChance, WindBleedAddBleedOnWindCrit, WindPoisonTransferPoisonStacksOnKill};
+    
     public TraitType traitType;
     public int traitBonusMultiplier = 1;
     public float traitBonus;
@@ -407,6 +410,98 @@ public class ItemTrait
             case 96:
                 traitType = TraitType.EarthPoisonSunderToPoisonOnCrit;
                 traitBonus = 1f;
+                break;
+            case 97:
+                traitType = TraitType.EarthStunStunOnThreshold;
+                traitBonus = 1f;
+                break;
+            case 98:
+                traitType = TraitType.EarthStunBonusDamageOnStun;
+                traitBonus = 0.25f;
+                break;
+            case 99:
+                traitType = TraitType.EarthStunKillingStunnedWithEarthRefundsCooldowns;
+                traitBonus = 0.05f;
+                break;
+            case 100:
+                traitType = TraitType.EarthStunStunningAddsSunder;
+                traitBonus = 1f;
+                break;
+            case 101:
+                traitType = TraitType.EarthStunSunderAmpsStunDamageLength;
+                traitBonus = 0.01f;
+                break;
+            case 102:
+                traitType = TraitType.EarthKnockbackTremorsOnKnockback;
+                traitBonus = 0.1f;
+                break;
+            case 103:
+                traitType = TraitType.EarthKnockbackSunderReducesKnockbackResistance;
+                traitBonus = 2f;
+                break;
+            case 104:
+                traitType = TraitType.EarthKnockbackSummonRocksOnRecentKnockbackTarget;
+                traitBonus = 1f;
+                break;
+            case 105:
+                traitType = TraitType.WindAmpsDamageTaken;
+                traitBonus = 0.005f;
+                break;
+            case 106:
+                traitType = TraitType.WindAmpsComboArmorShred;
+                traitBonus = 0.2f;
+                break;
+            case 107:
+                traitType = TraitType.WindTargetGainsBleedOnAttack;
+                traitBonus = 1f;
+                break;
+            case 108:
+                traitType = TraitType.WindSummonAerobladesOnThreshold;
+                traitBonus = 0.33f;
+                break;
+            case 109:
+                traitType = TraitType.WindWindshearAmpsTrueDamage;
+                traitBonus = 0.01f;
+                break;
+            case 110:
+                traitType = TraitType.WindAddMoreStacksOnInitialStack;
+                traitBonus = 3f;
+                break;
+            case 111:
+                traitType = TraitType.WindMoreDamageOnMaximumStacks;
+                traitBonus = 2f;
+                break;
+            case 112:
+                traitType = TraitType.WindPhysicalSummonWhirlwindOnSkillHit;
+                traitBonus = 0.4f;
+                break;
+            case 113:
+                traitType = TraitType.WindPhysicalWindshearAmpsBasicAttacks;
+                traitBonus = 0.03f;
+                break;
+            case 114:
+                traitType = TraitType.WindPhysicalCritsDealArmorAsDamage;
+                traitBonus = 0.05f;
+                break;
+            case 115:
+                traitType = TraitType.WindBleedAmpBleedAtThreshold;
+                traitBonus = 0.33f;
+                break;
+            case 116:
+                traitType = TraitType.WindBleedMoreBleedStacksAThreshold;
+                traitBonus = 0.5f;
+                break;
+            case 117:
+                traitType = TraitType.WindBleedBleedGrantsWindCritChance;
+                traitBonus = 0.01f;
+                break;
+            case 118:
+                traitType = TraitType.WindBleedAddBleedOnWindCrit;
+                traitBonus = 2f;
+                break;
+            case 119:
+                traitType = TraitType.WindPoisonTransferPoisonStacksOnKill;
+                traitBonus = 2f;
                 break;
             default:
                 break;

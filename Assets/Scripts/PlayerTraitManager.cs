@@ -15,6 +15,9 @@ public class PlayerTraitManager : MonoBehaviour
     public List<TraitSource> OnHitEffects = new List<TraitSource>();
     public List<TraitSource> OnStruckEffects = new List<TraitSource>();
     public List<TraitSource> IdleEffects = new List<TraitSource>();
+    public List<TraitSource> OnAttackEffects = new List<TraitSource>();
+    public List<TraitSource> OnStunEffects = new List<TraitSource>();
+    public List<TraitSource> OnKnockbackEffects = new List<TraitSource>();
 
     // Adds an on kill effect to the list we parse through.
     public void AddOnKillEffect(ItemTrait.TraitType itemTraitType, float itemTraitValue)
@@ -240,5 +243,53 @@ public class PlayerTraitManager : MonoBehaviour
 
         if (sourceToRemove != null)
             OnStruckEffects.Remove(sourceToRemove);
+    }
+
+    // Adds an on attack effect from the list we parse through
+    public void AddOnAttackEffect(ItemTrait.TraitType itemTraitType, float itemTraitValue)
+    {
+        bool traitAlreadyExists = false;
+
+        foreach (TraitSource traitSource in OnAttackEffects)
+        {
+            if (traitSource.traitType == itemTraitType)
+            {
+                traitSource.traitValue += itemTraitValue;
+                traitSource.sourceCount++;
+                traitAlreadyExists = true;
+                break;
+            }
+        }
+
+        if (!traitAlreadyExists)
+        {
+            TraitSource traitToAdd = new TraitSource();
+            traitToAdd.traitValue = itemTraitValue;
+            traitToAdd.sourceCount = 1;
+            traitToAdd.traitType = itemTraitType;
+
+            OnAttackEffects.Add(traitToAdd);
+        }
+    }
+
+    // Remove an idle effect from the list we parse through.
+    public void RemoveOnAttackEffect(ItemTrait.TraitType itemTraitType, float itemTraitValue)
+    {
+        TraitSource sourceToRemove = null;
+
+        foreach (TraitSource traitSource in OnAttackEffects)
+        {
+            if (traitSource.traitType == itemTraitType)
+            {
+                traitSource.traitValue -= itemTraitValue;
+                traitSource.sourceCount--;
+                if (traitSource.sourceCount == 0)
+                    sourceToRemove = traitSource;
+                break;
+            }
+        }
+
+        if (sourceToRemove != null)
+            OnAttackEffects.Remove(sourceToRemove);
     }
 }

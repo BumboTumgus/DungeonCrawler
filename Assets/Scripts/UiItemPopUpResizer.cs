@@ -780,6 +780,98 @@ public class UiItemPopUpResizer : MonoBehaviour
                     traitText.GetComponentInChildren<Text>().text = "Toxic Mud <color=#93D916>of Devastation" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
+                case ItemTrait.TraitType.EarthStunStunOnThreshold:
+                    traitText.GetComponentInChildren<Text>().text = "Stunning <color=#FFF04F>Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
+                    break;
+                case ItemTrait.TraitType.EarthStunBonusDamageOnStun:
+                    traitText.GetComponentInChildren<Text>().text = "Dazing <color=#FFF04F>Dirt" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
+                    break;
+                case ItemTrait.TraitType.EarthStunKillingStunnedWithEarthRefundsCooldowns:
+                    traitText.GetComponentInChildren<Text>().text = "Barraging <color=#FFF04F>Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
+                    break;
+                case ItemTrait.TraitType.EarthStunStunningAddsSunder:
+                    traitText.GetComponentInChildren<Text>().text = "Stone Strikes <color=#FFF04F>of Confoundment" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
+                    break;
+                case ItemTrait.TraitType.EarthStunSunderAmpsStunDamageLength:
+                    traitText.GetComponentInChildren<Text>().text = "Earth <color=#FFF04F>Amplification" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
+                    break;
+                case ItemTrait.TraitType.EarthKnockbackTremorsOnKnockback:
+                    traitText.GetComponentInChildren<Text>().text = "Revirbe<color=#1F86CA>rations" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
+                    break;
+                case ItemTrait.TraitType.EarthKnockbackSunderReducesKnockbackResistance:
+                    traitText.GetComponentInChildren<Text>().text = "Unstable <color=#1F86CA>Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
+                    break;
+                case ItemTrait.TraitType.EarthKnockbackSummonRocksOnRecentKnockbackTarget:
+                    traitText.GetComponentInChildren<Text>().text = "Stone <color=#1F86CA>Reverberation" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
+                    break;
+                case ItemTrait.TraitType.WindAmpsDamageTaken:
+                    traitText.GetComponentInChildren<Text>().text = "Cutting Winds" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
+                    break;
+                case ItemTrait.TraitType.WindAmpsComboArmorShred:
+                    traitText.GetComponentInChildren<Text>().text = "Raging Gusts" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
+                    break;
+                case ItemTrait.TraitType.WindTargetGainsBleedOnAttack:
+                    traitText.GetComponentInChildren<Text>().text = "Singing Slices" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
+                    break;
+                case ItemTrait.TraitType.WindSummonAerobladesOnThreshold:
+                    traitText.GetComponentInChildren<Text>().text = "Song of Dancing Blades" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
+                    break;
+                case ItemTrait.TraitType.WindWindshearAmpsTrueDamage:
+                    traitText.GetComponentInChildren<Text>().text = "Rending Galestorm" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
+                    break;
+                case ItemTrait.TraitType.WindAddMoreStacksOnInitialStack:
+                    traitText.GetComponentInChildren<Text>().text = "Sudden Gails" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
+                    break;
+                case ItemTrait.TraitType.WindMoreDamageOnMaximumStacks:
+                    traitText.GetComponentInChildren<Text>().text = "Exposing Zephyr" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
+                    break;
+                case ItemTrait.TraitType.WindPhysicalSummonWhirlwindOnSkillHit:
+                    traitText.GetComponentInChildren<Text>().text = "Steel <color=#E94453>Whirlwind" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
+                    break;
+                case ItemTrait.TraitType.WindPhysicalWindshearAmpsBasicAttacks:
+                    traitText.GetComponentInChildren<Text>().text = "Wrath of the <color=#E94453>Biting Wind" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
+                    break;
+                case ItemTrait.TraitType.WindPhysicalCritsDealArmorAsDamage:
+                    traitText.GetComponentInChildren<Text>().text = "Devasting <color=#E94453>Rend" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
+                    break;
+                case ItemTrait.TraitType.WindBleedAmpBleedAtThreshold:
+                    traitText.GetComponentInChildren<Text>().text = "Maiming <color=#AB181D>Gusts" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
+                    break;
+                case ItemTrait.TraitType.WindBleedMoreBleedStacksAThreshold:
+                    traitText.GetComponentInChildren<Text>().text = "Rending <color=#AB181D>Currents" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
+                    break;
+                case ItemTrait.TraitType.WindBleedBleedGrantsWindCritChance:
+                    traitText.GetComponentInChildren<Text>().text = "Gouging <color=#AB181D>Gale" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
+                    break;
+                case ItemTrait.TraitType.WindBleedAddBleedOnWindCrit:
+                    traitText.GetComponentInChildren<Text>().text = "Razer <color=#AB181D>Zephyr" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
+                    break;
+                case ItemTrait.TraitType.WindPoisonTransferPoisonStacksOnKill:
+                    traitText.GetComponentInChildren<Text>().text = "Toxic <color=#93D916>Front" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
+                    break;
                 default:
                     break;
             }

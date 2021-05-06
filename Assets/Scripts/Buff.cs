@@ -242,6 +242,24 @@ public class Buff : MonoBehaviour
                 myBuffManager.PollForBuff(BuffsManager.BuffType.Poisoned).DPSMultiplier += damagePercentageToAdd;
         }
 
+        if (myType == BuffsManager.BuffType.Sunder && connectedPlayer.GetComponent<PlayerStats>().traitEarthStunStunOnThresholdReady && currentStacks >= 11 - playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthStunStunOnThreshold) && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthStunStunOnThreshold) > 0)
+        {
+            connectedPlayer.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.Stunned, playerDamageSource.baseDamage, playerDamageSource);
+            connectedPlayer.GetComponent<PlayerStats>().traitEarthStunStunOnThresholdReady = false;
+        }
+
+        if (myType == BuffsManager.BuffType.Sunder && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthKnockbackSunderReducesKnockbackResistance) > 0 )
+            connectedPlayer.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.EarthKnockbackResistanceLoss, playerDamageSource.baseDamage, playerDamageSource);
+
+        if (myType == BuffsManager.BuffType.Windshear && currentStacks >= maxStacks && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindMoreDamageOnMaximumStacks) > 0)
+            connectedPlayer.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.WindAmpDamageAtMaxStacks, playerDamageSource.baseDamage, playerDamageSource);
+
+        if (myType == BuffsManager.BuffType.Windshear && currentStacks >= 25 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindBleedAmpBleedAtThreshold) > 0 && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) > 0 && !connectedPlayer.traitWindBleedBonusDamageAtThresholdEnabled)
+        {
+            connectedPlayer.traitWindBleedBonusDamageAtThresholdEnabled = true;
+            connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Bleeding).DPSMultiplier += playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindBleedAmpBleedAtThreshold);
+        }
+
 
 
 
@@ -488,9 +506,15 @@ public class Buff : MonoBehaviour
         else if (myType == BuffsManager.BuffType.Frozen)
             connectedPlayer.frozen = false;
         else if (myType == BuffsManager.BuffType.Bleeding)
+        {
+            connectedPlayer.traitWindBleedBonusDamageAtThresholdEnabled = false;
             connectedPlayer.bleeding = false;
+        }
         else if (myType == BuffsManager.BuffType.Knockback)
+        {
             connectedPlayer.knockedBack = false;
+            connectedPlayer.traitEarthKnockbackRocksOnSunderReady = false;
+        }
         else if (myType == BuffsManager.BuffType.Aflame)
         {
             connectedPlayer.traitMoreAflameStacksOnHitThresholdFatigue = false;
@@ -508,10 +532,19 @@ public class Buff : MonoBehaviour
         {
             if (playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceWindWindAmpsFrostbiteDamage) > 0 && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Frostbite) > 0)
                 connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Frostbite).DPSMultiplier -= playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceWindWindAmpsFrostbiteDamage) * currentStacks;
+
+            if (playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindBleedAmpBleedAtThreshold) > 0 && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) > 0)
+            {
+                connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Bleeding).DPSMultiplier -= playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindBleedAmpBleedAtThreshold);
+                connectedPlayer.traitWindBleedBonusDamageAtThresholdEnabled = false;
+            }
+
+            connectedPlayer.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffsManager.BuffType.WindAmpDamageAtMaxStacks, true);
         }
         else if (myType == BuffsManager.BuffType.Sunder)
         {
             connectedPlayer.traitEarthMaxHpDamageReady = true;
+            connectedPlayer.traitEarthStunStunOnThresholdReady = true;
 
             if (playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthAmpAllAfflictionsOnThreshhold) > 0 && currentStacks >= 20 && !connectedPlayer.traitEarthAfflictionDamageAmpReady)
             {

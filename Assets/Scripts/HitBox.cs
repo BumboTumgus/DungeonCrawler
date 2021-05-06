@@ -65,15 +65,20 @@ public class HitBox : MonoBehaviour
 
                 float damageDealt = damage;
 
-                if(canCrit && !critRolled)
+                if (enemyStats.traitEarthTrueDamageConversion)
+                    damageType = DamageType.True;
+
+                if (canCrit && !critRolled)
                 {
                     float bonusCritChance = 0;
                     if (damageType == DamageType.Wind && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameWindshearWindAttacksGainCritOnBurningTarget) > 0)
                         bonusCritChance += other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Aflame) * myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameWindshearWindAttacksGainCritOnBurningTarget);
                     if (damageType == DamageType.Fire && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedIncreasesFlameCritChance) > 0)
                         bonusCritChance += other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) * myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedIncreasesFlameCritChance);
-                    if ( myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthBleedBonusCritChanceOnBleedingTarget) > 0 && other.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Bleeding) && other.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Sunder))
+                    if (myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthBleedBonusCritChanceOnBleedingTarget) > 0 && other.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Bleeding) && other.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Sunder))
                         bonusCritChance += other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Sunder) * myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthBleedBonusCritChanceOnBleedingTarget);
+                    if (damageType == DamageType.Wind && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindBleedBleedGrantsWindCritChance) > 0 && other.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Bleeding))
+                        bonusCritChance += other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) * myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindBleedBleedGrantsWindCritChance);
 
                     critRolled = true;
                     if (Random.Range(0f,100f) <= (myStats.critChance + bonusCritChance) * 100)
@@ -128,6 +133,18 @@ public class HitBox : MonoBehaviour
                 if (damageType == DamageType.Earth && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthBleedBonusEarthDamageToBleeding) > 0 && other.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Bleeding))
                     damageDealt *= 1f + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthBleedBonusEarthDamageToBleeding) * other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding);
 
+                if (GetComponent<HitBoxBuff>() && GetComponent<HitBoxBuff>().stun && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthStunSunderAmpsStunDamageLength) > 0 && other.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Sunder))
+                {
+                    damageDealt *= 1f + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthStunSunderAmpsStunDamageLength) * other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Sunder);
+                    other.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffsManager.BuffType.Sunder, true);
+                }
+
+                if(damageType == DamageType.True && other.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Windshear) && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindWindshearAmpsTrueDamage) > 0)
+                    damageDealt *= 1f + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindWindshearAmpsTrueDamage) * other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Windshear);
+
+                if (CompareTag("BasicAttack") && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindPhysicalWindshearAmpsBasicAttacks) > 0)
+                    damageDealt *= 1f + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindPhysicalWindshearAmpsBasicAttacks) * other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Windshear);
+
 
 
 
@@ -144,6 +161,12 @@ public class HitBox : MonoBehaviour
                     if (damageType == DamageType.Physical && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthPhysicalSunderAmpsCrits) > 0)
                         bonusCritDamage += other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Sunder) * myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthPhysicalSunderAmpsCrits);
 
+                    if(!CompareTag("BasicAttack") && damageType == DamageType.Physical && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindPhysicalCritsDealArmorAsDamage) > 0)
+                    {
+                        damage *= 1 + other.GetComponent<PlayerStats>().armor * myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindPhysicalCritsDealArmorAsDamage) * other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Windshear);
+                        other.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffsManager.BuffType.Windshear, true);
+                    }
+
                     damageDealt *= myStats.critDamageMultiplier + bonusCritDamage;
                 }
 
@@ -151,6 +174,7 @@ public class HitBox : MonoBehaviour
                     myStats.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this, damageDealt);
                 else if (procsOnHits)
                     transform.root.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this, damageDealt);
+
 
                 if (damageType != DamageType.Healing)
                 {

@@ -130,6 +130,9 @@ public class PlayerStats : MonoBehaviour
     public bool traitEarthAfflictionDamageAmpReady = true;
     public bool traitEarthTrueDamageConversion = false;
     public bool traitEarthPoisonSummonPillarOnThresholdReady = true;
+    public bool traitEarthStunStunOnThresholdReady = true;
+    public bool traitEarthKnockbackRocksOnSunderReady = true;
+    public bool traitWindBleedBonusDamageAtThresholdEnabled = false;
 
     [SerializeField] private GameObject enemyHealthBar;
 
@@ -204,6 +207,10 @@ public class PlayerStats : MonoBehaviour
             GetComponent<PlayerMovementController>().KnockbackLaunch((transform.forward + Vector3.up) * 5, this);
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.GreviousWounds, 1, baseDamage, this);
+        if (Input.GetKeyDown(KeyCode.KeypadMinus))
+            GetComponent<SkillsManager>().ReduceSkillCooldowns(2f, false);
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
+            GetComponent<SkillsManager>().ReduceSkillCooldowns(0.5f, true);
         */
         // Health and mana regen logic.
         /*
@@ -431,11 +438,12 @@ public class PlayerStats : MonoBehaviour
                 amount *= 2f;
             }
 
-            if(traitEarthTrueDamageConversion)
-            {
-                damage = HitBox.DamageType.True;
-            }
 
+            if (GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Windshear) >= 20 && lastHitBy.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindAmpsComboArmorShred) > 0)
+                comboCount *= 1 + lastHitBy.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindAmpsComboArmorShred);
+
+
+            //Debug.Log("the combo count is: " + comboCount);
             if (damage != HitBox.DamageType.True)
             {
                 // if th percent reduced damag and the percet increasd damage from armor are greater then 0, we multipluy the damage by the value.
@@ -946,6 +954,75 @@ public class PlayerStats : MonoBehaviour
                 case ItemTrait.TraitType.EarthPoisonSunderToPoisonOnCrit:
                     playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
                     break;
+                case ItemTrait.TraitType.EarthStunStunOnThreshold:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthStunBonusDamageOnStun:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthStunKillingStunnedWithEarthRefundsCooldowns:
+                    playerTraitManager.AddOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthStunStunningAddsSunder:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthStunSunderAmpsStunDamageLength:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthKnockbackTremorsOnKnockback:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthKnockbackSunderReducesKnockbackResistance:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthKnockbackSummonRocksOnRecentKnockbackTarget:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindAmpsDamageTaken:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindAmpsComboArmorShred:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindTargetGainsBleedOnAttack:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindSummonAerobladesOnThreshold:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindWindshearAmpsTrueDamage:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindAddMoreStacksOnInitialStack:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindMoreDamageOnMaximumStacks:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindPhysicalSummonWhirlwindOnSkillHit:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindPhysicalWindshearAmpsBasicAttacks:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindPhysicalCritsDealArmorAsDamage:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindBleedAmpBleedAtThreshold:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindBleedMoreBleedStacksAThreshold:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindBleedBleedGrantsWindCritChance:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindBleedAddBleedOnWindCrit:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindPoisonTransferPoisonStacksOnKill:
+                    playerTraitManager.AddOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
                 default:
                     break;
             }
@@ -1306,6 +1383,75 @@ public class PlayerStats : MonoBehaviour
                     break;
                 case ItemTrait.TraitType.EarthPoisonSunderToPoisonOnCrit:
                     playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthStunStunOnThreshold:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthStunBonusDamageOnStun:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthStunKillingStunnedWithEarthRefundsCooldowns:
+                    playerTraitManager.RemoveOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthStunStunningAddsSunder:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthStunSunderAmpsStunDamageLength:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthKnockbackTremorsOnKnockback:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthKnockbackSunderReducesKnockbackResistance:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.EarthKnockbackSummonRocksOnRecentKnockbackTarget:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindAmpsDamageTaken:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindAmpsComboArmorShred:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindTargetGainsBleedOnAttack:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindSummonAerobladesOnThreshold:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindWindshearAmpsTrueDamage:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindAddMoreStacksOnInitialStack:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindMoreDamageOnMaximumStacks:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindPhysicalSummonWhirlwindOnSkillHit:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindPhysicalWindshearAmpsBasicAttacks:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindPhysicalCritsDealArmorAsDamage:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindBleedAmpBleedAtThreshold:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindBleedMoreBleedStacksAThreshold:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindBleedBleedGrantsWindCritChance:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindBleedAddBleedOnWindCrit:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindPoisonTransferPoisonStacksOnKill:
+                    playerTraitManager.RemoveOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
                     break;
                 default:
                     break;

@@ -42,6 +42,7 @@ public class EnemyCombatController : MonoBehaviour
     private Animator anim;
     private HitBoxManager hitBoxManager;
     private EnemyAbilityBank abilityBank;
+    private BuffsManager buffManager;
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +52,8 @@ public class EnemyCombatController : MonoBehaviour
         myStats = GetComponent<PlayerStats>();
         anim = GetComponent<Animator>();
         hitBoxManager = GetComponent<HitBoxManager>();
+        buffManager = GetComponent<BuffsManager>();
+
         inCombat = false;
         abilityBank = GetComponent<EnemyAbilityBank>();
         SwitchAction(ActionType.Idle);
@@ -221,6 +224,7 @@ public class EnemyCombatController : MonoBehaviour
         myCurrentAction = ActionType.Attack;
         anim.SetFloat("Speed", 0);
         movementManager.StopMovement();
+        buffManager.ProcOnAttack();
 
         // Check to see if our attack is ready and if the enemy is in range.
         while(movementManager.arrivedAtTarget)

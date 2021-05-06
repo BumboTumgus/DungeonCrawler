@@ -172,8 +172,21 @@ public class SkillsManager : MonoBehaviour
             skill.connectedBar.Initialize(skill.targetCooldown, false, true, skill.currentCooldown);
         }
     }
+    public void ReduceSkillCooldowns(float value, bool percentage)
+    {
+        if (!percentage)
+        {
+            foreach (Skill skill in mySkills)
+                skill.currentCooldown += value;
+        }
+        else
+        {
+            foreach (Skill skill in mySkills)
+                skill.currentCooldown += (skill.targetCooldown - skill.currentCooldown) * value;
+        }
+    }
 
-    // SUed to remove a skill at an index.
+    // Used to remove a skill at an index.
     public void RemoveSkill(int index)
     {
         Skill skillToRemove = null;
