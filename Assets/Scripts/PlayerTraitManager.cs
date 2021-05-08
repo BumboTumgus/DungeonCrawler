@@ -197,6 +197,23 @@ public class PlayerTraitManager : MonoBehaviour
         return traitValue;
     }
 
+    // Check to see if we have an on kill effect and the value associated with it.
+    public float CheckForOnKillValue(ItemTrait.TraitType itemTraitTypeToCheckFor)
+    {
+        float traitValue = 0;
+
+        foreach (TraitSource traitSource in OnKillEffects)
+        {
+            if (traitSource.traitType == itemTraitTypeToCheckFor)
+            {
+                traitValue = traitSource.traitValue;
+                break;
+            }
+        }
+
+        return traitValue;
+    }
+
     // Adds an on struck effect from the list we parse through
     public void AddOnStruckEffect(ItemTrait.TraitType itemTraitType, float itemTraitValue)
     {

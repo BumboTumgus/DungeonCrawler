@@ -133,6 +133,7 @@ public class PlayerStats : MonoBehaviour
     public bool traitEarthStunStunOnThresholdReady = true;
     public bool traitEarthKnockbackRocksOnSunderReady = true;
     public bool traitWindBleedBonusDamageAtThresholdEnabled = false;
+    public bool traitLaunchKnivesIfKnockedbackReady = true;
 
     [SerializeField] private GameObject enemyHealthBar;
 
@@ -438,9 +439,14 @@ public class PlayerStats : MonoBehaviour
                 amount *= 2f;
             }
 
-
-            if (GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Windshear) >= 20 && lastHitBy.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindAmpsComboArmorShred) > 0)
-                comboCount *= 1 + lastHitBy.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindAmpsComboArmorShred);
+            if (!CompareTag("Player"))
+            {
+                if (GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Windshear) >= 20 && lastHitBy.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindAmpsComboArmorShred) > 0)
+                    comboCount *= 1 + lastHitBy.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindAmpsComboArmorShred);
+                if (damage == HitBox.DamageType.Physical && playerThatLastHitUs.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PhysicalPhysicalSkillsComboAmp) > 0)
+                    comboCount *= 1 + playerThatLastHitUs.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PhysicalPhysicalSkillsComboAmp);
+                //Debug.Log("current combo count is: " + comboCount);
+            }
 
 
             //Debug.Log("the combo count is: " + comboCount);
@@ -1023,6 +1029,87 @@ public class PlayerStats : MonoBehaviour
                 case ItemTrait.TraitType.WindPoisonTransferPoisonStacksOnKill:
                     playerTraitManager.AddOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
                     break;
+                case ItemTrait.TraitType.WindPoisonWindAddsPercentageOfPoisonOnHit:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindPoisonPoisonBurstAtWindThreshold:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindStunStunDealsTrueDamageAtThreshold:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindStunWindblastOnStun:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindStunStunAmpsWindshearGain:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindKnockbackKnockbackSummonsMiniCyclone:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindKnockbackLoseKnockbackResistanceOnThreshold:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindKnockbackWindshearDoesDamageIfKnockedBack:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalPhysicalAmpsCritChance:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalPhysicalSkillsComboAmp:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalLifestealAmp:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalSkillAmpArmorOnKill:
+                    playerTraitManager.AddOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalAmpDamageBelowHalfHp:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalBleedBleedAmpsPhysicalDamage:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalBleedPhysicalSkillsAddBleed:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalBleedSkillsDoTrueDamageAtThreshold:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalPoisonPhysicalAmpsPoisonDamage:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalPoisonPlayerMaxHpDamageOnThreshold:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalPoisonPoisonAmpsPhysicalDamage:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalStunAmpDamageOnStunned:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalStunBladeRiftOnStun:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalKnockbackKnockbackKillAmpsPhysicalDamage:
+                    playerTraitManager.AddOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalKnockbackPhysicalAttacksGainInnateKnockback:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalKnockbackSummonKnivesOnKnockbackHit:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.BleedReducesResistances:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.BleedAmpsCritHitsAddsBleedToNearby:
+                    playerTraitManager.AddOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.BleedSlowsTargets:
+                    playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
                 default:
                     break;
             }
@@ -1452,6 +1539,87 @@ public class PlayerStats : MonoBehaviour
                     break;
                 case ItemTrait.TraitType.WindPoisonTransferPoisonStacksOnKill:
                     playerTraitManager.RemoveOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindPoisonWindAddsPercentageOfPoisonOnHit:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindPoisonPoisonBurstAtWindThreshold:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindStunStunDealsTrueDamageAtThreshold:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindStunWindblastOnStun:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindStunStunAmpsWindshearGain:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindKnockbackKnockbackSummonsMiniCyclone:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindKnockbackLoseKnockbackResistanceOnThreshold:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.WindKnockbackWindshearDoesDamageIfKnockedBack:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalPhysicalAmpsCritChance:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalPhysicalSkillsComboAmp:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalLifestealAmp:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalSkillAmpArmorOnKill:
+                    playerTraitManager.RemoveOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalAmpDamageBelowHalfHp:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalBleedBleedAmpsPhysicalDamage:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalBleedPhysicalSkillsAddBleed:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalBleedSkillsDoTrueDamageAtThreshold:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalPoisonPhysicalAmpsPoisonDamage:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalPoisonPlayerMaxHpDamageOnThreshold:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalPoisonPoisonAmpsPhysicalDamage:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalStunAmpDamageOnStunned:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalStunBladeRiftOnStun:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalKnockbackKnockbackKillAmpsPhysicalDamage:
+                    playerTraitManager.RemoveOnKillEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalKnockbackPhysicalAttacksGainInnateKnockback:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.PhysicalKnockbackSummonKnivesOnKnockbackHit:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.BleedReducesResistances:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.BleedAmpsCritHitsAddsBleedToNearby:
+                    playerTraitManager.RemoveOnHitEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.BleedSlowsTargets:
+                    playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
                     break;
                 default:
                     break;

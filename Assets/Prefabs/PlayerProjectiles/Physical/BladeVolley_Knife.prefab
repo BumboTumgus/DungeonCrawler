@@ -9682,6 +9682,7 @@ MonoBehaviour:
   hitAOE: 0
   trackTarget: 0
   YSpin: 0
+  gravModifier: 0
   trackingStrength: 0
   target: {fileID: 0}
   particleTrails:
@@ -9705,7 +9706,9 @@ MonoBehaviour:
   damage: 5
   stacksToAdd: 0
   crit: 0
-  procsOnHits: 0
+  canCrit: 1
+  critRolled: 0
+  procsOnHits: 1
   hitEnemies: 1
   hitPlayers: 0
   myStats: {fileID: 0}
@@ -9713,7 +9716,6 @@ MonoBehaviour:
   projectile: 1
   projectileAOE: 0
   disjointedHitbox: 0
-  bypassCrit: 0
   screenShakeAmount: 0
 --- !u!136 &8957749605564982885
 CapsuleCollider:
@@ -9764,7 +9766,6 @@ MonoBehaviour:
   knockbackFromCenter: 0
   knockForwardFromLocalTransform: 0
   knockbackDirection: {x: 0, y: 0, z: 0}
-  baseDamage: 0
 --- !u!54 &6297770120561685934
 Rigidbody:
   m_ObjectHideFlags: 0

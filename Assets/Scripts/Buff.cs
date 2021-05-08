@@ -41,6 +41,8 @@ public class Buff : MonoBehaviour
     public float atkSpdSC = 0;
     public float movespeedSC = 0;
     public float damagePercentageSC = 0;
+    public float critChanceSC = 0;
+    public float critDamageSC = 0;
 
     public float aflameResistSC = 0;
     public float frostbiteResistSC = 0;
@@ -172,97 +174,9 @@ public class Buff : MonoBehaviour
             }
         }
         else
+        {
             amount = 0;
-
-        if (myType == BuffsManager.BuffType.Aflame && currentStacks >= 25 && bonusDPS == 0 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BurnDoesMaxHpDamageAtThreshold) > 0)
-        {
-            bonusDPS = (connectedPlayer.healthMax / 100) * playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BurnDoesMaxHpDamageAtThreshold);
-            if (bonusDPS > playerDamageSource.baseDamage * 5)
-                bonusDPS = playerDamageSource.baseDamage * 5;
         }
-
-        if (myType == BuffsManager.BuffType.Aflame && DPSMultiplier == 1 && currentStacks >= 30 && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) >= 30 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold) > 0)
-            DPSMultiplier += playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold);
-
-        if (myType == BuffsManager.BuffType.Bleeding && DPSMultiplier == 1 && currentStacks >= 30 && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Aflame) >= 30 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold) > 0)
-            DPSMultiplier += playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold);
-
-        if (myType == BuffsManager.BuffType.Aflame && currentStacks + connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Poisoned) >= 40 - playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonGreviousWoundsOnStackThreshold)
-            && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Poisoned) > 0 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonGreviousWoundsOnStackThreshold) > 0)
-            connectedPlayer.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.GreviousWounds, playerDamageSource.baseDamage, playerDamageSource);
-
-        if (myType == BuffsManager.BuffType.Poisoned && currentStacks + connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Aflame) >= 40 - playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonGreviousWoundsOnStackThreshold)
-            && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Aflame) > 0 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonGreviousWoundsOnStackThreshold) > 0)
-            connectedPlayer.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.GreviousWounds, playerDamageSource.baseDamage, playerDamageSource);
-
-        if (myType == BuffsManager.BuffType.Aflame && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Poisoned) > 0 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) > 0)
-            connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Poisoned).DPSMultiplier += playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) * amount;
-
-        if (myType == BuffsManager.BuffType.Aflame && connectedPlayer.traitAflameStunStunOnThresholdReady && currentStacks >= 16 - playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameStunStunOnThreshold) && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameStunStunOnThreshold) > 0)
-        {
-            connectedPlayer.traitAflameStunStunOnThresholdReady = false;
-            connectedPlayer.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, playerDamageSource.baseDamage, playerDamageSource);
-        }
-
-        if (myType == BuffsManager.BuffType.Frostbite && connectedPlayer.traitFreezeOnThresholdReady && currentStacks >= 21 - playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceFreezeAtStackThreshold) && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceFreezeAtStackThreshold) > 0)
-        {
-            connectedPlayer.traitFreezeOnThresholdReady = false;
-            connectedPlayer.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frozen, 1, playerDamageSource.baseDamage, playerDamageSource);
-        }
-
-        if (myType == BuffsManager.BuffType.Frostbite && currentStacks >= 40 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceAmpAllDamageAtThreshold) > 0)
-            connectedPlayer.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.IceDamageAmp, playerDamageSource.baseDamage, playerDamageSource);
-
-        if (myType == BuffsManager.BuffType.Windshear && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceWindWindAmpsFrostbiteDamage) > 0 && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Frostbite) > 0)
-            connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Frostbite).DPSMultiplier += playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceWindWindAmpsFrostbiteDamage);
-
-        if (myType == BuffsManager.BuffType.Frostbite && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceWindIncreaseArmorShredPerFrostbite) > 0 && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Windshear) > 0)
-            connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Windshear).ChangeArmorScMultiplier(playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceWindIncreaseArmorShredPerFrostbite));
-
-        if (myType == BuffsManager.BuffType.Frostbite && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceBleedFrostbiteAmpsBleed) > 0 && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) > 0)
-            connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Bleeding).DPSMultiplier += playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceBleedFrostbiteAmpsBleed);
-
-        if (myType == BuffsManager.BuffType.Sunder && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthMaxHpDamageAtThreshold) > 0 && connectedPlayer.traitEarthMaxHpDamageReady && currentStacks >= 25)
-        {
-            connectedPlayer.TakeDamage(connectedPlayer.healthMax * (0.09f + playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthMaxHpDamageAtThreshold)), false, HitBox.DamageType.True, playerDamageSource.comboManager.currentcombo, playerDamageSource);
-            connectedPlayer.traitEarthMaxHpDamageReady = false;
-        }
-        if (myType == BuffsManager.BuffType.Sunder && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthAmpAllAfflictionsOnThreshhold) > 0 && currentStacks >= 20 && connectedPlayer.traitEarthAfflictionDamageAmpReady)
-        {
-            connectedPlayer.traitEarthAfflictionDamageAmpReady = false;
-            BuffsManager myBuffManager = connectedPlayer.GetComponent<BuffsManager>();
-            float damagePercentageToAdd = 0.15f + playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthAmpAllAfflictionsOnThreshhold);
-            if (myBuffManager.PollForBuffStacks(BuffsManager.BuffType.Aflame) > 0)
-                myBuffManager.PollForBuff(BuffsManager.BuffType.Aflame).DPSMultiplier += damagePercentageToAdd;
-            if (myBuffManager.PollForBuffStacks(BuffsManager.BuffType.Frostbite) > 0)
-                myBuffManager.PollForBuff(BuffsManager.BuffType.Frostbite).DPSMultiplier += damagePercentageToAdd;
-            if (myBuffManager.PollForBuffStacks(BuffsManager.BuffType.Bleeding) > 0)
-                myBuffManager.PollForBuff(BuffsManager.BuffType.Bleeding).DPSMultiplier += damagePercentageToAdd;
-            if (myBuffManager.PollForBuffStacks(BuffsManager.BuffType.Poisoned) > 0)
-                myBuffManager.PollForBuff(BuffsManager.BuffType.Poisoned).DPSMultiplier += damagePercentageToAdd;
-        }
-
-        if (myType == BuffsManager.BuffType.Sunder && connectedPlayer.GetComponent<PlayerStats>().traitEarthStunStunOnThresholdReady && currentStacks >= 11 - playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthStunStunOnThreshold) && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthStunStunOnThreshold) > 0)
-        {
-            connectedPlayer.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.Stunned, playerDamageSource.baseDamage, playerDamageSource);
-            connectedPlayer.GetComponent<PlayerStats>().traitEarthStunStunOnThresholdReady = false;
-        }
-
-        if (myType == BuffsManager.BuffType.Sunder && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthKnockbackSunderReducesKnockbackResistance) > 0 )
-            connectedPlayer.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.EarthKnockbackResistanceLoss, playerDamageSource.baseDamage, playerDamageSource);
-
-        if (myType == BuffsManager.BuffType.Windshear && currentStacks >= maxStacks && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindMoreDamageOnMaximumStacks) > 0)
-            connectedPlayer.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.WindAmpDamageAtMaxStacks, playerDamageSource.baseDamage, playerDamageSource);
-
-        if (myType == BuffsManager.BuffType.Windshear && currentStacks >= 25 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindBleedAmpBleedAtThreshold) > 0 && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) > 0 && !connectedPlayer.traitWindBleedBonusDamageAtThresholdEnabled)
-        {
-            connectedPlayer.traitWindBleedBonusDamageAtThresholdEnabled = true;
-            connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Bleeding).DPSMultiplier += playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindBleedAmpBleedAtThreshold);
-        }
-
-
-
-
 
         connectedIcon.GetComponent<Animator>().SetBool("AlmostDone", false);
 
@@ -282,8 +196,8 @@ public class Buff : MonoBehaviour
                 ChangeDefensiveStats(false, healthSC * amount, healthRegenSC * amount, armorSC * amount, damageReductionSC * amount, healingMultiplierSC * amount);
 
             // If we changed offensive stats, add more stacks
-            if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0)
-                ChangeOffensiveStats(false, atkSpdSC * amount, movespeedSC * amount, damagePercentageSC * amount);
+            if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0 || critChanceSC != 0 || critDamageSC != 0)
+                ChangeOffensiveStats(false, atkSpdSC * amount, movespeedSC * amount, damagePercentageSC * amount, critChanceSC * amount, critDamageSC * amount);
 
             // If we changed our resistance based stats, remove more stacks
             if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0 || overchargeResistSC != 0 || overgrowthResistSC != 0 || sunderResistSC != 0 || windshearResistSC != 0)
@@ -296,6 +210,102 @@ public class Buff : MonoBehaviour
             // If we changed the size, change them back.
             if (sizeSC != 0)
                 ChangeSize(false, sizeSC * amount);
+
+
+
+
+
+            if (myType == BuffsManager.BuffType.Aflame && currentStacks >= 25 && bonusDPS == 0 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BurnDoesMaxHpDamageAtThreshold) > 0)
+            {
+                bonusDPS = (connectedPlayer.healthMax / 100) * playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BurnDoesMaxHpDamageAtThreshold);
+                if (bonusDPS > playerDamageSource.baseDamage * 5)
+                    bonusDPS = playerDamageSource.baseDamage * 5;
+            }
+
+            if (myType == BuffsManager.BuffType.Aflame && DPSMultiplier == 1 && currentStacks >= 30 && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) >= 30 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold) > 0)
+                DPSMultiplier += playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold);
+
+            if (myType == BuffsManager.BuffType.Bleeding && DPSMultiplier == 1 && currentStacks >= 30 && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Aflame) >= 30 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold) > 0)
+                DPSMultiplier += playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold);
+
+            if (myType == BuffsManager.BuffType.Aflame && currentStacks + connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Poisoned) >= 40 - playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonGreviousWoundsOnStackThreshold)
+                && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Poisoned) > 0 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonGreviousWoundsOnStackThreshold) > 0)
+                connectedPlayer.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.GreviousWounds, playerDamageSource.baseDamage, playerDamageSource);
+
+            if (myType == BuffsManager.BuffType.Poisoned && currentStacks + connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Aflame) >= 40 - playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonGreviousWoundsOnStackThreshold)
+                && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Aflame) > 0 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonGreviousWoundsOnStackThreshold) > 0)
+                connectedPlayer.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.GreviousWounds, playerDamageSource.baseDamage, playerDamageSource);
+
+            if (myType == BuffsManager.BuffType.Aflame && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Poisoned) > 0 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) > 0)
+                connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Poisoned).DPSMultiplier += playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) * amount;
+
+            if (myType == BuffsManager.BuffType.Aflame && connectedPlayer.traitAflameStunStunOnThresholdReady && currentStacks >= 16 - playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameStunStunOnThreshold) && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameStunStunOnThreshold) > 0)
+            {
+                connectedPlayer.traitAflameStunStunOnThresholdReady = false;
+                connectedPlayer.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, playerDamageSource.baseDamage, playerDamageSource);
+            }
+
+            if (myType == BuffsManager.BuffType.Frostbite && connectedPlayer.traitFreezeOnThresholdReady && currentStacks >= 21 - playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceFreezeAtStackThreshold) && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceFreezeAtStackThreshold) > 0)
+            {
+                connectedPlayer.traitFreezeOnThresholdReady = false;
+                connectedPlayer.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frozen, 1, playerDamageSource.baseDamage, playerDamageSource);
+            }
+
+            if (myType == BuffsManager.BuffType.Frostbite && currentStacks >= 40 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceAmpAllDamageAtThreshold) > 0)
+                connectedPlayer.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.IceDamageAmp, playerDamageSource.baseDamage, playerDamageSource);
+
+            if (myType == BuffsManager.BuffType.Windshear && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceWindWindAmpsFrostbiteDamage) > 0 && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Frostbite) > 0)
+                connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Frostbite).DPSMultiplier += playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceWindWindAmpsFrostbiteDamage);
+
+            if (myType == BuffsManager.BuffType.Frostbite && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceWindIncreaseArmorShredPerFrostbite) > 0 && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Windshear) > 0)
+                connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Windshear).ChangeArmorScMultiplier(playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceWindIncreaseArmorShredPerFrostbite));
+
+            if (myType == BuffsManager.BuffType.Frostbite && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceBleedFrostbiteAmpsBleed) > 0 && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) > 0)
+                connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Bleeding).DPSMultiplier += playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceBleedFrostbiteAmpsBleed);
+
+            if (myType == BuffsManager.BuffType.Sunder && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthMaxHpDamageAtThreshold) > 0 && connectedPlayer.traitEarthMaxHpDamageReady && currentStacks >= 25)
+            {
+                connectedPlayer.TakeDamage(connectedPlayer.healthMax * (0.09f + playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthMaxHpDamageAtThreshold)), false, HitBox.DamageType.True, playerDamageSource.comboManager.currentcombo, playerDamageSource);
+                connectedPlayer.traitEarthMaxHpDamageReady = false;
+            }
+            if (myType == BuffsManager.BuffType.Sunder && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthAmpAllAfflictionsOnThreshhold) > 0 && currentStacks >= 20 && connectedPlayer.traitEarthAfflictionDamageAmpReady)
+            {
+                connectedPlayer.traitEarthAfflictionDamageAmpReady = false;
+                BuffsManager myBuffManager = connectedPlayer.GetComponent<BuffsManager>();
+                float damagePercentageToAdd = 0.15f + playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthAmpAllAfflictionsOnThreshhold);
+                if (myBuffManager.PollForBuffStacks(BuffsManager.BuffType.Aflame) > 0)
+                    myBuffManager.PollForBuff(BuffsManager.BuffType.Aflame).DPSMultiplier += damagePercentageToAdd;
+                if (myBuffManager.PollForBuffStacks(BuffsManager.BuffType.Frostbite) > 0)
+                    myBuffManager.PollForBuff(BuffsManager.BuffType.Frostbite).DPSMultiplier += damagePercentageToAdd;
+                if (myBuffManager.PollForBuffStacks(BuffsManager.BuffType.Bleeding) > 0)
+                    myBuffManager.PollForBuff(BuffsManager.BuffType.Bleeding).DPSMultiplier += damagePercentageToAdd;
+                if (myBuffManager.PollForBuffStacks(BuffsManager.BuffType.Poisoned) > 0)
+                    myBuffManager.PollForBuff(BuffsManager.BuffType.Poisoned).DPSMultiplier += damagePercentageToAdd;
+            }
+
+            if (myType == BuffsManager.BuffType.Sunder && connectedPlayer.GetComponent<PlayerStats>().traitEarthStunStunOnThresholdReady && currentStacks >= 11 - playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthStunStunOnThreshold) && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthStunStunOnThreshold) > 0)
+            {
+                connectedPlayer.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.Stunned, playerDamageSource.baseDamage, playerDamageSource);
+                connectedPlayer.GetComponent<PlayerStats>().traitEarthStunStunOnThresholdReady = false;
+            }
+
+            if (myType == BuffsManager.BuffType.Sunder && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthKnockbackSunderReducesKnockbackResistance) > 0)
+                connectedPlayer.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.EarthKnockbackResistanceLoss, playerDamageSource.baseDamage, playerDamageSource);
+
+            if (myType == BuffsManager.BuffType.Windshear && currentStacks >= maxStacks && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindMoreDamageOnMaximumStacks) > 0)
+                connectedPlayer.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.WindAmpDamageAtMaxStacks, playerDamageSource.baseDamage, playerDamageSource);
+
+            if (myType == BuffsManager.BuffType.Windshear && currentStacks >= 25 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindBleedAmpBleedAtThreshold) > 0 && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) > 0 && !connectedPlayer.traitWindBleedBonusDamageAtThresholdEnabled)
+            {
+                connectedPlayer.traitWindBleedBonusDamageAtThresholdEnabled = true;
+                connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Bleeding).DPSMultiplier += playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindBleedAmpBleedAtThreshold);
+            }
+
+            if (myType == BuffsManager.BuffType.PhysicalPoisonAmp && connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Poisoned))
+                connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Poisoned).DPSMultiplier += 0.1f;
+
+            if (myType == BuffsManager.BuffType.Bleeding && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedSlowsTargets) > 0)
+                connectedPlayer.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.BleedSlow, playerDamageSource.baseDamage, playerDamageSource);
         }
     }
 
@@ -354,8 +364,8 @@ public class Buff : MonoBehaviour
             ChangeDefensiveStats(false, healthSC * amount, healthRegenSC * amount, armorSC * amount, damageReductionSC * amount, healingMultiplierSC * amount);
 
         // If we changed offensive stats, remove more stacks
-        if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0)
-            ChangeOffensiveStats(false, atkSpdSC * amount, movespeedSC * amount, damagePercentageSC * amount);
+        if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0 || critChanceSC != 0 || critDamageSC != 0)
+            ChangeOffensiveStats(false, atkSpdSC * amount, movespeedSC * amount, damagePercentageSC * amount, critChanceSC * amount, critDamageSC * amount);
 
         // If we changed our resistance based stats, remove more stacks
         if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0 || overchargeResistSC != 0 || overgrowthResistSC != 0 || sunderResistSC != 0 || windshearResistSC != 0)
@@ -398,17 +408,21 @@ public class Buff : MonoBehaviour
     }
 
     //USed to add offensive stast to the player
-    public void ChangeOffensiveStats(bool changeStatsChangeValue, float atkSpeedGain, float movespeedGain, float damagePercentageGain)
+    public void ChangeOffensiveStats(bool changeStatsChangeValue, float atkSpeedGain, float movespeedGain, float damagePercentageGain, float critChanceGain, float critDamageGain)
     {
         connectedPlayer.bonusAttackSpeed += atkSpeedGain;
         connectedPlayer.movespeedPercentMultiplier += movespeedGain;
         connectedPlayer.damageIncreaseMultiplier += damagePercentageGain;
+        connectedPlayer.critChance += critChanceGain;
+        connectedPlayer.critDamageMultiplier += critDamageGain;
 
         if (changeStatsChangeValue)
         {
             atkSpdSC += atkSpeedGain;
             movespeedSC += movespeedGain;
             damagePercentageSC += damagePercentageGain;
+            critChanceSC += critChanceGain;
+            critDamageSC += critDamageGain;
         }
 
         connectedPlayer.StatSetup(false, true);
@@ -583,6 +597,9 @@ public class Buff : MonoBehaviour
             connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Poisoned).DPSMultiplier -= 0.5f;
         else if (myType == BuffsManager.BuffType.EarthTrueDamageConversion)
             connectedPlayer.traitEarthTrueDamageConversion = false;
+        else if (myType == BuffsManager.BuffType.PhysicalPoisonAmp)
+            if (connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Poisoned))
+                connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Poisoned).DPSMultiplier -= 0.1f * currentStacks;
 
         if (myType == BuffsManager.BuffType.Aflame && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Poisoned) > 0 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) > 0)
             connectedPlayer.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Poisoned).DPSMultiplier -= playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) * currentStacks;
@@ -605,8 +622,8 @@ public class Buff : MonoBehaviour
                 ChangeDefensiveStats(true, healthSC * -1, healthRegenSC * -1, armorSC * -1, damageReductionSC * -1, healingMultiplierSC * -1);
 
             // If we changed offensive stats, change em back.
-            if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0)
-                ChangeOffensiveStats(true,  atkSpdSC * -1, movespeedSC * -1, damagePercentageSC * -1);
+            if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0 || critChanceSC != 0 || critDamageSC != 0)
+                ChangeOffensiveStats(true,  atkSpdSC * -1, movespeedSC * -1, damagePercentageSC * -1, critChanceSC * -1, critDamageSC * -1);
 
             // If we changed our resistance based stats, change em back.
             if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 ||  frostbiteResistSC != 0 || knockBackResistSC != 0 || overchargeResistSC != 0 || overgrowthResistSC != 0|| sunderResistSC != 0 || windshearResistSC != 0)
@@ -627,8 +644,8 @@ public class Buff : MonoBehaviour
                 ChangeDefensiveStats(true, healthSC * -1 * currentStacks, healthRegenSC * -1 * currentStacks, armorSC * -1 * currentStacks, damageReductionSC * -1 * currentStacks, healingMultiplierSC * -1 * currentStacks);
 
             // If we changed offensive stats, change em back.
-            if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0)
-                ChangeOffensiveStats(true, atkSpdSC * -1 * currentStacks, movespeedSC * -1 * currentStacks, damagePercentageSC * -1 * currentStacks);
+            if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0 || critChanceSC != 0 || critDamageSC != 0)
+                ChangeOffensiveStats(true, atkSpdSC * -1 * currentStacks, movespeedSC * -1 * currentStacks, damagePercentageSC * -1 * currentStacks, critChanceSC * -1 * currentStacks, critDamageSC * -1 * currentStacks);
 
             // If we changed our resistance based stats, change em back.
             if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0 || overchargeResistSC != 0 || overgrowthResistSC != 0 || sunderResistSC != 0 || windshearResistSC != 0)

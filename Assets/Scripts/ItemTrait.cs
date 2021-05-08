@@ -15,7 +15,10 @@ public class ItemTrait
     IceKnockbackSnowEruptionOnKnockback, IceKnockbackBonusStacksOnDownedTargets, EarthMaxHpDamageAtThreshold, EarthAmpAllAfflictionsOnThreshhold, EarthSunderedEnemiesDealLessDamage, EarthRockRingExplosionOnKill, EarthTrueDamageAtThreshold, EarthSunderFurtherReducesResistances, EarthIncreasedDamageToLowerArmorTargets, EarthAmpDamageOnHealthyTargets, EarthHealOnCritAtSunderThreshold,
     EarthPhysicalBonusSunderStacksOnThreshold, EarthPhysicalSunderAmpsCrits, EarthPhysicalSunderAmpsDamage, EarthBleedBonusCritChanceOnBleedingTarget, EarthBleedSunderAddsPercentageOfBleed, EarthBleedBonusEarthDamageToBleeding, EarthBleedBloodExplosionOnBleed, EarthPoisonAddSunderedOnPoisonTick, EarthPoisonSummonPillarOnThreshold, EarthPoisonSunderToPoisonConversion, EarthPoisonSunderToPoisonOnCrit,
     EarthStunStunOnThreshold, EarthStunBonusDamageOnStun, EarthStunKillingStunnedWithEarthRefundsCooldowns, EarthStunStunningAddsSunder, EarthStunSunderAmpsStunDamageLength, EarthKnockbackTremorsOnKnockback, EarthKnockbackSunderReducesKnockbackResistance, EarthKnockbackSummonRocksOnRecentKnockbackTarget, WindAmpsDamageTaken, WindAmpsComboArmorShred, WindTargetGainsBleedOnAttack,
-    WindSummonAerobladesOnThreshold, WindWindshearAmpsTrueDamage, WindAddMoreStacksOnInitialStack, WindMoreDamageOnMaximumStacks, WindPhysicalSummonWhirlwindOnSkillHit, WindPhysicalWindshearAmpsBasicAttacks, WindPhysicalCritsDealArmorAsDamage, WindBleedAmpBleedAtThreshold, WindBleedMoreBleedStacksAThreshold, WindBleedBleedGrantsWindCritChance, WindBleedAddBleedOnWindCrit, WindPoisonTransferPoisonStacksOnKill};
+    WindSummonAerobladesOnThreshold, WindWindshearAmpsTrueDamage, WindAddMoreStacksOnInitialStack, WindMoreDamageOnMaximumStacks, WindPhysicalSummonWhirlwindOnSkillHit, WindPhysicalWindshearAmpsBasicAttacks, WindPhysicalCritsDealArmorAsDamage, WindBleedAmpBleedAtThreshold, WindBleedMoreBleedStacksAThreshold, WindBleedBleedGrantsWindCritChance, WindBleedAddBleedOnWindCrit, WindPoisonTransferPoisonStacksOnKill,
+    WindPoisonWindAddsPercentageOfPoisonOnHit, WindPoisonPoisonBurstAtWindThreshold, WindStunStunDealsTrueDamageAtThreshold, WindStunWindblastOnStun, WindStunStunAmpsWindshearGain, WindKnockbackKnockbackSummonsMiniCyclone, WindKnockbackLoseKnockbackResistanceOnThreshold, WindKnockbackWindshearDoesDamageIfKnockedBack, PhysicalPhysicalAmpsCritChance, PhysicalPhysicalSkillsComboAmp, PhysicalLifestealAmp,
+    PhysicalSkillAmpArmorOnKill, PhysicalAmpDamageBelowHalfHp, PhysicalBleedBleedAmpsPhysicalDamage, PhysicalBleedPhysicalSkillsAddBleed, PhysicalBleedSkillsDoTrueDamageAtThreshold, PhysicalPoisonPhysicalAmpsPoisonDamage, PhysicalPoisonPlayerMaxHpDamageOnThreshold, PhysicalPoisonPoisonAmpsPhysicalDamage, PhysicalStunAmpDamageOnStunned, PhysicalStunBladeRiftOnStun, PhysicalKnockbackKnockbackKillAmpsPhysicalDamage,
+    PhysicalKnockbackPhysicalAttacksGainInnateKnockback, PhysicalKnockbackSummonKnivesOnKnockbackHit, BleedReducesResistances, BleedAmpsCritHitsAddsBleedToNearby, BleedSlowsTargets};
     
     public TraitType traitType;
     public int traitBonusMultiplier = 1;
@@ -502,6 +505,114 @@ public class ItemTrait
             case 119:
                 traitType = TraitType.WindPoisonTransferPoisonStacksOnKill;
                 traitBonus = 2f;
+                break;
+            case 120:
+                traitType = TraitType.WindPoisonWindAddsPercentageOfPoisonOnHit;
+                traitBonus = 0.05f;
+                break;
+            case 121:
+                traitType = TraitType.WindPoisonPoisonBurstAtWindThreshold;
+                traitBonus = 1f;
+                break;
+            case 122:
+                traitType = TraitType.WindStunStunDealsTrueDamageAtThreshold;
+                traitBonus = 1f;
+                break;
+            case 123:
+                traitType = TraitType.WindStunWindblastOnStun;
+                traitBonus = 1f;
+                break;
+            case 124:
+                traitType = TraitType.WindStunStunAmpsWindshearGain;
+                traitBonus = 1f;
+                break;
+            case 125:
+                traitType = TraitType.WindKnockbackKnockbackSummonsMiniCyclone;
+                traitBonus = 0.33f;
+                break;
+            case 126:
+                traitType = TraitType.WindKnockbackLoseKnockbackResistanceOnThreshold;
+                traitBonus = 0.25f;
+                break;
+            case 127:
+                traitType = TraitType.WindKnockbackWindshearDoesDamageIfKnockedBack;
+                traitBonus = 0.2f;
+                break;
+            case 128:
+                traitType = TraitType.PhysicalPhysicalAmpsCritChance;
+                traitBonus = 0.02f;
+                break;
+            case 129:
+                traitType = TraitType.PhysicalPhysicalSkillsComboAmp;
+                traitBonus = 0.33f;
+                break;
+            case 130:
+                traitType = TraitType.PhysicalLifestealAmp;
+                traitBonus = 0.25f;
+                break;
+            case 131:
+                traitType = TraitType.PhysicalSkillAmpArmorOnKill;
+                traitBonus = 2f;
+                break;
+            case 132:
+                traitType = TraitType.PhysicalAmpDamageBelowHalfHp;
+                traitBonus = 0.5f;
+                break;
+            case 133:
+                traitType = TraitType.PhysicalBleedBleedAmpsPhysicalDamage;
+                traitBonus = 0.01f;
+                break;
+            case 134:
+                traitType = TraitType.PhysicalBleedPhysicalSkillsAddBleed;
+                traitBonus = 1f;
+                break;
+            case 135:
+                traitType = TraitType.PhysicalBleedSkillsDoTrueDamageAtThreshold;
+                traitBonus = 4f;
+                break;
+            case 136:
+                traitType = TraitType.PhysicalPoisonPhysicalAmpsPoisonDamage;
+                traitBonus = 3f;
+                break;
+            case 137:
+                traitType = TraitType.PhysicalPoisonPlayerMaxHpDamageOnThreshold;
+                traitBonus = 0.05f;
+                break;
+            case 138:
+                traitType = TraitType.PhysicalPoisonPoisonAmpsPhysicalDamage;
+                traitBonus = 3f;
+                break;
+            case 139:
+                traitType = TraitType.PhysicalStunAmpDamageOnStunned;
+                traitBonus = 1f;
+                break;
+            case 140:
+                traitType = TraitType.PhysicalStunBladeRiftOnStun;
+                traitBonus = 0.25f;
+                break;
+            case 141:
+                traitType = TraitType.PhysicalKnockbackKnockbackKillAmpsPhysicalDamage;
+                traitBonus = 3f;
+                break;
+            case 142:
+                traitType = TraitType.PhysicalKnockbackPhysicalAttacksGainInnateKnockback;
+                traitBonus = 0.02f;
+                break;
+            case 143:
+                traitType = TraitType.PhysicalKnockbackSummonKnivesOnKnockbackHit;
+                traitBonus = 2f;
+                break;
+            case 144:
+                traitType = TraitType.BleedReducesResistances;
+                traitBonus = 0.002f;
+                break;
+            case 145:
+                traitType = TraitType.BleedAmpsCritHitsAddsBleedToNearby;
+                traitBonus = 0.025f;
+                break;
+            case 146:
+                traitType = TraitType.BleedSlowsTargets;
+                traitBonus = 0.02f;
                 break;
             default:
                 break;

@@ -153,6 +153,14 @@ public class HitBoxBuff : MonoBehaviour
                     knockbackEarthReverb.GetComponent<HitBox>().myStats = buffOrigin;
                     knockbackEarthReverb.GetComponent<HitBox>().damage = (0.5f + buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthKnockbackTremorsOnKnockback)) * buffOrigin.baseDamage;
                 }
+                if (buffOrigin.CompareTag("Player") && buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindKnockbackKnockbackSummonsMiniCyclone) > 0 && other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Windshear) >= 15)
+                {
+                    GameObject windCyclone = Instantiate(buffOrigin.GetComponent<SkillsManager>().skillProjectiles[70], other.transform.position + Vector3.up * 0.1f, Quaternion.identity);
+                    windCyclone.GetComponent<HitBox>().myStats = buffOrigin;
+                    windCyclone.GetComponent<HitBox>().damage = (buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindKnockbackKnockbackSummonsMiniCyclone)) * buffOrigin.baseDamage;
+                }
+                if (buffOrigin.CompareTag("Player") && buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindKnockbackLoseKnockbackResistanceOnThreshold) > 0 && other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Windshear) >= 10)
+                    other.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.KnockbackLoseResistance, buffOrigin.baseDamage, buffOrigin);
 
                 //Debug.Log("knockback multiplier is: " + knockbackMultiplier);
                 other.GetComponent<EnemyCrowdControlManager>().KnockbackLaunch(knockbackDirection * knockbackStrength * knockbackMultiplier, buffOrigin);
