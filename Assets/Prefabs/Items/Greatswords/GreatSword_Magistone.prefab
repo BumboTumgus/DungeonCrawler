@@ -54,6 +54,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -139,6 +140,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Magistone Greatblade
+  itemNameAffinitySuffix: 
+  itemNameModifiersPrefix: 
   description: Used as a source of power for large defender collusus during the mage
     wars, this blade is imbued with the innate power of magistone.
   itemGearID: 99
@@ -154,6 +157,8 @@ MonoBehaviour:
   itemRightShoulderID: 0
   itemLeftShoulderID: 0
   itemPickUpAllowed: 1
+  damageType: 0
+  stacksToAddOnHit: 0
   helmetType: 0
   equippedToRightHand: 0
   stackable: 1
@@ -164,21 +169,21 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 35a2f460e3b24af4b99668491366214c, type: 3}
   inventoryIndex: 0
   goldValue: 2315
-  itemType: 4
+  itemType: 2
   skillName: 0
   itemRarity: 3
   attacksPerSecond: 0.9
   baseDamageScaling: 2.2
-  vitScaling: 0
-  strScaling: 0.1
-  dexScaling: 0.1
-  spdScaling: 0
-  intScaling: 0.3
-  wisScaling: 0.1
-  chaScaling: 0
   itemMoveset: 1
   garenteedTraits: 
   garenteedTraitValues: []
+  garenteedTraitMultipliers: 
+  affinityPrimary: 0
+  affinitySecondary: 0
+  affinityTertiary: 0
+  affinitySecondaryMultiElement: 0
+  affinityTertiaryMultiElement: 0
+  itemModifiers: 
 --- !u!114 &9004974264540763555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,8 +235,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6763208490927515230}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 2
+  m_Shape: 0
   m_Color: {r: 0.5686275, g: 0.21176471, b: 0.9254902, a: 1}
   m_Intensity: 1.5
   m_Range: 3
@@ -294,6 +300,22 @@ PrefabInstance:
       value: LootRayPurple
       objectReference: {fileID: 0}
     - target: {fileID: 4310403889259946, guid: 6a644a9f97a0a864b8360def9547e6f1, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4310403889259946, guid: 6a644a9f97a0a864b8360def9547e6f1, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4310403889259946, guid: 6a644a9f97a0a864b8360def9547e6f1, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4310403889259946, guid: 6a644a9f97a0a864b8360def9547e6f1, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4310403889259946, guid: 6a644a9f97a0a864b8360def9547e6f1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -304,6 +326,10 @@ PrefabInstance:
     - target: {fileID: 4310403889259946, guid: 6a644a9f97a0a864b8360def9547e6f1, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.217
+      objectReference: {fileID: 0}
+    - target: {fileID: 4310403889259946, guid: 6a644a9f97a0a864b8360def9547e6f1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4310403889259946, guid: 6a644a9f97a0a864b8360def9547e6f1, type: 3}
       propertyPath: m_LocalRotation.x
@@ -318,14 +344,6 @@ PrefabInstance:
       value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4310403889259946, guid: 6a644a9f97a0a864b8360def9547e6f1, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4310403889259946, guid: 6a644a9f97a0a864b8360def9547e6f1, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4310403889259946, guid: 6a644a9f97a0a864b8360def9547e6f1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -336,18 +354,6 @@ PrefabInstance:
     - target: {fileID: 4310403889259946, guid: 6a644a9f97a0a864b8360def9547e6f1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4310403889259946, guid: 6a644a9f97a0a864b8360def9547e6f1, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4310403889259946, guid: 6a644a9f97a0a864b8360def9547e6f1, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4310403889259946, guid: 6a644a9f97a0a864b8360def9547e6f1, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a644a9f97a0a864b8360def9547e6f1, type: 3}

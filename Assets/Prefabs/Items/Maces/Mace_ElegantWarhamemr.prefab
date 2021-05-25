@@ -39,8 +39,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3424855670073719352}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 2
+  m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1.3
   m_Range: 3
@@ -145,6 +146,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -230,6 +232,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Chipped Warhammer
+  itemNameAffinitySuffix: 
+  itemNameModifiersPrefix: 
   description: A large flatheaded warhammer. Has seen better days in it's life, but
     will reliably get the job done, assuming the job doesn't involve more than cracking
     walnuts.
@@ -246,6 +250,8 @@ MonoBehaviour:
   itemRightShoulderID: 0
   itemLeftShoulderID: 0
   itemPickUpAllowed: 1
+  damageType: 0
+  stacksToAddOnHit: 0
   helmetType: 0
   equippedToRightHand: 0
   stackable: 1
@@ -256,23 +262,21 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 8468397adcbde7c4aa5a1c0cbe19e2f3, type: 3}
   inventoryIndex: 0
   goldValue: 47
-  itemType: 3
+  itemType: 1
   skillName: 0
   itemRarity: 0
   attacksPerSecond: 0.7
   baseDamageScaling: 1.5
-  vitScaling: 0
-  strScaling: 0.3
-  dexScaling: 0
-  spdScaling: 0
-  intScaling: 0
-  wisScaling: 0
-  chaScaling: 0
   itemMoveset: 0
-  garenteedTraits: 0100000003000000
-  garenteedTraitValues:
-  - 2
-  - -3
+  garenteedTraits: 
+  garenteedTraitValues: []
+  garenteedTraitMultipliers: 
+  affinityPrimary: 0
+  affinitySecondary: 0
+  affinityTertiary: 0
+  affinitySecondaryMultiElement: 0
+  affinityTertiaryMultiElement: 0
+  itemModifiers: 
 --- !u!114 &-2417998137067016468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,6 +301,18 @@ PrefabInstance:
       value: LootRayWhite
       objectReference: {fileID: 0}
     - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -307,6 +323,10 @@ PrefabInstance:
     - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
       propertyPath: m_LocalRotation.x
@@ -321,14 +341,6 @@ PrefabInstance:
       value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -339,14 +351,6 @@ PrefabInstance:
     - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}

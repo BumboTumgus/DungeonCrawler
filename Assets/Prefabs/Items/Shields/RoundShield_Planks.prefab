@@ -61,6 +61,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Plank Wall
+  itemNameAffinitySuffix: 
+  itemNameModifiersPrefix: 
   description: Planks held together by a few rusty nails. More likely to give you
     tetanus than to block a meaningful blow.
   itemGearID: 64
@@ -76,6 +78,8 @@ MonoBehaviour:
   itemRightShoulderID: 0
   itemLeftShoulderID: 0
   itemPickUpAllowed: 1
+  damageType: 0
+  stacksToAddOnHit: 0
   helmetType: 0
   equippedToRightHand: 0
   stackable: 1
@@ -86,24 +90,21 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 5ae4e67077a597e4c97c4df92ed0c66d, type: 3}
   inventoryIndex: 0
   goldValue: 53
-  itemType: 3
+  itemType: 6
   skillName: 0
   itemRarity: 1
   attacksPerSecond: 1
   baseDamageScaling: 1
-  vitScaling: 0
-  strScaling: 0
-  dexScaling: 0
-  spdScaling: 0
-  intScaling: 0
-  wisScaling: 0
-  chaScaling: 0
   itemMoveset: 5
-  garenteedTraits: 08000000090000000a000000
-  garenteedTraitValues:
-  - 6
-  - 12
-  - 4.5
+  garenteedTraits: 
+  garenteedTraitValues: []
+  garenteedTraitMultipliers: 
+  affinityPrimary: 0
+  affinitySecondary: 0
+  affinityTertiary: 0
+  affinitySecondaryMultiElement: 0
+  affinityTertiaryMultiElement: 0
+  itemModifiers: 
 --- !u!114 &2966811013434861518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,8 +156,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9114919162909489284}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 2
+  m_Shape: 0
   m_Color: {r: 0.21176471, g: 0.9254902, b: 0.2627451, a: 1}
   m_Intensity: 1.2
   m_Range: 3
@@ -219,16 +221,20 @@ PrefabInstance:
       value: RoundShield_Planks
       objectReference: {fileID: 0}
     - target: {fileID: 143154, guid: 020a0313a7a871140859265074b193d0, type: 3}
-      propertyPath: m_TagString
-      value: Item
-      objectReference: {fileID: 0}
-    - target: {fileID: 143154, guid: 020a0313a7a871140859265074b193d0, type: 3}
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 143154, guid: 020a0313a7a871140859265074b193d0, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 143154, guid: 020a0313a7a871140859265074b193d0, type: 3}
+      propertyPath: m_TagString
+      value: Item
+      objectReference: {fileID: 0}
+    - target: {fileID: 493310, guid: 020a0313a7a871140859265074b193d0, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 493310, guid: 020a0313a7a871140859265074b193d0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -243,6 +249,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 493310, guid: 020a0313a7a871140859265074b193d0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 493310, guid: 020a0313a7a871140859265074b193d0, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0.5
       objectReference: {fileID: 0}
@@ -253,14 +263,6 @@ PrefabInstance:
     - target: {fileID: 493310, guid: 020a0313a7a871140859265074b193d0, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 493310, guid: 020a0313a7a871140859265074b193d0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 493310, guid: 020a0313a7a871140859265074b193d0, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 493310, guid: 020a0313a7a871140859265074b193d0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -294,6 +296,10 @@ PrefabInstance:
       value: LootRayGreen
       objectReference: {fileID: 0}
     - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -306,6 +312,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0.7071068
       objectReference: {fileID: 0}
@@ -316,14 +326,6 @@ PrefabInstance:
     - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

@@ -58,6 +58,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -142,6 +143,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Test Helmet
+  itemNameAffinitySuffix: 
+  itemNameModifiersPrefix: 
   description: This is a test item hopefully it works.
   itemGearID: 6
   itemtorsoID: 0
@@ -156,6 +159,8 @@ MonoBehaviour:
   itemRightShoulderID: 0
   itemLeftShoulderID: 0
   itemPickUpAllowed: 1
+  damageType: 0
+  stacksToAddOnHit: 0
   helmetType: 0
   equippedToRightHand: 0
   stackable: 1
@@ -166,44 +171,21 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 7915de92efd48f144894efc7f0046ded, type: 3}
   inventoryIndex: 0
   goldValue: 200
-  itemType: 5
+  itemType: 3
   skillName: 0
   itemRarity: 0
-  vitMod: 2
-  strMod: 0
-  dexMod: 0
-  spdMod: 0
-  intMod: 0
-  wisMod: 0
-  chaMod: 0
-  baseAttackDelay: 0
-  hitMax: 0
-  hitBase: 0
-  critChance: 0
-  critMod: 0
-  vitScaling: 0
-  strScaling: 0
-  dexScaling: 0
-  spdScaling: 0
-  intScaling: 0
-  wisScaling: 0
-  chaScaling: 0
+  attacksPerSecond: 0
+  baseDamageScaling: 0
   itemMoveset: 0
-  health: 50
-  mana: 22
-  armor: 16
-  resistance: 22
-  healthRegen: 2.5
-  manaRegen: 0
-  aflameResist: 0
-  asleepResist: 0
-  stunResist: 0
-  curseResist: 0
-  bleedResist: 0
-  poisonResist: 0
-  corrosionResist: 0
-  frostbiteResist: 0
-  knockbackResist: 0
+  garenteedTraits: 
+  garenteedTraitValues: []
+  garenteedTraitMultipliers: 
+  affinityPrimary: 0
+  affinitySecondary: 0
+  affinityTertiary: 0
+  affinitySecondaryMultiElement: 0
+  affinityTertiaryMultiElement: 0
+  itemModifiers: 
 --- !u!114 &6139897573131950230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,6 +217,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3393573136633881671, guid: 70dc0fdd90aaece47a98fcc622b064be,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3393573136633881671, guid: 70dc0fdd90aaece47a98fcc622b064be,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3393573136633881671, guid: 70dc0fdd90aaece47a98fcc622b064be,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3393573136633881671, guid: 70dc0fdd90aaece47a98fcc622b064be,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3393573136633881671, guid: 70dc0fdd90aaece47a98fcc622b064be,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -247,6 +249,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3393573136633881671, guid: 70dc0fdd90aaece47a98fcc622b064be,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9816273
       objectReference: {fileID: 0}
     - target: {fileID: 3393573136633881671, guid: 70dc0fdd90aaece47a98fcc622b064be,
         type: 3}
@@ -265,16 +272,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3393573136633881671, guid: 70dc0fdd90aaece47a98fcc622b064be,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.9816273
-      objectReference: {fileID: 0}
-    - target: {fileID: 3393573136633881671, guid: 70dc0fdd90aaece47a98fcc622b064be,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3393573136633881671, guid: 70dc0fdd90aaece47a98fcc622b064be,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -22
       objectReference: {fileID: 0}
@@ -287,21 +284,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3393573136633881671, guid: 70dc0fdd90aaece47a98fcc622b064be,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3393573136633881671, guid: 70dc0fdd90aaece47a98fcc622b064be,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3393573136633881671, guid: 70dc0fdd90aaece47a98fcc622b064be,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}

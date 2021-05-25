@@ -20,6 +20,10 @@ public class InventoryUiManager : MonoBehaviour
     public Color[] itemOutlineColors;
     public Color[] skillIconColors;
 
+    public Color[] iconAffintiyColors;
+    public Color[] iconAffintiyBackgroundColors;
+    public Sprite[] iconAffinityIcons;
+
     private void Start()
     {
         foreach (GameObject slot in inventorySlots)
@@ -111,6 +115,339 @@ public class InventoryUiManager : MonoBehaviour
             default:
                 break;
         }
+
+        Image primaryAffinityBackground = slotToUpdate.transform.Find("ItemPanel").Find("ItemImage").Find("Affinity_Primary").GetComponent<Image>();
+        switch (item.affinityPrimary)
+        {
+            case Item.AffinityType.None:
+                primaryAffinityBackground.gameObject.SetActive(false);
+                break;
+            case Item.AffinityType.Fire:
+                primaryAffinityBackground.gameObject.SetActive(true);
+                primaryAffinityBackground.color = iconAffintiyBackgroundColors[0];
+                primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[0];
+                primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[0];
+                break;
+            case Item.AffinityType.Ice:
+                primaryAffinityBackground.gameObject.SetActive(true);
+                primaryAffinityBackground.color = iconAffintiyBackgroundColors[1];
+                primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[1];
+                primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[1];
+                break;
+            case Item.AffinityType.Earth:
+                primaryAffinityBackground.gameObject.SetActive(true);
+                primaryAffinityBackground.color = iconAffintiyBackgroundColors[2];
+                primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[2];
+                primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[2];
+                break;
+            case Item.AffinityType.Wind:
+                primaryAffinityBackground.gameObject.SetActive(true);
+                primaryAffinityBackground.color = iconAffintiyBackgroundColors[3];
+                primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[3];
+                primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[3];
+                break;
+            case Item.AffinityType.Physical:
+                primaryAffinityBackground.gameObject.SetActive(true);
+                primaryAffinityBackground.color = iconAffintiyBackgroundColors[4];
+                primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[4];
+                primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[4];
+                break;
+            case Item.AffinityType.Bleed:
+                primaryAffinityBackground.gameObject.SetActive(true);
+                primaryAffinityBackground.color = iconAffintiyBackgroundColors[5];
+                primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[5];
+                primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[5];
+                break;
+            case Item.AffinityType.Poison:
+                primaryAffinityBackground.gameObject.SetActive(true);
+                primaryAffinityBackground.color = iconAffintiyBackgroundColors[6];
+                primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[6];
+                primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[6];
+                break;
+            case Item.AffinityType.Stun:
+                primaryAffinityBackground.gameObject.SetActive(true);
+                primaryAffinityBackground.color = iconAffintiyBackgroundColors[7];
+                primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[7];
+                primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[7];
+                break;
+            case Item.AffinityType.Knockback:
+                primaryAffinityBackground.gameObject.SetActive(true);
+                primaryAffinityBackground.color = iconAffintiyBackgroundColors[8];
+                primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[8];
+                primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[8];
+                break;
+            default:
+                break;
+        }
+
+        Image secondaryAffinityBackground = slotToUpdate.transform.Find("ItemPanel").Find("ItemImage").Find("Affinity_Secondary").GetComponent<Image>();
+        switch (item.affinitySecondary)
+        {
+            case Item.AffinityType.None:
+                secondaryAffinityBackground.gameObject.SetActive(false);
+                break;
+            case Item.AffinityType.Fire:
+                secondaryAffinityBackground.gameObject.SetActive(true);
+                secondaryAffinityBackground.color = iconAffintiyBackgroundColors[0];
+                secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[0];
+                secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[0];
+                break;
+            case Item.AffinityType.Ice:
+                secondaryAffinityBackground.gameObject.SetActive(true);
+                secondaryAffinityBackground.color = iconAffintiyBackgroundColors[1];
+                secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[1];
+                secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[1];
+                break;
+            case Item.AffinityType.Earth:
+                secondaryAffinityBackground.gameObject.SetActive(true);
+                secondaryAffinityBackground.color = iconAffintiyBackgroundColors[2];
+                secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[2];
+                secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[2];
+                break;
+            case Item.AffinityType.Wind:
+                secondaryAffinityBackground.gameObject.SetActive(true);
+                secondaryAffinityBackground.color = iconAffintiyBackgroundColors[3];
+                secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[3];
+                secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[3];
+                break;
+            case Item.AffinityType.Physical:
+                secondaryAffinityBackground.gameObject.SetActive(true);
+                secondaryAffinityBackground.color = iconAffintiyBackgroundColors[4];
+                secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[4];
+                secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[4];
+                break;
+            case Item.AffinityType.Bleed:
+                secondaryAffinityBackground.gameObject.SetActive(true);
+                secondaryAffinityBackground.color = iconAffintiyBackgroundColors[5];
+                secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[5];
+                secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[5];
+                break;
+            case Item.AffinityType.Poison:
+                secondaryAffinityBackground.gameObject.SetActive(true);
+                secondaryAffinityBackground.color = iconAffintiyBackgroundColors[6];
+                secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[6];
+                secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[6];
+                break;
+            case Item.AffinityType.Stun:
+                secondaryAffinityBackground.gameObject.SetActive(true);
+                secondaryAffinityBackground.color = iconAffintiyBackgroundColors[7];
+                secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[7];
+                secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[7];
+                break;
+            case Item.AffinityType.Knockback:
+                secondaryAffinityBackground.gameObject.SetActive(true);
+                secondaryAffinityBackground.color = iconAffintiyBackgroundColors[8];
+                secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[8];
+                secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[8];
+                break;
+            default:
+                break;
+        }
+
+        Image tertiaryAffinityBackground = slotToUpdate.transform.Find("ItemPanel").Find("ItemImage").Find("Affinity_Tertiary").GetComponent<Image>();
+        switch (item.affinityTertiary)
+        {
+            case Item.AffinityType.None:
+                tertiaryAffinityBackground.gameObject.SetActive(false);
+                break;
+            case Item.AffinityType.Fire:
+                tertiaryAffinityBackground.gameObject.SetActive(true);
+                tertiaryAffinityBackground.color = iconAffintiyBackgroundColors[0];
+                tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[0];
+                tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[0];
+                break;
+            case Item.AffinityType.Ice:
+                tertiaryAffinityBackground.gameObject.SetActive(true);
+                tertiaryAffinityBackground.color = iconAffintiyBackgroundColors[1];
+                tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[1];
+                tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[1];
+                break;
+            case Item.AffinityType.Earth:
+                tertiaryAffinityBackground.gameObject.SetActive(true);
+                tertiaryAffinityBackground.color = iconAffintiyBackgroundColors[2];
+                tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[2];
+                tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[2];
+                break;
+            case Item.AffinityType.Wind:
+                tertiaryAffinityBackground.gameObject.SetActive(true);
+                tertiaryAffinityBackground.color = iconAffintiyBackgroundColors[3];
+                tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[3];
+                tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[3];
+                break;
+            case Item.AffinityType.Physical:
+                tertiaryAffinityBackground.gameObject.SetActive(true);
+                tertiaryAffinityBackground.color = iconAffintiyBackgroundColors[4];
+                tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[4];
+                tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[4];
+                break;
+            case Item.AffinityType.Bleed:
+                tertiaryAffinityBackground.gameObject.SetActive(true);
+                tertiaryAffinityBackground.color = iconAffintiyBackgroundColors[5];
+                tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[5];
+                tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[5];
+                break;
+            case Item.AffinityType.Poison:
+                tertiaryAffinityBackground.gameObject.SetActive(true);
+                tertiaryAffinityBackground.color = iconAffintiyBackgroundColors[6];
+                tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[6];
+                tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[6];
+                break;
+            case Item.AffinityType.Stun:
+                tertiaryAffinityBackground.gameObject.SetActive(true);
+                tertiaryAffinityBackground.color = iconAffintiyBackgroundColors[7];
+                tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[7];
+                tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[7];
+                break;
+            case Item.AffinityType.Knockback:
+                tertiaryAffinityBackground.gameObject.SetActive(true);
+                tertiaryAffinityBackground.color = iconAffintiyBackgroundColors[8];
+                tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[8];
+                tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[8];
+                break;
+            default:
+                break;
+        }
+
+        Image secondaryAffinityBackgroundTwo = slotToUpdate.transform.Find("ItemPanel").Find("ItemImage").Find("Affinity_Secondary").Find("Mask").Find("Affinity_Secondary_LeftHalf").GetComponent<Image>();
+        if (item.affinitySecondaryMultiElement)
+        {
+            secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+            switch (item.affinityPrimary)
+            {
+                case Item.AffinityType.None:
+                    secondaryAffinityBackgroundTwo.gameObject.SetActive(false);
+                    break;
+                case Item.AffinityType.Fire:
+                    secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                    secondaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[0];
+                    secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[0];
+                    secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[0];
+                    break;
+                case Item.AffinityType.Ice:
+                    secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                    secondaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[1];
+                    secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[1];
+                    secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[1];
+                    break;
+                case Item.AffinityType.Earth:
+                    secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                    secondaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[2];
+                    secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[2];
+                    secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[2];
+                    break;
+                case Item.AffinityType.Wind:
+                    secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                    secondaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[3];
+                    secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[3];
+                    secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[3];
+                    break;
+                case Item.AffinityType.Physical:
+                    secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                    secondaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[4];
+                    secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[4];
+                    secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[4];
+                    break;
+                case Item.AffinityType.Bleed:
+                    secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                    secondaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[5];
+                    secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[5];
+                    secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[5];
+                    break;
+                case Item.AffinityType.Poison:
+                    secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                    secondaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[6];
+                    secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[6];
+                    secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[6];
+                    break;
+                case Item.AffinityType.Stun:
+                    secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                    secondaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[7];
+                    secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[7];
+                    secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[7];
+                    break;
+                case Item.AffinityType.Knockback:
+                    secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                    secondaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[8];
+                    secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[8];
+                    secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[8];
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+            secondaryAffinityBackgroundTwo.gameObject.SetActive(false);
+
+        Image tertiaryAffinityBackgroundTwo = slotToUpdate.transform.Find("ItemPanel").Find("ItemImage").Find("Affinity_Tertiary").Find("Mask").Find("Affinity_Secondary_LeftHalf").GetComponent<Image>();
+        if (item.affinityTertiaryMultiElement)
+        {
+            tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+            switch (item.affinityPrimary)
+            {
+                case Item.AffinityType.None:
+                    tertiaryAffinityBackgroundTwo.gameObject.SetActive(false);
+                    break;
+                case Item.AffinityType.Fire:
+                    tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                    tertiaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[0];
+                    tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[0];
+                    tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[0];
+                    break;
+                case Item.AffinityType.Ice:
+                    tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                    tertiaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[1];
+                    tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[1];
+                    tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[1];
+                    break;
+                case Item.AffinityType.Earth:
+                    tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                    tertiaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[2];
+                    tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[2];
+                    tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[2];
+                    break;
+                case Item.AffinityType.Wind:
+                    tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                    tertiaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[3];
+                    tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[3];
+                    tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[3];
+                    break;
+                case Item.AffinityType.Physical:
+                    tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                    tertiaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[4];
+                    tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[4];
+                    tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[4];
+                    break;
+                case Item.AffinityType.Bleed:
+                    tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                    tertiaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[5];
+                    tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[5];
+                    tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[5];
+                    break;
+                case Item.AffinityType.Poison:
+                    tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                    tertiaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[6];
+                    tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[6];
+                    tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[6];
+                    break;
+                case Item.AffinityType.Stun:
+                    tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                    tertiaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[7];
+                    tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[7];
+                    tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[7];
+                    break;
+                case Item.AffinityType.Knockback:
+                    tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                    tertiaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[8];
+                    tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[8];
+                    tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[8];
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+            tertiaryAffinityBackgroundTwo.gameObject.SetActive(false);
+
     }
 
     public void UpdateInventorySlot(int index)
@@ -134,6 +471,10 @@ public class InventoryUiManager : MonoBehaviour
         Image targetImage = slot.transform.Find("ItemPanel").Find("ItemImage").GetComponent<Image>();
         targetImage.color = new Color(255, 255, 255, 0);
         targetImage.sprite = null;
+
+        slot.transform.Find("ItemPanel").Find("ItemImage").Find("Affinity_Primary").gameObject.SetActive(false);
+        slot.transform.Find("ItemPanel").Find("ItemImage").Find("Affinity_Secondary").gameObject.SetActive(false);
+        slot.transform.Find("ItemPanel").Find("ItemImage").Find("Affinity_Tertiary").gameObject.SetActive(false);
 
         slot.transform.Find("ItemPanel").Find("Outline").GetComponent<Image>().color = new Color(255, 255, 255, 0);
     }

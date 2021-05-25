@@ -60,6 +60,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Death Sword
+  itemNameAffinitySuffix: 
+  itemNameModifiersPrefix: 
   description: does a lotta damage. just wow.
   itemGearID: 103
   itemtorsoID: 0
@@ -74,6 +76,8 @@ MonoBehaviour:
   itemRightShoulderID: 0
   itemLeftShoulderID: 0
   itemPickUpAllowed: 1
+  damageType: 0
+  stacksToAddOnHit: 0
   helmetType: 0
   equippedToRightHand: 0
   stackable: 1
@@ -84,21 +88,21 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: fe717aeed35f6174b973bdafab0d154d, type: 3}
   inventoryIndex: 0
   goldValue: 85
-  itemType: 4
+  itemType: 2
   skillName: 0
   itemRarity: 0
   attacksPerSecond: 0.4
   baseDamageScaling: 2.4
-  vitScaling: 0.1
-  strScaling: 0.2
-  dexScaling: 0.2
-  spdScaling: 0
-  intScaling: 0
-  wisScaling: 0
-  chaScaling: 0
   itemMoveset: 1
   garenteedTraits: 
   garenteedTraitValues: []
+  garenteedTraitMultipliers: 
+  affinityPrimary: 0
+  affinitySecondary: 0
+  affinityTertiary: 0
+  affinitySecondaryMultiElement: 0
+  affinityTertiaryMultiElement: 0
+  itemModifiers: 
 --- !u!114 &-37618897459246963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +173,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -212,6 +217,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3943368528039426414, guid: 15c08d7294da63244b984dd0d586ea06,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3943368528039426414, guid: 15c08d7294da63244b984dd0d586ea06,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -227,6 +237,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3943368528039426414, guid: 15c08d7294da63244b984dd0d586ea06,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3943368528039426414, guid: 15c08d7294da63244b984dd0d586ea06,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0.5
       objectReference: {fileID: 0}
@@ -239,16 +254,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3943368528039426414, guid: 15c08d7294da63244b984dd0d586ea06,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3943368528039426414, guid: 15c08d7294da63244b984dd0d586ea06,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3943368528039426414, guid: 15c08d7294da63244b984dd0d586ea06,
         type: 3}

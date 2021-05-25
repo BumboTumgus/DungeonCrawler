@@ -17,7 +17,8 @@ public class BuffsManager : MonoBehaviour
     {
         Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, Frozen, ArmorBroken, EmboldeningEmbers, FlameStrike, FlameWalker, BlessingOfFlames, Immolation, Glacier, FrostsKiss, IceArmor, StoneStrike,
         GiantStrength, StonePrison, SecondWind, WrathOftheWind, Multislash, PressureDrop, BasicAttacksShredArmorOnAflame, GreviousWounds, IceDamageAmp, IceDamageReverb, PoisonDamageAmp, EarthernDecay, EarthTrueDamageConversion, EarthBonusResistanceLoss, EarthKnockbackResistanceLoss,
-        WindAmpDamageAtMaxStacks, PoisonAddStacksOnNextAttack, KnockbackLoseResistance, PhysicalAmpCrit, PhysicalSkillArmorAmp, PhysicalPoisonAmp, PhysicalPhysicalAmp, PhysicalKnockbackAmpNextAttack, BleedSlow
+        WindAmpDamageAtMaxStacks, PoisonAddStacksOnNextAttack, KnockbackLoseResistance, PhysicalAmpCrit, PhysicalSkillArmorAmp, PhysicalPoisonAmp, PhysicalPhysicalAmp, PhysicalKnockbackAmpNextAttack, BleedSlow, BleedAmpDamage, BleedStunReduceBleedResistance, BleedKnockbackKnockbackAmpsDamage,
+        PoisonInstantCrit, PoisonAmpInitialDamage, PoisonAmpDamageOnKill, StunMovespeedAmp, KnockbackAmpBasicAttacks, KnockbackAmpsArmor
     };
 
     [SerializeField] private ParticleSystem[] psSystems;
@@ -109,6 +110,11 @@ public class BuffsManager : MonoBehaviour
                 float newStackCount = stackCount * (1f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindStunStunAmpsWindshearGain));
                 stackCount = Mathf.RoundToInt(newStackCount);
             }
+            if ((buff == BuffType.Aflame || buff == BuffType.Frostbite || buff == BuffType.Windshear || buff == BuffType.Sunder || buff == BuffType.Bleeding || buff == BuffType.Poisoned) && stats.stunned && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunAmpsAfflictionGain) > 0)
+            {
+                float newStackCount = stackCount * (1f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunAmpsAfflictionGain));
+                stackCount = Mathf.RoundToInt(newStackCount);
+            }
 
             for (int index = 0; index < stackCount; index++)
             {
@@ -193,6 +199,8 @@ public class BuffsManager : MonoBehaviour
                     }
                     if (buffInflictor.CompareTag("Player") && buff == BuffType.Windshear && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindKnockbackWindshearDoesDamageIfKnockedBack) > 0 && stats.knockedBack)
                         stats.TakeDamage(buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindKnockbackWindshearDoesDamageIfKnockedBack) * buffInflictor.baseDamage, false, HitBox.DamageType.Wind, buffInflictor.comboManager.currentcombo, buffInflictor);
+                    if (buffInflictor.CompareTag("Player") && buff == BuffType.Stunned && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedStunStunReducesBleedResistance) > 0)
+                        NewBuff(BuffType.BleedStunReduceBleedResistance, buffInflictor.baseDamage, buffInflictor);
                 }
                 else
                 {
@@ -310,6 +318,9 @@ public class BuffsManager : MonoBehaviour
                     if (PollForBuffStacks(BuffType.Sunder) >= 20 && buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthAmpAllAfflictionsOnThreshhold) > 0)
                         aflame.DPSMultiplier += 0.15f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthAmpAllAfflictionsOnThreshhold);
 
+                    if (PollForBuffStacks(BuffType.Poisoned) > 0 && buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison) > 0)
+                        PollForBuff(BuffType.Poisoned).DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison);
+
                     aflame.DPS = baseDamage * 0.2f;
                     aflame.damageType = HitBox.DamageType.Fire;
 
@@ -348,6 +359,9 @@ public class BuffsManager : MonoBehaviour
                         PollForBuff(BuffType.Bleeding).DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceBleedFrostbiteAmpsBleed);
                     if (PollForBuffStacks(BuffType.Sunder) >= 20 && buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthAmpAllAfflictionsOnThreshhold) > 0)
                         frostbite.DPSMultiplier += 0.15f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthAmpAllAfflictionsOnThreshhold);
+                    if (PollForBuffStacks(BuffType.Poisoned) > 0 && buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison) > 0)
+                        PollForBuff(BuffType.Poisoned).DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison);
+
 
                     frostbite.effectParticleSystem.Add(psSystems[1]);
                     frostbite.effectParticleSystem.Add(psSystems[2]);
@@ -369,6 +383,10 @@ public class BuffsManager : MonoBehaviour
                     frozen.playerDamageSource = buffInflictor;
                     frozen.infiniteDuration = false;
                     frozen.duration = 5f;
+
+                    if (PollForBuffStacks(BuffType.Poisoned) > 0 && buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison) > 0)
+                        PollForBuff(BuffType.Poisoned).DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison);
+
 
                     if (CompareTag("Player"))
                         GetComponent<PlayerMovementController>().FrozenLaunch();
@@ -461,6 +479,10 @@ public class BuffsManager : MonoBehaviour
                     if (buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindKnockbackWindshearDoesDamageIfKnockedBack) > 0 && stats.knockedBack)
                         stats.TakeDamage(buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindKnockbackWindshearDoesDamageIfKnockedBack) * buffInflictor.baseDamage, false, HitBox.DamageType.Wind, buffInflictor.comboManager.currentcombo, buffInflictor);
 
+                    if (PollForBuffStacks(BuffType.Poisoned) > 0 && buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison) > 0)
+                        PollForBuff(BuffType.Poisoned).DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison);
+
+
                     windshear.effectParticleSystem.Add(psSystems[7]);
                     psSystems[7].Play();
 
@@ -502,6 +524,9 @@ public class BuffsManager : MonoBehaviour
 
                     if (buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthKnockbackSunderReducesKnockbackResistance) > 0)
                         NewBuff(BuffType.EarthKnockbackResistanceLoss, baseDamage, buffInflictor);
+                    if (PollForBuffStacks(BuffType.Poisoned) > 0 && buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison) > 0)
+                        PollForBuff(BuffType.Poisoned).DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison);
+
 
 
                     sundered.effectParticleSystem.Add(psSystems[8]);
@@ -547,6 +572,11 @@ public class BuffsManager : MonoBehaviour
                     }
                     if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedSlowsTargets) > 0)
                         NewBuff(BuffType.BleedSlow, buffInflictor.baseDamage, buffInflictor);
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedPoisonReduceOtherResistances) > 0)
+                        bleeding.ChangeResistanceStats(true, 0, 0, 0, 0, 0, 0, 0, 0, 0, buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedPoisonReduceOtherResistances) * -1, 0);
+                    if (PollForBuffStacks(BuffType.Poisoned) > 0 && buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison) > 0)
+                        PollForBuff(BuffType.Poisoned).DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison);
+
 
                     stats.bleeding = true;
 
@@ -576,18 +606,37 @@ public class BuffsManager : MonoBehaviour
 
                     if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonPoisonReducesFireResist) > 0)
                         poisoned.ChangeResistanceStats(true, buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonPoisonReducesFireResist) * -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-
                     if (PollForBuffStacks(BuffType.Aflame) > 0 && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) > 0)
                         poisoned.DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) * PollForBuffStacks(BuffType.Aflame);
-
                     if (PollForBuff(BuffType.PoisonDamageAmp))
                         poisoned.DPSMultiplier += 0.5f;
-
                     if (PollForBuffStacks(BuffType.Sunder) >= 20 && buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthAmpAllAfflictionsOnThreshhold) > 0)
                         poisoned.DPSMultiplier += 0.15f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthAmpAllAfflictionsOnThreshhold);
-
                     if (PollForBuffStacks(BuffType.PhysicalPoisonAmp) > 0 )
                         poisoned.DPSMultiplier += 0.1f * PollForBuffStacks(BuffType.PhysicalPoisonAmp);
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedPoisonReduceOtherResistances) > 0)
+                        poisoned.ChangeResistanceStats(true, 0, 0, 0, 0, 0, 0, 0, 0, buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedPoisonReduceOtherResistances) * -1, 0, 0);
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonAmpDamageOnFirstStack) > 0)
+                    {
+                        poisoned.DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonAmpDamageOnFirstStack);
+                        NewBuff(BuffType.PoisonAmpInitialDamage, buffInflictor.baseDamage, buffInflictor);
+                    }
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison) > 0)
+                    {
+                        foreach(Buff otherBuffs in activeBuffs)
+                        {
+                            if(otherBuffs.myType == BuffType.Aflame || otherBuffs.myType == BuffType.Frostbite || otherBuffs.myType == BuffType.Windshear || otherBuffs.myType == BuffType.Sunder || otherBuffs.myType == BuffType.Bleeding || otherBuffs.myType == BuffType.Stunned || otherBuffs.myType == BuffType.Knockback || otherBuffs.myType == BuffType.Frozen)
+                                poisoned.DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison);
+                        }
+                    }
+                    if (PollForBuff(BuffType.PoisonAmpDamageOnKill))
+                        poisoned.DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForOnKillValue(ItemTrait.TraitType.PoisonEnemiesAmpPoisonOnKill) * PollForBuffStacks(BuffType.PoisonAmpDamageOnKill);
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonStunPoisonReducesStunResist) > 0)
+                        poisoned.ChangeResistanceStats(true, 0, 0, 0, 0, 0, 0, buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonStunPoisonReducesStunResist) * -1, 0, 0, 0, 0);
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonKnockbackPoisonReducesKnockbackResistance) > 0)
+                        poisoned.ChangeResistanceStats(true, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonKnockbackPoisonReducesKnockbackResistance) * -1);
+
+
 
                     if (stats.healthMax * 0.001f < baseDamage * 0.1f)
                         poisoned.DPS = baseDamage * 0.1f;
@@ -668,6 +717,25 @@ public class BuffsManager : MonoBehaviour
                         stunned.duration *= 1f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthStunSunderAmpsStunDamageLength) * PollForBuffStacks(BuffType.Sunder);
                     }
 
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedStunStunReducesBleedResistance) > 0)
+                        NewBuff(BuffType.BleedStunReduceBleedResistance, buffInflictor.baseDamage, buffInflictor);
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedStunStunAddsBleed) > 0)
+                        StartCoroutine(StunBleedBleedOverTime(1 + Mathf.RoundToInt(buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedStunStunAddsBleed)), buffInflictor));
+                    if (PollForBuffStacks(BuffType.Poisoned) > 0 && buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison) > 0)
+                        PollForBuff(BuffType.Poisoned).DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison);
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunReducesArmor) > 0)
+                        stunned.ChangeDefensiveStats(true, 0, 0, (0.2f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunReducesArmor)) * -1, 0, 0);
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunAmpsDamageTaken) > 0)
+                        stunned.ChangeDefensiveStats(true, 0, 0, 0, buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunAmpsDamageTaken), 0);
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunAmpDuration) > 0)
+                        stunned.duration *= 1 + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunAmpDuration);
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunAmpDurationOnThreshold) > 0 && (PollForBuffStacks(BuffType.Aflame) >= 50 || PollForBuffStacks(BuffType.Frostbite) >= 50 || PollForBuffStacks(BuffType.Sunder) >= 50 || PollForBuffStacks(BuffType.Windshear) >= 50 || PollForBuffStacks(BuffType.Bleeding) >= 50 || PollForBuffStacks(BuffType.Poisoned) >= 50 ))
+                        stunned.duration *= 1 + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunAmpDurationOnThreshold);
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunKnockbackStunReduceResistance) > 0)
+                        stunned.ChangeResistanceStats(true, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunKnockbackStunReduceResistance) * -1);
+
+
+
                     stunned.effectParticleSystem.Add(psSystems[15]);
                     stunned.effectParticleSystem.Add(psSystems[16]);
                     psSystems[15].Play();
@@ -690,6 +758,16 @@ public class BuffsManager : MonoBehaviour
                     knockback.DPS = 0;
 
                     stats.traitEarthKnockbackRocksOnSunderReady = true;
+
+                    if (PollForBuffStacks(BuffType.Poisoned) > 0 && buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison) > 0)
+                        PollForBuff(BuffType.Poisoned).DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison);
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.KnockbackAmpsDamageTaken) > 0)
+                        knockback.ChangeDefensiveStats(true, 0, 0, 0, buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.KnockbackAmpsDamageTaken), 0);
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.KnockbackReducesResistances) > 0)
+                    {
+                        float knockbackResistanceValue = buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.KnockbackReducesResistances) * -1;
+                        knockback.ChangeResistanceStats(true, knockbackResistanceValue, knockbackResistanceValue, knockbackResistanceValue, knockbackResistanceValue, knockbackResistanceValue, knockbackResistanceValue, knockbackResistanceValue, knockbackResistanceValue, knockbackResistanceValue, knockbackResistanceValue, knockbackResistanceValue);
+                    }
 
                     //knockback.effectParticleSystem.Add(psSystems[15]);
                     //knockback.effectParticleSystem.Add(psSystems[16]);
@@ -1384,6 +1462,184 @@ public class BuffsManager : MonoBehaviour
                     bleedSlow.ChangeOffensiveStats(true, 0, (0.225f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedSlowsTargets)) * -1, 0, 0, 0);
 
                     break;
+
+                case BuffType.BleedAmpDamage:
+                    Buff bleedAmpDamage = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    bleedAmpDamage.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[9];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[6];
+
+                    activeBuffs.Add(bleedAmpDamage);
+
+                    bleedAmpDamage.myType = buff;
+                    bleedAmpDamage.stackSingleFalloff = false;
+                    bleedAmpDamage.connectedPlayer = stats;
+                    bleedAmpDamage.playerDamageSource = buffInflictor;
+                    bleedAmpDamage.infiniteDuration = false;
+                    bleedAmpDamage.duration = 5;
+
+                    bleedAmpDamage.ChangeDefensiveStats(true, 0, 0, 0, buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedAmpDamageAtThreshold), 0);
+
+                    break;
+
+                case BuffType.BleedStunReduceBleedResistance:
+                    Buff bleedStunReducesResistances = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    bleedStunReducesResistances.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[11];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[6];
+
+                    activeBuffs.Add(bleedStunReducesResistances);
+
+                    bleedStunReducesResistances.myType = buff;
+                    bleedStunReducesResistances.stackSingleFalloff = false;
+                    bleedStunReducesResistances.connectedPlayer = stats;
+                    bleedStunReducesResistances.playerDamageSource = buffInflictor;
+                    bleedStunReducesResistances.infiniteDuration = false;
+                    bleedStunReducesResistances.duration = 5;
+
+                    bleedStunReducesResistances.ChangeResistanceStats(true, 0, 0, 0, 0, 0, 0, 0, 0, buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedStunStunReducesBleedResistance) * -1, 0, 0);
+
+                    break;
+
+                case BuffType.BleedKnockbackKnockbackAmpsDamage:
+                    Buff bleedKnockbackAmpDamages = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    bleedKnockbackAmpDamages.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[15];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[6];
+
+                    activeBuffs.Add(bleedKnockbackAmpDamages);
+
+                    bleedKnockbackAmpDamages.myType = buff;
+                    bleedKnockbackAmpDamages.stackSingleFalloff = false;
+                    bleedKnockbackAmpDamages.connectedPlayer = stats;
+                    bleedKnockbackAmpDamages.playerDamageSource = buffInflictor;
+                    bleedKnockbackAmpDamages.infiniteDuration = false;
+                    bleedKnockbackAmpDamages.duration = 10;
+
+                    bleedKnockbackAmpDamages.ChangeDefensiveStats(true, 0, 0, 0, (0.2f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedKnockbackKnockbackAmpsDamage)), 0) ;
+
+                    break;
+
+                case BuffType.PoisonInstantCrit:
+                    Buff poisonInstantCrit = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    poisonInstantCrit.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[15];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[7];
+
+                    activeBuffs.Add(poisonInstantCrit);
+
+                    poisonInstantCrit.myType = buff;
+                    poisonInstantCrit.stackSingleFalloff = false;
+                    poisonInstantCrit.connectedPlayer = stats;
+                    poisonInstantCrit.playerDamageSource = buffInflictor;
+                    poisonInstantCrit.infiniteDuration = false;
+                    poisonInstantCrit.duration = 15;
+
+                    break;
+
+                case BuffType.PoisonAmpInitialDamage:
+                    Buff poisonInitialDamageAmp = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    poisonInitialDamageAmp.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[15];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[7];
+
+                    activeBuffs.Add(poisonInitialDamageAmp);
+
+                    poisonInitialDamageAmp.myType = buff;
+                    poisonInitialDamageAmp.stackSingleFalloff = false;
+                    poisonInitialDamageAmp.connectedPlayer = stats;
+                    poisonInitialDamageAmp.playerDamageSource = buffInflictor;
+                    poisonInitialDamageAmp.infiniteDuration = false;
+                    poisonInitialDamageAmp.duration = 10;
+
+                    break;
+
+                case BuffType.PoisonAmpDamageOnKill:
+                    Buff poisonDamageAmpOnKill = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    poisonDamageAmpOnKill.connectedIcon = buffIcon;
+                    poisonDamageAmpOnKill.iconStacks = buffIcon.GetComponentInChildren<Text>();
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[15];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[7];
+
+                    activeBuffs.Add(poisonDamageAmpOnKill);
+
+                    poisonDamageAmpOnKill.myType = buff;
+                    poisonDamageAmpOnKill.stackSingleFalloff = false;
+                    poisonDamageAmpOnKill.stackable = true;
+                    poisonDamageAmpOnKill.currentStacks = 1;
+                    poisonDamageAmpOnKill.maxStacks = 10;
+                    poisonDamageAmpOnKill.connectedPlayer = stats;
+                    poisonDamageAmpOnKill.playerDamageSource = buffInflictor;
+                    poisonDamageAmpOnKill.infiniteDuration = false;
+                    poisonDamageAmpOnKill.duration = 10;
+
+                    if (PollForBuff(BuffType.Poisoned))
+                        PollForBuff(BuffType.Poisoned).DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForOnKillValue(ItemTrait.TraitType.PoisonEnemiesAmpPoisonOnKill);
+
+                    break;
+
+                case BuffType.StunMovespeedAmp:
+                    Buff stunMovespeedAmp = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    stunMovespeedAmp.connectedIcon = buffIcon;
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[19];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[9];
+
+                    activeBuffs.Add(stunMovespeedAmp);
+
+                    stunMovespeedAmp.myType = buff;
+                    stunMovespeedAmp.stackSingleFalloff = false;
+                    stunMovespeedAmp.connectedPlayer = stats;
+                    stunMovespeedAmp.playerDamageSource = buffInflictor;
+                    stunMovespeedAmp.infiniteDuration = false;
+                    stunMovespeedAmp.duration = 8;
+
+                    stunMovespeedAmp.ChangeOffensiveStats(true, 0, GetComponent<PlayerTraitManager>().CheckForOnHitValue(ItemTrait.TraitType.StunAmpsMovespeed), 0, 0, 0);
+
+                    break;
+                case BuffType.KnockbackAmpBasicAttacks:
+                    Buff knockbackBasicAttackAmp = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    knockbackBasicAttackAmp.connectedIcon = buffIcon;
+                    knockbackBasicAttackAmp.iconStacks = buffIcon.GetComponentInChildren<Text>();
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[12];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[10];
+
+                    activeBuffs.Add(knockbackBasicAttackAmp);
+
+                    knockbackBasicAttackAmp.myType = buff;
+                    knockbackBasicAttackAmp.stackSingleFalloff = false;
+                    knockbackBasicAttackAmp.stackable = true;
+                    knockbackBasicAttackAmp.currentStacks = 1;
+                    knockbackBasicAttackAmp.maxStacks = 3;
+                    knockbackBasicAttackAmp.connectedPlayer = stats;
+                    knockbackBasicAttackAmp.playerDamageSource = buffInflictor;
+                    knockbackBasicAttackAmp.infiniteDuration = false;
+                    knockbackBasicAttackAmp.duration = 10;
+
+                    break;
+
+                case BuffType.KnockbackAmpsArmor:
+                    Buff knockbackArmorAmp = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    knockbackArmorAmp.connectedIcon = buffIcon;
+                    knockbackArmorAmp.iconStacks = buffIcon.GetComponentInChildren<Text>();
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[4];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[10];
+
+                    activeBuffs.Add(knockbackArmorAmp);
+
+                    knockbackArmorAmp.myType = buff;
+                    knockbackArmorAmp.stackSingleFalloff = false;
+                    knockbackArmorAmp.stackable = true;
+                    knockbackArmorAmp.currentStacks = 1;
+                    knockbackArmorAmp.maxStacks = 20;
+                    knockbackArmorAmp.connectedPlayer = stats;
+                    knockbackArmorAmp.playerDamageSource = buffInflictor;
+                    knockbackArmorAmp.infiniteDuration = false;
+                    knockbackArmorAmp.duration = 8;
+
+                    knockbackArmorAmp.ChangeDefensiveStats(true, 0, 0, GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.KnockbackAmpsArmor), 0, 0);
+
+                    break;
+
                 default:
                     break;
             }
@@ -1481,10 +1737,13 @@ public class BuffsManager : MonoBehaviour
                 switch (trait.traitType)
                 {
                     case ItemTrait.TraitType.HealingOnKill:
-                        if(damageType == HitBox.DamageType.Physical && GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PhysicalLifestealAmp) > 0)
-                            stats.HealHealth(trait.traitValue * (1 + GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PhysicalLifestealAmp)), HitBox.DamageType.Healing);
-                        else
-                            stats.HealHealth(trait.traitValue, HitBox.DamageType.Healing);
+                        float healMultiplier = 1;
+                        if (damageType == HitBox.DamageType.Physical && GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PhysicalLifestealAmp) > 0)
+                            healMultiplier += GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PhysicalLifestealAmp);
+                        if (target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Poisoned) >= 10 && GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonAmpsLifesteal) > 0)
+                            healMultiplier += GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonAmpsLifesteal);
+
+                        stats.HealHealth(trait.traitValue * healMultiplier, HitBox.DamageType.Healing);
                         break;
                     case ItemTrait.TraitType.FireExplosionOnKill:
                         GameObject fireExplosionOnKill = Instantiate(GetComponent<SkillsManager>().skillProjectiles[48], target.transform.position + Vector3.up, Quaternion.identity);
@@ -1550,6 +1809,26 @@ public class BuffsManager : MonoBehaviour
                     case ItemTrait.TraitType.PhysicalKnockbackKnockbackKillAmpsPhysicalDamage:
                         if (damageType == HitBox.DamageType.Physical && target.GetComponent<PlayerStats>().knockedBack)
                             NewBuff(BuffType.PhysicalKnockbackAmpNextAttack, stats.baseDamage, stats);
+                        break;
+                    case ItemTrait.TraitType.BleedHealOnBleedingEnemyKill:
+                        if (target.GetComponent<PlayerStats>().bleeding)
+                            stats.HealHealth(target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Bleeding) * trait.traitValue, HitBox.DamageType.Healing);
+                        break;
+                    case ItemTrait.TraitType.PoisonSpreadStacksOnDeath:
+                        if (target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Poisoned) > 0)
+                        {
+                            GameObject poisonSpreadStacks = Instantiate(GetComponent<SkillsManager>().skillProjectiles[79], target.transform.position + Vector3.up, Quaternion.identity);
+                            poisonSpreadStacks.GetComponent<HitBoxBuff>().buffOrigin = stats;
+                            poisonSpreadStacks.GetComponent<HitBoxBuff>().poisonValue = Mathf.RoundToInt((0.05f + trait.traitValue) * target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Poisoned));
+                        }
+                        break;
+                    case ItemTrait.TraitType.PoisonAmpNextAttackAfterPoisonKill:
+                        if (damageType == HitBox.DamageType.Poison)
+                            NewBuff(BuffType.PoisonInstantCrit, stats.baseDamage, stats);
+                        break;
+                    case ItemTrait.TraitType.PoisonEnemiesAmpPoisonOnKill:
+                        GameObject poisonAmpDamageOnKill = Instantiate(GetComponent<SkillsManager>().skillProjectiles[80], target.transform.position + Vector3.up, Quaternion.identity);
+                        poisonAmpDamageOnKill.GetComponent<HitBoxBuff>().buffOrigin = stats;
                         break;
                     default:
                         break;
@@ -1708,10 +1987,13 @@ public class BuffsManager : MonoBehaviour
                 switch (trait.traitType)
                 {
                     case ItemTrait.TraitType.HealingOnHit:
+                        float healMultiplier = 1;
                         if (hitbox.damageType == HitBox.DamageType.Physical && GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PhysicalLifestealAmp) > 0)
-                            stats.HealHealth(trait.traitValue * (1 + GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PhysicalLifestealAmp)), HitBox.DamageType.Healing);
-                        else
-                            stats.HealHealth(trait.traitValue, HitBox.DamageType.Healing);
+                            healMultiplier += GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PhysicalLifestealAmp);
+                        if (target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Poisoned) >= 10 && GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonAmpsLifesteal) > 0)
+                            healMultiplier += GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonAmpsLifesteal);
+
+                        stats.HealHealth(trait.traitValue * healMultiplier, HitBox.DamageType.Healing);
                         break;
                     case ItemTrait.TraitType.MoreAflameStacksOnHitThreshold:
                         if(target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Aflame) >= 15 && !target.GetComponent<PlayerStats>().traitMoreAflameStacksOnHitThresholdFatigue)
@@ -2006,6 +2288,60 @@ public class BuffsManager : MonoBehaviour
                             bleedBurst.GetComponent<HitBoxBuff>().buffOrigin = stats;
                         }
                         break;
+                    case ItemTrait.TraitType.BleedBloodWellAtThreshold:
+                        if (target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Bleeding) >= 20 && target.GetComponent<PlayerStats>().traitBleedBloodWellOnThresholdReady)
+                        {
+                            target.GetComponent<PlayerStats>().traitBleedBloodWellOnThresholdReady = false;
+                            GameObject bloodWell = Instantiate(GetComponent<SkillsManager>().skillProjectiles[76], target.transform.position, Quaternion.identity);
+                            bloodWell.GetComponent<HitBox>().myStats = stats;
+                            bloodWell.GetComponent<HitBox>().damage = stats.baseDamage * trait.traitValue;
+                        }
+                        break;
+                    case ItemTrait.TraitType.BleedExpungeBleedAtThreshold:
+                        if (target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Bleeding) >= 105 - trait.traitValue)
+                        {
+                            Buff bleed = target.GetComponent<BuffsManager>().PollForBuff(BuffType.Bleeding);
+                            target.GetComponent<PlayerStats>().TakeDamage(bleed.DPS * bleed.currentStacks * 10, false, HitBox.DamageType.Bleed, stats.comboManager.currentcombo, stats);
+                            target.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffType.Bleeding, true); 
+                            Instantiate(GetComponent<SkillsManager>().skillProjectiles[77], target.transform.position + Vector3.up, Quaternion.identity);
+                        }
+                        break;
+                    case ItemTrait.TraitType.BleedPoisonChanceOfPoisonCloudOnBleed:
+                        if (randomChance <= 20f && target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Poisoned) >= 10 && target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Bleeding) >= 10)
+                        {
+                            GameObject poisonBurst = Instantiate(GetComponent<SkillsManager>().skillProjectiles[71], target.transform.position + Vector3.up, Quaternion.identity);
+                            poisonBurst.GetComponent<HitBoxBuff>().buffOrigin = stats;
+                            poisonBurst.GetComponent<HitBoxBuff>().poisonValue = Mathf.RoundToInt(trait.traitValue);
+                        }
+                        break;
+                    case ItemTrait.TraitType.BleedKnockbackBonusBleed:
+                        if (target.GetComponent<PlayerStats>().knockedBack && hitbox.damageType == HitBox.DamageType.Bleed)
+                        {
+                            target.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffType.Bleeding, 1, stats.baseDamage, stats);
+                        }
+                        break;
+                    case ItemTrait.TraitType.PoisonStunPoisonSpreadOnThreshold:
+                        if (hitbox.GetComponent<HitBoxBuff>() && hitbox.GetComponent<HitBoxBuff>().stun && target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Poisoned) >= 20)
+                        {
+                            GameObject poisonPulseOnStun = Instantiate(GetComponent<SkillsManager>().skillProjectiles[81], target.transform.position + Vector3.up, Quaternion.identity);
+                            poisonPulseOnStun.GetComponent<HitBox>().myStats = stats;
+                            poisonPulseOnStun.GetComponent<HitBox>().damage = stats.baseDamage * (2 + trait.traitValue);
+                            poisonPulseOnStun.GetComponent<HitBox>().stacksToAdd = Mathf.RoundToInt(target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Poisoned) / 2);
+                            target.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffType.Poisoned, true);
+                        }
+                        break;
+                    case ItemTrait.TraitType.StunShockwaveOnStunningStunned:
+                        if (hitbox.GetComponent<HitBoxBuff>() && hitbox.GetComponent<HitBoxBuff>().stun && target.GetComponent<PlayerStats>().stunned)
+                        {
+                            GameObject stunShockwave = Instantiate(GetComponent<SkillsManager>().skillProjectiles[82], target.transform.position + Vector3.up, Quaternion.identity);
+                            stunShockwave.GetComponent<HitBox>().myStats = stats;
+                            stunShockwave.GetComponent<HitBox>().damage = stats.baseDamage * trait.traitValue;
+                        }
+                        break;
+                    case ItemTrait.TraitType.StunAmpsMovespeed:
+                        if (hitbox.GetComponent<HitBoxBuff>() && hitbox.GetComponent<HitBoxBuff>().stun)
+                            NewBuff(BuffType.StunMovespeedAmp, stats.baseDamage, stats);
+                        break;
                     default:
                         break;
                 }
@@ -2045,7 +2381,12 @@ public class BuffsManager : MonoBehaviour
             {
                 case BuffType.Bleeding:
                     psSystems[10].Play();
-                    stats.TakeDamage(buff.DPS * buff.currentStacks, false, buff.damageType, 0, buff.playerDamageSource);
+
+                    float dpsMultiplier = 1;
+                    if (stats.lastHitBy.CompareTag("Player") && stats.lastHitBy.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedAmpDamageTakenOnAttack) > 0)
+                        dpsMultiplier += stats.lastHitBy.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedAmpDamageTakenOnAttack);
+
+                    stats.TakeDamage(buff.DPS * buff.currentStacks * dpsMultiplier, false, buff.damageType, 0, buff.playerDamageSource);
                     break;
                 case BuffType.Windshear:
                     if (buff.currentStacks >= 20 && buff.playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindTargetGainsBleedOnAttack) > 0)
@@ -2175,6 +2516,15 @@ public class BuffsManager : MonoBehaviour
             stats.comboManager.AddComboCounter(1);
             target.TakeDamage(damage, crit, HitBox.DamageType.Wind, stats.comboManager.currentcombo, stats);
             yield return new WaitForSeconds(0.33f);
+        }
+    }
+
+    IEnumerator StunBleedBleedOverTime(int stacksToAdd, PlayerStats buffInflictor)
+    {
+        for(int index = 0; index < stacksToAdd; index++)
+        {
+            CheckResistanceToBuff(BuffType.Bleeding, 1, buffInflictor.baseDamage, buffInflictor);
+            yield return new WaitForSeconds(1);
         }
     }
 }

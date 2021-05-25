@@ -46,11 +46,11 @@ public class ItemGenerator : MonoBehaviour
     public GameObject[] trinketsRingLegendary;
     public GameObject[] trinketsRingMasterwork;
 
-    public GameObject[] trinketsNecklaceCommon;
-    public GameObject[] trinketsNecklaceUncommon;
-    public GameObject[] trinketsNecklaceRare;
-    public GameObject[] trinketsNecklaceLegendary;
-    public GameObject[] trinketsNecklaceMasterwork;
+    public GameObject[] trinketsBraceletCommon;
+    public GameObject[] trinketsBraceletUncommon;
+    public GameObject[] trinketsBraceletRare;
+    public GameObject[] trinketsBraceletLegendary;
+    public GameObject[] trinketsBraceletMasterwork;
 
     public GameObject[] trinketsWaistCommon;
     public GameObject[] trinketsWaistUncommon;
@@ -164,22 +164,23 @@ public class ItemGenerator : MonoBehaviour
                 }
                 break;
             case Item.ItemType.TrinketBracelet:
+                Debug.Log(trinketsBraceletCommon.Length);
                 switch (itemRarity)
                 {
                     case Item.ItemRarity.Common:
-                        itemRolled = trinketsNecklaceCommon[Random.Range(0, trinketsNecklaceCommon.Length)];
+                        itemRolled = trinketsBraceletCommon[Random.Range(0, trinketsBraceletCommon.Length)];
                         break;
                     case Item.ItemRarity.Uncommon:
-                        itemRolled = trinketsNecklaceUncommon[Random.Range(0, trinketsNecklaceUncommon.Length)];
+                        itemRolled = trinketsBraceletUncommon[Random.Range(0, trinketsBraceletUncommon.Length)];
                         break;
                     case Item.ItemRarity.Rare:
-                        itemRolled = trinketsNecklaceRare[Random.Range(0, trinketsNecklaceRare.Length)];
+                        itemRolled = trinketsBraceletRare[Random.Range(0, trinketsBraceletRare.Length)];
                         break;
                     case Item.ItemRarity.Legendary:
-                        itemRolled = trinketsNecklaceLegendary[Random.Range(0, trinketsNecklaceLegendary.Length)];
+                        itemRolled = trinketsBraceletLegendary[Random.Range(0, trinketsBraceletLegendary.Length)];
                         break;
                     case Item.ItemRarity.Masterwork:
-                        itemRolled = trinketsNecklaceMasterwork[Random.Range(0, trinketsNecklaceMasterwork.Length)];
+                        itemRolled = trinketsBraceletMasterwork[Random.Range(0, trinketsBraceletMasterwork.Length)];
                         break;
                     default:
                         break;

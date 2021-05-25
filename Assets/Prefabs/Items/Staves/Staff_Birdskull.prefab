@@ -54,6 +54,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -139,8 +140,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Goblin Shaman Staff
-  description: The skull of a strange beast charged with magic of the occult. It still
-    reeks of the blood spilled on it for the completion of some profane ritual.
+  itemNameAffinitySuffix: 
+  itemNameModifiersPrefix: 
+  description: The skull of a strange beast charged with magic of the occult. It
+    still reeks of the blood spilled on it for the completion of some profane ritual.
   itemGearID: 51
   itemtorsoID: 0
   itemUpperRightArmID: 0
@@ -154,6 +157,8 @@ MonoBehaviour:
   itemRightShoulderID: 0
   itemLeftShoulderID: 0
   itemPickUpAllowed: 1
+  damageType: 0
+  stacksToAddOnHit: 0
   helmetType: 0
   equippedToRightHand: 0
   stackable: 1
@@ -164,23 +169,21 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 593b061708cd46a46bc4257be076bce1, type: 3}
   inventoryIndex: 0
   goldValue: 85
-  itemType: 3
+  itemType: 1
   skillName: 0
   itemRarity: 1
   attacksPerSecond: 0.4
   baseDamageScaling: 2.9
-  vitScaling: 0
-  strScaling: 0.3
-  dexScaling: 0
-  spdScaling: 0
-  intScaling: 0.2
-  wisScaling: 0
-  chaScaling: 0
   itemMoveset: 3
-  garenteedTraits: 050000000b000000
-  garenteedTraitValues:
-  - 5
-  - 2.6
+  garenteedTraits: 
+  garenteedTraitValues: []
+  garenteedTraitMultipliers: 
+  affinityPrimary: 0
+  affinitySecondary: 0
+  affinityTertiary: 0
+  affinitySecondaryMultiElement: 0
+  affinityTertiaryMultiElement: 0
+  itemModifiers: 
 --- !u!114 &6942552799803610850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,8 +235,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6819689451661046807}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 2
+  m_Shape: 0
   m_Color: {r: 0.21176471, g: 0.9254902, b: 0.2627451, a: 1}
   m_Intensity: 1.2
   m_Range: 3
@@ -296,6 +300,10 @@ PrefabInstance:
       value: LootRayGreen
       objectReference: {fileID: 0}
     - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -308,6 +316,10 @@ PrefabInstance:
       value: -0.083
       objectReference: {fileID: 0}
     - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.0000005296329
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0.0000005296329
       objectReference: {fileID: 0}
@@ -318,14 +330,6 @@ PrefabInstance:
     - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.0000005296329
-      objectReference: {fileID: 0}
-    - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

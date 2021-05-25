@@ -23,6 +23,10 @@ public class UiItemPopUpResizer : MonoBehaviour
     public Color[] traitTextColors;
     public float PopUpTraitHeight = 0f;
 
+    public Color[] iconAffintiyColors;
+    public Color[] iconAffintiyBackgroundColors;
+    public Sprite[] iconAffinityIcons;
+
     private SkillBank skillBank;
     private RectTransform primaryPopUp;
     private PlayerStats stats;
@@ -262,7 +266,7 @@ public class UiItemPopUpResizer : MonoBehaviour
 
         valueText.text = string.Format("{0} gp", targetItem.goldValue * targetItem.currentStack);
         popUpImage.sprite = targetItem.artwork;
-        itemName.text = targetItem.itemName + "";
+        itemName.text = targetItem.itemNameModifiersPrefix + targetItem.itemName + " " + targetItem.itemNameAffinitySuffix;
 
 
         if (targetItem.currentStack > 1)
@@ -301,6 +305,348 @@ public class UiItemPopUpResizer : MonoBehaviour
                 break;
         }
 
+        if(targetItem.itemType != Item.ItemType.Skill)
+        {
+
+            Image primaryAffinityBackground = popUpImage.transform.Find("Affinity_Primary").GetComponent<Image>();
+            switch (targetItem.affinityPrimary)
+            {
+                case Item.AffinityType.None:
+                    primaryAffinityBackground.gameObject.SetActive(false);
+                    break;
+                case Item.AffinityType.Fire:
+                    primaryAffinityBackground.gameObject.SetActive(true);
+                    primaryAffinityBackground.color = iconAffintiyBackgroundColors[0];
+                    primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[0];
+                    primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[0];
+                    break;
+                case Item.AffinityType.Ice:
+                    primaryAffinityBackground.gameObject.SetActive(true);
+                    primaryAffinityBackground.color = iconAffintiyBackgroundColors[1];
+                    primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[1];
+                    primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[1];
+                    break;
+                case Item.AffinityType.Earth:
+                    primaryAffinityBackground.gameObject.SetActive(true);
+                    primaryAffinityBackground.color = iconAffintiyBackgroundColors[2];
+                    primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[2];
+                    primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[2];
+                    break;
+                case Item.AffinityType.Wind:
+                    primaryAffinityBackground.gameObject.SetActive(true);
+                    primaryAffinityBackground.color = iconAffintiyBackgroundColors[3];
+                    primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[3];
+                    primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[3];
+                    break;
+                case Item.AffinityType.Physical:
+                    primaryAffinityBackground.gameObject.SetActive(true);
+                    primaryAffinityBackground.color = iconAffintiyBackgroundColors[4];
+                    primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[4];
+                    primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[4];
+                    break;
+                case Item.AffinityType.Bleed:
+                    primaryAffinityBackground.gameObject.SetActive(true);
+                    primaryAffinityBackground.color = iconAffintiyBackgroundColors[5];
+                    primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[5];
+                    primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[5];
+                    break;
+                case Item.AffinityType.Poison:
+                    primaryAffinityBackground.gameObject.SetActive(true);
+                    primaryAffinityBackground.color = iconAffintiyBackgroundColors[6];
+                    primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[6];
+                    primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[6];
+                    break;
+                case Item.AffinityType.Stun:
+                    primaryAffinityBackground.gameObject.SetActive(true);
+                    primaryAffinityBackground.color = iconAffintiyBackgroundColors[7];
+                    primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[7];
+                    primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[7];
+                    break;
+                case Item.AffinityType.Knockback:
+                    primaryAffinityBackground.gameObject.SetActive(true);
+                    primaryAffinityBackground.color = iconAffintiyBackgroundColors[8];
+                    primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[8];
+                    primaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[8];
+                    break;
+                default:
+                    break;
+            }
+
+            Image secondaryAffinityBackground = popUpImage.transform.Find("Affinity_Secondary").GetComponent<Image>();
+            switch (targetItem.affinitySecondary)
+            {
+                case Item.AffinityType.None:
+                    secondaryAffinityBackground.gameObject.SetActive(false);
+                    break;
+                case Item.AffinityType.Fire:
+                    secondaryAffinityBackground.gameObject.SetActive(true);
+                    secondaryAffinityBackground.color = iconAffintiyBackgroundColors[0];
+                    secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[0];
+                    secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[0];
+                    break;
+                case Item.AffinityType.Ice:
+                    secondaryAffinityBackground.gameObject.SetActive(true);
+                    secondaryAffinityBackground.color = iconAffintiyBackgroundColors[1];
+                    secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[1];
+                    secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[1];
+                    break;
+                case Item.AffinityType.Earth:
+                    secondaryAffinityBackground.gameObject.SetActive(true);
+                    secondaryAffinityBackground.color = iconAffintiyBackgroundColors[2];
+                    secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[2];
+                    secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[2];
+                    break;
+                case Item.AffinityType.Wind:
+                    secondaryAffinityBackground.gameObject.SetActive(true);
+                    secondaryAffinityBackground.color = iconAffintiyBackgroundColors[3];
+                    secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[3];
+                    secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[3];
+                    break;
+                case Item.AffinityType.Physical:
+                    secondaryAffinityBackground.gameObject.SetActive(true);
+                    secondaryAffinityBackground.color = iconAffintiyBackgroundColors[4];
+                    secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[4];
+                    secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[4];
+                    break;
+                case Item.AffinityType.Bleed:
+                    secondaryAffinityBackground.gameObject.SetActive(true);
+                    secondaryAffinityBackground.color = iconAffintiyBackgroundColors[5];
+                    secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[5];
+                    secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[5];
+                    break;
+                case Item.AffinityType.Poison:
+                    secondaryAffinityBackground.gameObject.SetActive(true);
+                    secondaryAffinityBackground.color = iconAffintiyBackgroundColors[6];
+                    secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[6];
+                    secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[6];
+                    break;
+                case Item.AffinityType.Stun:
+                    secondaryAffinityBackground.gameObject.SetActive(true);
+                    secondaryAffinityBackground.color = iconAffintiyBackgroundColors[7];
+                    secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[7];
+                    secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[7];
+                    break;
+                case Item.AffinityType.Knockback:
+                    secondaryAffinityBackground.gameObject.SetActive(true);
+                    secondaryAffinityBackground.color = iconAffintiyBackgroundColors[8];
+                    secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[8];
+                    secondaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[8];
+                    break;
+                default:
+                    break;
+            }
+
+            Image tertiaryAffinityBackground = popUpImage.transform.Find("Affinity_Tertiary").GetComponent<Image>();
+            switch (targetItem.affinityTertiary)
+            {
+                case Item.AffinityType.None:
+                    tertiaryAffinityBackground.gameObject.SetActive(false);
+                    break;
+                case Item.AffinityType.Fire:
+                    tertiaryAffinityBackground.gameObject.SetActive(true);
+                    tertiaryAffinityBackground.color = iconAffintiyBackgroundColors[0];
+                    tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[0];
+                    tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[0];
+                    break;
+                case Item.AffinityType.Ice:
+                    tertiaryAffinityBackground.gameObject.SetActive(true);
+                    tertiaryAffinityBackground.color = iconAffintiyBackgroundColors[1];
+                    tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[1];
+                    tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[1];
+                    break;
+                case Item.AffinityType.Earth:
+                    tertiaryAffinityBackground.gameObject.SetActive(true);
+                    tertiaryAffinityBackground.color = iconAffintiyBackgroundColors[2];
+                    tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[2];
+                    tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[2];
+                    break;
+                case Item.AffinityType.Wind:
+                    tertiaryAffinityBackground.gameObject.SetActive(true);
+                    tertiaryAffinityBackground.color = iconAffintiyBackgroundColors[3];
+                    tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[3];
+                    tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[3];
+                    break;
+                case Item.AffinityType.Physical:
+                    tertiaryAffinityBackground.gameObject.SetActive(true);
+                    tertiaryAffinityBackground.color = iconAffintiyBackgroundColors[4];
+                    tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[4];
+                    tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[4];
+                    break;
+                case Item.AffinityType.Bleed:
+                    tertiaryAffinityBackground.gameObject.SetActive(true);
+                    tertiaryAffinityBackground.color = iconAffintiyBackgroundColors[5];
+                    tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[5];
+                    tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[5];
+                    break;
+                case Item.AffinityType.Poison:
+                    tertiaryAffinityBackground.gameObject.SetActive(true);
+                    tertiaryAffinityBackground.color = iconAffintiyBackgroundColors[6];
+                    tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[6];
+                    tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[6];
+                    break;
+                case Item.AffinityType.Stun:
+                    tertiaryAffinityBackground.gameObject.SetActive(true);
+                    tertiaryAffinityBackground.color = iconAffintiyBackgroundColors[7];
+                    tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[7];
+                    tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[7];
+                    break;
+                case Item.AffinityType.Knockback:
+                    tertiaryAffinityBackground.gameObject.SetActive(true);
+                    tertiaryAffinityBackground.color = iconAffintiyBackgroundColors[8];
+                    tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[8];
+                    tertiaryAffinityBackground.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[8];
+                    break;
+                default:
+                    break;
+            }
+
+            Image secondaryAffinityBackgroundTwo = popUpImage.transform.Find("Affinity_Secondary").Find("Mask").Find("Affinity_Secondary_LeftHalf").GetComponent<Image>();
+            if (targetItem.affinitySecondaryMultiElement)
+            {
+                secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                switch (targetItem.affinityPrimary)
+                {
+                    case Item.AffinityType.None:
+                        secondaryAffinityBackgroundTwo.gameObject.SetActive(false);
+                        break;
+                    case Item.AffinityType.Fire:
+                        secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                        secondaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[0];
+                        secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[0];
+                        secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[0];
+                        break;
+                    case Item.AffinityType.Ice:
+                        secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                        secondaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[1];
+                        secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[1];
+                        secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[1];
+                        break;
+                    case Item.AffinityType.Earth:
+                        secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                        secondaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[2];
+                        secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[2];
+                        secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[2];
+                        break;
+                    case Item.AffinityType.Wind:
+                        secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                        secondaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[3];
+                        secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[3];
+                        secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[3];
+                        break;
+                    case Item.AffinityType.Physical:
+                        secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                        secondaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[4];
+                        secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[4];
+                        secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[4];
+                        break;
+                    case Item.AffinityType.Bleed:
+                        secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                        secondaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[5];
+                        secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[5];
+                        secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[5];
+                        break;
+                    case Item.AffinityType.Poison:
+                        secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                        secondaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[6];
+                        secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[6];
+                        secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[6];
+                        break;
+                    case Item.AffinityType.Stun:
+                        secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                        secondaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[7];
+                        secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[7];
+                        secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[7];
+                        break;
+                    case Item.AffinityType.Knockback:
+                        secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                        secondaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[8];
+                        secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[8];
+                        secondaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[8];
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+                secondaryAffinityBackgroundTwo.gameObject.SetActive(false);
+
+            Image tertiaryAffinityBackgroundTwo = popUpImage.transform.Find("Affinity_Tertiary").Find("Mask").Find("Affinity_Secondary_LeftHalf").GetComponent<Image>();
+            if (targetItem.affinityTertiaryMultiElement)
+            {
+                tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                switch (targetItem.affinityPrimary)
+                {
+                    case Item.AffinityType.None:
+                        tertiaryAffinityBackgroundTwo.gameObject.SetActive(false);
+                        break;
+                    case Item.AffinityType.Fire:
+                        tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                        tertiaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[0];
+                        tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[0];
+                        tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[0];
+                        break;
+                    case Item.AffinityType.Ice:
+                        tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                        tertiaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[1];
+                        tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[1];
+                        tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[1];
+                        break;
+                    case Item.AffinityType.Earth:
+                        tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                        tertiaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[2];
+                        tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[2];
+                        tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[2];
+                        break;
+                    case Item.AffinityType.Wind:
+                        tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                        tertiaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[3];
+                        tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[3];
+                        tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[3];
+                        break;
+                    case Item.AffinityType.Physical:
+                        tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                        tertiaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[4];
+                        tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[4];
+                        tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[4];
+                        break;
+                    case Item.AffinityType.Bleed:
+                        tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                        tertiaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[5];
+                        tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[5];
+                        tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[5];
+                        break;
+                    case Item.AffinityType.Poison:
+                        tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                        tertiaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[6];
+                        tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[6];
+                        tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[6];
+                        break;
+                    case Item.AffinityType.Stun:
+                        tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                        tertiaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[7];
+                        tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[7];
+                        tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[7];
+                        break;
+                    case Item.AffinityType.Knockback:
+                        tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
+                        tertiaryAffinityBackgroundTwo.color = iconAffintiyBackgroundColors[8];
+                        tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().color = iconAffintiyColors[8];
+                        tertiaryAffinityBackgroundTwo.transform.Find("Icon").GetComponent<Image>().sprite = iconAffinityIcons[8];
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+                tertiaryAffinityBackgroundTwo.gameObject.SetActive(false);
+        }
+        else
+        {
+            popUpImage.transform.Find("Affinity_Primary").GetComponent<Image>().gameObject.SetActive(false);
+            popUpImage.transform.Find("Affinity_Secondary").GetComponent<Image>().gameObject.SetActive(false); 
+            popUpImage.transform.Find("Affinity_Tertiary").GetComponent<Image>().gameObject.SetActive(false);
+        }
+
 
         // Clear the trait aspect of the popup.
         ClearPopUp();
@@ -335,7 +681,7 @@ public class UiItemPopUpResizer : MonoBehaviour
             switch (item.itemTraits[index].traitType)
             {
                 case ItemTrait.TraitType.Armor:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0} Armor", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0} Armor", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[0];
                     if (item.itemType == Item.ItemType.Helmet || item.itemType == Item.ItemType.Armor || item.itemType == Item.ItemType.Legs || item.itemType == Item.ItemType.Shield)
                     {
@@ -344,63 +690,63 @@ public class UiItemPopUpResizer : MonoBehaviour
                     }
                     break;
                 case ItemTrait.TraitType.HealthRegen:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0.0} Health Regen per Second", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0.0} Health Regen per Second", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[3];
                     break;
                 case ItemTrait.TraitType.CooldownReduction:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Cooldown Reduction", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Cooldown Reduction", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[16];
                     break;
                 case ItemTrait.TraitType.AflameResistance:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Fire Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Fire Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
                 case ItemTrait.TraitType.FrostbiteResistance:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Frostbite Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Frostbite Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.OverchargeResistance:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Lightning Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Lightning Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[6];
                     break;
                 case ItemTrait.TraitType.OvergrowthResistance:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Nature Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Nature Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[7];
                     break;
                 case ItemTrait.TraitType.WindshearResistance:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Wind Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Wind Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.SunderResistance:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Earth Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Earth Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.BleedResistance:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Bleed Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Bleed Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.PoisonResistance:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Poison Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Poison Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
                     break;
                 case ItemTrait.TraitType.AsleepResistance:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Sleep Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Sleep Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[12];
                     break;
                 case ItemTrait.TraitType.StunResistance:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Stun Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Stun Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
                     break;
                 case ItemTrait.TraitType.KnockbackResistance:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Knockback Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Knockback Resist", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
                     break;
                 case ItemTrait.TraitType.AttackSpeed:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Attack Speed", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Attack Speed", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[15];
                     break;
                 case ItemTrait.TraitType.HealthFlat:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0} Health", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0} Health", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[3];
                     if (item.itemType == Item.ItemType.Helmet || item.itemType == Item.ItemType.Armor || item.itemType == Item.ItemType.Legs || item.itemType == Item.ItemType.Shield)
                     {
@@ -409,19 +755,19 @@ public class UiItemPopUpResizer : MonoBehaviour
                     }
                     break;
                 case ItemTrait.TraitType.HealthPercent:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Increased Health", item.itemTraits[index].traitBonus * 100 * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Increased Health", item.itemTraits[index].traitBonus * 100 * item.itemTraits[index].traitBonusMultiplier);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[3];
                     break;
                 case ItemTrait.TraitType.HealingOnHit:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0} Health on Hit", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0} Health on Hit", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[2];
                     break;
                 case ItemTrait.TraitType.HealingOnKill:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0} Health on Kill", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0} Health on Kill", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[2];
                     break;
                 case ItemTrait.TraitType.MoveSpeed:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Movespeed", item.itemTraits[index].traitBonus * 100 * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Movespeed", item.itemTraits[index].traitBonus * 100 * item.itemTraits[index].traitBonusMultiplier);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[16];
                     if (item.itemType == Item.ItemType.Helmet || item.itemType == Item.ItemType.Armor || item.itemType == Item.ItemType.Legs || item.itemType == Item.ItemType.Shield)
                     {
@@ -430,25 +776,41 @@ public class UiItemPopUpResizer : MonoBehaviour
                     }
                     break;
                 case ItemTrait.TraitType.Jumps:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0} Extra Jumps", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0} Extra Jumps", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[16];
                     break;
                 case ItemTrait.TraitType.CritChance:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Critical Strike Chance", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Critical Strike Chance", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.CritDamage:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0}% Critical Strike Damage", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Critical Strike Damage", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.FlatDamageReduction:
-                    traitText.GetComponentInChildren<Text>().text = string.Format("+{0:0} Flat Damage Reduction", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0} Flat Damage Reduction", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[17];
                     if (item.itemType == Item.ItemType.Helmet || item.itemType == Item.ItemType.Armor || item.itemType == Item.ItemType.Legs || item.itemType == Item.ItemType.Shield)
                     {
                         traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(200f, 0f);
                         Destroy(traitText);
                     }
+                    break;
+                case ItemTrait.TraitType.SpellDamage:
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Increased Spell Damage", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[16];
+                    break;
+                case ItemTrait.TraitType.BasicAttackAmp:
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Increased Basic Attack Damage", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
+                    break;
+                case ItemTrait.TraitType.Luck:
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0} Luck", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[18];
+                    break;
+                case ItemTrait.TraitType.BonusStacksOnHit:
+                    traitText.GetComponentInChildren<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0} Bonus Stacks On Hit", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[19];
                     break;
                 case ItemTrait.TraitType.FireExplosionOnKill:
                     traitText.GetComponentInChildren<Text>().text = "Consuming Blaze" + GetTraitValueRomanNumeral(item.itemTraits[index]);
@@ -980,7 +1342,184 @@ public class UiItemPopUpResizer : MonoBehaviour
                     traitText.GetComponentInChildren<Text>().text = "Crippling Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
+                case ItemTrait.TraitType.BleedAmpDamageTakenOnAttack:
+                    traitText.GetComponentInChildren<Text>().text = "Deep Wounds" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
+                    break;
+                case ItemTrait.TraitType.BleedHealOnBleedingEnemyKill:
+                    traitText.GetComponentInChildren<Text>().text = "Sanguine Pact" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
+                    break;
+                case ItemTrait.TraitType.BleedCritsConsumeBleed:
+                    traitText.GetComponentInChildren<Text>().text = "Expunging Strike" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
+                    break;
+                case ItemTrait.TraitType.BleedAmpDamageAtThreshold:
+                    traitText.GetComponentInChildren<Text>().text = "Flowing Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
+                    break;
+                case ItemTrait.TraitType.BleedBloodWellAtThreshold:
+                    traitText.GetComponentInChildren<Text>().text = "Tides Of Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
+                    break;
+                case ItemTrait.TraitType.BleedExpungeBleedAtThreshold:
+                    traitText.GetComponentInChildren<Text>().text = "Torrential Blood Letting" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
+                    break;
+                case ItemTrait.TraitType.BleedPoisonReduceOtherResistances:
+                    traitText.GetComponentInChildren<Text>().text = "Immunocompro<color=#93D916>misation" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
+                    break;
+                case ItemTrait.TraitType.BleedPoisonChanceOfPoisonCloudOnBleed:
+                    traitText.GetComponentInChildren<Text>().text = "Vaporizing <color=#93D916>Toxins" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
+                    break;
+                case ItemTrait.TraitType.BleedStunStunReducesBleedResistance:
+                    traitText.GetComponentInChildren<Text>().text = "Exposing <color=#FFF04F>Wounds" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
+                    break;
+                case ItemTrait.TraitType.BleedStunStunAtThresholdBelowHalfHP:
+                    traitText.GetComponentInChildren<Text>().text = "Dazing <color=#FFF04F>Cuts" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
+                    break;
+                case ItemTrait.TraitType.BleedStunStunAddsBleed:
+                    traitText.GetComponentInChildren<Text>().text = "Egregious <color=#FFF04F>Stun" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
+                    break;
+                case ItemTrait.TraitType.BleedKnockbackBonusBleed:
+                    traitText.GetComponentInChildren<Text>().text = "Lacerating <color=#1F86CA>Knockbacks" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
+                    break;
+                case ItemTrait.TraitType.BleedKnockbackKnockbackExposionOfBlood:
+                    traitText.GetComponentInChildren<Text>().text = "Pulse of <color=#1F86CA>Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
+                    break;
+                case ItemTrait.TraitType.BleedKnockbackKnockbackAmpsDamage:
+                    traitText.GetComponentInChildren<Text>().text = "Sanguine <color=#1F86CA>Force" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
+                    break;
+                case ItemTrait.TraitType.PoisonSpreadStacksOnDeath:
+                    traitText.GetComponentInChildren<Text>().text = "Decaying Flesh" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
+                    break;
+                case ItemTrait.TraitType.PoisonAmpsLifesteal:
+                    traitText.GetComponentInChildren<Text>().text = "Rejuvinating Venom" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
+                    break;
+                case ItemTrait.TraitType.PoisonAmpNextAttackAfterPoisonKill:
+                    traitText.GetComponentInChildren<Text>().text = "Contagion" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
+                    break;
+                case ItemTrait.TraitType.PoisonAmpDamageOnFirstStack:
+                    traitText.GetComponentInChildren<Text>().text = "Patient Zero" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
+                    break;
+                case ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison:
+                    traitText.GetComponentInChildren<Text>().text = "Multi-front Contagion" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
+                    break;
+                case ItemTrait.TraitType.PoisonShredArmorOnThreshold:
+                    traitText.GetComponentInChildren<Text>().text = "Corrosive Toxins" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
+                    break;
+                case ItemTrait.TraitType.PoisonEnemiesAmpPoisonOnKill:
+                    traitText.GetComponentInChildren<Text>().text = "Plagued Corpses" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
+                    break;
+                case ItemTrait.TraitType.PoisonTrueDamageAtThreshold:
+                    traitText.GetComponentInChildren<Text>().text = "Lethal Venom" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
+                    break;
+                case ItemTrait.TraitType.PoisonVamperism:
+                    traitText.GetComponentInChildren<Text>().text = "Toxic Predator" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
+                    break;
+                case ItemTrait.TraitType.PoisonStunPoisonReducesStunResist:
+                    traitText.GetComponentInChildren<Text>().text = "Dazing <color=#FFF04F>Pestilence" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
+                    break;
+                case ItemTrait.TraitType.PoisonStunPoisonSpreadOnThreshold:
+                    traitText.GetComponentInChildren<Text>().text = "Virulent <color=#FFF04F>Pestilence" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
+                    break;
+                case ItemTrait.TraitType.PoisonKnockbackPoisonReducesKnockbackResistance:
+                    traitText.GetComponentInChildren<Text>().text = "Knockback of <color=#1F86CA>Plagues" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
+                    break;
+                case ItemTrait.TraitType.PoisonKnockbackConsumePoisonStacksForTrueDamage:
+                    traitText.GetComponentInChildren<Text>().text = "Venomous <color=#1F86CA>Blow" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
+                    break;
+                case ItemTrait.TraitType.StunReducesArmor:
+                    traitText.GetComponentInChildren<Text>().text = "Armor Rending Stuns" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
+                    break;
+                case ItemTrait.TraitType.StunAmpsDamageTaken:
+                    traitText.GetComponentInChildren<Text>().text = "Expose Vulnerbilities" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
+                    break;
+                case ItemTrait.TraitType.StunAmpsAfflictionGain:
+                    traitText.GetComponentInChildren<Text>().text = "Calamity Rising" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
+                    break;
+                case ItemTrait.TraitType.StunAmpDuration:
+                    traitText.GetComponentInChildren<Text>().text = "Enchanced Stupor" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
+                    break;
+                case ItemTrait.TraitType.StunShockwaveOnStunningStunned:
+                    traitText.GetComponentInChildren<Text>().text = "Dazing Wave" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
+                    break;
+                case ItemTrait.TraitType.StunOnStunDealsAdditionalBaseDamage:
+                    traitText.GetComponentInChildren<Text>().text = "True Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
+                    break;
+                case ItemTrait.TraitType.StunAmpDurationOnThreshold:
+                    traitText.GetComponentInChildren<Text>().text = "Misery's Company" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
+                    break;
+                case ItemTrait.TraitType.StunAmpCritDamage:
+                    traitText.GetComponentInChildren<Text>().text = "Mighty Slashes" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
+                    break;
+                case ItemTrait.TraitType.StunAmpsMovespeed:
+                    traitText.GetComponentInChildren<Text>().text = "Tactical Repositioning" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
+                    break;
+                case ItemTrait.TraitType.StunKnockbackStunReduceResistance:
+                    traitText.GetComponentInChildren<Text>().text = "Unstable <color=#1F86CA>Footing" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
+                    break;
+                case ItemTrait.TraitType.KnockbackReducesSpellCooldowns:
+                    traitText.GetComponentInChildren<Text>().text = "Press the Assault" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
+                    break;
+                case ItemTrait.TraitType.KnockBackAmpsBasicAttacks:
+                    traitText.GetComponentInChildren<Text>().text = "Nimble Duelist" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
+                    break;
+                case ItemTrait.TraitType.KnockbackAmpKnockbackForce:
+                    traitText.GetComponentInChildren<Text>().text = "Mountains Strength" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
+                    break;
+                case ItemTrait.TraitType.KnockbackAmpsDamageTaken:
+                    traitText.GetComponentInChildren<Text>().text = "Shredded Armor" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
+                    break;
+                case ItemTrait.TraitType.KnockbackAmpsArmor:
+                    traitText.GetComponentInChildren<Text>().text = "Barricade" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
+                    break;
+                case ItemTrait.TraitType.KnockbackDoesBonusDamageOnKnockbacked:
+                    traitText.GetComponentInChildren<Text>().text = "Chained Blows" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
+                    break;
+                case ItemTrait.TraitType.KnockbackReducesResistances:
+                    traitText.GetComponentInChildren<Text>().text = "Violent Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
+                    break;
                 default:
+
                     break;
             }
 
@@ -1027,5 +1566,16 @@ public class UiItemPopUpResizer : MonoBehaviour
                 break;
         }
         return traitNumeral;
+    }
+
+    // Returns of a plus or nothing depending on wether the value is positive or not.
+    private string GetTraitPrefix(float value)
+    {
+        string prefix = "";
+
+        if (value > 0)
+            prefix = "+";
+
+        return prefix;
     }
 }

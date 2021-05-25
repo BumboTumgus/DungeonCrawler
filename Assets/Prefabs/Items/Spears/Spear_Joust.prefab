@@ -58,6 +58,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -143,6 +144,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Calvary Lance
+  itemNameAffinitySuffix: 
+  itemNameModifiersPrefix: 
   description: A standrard calvary lance. quite unwieldy when unmounted, but still
     somewhat effective.
   itemGearID: 59
@@ -158,6 +161,8 @@ MonoBehaviour:
   itemRightShoulderID: 0
   itemLeftShoulderID: 0
   itemPickUpAllowed: 1
+  damageType: 0
+  stacksToAddOnHit: 0
   helmetType: 0
   equippedToRightHand: 1
   stackable: 1
@@ -168,26 +173,21 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 8b32586898576e54c800a0565e1f149a, type: 3}
   inventoryIndex: 0
   goldValue: 50
-  itemType: 3
+  itemType: 2
   skillName: 0
   itemRarity: 0
   attacksPerSecond: 0.2
   baseDamageScaling: 2.2
-  vitScaling: 0
-  strScaling: 0.4
-  dexScaling: 0
-  spdScaling: 0
-  intScaling: 0
-  wisScaling: 0
-  chaScaling: 0
   itemMoveset: 3
-  garenteedTraits: 00000000
-  garenteedTraitValues:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
+  garenteedTraits: 
+  garenteedTraitValues: []
+  garenteedTraitMultipliers: 
+  affinityPrimary: 0
+  affinitySecondary: 0
+  affinityTertiary: 0
+  affinitySecondaryMultiElement: 0
+  affinityTertiaryMultiElement: 0
+  itemModifiers: 
 --- !u!114 &5261294415267731220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,8 +239,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9056887029249095771}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 2
+  m_Shape: 0
   m_Color: {r: 0.21176471, g: 0.9254902, b: 0.2627451, a: 1}
   m_Intensity: 1.2
   m_Range: 3
@@ -303,6 +304,10 @@ PrefabInstance:
       value: LootRayGreen
       objectReference: {fileID: 0}
     - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -315,6 +320,10 @@ PrefabInstance:
       value: 0.351
       objectReference: {fileID: 0}
     - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0.7071068
       objectReference: {fileID: 0}
@@ -325,14 +334,6 @@ PrefabInstance:
     - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -373,6 +374,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3691525843494286626, guid: 013802d1b9e46794bb2bfbed8f8ba51f,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3691525843494286626, guid: 013802d1b9e46794bb2bfbed8f8ba51f,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -388,6 +394,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3691525843494286626, guid: 013802d1b9e46794bb2bfbed8f8ba51f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.48449755
+      objectReference: {fileID: 0}
+    - target: {fileID: 3691525843494286626, guid: 013802d1b9e46794bb2bfbed8f8ba51f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0.51503605
       objectReference: {fileID: 0}
@@ -400,16 +411,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.515036
-      objectReference: {fileID: 0}
-    - target: {fileID: 3691525843494286626, guid: 013802d1b9e46794bb2bfbed8f8ba51f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.48449755
-      objectReference: {fileID: 0}
-    - target: {fileID: 3691525843494286626, guid: 013802d1b9e46794bb2bfbed8f8ba51f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3691525843494286626, guid: 013802d1b9e46794bb2bfbed8f8ba51f,
         type: 3}

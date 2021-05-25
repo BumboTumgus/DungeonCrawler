@@ -87,7 +87,7 @@ public class ChestBehaviour : MonoBehaviour
         foreach (GameObject lootsidoodle in itemDrops)
         {
             GameObject currentObject = Instantiate(lootsidoodle, transform.position, transform.rotation * Quaternion.Euler(new Vector3(0,Random.Range(-50,50),0)));
-            currentObject.GetComponentInChildren<Item>().AddRandomTraits();
+            currentObject.GetComponentInChildren<Item>().RollItemTraitsAffinityAndModifiers();
             currentObject.GetComponentInChildren<Item>().ItemPopIn(currentObject.transform.position + currentObject.transform.forward * Random.Range(MIN_DROP_RING, MAX_DROP_RING));
         }
         foreach(GameObject gold in treasureDrops)

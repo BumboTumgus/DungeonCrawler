@@ -39,8 +39,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8046967255851362684}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 2
+  m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1.3
   m_Range: 3
@@ -152,9 +153,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Bone Shield
-  description: A jaw of a great beast serves just as well as a defensive tool as it
-    does an offensive tool. The hardened bone provides a sturdy defensive boon to
-    it's wearer
+  itemNameAffinitySuffix: 
+  itemNameModifiersPrefix: 
+  description: A jaw of a great beast serves just as well as a defensive tool as
+    it does an offensive tool. The hardened bone provides a sturdy defensive boon
+    to it's wearer
   itemGearID: 65
   itemtorsoID: 0
   itemUpperRightArmID: 0
@@ -168,6 +171,8 @@ MonoBehaviour:
   itemRightShoulderID: 0
   itemLeftShoulderID: 0
   itemPickUpAllowed: 1
+  damageType: 0
+  stacksToAddOnHit: 0
   helmetType: 0
   equippedToRightHand: 0
   stackable: 1
@@ -178,24 +183,21 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: ddc67361212a6e24d8791745b98cdf85, type: 3}
   inventoryIndex: 0
   goldValue: 42
-  itemType: 3
+  itemType: 6
   skillName: 0
   itemRarity: 0
   attacksPerSecond: 0.2
   baseDamageScaling: 1.5
-  vitScaling: 0
-  strScaling: 0
-  dexScaling: 0.2
-  spdScaling: 0
-  intScaling: 0
-  wisScaling: 0
-  chaScaling: 0
   itemMoveset: 5
-  garenteedTraits: 080000000900000002000000
-  garenteedTraitValues:
-  - 6
-  - 4
-  - 2
+  garenteedTraits: 
+  garenteedTraitValues: []
+  garenteedTraitMultipliers: 
+  affinityPrimary: 0
+  affinitySecondary: 0
+  affinityTertiary: 0
+  affinitySecondaryMultiElement: 0
+  affinityTertiaryMultiElement: 0
+  itemModifiers: 
 --- !u!114 &1455774637057991058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,16 +222,20 @@ PrefabInstance:
       value: RoundShield_BoneShield
       objectReference: {fileID: 0}
     - target: {fileID: 129300, guid: 6db95b51172c2bf44bf5b975704c213f, type: 3}
-      propertyPath: m_TagString
-      value: Item
-      objectReference: {fileID: 0}
-    - target: {fileID: 129300, guid: 6db95b51172c2bf44bf5b975704c213f, type: 3}
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 129300, guid: 6db95b51172c2bf44bf5b975704c213f, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 129300, guid: 6db95b51172c2bf44bf5b975704c213f, type: 3}
+      propertyPath: m_TagString
+      value: Item
+      objectReference: {fileID: 0}
+    - target: {fileID: 400156, guid: 6db95b51172c2bf44bf5b975704c213f, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400156, guid: 6db95b51172c2bf44bf5b975704c213f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -244,6 +250,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400156, guid: 6db95b51172c2bf44bf5b975704c213f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 400156, guid: 6db95b51172c2bf44bf5b975704c213f, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0.5
       objectReference: {fileID: 0}
@@ -254,14 +264,6 @@ PrefabInstance:
     - target: {fileID: 400156, guid: 6db95b51172c2bf44bf5b975704c213f, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 400156, guid: 6db95b51172c2bf44bf5b975704c213f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 400156, guid: 6db95b51172c2bf44bf5b975704c213f, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400156, guid: 6db95b51172c2bf44bf5b975704c213f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -295,6 +297,18 @@ PrefabInstance:
       value: LootRayWhite
       objectReference: {fileID: 0}
     - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -305,6 +319,10 @@ PrefabInstance:
     - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
       propertyPath: m_LocalRotation.x
@@ -319,14 +337,6 @@ PrefabInstance:
       value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -337,14 +347,6 @@ PrefabInstance:
     - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4808567018379172, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b18e678e3b91f54fa2636906f781cd8, type: 3}

@@ -18,7 +18,11 @@ public class ItemTrait
     WindSummonAerobladesOnThreshold, WindWindshearAmpsTrueDamage, WindAddMoreStacksOnInitialStack, WindMoreDamageOnMaximumStacks, WindPhysicalSummonWhirlwindOnSkillHit, WindPhysicalWindshearAmpsBasicAttacks, WindPhysicalCritsDealArmorAsDamage, WindBleedAmpBleedAtThreshold, WindBleedMoreBleedStacksAThreshold, WindBleedBleedGrantsWindCritChance, WindBleedAddBleedOnWindCrit, WindPoisonTransferPoisonStacksOnKill,
     WindPoisonWindAddsPercentageOfPoisonOnHit, WindPoisonPoisonBurstAtWindThreshold, WindStunStunDealsTrueDamageAtThreshold, WindStunWindblastOnStun, WindStunStunAmpsWindshearGain, WindKnockbackKnockbackSummonsMiniCyclone, WindKnockbackLoseKnockbackResistanceOnThreshold, WindKnockbackWindshearDoesDamageIfKnockedBack, PhysicalPhysicalAmpsCritChance, PhysicalPhysicalSkillsComboAmp, PhysicalLifestealAmp,
     PhysicalSkillAmpArmorOnKill, PhysicalAmpDamageBelowHalfHp, PhysicalBleedBleedAmpsPhysicalDamage, PhysicalBleedPhysicalSkillsAddBleed, PhysicalBleedSkillsDoTrueDamageAtThreshold, PhysicalPoisonPhysicalAmpsPoisonDamage, PhysicalPoisonPlayerMaxHpDamageOnThreshold, PhysicalPoisonPoisonAmpsPhysicalDamage, PhysicalStunAmpDamageOnStunned, PhysicalStunBladeRiftOnStun, PhysicalKnockbackKnockbackKillAmpsPhysicalDamage,
-    PhysicalKnockbackPhysicalAttacksGainInnateKnockback, PhysicalKnockbackSummonKnivesOnKnockbackHit, BleedReducesResistances, BleedAmpsCritHitsAddsBleedToNearby, BleedSlowsTargets};
+    PhysicalKnockbackPhysicalAttacksGainInnateKnockback, PhysicalKnockbackSummonKnivesOnKnockbackHit, BleedReducesResistances, BleedAmpsCritHitsAddsBleedToNearby, BleedSlowsTargets, BleedAmpDamageTakenOnAttack, BleedHealOnBleedingEnemyKill, BleedCritsConsumeBleed, BleedAmpDamageAtThreshold, BleedBloodWellAtThreshold, BleedExpungeBleedAtThreshold, BleedPoisonReduceOtherResistances, BleedPoisonChanceOfPoisonCloudOnBleed,
+    BleedStunStunReducesBleedResistance, BleedStunStunAtThresholdBelowHalfHP, BleedStunStunAddsBleed, BleedKnockbackBonusBleed, BleedKnockbackKnockbackExposionOfBlood, BleedKnockbackKnockbackAmpsDamage, PoisonSpreadStacksOnDeath, PoisonAmpsLifesteal, PoisonAmpNextAttackAfterPoisonKill, PoisonAmpDamageOnFirstStack, PoisonPrimaryTraitsAmpPoison, PoisonShredArmorOnThreshold, PoisonEnemiesAmpPoisonOnKill,
+    PoisonTrueDamageAtThreshold, PoisonVamperism, PoisonStunPoisonReducesStunResist, PoisonStunPoisonSpreadOnThreshold, PoisonKnockbackPoisonReducesKnockbackResistance, PoisonKnockbackConsumePoisonStacksForTrueDamage, StunReducesArmor, StunAmpsDamageTaken, StunAmpsAfflictionGain, StunAmpDuration, StunShockwaveOnStunningStunned, StunOnStunDealsAdditionalBaseDamage, StunAmpDurationOnThreshold,
+    StunAmpCritDamage, StunAmpsMovespeed, StunKnockbackStunReduceResistance, KnockbackReducesSpellCooldowns, KnockBackAmpsBasicAttacks, KnockbackAmpKnockbackForce, KnockbackAmpsDamageTaken, KnockbackAmpsArmor, KnockbackDoesBonusDamageOnKnockbacked, KnockbackReducesResistances, SpellDamage, Luck, BasicAttackAmp, BonusStacksOnHit
+    };
     
     public TraitType traitType;
     public int traitBonusMultiplier = 1;
@@ -39,16 +43,16 @@ public class ItemTrait
     // Used to grab a random trait from the bin of availible traits.
     public void GetRandomTrait()
     {
-        int randomTrait = Random.Range(0, 52);
+        int randomTrait = Random.Range(0, 192);
         switch (randomTrait)
         {
             case 0:
                 traitType = TraitType.HealthFlat;
-                traitBonus = 50;
+                traitBonus = 20;
                 break;
             case 1:
                 traitType = TraitType.HealthPercent;
-                traitBonus = 0.08f;
+                traitBonus = 0.05f;
                 break;
             case 2:
                 traitType = TraitType.HealthRegen;
@@ -60,27 +64,27 @@ public class ItemTrait
                 break;
             case 4:
                 traitType = TraitType.HealingOnKill;
-                traitBonus = 10;
+                traitBonus = 5;
                 break;
             case 5:
                 traitType = TraitType.Armor;
-                traitBonus = 40;
+                traitBonus = 10;
                 break;
             case 6:
                 traitType = TraitType.CooldownReduction;
-                traitBonus = 0.2f;
+                traitBonus = 0.05f;
                 break;
             case 7:
                 traitType = TraitType.AttackSpeed;
-                traitBonus = 0.15f;
+                traitBonus = 0.10f;
                 break;
             case 8:
                 traitType = TraitType.MoveSpeed;
-                traitBonus = 0.08f;
+                traitBonus = 0.03f;
                 break;
             case 9:
                 traitType = TraitType.CritChance;
-                traitBonus = 0.1f;
+                traitBonus = 0.05f;
                 break;
             case 10:
                 traitType = TraitType.CritDamage;
@@ -92,7 +96,7 @@ public class ItemTrait
                 break;
             case 16:
                 traitType = TraitType.FlatDamageReduction;
-                traitBonus = 3;
+                traitBonus = 2;
                 break;
             case 17:
                 traitType = TraitType.MoreAflameStacksOnHitThreshold;
@@ -614,6 +618,198 @@ public class ItemTrait
                 traitType = TraitType.BleedSlowsTargets;
                 traitBonus = 0.02f;
                 break;
+            case 147:
+                traitType = TraitType.BleedAmpDamageTakenOnAttack;
+                traitBonus = 0.5f;
+                break;
+            case 148:
+                traitType = TraitType.BleedHealOnBleedingEnemyKill;
+                traitBonus = 1f;
+                break;
+            case 149:
+                traitType = TraitType.BleedCritsConsumeBleed;
+                traitBonus = 0.05f;
+                break;
+            case 150:
+                traitType = TraitType.BleedAmpDamageAtThreshold;
+                traitBonus = 0.25f;
+                break;
+            case 151:
+                traitType = TraitType.BleedBloodWellAtThreshold;
+                traitBonus = 0.5f;
+                break;
+            case 152:
+                traitType = TraitType.BleedExpungeBleedAtThreshold;
+                traitBonus = 5f;
+                break;
+            case 153:
+                traitType = TraitType.BleedPoisonReduceOtherResistances;
+                traitBonus = 0.01f;
+                break;
+            case 154:
+                traitType = TraitType.BleedPoisonChanceOfPoisonCloudOnBleed;
+                traitBonus = 2f;
+                break;
+            case 155:
+                traitType = TraitType.BleedStunStunReducesBleedResistance;
+                traitBonus = 0.2f;
+                break;
+            case 156:
+                traitType = TraitType.BleedStunStunAtThresholdBelowHalfHP;
+                traitBonus = 1f;
+                break;
+            case 157:
+                traitType = TraitType.BleedStunStunAddsBleed;
+                traitBonus = 2f;
+                break;
+            case 158:
+                traitType = TraitType.BleedKnockbackBonusBleed;
+                traitBonus = 1f;
+                break;
+            case 159:
+                traitType = TraitType.BleedKnockbackKnockbackExposionOfBlood;
+                traitBonus = 1.5f;
+                break;
+            case 160:
+                traitType = TraitType.BleedKnockbackKnockbackAmpsDamage;
+                traitBonus = 0.05f;
+                break;
+            case 161:
+                traitType = TraitType.PoisonSpreadStacksOnDeath;
+                traitBonus = 0.05f;
+                break;
+            case 162:
+                traitType = TraitType.PoisonSpreadStacksOnDeath;
+                traitBonus = 0.25f;
+                break;
+            case 163:
+                traitType = TraitType.PoisonAmpNextAttackAfterPoisonKill;
+                traitBonus = 1f;
+                break;
+            case 164:
+                traitType = TraitType.PoisonAmpDamageOnFirstStack;
+                traitBonus = 0.5f;
+                break;
+            case 165:
+                traitType = TraitType.PoisonPrimaryTraitsAmpPoison;
+                traitBonus = 0.5f;
+                break;
+            case 167:
+                traitType = TraitType.PoisonShredArmorOnThreshold;
+                traitBonus = 2f;
+                break;
+            case 168:
+                traitType = TraitType.PoisonEnemiesAmpPoisonOnKill;
+                traitBonus = 1f;
+                break;
+            case 169:
+                traitType = TraitType.PoisonTrueDamageAtThreshold;
+                traitBonus = 0.025f;
+                break;
+            case 170:
+                traitType = TraitType.PoisonVamperism;
+                traitBonus = 0.05f;
+                break;
+            case 171:
+                traitType = TraitType.PoisonStunPoisonReducesStunResist;
+                traitBonus = 0.02f;
+                break;
+            case 172:
+                traitType = TraitType.PoisonStunPoisonSpreadOnThreshold;
+                traitBonus = 0.25f;
+                break;
+            case 173:
+                traitType = TraitType.PoisonKnockbackPoisonReducesKnockbackResistance;
+                traitBonus = 0.02f;
+                break;
+            case 174:
+                traitType = TraitType.PoisonKnockbackConsumePoisonStacksForTrueDamage;
+                traitBonus = 0.5f;
+                break;
+            case 175:
+                traitType = TraitType.StunReducesArmor;
+                traitBonus = 0.05f;
+                break;
+            case 176:
+                traitType = TraitType.StunAmpsDamageTaken;
+                traitBonus = 0.1f;
+                break;
+            case 177:
+                traitType = TraitType.StunAmpsAfflictionGain;
+                traitBonus = 0.25f;
+                break;
+            case 178:
+                traitType = TraitType.StunAmpDuration;
+                traitBonus = 0.25f;
+                break;
+            case 179:
+                traitType = TraitType.StunShockwaveOnStunningStunned;
+                traitBonus = 0.8f;
+                break;
+            case 180:
+                traitType = TraitType.StunOnStunDealsAdditionalBaseDamage;
+                traitBonus = 0.25f;
+                break;
+            case 181:
+                traitType = TraitType.StunAmpDurationOnThreshold;
+                traitBonus = 0.66f;
+                break;
+            case 182:
+                traitType = TraitType.StunAmpCritDamage;
+                traitBonus = 0.25f;
+                break;
+            case 183:
+                traitType = TraitType.StunAmpsMovespeed;
+                traitBonus = 0.15f;
+                break;
+            case 184:
+                traitType = TraitType.StunKnockbackStunReduceResistance;
+                traitBonus = 0.5f;
+                break;
+            case 185:
+                traitType = TraitType.KnockbackReducesSpellCooldowns;
+                traitBonus = 0.025f;
+                break;
+            case 186:
+                traitType = TraitType.KnockBackAmpsBasicAttacks;
+                traitBonus = 1f;
+                break;
+            case 187:
+                traitType = TraitType.KnockbackAmpKnockbackForce;
+                traitBonus = 0.1f;
+                break;
+            case 188:
+                traitType = TraitType.KnockbackAmpsDamageTaken;
+                traitBonus = 0.25f;
+                break;
+            case 189:
+                traitType = TraitType.KnockbackAmpsArmor;
+                traitBonus = 0.05f;
+                break;
+            case 190:
+                traitType = TraitType.KnockbackDoesBonusDamageOnKnockbacked;
+                traitBonus = 0.33f;
+                break;
+            case 191:
+                traitType = TraitType.KnockbackReducesResistances;
+                traitBonus = 0.33f;
+                break;
+            case 192:
+                traitType = TraitType.SpellDamage;
+                traitBonus = 0.05f;
+                break;
+            case 193:
+                traitType = TraitType.Luck;
+                traitBonus = 1;
+                break;
+            case 194:
+                traitType = TraitType.BasicAttackAmp;
+                traitBonus = 0.1f;
+                break;
+            case 195:
+                traitType = TraitType.BonusStacksOnHit;
+                traitBonus = 1f;
+                break;
             default:
                 break;
         }
@@ -674,676 +870,1933 @@ public class ItemTrait
         
     }
 
-    /*
-    // USed to grab a random value for the trait
-    public void GetRandomTraitValue(Item.ItemRarity rarity)
+    // USed to grab a trait of a certain type based on the modifier type.
+    public void GetTraitForModifier(Item.ModifierType modifier)
     {
-        switch (traitType)
+        switch (modifier)
         {
-            case TraitType.HealthFlat:
-                switch (rarity)
+            case Item.ModifierType.Devastating:
+                switch (Random.Range(0,2))
                 {
-                    case Item.ItemRarity.Common:
-                        traitBonus = (int)Random.Range(20, 40);
+                    case 0:
+                        traitType = TraitType.CritChance;
+                        traitBonus = 0.05f;
                         break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = (int)Random.Range(40, 80);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = (int)Random.Range(80, 160);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = (int)Random.Range(160, 320);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = (int)Random.Range(320, 640);
+                    case 1:
+                        traitType = TraitType.CritDamage;
+                        traitBonus = 0.1f;
                         break;
                     default:
                         break;
                 }
                 break;
-            case TraitType.HealthPercent:
-                switch (rarity)
+            case Item.ModifierType.Dull:
+                switch (Random.Range(0, 2))
                 {
-                    case Item.ItemRarity.Common:
-                        traitBonus = (int)Random.Range(2, 5);
+                    case 0:
+                        traitType = TraitType.CritChance;
+                        traitBonus = -0.05f;
                         break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = (int)Random.Range(3, 7);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = (int)Random.Range(5, 13);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = (int)Random.Range(10, 25);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = (int)Random.Range(20, 40);
+                    case 1:
+                        traitType = TraitType.CritDamage;
+                        traitBonus = -0.1f;
                         break;
                     default:
                         break;
                 }
                 break;
-            case TraitType.HealthRegen:
-                switch (rarity)
+            case Item.ModifierType.Hardened:
+                switch (Random.Range(0, 2))
                 {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(0.2f, 1f);
+                    case 0:
+                        traitType = TraitType.Armor;
+                        traitBonus = 10f;
                         break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(0.8f, 2.4f);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(2f, 10f);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(8f, 20f);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(16f, 40f);
+                    case 1:
+                        traitType = TraitType.FlatDamageReduction;
+                        traitBonus = 1f;
                         break;
                     default:
                         break;
                 }
                 break;
-            case TraitType.HealingOnHit:
-                switch (rarity)
+            case Item.ModifierType.Cracked:
+                switch (Random.Range(0, 2))
                 {
-                    case Item.ItemRarity.Common:
-                        traitBonus = (int)Random.Range(1, 2);
+                    case 0:
+                        traitType = TraitType.Armor;
+                        traitBonus = -10f;
                         break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = (int)Random.Range(2, 3);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = (int)Random.Range(3, 5);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = (int)Random.Range(5, 10);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = (int)Random.Range(10, 25);
+                    case 1:
+                        traitType = TraitType.FlatDamageReduction;
+                        traitBonus = -1f;
                         break;
                     default:
                         break;
                 }
                 break;
-            case TraitType.HealingOnKill:
-                switch (rarity)
+            case Item.ModifierType.Nimble:
+                switch (Random.Range(0, 3))
                 {
-                    case Item.ItemRarity.Common:
-                        traitBonus = (int)Random.Range(10, 20);
+                    case 0:
+                        traitType = TraitType.AttackSpeed;
+                        traitBonus = 0.1f;
                         break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = (int)Random.Range(15, 30);
+                    case 1:
+                        traitType = TraitType.MoveSpeed;
+                        traitBonus = 0.03f;
                         break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = (int)Random.Range(50, 80);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = (int)Random.Range(100, 200);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = (int)Random.Range(250, 500);
+                    case 2:
+                        traitType = TraitType.Jumps;
+                        traitBonus = 1f;
                         break;
                     default:
                         break;
                 }
                 break;
-            case TraitType.Armor:
-                switch (rarity)
+            case Item.ModifierType.Sluggish:
+                switch (Random.Range(0, 3))
                 {
-                    case Item.ItemRarity.Common:
-                        traitBonus = (int)Random.Range(10, 20);
+                    case 0:
+                        traitType = TraitType.AttackSpeed;
+                        traitBonus = -0.1f;
                         break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = (int)Random.Range(20, 40);
+                    case 1:
+                        traitType = TraitType.MoveSpeed;
+                        traitBonus = -0.03f;
                         break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = (int)Random.Range(40, 80);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = (int)Random.Range(60, 120);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = (int)Random.Range(100, 200);
+                    case 2:
+                        traitType = TraitType.Jumps;
+                        traitBonus = -1f;
                         break;
                     default:
                         break;
                 }
                 break;
-            case TraitType.CooldownReduction:
-                switch (rarity)
+            case Item.ModifierType.Vamperic:
+                switch (Random.Range(0, 2))
                 {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(0.08f, 0.13f);
+                    case 0:
+                        traitType = TraitType.HealingOnHit;
+                        traitBonus = 1f;
                         break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(0.11f, 0.21f);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(0.16f, 0.29f);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(0.20f, 0.35f);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(0.30f, 0.45f);
+                    case 1:
+                        traitType = TraitType.HealingOnKill;
+                        traitBonus = 10f;
                         break;
                     default:
                         break;
                 }
                 break;
-            case TraitType.AflameResistance:
-                switch (rarity)
+            case Item.ModifierType.Cursed:
+                switch (Random.Range(0, 2))
                 {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(10, 20);
+                    case 0:
+                        traitType = TraitType.HealingOnHit;
+                        traitBonus = -1f;
                         break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(20, 35);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(30, 50);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(40, 60);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(50, 100);
+                    case 1:
+                        traitType = TraitType.HealingOnKill;
+                        traitBonus = -10f;
                         break;
                     default:
                         break;
                 }
                 break;
-            case TraitType.FrostbiteResistance:
-                switch (rarity)
+            case Item.ModifierType.Magic:
+                switch (Random.Range(0, 2))
                 {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(10, 20);
+                    case 0:
+                        traitType = TraitType.SpellDamage;
+                        traitBonus = 0.05f;
                         break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(20, 35);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(30, 50);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(40, 60);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(50, 100);
+                    case 1:
+                        traitType = TraitType.CooldownReduction;
+                        traitBonus = 0.05f;
                         break;
                     default:
                         break;
                 }
                 break;
-            case TraitType.OverchargeResistance:
-                switch (rarity)
+            case Item.ModifierType.Mundane:
+                switch (Random.Range(0, 2))
                 {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(10, 20);
+                    case 0:
+                        traitType = TraitType.SpellDamage;
+                        traitBonus = -0.05f;
                         break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(20, 35);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(30, 50);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(40, 60);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(50, 100);
+                    case 1:
+                        traitType = TraitType.CooldownReduction;
+                        traitBonus = -0.05f;
                         break;
                     default:
                         break;
                 }
                 break;
-            case TraitType.OvergrowthResistance:
-                switch (rarity)
+            case Item.ModifierType.Lucky:
+                traitType = TraitType.Luck;
+                traitBonus = 1f;
+                break;
+            case Item.ModifierType.Unfavoured:
+                traitType = TraitType.Luck;
+                traitBonus = -1f;
+                break;
+            case Item.ModifierType.Strong:
+                traitType = TraitType.BasicAttackAmp;
+                traitBonus = 0.05f;
+                break;
+            case Item.ModifierType.Brittle:
+                traitType = TraitType.BasicAttackAmp;
+                traitBonus = -0.05f;
+                break;
+            case Item.ModifierType.Illustrious:
+                traitType = TraitType.BonusStacksOnHit;
+                traitBonus = 1f;
+                break;
+            case Item.ModifierType.Rusty:
+                traitType = TraitType.BonusStacksOnHit;
+                traitBonus = -1f;
+                break;
+            case Item.ModifierType.Brawny:
+                switch (Random.Range(0, 3))
                 {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(10, 20);
+                    case 0:
+                        traitType = TraitType.HealthFlat;
+                        traitBonus = 20f;
                         break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(20, 35);
+                    case 1:
+                        traitType = TraitType.HealthPercent;
+                        traitBonus = 0.05f;
                         break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(30, 50);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(40, 60);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(50, 100);
+                    case 2:
+                        traitType = TraitType.HealthRegen;
+                        traitBonus = 2f;
                         break;
                     default:
                         break;
                 }
                 break;
-            case TraitType.SunderResistance:
-                switch (rarity)
+            case Item.ModifierType.Meager:
+                switch (Random.Range(0, 3))
                 {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(10, 20);
+                    case 0:
+                        traitType = TraitType.HealthFlat;
+                        traitBonus = -20f;
                         break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(20, 35);
+                    case 1:
+                        traitType = TraitType.HealthPercent;
+                        traitBonus = -0.05f;
                         break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(30, 50);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(40, 60);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(50, 100);
+                    case 2:
+                        traitType = TraitType.HealthRegen;
+                        traitBonus = -2f;
                         break;
                     default:
                         break;
                 }
                 break;
-            case TraitType.WindshearResistance:
-                switch (rarity)
+            case Item.ModifierType.Resistant:
+                switch (Random.Range(0, 9))
                 {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(10, 20);
+                    case 0:
+                        traitType = TraitType.AflameResistance;
+                        traitBonus = 0.1f;
                         break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(20, 35);
+                    case 1:
+                        traitType = TraitType.FrostbiteResistance;
+                        traitBonus = 0.1f;
                         break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(30, 50);
+                    case 2:
+                        traitType = TraitType.WindshearResistance;
+                        traitBonus = 0.1f;
                         break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(40, 60);
+                    case 3:
+                        traitType = TraitType.SunderResistance;
+                        traitBonus = 0.1f;
                         break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(50, 100);
+                    case 4:
+                        traitType = TraitType.BleedResistance;
+                        traitBonus = 0.1f;
                         break;
-                    default:
+                    case 5:
+                        traitType = TraitType.PoisonResistance;
+                        traitBonus = 0.1f;
+                        break;
+                    case 6:
+                        traitType = TraitType.AsleepResistance;
+                        traitBonus = 0.1f;
+                        break;
+                    case 7:
+                        traitType = TraitType.StunResistance;
+                        traitBonus = 0.1f;
+                        break;
+                    case 8:
+                        traitType = TraitType.KnockbackResistance;
+                        traitBonus = 0.1f;
+                        break;
+                    case 9:
+                        traitType = TraitType.OverchargeResistance;
+                        traitBonus = 0.1f;
+                        break;
+                    case 10:
+                        traitType = TraitType.OvergrowthResistance;
+                        traitBonus = 0.1f;
                         break;
                 }
                 break;
-            case TraitType.BleedResistance:
-                switch (rarity)
+            case Item.ModifierType.Vulnerable:
+                switch (Random.Range(0, 9))
                 {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(10, 20);
+                    case 0:
+                        traitType = TraitType.AflameResistance;
+                        traitBonus = -0.1f;
                         break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(20, 35);
+                    case 1:
+                        traitType = TraitType.FrostbiteResistance;
+                        traitBonus = -0.1f;
                         break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(30, 50);
+                    case 2:
+                        traitType = TraitType.WindshearResistance;
+                        traitBonus = -0.1f;
                         break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(40, 60);
+                    case 3:
+                        traitType = TraitType.SunderResistance;
+                        traitBonus = -0.1f;
                         break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(50, 100);
+                    case 4:
+                        traitType = TraitType.BleedResistance;
+                        traitBonus = -0.1f;
                         break;
-                    default:
+                    case 5:
+                        traitType = TraitType.PoisonResistance;
+                        traitBonus = -0.1f;
+                        break;
+                    case 6:
+                        traitType = TraitType.AsleepResistance;
+                        traitBonus = -0.1f;
+                        break;
+                    case 7:
+                        traitType = TraitType.StunResistance;
+                        traitBonus = -0.1f;
+                        break;
+                    case 8:
+                        traitType = TraitType.KnockbackResistance;
+                        traitBonus = -0.1f;
+                        break;
+                    case 9:
+                        traitType = TraitType.OverchargeResistance;
+                        traitBonus = -0.1f;
+                        break;
+                    case 10:
+                        traitType = TraitType.OvergrowthResistance;
+                        traitBonus = -0.1f;
                         break;
                 }
                 break;
-            case TraitType.PoisonResistance:
-                switch (rarity)
-                {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(10, 20);
-                        break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(20, 35);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(30, 50);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(40, 60);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(50, 100);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case TraitType.KnockbackResistance:
-                switch (rarity)
-                {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(10, 20);
-                        break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(20, 35);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(30, 50);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(40, 60);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(50, 100);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case TraitType.AsleepResistance:
-                switch (rarity)
-                {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(10, 20);
-                        break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(20, 35);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(30, 50);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(40, 60);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(50, 100);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case TraitType.StunResistance:
-                switch (rarity)
-                {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(10, 20);
-                        break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(20, 35);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(30, 50);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(40, 60);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(50, 100);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case TraitType.AttackSpeed:
-                switch (rarity)
-                {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(0.05f, 0.15f);
-                        break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(0.12f, 0.25f);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(0.20f, 0.35f);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(0.30f, 0.50f);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(0.55f, 1f);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case TraitType.MoveSpeed:
-                switch (rarity)
-                {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(0.05f, 0.15f);
-                        break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(0.12f, 0.25f);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(0.20f, 0.35f);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(0.30f, 0.50f);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(0.55f, 1f);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case TraitType.CritChance:
-                switch (rarity)
-                {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(0.05f, 0.10f);
-                        break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(0.8f, 0.15f);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(0.12f, 0.2f);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(0.18f, 0.25f);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(0.25f, 0.35f);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case TraitType.CritDamage:
-                switch (rarity)
-                {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(0.05f, 0.15f);
-                        break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(0.12f, 0.25f);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(0.20f, 0.35f);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(0.30f, 0.50f);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(0.55f, 1f);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case TraitType.Jumps:
-                switch (rarity)
-                {
-                    case Item.ItemRarity.Common:
-                        traitBonus = 1;
-                        break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = 1;
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = 2;
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = 2;
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = 3;
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case TraitType.FlatDamageReduction:
-                switch (rarity)
-                {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(1, 3);
-                        break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(2, 6);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(4, 11);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(7, 16);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(10, 26);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case TraitType.FireExplosionOnKill:
-                switch (rarity)
-                {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(5, 10);
-                        break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(10, 15);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(15, 20);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(20, 25);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(25, 30);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case TraitType.MoreAflameStacksOnHitThreshold:
-                switch (rarity)
-                {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(3, 6);
-                        break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(6, 9);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(9, 12);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(12, 15);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(15, 18);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case TraitType.BurnDoesMaxHpDamageAtThreshold:
-                switch (rarity)
-                {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(0.5f, 0.8f);
-                        break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(0.8f, 1.2f);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(1.2f, 1.7f);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(1.7f, 2.2f);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(2.2f, 3f);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case TraitType.BasicAttacksShredArmorOnAflame:
-                switch (rarity)
-                {
-                    case Item.ItemRarity.Common:
-                        traitBonus = Random.Range(2, 5);
-                        break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = Random.Range(4, 7);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = Random.Range(6, 9);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = Random.Range(8, 11);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = Random.Range(10, 15);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case TraitType.FlameVamperism:
-                switch (rarity)
-                {
-                    case Item.ItemRarity.Common:
-                        traitBonus = (int)Random.Range(1, 2);
-                        break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = (int)Random.Range(2, 3);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = (int)Random.Range(3, 5);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = (int)Random.Range(5, 10);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = (int)Random.Range(10, 25);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case TraitType.RingOfFireOnHit:
-                switch (rarity)
-                {
-                    case Item.ItemRarity.Common:
-                        traitBonus = (int)Random.Range(0.1f, 0.2f);
-                        break;
-                    case Item.ItemRarity.Uncommon:
-                        traitBonus = (int)Random.Range(0.2f, 0.6f);
-                        break;
-                    case Item.ItemRarity.Rare:
-                        traitBonus = (int)Random.Range(0.6f, 1.2f);
-                        break;
-                    case Item.ItemRarity.Legendary:
-                        traitBonus = (int)Random.Range(1.2f, 1.75f);
-                        break;
-                    case Item.ItemRarity.Masterwork:
-                        traitBonus = (int)Random.Range(1.75f, 2f);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-
             default:
                 break;
         }
+
     }
-    */
+
+    // Grabs a trait based on the affinity types.
+    public void GetTraitForAffinity(Item.AffinityType affinity, Item.AffinityType affinitySplit)
+    {
+        // These are for affinities with no split between other elements
+        if(affinitySplit == Item.AffinityType.None)
+        {
+            switch (affinity)
+            {
+                case Item.AffinityType.Fire:
+                    switch (Random.Range(0, 4))
+                    {
+                        case 0:
+                            traitType = TraitType.MoreAflameStacksOnHitThreshold;
+                            traitBonus = 3;
+                            break;
+                        case 1:
+                            traitType = TraitType.BasicAttacksShredArmorOnAflame;
+                            traitBonus = 3;
+                            break;
+                        case 2:
+                            traitType = TraitType.FlameVamperism;
+                            traitBonus = 1;
+                            break;
+                        case 3:
+                            traitType = TraitType.RingOfFireOnHit;
+                            traitBonus = 0.5f;
+                            break;
+                    }
+                    break;
+                case Item.AffinityType.Ice:
+                    switch (Random.Range(0, 7))
+                    {
+                        case 0:
+                            traitType = TraitType.IceFreezeAtStackThreshold;
+                            traitBonus = 1f;
+                            break;
+                        case 1:
+                            traitType = TraitType.IceAmpAllDamageAtThreshold;
+                            traitBonus = 0.25f;
+                            break;
+                        case 2:
+                            traitType = TraitType.IceBasicAttacksConsumeStacksAtThreshold;
+                            traitBonus = 0.1f;
+                            break;
+                        case 3:
+                            traitType = TraitType.IceEnemyAttacksWeakendAtThreshold;
+                            traitBonus = 2f;
+                            break;
+                        case 4:
+                            traitType = TraitType.IceEnemiesGainFrostbiteOnStrikingYou;
+                            traitBonus = 3f;
+                            break;
+                        case 5:
+                            traitType = TraitType.IceAddStacksToNearbyEnemies;
+                            traitBonus = 1;
+                            break;
+                        case 6:
+                            traitType = TraitType.IceAmpFrostbiteDamage;
+                            traitBonus = 0.25f;
+                            break;
+                    }
+                    break;
+                case Item.AffinityType.Earth:
+                    switch (Random.Range(0, 9))
+                    {
+                        case 0:
+                            traitType = TraitType.EarthMaxHpDamageAtThreshold;
+                            traitBonus = 0.01f;
+                            break;
+                        case 1:
+                            traitType = TraitType.EarthAmpAllAfflictionsOnThreshhold;
+                            traitBonus = 0.05f;
+                            break;
+                        case 2:
+                            traitType = TraitType.EarthSunderedEnemiesDealLessDamage;
+                            traitBonus = 0.02f;
+                            break;
+                        case 3:
+                            traitType = TraitType.EarthRockRingExplosionOnKill;
+                            traitBonus = 0.25f;
+                            break;
+                        case 4:
+                            traitType = TraitType.EarthTrueDamageAtThreshold;
+                            traitBonus = 1f;
+                            break;
+                        case 5:
+                            traitType = TraitType.EarthSunderFurtherReducesResistances;
+                            traitBonus = 0.05f;
+                            break;
+                        case 6:
+                            traitType = TraitType.EarthIncreasedDamageToLowerArmorTargets;
+                            traitBonus = 0.1f;
+                            break;
+                        case 7:
+                            traitType = TraitType.EarthAmpDamageOnHealthyTargets;
+                            traitBonus = 0.25f;
+                            break;
+                        case 8:
+                            traitType = TraitType.EarthHealOnCritAtSunderThreshold;
+                            traitBonus = 0.05f;
+                            break;
+                    }
+                    break;
+                case Item.AffinityType.Wind:
+                    switch (Random.Range(0, 7))
+                    {
+                        case 0:
+                            traitType = TraitType.WindAmpsDamageTaken;
+                            traitBonus = 0.005f;
+                            break;
+                        case 1:
+                            traitType = TraitType.WindAmpsComboArmorShred;
+                            traitBonus = 0.2f;
+                            break;
+                        case 2:
+                            traitType = TraitType.WindTargetGainsBleedOnAttack;
+                            traitBonus = 1f;
+                            break;
+                        case 3:
+                            traitType = TraitType.WindSummonAerobladesOnThreshold;
+                            traitBonus = 0.33f;
+                            break;
+                        case 4:
+                            traitType = TraitType.WindWindshearAmpsTrueDamage;
+                            traitBonus = 0.01f;
+                            break;
+                        case 5:
+                            traitType = TraitType.WindAddMoreStacksOnInitialStack;
+                            traitBonus = 3f;
+                            break;
+                        case 6:
+                            traitType = TraitType.WindMoreDamageOnMaximumStacks;
+                            traitBonus = 2f;
+                            break;
+                    }
+                    break;
+                case Item.AffinityType.Physical:
+                    switch (Random.Range(0, 5))
+                    {
+                        case 0:
+                            traitType = TraitType.PhysicalPhysicalAmpsCritChance;
+                            traitBonus = 0.02f;
+                            break;
+                        case 1:
+                            traitType = TraitType.PhysicalPhysicalSkillsComboAmp;
+                            traitBonus = 0.33f;
+                            break;
+                        case 2:
+                            traitType = TraitType.PhysicalLifestealAmp;
+                            traitBonus = 0.25f;
+                            break;
+                        case 3:
+                            traitType = TraitType.PhysicalSkillAmpArmorOnKill;
+                            traitBonus = 2f;
+                            break;
+                        case 4:
+                            traitType = TraitType.PhysicalAmpDamageBelowHalfHp;
+                            traitBonus = 0.5f;
+                            break;
+                    }
+                    break;
+                case Item.AffinityType.Bleed:
+                    switch (Random.Range(0, 9))
+                    {
+                        case 0:
+                            traitType = TraitType.BleedReducesResistances;
+                            traitBonus = 0.002f;
+                            break;
+                        case 1:
+                            traitType = TraitType.BleedAmpsCritHitsAddsBleedToNearby;
+                            traitBonus = 0.025f;
+                            break;
+                        case 2:
+                            traitType = TraitType.BleedSlowsTargets;
+                            traitBonus = 0.02f;
+                            break;
+                        case 3:
+                            traitType = TraitType.BleedAmpDamageTakenOnAttack;
+                            traitBonus = 0.5f;
+                            break;
+                        case 4:
+                            traitType = TraitType.BleedHealOnBleedingEnemyKill;
+                            traitBonus = 1f;
+                            break;
+                        case 5:
+                            traitType = TraitType.BleedCritsConsumeBleed;
+                            traitBonus = 0.05f;
+                            break;
+                        case 6:
+                            traitType = TraitType.BleedAmpDamageAtThreshold;
+                            traitBonus = 0.25f;
+                            break;
+                        case 7:
+                            traitType = TraitType.BleedBloodWellAtThreshold;
+                            traitBonus = 0.5f;
+                            break;
+                        case 8:
+                            traitType = TraitType.BleedExpungeBleedAtThreshold;
+                            traitBonus = 5f;
+                            break;
+                    }
+                    break;
+                case Item.AffinityType.Poison:
+                    switch (Random.Range(0, 9))
+                    {
+                        case 0:
+                            traitType = TraitType.PoisonSpreadStacksOnDeath;
+                            traitBonus = 0.05f;
+                            break;
+                        case 1:
+                            traitType = TraitType.PoisonSpreadStacksOnDeath;
+                            traitBonus = 0.25f;
+                            break;
+                        case 2:
+                            traitType = TraitType.PoisonAmpNextAttackAfterPoisonKill;
+                            traitBonus = 1f;
+                            break;
+                        case 3:
+                            traitType = TraitType.PoisonAmpDamageOnFirstStack;
+                            traitBonus = 0.5f;
+                            break;
+                        case 4:
+                            traitType = TraitType.PoisonPrimaryTraitsAmpPoison;
+                            traitBonus = 0.5f;
+                            break;
+                        case 5:
+                            traitType = TraitType.PoisonShredArmorOnThreshold;
+                            traitBonus = 2f;
+                            break;
+                        case 6:
+                            traitType = TraitType.PoisonEnemiesAmpPoisonOnKill;
+                            traitBonus = 1f;
+                            break;
+                        case 7:
+                            traitType = TraitType.PoisonTrueDamageAtThreshold;
+                            traitBonus = 0.025f;
+                            break;
+                        case 8:
+                            traitType = TraitType.PoisonVamperism;
+                            traitBonus = 0.05f;
+                            break;
+                    }
+                    break;
+                case Item.AffinityType.Stun:
+                    switch (Random.Range(0, 10))
+                    {
+                        case 1:
+                            traitType = TraitType.StunReducesArmor;
+                            traitBonus = 0.05f;
+                            break;
+                        case 2:
+                            traitType = TraitType.StunAmpsDamageTaken;
+                            traitBonus = 0.1f;
+                            break;
+                        case 3:
+                            traitType = TraitType.StunAmpsAfflictionGain;
+                            traitBonus = 0.25f;
+                            break;
+                        case 4:
+                            traitType = TraitType.StunAmpDuration;
+                            traitBonus = 0.25f;
+                            break;
+                        case 5:
+                            traitType = TraitType.StunShockwaveOnStunningStunned;
+                            traitBonus = 0.8f;
+                            break;
+                        case 6:
+                            traitType = TraitType.StunOnStunDealsAdditionalBaseDamage;
+                            traitBonus = 0.25f;
+                            break;
+                        case 7:
+                            traitType = TraitType.StunAmpDurationOnThreshold;
+                            traitBonus = 0.66f;
+                            break;
+                        case 8:
+                            traitType = TraitType.StunAmpCritDamage;
+                            traitBonus = 0.25f;
+                            break;
+                        case 9:
+                            traitType = TraitType.StunAmpsMovespeed;
+                            traitBonus = 0.15f;
+                            break;
+                    }
+                    break;
+                case Item.AffinityType.Knockback:
+                    switch (Random.Range(0, 7))
+                    {
+                        case 0:
+                            traitType = TraitType.KnockbackReducesSpellCooldowns;
+                            traitBonus = 0.025f;
+                            break;
+                        case 1:
+                            traitType = TraitType.KnockBackAmpsBasicAttacks;
+                            traitBonus = 1f;
+                            break;
+                        case 2:
+                            traitType = TraitType.KnockbackAmpKnockbackForce;
+                            traitBonus = 0.1f;
+                            break;
+                        case 3:
+                            traitType = TraitType.KnockbackAmpsDamageTaken;
+                            traitBonus = 0.25f;
+                            break;
+                        case 4:
+                            traitType = TraitType.KnockbackAmpsArmor;
+                            traitBonus = 0.05f;
+                            break;
+                        case 5:
+                            traitType = TraitType.KnockbackDoesBonusDamageOnKnockbacked;
+                            traitBonus = 0.33f;
+                            break;
+                        case 6:
+                            traitType = TraitType.KnockbackReducesResistances;
+                            traitBonus = 0.33f;
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        // These are for elements that double dip into two elements
+        else
+        {
+            switch (affinitySplit)
+            {
+                case Item.AffinityType.Fire:
+                    switch (affinity)
+                    {
+                        case Item.AffinityType.Earth:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.AflameToSunderStackOnEarthSpell;
+                                    traitBonus = 0.1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.SunderFurtherDecreasesFireResist;
+                                    traitBonus = 1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.AflameSunderCritsSummonFireballs;
+                                    traitBonus = 1f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Wind:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.AflameWindshearWindAttacksGainCritOnBurningTarget;
+                                    traitBonus = 0.02f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.AflameWindshearSummonFirePillarsOnHit;
+                                    traitBonus = 1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.AflameWindshearWindSpellsAddFireStacks;
+                                    traitBonus = 0.2f;
+                                    break;
+                            }
+
+                            break;
+                        case Item.AffinityType.Physical:
+                            switch (Random.Range(0, 4))
+                            {
+                                case 0:
+                                    traitType = TraitType.AflamePhysicalAddFireStacksOnHit;
+                                    traitBonus = 1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.AflamePhysicalDamageAmpOnBurningTarget;
+                                    traitBonus = 0.05f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.AflamePhysicalBladeExplosionOnKill;
+                                    traitBonus = 1f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.AflamePhysicalBigHitsAddAflame;
+                                    traitBonus = 0.5f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Bleed:
+                            switch (Random.Range(0, 5))
+                            {
+                                case 0:
+                                    traitType = TraitType.AflameBleedIncreasesFlameCritChance;
+                                    traitBonus = 0.03f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.AflameBleedFireDamageAmpOnBleedThreshold;
+                                    traitBonus = 0.1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.AflameBleedAflameAddsBleedAtThreshhold;
+                                    traitBonus = 2f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.AflameBleedAflameRemovesBleedResist;
+                                    traitBonus = 0.01f;
+                                    break;
+                                case 4:
+                                    traitType = TraitType.AflameBleedDamageAmpOnDoubleThreshhold;
+                                    traitBonus = 0.5f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Poison:
+                            switch (Random.Range(0, 6))
+                            {
+                                case 0:
+                                    traitType = TraitType.AflamePoisonBurningEnemySpreadPoisonStacksOnDeath;
+                                    traitBonus = 0.5f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.AflamePoisonGreviousWoundsOnStackThreshold;
+                                    traitBonus = 4;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.AflamePoisonPoisonReducesFireResist;
+                                    traitBonus = 0.01f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.AflamePoisonFireSpellsSummonsPoisonBurst;
+                                    traitBonus = 5f;
+                                    break;
+                                case 4:
+                                    traitType = TraitType.AflamePoisonFireAmpsPoison;
+                                    traitBonus = 0.01f;
+                                    break;
+                                case 5:
+                                    traitType = TraitType.AflamePoisonPoisonCloudOnFireKill;
+                                    traitBonus = 0.1f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Stun:
+                            switch (Random.Range(0, 4))
+                            {
+                                case 0:
+                                    traitType = TraitType.AflameStunPeriodBurnStun;
+                                    traitBonus = 1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.AflameStunStunOnThreshold;
+                                    traitBonus = 1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.AflameStunStunReducesFireResistance;
+                                    traitBonus = 0.2f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.AflameStunStunAmpsBurnDamage;
+                                    traitBonus = 2f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Knockback:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.AflameKnockbackAflameReducesKnockbackResist;
+                                    traitBonus = 0.01f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.AflameKnockbackAflameSpellsOnKnockbackedTargetExplode;
+                                    traitBonus = 0.25f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.AflameKnockbackKnockbackAmpsFireDamage;
+                                    traitBonus = 0.25f;
+                                    break;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case Item.AffinityType.Ice:
+                    switch (affinity)
+                    {
+                        case Item.AffinityType.Earth:
+                            switch (Random.Range(0, 4))
+                            {
+                                case 0:
+                                    traitType = TraitType.IceEarthFrostToEarthBonusDamage;
+                                    traitBonus = 0.02f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.IceEarthSunderAmpsIceDamage;
+                                    traitBonus = 0.04f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.IceEarthIceDOTAtThreshold;
+                                    traitBonus = 0.25f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.IceEarthEarthSpellBonusCritDamage;
+                                    traitBonus = 0.025f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Wind:
+                            switch (Random.Range(0, 4))
+                            {
+                                case 0:
+                                    traitType = TraitType.IceWindWindAmpsFrostbiteDamage;
+                                    traitBonus = 0.1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.IceWindWindSpellsDamageAmp;
+                                    traitBonus = 0.03f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.IceWindIncreaseArmorShredPerFrostbite;
+                                    traitBonus = 0.025f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.IceWindSummonTornadoOnHit;
+                                    traitBonus = 0.25f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Physical:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.IcePhysicalFrostbiteAmpsPhysicalCritDamage;
+                                    traitBonus = 0.02f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.IcePhysicalPhysicalVampOnFrostbite;
+                                    traitBonus = 0.01f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.IcePhysicalBladeVortexOnHit;
+                                    traitBonus = 0.33f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Bleed:
+                            switch (Random.Range(0, 2))
+                            {
+                                case 0:
+                                    traitType = TraitType.IceBleedFrostbiteAmpsBleed;
+                                    traitBonus = 0.02f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.IceBleedBleedDoesDamageInstantlyOnThreshold;
+                                    traitBonus = 3f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Poison:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.IcePoisonFreezingPoison;
+                                    traitBonus = 0.05f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.IcePoisonFrostbiteResetsPoisonAndAmps;
+                                    traitBonus = 1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.IcePoisonSummonPoisonPillarOnThreshold;
+                                    traitBonus = 1f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Stun:
+                            switch (Random.Range(0, 2))
+                            {
+                                case 0:
+                                    traitType = TraitType.IceStunRudeAwakening;
+                                    traitBonus = 1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.IceStunIceRefreshesStun;
+                                    traitBonus = 0.25f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Knockback:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.IceKnockbackFrostbiteIncreasesKnockbackForce;
+                                    traitBonus = 0.05f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.IceKnockbackSnowEruptionOnKnockback;
+                                    traitBonus = 0.1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.IceKnockbackBonusStacksOnDownedTargets;
+                                    traitBonus = 1f;
+                                    break;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case Item.AffinityType.Earth:
+                    switch (affinity)
+                    {
+                        case Item.AffinityType.Fire:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.AflameToSunderStackOnEarthSpell;
+                                    traitBonus = 0.1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.SunderFurtherDecreasesFireResist;
+                                    traitBonus = 1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.AflameSunderCritsSummonFireballs;
+                                    traitBonus = 1f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Ice:
+                            switch (Random.Range(0, 4))
+                            {
+                                case 0:
+                                    traitType = TraitType.IceEarthFrostToEarthBonusDamage;
+                                    traitBonus = 0.02f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.IceEarthSunderAmpsIceDamage;
+                                    traitBonus = 0.04f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.IceEarthIceDOTAtThreshold;
+                                    traitBonus = 0.25f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.IceEarthEarthSpellBonusCritDamage;
+                                    traitBonus = 0.025f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Physical:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.EarthPhysicalBonusSunderStacksOnThreshold;
+                                    traitBonus = 1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.EarthPhysicalSunderAmpsCrits;
+                                    traitBonus = 0.02f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.EarthPhysicalSunderAmpsDamage;
+                                    traitBonus = 0.01f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Bleed:
+                            switch (Random.Range(0, 4))
+                            {
+                                case 0:
+                                    traitType = TraitType.EarthBleedBonusCritChanceOnBleedingTarget;
+                                    traitBonus = 0.01f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.EarthBleedSunderAddsPercentageOfBleed;
+                                    traitBonus = 0.05f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.EarthBleedBonusEarthDamageToBleeding;
+                                    traitBonus = 0.03f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.EarthBleedBloodExplosionOnBleed;
+                                    traitBonus = 0.25f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Poison:
+                            switch (Random.Range(0, 4))
+                            {
+                                case 0:
+                                    traitType = TraitType.EarthPoisonAddSunderedOnPoisonTick;
+                                    traitBonus = 0.05f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.EarthPoisonSummonPillarOnThreshold;
+                                    traitBonus = 1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.EarthPoisonSunderToPoisonConversion;
+                                    traitBonus = 1f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.EarthPoisonSunderToPoisonOnCrit;
+                                    traitBonus = 1f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Stun:
+                            switch (Random.Range(0, 5))
+                            {
+                                case 0:
+                                    traitType = TraitType.EarthStunStunOnThreshold;
+                                    traitBonus = 1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.EarthStunBonusDamageOnStun;
+                                    traitBonus = 0.25f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.EarthStunKillingStunnedWithEarthRefundsCooldowns;
+                                    traitBonus = 0.05f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.EarthStunStunningAddsSunder;
+                                    traitBonus = 1f;
+                                    break;
+                                case 4:
+                                    traitType = TraitType.EarthStunSunderAmpsStunDamageLength;
+                                    traitBonus = 0.01f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Knockback:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.EarthKnockbackTremorsOnKnockback;
+                                    traitBonus = 0.1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.EarthKnockbackSunderReducesKnockbackResistance;
+                                    traitBonus = 2f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.EarthKnockbackSummonRocksOnRecentKnockbackTarget;
+                                    traitBonus = 1f;
+                                    break;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case Item.AffinityType.Wind:
+                    switch (affinity)
+                    {
+                        case Item.AffinityType.Fire:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.AflameWindshearWindAttacksGainCritOnBurningTarget;
+                                    traitBonus = 0.02f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.AflameWindshearSummonFirePillarsOnHit;
+                                    traitBonus = 1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.AflameWindshearWindSpellsAddFireStacks;
+                                    traitBonus = 0.2f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Ice:
+                            switch (Random.Range(0, 4))
+                            {
+                                case 0:
+                                    traitType = TraitType.IceWindWindAmpsFrostbiteDamage;
+                                    traitBonus = 0.1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.IceWindWindSpellsDamageAmp;
+                                    traitBonus = 0.03f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.IceWindIncreaseArmorShredPerFrostbite;
+                                    traitBonus = 0.025f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.IceWindSummonTornadoOnHit;
+                                    traitBonus = 0.25f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Physical:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.WindPhysicalSummonWhirlwindOnSkillHit;
+                                    traitBonus = 0.4f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.WindPhysicalWindshearAmpsBasicAttacks;
+                                    traitBonus = 0.03f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.WindPhysicalCritsDealArmorAsDamage;
+                                    traitBonus = 0.05f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Bleed:
+                            switch (Random.Range(0, 4))
+                            {
+                                case 0:
+                                    traitType = TraitType.WindBleedAmpBleedAtThreshold;
+                                    traitBonus = 0.33f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.WindBleedMoreBleedStacksAThreshold;
+                                    traitBonus = 0.5f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.WindBleedBleedGrantsWindCritChance;
+                                    traitBonus = 0.01f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.WindBleedAddBleedOnWindCrit;
+                                    traitBonus = 2f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Poison:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.WindPoisonTransferPoisonStacksOnKill;
+                                    traitBonus = 2f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.WindPoisonWindAddsPercentageOfPoisonOnHit;
+                                    traitBonus = 0.05f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.WindPoisonPoisonBurstAtWindThreshold;
+                                    traitBonus = 1f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Stun:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.WindStunStunDealsTrueDamageAtThreshold;
+                                    traitBonus = 1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.WindStunWindblastOnStun;
+                                    traitBonus = 1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.WindStunStunAmpsWindshearGain;
+                                    traitBonus = 1f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Knockback:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.WindKnockbackKnockbackSummonsMiniCyclone;
+                                    traitBonus = 0.33f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.WindKnockbackLoseKnockbackResistanceOnThreshold;
+                                    traitBonus = 0.25f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.WindKnockbackWindshearDoesDamageIfKnockedBack;
+                                    traitBonus = 0.2f;
+                                    break;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case Item.AffinityType.Physical:
+                    switch (affinity)
+                    {
+                        case Item.AffinityType.Fire:
+                            switch (Random.Range(0, 4))
+                            {
+                                case 0:
+                                    traitType = TraitType.AflamePhysicalAddFireStacksOnHit;
+                                    traitBonus = 1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.AflamePhysicalDamageAmpOnBurningTarget;
+                                    traitBonus = 0.05f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.AflamePhysicalBladeExplosionOnKill;
+                                    traitBonus = 1f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.AflamePhysicalBigHitsAddAflame;
+                                    traitBonus = 0.5f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Ice:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.IcePhysicalFrostbiteAmpsPhysicalCritDamage;
+                                    traitBonus = 0.02f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.IcePhysicalPhysicalVampOnFrostbite;
+                                    traitBonus = 0.01f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.IcePhysicalBladeVortexOnHit;
+                                    traitBonus = 0.33f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Earth:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.EarthPhysicalBonusSunderStacksOnThreshold;
+                                    traitBonus = 1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.EarthPhysicalSunderAmpsCrits;
+                                    traitBonus = 0.02f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.EarthPhysicalSunderAmpsDamage;
+                                    traitBonus = 0.01f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Wind:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.WindPhysicalSummonWhirlwindOnSkillHit;
+                                    traitBonus = 0.4f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.WindPhysicalWindshearAmpsBasicAttacks;
+                                    traitBonus = 0.03f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.WindPhysicalCritsDealArmorAsDamage;
+                                    traitBonus = 0.05f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Bleed:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.PhysicalBleedBleedAmpsPhysicalDamage;
+                                    traitBonus = 0.01f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.PhysicalBleedPhysicalSkillsAddBleed;
+                                    traitBonus = 1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.PhysicalBleedSkillsDoTrueDamageAtThreshold;
+                                    traitBonus = 4f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Poison:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.PhysicalPoisonPhysicalAmpsPoisonDamage;
+                                    traitBonus = 3f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.PhysicalPoisonPlayerMaxHpDamageOnThreshold;
+                                    traitBonus = 0.05f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.PhysicalPoisonPoisonAmpsPhysicalDamage;
+                                    traitBonus = 3f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Stun:
+                            switch (Random.Range(0, 2))
+                            {
+                                case 0:
+                                    traitType = TraitType.PhysicalStunAmpDamageOnStunned;
+                                    traitBonus = 1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.PhysicalStunBladeRiftOnStun;
+                                    traitBonus = 0.25f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Knockback:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.PhysicalKnockbackKnockbackKillAmpsPhysicalDamage;
+                                    traitBonus = 3f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.PhysicalKnockbackPhysicalAttacksGainInnateKnockback;
+                                    traitBonus = 0.02f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.PhysicalKnockbackSummonKnivesOnKnockbackHit;
+                                    traitBonus = 2f;
+                                    break;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case Item.AffinityType.Bleed:
+                    switch (affinity)
+                    {
+                        case Item.AffinityType.Fire:
+                            switch (Random.Range(0, 5))
+                            {
+                                case 0:
+                                    traitType = TraitType.AflameBleedIncreasesFlameCritChance;
+                                    traitBonus = 0.03f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.AflameBleedFireDamageAmpOnBleedThreshold;
+                                    traitBonus = 0.1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.AflameBleedAflameAddsBleedAtThreshhold;
+                                    traitBonus = 2f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.AflameBleedAflameRemovesBleedResist;
+                                    traitBonus = 0.01f;
+                                    break;
+                                case 4:
+                                    traitType = TraitType.AflameBleedDamageAmpOnDoubleThreshhold;
+                                    traitBonus = 0.5f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Ice:
+                            switch (Random.Range(0, 2))
+                            {
+                                case 0:
+                                    traitType = TraitType.IceBleedFrostbiteAmpsBleed;
+                                    traitBonus = 0.02f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.IceBleedBleedDoesDamageInstantlyOnThreshold;
+                                    traitBonus = 3f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Earth:
+                            switch (Random.Range(0, 4))
+                            {
+                                case 0:
+                                    traitType = TraitType.EarthBleedBonusCritChanceOnBleedingTarget;
+                                    traitBonus = 0.01f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.EarthBleedSunderAddsPercentageOfBleed;
+                                    traitBonus = 0.05f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.EarthBleedBonusEarthDamageToBleeding;
+                                    traitBonus = 0.03f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.EarthBleedBloodExplosionOnBleed;
+                                    traitBonus = 0.25f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Wind:
+                            switch (Random.Range(0, 4))
+                            {
+                                case 0:
+                                    traitType = TraitType.WindBleedAmpBleedAtThreshold;
+                                    traitBonus = 0.33f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.WindBleedMoreBleedStacksAThreshold;
+                                    traitBonus = 0.5f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.WindBleedBleedGrantsWindCritChance;
+                                    traitBonus = 0.01f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.WindBleedAddBleedOnWindCrit;
+                                    traitBonus = 2f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Physical:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.PhysicalBleedBleedAmpsPhysicalDamage;
+                                    traitBonus = 0.01f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.PhysicalBleedPhysicalSkillsAddBleed;
+                                    traitBonus = 1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.PhysicalBleedSkillsDoTrueDamageAtThreshold;
+                                    traitBonus = 4f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Poison:
+                            switch (Random.Range(0, 2))
+                            {
+                                case 0:
+                                    traitType = TraitType.BleedPoisonReduceOtherResistances;
+                                    traitBonus = 0.01f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.BleedPoisonChanceOfPoisonCloudOnBleed;
+                                    traitBonus = 2f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Stun:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.BleedStunStunReducesBleedResistance;
+                                    traitBonus = 0.2f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.BleedStunStunAtThresholdBelowHalfHP;
+                                    traitBonus = 1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.BleedStunStunAddsBleed;
+                                    traitBonus = 2f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Knockback:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.BleedKnockbackBonusBleed;
+                                    traitBonus = 1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.BleedKnockbackKnockbackExposionOfBlood;
+                                    traitBonus = 1.5f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.BleedKnockbackKnockbackAmpsDamage;
+                                    traitBonus = 0.05f;
+                                    break;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case Item.AffinityType.Poison:
+                    switch (affinity)
+                    {
+                        case Item.AffinityType.Fire:
+                            switch (Random.Range(0, 6))
+                            {
+                                case 0:
+                                    traitType = TraitType.AflamePoisonBurningEnemySpreadPoisonStacksOnDeath;
+                                    traitBonus = 0.5f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.AflamePoisonGreviousWoundsOnStackThreshold;
+                                    traitBonus = 4;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.AflamePoisonPoisonReducesFireResist;
+                                    traitBonus = 0.01f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.AflamePoisonFireSpellsSummonsPoisonBurst;
+                                    traitBonus = 5f;
+                                    break;
+                                case 4:
+                                    traitType = TraitType.AflamePoisonFireAmpsPoison;
+                                    traitBonus = 0.01f;
+                                    break;
+                                case 5:
+                                    traitType = TraitType.AflamePoisonPoisonCloudOnFireKill;
+                                    traitBonus = 0.1f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Ice:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.IcePoisonFreezingPoison;
+                                    traitBonus = 0.05f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.IcePoisonFrostbiteResetsPoisonAndAmps;
+                                    traitBonus = 1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.IcePoisonSummonPoisonPillarOnThreshold;
+                                    traitBonus = 1f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Earth:
+                            switch (Random.Range(0, 4))
+                            {
+                                case 0:
+                                    traitType = TraitType.EarthPoisonAddSunderedOnPoisonTick;
+                                    traitBonus = 0.05f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.EarthPoisonSummonPillarOnThreshold;
+                                    traitBonus = 1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.EarthPoisonSunderToPoisonConversion;
+                                    traitBonus = 1f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.EarthPoisonSunderToPoisonOnCrit;
+                                    traitBonus = 1f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Wind:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.WindPoisonTransferPoisonStacksOnKill;
+                                    traitBonus = 2f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.WindPoisonWindAddsPercentageOfPoisonOnHit;
+                                    traitBonus = 0.05f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.WindPoisonPoisonBurstAtWindThreshold;
+                                    traitBonus = 1f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Physical:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.PhysicalPoisonPhysicalAmpsPoisonDamage;
+                                    traitBonus = 3f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.PhysicalPoisonPlayerMaxHpDamageOnThreshold;
+                                    traitBonus = 0.05f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.PhysicalPoisonPoisonAmpsPhysicalDamage;
+                                    traitBonus = 3f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Bleed:
+                            switch (Random.Range(0, 2))
+                            {
+                                case 0:
+                                    traitType = TraitType.BleedPoisonReduceOtherResistances;
+                                    traitBonus = 0.01f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.BleedPoisonChanceOfPoisonCloudOnBleed;
+                                    traitBonus = 2f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Stun:
+                            switch (Random.Range(0, 2))
+                            {
+                                case 0:
+                                    traitType = TraitType.PoisonStunPoisonReducesStunResist;
+                                    traitBonus = 0.02f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.PoisonStunPoisonSpreadOnThreshold;
+                                    traitBonus = 0.25f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Knockback:
+                            switch (Random.Range(0, 2))
+                            {
+                                case 0:
+                                    traitType = TraitType.PoisonKnockbackPoisonReducesKnockbackResistance;
+                                    traitBonus = 0.02f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.PoisonKnockbackConsumePoisonStacksForTrueDamage;
+                                    traitBonus = 0.5f;
+                                    break;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case Item.AffinityType.Stun:
+                    switch (affinity)
+                    {
+                        case Item.AffinityType.Fire:
+                            switch (Random.Range(0, 4))
+                            {
+                                case 0:
+                                    traitType = TraitType.AflameStunPeriodBurnStun;
+                                    traitBonus = 1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.AflameStunStunOnThreshold;
+                                    traitBonus = 1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.AflameStunStunReducesFireResistance;
+                                    traitBonus = 0.2f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.AflameStunStunAmpsBurnDamage;
+                                    traitBonus = 2f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Ice:
+                            switch (Random.Range(0, 2))
+                            {
+                                case 0:
+                                    traitType = TraitType.IceStunRudeAwakening;
+                                    traitBonus = 1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.IceStunIceRefreshesStun;
+                                    traitBonus = 0.25f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Earth:
+                            switch (Random.Range(0, 5))
+                            {
+                                case 0:
+                                    traitType = TraitType.EarthStunStunOnThreshold;
+                                    traitBonus = 1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.EarthStunBonusDamageOnStun;
+                                    traitBonus = 0.25f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.EarthStunKillingStunnedWithEarthRefundsCooldowns;
+                                    traitBonus = 0.05f;
+                                    break;
+                                case 3:
+                                    traitType = TraitType.EarthStunStunningAddsSunder;
+                                    traitBonus = 1f;
+                                    break;
+                                case 4:
+                                    traitType = TraitType.EarthStunSunderAmpsStunDamageLength;
+                                    traitBonus = 0.01f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Wind:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.WindStunStunDealsTrueDamageAtThreshold;
+                                    traitBonus = 1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.WindStunWindblastOnStun;
+                                    traitBonus = 1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.WindStunStunAmpsWindshearGain;
+                                    traitBonus = 1f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Physical:
+                            switch (Random.Range(0, 2))
+                            {
+                                case 0:
+                                    traitType = TraitType.PhysicalStunAmpDamageOnStunned;
+                                    traitBonus = 1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.PhysicalStunBladeRiftOnStun;
+                                    traitBonus = 0.25f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Bleed:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.BleedStunStunReducesBleedResistance;
+                                    traitBonus = 0.2f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.BleedStunStunAtThresholdBelowHalfHP;
+                                    traitBonus = 1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.BleedStunStunAddsBleed;
+                                    traitBonus = 2f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Poison:
+                            switch (Random.Range(0, 2))
+                            {
+                                case 0:
+                                    traitType = TraitType.PoisonStunPoisonReducesStunResist;
+                                    traitBonus = 0.02f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.PoisonStunPoisonSpreadOnThreshold;
+                                    traitBonus = 0.25f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Knockback:
+                            switch (Random.Range(0, 1))
+                            {
+                                case 0:
+                                    traitType = TraitType.StunKnockbackStunReduceResistance;
+                                    traitBonus = 0.5f;
+                                    break;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case Item.AffinityType.Knockback:
+                    switch (affinity)
+                    {
+                        case Item.AffinityType.Fire:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.AflameKnockbackAflameReducesKnockbackResist;
+                                    traitBonus = 0.01f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.AflameKnockbackAflameSpellsOnKnockbackedTargetExplode;
+                                    traitBonus = 0.25f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.AflameKnockbackKnockbackAmpsFireDamage;
+                                    traitBonus = 0.25f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Ice:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.IceKnockbackFrostbiteIncreasesKnockbackForce;
+                                    traitBonus = 0.05f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.IceKnockbackSnowEruptionOnKnockback;
+                                    traitBonus = 0.1f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.IceKnockbackBonusStacksOnDownedTargets;
+                                    traitBonus = 1f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Earth:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.EarthKnockbackTremorsOnKnockback;
+                                    traitBonus = 0.1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.EarthKnockbackSunderReducesKnockbackResistance;
+                                    traitBonus = 2f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.EarthKnockbackSummonRocksOnRecentKnockbackTarget;
+                                    traitBonus = 1f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Wind:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.WindKnockbackKnockbackSummonsMiniCyclone;
+                                    traitBonus = 0.33f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.WindKnockbackLoseKnockbackResistanceOnThreshold;
+                                    traitBonus = 0.25f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.WindKnockbackWindshearDoesDamageIfKnockedBack;
+                                    traitBonus = 0.2f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Physical:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.PhysicalKnockbackKnockbackKillAmpsPhysicalDamage;
+                                    traitBonus = 3f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.PhysicalKnockbackPhysicalAttacksGainInnateKnockback;
+                                    traitBonus = 0.02f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.PhysicalKnockbackSummonKnivesOnKnockbackHit;
+                                    traitBonus = 2f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Bleed:
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    traitType = TraitType.BleedKnockbackBonusBleed;
+                                    traitBonus = 1f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.BleedKnockbackKnockbackExposionOfBlood;
+                                    traitBonus = 1.5f;
+                                    break;
+                                case 2:
+                                    traitType = TraitType.BleedKnockbackKnockbackAmpsDamage;
+                                    traitBonus = 0.05f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Poison:
+                            switch (Random.Range(0, 2))
+                            {
+                                case 0:
+                                    traitType = TraitType.PoisonKnockbackPoisonReducesKnockbackResistance;
+                                    traitBonus = 0.02f;
+                                    break;
+                                case 1:
+                                    traitType = TraitType.PoisonKnockbackConsumePoisonStacksForTrueDamage;
+                                    traitBonus = 0.5f;
+                                    break;
+                            }
+                            break;
+                        case Item.AffinityType.Stun:
+                            switch (Random.Range(0, 1))
+                            {
+                                case 0:
+                                    traitType = TraitType.StunKnockbackStunReduceResistance;
+                                    traitBonus = 0.5f;
+                                    break;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
 }

@@ -82,11 +82,19 @@ public class HitBox : MonoBehaviour
                         bonusCritChance += other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Sunder) * myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthBleedBonusCritChanceOnBleedingTarget);
                     if (damageType == DamageType.Wind && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindBleedBleedGrantsWindCritChance) > 0 && other.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.Bleeding))
                         bonusCritChance += other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) * myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindBleedBleedGrantsWindCritChance);
+                    if (damageType == DamageType.Poison && myStats.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.PoisonInstantCrit))
+                        bonusCritChance += 100;
 
                     critRolled = true;
                     if (Random.Range(0f,100f) <= (myStats.critChance + bonusCritChance) * 100)
                         crit = true;
                 }
+
+                if (GetComponent<HitBoxBuff>() && GetComponent<HitBoxBuff>().stun && other.GetComponent<PlayerStats>().stunned && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunOnStunDealsAdditionalBaseDamage) > 0)
+                    damageDealt += myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunOnStunDealsAdditionalBaseDamage) * myStats.baseDamage;
+
+
+
 
                 if (GetComponent<HitBoxBuff>() && GetComponent<HitBoxBuff>().stun && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindStunStunDealsTrueDamageAtThreshold) > 0 && other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Windshear) >= 50)
                 {
@@ -173,6 +181,12 @@ public class HitBox : MonoBehaviour
                     damageDealt *= 1f + myStats.GetComponent<PlayerTraitManager>().CheckForOnKillValue(ItemTrait.TraitType.PhysicalKnockbackKnockbackKillAmpsPhysicalDamage);
                     myStats.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffsManager.BuffType.PhysicalKnockbackAmpNextAttack, true);
                 }
+                if (CompareTag("BasicAttack") && myStats.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.KnockbackAmpBasicAttacks))
+                {
+                    damageDealt *= 1f + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.KnockBackAmpsBasicAttacks);
+                    myStats.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.KnockbackAmpBasicAttacks).RemoveStacks(1, false);
+                }
+
 
 
 
@@ -191,12 +205,25 @@ public class HitBox : MonoBehaviour
                         bonusCritDamage += other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Sunder) * myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthPhysicalSunderAmpsCrits);
                     if (myStats.GetComponent<PlayerTraitManager>().CheckForOnHitValue(ItemTrait.TraitType.BleedAmpsCritHitsAddsBleedToNearby) > 0)
                         bonusCritDamage += other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) * myStats.GetComponent<PlayerTraitManager>().CheckForOnHitValue(ItemTrait.TraitType.BleedAmpsCritHitsAddsBleedToNearby);
+                    if (myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedCritsConsumeBleed) > 0)
+                    {
+                        bonusCritDamage += other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) * myStats.GetComponent<PlayerTraitManager>().CheckForOnHitValue(ItemTrait.TraitType.BleedCritsConsumeBleed);
+                        other.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffsManager.BuffType.Bleeding, true);
+                    }
 
                     if (!CompareTag("BasicAttack") && damageType == DamageType.Physical && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindPhysicalCritsDealArmorAsDamage) > 0)
                     {
                         damage *= 1 + other.GetComponent<PlayerStats>().armor * myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindPhysicalCritsDealArmorAsDamage) * other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Windshear);
                         other.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffsManager.BuffType.Windshear, true);
                     }
+                    if (damageType == DamageType.Poison && myStats.GetComponent<BuffsManager>().PollForBuff(BuffsManager.BuffType.PoisonInstantCrit))
+                    {
+                        bonusCritDamage += myStats.GetComponent<PlayerTraitManager>().CheckForOnKillValue(ItemTrait.TraitType.PoisonAmpNextAttackAfterPoisonKill);
+                        myStats.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffsManager.BuffType.PoisonInstantCrit, true);
+                    }
+                    if (myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunAmpCritDamage) > 0 && other.GetComponent<PlayerStats>().stunned)
+                        bonusCritDamage += myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunAmpCritDamage);
+
 
                     damageDealt *= myStats.critDamageMultiplier + bonusCritDamage;
                 }
