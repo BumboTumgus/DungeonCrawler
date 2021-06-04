@@ -38,6 +38,7 @@ public class PlayerMovementController : MonoBehaviour
     private IEnumerator rollCoroutine;
     private IEnumerator attackCoroutine;
     private IEnumerator knockbackCoroutine;
+    private IEnumerator jumpCoroutine;
 
     private bool grounded = true;                                     // is the character on walkable ground. Used for jumping, rlling, and other movement
     private float gravityVectorStrength = 0f;                         // the current downward force of gravity, so the player accelerates towards the ground.
@@ -49,6 +50,8 @@ public class PlayerMovementController : MonoBehaviour
 
     private float flameWalkerDistance = 0;
     private float flameWalkerDistanceTarget = 10f;
+
+    public int currentJumps = 1;
 
     private const float GRAVITY = 0.4f;
     private const float GROUNDING_RAY_LENGTH = 0.7f;
@@ -111,6 +114,7 @@ public class PlayerMovementController : MonoBehaviour
             case PlayerState.Airborne:
                 Move();
                 ApplyGravity();
+                CheckJump();
                 break;
             case PlayerState.Rolling:
                 ApplyGravity();
@@ -126,6 +130,7 @@ public class PlayerMovementController : MonoBehaviour
             case PlayerState.Jumping:
                 Move();
                 ApplyGravity();
+                CheckJump();
                 break;
             case PlayerState.Attacking:
                 Move();
@@ -267,6 +272,7 @@ public class PlayerMovementController : MonoBehaviour
             if (!playerStats.stunned && !playerStats.knockedBack && !playerStats.asleep && !playerStats.frozen)
             {
                 anim.SetBool("Grounded", true);
+                currentJumps = playerStats.jumps;
                 if (playerState == PlayerState.Airborne)
                     playerState = PlayerState.Idle;
             }
@@ -314,8 +320,16 @@ public class PlayerMovementController : MonoBehaviour
     // Used to check if the player's jump imput was pressed.
     private void CheckJump()
     {
-        if (Input.GetAxisRaw(inputs.jumpInput) != 0 && grounded && !menuOpen)
-            StartCoroutine(Jump(JUMP_POWER, 0.5f, true));
+        if (Input.GetAxisRaw(inputs.jumpInput) != 0 && inputs.jumpReleased  && currentJumps > 0 && !menuOpen)
+        {
+            inputs.jumpReleased = false;
+            if(jumpCoroutine != null)
+                StopCoroutine(jumpCoroutine);
+
+            jumpCoroutine = Jump(JUMP_POWER, 0.5f, true);
+            StartCoroutine(jumpCoroutine);
+            currentJumps--;
+        }
     }
 
     //USed to apply the jump force.
