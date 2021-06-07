@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Initialization()
     {
-        foreach (GameObject gameObject in UnityEngine.Object.FindObjectsOfType<GameObject>())
+        foreach (GameObject gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
             DontDestroyOnLoad(gameObject);
 
         yield return null;
