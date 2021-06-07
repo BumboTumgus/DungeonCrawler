@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovementController : MonoBehaviour
 {
     // a state machine that dictates the actions the player can take.
-    public enum PlayerState { Idle, Moving, Airborne, Rolling, Sprinting, Attacking, Downed, Dead, LossOfControl, LossOfControlNoGravity, CastingNoMovement, CastingRollOut, CastingWithMovement, CastingAerial, CastingIgnoreGravity, Jumping}
+    public enum PlayerState { Idle, Moving, Airborne, Rolling, Sprinting, Attacking, Downed, Dead, LossOfControl, LossOfControlNoGravity, CastingNoMovement, CastingRollOut, CastingWithMovement, CastingAerial, CastingIgnoreGravity, Jumping, Teleporting}
     public PlayerState playerState = PlayerState.Idle;
 
     [HideInInspector] public bool menuOpen = false;                   // USed to lock movement if the menu is open.
@@ -167,6 +167,8 @@ public class PlayerMovementController : MonoBehaviour
                 break;
             case PlayerState.CastingAerial:
                 ApplyGravity();
+                break;
+            case PlayerState.Teleporting:
                 break;
             default:
                 break;
@@ -741,6 +743,11 @@ public class PlayerMovementController : MonoBehaviour
                     interactable.GetComponent<ChestBehaviour>().OpenChest();
                 else if (interactable.GetComponent<DoorOpenVolumeBehaviour>() != null)
                     interactable.GetComponent<DoorOpenVolumeBehaviour>().InteractWithDoor();
+                else if (interactable.transform.root.GetComponent<TeleporterBehaviour>() != null)
+                {
+                    interactable.transform.root.GetComponent<TeleporterBehaviour>().teleporterActive = false;
+                    GameManager.instance.LaunchPlayerTeleport();
+                }
 
                 inventory.interactablesInRange.Remove(interactable);
             }

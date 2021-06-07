@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    public string[] sceneNames;
     public List<RoomManager> rooms = new List<RoomManager>();
     public GameObject[] currentPlayers;
     public Transform[] spawnsPlayer;
@@ -32,10 +34,22 @@ public class GameManager : MonoBehaviour
 
         currentPlayers = GameObject.FindGameObjectsWithTag("Player");
 
-        //StartCoroutine(Initialization());
+        StartCoroutine(Initialization());
+    }
+
+    IEnumerator Initialization()
+    {
+        foreach (GameObject gameObject in UnityEngine.Object.FindObjectsOfType<GameObject>())
+            DontDestroyOnLoad(gameObject);
+
+        yield return null;
+        Debug.Log("Items should have been set to persistent between scenes, launch the first level");
+
+        SceneManager.LoadScene(sceneNames[0]);
     }
 
     //The corotuine that runs on level start.
+    /*
     IEnumerator Initialization()
     {
         roomTarget = Random.Range(5, 20) + Random.Range(5,20);
@@ -69,6 +83,7 @@ public class GameManager : MonoBehaviour
         GrabSpawns();
         SpawnPlayers();
     }
+    */
 
     public void AddRoom(RoomManager room)
     {
@@ -108,6 +123,42 @@ public class GameManager : MonoBehaviour
             if(!targetRoom.connectedRooms.Contains(room) && room != targetRoom)
                 room.HideRoom();
         
+    }
+
+    public void LaunchPlayerTeleport()
+    {
+        StartCoroutine(StartTeleporting());
+    }
+
+    // Used when the player start teleporting.
+    IEnumerator StartTeleporting()
+    {
+        Debug.Log("Starting the teleport logic");
+        AsyncOperation sceneToLoad = SceneManager.LoadSceneAsync(sceneNames[0]);
+        sceneToLoad.allowSceneActivation = false;
+
+        // STart loading shit here
+        foreach(GameObject player in currentPlayers)
+        {
+            player.GetComponent<BuffsManager>().psSystems[30].Play();
+            player.GetComponent<BuffsManager>().psSystems[31].Play();
+
+        }
+
+        yield return new WaitForSeconds(5f);
+        Debug.Log("teleport player here");
+
+        foreach (GameObject player in currentPlayers)
+        {
+            Instantiate(player.GetComponent<SkillsManager>().skillProjectiles[83], player.transform.position + Vector3.up, Quaternion.identity);
+            player.GetComponent<PlayerMovementController>().playerState = PlayerMovementController.PlayerState.Teleporting;
+            player.transform.Find("EntityModel").gameObject.SetActive(false);
+
+        }
+
+        yield return new WaitForSeconds(2f);
+        Debug.Log("zoom to next level");
+        sceneToLoad.allowSceneActivation = true;
     }
 }
 

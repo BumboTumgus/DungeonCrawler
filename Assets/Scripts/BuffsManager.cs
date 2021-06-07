@@ -21,7 +21,7 @@ public class BuffsManager : MonoBehaviour
         PoisonInstantCrit, PoisonAmpInitialDamage, PoisonAmpDamageOnKill, StunMovespeedAmp, KnockbackAmpBasicAttacks, KnockbackAmpsArmor
     };
 
-    [SerializeField] private ParticleSystem[] psSystems;
+    public ParticleSystem[] psSystems;
     private PlayerStats stats;
     private EffectsManager effects;
     private SkillsManager skillManager;

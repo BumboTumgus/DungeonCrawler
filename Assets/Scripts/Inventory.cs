@@ -444,6 +444,8 @@ public class Inventory : MonoBehaviour
                         interactPrompt.SetText("Press E to open door");
                     else if (closestTarget.GetComponent<DoorOpenVolumeBehaviour>() != null && closestTarget.GetComponentInParent<DoorBehaviour>().doorState != DoorBehaviour.DoorState.Closed)
                         interactPrompt.SetText("Press E to close door");
+                    else if (closestTarget.transform.root.GetComponent<TeleporterBehaviour>() != null && closestTarget.transform.root.GetComponent<TeleporterBehaviour>().teleporterActive)
+                        interactPrompt.SetText("Press E to teleport");
                 }
                 else
                     interactPrompt.SetText("");
