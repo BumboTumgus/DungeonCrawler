@@ -11,13 +11,7 @@ public class DamageNumberManager : MonoBehaviour
     public GameObject flavorTextPrefab;
     public Color xpColor;
     
-    private Transform primaryCanvas;
-
-    // Grab the canvas we spawn the damage numebrs to.
-    private void Start()
-    {
-        primaryCanvas = GameObject.Find("PrimaryCanvas").transform;
-    }
+    public Transform primaryCanvas;
 
     // USed to spawn the damage numbers and forcibly change it's color.
     public void SpawnNumber(float value, bool crit, Color colorOveride)

@@ -17,7 +17,7 @@ public class PlayerMovementController : MonoBehaviour
     private float speedSmoothTime = 0.1f;
     private float rotationSpeed = 0.1f;                               // how fast the player rotates towards a target
 
-    private Transform mainCameraTransform = null;                     // The position of the camera follwing us
+    public Transform mainCameraTransform = null;                      // The position of the camera follwing us
 
     private CharacterController controller = null;                    // Other connected components we grab at launch
     private PlayerInputs inputs = null;
@@ -65,7 +65,7 @@ public class PlayerMovementController : MonoBehaviour
     // Start is called before the first frame update. Herte we grab a;; the connected scripts on the gameobject
     void Start()
     {
-        mainCameraTransform = Camera.main.transform.parent;
+        //mainCameraTransform = Camera.main.transform.parent;
 
         controller = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
@@ -786,6 +786,7 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 
+    /*
     // Used when we enter a trigger and it has a room tag
     private void OnTriggerEnter(Collider other)
     {
@@ -795,6 +796,7 @@ public class PlayerMovementController : MonoBehaviour
             GameManager.instance.ShowRoom(other.transform.parent.GetComponent<RoomManager>());
         }
     }
+    */
 
     // Called afetr any other negative effects end to see if we shoudl regain control of our player or not.
     public void CheckForOtherLoseOfControlEffects()

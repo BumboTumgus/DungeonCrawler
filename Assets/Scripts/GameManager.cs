@@ -9,21 +9,26 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public string[] sceneNames;
-    public List<RoomManager> rooms = new List<RoomManager>();
+    //public List<RoomManager> rooms = new List<RoomManager>();
     public GameObject[] currentPlayers;
     public Transform[] spawnsPlayer;
     public Transform[] spawnsChest;
-    public Transform[] spawnsEnemy;
-    public NavMeshSurface walkableFloor;
-    public int enemyCount = 3;
-    public int chestCount = 3;
-    public int roomTarget = 20;
+    //public Transform[] spawnsEnemy;
+    //public NavMeshSurface walkableFloor;
+    //public int enemyCount = 3;
+    [SerializeField] GameObject chestPrefab;
+    [SerializeField] GameObject teleporterPrefab;
+    [SerializeField] GameObject playerCharacterPrefab;
+    [SerializeField] GameObject playerUiPrefab;
+    [SerializeField] GameObject playerCameraPrefab;
+    //public int roomTarget = 20;
 
-    public float currentRoomGenTimer = 0;
+    //public float currentRoomGenTimer = 0;
 
-    private GameObject startingRoom;
+    //private GameObject startingRoom;
 
-    private const float TAREGT_ROOM_GEN_TIMER = 0.5f;
+    private const float MINIMUM_DISTANCE_FROM_TELEPORTER = 1000f;
+    //private const float TAREGT_ROOM_GEN_TIMER = 0.5f;
 
     // Start is called before the first frame update
     void Awake()
@@ -32,6 +37,42 @@ public class GameManager : MonoBehaviour
         if (instance == null)
             instance = this;
 
+        // Delete the main camera so we can replace it with ours.
+        Destroy(Camera.main.gameObject);
+
+        // Here we create a player, their ui and a camera and connect everything.
+        GameObject player = Instantiate(playerCharacterPrefab);
+        GameObject camera = Instantiate(playerCameraPrefab);
+        GameObject playerUi = Instantiate(playerUiPrefab);
+
+        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(player);
+        DontDestroyOnLoad(camera);
+        DontDestroyOnLoad(playerUi);
+
+        // Create all the necessary connections between the player and the ui and the camera
+        camera.GetComponent<FollowPlayer>().playerTarget = player.transform;
+
+        playerUi.GetComponent<PauseMenuController>().pmc = player.GetComponent<PlayerMovementController>();
+        playerUi.transform.Find("InventoryPanel").GetComponent<InventoryUiManager>().playerInventory = player.GetComponent<Inventory>();
+        playerUi.transform.Find("InventoryPanel").GetComponent<InventoryUiManager>().playerSkills = player.GetComponent<SkillsManager>();
+
+        player.GetComponent<PlayerStats>().myStats = playerUi.transform.Find("InventoryPanel").Find("Stats").GetComponent<StatUpdater>();
+        player.GetComponent<PlayerStats>().healthBar = playerUi.transform.Find("PlayerStats").Find("HealthBar").Find("HealthBarBackground").GetComponent<BarManager>();
+        player.GetComponent<Inventory>().interactPrompt = playerUi.transform.Find("InteractPrompt").GetComponent<InteractPromptController>();
+        player.GetComponent<Inventory>().inventoryUI = playerUi.transform.Find("InventoryPanel").GetComponent<InventoryUiManager>();
+        player.GetComponent<BuffsManager>().canvasParent = playerUi.transform.Find("PlayerStats").Find("BuffIconParents");
+        player.GetComponent<SkillsManager>().iconParent = playerUi.transform.Find("SkillsIcons");
+        player.GetComponent<SkillsManager>().inventory = playerUi.transform.Find("InventoryPanel").GetComponent<InventoryUiManager>();
+        player.GetComponent<PlayerMovementController>().inventoryWindow = playerUi.transform.Find("InventoryPanel").gameObject;
+        player.GetComponent<PlayerMovementController>().mainCameraTransform = camera.transform.Find("RotateAroundPlayer");
+        player.GetComponent<ComboManager>().comboAnim = playerUi.transform.Find("PlayerStats").Find("ComboMeterParent").Find("ComboMeter").GetComponent<Animator>();
+        player.GetComponent<RagdollManager>().cameraFollow = camera.GetComponent<FollowPlayer>();
+        player.GetComponent<DamageNumberManager>().primaryCanvas = playerUi.transform;
+
+
+
+
         currentPlayers = GameObject.FindGameObjectsWithTag("Player");
 
         StartCoroutine(Initialization());
@@ -39,13 +80,66 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Initialization()
     {
-        foreach (GameObject gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
-            DontDestroyOnLoad(gameObject);
-
-        yield return null;
         Debug.Log("Items should have been set to persistent between scenes, launch the first level");
 
-        SceneManager.LoadScene(sceneNames[0]);
+        AsyncOperation levelOne = SceneManager.LoadSceneAsync(sceneNames[0]);
+        Debug.Log("starting the level setup");
+
+        while(!levelOne.isDone)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForEndOfFrame();
+        Debug.Log("We are setting up the level here");
+        LevelSetup();
+    }
+
+    // Used to set up the level we are on
+    public void LevelSetup()
+    {
+        Transform[] teleporterSpawns = GameObject.Find("TeleporterSpawns").GetComponentsInChildren<Transform>();
+        Transform[] chestSpawns = GameObject.Find("ChestSpawns").GetComponentsInChildren<Transform>();
+
+        // Spawn all the chests
+        int chestCount = Random.Range(5 + currentPlayers.Length * 2, 10 + currentPlayers.Length * 4);
+        for(int index = 0; index < chestCount; index++)
+        {
+            bool chestSuccessfullySpawned = false;
+
+            while (!chestSuccessfullySpawned)
+            {
+                int chestSpawnIndex = Random.Range(0, chestSpawns.Length);
+
+                if (chestSpawns[chestSpawnIndex] != null)
+                {
+                    Instantiate(chestPrefab, chestSpawns[chestSpawnIndex].position, chestSpawns[chestSpawnIndex].rotation);
+                    chestSpawns[chestSpawnIndex] = null;
+                    chestSuccessfullySpawned = true;
+                }
+            }
+
+        }
+
+        // Spawn the teleporter
+        int teleporterIndex = Random.Range(0, teleporterSpawns.Length);
+        Instantiate(teleporterPrefab, teleporterSpawns[teleporterIndex].position, teleporterSpawns[teleporterIndex].rotation);
+
+        // Grab the player spawns 
+        bool spawnedGrabbed = false;
+        while(!spawnedGrabbed)
+        {
+            Vector3 spawnSelected = teleporterSpawns[Random.Range(0, teleporterSpawns.Length)].position;
+
+            if((spawnSelected - teleporterSpawns[teleporterIndex].position).sqrMagnitude >= MINIMUM_DISTANCE_FROM_TELEPORTER)
+            {
+                foreach(GameObject player in currentPlayers)
+                {
+                    player.transform.position = spawnSelected + new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
+                }
+                spawnedGrabbed = true;
+            }
+        }
     }
 
     //The corotuine that runs on level start.
@@ -85,12 +179,15 @@ public class GameManager : MonoBehaviour
     }
     */
 
+    /*
     public void AddRoom(RoomManager room)
     {
         rooms.Add(room);
         currentRoomGenTimer = 0;
     }
+    */
 
+    /*
     // Used to grab and set all the spawns;
     private void GrabSpawns()
     {
@@ -102,7 +199,9 @@ public class GameManager : MonoBehaviour
             spawnsPlayer[index] = playerSpawnParent.GetChild(index);
         }
     }
+    */
 
+    /*
     // Used to spawn in the current players into the room.
     private void SpawnPlayers()
     {
@@ -111,7 +210,9 @@ public class GameManager : MonoBehaviour
             player.transform.position = spawnsPlayer[Random.Range(0, spawnsPlayer.Length)].transform.position;
         }
     }
+    */
 
+    /*
     // Used to hide all rooms then show the ones that are adjacent to the new room
     public void ShowRoom(RoomManager targetRoom)
     {
@@ -124,6 +225,7 @@ public class GameManager : MonoBehaviour
                 room.HideRoom();
         
     }
+    */
 
     public void LaunchPlayerTeleport()
     {

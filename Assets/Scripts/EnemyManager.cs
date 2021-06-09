@@ -27,10 +27,12 @@ public class EnemyManager : MonoBehaviour
         gm = GetComponent<GameManager>();
     }
 
+    /*
     private void PopulateDungeon()
     {
         float enemyCount = gm.rooms.Count * 3;
     }
+    */
 
     private void Update()
     {

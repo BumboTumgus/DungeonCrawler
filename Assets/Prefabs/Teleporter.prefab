@@ -4905,7 +4905,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5133575608266632094}
-  m_LocalRotation: {x: -0, y: 0.19527002, z: -0, w: 0.9807496}
+  m_LocalRotation: {x: 0, y: 0.1952701, z: 0, w: 0.98074955}
   m_LocalPosition: {x: 51.84, y: 27.06, z: -85.49}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
@@ -4919,7 +4919,7 @@ Transform:
   - {fileID: 8790235817398223553}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 22.521002, z: 0}
 --- !u!33 &5137321445657598642
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -5233,6 +5233,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -9.269
       objectReference: {fileID: 0}
+    - target: {fileID: 2374380, guid: 1bdd5ef6ebe5a004ab63639b67a7edd0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9e36c7bb589a80f4fbf85a62cb3205dc, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bdd5ef6ebe5a004ab63639b67a7edd0, type: 3}
 --- !u!4 &4372411059518269033 stripped
@@ -5361,7 +5365,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4342038022037604, guid: d92be02a90149e64d94ca3a2f20cd645, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.09
       objectReference: {fileID: 0}
     - target: {fileID: 4342038022037604, guid: d92be02a90149e64d94ca3a2f20cd645, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5369,7 +5373,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4342038022037604, guid: d92be02a90149e64d94ca3a2f20cd645, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4342038022037604, guid: d92be02a90149e64d94ca3a2f20cd645, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5453,6 +5457,11 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialModule.startSize.scalar
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 198412797518835156, guid: d92be02a90149e64d94ca3a2f20cd645,
+        type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 198412797518835156, guid: d92be02a90149e64d94ca3a2f20cd645,
         type: 3}

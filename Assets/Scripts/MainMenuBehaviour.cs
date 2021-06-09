@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuBehaviour : MonoBehaviour
 {
+    [SerializeField] GameObject GameManagerPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +22,6 @@ public class MainMenuBehaviour : MonoBehaviour
     // Used to launch the game into the prep scene before we load scene 1
     public void LaunchGame()
     {
-        SceneManager.LoadScene("PrepScene");
+        Instantiate(GameManagerPrefab);
     }
 }

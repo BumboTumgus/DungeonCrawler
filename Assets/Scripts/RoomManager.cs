@@ -141,13 +141,14 @@ public class RoomManager : MonoBehaviour
                     if (volume.obstructed)
                         compatibleRoom = false;
                 }
-
+                /*
                 //Check to see if this room has more room spawners than is allotted by the game Manager.
                 if(((float) GameManager.instance.rooms.Count / (float) GameManager.instance.roomTarget > 0.7f) && spawns.Count > 2)
                 {
                     //Debug.Log("this room has too many spawns");
                     compatibleRoom = false;
                 }
+                */
 
                 // If the room is not compatible, we iterate through the loop again. If it is, we break from it.
                 if (compatibleRoom)
@@ -188,7 +189,7 @@ public class RoomManager : MonoBehaviour
                 obstructedSpawns = new List<RoomSpawner>();
 
 
-                GameObject.Find("GameManager").GetComponent<GameManager>().currentRoomGenTimer = 0;
+                //GameObject.Find("GameManager").GetComponent<GameManager>().currentRoomGenTimer = 0;
 
                 Destroy(gameObject);
             }
@@ -196,7 +197,7 @@ public class RoomManager : MonoBehaviour
             {
                 Invoke("GenerateDungeon", ROOM_GENERATION_DELAY);
                 // add this room to the game manager to populate later.
-                GameObject.Find("GameManager").GetComponent<GameManager>().AddRoom(this);
+                //GameObject.Find("GameManager").GetComponent<GameManager>().AddRoom(this);
                 renderable = transform.Find("Renderable").gameObject;
             }
         }
