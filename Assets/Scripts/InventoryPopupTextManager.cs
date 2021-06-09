@@ -20,6 +20,7 @@ public class InventoryPopupTextManager : MonoBehaviour
     void Start()
     {
         itemPopUp = transform.Find("ItemPopUp").gameObject;
+        itemPopUp.GetComponent<UiItemPopUpResizer>().Initialize();
         itemPopUp.SetActive(false);
     }
     

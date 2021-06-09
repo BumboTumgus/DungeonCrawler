@@ -7,15 +7,9 @@ public class CameraShakeManager : MonoBehaviour
     public float cameraShakeAmount = 0;
 
     enum CameraPositions {Center, TopLeft, TopRight, BottomLeft, BottomRight};
-    Transform cameraToShake;
+    public Transform cameraToShake;
     bool coroutineEnabled = false;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        cameraToShake = Camera.main.transform;
-    }
 
     IEnumerator CameraShake()
     {

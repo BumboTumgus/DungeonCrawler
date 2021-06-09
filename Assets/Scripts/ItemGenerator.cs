@@ -164,7 +164,6 @@ public class ItemGenerator : MonoBehaviour
                 }
                 break;
             case Item.ItemType.TrinketBracelet:
-                Debug.Log(trinketsBraceletCommon.Length);
                 switch (itemRarity)
                 {
                     case Item.ItemRarity.Common:

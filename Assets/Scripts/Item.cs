@@ -256,7 +256,7 @@ public class Item : MonoBehaviour
             return;
         }
 
-        Debug.Log("Rolling TRaits And shit");
+        //Debug.Log("Rolling TRaits And shit");
         int modifierCount = 0;
         int affinityCount = 0;
         int traitCountAffinity = 0;
@@ -305,7 +305,7 @@ public class Item : MonoBehaviour
             traitCountModifiers *= 2;
         }
 
-        Debug.Log("assigning affinities");
+        //Debug.Log("assigning affinities");
         // Add Affinities based on our affinity count, wipe them all first
         affinityPrimary = AffinityType.None;
         affinitySecondary = AffinityType.None;
@@ -691,7 +691,7 @@ public class Item : MonoBehaviour
         // Start adding traits based on our trait counts for affinities and modifiers
         for(int modifierIndex = 0; modifierIndex < itemModifiers.Count; modifierIndex++)
         {
-            Debug.Log("adding traits for modifier: " + itemModifiers[modifierIndex]);
+            //Debug.Log("adding traits for modifier: " + itemModifiers[modifierIndex]);
 
             int traitsToAdd = traitCountModifiers;
             ModifierType modType = itemModifiers[modifierIndex];

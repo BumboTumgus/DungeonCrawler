@@ -24,7 +24,6 @@ public class PlayerMovementController : MonoBehaviour
     private Animator anim = null;
     private BuffsManager buffsManager;
     private PlayerStats playerStats;
-    private HitBoxManager hitBoxManager;
     private Inventory inventory;
     private CameraControls cameraControls;
     private RagdollManager ragdollManager;
@@ -72,7 +71,6 @@ public class PlayerMovementController : MonoBehaviour
         inputs = GetComponent<PlayerInputs>();
         buffsManager = GetComponent<BuffsManager>();
         playerStats = GetComponent<PlayerStats>();
-        hitBoxManager = GetComponent<HitBoxManager>();
         cameraControls = mainCameraTransform.GetComponentInChildren<CameraControls>();
         inventory = GetComponent<Inventory>();
         ragdollManager = GetComponent<RagdollManager>();

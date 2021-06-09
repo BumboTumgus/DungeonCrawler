@@ -45,6 +45,12 @@ public class BuffsManager : MonoBehaviour
         if (CompareTag("Player"))
             playerTraitManager = GetComponent<PlayerTraitManager>();
 
+        StopAllParticles();
+    }
+
+    // USed to stop all particles
+    public void StopAllParticles()
+    {
         foreach (ParticleSystem ps in psSystems)
             if (ps != null)
                 ps.Stop();

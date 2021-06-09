@@ -12,4 +12,9 @@ public class FollowPlayer : MonoBehaviour
         // Quickly lerp towards the player.
         transform.position = playerTarget.position;
     }
+
+    public void ResetCameraOrientation()
+    {
+        transform.rotation = Quaternion.identity;
+    }
 }

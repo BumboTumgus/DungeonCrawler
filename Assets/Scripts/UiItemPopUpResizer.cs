@@ -28,11 +28,12 @@ public class UiItemPopUpResizer : MonoBehaviour
     public Sprite[] iconAffinityIcons;
 
     private SkillBank skillBank;
-    private RectTransform primaryPopUp;
+    [SerializeField] private RectTransform primaryPopUp;
     private PlayerStats stats;
 
-    private void Start()
+    public void Initialize()
     {
+        //Debug.Log("initilaize function started");
         skillBank = FindObjectOfType<SkillBank>();
         primaryPopUp = GetComponent<RectTransform>();
         stats = transform.parent.GetComponent<InventoryUiManager>().playerSkills.GetComponent<PlayerStats>();
@@ -60,6 +61,9 @@ public class UiItemPopUpResizer : MonoBehaviour
 
             itemBaseStatContainers[10].SetActive(false);
 
+            //Debug.Log("maybe the target item is busted lets try checking that: " + targetItem);
+            //Debug.Log("check stats? " + stats);
+            //Debug.Log("cjheck item base stats texts" + itemBaseStatsText[0]);
             itemBaseStatsText[0].text = string.Format("{0}", targetItem.baseDamageScaling * stats.baseDamage);
             itemBaseStatsText[1].text = string.Format("{0:0.0}", targetItem.attacksPerSecond);
             itemBaseStatsText[2].text = string.Format("{0}", targetItem.stacksToAddOnHit);
@@ -654,6 +658,8 @@ public class UiItemPopUpResizer : MonoBehaviour
 
         PopUpTraitHeight += descriptionBox.sizeDelta.y;
         traitContainer.sizeDelta = new Vector2(traitContainer.sizeDelta.x, PopUpTraitHeight);
+        if(!primaryPopUp)
+            primaryPopUp = GetComponent<RectTransform>();
         primaryPopUp.sizeDelta = new Vector2(primaryPopUp.sizeDelta.x, 170 + traitContainer.sizeDelta.y);
     }
 

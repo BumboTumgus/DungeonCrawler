@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject playerCharacterPrefab;
     [SerializeField] GameObject playerUiPrefab;
     [SerializeField] GameObject playerCameraPrefab;
+    [SerializeField] GameObject eventSystemUI;
+
     //public int roomTarget = 20;
 
     //public float currentRoomGenTimer = 0;
@@ -44,11 +46,13 @@ public class GameManager : MonoBehaviour
         GameObject player = Instantiate(playerCharacterPrefab);
         GameObject camera = Instantiate(playerCameraPrefab);
         GameObject playerUi = Instantiate(playerUiPrefab);
+        GameObject eventSystem = Instantiate(eventSystemUI);
 
         DontDestroyOnLoad(gameObject);
         DontDestroyOnLoad(player);
         DontDestroyOnLoad(camera);
         DontDestroyOnLoad(playerUi);
+        DontDestroyOnLoad(eventSystem);
 
         // Create all the necessary connections between the player and the ui and the camera
         camera.GetComponent<FollowPlayer>().playerTarget = player.transform;
@@ -69,6 +73,7 @@ public class GameManager : MonoBehaviour
         player.GetComponent<ComboManager>().comboAnim = playerUi.transform.Find("PlayerStats").Find("ComboMeterParent").Find("ComboMeter").GetComponent<Animator>();
         player.GetComponent<RagdollManager>().cameraFollow = camera.GetComponent<FollowPlayer>();
         player.GetComponent<DamageNumberManager>().primaryCanvas = playerUi.transform;
+        player.GetComponent<CameraShakeManager>().cameraToShake = camera.transform.Find("RotateAroundPlayer").Find("Main Camera");
 
 
 
@@ -129,14 +134,20 @@ public class GameManager : MonoBehaviour
         bool spawnedGrabbed = false;
         while(!spawnedGrabbed)
         {
+            Debug.Log("checking spawns");
             Vector3 spawnSelected = teleporterSpawns[Random.Range(0, teleporterSpawns.Length)].position;
 
             if((spawnSelected - teleporterSpawns[teleporterIndex].position).sqrMagnitude >= MINIMUM_DISTANCE_FROM_TELEPORTER)
             {
                 foreach(GameObject player in currentPlayers)
                 {
+                    Debug.Log("setting the players position");
+                    Debug.Log("player position before: " + player.transform.position);
                     player.transform.position = spawnSelected + new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
+                    player.GetComponent<CameraShakeManager>().cameraToShake.root.GetComponent<FollowPlayer>().ResetCameraOrientation();
+                    Debug.Log("player position after: " + player.transform.position);
                 }
+                Debug.Log("spawn found");
                 spawnedGrabbed = true;
             }
         }
@@ -244,7 +255,6 @@ public class GameManager : MonoBehaviour
         {
             player.GetComponent<BuffsManager>().psSystems[30].Play();
             player.GetComponent<BuffsManager>().psSystems[31].Play();
-
         }
 
         yield return new WaitForSeconds(5f);
@@ -253,7 +263,8 @@ public class GameManager : MonoBehaviour
         foreach (GameObject player in currentPlayers)
         {
             Instantiate(player.GetComponent<SkillsManager>().skillProjectiles[83], player.transform.position + Vector3.up, Quaternion.identity);
-            player.GetComponent<PlayerMovementController>().playerState = PlayerMovementController.PlayerState.Teleporting;
+            player.GetComponent<PlayerMovementController>().enabled = false;
+            player.GetComponent<CharacterController>().enabled = false;
             player.transform.Find("EntityModel").gameObject.SetActive(false);
 
         }
@@ -261,6 +272,25 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         Debug.Log("zoom to next level");
         sceneToLoad.allowSceneActivation = true;
+
+        while(!sceneToLoad.isDone)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForEndOfFrame();
+        Debug.Log("We are setting up the level here");
+        LevelSetup();
+
+        foreach (GameObject player in currentPlayers)
+        {
+            Instantiate(player.GetComponent<SkillsManager>().skillProjectiles[83], player.transform.position + Vector3.up, Quaternion.identity);
+            player.GetComponent<PlayerMovementController>().enabled = true;
+            player.GetComponent<CharacterController>().enabled = true;
+            player.GetComponent<BuffsManager>().StopAllParticles();
+            player.transform.Find("EntityModel").gameObject.SetActive(true);
+
+        }
     }
 }
 
