@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject playerUiPrefab;
     [SerializeField] GameObject playerCameraPrefab;
     [SerializeField] GameObject eventSystemUI;
+    [SerializeField] Animator cameraFadeAnim;
 
     //public int roomTarget = 20;
 
@@ -53,6 +55,8 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(camera);
         DontDestroyOnLoad(playerUi);
         DontDestroyOnLoad(eventSystem);
+
+        cameraFadeAnim = playerUi.transform.Find("FadeInOutPanel").GetComponent<Animator>();
 
         // Create all the necessary connections between the player and the ui and the camera
         camera.GetComponent<FollowPlayer>().playerTarget = player.transform;
@@ -96,6 +100,9 @@ public class GameManager : MonoBehaviour
         }
 
         yield return new WaitForEndOfFrame();
+
+        cameraFadeAnim.SetTrigger("FadeIn");
+        cameraFadeAnim.transform.Find("AreaTitle").GetComponent<Text>().text = SceneManager.GetActiveScene().name;
         Debug.Log("We are setting up the level here");
         LevelSetup();
     }
@@ -269,7 +276,10 @@ public class GameManager : MonoBehaviour
 
         }
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
+        cameraFadeAnim.SetTrigger("FadeOut");
+        yield return new WaitForSeconds(1f);
+
         Debug.Log("zoom to next level");
         sceneToLoad.allowSceneActivation = true;
 
@@ -281,6 +291,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
         Debug.Log("We are setting up the level here");
         LevelSetup();
+        cameraFadeAnim.SetTrigger("FadeIn");
+        cameraFadeAnim.transform.Find("AreaTitle").GetComponent<Text>().text = SceneManager.GetActiveScene().name;
 
         foreach (GameObject player in currentPlayers)
         {

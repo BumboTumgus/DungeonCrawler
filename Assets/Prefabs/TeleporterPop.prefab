@@ -4832,6 +4832,7 @@ GameObject:
   - component: {fileID: 833584691419686936}
   - component: {fileID: 833584691419686938}
   - component: {fileID: 833584691419686939}
+  - component: {fileID: 8370263429527185271}
   m_Layer: 0
   m_Name: TeleporterPop
   m_TagString: Untagged
@@ -9482,6 +9483,21 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &8370263429527185271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833584691419686937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1ff7e256805c44abc9a5e39753b04a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTimer: 1.1
+  flickerDelay: 0
+  attachedHitBox: 0
 --- !u!1 &833584692015598097
 GameObject:
   m_ObjectHideFlags: 0
