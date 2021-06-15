@@ -94,9 +94,12 @@ public class GameManager : MonoBehaviour
         AsyncOperation levelOne = SceneManager.LoadSceneAsync(sceneNames[0]);
         Debug.Log("starting the level setup");
 
-        while(!levelOne.isDone)
+        //yield return new WaitForSeconds(3f);
+
+        while (!levelOne.isDone)
         {
             yield return null;
+            Debug.Log("Boop");
         }
 
         yield return new WaitForEndOfFrame();
