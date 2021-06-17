@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     public string[] sceneNames;
     //public List<RoomManager> rooms = new List<RoomManager>();
     public GameObject[] currentPlayers;
+    public List<GameObject> playerUis = new List<GameObject>();
+    public List<GameObject> playerCameras = new List<GameObject>();
+    public GameObject eventSystemReference;
     public Transform[] spawnsPlayer;
     public Transform[] spawnsChest;
     //public Transform[] spawnsEnemy;
@@ -83,30 +86,30 @@ public class GameManager : MonoBehaviour
 
 
         currentPlayers = GameObject.FindGameObjectsWithTag("Player");
+        playerUis.Add(playerUi);
+        playerCameras.Add(camera);
+        eventSystemReference = eventSystem;
 
         StartCoroutine(Initialization());
     }
 
     IEnumerator Initialization()
     {
-        Debug.Log("Items should have been set to persistent between scenes, launch the first level");
 
         AsyncOperation levelOne = SceneManager.LoadSceneAsync(sceneNames[0]);
-        Debug.Log("starting the level setup");
 
         //yield return new WaitForSeconds(3f);
 
         while (!levelOne.isDone)
         {
             yield return null;
-            Debug.Log("Boop");
         }
 
         yield return new WaitForEndOfFrame();
 
+        cameraFadeAnim.gameObject.SetActive(true);
         cameraFadeAnim.SetTrigger("FadeIn");
         cameraFadeAnim.transform.Find("AreaTitle").GetComponent<Text>().text = SceneManager.GetActiveScene().name;
-        Debug.Log("We are setting up the level here");
         LevelSetup();
     }
 
@@ -144,20 +147,20 @@ public class GameManager : MonoBehaviour
         bool spawnedGrabbed = false;
         while(!spawnedGrabbed)
         {
-            Debug.Log("checking spawns");
+            //Debug.Log("checking spawns");
             Vector3 spawnSelected = teleporterSpawns[Random.Range(0, teleporterSpawns.Length)].position;
 
             if((spawnSelected - teleporterSpawns[teleporterIndex].position).sqrMagnitude >= MINIMUM_DISTANCE_FROM_TELEPORTER)
             {
                 foreach(GameObject player in currentPlayers)
                 {
-                    Debug.Log("setting the players position");
-                    Debug.Log("player position before: " + player.transform.position);
+                    //Debug.Log("setting the players position");
+                    //Debug.Log("player position before: " + player.transform.position);
                     player.transform.position = spawnSelected + new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
                     player.GetComponent<CameraShakeManager>().cameraToShake.root.GetComponent<FollowPlayer>().ResetCameraOrientation();
-                    Debug.Log("player position after: " + player.transform.position);
+                    //Debug.Log("player position after: " + player.transform.position);
                 }
-                Debug.Log("spawn found");
+                //Debug.Log("spawn found");
                 spawnedGrabbed = true;
             }
         }
@@ -306,6 +309,19 @@ public class GameManager : MonoBehaviour
             player.transform.Find("EntityModel").gameObject.SetActive(true);
 
         }
+    }
+
+    // USed to destroy the game manager, the players,  their uis, and basically all the things we initally added in before transitioning scenes
+    public void PreMenuSceneCleanup()
+    {
+        for(int index =0; index < currentPlayers.Length; index++)
+            Destroy(currentPlayers[index]);
+        for (int index = 0; index < playerUis.Count; index++)
+            Destroy(playerUis[index]);
+        for (int index = 0; index < playerCameras.Count; index++)
+            Destroy(playerCameras[index]);
+        Destroy(eventSystemReference);
+        Destroy(gameObject);
     }
 }
 

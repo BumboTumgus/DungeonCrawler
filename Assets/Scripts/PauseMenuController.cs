@@ -7,6 +7,7 @@ public class PauseMenuController : MonoBehaviour
 {
     public GameObject pauseMenu;
     public PlayerMovementController pmc;
+    [SerializeField] PauseMenuBehaviour pauseMenuBehaviour;
     [HideInInspector] public bool paused = false;
 
     // Start is called before the first frame update
@@ -25,14 +26,15 @@ public class PauseMenuController : MonoBehaviour
                 paused = false;
                 pauseMenu.SetActive(false);
                 if(!pmc.menuOpen)
-                    Camera.main.GetComponent<CameraControls>().menuOpen = false;
+                    Camera.main.transform.parent.GetComponent<CameraControls>().menuOpen = false;
                 Time.timeScale = 1;
             }
             else
             {
                 paused = true;
                 pauseMenu.SetActive(true);
-                Camera.main.GetComponent<CameraControls>().menuOpen = true;
+                pauseMenuBehaviour.ResetMenu();
+                Camera.main.transform.parent.GetComponent<CameraControls>().menuOpen = true;
                 Time.timeScale = 0;
             }
         }

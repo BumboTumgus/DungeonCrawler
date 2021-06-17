@@ -57,7 +57,6 @@ public class MainMenuBehaviour : MonoBehaviour
         bloom = ppp.GetSetting<Bloom>();
 
 
-
         fadeOutAnim.gameObject.SetActive(true);
         fadeOutAnim.SetTrigger("FadeIn");
 
