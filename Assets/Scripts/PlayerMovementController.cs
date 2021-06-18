@@ -327,6 +327,7 @@ public class PlayerMovementController : MonoBehaviour
                 StopCoroutine(jumpCoroutine);
 
             jumpCoroutine = Jump(JUMP_POWER, 0.5f, true);
+            Instantiate(GetComponent<SkillsManager>().skillProjectiles[84], transform.position, Quaternion.identity);
             StartCoroutine(jumpCoroutine);
             currentJumps--;
         }
@@ -733,12 +734,23 @@ public class PlayerMovementController : MonoBehaviour
             // Debug.Log("an interact attempt was made");
             if (inventory.interactablesInRange.Count > 0)
             {
+                bool removeInteractable = true;
                 // Here we check what kind of interactable it is and then interact with it accordingly.
                 GameObject interactable = inventory.GrabClosestInteractable();
                 anim.SetTrigger("Interact");
 
                 if (interactable.GetComponent<ChestBehaviour>() != null)
-                    interactable.GetComponent<ChestBehaviour>().OpenChest();
+                {
+                    if (playerStats.gold >= interactable.GetComponent<ChestBehaviour>().chestCost)
+                    {
+                        interactable.GetComponent<ChestBehaviour>().OpenChest();
+                        playerStats.AddGold(-1 * interactable.GetComponent<ChestBehaviour>().chestCost);
+                    }
+                    else
+                    {
+                        removeInteractable = false;
+                    }
+                }
                 else if (interactable.GetComponent<DoorOpenVolumeBehaviour>() != null)
                     interactable.GetComponent<DoorOpenVolumeBehaviour>().InteractWithDoor();
                 else if (interactable.transform.root.GetComponent<TeleporterBehaviour>() != null)
@@ -746,8 +758,8 @@ public class PlayerMovementController : MonoBehaviour
                     interactable.transform.root.GetComponent<TeleporterBehaviour>().teleporterActive = false;
                     GameManager.instance.LaunchPlayerTeleport();
                 }
-
-                inventory.interactablesInRange.Remove(interactable);
+                if(removeInteractable)
+                    inventory.interactablesInRange.Remove(interactable);
             }
             else if (inventory.itemsInRange.Count > 0)
             {

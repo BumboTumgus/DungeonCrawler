@@ -416,7 +416,7 @@ public class Inventory : MonoBehaviour
                 {
                     // Debug.Log(" the current closest Item is: " + closestTarget);
                     if (closestTarget.GetComponent<ChestBehaviour>() != null)
-                        interactPrompt.SetText("Press E to open chest");
+                        interactPrompt.SetText("Press E to open chest for " + closestTarget.GetComponent<ChestBehaviour>().chestCost);
                     else if (closestTarget.GetComponent<Item>() != null)
                     {
                         switch (closestTarget.GetComponent<Item>().itemRarity)

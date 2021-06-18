@@ -34,26 +34,39 @@ public class GameManager : MonoBehaviour
 
     //private GameObject startingRoom;
 
-    private const float MINIMUM_DISTANCE_FROM_TELEPORTER = 1000f;
+    private const float MINIMUM_DISTANCE_FROM_TELEPORTER = 10000f;
     //private const float TAREGT_ROOM_GEN_TIMER = 0.5f;
 
     // Start is called before the first frame update
     void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         // Debug.Log("Game manager setup");
         if (instance == null)
             instance = this;
 
-        // Delete the main camera so we can replace it with ours.
-        Destroy(Camera.main.gameObject);
+        //StartCoroutine(Initialization());
+    }
 
+    IEnumerator Initialization()
+    {
+        AsyncOperation levelOne = SceneManager.LoadSceneAsync(sceneNames[0]);
+
+        while (!levelOne.isDone)
+        {
+            Debug.Log(levelOne.progress);
+            yield return null;
+        }
+
+        yield return new WaitForEndOfFrame();
+
+        Debug.Log("creating EVERYTHING");
         // Here we create a player, their ui and a camera and connect everything.
         GameObject player = Instantiate(playerCharacterPrefab);
         GameObject camera = Instantiate(playerCameraPrefab);
         GameObject playerUi = Instantiate(playerUiPrefab);
         GameObject eventSystem = Instantiate(eventSystemUI);
 
-        DontDestroyOnLoad(gameObject);
         DontDestroyOnLoad(player);
         DontDestroyOnLoad(camera);
         DontDestroyOnLoad(playerUi);
@@ -82,30 +95,12 @@ public class GameManager : MonoBehaviour
         player.GetComponent<DamageNumberManager>().primaryCanvas = playerUi.transform;
         player.GetComponent<CameraShakeManager>().cameraToShake = camera.transform.Find("RotateAroundPlayer").Find("Main Camera");
 
-
-
-
         currentPlayers = GameObject.FindGameObjectsWithTag("Player");
         playerUis.Add(playerUi);
         playerCameras.Add(camera);
         eventSystemReference = eventSystem;
 
-        StartCoroutine(Initialization());
-    }
 
-    IEnumerator Initialization()
-    {
-
-        AsyncOperation levelOne = SceneManager.LoadSceneAsync(sceneNames[0]);
-
-        //yield return new WaitForSeconds(3f);
-
-        while (!levelOne.isDone)
-        {
-            yield return null;
-        }
-
-        yield return new WaitForEndOfFrame();
 
         cameraFadeAnim.gameObject.SetActive(true);
         cameraFadeAnim.SetTrigger("FadeIn");

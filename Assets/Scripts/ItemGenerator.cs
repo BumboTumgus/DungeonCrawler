@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ItemGenerator : MonoBehaviour
 {
+    public static ItemGenerator instance;
+
     public GameObject[] weapons1hCommon;
     public GameObject[] weapons1hUncommon;
     public GameObject[] weapons1hRare;
@@ -64,46 +66,59 @@ public class ItemGenerator : MonoBehaviour
     public GameObject[] skillsLegendary;
     public GameObject[] skillsMasterwork;
 
-    public GameObject[] treasures;
+    public int currentRcIndex = -1;
 
-    public float rarityLevelMod = 0;
+    private float[] commonRcValues = { 75, 56, 22, 10, 8, 7, 0, 0, 0 };
+    private float[] uncommonRcValues = { 20, 30, 50, 40, 20, 15, 10, 0, 0 };
+    private float[] rareRcValues = { 4, 10, 22, 40, 50, 40, 38, 34, 20 };
+    private float[] legendarytRcValues = { 1, 4, 6, 10, 20, 30, 40, 50, 60 };
+    private float[] masterworkRcValues = { 0, 0, 0, 0, 2, 8, 12, 16, 20 };
 
-    private const float weapon1hRC = 15;
-    private const float weapon2hRC = 15;
-    private const float chestArmorRC = 10;
-    private const float legArmorRC = 10;
-    private const float helmetsRC = 10;
-    private const float trinketsRC = 12;
-    private const float skillsRC = 18;
-
-    private const float commonRC = 40;
-    private const float uncommonRC = 30;
-    private const float rareRC = 30;
-    private const float legendaryRC = 35;
-    private const float masterworkRC = 5;
+    private float commonRC = 40;
+    private float uncommonRC = 30;
+    private float rareRC = 30;
+    private float legendaryRC = 35;
+    private float masterworkRC = 5;
     // by the 11th level, we cap it so the player only recieves legendary at 87.5% percent and masterwork at 12.5%;
 
-    public GameObject RollItem()
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        IncrementRcIndex();
+    }
+
+    public void IncrementRcIndex()
+    {
+        currentRcIndex++;
+
+        if (currentRcIndex >= commonRcValues.Length)
+            return;
+        else
+        {
+            commonRC = commonRcValues[currentRcIndex];
+            uncommonRC = uncommonRcValues[currentRcIndex];
+            rareRC = rareRcValues[currentRcIndex];
+            legendaryRC = legendarytRcValues[currentRcIndex];
+            masterworkRC = masterworkRcValues[currentRcIndex];
+        }
+    }
+
+    public GameObject RollItem(float bonusToRarityRoll)
     {
         GameObject itemRolled = null;
 
-        float itemDiceRoll = Random.Range(0, weapon1hRC + weapon2hRC + chestArmorRC + legArmorRC + helmetsRC + trinketsRC + skillsRC);
+        float itemDiceRoll = Random.Range(0, 9);
         Item.ItemType itemType = Item.ItemType.Weapon;
-        float itemRarityDiceRoll = Random.Range(0, 145) + rarityLevelMod;
+        float itemRarityDiceRoll = Random.Range(0, 100) - bonusToRarityRoll;
         Item.ItemRarity itemRarity = Item.ItemRarity.Common;
 
-        // Rolls the item type and compares its value in the table below.
-        if (itemDiceRoll <= weapon1hRC)
-            itemType = Item.ItemType.Weapon;
-        else if (itemDiceRoll <= weapon1hRC + weapon2hRC)
-            itemType = Item.ItemType.TwoHandWeapon;
-        else if (itemDiceRoll <= weapon1hRC + weapon2hRC + chestArmorRC)
-            itemType = Item.ItemType.Armor;
-        else if (itemDiceRoll <= weapon1hRC + weapon2hRC + chestArmorRC + legArmorRC)
-            itemType = Item.ItemType.Legs;
-        else if (itemDiceRoll <= weapon1hRC + weapon2hRC + chestArmorRC + legArmorRC + helmetsRC)
-            itemType = Item.ItemType.Helmet;
-        else if (itemDiceRoll <= weapon1hRC + weapon2hRC + chestArmorRC + legArmorRC + helmetsRC + trinketsRC)
+        if (itemDiceRoll == 0 || itemDiceRoll == 1)
+            if (Random.Range(0, 100) < 66)
+                itemType = Item.ItemType.Weapon;
+            else
+                itemType = Item.ItemType.TwoHandWeapon;
+        else if(itemDiceRoll == 2 || itemDiceRoll == 3)
         {
             int randomIndex = Random.Range(0, 4);
             switch (randomIndex)
@@ -124,20 +139,30 @@ public class ItemGenerator : MonoBehaviour
                     break;
             }
         }
-        else if (itemDiceRoll <= weapon1hRC + weapon2hRC + chestArmorRC + legArmorRC + helmetsRC + trinketsRC + skillsRC)
+        else if (itemDiceRoll == 4 || itemDiceRoll == 5)
             itemType = Item.ItemType.Skill;
+        else if (itemDiceRoll == 6)
+            itemType = Item.ItemType.Helmet;
+        else if (itemDiceRoll == 7)
+            itemType = Item.ItemType.Armor;
+        else if (itemDiceRoll == 8)
+            itemType = Item.ItemType.Legs;
 
-        if (itemRarityDiceRoll <= commonRC)
-            itemRarity = Item.ItemRarity.Common;
-        else if (itemRarityDiceRoll <= commonRC + uncommonRC)
-            itemRarity = Item.ItemRarity.Uncommon;
-        else if (itemRarityDiceRoll <= commonRC + uncommonRC + rareRC)
-            itemRarity = Item.ItemRarity.Rare;
-        else if (itemRarityDiceRoll <= commonRC + uncommonRC + rareRC + legendaryRC)
-            itemRarity = Item.ItemRarity.Legendary;
-        else if (itemRarityDiceRoll <= commonRC + uncommonRC + rareRC + legendaryRC + masterworkRC)
+        //Debug.Log(itemDiceRoll + " | this means we have a " + itemType);
+
+        if (itemRarityDiceRoll <= masterworkRC && masterworkRC != 0)
             itemRarity = Item.ItemRarity.Masterwork;
-        
+        else if (itemRarityDiceRoll <= masterworkRC + legendaryRC && legendaryRC != 0)
+            itemRarity = Item.ItemRarity.Legendary;
+        else if (itemRarityDiceRoll <= masterworkRC + legendaryRC + rareRC && rareRC != 0)
+            itemRarity = Item.ItemRarity.Rare;
+        else if (itemRarityDiceRoll <= masterworkRC + legendaryRC + rareRC + uncommonRC && uncommonRC != 0)
+            itemRarity = Item.ItemRarity.Uncommon;
+        else if (itemRarityDiceRoll <= masterworkRC + legendaryRC + rareRC + uncommonRC + commonRC && commonRC != 0)
+            itemRarity = Item.ItemRarity.Common;
+
+        //Debug.Log(itemRarityDiceRoll + " | this means our rarity is " + itemRarity);
+
         // This assigns us a bank of items for us to use.
         switch (itemType)
         {
@@ -367,13 +392,5 @@ public class ItemGenerator : MonoBehaviour
 
         //Debug.Log("the item rolled was: " + itemRolled);
         return itemRolled;
-    }
-
-
-    // Used to roll a piece of treasure
-    public GameObject RollTreasure()
-    {
-        GameObject treasureRolled = treasures[Random.Range(0, treasures.Length)];
-        return treasureRolled;
     }
 }

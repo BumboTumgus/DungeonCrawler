@@ -104,6 +104,9 @@ public class StatUpdater : MonoBehaviour
         transform.Find("SunderedResistance_Value").GetComponent<Text>().fontSize = 24;
         transform.Find("WindshearResistance_Value").GetComponent<Text>().fontSize = 24;
 
+        transform.Find("Money_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.gold);
+        transform.Find("Money_Value").GetComponent<Text>().fontSize = 24;
+
         UpdateTooltips(stats);
     }
 
@@ -420,6 +423,15 @@ public class StatUpdater : MonoBehaviour
         }
     }
 
+    // Used to update just the money Tooltip
+    public void UpdateGoldCounter(PlayerStats stats)
+    {
+        transform.Find("Money_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.gold);
+        transform.Find("Money_Value").GetComponent<Text>().fontSize = 24;
+
+        tooltips[16].text = string.Format("Beautiful wonderful money. Use it to buy better gear or upgrade existing gear. You currently have <color=#FFD605>{0:0} gold.</color>", stats.gold);
+    }
+
     // Used to update all the tooltips.
     public void UpdateTooltips(PlayerStats stats)
     {
@@ -687,6 +699,9 @@ public class StatUpdater : MonoBehaviour
                     break;
                 case 15:
                     tooltips[index].text = string.Format("Reduces the chance of receiving the <color=#7b8adc>knockback debuff by {0:0.0}%. Knockback</color> launches you in a specified direction and renders you unable to take action.", stats.knockbackResistance * 100);
+                    break;
+                case 16:
+                    tooltips[index].text = string.Format("Beautiful wonderful money. Use it to buy better gear or upgrade existing gear. You currently have <color=#FFD605>{0:0} gold.</color>", stats.gold);
                     break;
                 default:
                     break;

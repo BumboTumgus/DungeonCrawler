@@ -64,6 +64,10 @@ public class PlayerStats : MonoBehaviour
     public float critChance = 0f;
     public float critDamageMultiplier = 1.5f;
 
+    public float gold = 0;
+
+    public MoneyUiCounterBehaviour moneyCounter;
+
     public float aflameResistance = 0f;
     public float frostbiteResistance = 0f;
     public float overchargeResistance = 0f;
@@ -169,6 +173,14 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
+            AddGold(25);
+        if (Input.GetKeyDown(KeyCode.K) && CompareTag("Player"))
+            AddGold(-1 * gold);
+        if (Input.GetKeyDown(KeyCode.J) && CompareTag("Player"))
+            AddGold((int)Random.Range(1, 100000));
+        if (Input.GetKeyDown(KeyCode.H) && CompareTag("Player"))
+            ItemGenerator.instance.IncrementRcIndex();
         /*
         //USed for debugging to add exp.
         if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
@@ -348,6 +360,17 @@ public class PlayerStats : MonoBehaviour
 
         if(myStats != null)
             myStats.SetStatValues(this);
+    }
+
+    // USed to add gold to the players
+    public void AddGold(float amount)
+    {
+        gold += amount;
+        moneyCounter.ChangeGoldValue(gold);
+        myStats.UpdateGoldCounter(this);
+
+        if (amount < 0)
+            Instantiate(GetComponent<SkillsManager>().skillProjectiles[85], transform.position + Vector3.up, transform.rotation);
     }
 
     // Used when the player gains exp.
@@ -547,7 +570,10 @@ public class PlayerStats : MonoBehaviour
 
             // If any player was agrod onto us, end their combat. and add exp to all players.
             foreach (GameObject player in players)
+            {
                 player.GetComponent<PlayerStats>().AddExp(exp);
+                player.GetComponent<PlayerStats>().AddGold(gold);
+            }
 
             // Create the exp value text the player sees when an enmy dies.
             GetComponent<DamageNumberManager>().SpawnEXPValue(exp);

@@ -66,8 +66,16 @@ public class MainMenuBehaviour : MonoBehaviour
     // Used to launch the game into the prep scene before we load scene 1
     public void ButtonPressLaunchGame()
     {
-        Instantiate(gameManagerPrefab);
+        StartCoroutine(LaunchGame());
+    }
+
+    IEnumerator LaunchGame()
+    {
         fadeOutAnim.SetTrigger("FadeOut");
+
+        yield return new WaitForSeconds(1);
+
+        Instantiate(gameManagerPrefab);
     }
 
     // Used when we press the options button on the main menu, launch the optiosn panel
