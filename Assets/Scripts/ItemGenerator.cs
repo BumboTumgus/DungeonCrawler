@@ -88,6 +88,12 @@ public class ItemGenerator : MonoBehaviour
         IncrementRcIndex();
     }
 
+    public float[] ReturnRarityRollRCs()
+    {
+        float[] rarities = {commonRC, uncommonRC, rareRC, legendaryRC, masterworkRC };
+        return rarities;
+    }
+
     public void IncrementRcIndex()
     {
         currentRcIndex++;

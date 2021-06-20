@@ -554,14 +554,6 @@ public class PlayerMovementController : MonoBehaviour
         anim.SetTrigger("Downed");
     }
 
-    // Called when the player is revived and revived back from the downed state.
-    public void PlayerRevived()
-    {
-        StopAllCoroutines();
-        playerState = PlayerState.Idle;
-        anim.SetTrigger("Revived");
-    }
-
     // Used when the player gets stunned
     public void StunLaunch()
     {

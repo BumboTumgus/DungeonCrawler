@@ -20,7 +20,8 @@ public class GameManager : MonoBehaviour
     //public Transform[] spawnsEnemy;
     //public NavMeshSurface walkableFloor;
     //public int enemyCount = 3;
-    [SerializeField] GameObject chestPrefab;
+    [SerializeField] GameObject[] chestPrefabs;
+    public float[] chestRarityRC;
     [SerializeField] GameObject teleporterPrefab;
     [SerializeField] GameObject playerCharacterPrefab;
     [SerializeField] GameObject playerUiPrefab;
@@ -83,6 +84,7 @@ public class GameManager : MonoBehaviour
 
         player.GetComponent<PlayerStats>().myStats = playerUi.transform.Find("InventoryPanel").Find("Stats").GetComponent<StatUpdater>();
         player.GetComponent<PlayerStats>().healthBar = playerUi.transform.Find("PlayerStats").Find("HealthBar").Find("HealthBarBackground").GetComponent<BarManager>();
+        player.GetComponent<PlayerStats>().moneyCounter = playerUi.GetComponent<MoneyUiCounterBehaviour>();
         player.GetComponent<Inventory>().interactPrompt = playerUi.transform.Find("InteractPrompt").GetComponent<InteractPromptController>();
         player.GetComponent<Inventory>().inventoryUI = playerUi.transform.Find("InventoryPanel").GetComponent<InventoryUiManager>();
         player.GetComponent<BuffsManager>().canvasParent = playerUi.transform.Find("PlayerStats").Find("BuffIconParents");
@@ -90,7 +92,7 @@ public class GameManager : MonoBehaviour
         player.GetComponent<SkillsManager>().inventory = playerUi.transform.Find("InventoryPanel").GetComponent<InventoryUiManager>();
         player.GetComponent<PlayerMovementController>().inventoryWindow = playerUi.transform.Find("InventoryPanel").gameObject;
         player.GetComponent<PlayerMovementController>().mainCameraTransform = camera.transform.Find("RotateAroundPlayer");
-        player.GetComponent<ComboManager>().comboAnim = playerUi.transform.Find("PlayerStats").Find("ComboMeterParent").Find("ComboMeter").GetComponent<Animator>();
+        player.GetComponent<ComboManager>().comboAnim = playerUi.transform.Find("ComboMeterParent").Find("ComboMeter").GetComponent<Animator>();
         player.GetComponent<RagdollManager>().cameraFollow = camera.GetComponent<FollowPlayer>();
         player.GetComponent<DamageNumberManager>().primaryCanvas = playerUi.transform;
         player.GetComponent<CameraShakeManager>().cameraToShake = camera.transform.Find("RotateAroundPlayer").Find("Main Camera");
@@ -114,6 +116,8 @@ public class GameManager : MonoBehaviour
         Transform[] teleporterSpawns = GameObject.Find("TeleporterSpawns").GetComponentsInChildren<Transform>();
         Transform[] chestSpawns = GameObject.Find("ChestSpawns").GetComponentsInChildren<Transform>();
 
+        chestRarityRC = ItemGenerator.instance.ReturnRarityRollRCs();
+
         // Spawn all the chests
         int chestCount = Random.Range(5 + currentPlayers.Length * 2, 10 + currentPlayers.Length * 4);
         for(int index = 0; index < chestCount; index++)
@@ -126,8 +130,30 @@ public class GameManager : MonoBehaviour
 
                 if (chestSpawns[chestSpawnIndex] != null)
                 {
-                    Instantiate(chestPrefab, chestSpawns[chestSpawnIndex].position, chestSpawns[chestSpawnIndex].rotation);
+                    GameObject chestToSpawn = null;
+                    float chestRarityRoll = Random.Range(0, 100);
+                    if (chestRarityRoll <= chestRarityRC[0] && chestRarityRC[0] != 0)
+                        chestToSpawn = chestPrefabs[0];
+                    else if (chestRarityRoll <= chestRarityRC[0] + chestRarityRC[1] && chestRarityRC[1] != 0)
+                        chestToSpawn = chestPrefabs[1];
+                    else if (chestRarityRoll <= chestRarityRC[0] + chestRarityRC[1] + chestRarityRC[2] && chestRarityRC[2] != 0)
+                        chestToSpawn = chestPrefabs[2];
+                    else if (chestRarityRoll <= chestRarityRC[0] + chestRarityRC[1] + chestRarityRC[2] + chestRarityRC[3] && chestRarityRC[3] != 0)
+                    {
+                        if (Random.Range(0, 100) <= 50)
+                            chestToSpawn = chestPrefabs[3];
+                        else
+                            chestToSpawn = chestPrefabs[4];
+                    }
+                    else if (chestRarityRoll <= chestRarityRC[0] + chestRarityRC[1] + chestRarityRC[2] + chestRarityRC[3] + chestRarityRC[4] && chestRarityRC[4] != 0)
+                        chestToSpawn = chestPrefabs[5];
+
+
+
+                    GameObject chest = Instantiate(chestToSpawn, chestSpawns[chestSpawnIndex].position, chestSpawns[chestSpawnIndex].rotation);
+                    chest.transform.Find("MoneyCostCanvas").GetComponent<FaceNearestPlayerBehaviour>().playerToFace = currentPlayers[0].transform;
                     chestSpawns[chestSpawnIndex] = null;
+                    
                     chestSuccessfullySpawned = true;
                 }
             }
@@ -159,92 +185,14 @@ public class GameManager : MonoBehaviour
                 spawnedGrabbed = true;
             }
         }
-    }
 
-    //The corotuine that runs on level start.
-    /*
-    IEnumerator Initialization()
-    {
-        roomTarget = Random.Range(5, 20) + Random.Range(5,20);
-
-        startingRoom = Instantiate(GameObject.Find("FloorManager").GetComponent<FloorManager>().startingRoom, Vector3.zero, Quaternion.identity);
-
-        // Wait until room generation is done.
-        while (currentRoomGenTimer < TAREGT_ROOM_GEN_TIMER)
+        // Sets up the face player components of the cnavas for the garenteed chests.
+        ChestBehaviour[] garenteedChests = GameObject.Find("GarenteedChestSpawns").GetComponentsInChildren<ChestBehaviour>();
+        foreach(ChestBehaviour chest in garenteedChests)
         {
-            currentRoomGenTimer += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        }
-
-        //Call the function that checks for adjacent rooms on each room
-        foreach (RoomManager room in rooms)
-            room.LaunchAdjacencyChecker();
-
-        // This is done afetr room generation is comfirmed to be completed.
-        Debug.Log("Room population would begin now.");
-        //walkableFloor.BuildNavMesh();
-        foreach (RoomManager room in rooms)
-        {
-            //if(room.GetComponent<RoomPopulator>() != null)
-            //  room.GetComponent<RoomPopulator>().PopulateRoom();
-        }
-
-        yield return new WaitForFixedUpdate();
-        //Show the initial room's renderable
-        ShowRoom(startingRoom.GetComponent<RoomManager>());
-
-        GrabSpawns();
-        SpawnPlayers();
-    }
-    */
-
-    /*
-    public void AddRoom(RoomManager room)
-    {
-        rooms.Add(room);
-        currentRoomGenTimer = 0;
-    }
-    */
-
-    /*
-    // Used to grab and set all the spawns;
-    private void GrabSpawns()
-    {
-        // Sets up the array of player spawns.
-        Transform playerSpawnParent = startingRoom.transform.Find("Spawns_Players");
-        spawnsPlayer = new Transform[playerSpawnParent.childCount];
-        for (int index = 0; index < playerSpawnParent.childCount; index++)
-        {
-            spawnsPlayer[index] = playerSpawnParent.GetChild(index);
+            chest.transform.Find("MoneyCostCanvas").GetComponent<FaceNearestPlayerBehaviour>().playerToFace = currentPlayers[0].transform;
         }
     }
-    */
-
-    /*
-    // Used to spawn in the current players into the room.
-    private void SpawnPlayers()
-    {
-        foreach (GameObject player in currentPlayers)
-        {
-            player.transform.position = spawnsPlayer[Random.Range(0, spawnsPlayer.Length)].transform.position;
-        }
-    }
-    */
-
-    /*
-    // Used to hide all rooms then show the ones that are adjacent to the new room
-    public void ShowRoom(RoomManager targetRoom)
-    {
-        //Debug.Log("We are showing room: " + targetRoom.gameObject.name);
-
-        targetRoom.ShowAdjacentRooms();
-
-        foreach (RoomManager room in rooms)
-            if(!targetRoom.connectedRooms.Contains(room) && room != targetRoom)
-                room.HideRoom();
-        
-    }
-    */
 
     public void LaunchPlayerTeleport()
     {
@@ -317,6 +265,32 @@ public class GameManager : MonoBehaviour
             Destroy(playerCameras[index]);
         Destroy(eventSystemReference);
         Destroy(gameObject);
+    }
+
+    // Used when a player dies. Check to see if all the players are dead. If they are, fade to black to the end game screen.
+    public void PlayerDeath()
+    {
+        Debug.Log("a player died");
+        bool allPlayersDead = true;
+        foreach(GameObject player in currentPlayers)
+        {
+            if (!player.GetComponent<PlayerStats>().dead)
+            {
+                allPlayersDead = false;
+                break;
+            }
+        }
+        Debug.Log("are all the players dead? " + allPlayersDead);
+
+        // If all the players are dead, call a function for each of them that fades to black and end the game.
+        if(allPlayersDead)
+        {
+            foreach(GameObject playerUI in playerUis)
+            {
+                Debug.Log(playerUI);
+                playerUI.GetComponent<GameOverMenuBehaviour>().GameOverScreenFadeIn();
+            }
+        }
     }
 }
 

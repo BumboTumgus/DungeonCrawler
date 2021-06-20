@@ -147,32 +147,37 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {
-        // If we do not have a heathbar, set it up now.
-        HealthBarSetup();
-
-        damageNumberManager = GetComponent<DamageNumberManager>();
-        buffManager = GetComponent<BuffsManager>();
-        skills = GetComponent<SkillsManager>();
-        hitboxManager = GetComponent<HitBoxManager>();
-
-        StatSetup(true, true);
-
-        if (CompareTag("Enemy"))
+        if (!CompareTag("Hazard"))
         {
-            EnemyManager.instance.enemyStats.Add(this);
-        }
-        else
-        {
-            UpdateWeaponsToHitWith();
-            comboManager = GetComponent<ComboManager>();
+            // If we do not have a heathbar, set it up now.
+            HealthBarSetup();
 
-            playerTraitManager = GetComponent<PlayerTraitManager>();
+            damageNumberManager = GetComponent<DamageNumberManager>();
+            buffManager = GetComponent<BuffsManager>();
+            skills = GetComponent<SkillsManager>();
+            hitboxManager = GetComponent<HitBoxManager>();
+
+            StatSetup(true, true);
+
+            if (CompareTag("Enemy"))
+            {
+                EnemyManager.instance.enemyStats.Add(this);
+            }
+            else
+            {
+                UpdateWeaponsToHitWith();
+                comboManager = GetComponent<ComboManager>();
+
+                playerTraitManager = GetComponent<PlayerTraitManager>();
+            }
         }
 
     }
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
+            TakeDamage(50, false, HitBox.DamageType.Physical, 0, null);
         if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
             AddGold(25);
         if (Input.GetKeyDown(KeyCode.K) && CompareTag("Player"))
@@ -182,6 +187,8 @@ public class PlayerStats : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.H) && CompareTag("Player"))
             ItemGenerator.instance.IncrementRcIndex();
         /*
+        //USed to bebug money and the economy
+          
         //USed for debugging to add exp.
         if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
             AddExp(1000);
@@ -241,73 +248,76 @@ public class PlayerStats : MonoBehaviour
 
         }
         */
-        if (!dead)
-            health += healthRegen * Time.deltaTime;
-
-        if (health > healthMax)
-            health = healthMax;
-        else if(myStats != null)
-            myStats.UpdateHealthManaBarValues(this);
-
-        // immolation logic.
-        if (immolationEnabled)
+        if (!CompareTag("Hazard"))
         {
-            immolateCurrentTimer += Time.deltaTime;
-            if (immolateCurrentTimer >= immolateTargetTimer)
+            if (!dead)
+                health += healthRegen * Time.deltaTime;
+
+            if (health > healthMax)
+                health = healthMax;
+            else if (myStats != null)
+                myStats.UpdateHealthManaBarValues(this);
+
+            // immolation logic.
+            if (immolationEnabled)
             {
-                immolateCurrentTimer -= immolateTargetTimer;
-                // flicker the hit box.
-                hitboxManager.hitboxes[22].GetComponent<HitBox>().damage =  baseDamage * 0.5f;
-                foreach (Buff buff in buffManager.activeBuffs)
+                immolateCurrentTimer += Time.deltaTime;
+                if (immolateCurrentTimer >= immolateTargetTimer)
                 {
-                    if(buff.myType == BuffsManager.BuffType.Aflame)
+                    immolateCurrentTimer -= immolateTargetTimer;
+                    // flicker the hit box.
+                    hitboxManager.hitboxes[22].GetComponent<HitBox>().damage = baseDamage * 0.5f;
+                    foreach (Buff buff in buffManager.activeBuffs)
                     {
-                        hitboxManager.hitboxes[22].GetComponent<HitBox>().damage = ((buff.currentStacks * 0.045f) + 0.5f) * baseDamage;
-                        break;
+                        if (buff.myType == BuffsManager.BuffType.Aflame)
+                        {
+                            hitboxManager.hitboxes[22].GetComponent<HitBox>().damage = ((buff.currentStacks * 0.045f) + 0.5f) * baseDamage;
+                            break;
+                        }
                     }
+
+                    hitboxManager.LaunchHitBox(22);
                 }
-
-                hitboxManager.LaunchHitBox(22);
             }
-        }
-        else
-            immolateCurrentTimer = 0;
+            else
+                immolateCurrentTimer = 0;
 
-        // artic aura logic.
-        if (arcticAuraEnabled)
-        {
-            arcticAuraCurrentTimer += Time.deltaTime;
-            if (arcticAuraCurrentTimer >= arcticAuraTargetTimer)
+            // artic aura logic.
+            if (arcticAuraEnabled)
             {
-                arcticAuraCurrentTimer -= arcticAuraTargetTimer;
-                // flicker the hit box.
+                arcticAuraCurrentTimer += Time.deltaTime;
+                if (arcticAuraCurrentTimer >= arcticAuraTargetTimer)
+                {
+                    arcticAuraCurrentTimer -= arcticAuraTargetTimer;
+                    // flicker the hit box.
 
-                hitboxManager.LaunchHitBox(28);
-                hitboxManager.PlayParticles(67);
+                    hitboxManager.LaunchHitBox(28);
+                    hitboxManager.PlayParticles(67);
+                }
             }
-        }
-        else
-            arcticAuraCurrentTimer = 0;
+            else
+                arcticAuraCurrentTimer = 0;
 
-        // Update the health bar.
-        healthBar.targetValue = health;
+            // Update the health bar.
+            healthBar.targetValue = health;
 
-        if(!traitPoisonFireSpellOnHitReady)
-        {
-            traitPoisonFireSpellOnHitCurrentTimer += Time.deltaTime;
-            if(traitPoisonFireSpellOnHitCurrentTimer >= traitPoisonFireSpellOnHitTargetTimer)
+            if (!traitPoisonFireSpellOnHitReady)
             {
-                traitPoisonFireSpellOnHitReady = true;
-                traitPoisonFireSpellOnHitCurrentTimer = 0;
+                traitPoisonFireSpellOnHitCurrentTimer += Time.deltaTime;
+                if (traitPoisonFireSpellOnHitCurrentTimer >= traitPoisonFireSpellOnHitTargetTimer)
+                {
+                    traitPoisonFireSpellOnHitReady = true;
+                    traitPoisonFireSpellOnHitCurrentTimer = 0;
+                }
             }
-        }
-        if (!traitAflameStunsPeriodicallyReady)
-        {
-            traitAflameStunPeriodicallyCurrentTimer += Time.deltaTime;
-            if (traitAflameStunPeriodicallyCurrentTimer >= traitAflameStunPeriodicallyTargetTimer)
+            if (!traitAflameStunsPeriodicallyReady)
             {
-                traitAflameStunsPeriodicallyReady = true;
-                traitAflameStunPeriodicallyCurrentTimer = 0;
+                traitAflameStunPeriodicallyCurrentTimer += Time.deltaTime;
+                if (traitAflameStunPeriodicallyCurrentTimer >= traitAflameStunPeriodicallyTargetTimer)
+                {
+                    traitAflameStunsPeriodicallyReady = true;
+                    traitAflameStunPeriodicallyCurrentTimer = 0;
+                }
             }
         }
     }
@@ -609,6 +619,7 @@ public class PlayerStats : MonoBehaviour
         {
             Debug.Log("PlayerDeath");
             GetComponent<PlayerMovementController>().PlayerDowned();
+            GameManager.instance.PlayerDeath();
         }
         else
         {

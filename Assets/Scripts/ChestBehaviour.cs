@@ -75,6 +75,7 @@ public class ChestBehaviour : MonoBehaviour
             currentObject.GetComponentInChildren<Item>().ItemPopIn(currentObject.transform.position + currentObject.transform.forward * Random.Range(MIN_DROP_RING, MAX_DROP_RING));
         }
         transform.GetComponentInChildren<ParticleSystem>().Stop();
+        Destroy(transform.GetComponentInChildren<Light>());
         Destroy(chestCostText.transform.parent.gameObject);
     }
 }

@@ -23,6 +23,7 @@ public class HitBox : MonoBehaviour
     public bool projectile = false;
     public bool projectileAOE = false;
     public bool disjointedHitbox = false;
+    public bool trap = false;
 
 
     public float screenShakeAmount = 0;
@@ -299,13 +300,16 @@ public class HitBox : MonoBehaviour
                     }
                 }
 
-                if (projectile && procsOnHits || projectileAOE && procsOnHits)
-                    myStats.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this, damageDealt);
-                else if (procsOnHits)
-                    transform.root.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this, damageDealt);
+                if (!trap)
+                {
+                    if (projectile && procsOnHits || projectileAOE && procsOnHits)
+                        myStats.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this, damageDealt);
+                    else if (procsOnHits)
+                        transform.root.GetComponent<BuffsManager>().ProcOnHits(other.gameObject, this, damageDealt);
 
-                if (other.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceEnemyAttacksWeakendAtThreshold) > 0 && myStats.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Frostbite) >= 31 - other.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceEnemyAttacksWeakendAtThreshold))
-                    damageDealt *= 0.5f;
+                    if (other.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceEnemyAttacksWeakendAtThreshold) > 0 && myStats.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Frostbite) >= 31 - other.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceEnemyAttacksWeakendAtThreshold))
+                        damageDealt *= 0.5f;
+                }
 
                 if (damageType != DamageType.Healing)
                 {

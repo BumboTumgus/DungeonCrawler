@@ -106,20 +106,23 @@ public class BuffsManager : MonoBehaviour
 
         if (resistance < 100)
         {
-            if (buff == BuffType.Bleeding && PollForBuffStacks(BuffType.Windshear) >= 50 && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindBleedMoreBleedStacksAThreshold) > 0)
+            if (CompareTag("Player"))
             {
-                float newStackCount = stackCount * (1f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindBleedMoreBleedStacksAThreshold));
-                stackCount = Mathf.RoundToInt(newStackCount);
-            }
-            if (buff == BuffType.Windshear && stats.stunned && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindStunStunAmpsWindshearGain) > 0)
-            {
-                float newStackCount = stackCount * (1f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindStunStunAmpsWindshearGain));
-                stackCount = Mathf.RoundToInt(newStackCount);
-            }
-            if ((buff == BuffType.Aflame || buff == BuffType.Frostbite || buff == BuffType.Windshear || buff == BuffType.Sunder || buff == BuffType.Bleeding || buff == BuffType.Poisoned) && stats.stunned && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunAmpsAfflictionGain) > 0)
-            {
-                float newStackCount = stackCount * (1f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunAmpsAfflictionGain));
-                stackCount = Mathf.RoundToInt(newStackCount);
+                if (buff == BuffType.Bleeding && PollForBuffStacks(BuffType.Windshear) >= 50 && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindBleedMoreBleedStacksAThreshold) > 0)
+                {
+                    float newStackCount = stackCount * (1f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindBleedMoreBleedStacksAThreshold));
+                    stackCount = Mathf.RoundToInt(newStackCount);
+                }
+                if (buff == BuffType.Windshear && stats.stunned && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindStunStunAmpsWindshearGain) > 0)
+                {
+                    float newStackCount = stackCount * (1f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindStunStunAmpsWindshearGain));
+                    stackCount = Mathf.RoundToInt(newStackCount);
+                }
+                if ((buff == BuffType.Aflame || buff == BuffType.Frostbite || buff == BuffType.Windshear || buff == BuffType.Sunder || buff == BuffType.Bleeding || buff == BuffType.Poisoned) && stats.stunned && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunAmpsAfflictionGain) > 0)
+                {
+                    float newStackCount = stackCount * (1f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.StunAmpsAfflictionGain));
+                    stackCount = Mathf.RoundToInt(newStackCount);
+                }
             }
 
             for (int index = 0; index < stackCount; index++)

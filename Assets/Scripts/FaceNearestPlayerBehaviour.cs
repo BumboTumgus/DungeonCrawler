@@ -19,7 +19,7 @@ public class FaceNearestPlayerBehaviour : MonoBehaviour
     {
         while(enabled)
         {
-            if ((playerToFace.position - transform.position).sqrMagnitude <= MAX_UPDATE_RANGE * MAX_UPDATE_RANGE)
+            if (playerToFace && (playerToFace.position - transform.position).sqrMagnitude <= MAX_UPDATE_RANGE * MAX_UPDATE_RANGE)
             {
                 Quaternion newRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(transform.position - (playerToFace.position + Vector3.up)), ROTATION_SPEED * Time.deltaTime);
                 transform.rotation = newRotation;
