@@ -17,7 +17,7 @@ public class EnemyMovementManager : MonoBehaviour
     private Rigidbody rb;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         myStats = GetComponent<PlayerStats>();
@@ -38,9 +38,18 @@ public class EnemyMovementManager : MonoBehaviour
     }
 
     // Used to set the target position as well as the destination marker.
-    public void SetTarget(Vector3 Position)
+    public void SetTarget(Vector3 position, Vector3 secondaryPosition)
     {
-        agent.destination = Position;
+        //Debug.Log(agent.SetDestination(position));
+        if (!agent.SetDestination(position))
+            agent.destination = secondaryPosition;
+        /*
+        agent.destination = position;
+        if(!agent.hasPath)
+        {
+            Debug.Log("I DONT HAVE A PATHHHHH");
+        }
+        */
         agent.speed = myStats.speed * myStats.movespeedPercentMultiplier;
         arrivedAtTarget = false;
     }
@@ -70,14 +79,5 @@ public class EnemyMovementManager : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(new Vector3(horizontalMovement.x, 0, horizontalMovement.z).normalized, Vector3.up);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, spinSpeed);
         }
-    }
-
-    // Used to add a force to this unit and forcibly move it to a location
-    public void MoveToTarget(Vector3 target, float speed)
-    {
-        Vector3 direction = (transform.position - target).normalized;
-        rb.velocity = direction * speed * Time.deltaTime * -100;
-        rb.angularVelocity = Vector3.zero;
-        //Debug.Log("moving the unit with a force of " + direction * speed * Time.deltaTime * 1000);
     }
 }

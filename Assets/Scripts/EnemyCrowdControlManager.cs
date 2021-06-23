@@ -186,7 +186,7 @@ public class EnemyCrowdControlManager : MonoBehaviour
         {
             anim.SetBool("Stunned", false);
             movementManager.enableMovement = true;
-            combatController.SwitchAction(EnemyCombatController.ActionType.Idle);
+            combatController.SwitchAction(EnemyCombatController.ActionType.ChaseTarget);
         }
 
     }

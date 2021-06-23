@@ -30,7 +30,7 @@ public class EnemyAbilityBank : MonoBehaviour
     // Depending on the spell, start the proper coroutine.
     public void CastSpell(EnemyAbility spellType)
     {
-        Debug.Log("we are casting a spell");
+        //Debug.Log("we are casting a spell");
         switch (spellType)
         {
             case EnemyAbility.None:
@@ -233,7 +233,7 @@ public class EnemyAbilityBank : MonoBehaviour
                 // Instantiate the obhect, set it's damage and aim it at the player.
                 Vector3 forward = combatController.myTarget.transform.position - transform.position;
                 GameObject axe = Instantiate(spellProjectiles[0], transform.position + Vector3.up, Quaternion.LookRotation(forward, Vector3.up));
-                axe.GetComponent<HitBox>().damage = myStats.baseDamage * 2;
+                axe.GetComponent<HitBox>().damage = myStats.baseDamage * 1.5f;
                 axe.GetComponent<HitBox>().myStats = myStats;
             }
             movementManager.RotateToTarget(combatController.myTarget.transform.position);

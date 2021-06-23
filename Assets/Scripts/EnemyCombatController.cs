@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class EnemyCombatController : MonoBehaviour
 {
-    public bool patrol = false;
-    public bool inCombat = false;
     public float agroRange = 20f;
     public bool usePrimaryAttack = true;
 
@@ -26,8 +24,8 @@ public class EnemyCombatController : MonoBehaviour
 
     public GameObject myTarget;
     // A list of potential actions or behaviours
-    public enum ActionType { Attack, ChaseTarget, MaintainDistance, RetreatWhenLow, Idle, SpecialOne, SpecialTwo, SpecialThree, SpecialFour, LosingAgro, OnHitSpecialOne, LossOfControl};
-    public ActionType myCurrentAction = ActionType.Idle;
+    public enum ActionType { Attack, ChaseTarget, SpecialOne, SpecialTwo, SpecialThree, SpecialFour, OnHitSpecialOne, LossOfControl};
+    public ActionType myCurrentAction = ActionType.ChaseTarget;
 
     // This is the action hierarchy List, The actions go in in order of importance.s
     public ActionType[] actionHierarchy;
@@ -48,23 +46,20 @@ public class EnemyCombatController : MonoBehaviour
     void Start()
     {
         movementManager = GetComponent<EnemyMovementManager>();
-        playerPositions = GameObject.Find("GameManager").GetComponent<GameManager>().currentPlayers;
+        playerPositions = GameManager.instance.currentPlayers;
         myStats = GetComponent<PlayerStats>();
         anim = GetComponent<Animator>();
         hitBoxManager = GetComponent<HitBoxManager>();
         buffManager = GetComponent<BuffsManager>();
 
-        inCombat = false;
         abilityBank = GetComponent<EnemyAbilityBank>();
-        SwitchAction(ActionType.Idle);
+        myTarget = GameManager.instance.currentPlayers[0];
+        SwitchAction(ActionType.ChaseTarget);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha2) && CompareTag("Enemy"))
-            GetComponent<EnemyCrowdControlManager>().KnockbackLaunch(Vector3.up + transform.forward * 10, GetComponent<PlayerStats>());
-
         myStats.currentAttackDelay += Time.deltaTime;
         specialOneCurrentCooldown += Time.deltaTime;
         specialTwoCurrentCooldown += Time.deltaTime;
@@ -84,15 +79,8 @@ public class EnemyCombatController : MonoBehaviour
             case ActionType.ChaseTarget:
                 StartCoroutine(ChaseTarget());
                 break;
-            case ActionType.MaintainDistance:
-                break;
-            case ActionType.RetreatWhenLow:
-                break;
             case ActionType.LossOfControl:
                 StopAllCoroutines();
-                break;
-            case ActionType.Idle:
-                StartCoroutine(Idle());
                 break;
             case ActionType.SpecialOne:
                 specialOneCurrentCooldown = 0;
@@ -108,9 +96,6 @@ public class EnemyCombatController : MonoBehaviour
                 break;
             case ActionType.SpecialFour:
                 break;
-            case ActionType.LosingAgro:
-                StartCoroutine(LosingAgro());
-                break;
             case ActionType.OnHitSpecialOne:
                 onHitSpecialOneCurrentCooldown = 0;
                 myCurrentAction = ActionType.OnHitSpecialOne;
@@ -121,102 +106,28 @@ public class EnemyCombatController : MonoBehaviour
         }
     }
 
-    // The idle corotuine, we check to see if enemies are in range
-    IEnumerator Idle()
-    {
-        movementManager.StopMovement();
-        anim.SetFloat("Speed", 0);
-        myCurrentAction = ActionType.Idle;
-        inCombat = false;
-
-        float targetTimer = 0.2f;
-        float currentTimer = 0;
-        while(!inCombat)
-        {
-            if(myTarget != null)
-                movementManager.RotateToTarget(myTarget.transform.position);
-            // Increment the time and see if we surpassed our check target.
-            currentTimer += Time.deltaTime;
-            if (currentTimer > targetTimer) 
-            {
-                currentTimer -= targetTimer;
-                AgroOntoNearestTarget();
-            }
-            yield return new WaitForEndOfFrame();
-        }
-
-    }
-
     // the corotuine that is called when we are to chase the player.
     IEnumerator ChaseTarget()
     {
         // allow us to chase the target in question.
-        movementManager.SetTarget(myTarget.transform.position);
+        if(myTarget.CompareTag("Player"))
+            movementManager.SetTarget(myTarget.transform.position, myTarget.GetComponent<PlayerMovementController>().transformNavMeshPosition);
+        else
+            movementManager.SetTarget(myTarget.transform.position, Vector3.zero);
         movementManager.enableMovement = true;
         myCurrentAction = ActionType.ChaseTarget;
         anim.SetFloat("Speed", 1);
 
         float currentTimer = 0;
-        float targetTimer = 0.1f;
-        while(inCombat)
+        float targetTimer = 0.05f;
+
+        while (currentTimer < targetTimer)
         {
             currentTimer += Time.deltaTime;
-            if(currentTimer > targetTimer)
-            {
-                currentTimer -= targetTimer;
-                // Here we check for a deagro and check to see if we are in range for an attack.
-                if (CheckDistanceWallObstructed(agroRange, myTarget.transform))
-                {
-                    // They are in range and we see them.
-                    //Debug.Log("checking action hierarchy");
-                    CheckActionHierarchy();
-                    //if (!movementManager.arrivedAtTarget)
-                    //{
-                    //ActionType[] actions = { ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.CircleTarget };
-                    //float[] chances = { 10, 10, circleTargetChance / 2 };
-                    //RollChanceForActions(actions, chances);
-                    //}
-                    // We are in range to hit them enter the attack state.
-                    //else
-                    //{
-                    //    SwitchAction(ActionType.Attack);
-                    //}
-                }
-                else
-                {
-                    // Begin the deagro coroutine.
-                    SwitchAction(ActionType.LosingAgro);
-                }
-            }
             yield return new WaitForEndOfFrame();
         }
 
-        anim.SetFloat("Speed", 0);
-    }
-
-    // The losing agro coroutine
-    IEnumerator LosingAgro()
-    {
-        myCurrentAction = ActionType.LosingAgro;
-        // wait for 3 seconds then check to see if we can see any player. if we can we agro onto them if we cant we idle.
-        float currentTimer = 0;
-        float targetTimer = 0.2f;
-        float currentDuration = 0;
-        float targetDuration = 3f;
-        while(currentDuration < targetDuration)
-        {
-            currentDuration += Time.deltaTime;
-            currentTimer += Time.deltaTime;
-            // here we check if we should do an agro check.
-            if(currentTimer > targetTimer)
-            {
-                currentTimer -= targetTimer;
-                AgroOntoNearestTarget();
-            }
-            yield return new WaitForEndOfFrame();
-        }
-        inCombat = false;
-        SwitchAction(ActionType.Idle);
+        CheckActionHierarchy();
     }
 
     IEnumerator Attack()
@@ -311,42 +222,6 @@ public class EnemyCombatController : MonoBehaviour
         return inRange;
     }
 
-    // USed to make this enemy agro onto the nearest player, if applicable.
-    public void AgroOntoNearestTarget()
-    {
-        //Debug.Log("checking for nearest player to agro onto");
-        // Check to see if any players are in range.
-        bool playersInRange = false;
-        float closestDistance = Mathf.Infinity;
-        GameObject closestPlayer = null;
-        foreach (GameObject player in playerPositions)
-        {
-            // Check if the player is within my agro range, and if they are blocked by walls. Grab the closest player within the agro range.
-            if(CheckDistanceWallObstructed(agroRange, player.transform))
-            {
-                // If this player is closer, set it as the closest player to me. If the player is dead ignore them
-                if(closestDistance > (player.transform.position - transform.position).sqrMagnitude && !player.GetComponent<PlayerStats>().dead)
-                {
-                    playersInRange = true;
-                    closestDistance = (player.transform.position - transform.position).sqrMagnitude;
-                    closestPlayer = player;
-                }
-            }
-        }
-
-        // If we have a player in range, start combat with that player.
-        if (playersInRange)
-            StartCombat(closestPlayer);
-    }
-
-    // USed to start combat with a certain target
-    public void StartCombat(GameObject target)
-    {
-        //Debug.Log("we are starting combat now");
-        inCombat = true;
-        myTarget = target;
-        SwitchAction(ActionType.ChaseTarget);
-    }
 
     // Used to check wether we should make this enmy body commit an action or not based on a percentage chance
     public void RollChanceForAction(ActionType actionToSwitchTo, float percentChance)
@@ -436,20 +311,14 @@ public class EnemyCombatController : MonoBehaviour
 
     }
 
-    // Used when this unit dies
-    public void UnitDeath()
-    {
-        
-    }
-
     // Used When the player we were fighting dies.
     public void TargetDeath()
     {
         //Debug.Log("The target is dead so wed deagro on them here.");
         StopAllCoroutines();
         myTarget = null;
-        myCurrentAction = ActionType.Idle;
-        SwitchAction(ActionType.Idle);
+        myCurrentAction = ActionType.ChaseTarget;
+        SwitchAction(ActionType.ChaseTarget);
     }
 
     // Used to check the action hierachy we set t0o see what our nect course of action should be.
@@ -462,7 +331,7 @@ public class EnemyCombatController : MonoBehaviour
         // Check if our target is alive
         if(myTarget.GetComponent<PlayerStats>() != null && myTarget.GetComponent<PlayerStats>().dead)
         {
-            SwitchAction(ActionType.LosingAgro);
+            SwitchAction(ActionType.ChaseTarget);
             return;
         }
 
@@ -482,10 +351,6 @@ public class EnemyCombatController : MonoBehaviour
                     // This action is known as a baseline action, it will always execute no matter the situation.
                 case ActionType.ChaseTarget:
                     actionFound = true;
-                    break;
-                case ActionType.MaintainDistance:
-                    break;
-                case ActionType.RetreatWhenLow:
                     break;
                 case ActionType.SpecialOne:
                     if (specialOneCurrentCooldown > specialOneCooldown && Random.Range(0, 100) > 100 - actionChances[index])

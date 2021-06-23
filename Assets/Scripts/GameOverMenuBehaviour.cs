@@ -1,11 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameOverMenuBehaviour : MonoBehaviour
 {
-    [SerializeField] Animator fadeOutAnim;
+    [SerializeField] Animator fadeOutAnimGameOver;
+    [SerializeField] Animator fadeOutAnimSwitchScenes;
     [SerializeField] GameObject gameOverMenu;
+
+
+    // Used to launch the game into the prep scene before we load scene 1
+    public void ButtonPressLaunchMainMenuScene()
+    {
+        StartCoroutine(BackToMenu());
+    }
+
+    IEnumerator BackToMenu()
+    {
+        fadeOutAnimSwitchScenes.gameObject.SetActive(true);
+        fadeOutAnimSwitchScenes.SetTrigger("FadeOut");
+        fadeOutAnimSwitchScenes.updateMode = AnimatorUpdateMode.UnscaledTime;
+
+        yield return new WaitForSecondsRealtime(1f);
+
+        GameManager.instance.PreMenuSceneCleanup();
+        SceneManager.LoadScene("MainMenu");
+        Time.timeScale = 1;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +44,7 @@ public class GameOverMenuBehaviour : MonoBehaviour
         gameOverMenu.SetActive(true);
         gameOverMenu.GetComponent<CanvasGroup>().interactable = true;
         gameOverMenu.GetComponent<CanvasGroup>().blocksRaycasts = true;
-        fadeOutAnim.SetTrigger("GameOver");
+        fadeOutAnimGameOver.SetTrigger("GameOver");
     }
 
 

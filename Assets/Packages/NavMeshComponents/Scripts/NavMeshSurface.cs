@@ -19,6 +19,9 @@ namespace UnityEngine.AI
     [HelpURL("https://github.com/Unity-Technologies/NavMeshComponents#documentation-draft")]
     public class NavMeshSurface : MonoBehaviour
     {
+
+        public static NavMeshSurface instance;
+
         [SerializeField]
         int m_AgentTypeID;
         public int agentTypeID { get { return m_AgentTypeID; } set { m_AgentTypeID = value; } }
@@ -89,6 +92,12 @@ namespace UnityEngine.AI
         public static List<NavMeshSurface> activeSurfaces
         {
             get { return s_NavMeshSurfaces; }
+        }
+
+        private void Start()
+        {
+            if (NavMeshSurface.instance == null)
+                instance = this;
         }
 
         void OnEnable()

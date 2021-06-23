@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 797312374364728065}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.258, y: 0, z: 0}
+  m_LocalPosition: {x: -0.258, y: 0, z: 0.038}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7087006942436722308}
@@ -4068,17 +4068,17 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.509434, g: 0.4450177, b: 0.37006053, a: 0}
-        key1: {r: 1, g: 1, b: 1, a: 1}
-        key2: {r: 0, g: 0, b: 0, a: 0}
+        key0: {r: 1, g: 1, b: 1, a: 0}
+        key1: {r: 0.8396226, g: 0.07920967, b: 0.07920967, a: 1}
+        key2: {r: 0.38679248, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
-        ctime1: 65535
-        ctime2: 0
+        ctime1: 14071
+        ctime2: 65535
         ctime3: 0
         ctime4: 0
         ctime5: 0
@@ -4093,7 +4093,7 @@ ParticleSystem:
         atime6: 0
         atime7: 0
         m_Mode: 0
-        m_NumColorKeys: 2
+        m_NumColorKeys: 3
         m_NumAlphaKeys: 3
       minGradient:
         serializedVersion: 2
@@ -4705,6 +4705,7 @@ ParticleSystemRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4765,6 +4766,7 @@ GameObject:
   - component: {fileID: 2066344600195414531}
   - component: {fileID: 5903975976223765328}
   - component: {fileID: 8586056228980849993}
+  - component: {fileID: 1427664948}
   m_Layer: 15
   m_Name: ThrowingAxe
   m_TagString: Untagged
@@ -4799,10 +4801,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d66a496a3a991da4e80593d2de3a3c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileSpeed: 10
-  projectileLifetime: 10
+  projectileSpeed: 15
+  projectileSpeedDecay: 0
+  projectileLifetime: 30
+  piercesTargets: 0
+  piercesWalls: 0
   hitAOE: 0
   trackTarget: 0
+  YSpin: 0
+  gravModifier: 0
   trackingStrength: 0.1
   target: {fileID: 0}
   particleTrails:
@@ -4822,9 +4829,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ca63109a0f9e34a88e972919c41ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageType: 8
   damage: 5
+  stacksToAdd: 1
   crit: 0
-  damageOverload: 1
+  canCrit: 1
+  critRolled: 0
   procsOnHits: 1
   hitEnemies: 0
   hitPlayers: 1
@@ -4833,9 +4843,8 @@ MonoBehaviour:
   projectile: 1
   projectileAOE: 0
   disjointedHitbox: 0
-  bypassCrit: 0
-  forceChangeDamageColor: 0
-  damageColorOverride: {r: 0, g: 0, b: 0, a: 0}
+  trap: 0
+  screenShakeAmount: 0
 --- !u!136 &8586056228980849993
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4850,6 +4859,22 @@ CapsuleCollider:
   m_Height: 0.1
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1427664948
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6634279330284547712}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7087006942436722311
 GameObject:
   m_ObjectHideFlags: 0
@@ -4914,6 +4939,10 @@ PrefabInstance:
       value: SM_Wep_Goblin_Axe_01
       objectReference: {fileID: 0}
     - target: {fileID: 446452, guid: 9119d186ed5f8824da8756f69a439a82, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 446452, guid: 9119d186ed5f8824da8756f69a439a82, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.075999975
       objectReference: {fileID: 0}
@@ -4926,6 +4955,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 446452, guid: 9119d186ed5f8824da8756f69a439a82, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 446452, guid: 9119d186ed5f8824da8756f69a439a82, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -4936,14 +4969,6 @@ PrefabInstance:
     - target: {fileID: 446452, guid: 9119d186ed5f8824da8756f69a439a82, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 446452, guid: 9119d186ed5f8824da8756f69a439a82, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 446452, guid: 9119d186ed5f8824da8756f69a439a82, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 446452, guid: 9119d186ed5f8824da8756f69a439a82, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

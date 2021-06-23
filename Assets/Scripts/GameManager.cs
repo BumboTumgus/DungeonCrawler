@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
             instance = this;
 
-        //StartCoroutine(Initialization());
+        StartCoroutine(Initialization());
     }
 
     IEnumerator Initialization()
@@ -60,6 +60,9 @@ public class GameManager : MonoBehaviour
         }
 
         yield return new WaitForEndOfFrame();
+
+        playerUis = new List<GameObject>();
+        playerCameras = new List<GameObject>();
 
         Debug.Log("creating EVERYTHING");
         // Here we create a player, their ui and a camera and connect everything.
@@ -192,6 +195,8 @@ public class GameManager : MonoBehaviour
         {
             chest.transform.Find("MoneyCostCanvas").GetComponent<FaceNearestPlayerBehaviour>().playerToFace = currentPlayers[0].transform;
         }
+
+        EnemyManager.instance.LevelSetup();
     }
 
     public void LaunchPlayerTeleport()
@@ -205,6 +210,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Starting the teleport logic");
         AsyncOperation sceneToLoad = SceneManager.LoadSceneAsync(sceneNames[0]);
         sceneToLoad.allowSceneActivation = false;
+        EnemyManager.instance.allowEnemySpawns = false;
 
         // STart loading shit here
         foreach(GameObject player in currentPlayers)
@@ -260,7 +266,7 @@ public class GameManager : MonoBehaviour
         for(int index =0; index < currentPlayers.Length; index++)
             Destroy(currentPlayers[index]);
         for (int index = 0; index < playerUis.Count; index++)
-            Destroy(playerUis[index]);
+            Destroy(playerUis[index], 0.05f);
         for (int index = 0; index < playerCameras.Count; index++)
             Destroy(playerCameras[index]);
         Destroy(eventSystemReference);

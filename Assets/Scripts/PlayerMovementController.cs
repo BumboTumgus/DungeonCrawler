@@ -10,6 +10,9 @@ public class PlayerMovementController : MonoBehaviour
 
     [HideInInspector] public bool menuOpen = false;                   // USed to lock movement if the menu is open.
     public GameObject inventoryWindow;                                // a public reference to the gameobject that is the inventory window.
+    public Vector3 transformNavMeshPosition;
+    private Ray navMeshPositionRay;
+    private RaycastHit navMeshPositionRayHit;
 
     [SerializeField] private float movementSpeed = 2f;                // our base movespeed, gets overridden based on the characters stats in the stats script.
     private float currentSpeed = 0f;                                  // the current speed we are moving at.
@@ -172,6 +175,10 @@ public class PlayerMovementController : MonoBehaviour
                 break;
         }
         CheckMenuInputs();
+
+        navMeshPositionRay = new Ray(transform.position, Vector3.down * 50);
+        if (Physics.Raycast(navMeshPositionRay, out navMeshPositionRayHit, 100, groundingRayMask))
+            transformNavMeshPosition = navMeshPositionRayHit.point;
     }
 
     private void Move()

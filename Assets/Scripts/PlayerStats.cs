@@ -7,6 +7,8 @@ public class PlayerStats : MonoBehaviour
     public string playerName = "Jose";
     public string playerTitle = "Mighty";
 
+    public float enemyBatchCost = 0;
+
     public float baseDamage = 1;
     public float baseBaseDamage = 8;
     public float baseDamageGrowth = 1;
@@ -571,15 +573,8 @@ public class PlayerStats : MonoBehaviour
             // Create an array of all players.
             lastHitBy.GetComponent<BuffsManager>().ProcOnKill(gameObject, damageType);
 
-            GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-            GameObject[] players = new GameObject[gm.currentPlayers.Length];
-            for(int index = 0; index < players.Length; index++)
-            {
-                players[index] = gm.currentPlayers[index];
-            }
-
             // If any player was agrod onto us, end their combat. and add exp to all players.
-            foreach (GameObject player in players)
+            foreach (GameObject player in GameManager.instance.currentPlayers)
             {
                 player.GetComponent<PlayerStats>().AddExp(exp);
                 player.GetComponent<PlayerStats>().AddGold(gold);
@@ -642,7 +637,7 @@ public class PlayerStats : MonoBehaviour
             if (!healthBar)
             {
                 // Spawn one and set its follow target and then grab it's healthbar script for updates.
-                GameObject healthBarParent = Instantiate(enemyHealthBar, new Vector3(1000, 1000, 1000), new Quaternion(0, 0, 0, 0), GameObject.Find("PrimaryCanvas").transform);
+                GameObject healthBarParent = Instantiate(enemyHealthBar, new Vector3(1000, 1000, 1000), new Quaternion(0, 0, 0, 0), GameManager.instance.playerUis[0].transform);
                 healthBarParent.GetComponent<UiFollowTarget>().target = transform.Find("UiFollowTarget_Name");
                 GetComponent<BuffsManager>().canvasParent = healthBarParent.transform.Find("BuffIconParents");
                 healthBarParent.transform.SetAsFirstSibling();
