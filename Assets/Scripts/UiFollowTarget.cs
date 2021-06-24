@@ -6,13 +6,15 @@ public class UiFollowTarget : MonoBehaviour
 {
     public Transform target;
     public bool hideIfBehindCamera = true;
+    public bool ignoreCameraDistanceCull = false;
 
     private Camera mainCamera;
+    private Coroutine ignoreDistanceCullCoroutine;
 
     // Grab the camera reference
     private void Start()
     {
-        mainCamera = Camera.main;
+        mainCamera = GameManager.instance.playerCameras[0].GetComponent<Camera>();
         mainCamera.GetComponent<UiHideBehindPlayer>().targets.Add(this);
     }
 
@@ -25,5 +27,22 @@ public class UiFollowTarget : MonoBehaviour
     public void RemoveFromCullList()
     {
         mainCamera.GetComponent<UiHideBehindPlayer>().targets.Remove(this);
+    }
+
+    public void TriggerIgnoreCameraDistanceCull()
+    {
+        if (ignoreDistanceCullCoroutine != null)
+            StopCoroutine(ignoreDistanceCullCoroutine);
+
+        ignoreDistanceCullCoroutine = StartCoroutine(IgnoreCameraDistanceCull());
+    }
+
+    IEnumerator IgnoreCameraDistanceCull()
+    {
+        ignoreCameraDistanceCull = true;
+
+        yield return new WaitForSeconds(5);
+
+        ignoreCameraDistanceCull = false;
     }
 }

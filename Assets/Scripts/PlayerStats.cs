@@ -511,6 +511,9 @@ public class PlayerStats : MonoBehaviour
             if (CompareTag("Enemy") && GetComponent<EnemyCombatController>() != null && GetComponent<EnemyCombatController>().onHitActionHierarchy.Length > 0)
                 GetComponent<EnemyCombatController>().CheckOnHitActionHierarchy();
 
+            if (CompareTag("Enemy"))
+                healthBar.transform.parent.GetComponent<UiFollowTarget>().TriggerIgnoreCameraDistanceCull();
+
             // Update the health bar.
             healthBar.targetValue = health;
 

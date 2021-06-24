@@ -68,6 +68,22 @@ public class EnemyAbilityBank : MonoBehaviour
         }
     }
 
+    public void ShootProjectileForward(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                // Instantiate the obhect, set it's damage and aim it at the player.
+                Vector3 forward = combatController.myTarget.transform.position - transform.position;
+                GameObject axe = Instantiate(spellProjectiles[0], transform.position + Vector3.up, Quaternion.LookRotation(forward, Vector3.up));
+                axe.GetComponent<HitBox>().damage = myStats.baseDamage * 1.5f;
+                axe.GetComponent<HitBox>().myStats = myStats;
+                break;
+            default:
+                break;
+        }
+    }
+
     IEnumerator RockGolemSlamShockwave()
     {
         //Debug.Log(" i am performing the slam shockwave");
@@ -217,25 +233,14 @@ public class EnemyAbilityBank : MonoBehaviour
     IEnumerator ThrowingAxe()
     {
         //Debug.Log(" i am performing the axe throw");
-        anim.SetTrigger("ThrowingAxe");
+        anim.SetTrigger("AxeThrow");
         movementManager.StopMovement();
         float currentTimer = 0;
-        float targetAxeTimer = 0.6f;
-        float targetTimer = 2;
-        bool projectileThrown = false;
+        float targetTimer = 1.4f;
 
         while(currentTimer < targetTimer)
         {
             currentTimer += Time.deltaTime;
-            if(!projectileThrown && currentTimer > targetAxeTimer)
-            {
-                projectileThrown = true;
-                // Instantiate the obhect, set it's damage and aim it at the player.
-                Vector3 forward = combatController.myTarget.transform.position - transform.position;
-                GameObject axe = Instantiate(spellProjectiles[0], transform.position + Vector3.up, Quaternion.LookRotation(forward, Vector3.up));
-                axe.GetComponent<HitBox>().damage = myStats.baseDamage * 1.5f;
-                axe.GetComponent<HitBox>().myStats = myStats;
-            }
             movementManager.RotateToTarget(combatController.myTarget.transform.position);
             yield return new WaitForEndOfFrame();
         }

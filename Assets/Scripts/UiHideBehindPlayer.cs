@@ -6,7 +6,7 @@ public class UiHideBehindPlayer : MonoBehaviour
 {
     public List<UiFollowTarget> targets = new List<UiFollowTarget>();
 
-    private const float ANGULAR_THRESHOLD = 90;
+    private const float DISTANCE_THRESHOLD = 1000;
 
     // Update is called once per frame
     void Update()
@@ -26,13 +26,25 @@ public class UiHideBehindPlayer : MonoBehaviour
                     ui.gameObject.SetActive(true);
                 */
                 Vector3 toTarget = (ui.target.position - transform.position).normalized;
+                Vector3 distanceToTarget = (ui.target.position - transform.position);
 
                 if (Vector3.Dot(toTarget, transform.forward) > 0)
-                    ui.gameObject.SetActive(true);
+                {
+                    if (distanceToTarget.sqrMagnitude <= DISTANCE_THRESHOLD || ui.GetComponent<UiFollowTarget>().ignoreCameraDistanceCull)
+                        ui.gameObject.SetActive(true);
+                    else
+                    {
+                        ui.gameObject.SetActive(false);
+                        ui.transform.localPosition = new Vector3(1000, 1000, 0);
+                    }
+                }
                 else if (ui.gameObject.CompareTag("PopUpNumber"))
                     Destroy(ui.gameObject);
                 else
+                {
                     ui.gameObject.SetActive(false);
+                    ui.transform.localPosition = new Vector3(1000, 1000, 0);
+                }
 
             }
         }

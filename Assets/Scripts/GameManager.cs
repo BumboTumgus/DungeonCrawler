@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
             instance = this;
 
-        StartCoroutine(Initialization());
+        //StartCoroutine(Initialization());
     }
 
     IEnumerator Initialization()
