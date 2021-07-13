@@ -188,6 +188,8 @@ public class PlayerStats : MonoBehaviour
             AddGold((int)Random.Range(1, 100000));
         if (Input.GetKeyDown(KeyCode.H) && CompareTag("Player"))
             ItemGenerator.instance.IncrementRcIndex();
+        if (Input.GetKeyDown(KeyCode.KeypadPlus) && CompareTag("Enemy"))
+            GetComponent<EnemyCrowdControlManager>().KnockbackLaunch((transform.forward + Vector3.up) * 7, this);
         /*
         //USed to bebug money and the economy
           
@@ -227,8 +229,6 @@ public class PlayerStats : MonoBehaviour
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.KeypadEnter) && CompareTag("Player"))
             buffManager.NewBuff(BuffsManager.BuffType.ArmorBroken, baseDamage, this);
-        if (Input.GetKeyDown(KeyCode.KeypadPlus) && CompareTag("Player"))
-            GetComponent<PlayerMovementController>().KnockbackLaunch((transform.forward + Vector3.up) * 5, this);
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.GreviousWounds, 1, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.KeypadMinus))

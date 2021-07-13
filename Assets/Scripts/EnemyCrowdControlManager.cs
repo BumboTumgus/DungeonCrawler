@@ -11,6 +11,8 @@ public class EnemyCrowdControlManager : MonoBehaviour
     private RagdollManager ragdollManager;
     private EnemyMovementManager movementManager;
 
+    private IEnumerator knockbackCoroutine;
+
     private void Start()
     {
         myStats = GetComponent<PlayerStats>();
@@ -106,7 +108,12 @@ public class EnemyCrowdControlManager : MonoBehaviour
             ragdollManager.StopAllCoroutines();
             anim.ResetTrigger("GettingUpFacingDown");
             anim.ResetTrigger("GettingUpFacingUp");
-            StartCoroutine(Knockback(directionOfKnockback));
+
+            if (knockbackCoroutine != null)
+                StopCoroutine(knockbackCoroutine);
+            knockbackCoroutine = Knockback(directionOfKnockback);
+            StartCoroutine(knockbackCoroutine);
+
             GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.Knockback, 0, buffApplier);
         }
     }
@@ -147,8 +154,9 @@ public class EnemyCrowdControlManager : MonoBehaviour
 
         for (int index = 0; index < 6; index++)
         {
-            //Debug.Log(anim.GetLayerName(index));
-            anim.SetLayerWeight(index, 0);
+            Debug.Log(anim.GetLayerName(index));
+            if(anim.GetLayerName(index) != "GettingUp")
+                anim.SetLayerWeight(index, 0);
         }
 
         if (ragdollManager.getUpFaceUp)
