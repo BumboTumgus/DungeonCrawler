@@ -10,6 +10,7 @@ public class EnemyMovementManager : MonoBehaviour
 
     public float spinSpeed = 0.05f;
     public int currentStance = 0;
+    public float animWalkSpeed = 1;
 
     public NavMeshAgent agent;
     private EnemyCombatController combatController;
@@ -24,6 +25,8 @@ public class EnemyMovementManager : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         combatController = GetComponent<EnemyCombatController>();
         GetComponent<Animator>().SetInteger("CurrentStance", currentStance);
+        GetComponent<Animator>().SetFloat("AnimSpeed", animWalkSpeed);
+
     }
 
     // Update is called once per frame
@@ -57,9 +60,12 @@ public class EnemyMovementManager : MonoBehaviour
     // used to stop us from moving 
     public void StopMovement()
     {
-        //agent.destination = transform.position;
-        if(agent != null)
+        //Debug.Log("stopping my movement");
+        agent.destination = transform.position;
+
+        if (agent != null)
             agent.speed = 0;
+
         if (rb != null)
         {
             rb.velocity = Vector3.zero;

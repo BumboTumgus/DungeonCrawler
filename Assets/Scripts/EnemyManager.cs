@@ -15,12 +15,13 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private int enemyLevel = 0;
 
     [SerializeField] private GameObject[] enemyBank;
+    [SerializeField] private GameObject[] enemyBossBank;
+    [SerializeField] private List<GameObject> spawnableEnemies = new List<GameObject>();
 
     Coroutine enemySpawnRoutine;
 
     const float MAXIMUM_DISTANCE_FROM_PLAYER = 200;
-    const float MAXIMUM_ATTEMPTED_SPAWNS = 50;
-
+    const float MAXIMUM_ATTEMPTED_SPAWNS = 10;
 
 
     // Start is called before the first frame update
@@ -31,6 +32,14 @@ public class EnemyManager : MonoBehaviour
         else
             Destroy(this);
 
+        foreach (GameObject enemy in enemyBank)
+            spawnableEnemies.Add(enemy);
+    }
+
+    public void AddEligibleEnemiesToSpawn()
+    {
+        foreach (GameObject boss in enemyBossBank)
+            spawnableEnemies.Add(boss);
     }
 
     private void Update()
@@ -63,22 +72,23 @@ public class EnemyManager : MonoBehaviour
 
     IEnumerator SpawnEnemyBatch()
     {
-        Debug.Log("SpawnBAtch coroutine started");
+        //Debug.Log("SpawnBAtch coroutine started");
         while (allowEnemySpawns)
         {
             // create the enemy batch we want to spawn.
             List<GameObject> enemyBatch = new List<GameObject>();
-            int enemyBatchEnemyCount = Random.Range(3, 7);
+            //int enemyBatchEnemyCount = Random.Range(3, 7);
+            int enemyBatchEnemyCount = 1;
             float batchCost = 0;
             float batchSpawnDelay = Random.Range(3, 10);
 
             for (int index = 0; index < enemyBatchEnemyCount; index++)
             {
-                GameObject enemyToAddToBatch = enemyBank[Random.Range(0, enemyBank.Length)];
+                GameObject enemyToAddToBatch = spawnableEnemies[Random.Range(0, spawnableEnemies.Count)];
                 enemyBatch.Add(enemyToAddToBatch);
                 batchCost += enemyToAddToBatch.GetComponent<PlayerStats>().enemyBatchCost;
             }
-            Debug.Log("Batch creaed oif cost: " + batchCost);
+            //Debug.Log("Batch creaed oif cost: " + batchCost);
 
             // We now have a batch of enemies with a total cost. We will wait until the cost has been reached and spawn them in.
             yield return new WaitForSeconds(batchSpawnDelay);
@@ -87,7 +97,7 @@ public class EnemyManager : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             }
 
-            Debug.Log("Batchbeing spawned ");
+            //Debug.Log("Batch being spawned ");
             // When we have the budget to spawn these enemies, figure out if this batch will be true random around the map or in a bunch near the player
             bool spawnNearPlayer = false;
             if (Random.Range(0, 100) >= 50)
@@ -102,17 +112,17 @@ public class EnemyManager : MonoBehaviour
 
                 while (!suitableSpawn)
                 {
-                    Debug.Log("we will find a spawn here");
+                    //Debug.Log("we will find a spawn here");
                     attemptedSpawns++;
                     if (!spawnNearPlayer)
                     {
-                        Debug.Log("we are not spawning near the player");
+                        //Debug.Log("we are not spawning near the player");
                         spawnPoint = enemySpawns[Random.Range(0, enemySpawns.Length)].position;
                         suitableSpawn = true;
                     }
                     else
                     {
-                        Debug.Log("we are spawning near the player");
+                        //Debug.Log("we are spawning near the player");
                         spawnPoint = enemySpawns[Random.Range(0, enemySpawns.Length)].position;
                         if ((spawnPoint - GameManager.instance.currentPlayers[0].transform.position).sqrMagnitude <= MAXIMUM_DISTANCE_FROM_PLAYER)
                             suitableSpawn = true;
@@ -121,11 +131,11 @@ public class EnemyManager : MonoBehaviour
 
                     }
                 }
-                Debug.Log("Created an enemy ");
+                //Debug.Log("Created an enemy:  " + enemy);
                 GameObject enemyGO = Instantiate(enemy, spawnPoint, Quaternion.identity);
                 enemyGO.GetComponent<DamageNumberManager>().primaryCanvas = GameManager.instance.playerUis[0].transform;
             }
-            Debug.Log("Chilling before we loop back to the top or end");
+            //Debug.Log("Chilling before we loop back to the top or end");
 
             yield return new WaitForSeconds(1);
         }
@@ -133,10 +143,11 @@ public class EnemyManager : MonoBehaviour
 
     public void LevelSetup()
     {
-        Debug.Log("Enemy manager setup compelte");
+        //Debug.Log("Enemy manager setup compelte");
         enemySpawns = GameObject.Find("EnemySpawns").GetComponentsInChildren<Transform>();
         allowEnemySpawns = true;
-        enemyPoints = 30;
+        enemyPoints = 5;
+        enemyStats = new List<PlayerStats>();
         StartEnemyBatchSpawnCoroutine();
     }
 }

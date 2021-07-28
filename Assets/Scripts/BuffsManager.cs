@@ -1737,7 +1737,7 @@ public class BuffsManager : MonoBehaviour
     {
         if (CompareTag("Player"))
         {
-            Debug.Log("proccing thre players on kills now");
+            //Debug.Log("proccing thre players on kills now");
             // DO we have a trait that procs an onhit.
             for (int traitIndex = 0; traitIndex < playerTraitManager.OnKillEffects.Count; traitIndex++)
             {

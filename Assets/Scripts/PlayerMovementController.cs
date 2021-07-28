@@ -782,6 +782,7 @@ public class PlayerMovementController : MonoBehaviour
                 inventoryWindow.SetActive(true);
                 menuOpen = true;
                 cameraControls.menuOpen = true;
+                Cursor.visible = true;
             }
             else
             {
@@ -791,6 +792,7 @@ public class PlayerMovementController : MonoBehaviour
                 inventoryWindow.GetComponent<InventoryPopupTextManager>().HidePopups();
                 menuOpen = false;
                 cameraControls.menuOpen = false;
+                Cursor.visible = false;
             }
         }
     }

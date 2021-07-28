@@ -14,7 +14,7 @@ public class UiFollowTarget : MonoBehaviour
     // Grab the camera reference
     private void Start()
     {
-        mainCamera = GameManager.instance.playerCameras[0].GetComponent<Camera>();
+        mainCamera = GameManager.instance.playerCameras[0].GetComponentInChildren<Camera>();
         mainCamera.GetComponent<UiHideBehindPlayer>().targets.Add(this);
     }
 

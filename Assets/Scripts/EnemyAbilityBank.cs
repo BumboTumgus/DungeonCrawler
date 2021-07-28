@@ -70,14 +70,48 @@ public class EnemyAbilityBank : MonoBehaviour
 
     public void ShootProjectileForward(int index)
     {
+        Vector3 forward = combatController.myTarget.transform.position - transform.position;
         switch (index)
         {
             case 0:
                 // Instantiate the obhect, set it's damage and aim it at the player.
-                Vector3 forward = combatController.myTarget.transform.position - transform.position;
                 GameObject axe = Instantiate(spellProjectiles[0], transform.position + Vector3.up, Quaternion.LookRotation(forward, Vector3.up));
                 axe.GetComponent<HitBox>().damage = myStats.baseDamage * 1.5f;
                 axe.GetComponent<HitBox>().myStats = myStats;
+                break;
+            case 1:
+                // Instantiate the obhect, set it's damage and aim it at the player.
+                GameObject acidShot = Instantiate(spellProjectiles[0], transform.position + Vector3.up, Quaternion.LookRotation(forward, Vector3.up));
+                acidShot.GetComponent<HitBox>().damage = myStats.baseDamage * 1;
+                acidShot.GetComponent<HitBox>().myStats = myStats;
+                acidShot.GetComponent<HitBoxBuff>().buffOrigin = myStats;
+                break;
+            case 2:
+                // Instantiate the obhect, set it's damage and aim it at the player.
+                for (int i = 0; i < 5; i++)
+                {
+                    Vector3 altForward = (combatController.myTarget.transform.position + combatController.myTarget.transform.right * (-2 + i)) - transform.position;
+                    GameObject snakeShot = Instantiate(spellProjectiles[0], transform.position + Vector3.up, Quaternion.LookRotation(altForward, Vector3.up));
+                    snakeShot.GetComponent<HitBox>().damage = myStats.baseDamage * 1;
+                    snakeShot.GetComponent<HitBox>().myStats = myStats;
+                }
+                break;
+            case 3:
+                GameObject groundSlam = Instantiate(spellProjectiles[0], transform.position + transform.forward * 2, transform.rotation);
+                groundSlam.GetComponent<HitBox>().damage = myStats.baseDamage * 3;
+                groundSlam.GetComponent<HitBox>().myStats = myStats;
+                groundSlam.GetComponent<HitBoxBuff>().buffOrigin = myStats;
+                spellParticles[0].Stop();
+                spellParticles[1].Stop();
+                break;
+            case 4:
+                spellParticles[2].Stop();
+                spellParticles[3].Play();
+                Instantiate(spellSummons[0], transform.position + transform.forward * 1.5f + transform.right * 1.5f, transform.rotation);
+                Instantiate(spellSummons[0], transform.position + transform.forward * -1.5f + transform.right * 1.5f, transform.rotation);
+                Instantiate(spellSummons[0], transform.position + transform.forward * 1.5f + transform.right * -1.5f, transform.rotation);
+                Instantiate(spellSummons[0], transform.position + transform.forward * -1.5f + transform.right * -1.5f, transform.rotation);
+                // Instantiate the goblins.
                 break;
             default:
                 break;
@@ -256,23 +290,11 @@ public class EnemyAbilityBank : MonoBehaviour
         spellParticles[1].Play();
         movementManager.StopMovement();
         float currentTimer = 0;
-        float targetGroundSlamTimer = 1.22f;
-        float targetTimer = 2;
-        bool hitboxLaunched = false;
+        float targetTimer = 1.6f / 0.6f;
         
         while (currentTimer < targetTimer)
         {
             currentTimer += Time.deltaTime;
-            if (!hitboxLaunched && currentTimer > targetGroundSlamTimer)
-            {
-                hitboxLaunched = true;
-                // Instantiate the obhect, set it's damage and aim it at the player.
-                GameObject groundSlam = Instantiate(spellProjectiles[0], transform.position + transform.forward * 2, transform.rotation);
-                groundSlam.GetComponent<HitBox>().damage = myStats.baseDamage * 3;
-                groundSlam.GetComponent<HitBox>().myStats = myStats;
-                spellParticles[0].Stop();
-                spellParticles[1].Stop();
-            }
             movementManager.RotateToTarget(combatController.myTarget.transform.position);
             yield return new WaitForEndOfFrame();
         }
@@ -287,24 +309,11 @@ public class EnemyAbilityBank : MonoBehaviour
         spellParticles[2].Play();
         movementManager.StopMovement();
         float currentTimer = 0;
-        float targetSummonGoblinsTimer = 0.8f;
-        float targetTimer = 2;
-        bool goblinsSpawned = false;
+        float targetTimer = 2.166f;
 
         while (currentTimer < targetTimer)
         {
             currentTimer += Time.deltaTime;
-            if (!goblinsSpawned && currentTimer > targetSummonGoblinsTimer)
-            {
-                spellParticles[2].Stop();
-                spellParticles[3].Play();
-                goblinsSpawned = true;
-                Instantiate(spellSummons[0], transform.position + transform.forward * 1.5f + transform.right * 1.5f, transform.rotation);
-                Instantiate(spellSummons[0], transform.position + transform.forward * -1.5f + transform.right * 1.5f, transform.rotation);
-                Instantiate(spellSummons[0], transform.position + transform.forward * 1.5f + transform.right * -1.5f, transform.rotation);
-                Instantiate(spellSummons[0], transform.position + transform.forward * -1.5f + transform.right * -1.5f, transform.rotation);
-                // Instantiate the goblins.
-            }
             movementManager.RotateToTarget(combatController.myTarget.transform.position);
             yield return new WaitForEndOfFrame();
         }
@@ -317,23 +326,12 @@ public class EnemyAbilityBank : MonoBehaviour
         anim.SetTrigger("AcidShot");
         movementManager.StopMovement();
         float currentTimer = 0;
-        float targetAcidLaunchTimer = 0.8f;
-        float targetTimer = 2;
-        bool acidLaunch = false;
+        float targetTimer = 1.167f;
+
 
         while (currentTimer < targetTimer)
         {
             currentTimer += Time.deltaTime;
-            if (!acidLaunch && currentTimer > targetAcidLaunchTimer)
-            {
-                acidLaunch = true;
-                
-                // Instantiate the obhect, set it's damage and aim it at the player.
-                Vector3 forward = combatController.myTarget.transform.position - transform.position;
-                GameObject acidShot = Instantiate(spellProjectiles[0], transform.position + Vector3.up, Quaternion.LookRotation(forward, Vector3.up));
-                acidShot.GetComponent<HitBox>().damage = myStats.baseDamage * 1;
-                acidShot.GetComponent<HitBox>().myStats = myStats;
-            }
             movementManager.RotateToTarget(combatController.myTarget.transform.position);
             yield return new WaitForEndOfFrame();
         }
@@ -347,26 +345,11 @@ public class EnemyAbilityBank : MonoBehaviour
         anim.SetTrigger("AcidShot");
         movementManager.StopMovement();
         float currentTimer = 0;
-        float targetAcidLaunchTimer = 0.5f;
-        float targetTimer = 2;
-        bool snakeShotLaunched = false;
+        float targetTimer = 1;
 
         while (currentTimer < targetTimer)
         {
             currentTimer += Time.deltaTime;
-            if (!snakeShotLaunched && currentTimer > targetAcidLaunchTimer)
-            {
-                snakeShotLaunched = true;
-
-                // Instantiate the obhect, set it's damage and aim it at the player.
-                for (int i = 0; i < 5; i++)
-                {
-                    Vector3 forward = (combatController.myTarget.transform.position + combatController.myTarget.transform.right * (-2 + i)) - transform.position;
-                    GameObject snakeShot = Instantiate(spellProjectiles[0], transform.position + Vector3.up, Quaternion.LookRotation(forward, Vector3.up));
-                    snakeShot.GetComponent<HitBox>().damage = myStats.baseDamage * 1;
-                    snakeShot.GetComponent<HitBox>().myStats = myStats;
-                }
-            }
             movementManager.RotateToTarget(combatController.myTarget.transform.position);
             yield return new WaitForEndOfFrame();
         }

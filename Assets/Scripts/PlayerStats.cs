@@ -164,6 +164,7 @@ public class PlayerStats : MonoBehaviour
             if (CompareTag("Enemy"))
             {
                 EnemyManager.instance.enemyStats.Add(this);
+                basicAttack1.damage = baseDamage;
             }
             else
             {
@@ -178,6 +179,11 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.KeypadPlus) && CompareTag("Enemy"))
+            GetComponent<EnemyCrowdControlManager>().KnockbackLaunch((transform.forward + Vector3.up) * 10, this);
+        /*
+        //USed to bebug money and the economy
+        
         if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
             TakeDamage(50, false, HitBox.DamageType.Physical, 0, null);
         if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
@@ -188,11 +194,7 @@ public class PlayerStats : MonoBehaviour
             AddGold((int)Random.Range(1, 100000));
         if (Input.GetKeyDown(KeyCode.H) && CompareTag("Player"))
             ItemGenerator.instance.IncrementRcIndex();
-        if (Input.GetKeyDown(KeyCode.KeypadPlus) && CompareTag("Enemy"))
-            GetComponent<EnemyCrowdControlManager>().KnockbackLaunch((transform.forward + Vector3.up) * 7, this);
-        /*
-        //USed to bebug money and the economy
-          
+
         //USed for debugging to add exp.
         if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
             AddExp(1000);
@@ -608,20 +610,22 @@ public class PlayerStats : MonoBehaviour
             Destroy(GetComponent<EnemyCombatController>());
             Destroy(GetComponent<EnemyCrowdControlManager>());
             Destroy(GetComponent<EnemyAbilityBank>());
-            Destroy(GetComponent<RagdollManager>()); 
+            Destroy(GetComponent<RagdollManager>());
 
-            Destroy(gameObject, 5);
-            Destroy(this);
+            Destroy(transform.Find("EntityModel").gameObject, 5);
+            //Destroy(transform.Find("UiFollowTarget_Name").gameObject);
+            //Destroy(transform.Find("UiFollowTarget_Damage").gameObject);
+            Destroy(transform.Find("HitBoxes").gameObject);
+            Destroy(transform.Find("BuffContainer").gameObject);
+
+            Destroy(gameObject, 20);
         }
         else if (gameObject.CompareTag("Player"))
         {
             Debug.Log("PlayerDeath");
             GetComponent<PlayerMovementController>().PlayerDowned();
             GameManager.instance.PlayerDeath();
-        }
-        else
-        {
-            Debug.Log("PlayerSummonDeath");
+            Cursor.visible = true;
         }
     }
 

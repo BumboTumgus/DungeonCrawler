@@ -9,11 +9,14 @@ public class PauseMenuController : MonoBehaviour
     public PlayerMovementController pmc;
     [SerializeField] PauseMenuBehaviour pauseMenuBehaviour;
     [HideInInspector] public bool paused = false;
+    [SerializeField] AudioSource menuOpenAudio;
+    [SerializeField] AudioSource menuCloseAudio;
 
     // Start is called before the first frame update
     void Start()
     {
         pauseMenu.SetActive(false);
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
@@ -28,6 +31,8 @@ public class PauseMenuController : MonoBehaviour
                 if(!pmc.menuOpen)
                     Camera.main.transform.parent.GetComponent<CameraControls>().menuOpen = false;
                 Time.timeScale = 1;
+                Cursor.visible = false;
+                menuCloseAudio.Play();
             }
             else
             {
@@ -36,6 +41,8 @@ public class PauseMenuController : MonoBehaviour
                 pauseMenuBehaviour.ResetMenu();
                 Camera.main.transform.parent.GetComponent<CameraControls>().menuOpen = true;
                 Time.timeScale = 0;
+                Cursor.visible = true;
+                menuOpenAudio.Play();
             }
         }
     }

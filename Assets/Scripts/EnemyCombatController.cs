@@ -164,9 +164,6 @@ public class EnemyCombatController : MonoBehaviour
                         yield return new WaitForEndOfFrame();
                     }
 
-                    //ActionType[] actions = { ActionType.SpecialOne, ActionType.SpecialTwo, ActionType.TauntTarget, ActionType.Backpeddle, ActionType.CircleTarget };
-                    //float[] chances = { 25, 25, tauntTargetChance / 2, backpeddleChance, circleTargetChance};
-                    //RollChanceForActions(actions, chances);
                     CheckActionHierarchy();
                 }
             }
@@ -353,11 +350,11 @@ public class EnemyCombatController : MonoBehaviour
                     actionFound = true;
                     break;
                 case ActionType.SpecialOne:
-                    if (specialOneCurrentCooldown > specialOneCooldown && Random.Range(0, 100) > 100 - actionChances[index])
+                    if (specialOneCurrentCooldown > specialOneCooldown && Random.Range(0, 100) > 100 - actionChances[index] && CheckDistance(specialOneRange, myTarget.transform))
                         actionFound = true;
                     break;
                 case ActionType.SpecialTwo:
-                    if (specialTwoCurrentCooldown > specialTwoCooldown && Random.Range(0, 100) > 100 - actionChances[index])
+                    if (specialTwoCurrentCooldown > specialTwoCooldown && Random.Range(0, 100) > 100 - actionChances[index] && CheckDistance(specialTwoRange, myTarget.transform))
                         actionFound = true;
                     break;
                 case ActionType.SpecialThree:

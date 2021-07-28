@@ -40,9 +40,10 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6821250340594576416}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 2
-  m_Color: {r: 0, g: 1, b: 0, a: 1}
+  m_Shape: 0
+  m_Color: {r: 1, g: 0.9195919, b: 0, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -1476,19 +1477,19 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.16206896, g: 0.5, b: 0, a: 1}
-        key1: {r: 0, g: 0.2647059, b: 0, a: 1}
-        key2: {r: 0.08088234, g: 0.16176468, b: 0.09482758, a: 0}
-        key3: {r: 0.08088234, g: 0.09482759, b: 0.16176468, a: 0}
-        key4: {r: 0, g: 0, b: 0, a: 0}
+        key0: {r: 0.7747243, g: 0.8018868, b: 0.037824843, a: 1}
+        key1: {r: 0.16078432, g: 0.1559607, b: 0.08235294, a: 1}
+        key2: {r: 0.16078432, g: 0.15551357, b: 0.08235294, a: 0}
+        key3: {r: 0.16078432, g: 0.15551357, b: 0.08235294, a: 0}
+        key4: {r: 0.16078432, g: 0.15551357, b: 0.08235294, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
-        ctime1: 8033
-        ctime2: 19592
+        ctime1: 19592
+        ctime2: 65535
         ctime3: 65535
-        ctime4: 0
+        ctime4: 65535
         ctime5: 0
         ctime6: 0
         ctime7: 0
@@ -1501,7 +1502,7 @@ ParticleSystem:
         atime6: 0
         atime7: 0
         m_Mode: 0
-        m_NumColorKeys: 4
+        m_NumColorKeys: 3
         m_NumAlphaKeys: 2
       minGradient:
         serializedVersion: 2
@@ -4878,6 +4879,7 @@ ParticleSystemRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4961,7 +4963,7 @@ Transform:
   - {fileID: 6818571592695192622}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 0}
 --- !u!198 &6660717432434504810
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -6291,9 +6293,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 0.691, g: 1, b: 0, a: 0}
-        key2: {r: 0, g: 1, b: 0, a: 0}
+        key0: {r: 0.990566, g: 0.67852205, b: 0.3457636, a: 1}
+        key1: {r: 1, g: 0.9771167, b: 0, a: 0}
+        key2: {r: 1, g: 0.6068131, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -9693,6 +9695,7 @@ ParticleSystemRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -9754,6 +9757,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTimer: 3
+  flickerDelay: 0
   attachedHitBox: 0
 --- !u!1 &6822030792361878528
 GameObject:
@@ -11116,18 +11120,18 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 0.48965526, g: 1, b: 0, a: 1}
-        key2: {r: 0, g: 1, b: 0, a: 0}
-        key3: {r: 0, g: 0, b: 0, a: 0}
+        key0: {r: 0.9622642, g: 0.94774824, b: 0.7262371, a: 1}
+        key1: {r: 1, g: 0.8126426, b: 0, a: 1}
+        key2: {r: 1, g: 0.67668825, b: 0, a: 0}
+        key3: {r: 0, g: 1, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
-        ctime0: 0
+        ctime0: 5192
         ctime1: 32700
         ctime2: 65150
-        ctime3: 0
+        ctime3: 65150
         ctime4: 0
         ctime5: 0
         ctime6: 0
@@ -14518,6 +14522,7 @@ ParticleSystemRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

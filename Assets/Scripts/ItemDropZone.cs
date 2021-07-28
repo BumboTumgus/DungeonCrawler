@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    public enum SlotType { Inventory, Trinket, Weapon, Helmet, Armor, Leggings, Skill}
+    public enum SlotType { Inventory, Trinket, Weapon, Helmet, Armor, Leggings, Skill, DropItem}
     public SlotType slotType;
 
     public InventoryPopupTextManager.PopUpDirection popUpDirection;
@@ -83,6 +83,9 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                         suitableSlot = true;
                     break;
                 case SlotType.Skill:
+                    suitableSlot = false;
+                    break;
+                case SlotType.DropItem:
                     suitableSlot = false;
                     break;
                 default:
@@ -200,6 +203,9 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                     case SlotType.Skill:
                         suitableSlot = false;
                         break;
+                    case SlotType.DropItem:
+                        suitableSlot = false;
+                        break;
                     default:
                         break;
                 }
@@ -221,8 +227,12 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
         ItemDraggable movedItem = eventData.pointerDrag.GetComponent<ItemDraggable>();
         if(movedItem != null && movedItem.myParent != gameObject.transform)
         {
+
             Transform myPanel = transform.Find("ItemPanel");
-            ItemDraggable dropZoneItem = myPanel.GetComponent<ItemDraggable>();
+            ItemDraggable dropZoneItem = null;
+
+            if(slotType != SlotType.DropItem)
+                dropZoneItem = myPanel.GetComponent<ItemDraggable>();
 
             // First we check if the slot has a type of item that is needed to be dragged in.
             bool validTarget = false;
@@ -260,6 +270,9 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                 case SlotType.Skill:
                     if (movedItem.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.Skill)
                         validTarget = true;
+                    break;
+                case SlotType.DropItem:
+                    validTarget = false;
                     break;
                 default:
                     break;
@@ -377,6 +390,22 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
             if (movedItem.myParent.GetComponent<ItemDropZone>().slotType == SlotType.Weapon && movedItem.myParent.GetComponent<ItemDropZone>().slotIndex == 0 && slotType == SlotType.Weapon && dropZoneItem.attachedItem == null)
                 validTarget = false;
 
+
+            // If we dropped an item on the dropitem type slot, return the item and wipe the slot then drop the item.
+            if(slotType == SlotType.DropItem && movedItem.myParent.GetComponent<ItemDropZone>().slotType == SlotType.Inventory)
+            {
+                Debug.Log("we should drop the item here");
+                popupManager.lockPointer = false;
+                movedItem.transform.SetParent(movedItem.myParent);
+                popupManager.HidePopups();
+
+                movedItem.transform.localPosition = Vector3.zero;
+                movedItem.parentToInteractWith = null;
+                movedItem.myParent = transform.parent;
+                movedItem.GetComponent<CanvasGroup>().blocksRaycasts = true;
+
+                transform.parent.GetComponent<InventoryUiManager>().playerInventory.DropItem(movedItem.attachedItem.GetComponent<Item>().inventoryIndex);
+            }
 
             // WE HAVE A VALID TARGET BEGIN SHIFTING IT OVER BELOW
             // If the target was valid, beign our replacement or move logic.

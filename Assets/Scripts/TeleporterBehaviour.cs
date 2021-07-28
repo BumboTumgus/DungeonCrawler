@@ -14,11 +14,13 @@ public class TeleporterBehaviour : MonoBehaviour
         teleporterTriggerBox.SetActive(false);
     }
 
+    /*
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha9))
             StartTeleporter();
     }
+    */
 
 
     // Called by the manager when we are allowed to teleport. Enable the collider and start the particles.

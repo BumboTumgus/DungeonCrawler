@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     public GameObject eventSystemReference;
     public Transform[] spawnsPlayer;
     public Transform[] spawnsChest;
+    public int currentLevel = 0;
+    public int currentLevelEnemyKillCount = 0;
     //public Transform[] spawnsEnemy;
     //public NavMeshSurface walkableFloor;
     //public int enemyCount = 3;
@@ -28,6 +30,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject playerCameraPrefab;
     [SerializeField] GameObject eventSystemUI;
     [SerializeField] Animator cameraFadeAnim;
+    [SerializeField] GameObject teleporter;
+    [SerializeField] AudioFader levelMusic;
 
     //public int roomTarget = 20;
 
@@ -36,6 +40,7 @@ public class GameManager : MonoBehaviour
     //private GameObject startingRoom;
 
     private const float MINIMUM_DISTANCE_FROM_TELEPORTER = 10000f;
+    private const int targetLevelEnemyKillCount = 10;
     //private const float TAREGT_ROOM_GEN_TIMER = 0.5f;
 
     // Start is called before the first frame update
@@ -46,7 +51,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
             instance = this;
 
-        //StartCoroutine(Initialization());
+        StartCoroutine(Initialization());
     }
 
     IEnumerator Initialization()
@@ -110,12 +115,31 @@ public class GameManager : MonoBehaviour
         cameraFadeAnim.gameObject.SetActive(true);
         cameraFadeAnim.SetTrigger("FadeIn");
         cameraFadeAnim.transform.Find("AreaTitle").GetComponent<Text>().text = SceneManager.GetActiveScene().name;
+        Cursor.visible = false;
         LevelSetup();
+    }
+
+    // USed when we kill a target, increment the count and then set our teleporter as active if we are above the target
+    public void IncrementLevelEnemyDeathCount()
+    {
+        currentLevelEnemyKillCount++;
+        if(currentLevelEnemyKillCount == targetLevelEnemyKillCount)
+        {
+            // Set up our teleporter here to work.
+            teleporter.GetComponent<TeleporterBehaviour>().StartTeleporter();
+        }
     }
 
     // Used to set up the level we are on
     public void LevelSetup()
     {
+        currentLevel++;
+
+        currentLevelEnemyKillCount = 0;
+
+        if(currentLevel == 1)
+            Instantiate(ItemGenerator.instance.RollItem(Item.ItemType.Skill, Item.ItemRarity.Common), GameObject.Find("GarenteedSkillSpawn").transform.position, Quaternion.identity);
+
         Transform[] teleporterSpawns = GameObject.Find("TeleporterSpawns").GetComponentsInChildren<Transform>();
         Transform[] chestSpawns = GameObject.Find("ChestSpawns").GetComponentsInChildren<Transform>();
 
@@ -161,11 +185,15 @@ public class GameManager : MonoBehaviour
                 }
             }
 
+            // SHould we add standard bosses to the spawn list?
+            if (currentLevel == 5)
+                EnemyManager.instance.AddEligibleEnemiesToSpawn();
+
         }
 
         // Spawn the teleporter
         int teleporterIndex = Random.Range(0, teleporterSpawns.Length);
-        Instantiate(teleporterPrefab, teleporterSpawns[teleporterIndex].position, teleporterSpawns[teleporterIndex].rotation);
+        teleporter = Instantiate(teleporterPrefab, teleporterSpawns[teleporterIndex].position, teleporterSpawns[teleporterIndex].rotation);
 
         // Grab the player spawns 
         bool spawnedGrabbed = false;
@@ -179,10 +207,10 @@ public class GameManager : MonoBehaviour
                 foreach(GameObject player in currentPlayers)
                 {
                     //Debug.Log("setting the players position");
-                    //Debug.Log("player position before: " + player.transform.position);
+                    Debug.Log("player position before: " + player.transform.position);
                     player.transform.position = spawnSelected + new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
                     player.GetComponent<CameraShakeManager>().cameraToShake.root.GetComponent<FollowPlayer>().ResetCameraOrientation();
-                    //Debug.Log("player position after: " + player.transform.position);
+                    Debug.Log("player position after: " + player.transform.position);
                 }
                 //Debug.Log("spawn found");
                 spawnedGrabbed = true;
@@ -197,6 +225,8 @@ public class GameManager : MonoBehaviour
         }
 
         EnemyManager.instance.LevelSetup();
+
+        levelMusic = GameObject.Find("Audio_LevelTheme").GetComponent<AudioFader>();
     }
 
     public void LaunchPlayerTeleport()
@@ -207,7 +237,7 @@ public class GameManager : MonoBehaviour
     // Used when the player start teleporting.
     IEnumerator StartTeleporting()
     {
-        Debug.Log("Starting the teleport logic");
+        //Debug.Log("Starting the teleport logic");
         AsyncOperation sceneToLoad = SceneManager.LoadSceneAsync(sceneNames[0]);
         sceneToLoad.allowSceneActivation = false;
         EnemyManager.instance.allowEnemySpawns = false;
@@ -220,7 +250,7 @@ public class GameManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(5f);
-        Debug.Log("teleport player here");
+        //Debug.Log("teleport player here");
 
         foreach (GameObject player in currentPlayers)
         {
@@ -232,10 +262,17 @@ public class GameManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1f);
+        levelMusic.FadeOut(2f);
         cameraFadeAnim.SetTrigger("FadeOut");
         yield return new WaitForSeconds(1f);
 
-        Debug.Log("zoom to next level");
+        // Remove any of the ui cull behind camera list items from each camera
+        foreach(GameObject camera in playerCameras)
+        {
+            camera.GetComponentInChildren<UiHideBehindPlayer>().targets = new List<UiFollowTarget>();
+        }
+
+        //Debug.Log("zoom to next level");
         sceneToLoad.allowSceneActivation = true;
 
         while(!sceneToLoad.isDone)
@@ -244,7 +281,7 @@ public class GameManager : MonoBehaviour
         }
 
         yield return new WaitForEndOfFrame();
-        Debug.Log("We are setting up the level here");
+        //Debug.Log("We are setting up the level here");
         LevelSetup();
         cameraFadeAnim.SetTrigger("FadeIn");
         cameraFadeAnim.transform.Find("AreaTitle").GetComponent<Text>().text = SceneManager.GetActiveScene().name;
@@ -276,7 +313,7 @@ public class GameManager : MonoBehaviour
     // Used when a player dies. Check to see if all the players are dead. If they are, fade to black to the end game screen.
     public void PlayerDeath()
     {
-        Debug.Log("a player died");
+        //Debug.Log("a player died");
         bool allPlayersDead = true;
         foreach(GameObject player in currentPlayers)
         {
@@ -286,14 +323,15 @@ public class GameManager : MonoBehaviour
                 break;
             }
         }
-        Debug.Log("are all the players dead? " + allPlayersDead);
+        //Debug.Log("are all the players dead? " + allPlayersDead);
 
         // If all the players are dead, call a function for each of them that fades to black and end the game.
         if(allPlayersDead)
         {
+            levelMusic.FadeOut(1f);
             foreach(GameObject playerUI in playerUis)
             {
-                Debug.Log(playerUI);
+                //Debug.Log(playerUI);
                 playerUI.GetComponent<GameOverMenuBehaviour>().GameOverScreenFadeIn();
             }
         }

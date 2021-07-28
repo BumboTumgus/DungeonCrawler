@@ -30,6 +30,8 @@ public class MainMenuBehaviour : MonoBehaviour
     [SerializeField] Slider sliderBloom;
     [SerializeField] Toggle fullscreenToggle;
 
+    [SerializeField] AudioFader mainMenuMusic;
+
 
     Resolution[] resolutions;
 
@@ -72,6 +74,8 @@ public class MainMenuBehaviour : MonoBehaviour
     IEnumerator LaunchGame()
     {
         fadeOutAnim.SetTrigger("FadeOut");
+        mainMenuMusic.FadeOut(1.5f);
+
 
         yield return new WaitForSeconds(1);
 
