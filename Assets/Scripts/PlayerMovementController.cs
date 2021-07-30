@@ -30,6 +30,7 @@ public class PlayerMovementController : MonoBehaviour
     private Inventory inventory;
     private CameraControls cameraControls;
     private RagdollManager ragdollManager;
+    private AudioManager audioManager;
 
     private bool attackReady = true;                                  // a check to see if we can launch an attack, gets flicked off whern we attack and on when we wait long enough
     private bool recentlyAttacked = false;
@@ -77,6 +78,7 @@ public class PlayerMovementController : MonoBehaviour
         cameraControls = mainCameraTransform.GetComponentInChildren<CameraControls>();
         inventory = GetComponent<Inventory>();
         ragdollManager = GetComponent<RagdollManager>();
+        audioManager = GetComponent<AudioManager>();
     }
 
     // Update is called once per frame
@@ -265,23 +267,28 @@ public class PlayerMovementController : MonoBehaviour
         // Shoot a ray, if it we hit we are grounded if not we are no longer grounded. If we just jumped ignore this and set us as not grounded.
         if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
         {
-            // if the ray hit the ground, set us as grounded, snap us to the ground, and change the state while updating the aniamtion.
-            grounded = true;
-            gravityVectorStrength = 0;
-            gravityModifier = 1;
-
-            Vector3 positionalDifference = groundRayHit.point - transform.position;
-            //positionalDifference.y -= POSITIONAL_DIFFERENCE_OFFSET;
-            controller.Move(positionalDifference);
-
-            //Debug.Log("The positional difference is: " + positionalDifference + ". Our transform is: " + transform.position);
-
-            if (!playerStats.stunned && !playerStats.knockedBack && !playerStats.asleep && !playerStats.frozen)
+            if (!grounded)
             {
-                anim.SetBool("Grounded", true);
-                currentJumps = playerStats.jumps;
-                if (playerState == PlayerState.Airborne)
-                    playerState = PlayerState.Idle;
+                // if the ray hit the ground, set us as grounded, snap us to the ground, and change the state while updating the aniamtion.
+                grounded = true;
+                gravityVectorStrength = 0;
+                gravityModifier = 1;
+
+                audioManager.PlayAudio(13);
+
+                Vector3 positionalDifference = groundRayHit.point - transform.position;
+                //positionalDifference.y -= POSITIONAL_DIFFERENCE_OFFSET;
+                controller.Move(positionalDifference);
+
+                //Debug.Log("The positional difference is: " + positionalDifference + ". Our transform is: " + transform.position);
+
+                if (!playerStats.stunned && !playerStats.knockedBack && !playerStats.asleep && !playerStats.frozen)
+                {
+                    anim.SetBool("Grounded", true);
+                    currentJumps = playerStats.jumps;
+                    if (playerState == PlayerState.Airborne)
+                        playerState = PlayerState.Idle;
+                }
             }
         }
         else
@@ -358,6 +365,7 @@ public class PlayerMovementController : MonoBehaviour
 
         grounded = false;
         gravityVectorStrength = jumpPower;
+        audioManager.PlayAudio(11);
 
         yield return new WaitForSeconds(timeAppliedFor);
 
@@ -392,6 +400,7 @@ public class PlayerMovementController : MonoBehaviour
         rollReady = false;
 
         buffsManager.ProcOnRoll();
+        audioManager.PlayAudio(12);
 
         anim.SetTrigger("Roll");
         if(playerStats.movespeedPercentMultiplier >= 0.25f)
@@ -744,6 +753,7 @@ public class PlayerMovementController : MonoBehaviour
                     {
                         interactable.GetComponent<ChestBehaviour>().OpenChest();
                         playerStats.AddGold(-1 * interactable.GetComponent<ChestBehaviour>().chestCost);
+                        audioManager.PlayAudio(15);
                     }
                     else
                     {
@@ -764,6 +774,7 @@ public class PlayerMovementController : MonoBehaviour
             {
                 inventory.PickUpItem(inventory.GrabClosestItem());
                 anim.SetTrigger("PickUp");
+                audioManager.PlayAudio(14);
             }
         }
     }
@@ -780,6 +791,8 @@ public class PlayerMovementController : MonoBehaviour
             {
                 // Set the lock for our movement and camera controls after we press and open the inventory.
                 inventoryWindow.SetActive(true);
+                inventoryWindow.GetComponent<InventoryUiManager>().audioManager.PlayAudio(2);
+
                 menuOpen = true;
                 cameraControls.menuOpen = true;
                 Cursor.visible = true;
@@ -788,6 +801,8 @@ public class PlayerMovementController : MonoBehaviour
             {
                 // Remvoe the lock for our movement and camera controls after we press and open the inventory.
                 inventoryWindow.SetActive(false);
+                inventoryWindow.GetComponent<InventoryUiManager>().audioManager.PlayAudio(3);
+
                 inventoryWindow.GetComponent<InventoryPopupTextManager>().lockPointer = false;
                 inventoryWindow.GetComponent<InventoryPopupTextManager>().HidePopups();
                 menuOpen = false;

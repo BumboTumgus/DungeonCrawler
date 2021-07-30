@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Animator cameraFadeAnim;
     [SerializeField] GameObject teleporter;
     [SerializeField] AudioFader levelMusic;
+    [SerializeField] AudioFader deathMusic;
 
     //public int roomTarget = 20;
 
@@ -51,7 +52,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
             instance = this;
 
-        StartCoroutine(Initialization());
+        //StartCoroutine(Initialization());
     }
 
     IEnumerator Initialization()
@@ -116,6 +117,8 @@ public class GameManager : MonoBehaviour
         cameraFadeAnim.SetTrigger("FadeIn");
         cameraFadeAnim.transform.Find("AreaTitle").GetComponent<Text>().text = SceneManager.GetActiveScene().name;
         Cursor.visible = false;
+
+        deathMusic = GetComponent<AudioFader>();
         LevelSetup();
     }
 
@@ -328,7 +331,9 @@ public class GameManager : MonoBehaviour
         // If all the players are dead, call a function for each of them that fades to black and end the game.
         if(allPlayersDead)
         {
-            levelMusic.FadeOut(1f);
+            levelMusic.FadeOut(0.5f);
+            GetComponent<AudioSource>().Play();
+            deathMusic.FadeOut(10f);
             foreach(GameObject playerUI in playerUis)
             {
                 //Debug.Log(playerUI);

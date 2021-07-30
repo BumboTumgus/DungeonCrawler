@@ -24,6 +24,13 @@ public class InventoryUiManager : MonoBehaviour
     public Color[] iconAffintiyBackgroundColors;
     public Sprite[] iconAffinityIcons;
 
+    public AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = transform.parent.GetComponent<AudioManager>();
+    }
+
     private void Start()
     {
         foreach (GameObject slot in inventorySlots)
@@ -40,6 +47,7 @@ public class InventoryUiManager : MonoBehaviour
         CheckActiveSkillSlots();
 
         gameObject.SetActive(false);
+
     }
 
     public void UpdateInventorySlot(Item item)

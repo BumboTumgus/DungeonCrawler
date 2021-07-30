@@ -121,6 +121,7 @@ public class PlayerStats : MonoBehaviour
     private PlayerTraitManager playerTraitManager;
     public ComboManager comboManager;
     public PlayerStats lastHitBy;
+    private AudioManager audioManager;
 
     public bool traitMoreAflameStacksOnHitThresholdFatigue = false;
     public bool traitPoisonFireSpellOnHitReady = true;
@@ -158,7 +159,7 @@ public class PlayerStats : MonoBehaviour
             buffManager = GetComponent<BuffsManager>();
             skills = GetComponent<SkillsManager>();
             hitboxManager = GetComponent<HitBoxManager>();
-
+            audioManager = GetComponent<AudioManager>();
             StatSetup(true, true);
 
             if (CompareTag("Enemy"))
@@ -179,8 +180,10 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.KeypadPlus) && CompareTag("Enemy"))
-            GetComponent<EnemyCrowdControlManager>().KnockbackLaunch((transform.forward + Vector3.up) * 10, this);
+        if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
+            AddExp(1000);
+        if (Input.GetKeyDown(KeyCode.P) && CompareTag("Player"))
+            AddExp(25);
         /*
         //USed to bebug money and the economy
         
@@ -188,13 +191,17 @@ public class PlayerStats : MonoBehaviour
             TakeDamage(50, false, HitBox.DamageType.Physical, 0, null);
         if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
             AddGold(25);
+        if (Input.GetKeyDown(KeyCode.J) && CompareTag("Player"))
+            AddGold((int)Random.Range(1, 100000));
         if (Input.GetKeyDown(KeyCode.K) && CompareTag("Player"))
             AddGold(-1 * gold);
         if (Input.GetKeyDown(KeyCode.J) && CompareTag("Player"))
             AddGold((int)Random.Range(1, 100000));
         if (Input.GetKeyDown(KeyCode.H) && CompareTag("Player"))
             ItemGenerator.instance.IncrementRcIndex();
-
+        
+        if (Input.GetKeyDown(KeyCode.KeypadPlus) && CompareTag("Enemy"))
+            GetComponent<EnemyCrowdControlManager>().KnockbackLaunch((transform.forward + Vector3.up) * 10, this);
         //USed for debugging to add exp.
         if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
             AddExp(1000);
@@ -400,7 +407,9 @@ public class PlayerStats : MonoBehaviour
             level++;
             expTarget = level * 100;
             GetComponent<DamageNumberManager>().SpawnFlavorText("Level Up!", UiPopUpTextColorBank.instance.damageColors[0]);
+            audioManager.PlayAudio(16);
             StatSetup(true, true);
+            UpdateWeaponsToHitWith();
             GetComponent<HitBoxManager>().PlayParticles(8);
             Debug.Log("Level Up");
         }
@@ -514,7 +523,14 @@ public class PlayerStats : MonoBehaviour
                 GetComponent<EnemyCombatController>().CheckOnHitActionHierarchy();
 
             if (CompareTag("Enemy"))
+            {
                 healthBar.transform.parent.GetComponent<UiFollowTarget>().TriggerIgnoreCameraDistanceCull();
+                if(!crit)
+                    playerThatLastHitUs.audioManager.PlayAudio(9);
+                else
+                    playerThatLastHitUs.audioManager.PlayAudio(10);
+
+            }
 
             // Update the health bar.
             healthBar.targetValue = health;

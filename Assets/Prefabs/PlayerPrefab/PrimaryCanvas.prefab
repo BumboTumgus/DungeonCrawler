@@ -12094,6 +12094,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 157271bd8e1d24f44a6a0c509a3e1879, type: 3}
   - {fileID: 21300000, guid: 34e8376c01b01e44a876a5eb5843c783, type: 3}
   - {fileID: 21300000, guid: e0389467e0613a0468f8944882bb47de, type: 3}
+  audioManager: {fileID: 0}
 --- !u!114 &824884125413083719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23694,6 +23695,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4585783535434636300}
   - component: {fileID: 4585783535434636301}
+  - component: {fileID: 688099537}
   m_Layer: 0
   m_Name: Audio_ButtonPress
   m_TagString: Untagged
@@ -23812,6 +23814,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &688099537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4585783535434636303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b307d93766067004795631f200d43fda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeInOnAwake: 1
 --- !u!1 &4585783535448232406
 GameObject:
   m_ObjectHideFlags: 0
@@ -93336,6 +93351,7 @@ GameObject:
   - component: {fileID: 8867407109783234046}
   - component: {fileID: 4024675973322818896}
   - component: {fileID: 720034629469557227}
+  - component: {fileID: 3736790557413946106}
   m_Layer: 5
   m_Name: PrimaryCanvas
   m_TagString: Untagged
@@ -93484,6 +93500,24 @@ MonoBehaviour:
   fadeOutAnimGameOver: {fileID: 5248071245680911730}
   fadeOutAnimSwitchScenes: {fileID: 6048438239969256325}
   gameOverMenu: {fileID: 5248071245680911727}
+--- !u!114 &3736790557413946106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8867407109783234033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6e75dea2ede4e34abd7036a7f634f1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSources:
+  - {fileID: 4585783535553719100}
+  - {fileID: 4585783535434636301}
+  - {fileID: 4585783536295780416}
+  - {fileID: 4585783535369894883}
+  audioRangeSteps: 00000000000000000000000000000000
 --- !u!1 &8885003307137267651
 GameObject:
   m_ObjectHideFlags: 0
