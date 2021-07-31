@@ -22,25 +22,33 @@ public class PauseMenuController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !pmc.GetComponent<PlayerStats>().dead)
         {
             if(paused)
             {
                 paused = false;
                 pauseMenu.SetActive(false);
-                if(!pmc.menuOpen)
+                if (!pmc.inventoryMenuOpen)
+                {
                     Camera.main.transform.parent.GetComponent<CameraControls>().menuOpen = false;
-                Time.timeScale = 1;
-                Cursor.visible = false;
+                    pmc.freezePlayerMovementForMenu = false;
+                    Time.timeScale = 1;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                }
+                pmc.pauseMenuOpen = false;
                 menuCloseAudio.Play();
             }
             else
             {
                 paused = true;
                 pauseMenu.SetActive(true);
+                pmc.freezePlayerMovementForMenu = true;
+                pmc.pauseMenuOpen = true;
                 pauseMenuBehaviour.ResetMenu();
                 Camera.main.transform.parent.GetComponent<CameraControls>().menuOpen = true;
                 Time.timeScale = 0;
+                Cursor.lockState = CursorLockMode.Confined;
                 Cursor.visible = true;
                 menuOpenAudio.Play();
             }

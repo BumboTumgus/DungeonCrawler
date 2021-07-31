@@ -180,88 +180,88 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Keypad0) && CompareTag("Player"))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Aflame, 1, baseDamage, this);
-        if (Input.GetKeyDown(KeyCode.Keypad1) && CompareTag("Player"))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, 1, baseDamage, this);
-        if (Input.GetKeyDown(KeyCode.Keypad2) && CompareTag("Player"))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, 1, baseDamage, this);
-        if (Input.GetKeyDown(KeyCode.Keypad3) && CompareTag("Player"))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Overgrown, 1, baseDamage, this);
-        if (Input.GetKeyDown(KeyCode.Keypad4) && CompareTag("Player"))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Windshear, 1, baseDamage, this);
-        if (Input.GetKeyDown(KeyCode.Keypad5) && CompareTag("Player"))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Sunder, 1, baseDamage, this);
-        if (Input.GetKeyDown(KeyCode.Keypad6) && CompareTag("Player"))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Bleeding, 1, baseDamage, this);
-        if (Input.GetKeyDown(KeyCode.Keypad7) && CompareTag("Player"))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, 1, baseDamage, this);
+        /*
+    if (Input.GetKeyDown(KeyCode.Keypad0) && CompareTag("Player"))
+        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Aflame, 1, baseDamage, this);
+    if (Input.GetKeyDown(KeyCode.Keypad1) && CompareTag("Player"))
+        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, 1, baseDamage, this);
+    if (Input.GetKeyDown(KeyCode.Keypad2) && CompareTag("Player"))
+        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, 1, baseDamage, this);
+    if (Input.GetKeyDown(KeyCode.Keypad3) && CompareTag("Player"))
+        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Overgrown, 1, baseDamage, this);
+    if (Input.GetKeyDown(KeyCode.Keypad4) && CompareTag("Player"))
+        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Windshear, 1, baseDamage, this);
+    if (Input.GetKeyDown(KeyCode.Keypad5) && CompareTag("Player"))
+        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Sunder, 1, baseDamage, this);
+    if (Input.GetKeyDown(KeyCode.Keypad6) && CompareTag("Player"))
+        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Bleeding, 1, baseDamage, this);
+    if (Input.GetKeyDown(KeyCode.Keypad7) && CompareTag("Player"))
+        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, 1, baseDamage, this);
 
 
-        if (Input.GetKeyDown(KeyCode.Keypad8))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Frozen, 1, baseDamage, this);
-        if (Input.GetKeyDown(KeyCode.Keypad9))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Asleep, 1, baseDamage, this);
-        if (Input.GetKeyDown(KeyCode.KeypadPeriod))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, baseDamage, this);
-        if (Input.GetKeyDown(KeyCode.KeypadEnter) && CompareTag("Player"))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.ArmorBroken, 1, baseDamage, this);
-        if (Input.GetKeyDown(KeyCode.KeypadMinus) && CompareTag("Player"))
-            /*
+    if (Input.GetKeyDown(KeyCode.Keypad8))
+        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Frozen, 1, baseDamage, this);
+    if (Input.GetKeyDown(KeyCode.Keypad9))
+        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Asleep, 1, baseDamage, this);
+    if (Input.GetKeyDown(KeyCode.KeypadPeriod))
+        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, baseDamage, this);
+    if (Input.GetKeyDown(KeyCode.KeypadEnter) && CompareTag("Player"))
+        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.ArmorBroken, 1, baseDamage, this);
+    if (Input.GetKeyDown(KeyCode.KeypadMinus) && CompareTag("Player"))
+    if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
+        AddExp(1000);
+    if (Input.GetKeyDown(KeyCode.P) && CompareTag("Player"))
+        AddExp(25);
+        //USed to bebug money and the economy
+
+        if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
+            TakeDamage(50, false, HitBox.DamageType.Physical, 0, null);
+        if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
+            AddGold(25);
+        if (Input.GetKeyDown(KeyCode.J) && CompareTag("Player"))
+            AddGold((int)Random.Range(1, 100000));
+        if (Input.GetKeyDown(KeyCode.K) && CompareTag("Player"))
+            AddGold(-1 * gold);
+        if (Input.GetKeyDown(KeyCode.J) && CompareTag("Player"))
+            AddGold((int)Random.Range(1, 100000));
+        if (Input.GetKeyDown(KeyCode.H) && CompareTag("Player"))
+            ItemGenerator.instance.IncrementRcIndex();
+
+        if (Input.GetKeyDown(KeyCode.KeypadPlus) && CompareTag("Enemy"))
+            GetComponent<EnemyCrowdControlManager>().KnockbackLaunch((transform.forward + Vector3.up) * 10, this);
+        //USed for debugging to add exp.
         if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
             AddExp(1000);
         if (Input.GetKeyDown(KeyCode.P) && CompareTag("Player"))
             AddExp(25);
-            //USed to bebug money and the economy
+        if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
+            TakeDamage(50, false, HitBox.DamageType.Physical, 0, null);
+        if (Input.GetKeyDown(KeyCode.U) && CompareTag("Player"))
+            comboManager.AddComboCounter(1);
 
-            if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
-                TakeDamage(50, false, HitBox.DamageType.Physical, 0, null);
-            if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
-                AddGold(25);
-            if (Input.GetKeyDown(KeyCode.J) && CompareTag("Player"))
-                AddGold((int)Random.Range(1, 100000));
-            if (Input.GetKeyDown(KeyCode.K) && CompareTag("Player"))
-                AddGold(-1 * gold);
-            if (Input.GetKeyDown(KeyCode.J) && CompareTag("Player"))
-                AddGold((int)Random.Range(1, 100000));
-            if (Input.GetKeyDown(KeyCode.H) && CompareTag("Player"))
-                ItemGenerator.instance.IncrementRcIndex();
-
-            if (Input.GetKeyDown(KeyCode.KeypadPlus) && CompareTag("Enemy"))
-                GetComponent<EnemyCrowdControlManager>().KnockbackLaunch((transform.forward + Vector3.up) * 10, this);
-            //USed for debugging to add exp.
-            if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
-                AddExp(1000);
-            if (Input.GetKeyDown(KeyCode.P) && CompareTag("Player"))
-                AddExp(25);
-            if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
-                TakeDamage(50, false, HitBox.DamageType.Physical, 0, null);
-            if (Input.GetKeyDown(KeyCode.U) && CompareTag("Player"))
-                comboManager.AddComboCounter(1);
-
-                buffManager.NewBuff(BuffsManager.BuffType.ArmorBroken, baseDamage, this);
-            if (Input.GetKeyDown(KeyCode.KeypadMinus))
-                buffManager.CheckResistanceToBuff(BuffsManager.BuffType.GreviousWounds, 1, baseDamage, this);
-            if (Input.GetKeyDown(KeyCode.KeypadMinus))
-                GetComponent<SkillsManager>().ReduceSkillCooldowns(2f, false);
-            if (Input.GetKeyDown(KeyCode.KeypadPlus))
-                GetComponent<SkillsManager>().ReduceSkillCooldowns(0.5f, true);
-            */
-            // Health and mana regen logic.
-            /*
-            if (!dead)
+            buffManager.NewBuff(BuffsManager.BuffType.ArmorBroken, baseDamage, this);
+        if (Input.GetKeyDown(KeyCode.KeypadMinus))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.GreviousWounds, 1, baseDamage, this);
+        if (Input.GetKeyDown(KeyCode.KeypadMinus))
+            GetComponent<SkillsManager>().ReduceSkillCooldowns(2f, false);
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
+            GetComponent<SkillsManager>().ReduceSkillCooldowns(0.5f, true);
+        */
+        // Health and mana regen logic.
+        /*
+        if (!dead)
+        {
+            float revitalizeBonus = 0f;
+            if (revitalizeBuff)
             {
-                float revitalizeBonus = 0f;
-                if (revitalizeBuff)
-                {
-                    //revitalizeBonus = (Vit * 0.2f + bonusHealthRegen) * (1 - (health / healthMax)) * 2f;
-                    //healthRegen = Vit * 0.2f + bonusHealthRegen + (revitalizeBonus * revitalizeCount);
-                    myStats.UpdateHealthManaBarValues(this);
-                }
-
+                //revitalizeBonus = (Vit * 0.2f + bonusHealthRegen) * (1 - (health / healthMax)) * 2f;
+                //healthRegen = Vit * 0.2f + bonusHealthRegen + (revitalizeBonus * revitalizeCount);
+                myStats.UpdateHealthManaBarValues(this);
             }
-            */
-            if (!CompareTag("Hazard"))
+
+        }
+        */
+        if (!CompareTag("Hazard"))
         {
             if (!dead)
                 health += healthRegen * Time.deltaTime;
@@ -592,6 +592,7 @@ public class PlayerStats : MonoBehaviour
         if(gameObject.CompareTag("Enemy"))
         {
             // Debug.Log("EnemyDeath");
+            GameManager.instance.IncrementLevelEnemyDeathCount();
 
             // Find the player, and give them exp. If they were in combat with us, end the combat. Start the death coroutine (for a death animation).
             // Create an array of all players.

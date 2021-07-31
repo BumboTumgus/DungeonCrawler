@@ -17,6 +17,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private GameObject[] enemyBank;
     [SerializeField] private GameObject[] enemyBossBank;
     [SerializeField] private List<GameObject> spawnableEnemies = new List<GameObject>();
+    [SerializeField] private GameObject spawnEffectSmall;
 
     Coroutine enemySpawnRoutine;
 
@@ -134,6 +135,7 @@ public class EnemyManager : MonoBehaviour
                 //Debug.Log("Created an enemy:  " + enemy);
                 GameObject enemyGO = Instantiate(enemy, spawnPoint, Quaternion.identity);
                 enemyGO.GetComponent<DamageNumberManager>().primaryCanvas = GameManager.instance.playerUis[0].transform;
+                Instantiate(spawnEffectSmall, spawnPoint, Quaternion.identity);
             }
             //Debug.Log("Chilling before we loop back to the top or end");
 

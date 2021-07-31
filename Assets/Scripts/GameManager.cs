@@ -252,6 +252,8 @@ public class GameManager : MonoBehaviour
         // STart loading shit here
         foreach(GameObject player in currentPlayers)
         {
+            player.GetComponent<PlayerStats>().AddExp(player.GetComponent<PlayerStats>().gold);
+            player.GetComponent<PlayerStats>().AddGold(player.GetComponent<PlayerStats>().gold * -1);
             player.GetComponent<BuffsManager>().psSystems[30].Play();
             player.GetComponent<BuffsManager>().psSystems[31].Play();
             player.GetComponent<AudioManager>().PlayAudio(31);
@@ -338,11 +340,14 @@ public class GameManager : MonoBehaviour
         {
             levelMusic.FadeOut(0.5f);
             GetComponent<AudioSource>().Play();
-            deathMusic.FadeOut(10f);
+            deathMusic.FadeOut(15f);
             foreach(GameObject playerUI in playerUis)
             {
                 //Debug.Log(playerUI);
                 playerUI.GetComponent<GameOverMenuBehaviour>().GameOverScreenFadeIn();
+                Cursor.lockState = CursorLockMode.Confined;
+                Cursor.visible = true;
+                Time.timeScale = 0;
             }
         }
     }

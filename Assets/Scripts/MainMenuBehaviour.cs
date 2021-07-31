@@ -63,6 +63,8 @@ public class MainMenuBehaviour : MonoBehaviour
         fadeOutAnim.SetTrigger("FadeIn");
 
         ButtonPressResetOptionsMenuFromPreferences();
+
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     // Used to launch the game into the prep scene before we load scene 1

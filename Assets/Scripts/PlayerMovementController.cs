@@ -8,8 +8,10 @@ public class PlayerMovementController : MonoBehaviour
     public enum PlayerState { Idle, Moving, Airborne, Rolling, Sprinting, Attacking, Downed, Dead, LossOfControl, LossOfControlNoGravity, CastingNoMovement, CastingRollOut, CastingWithMovement, CastingAerial, CastingIgnoreGravity, Jumping, Teleporting}
     public PlayerState playerState = PlayerState.Idle;
 
-    [HideInInspector] public bool menuOpen = false;                   // USed to lock movement if the menu is open.
+    [HideInInspector] public bool inventoryMenuOpen = false;          // USed to lock movement if the menu is open.
+    [HideInInspector] public bool pauseMenuOpen = false;              // USed to lock movement if the menu is open.
     public GameObject inventoryWindow;                                // a public reference to the gameobject that is the inventory window.
+    [HideInInspector] public bool freezePlayerMovementForMenu = false;
     public Vector3 transformNavMeshPosition;
     private Ray navMeshPositionRay;
     private RaycastHit navMeshPositionRayHit;
@@ -84,103 +86,106 @@ public class PlayerMovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // This is logic to ensure our character rotates towards the proper target.
-        if(recentlyAttacked && !playerStats.channeling)
+        if (!freezePlayerMovementForMenu)
         {
-            currentTimeSinceLastAttack += Time.deltaTime;
-            if(currentTimeSinceLastAttack >= targetTimeSinceLastAttack)
+            // This is logic to ensure our character rotates towards the proper target.
+            if (recentlyAttacked && !playerStats.channeling)
             {
-                recentlyAttacked = false;
-                anim.SetBool("FaceAttackDirection", false);
-                currentTimeSinceLastAttack = 0;
+                currentTimeSinceLastAttack += Time.deltaTime;
+                if (currentTimeSinceLastAttack >= targetTimeSinceLastAttack)
+                {
+                    recentlyAttacked = false;
+                    anim.SetBool("FaceAttackDirection", false);
+                    currentTimeSinceLastAttack = 0;
+                }
             }
-        }
 
-        switch (playerState)
-        {
-            case PlayerState.Idle:
-                Move();
-                ApplyGravity();
-                CheckJump();
-                CheckRoll();
-                CheckAttack();
-                CheckInteract();
-                break;
-            case PlayerState.Moving:
-                Move();
-                ApplyGravity();
-                CheckJump();
-                CheckRoll();
-                CheckAttack();
-                CheckInteract();
-                break;
-            case PlayerState.Airborne:
-                Move();
-                ApplyGravity();
-                CheckJump();
-                break;
-            case PlayerState.Rolling:
-                ApplyGravity();
-                break;
-            case PlayerState.Sprinting:
-                Move();
-                ApplyGravity();
-                CheckJump();
-                CheckRoll();
-                CheckAttack();
-                CheckInteract();
-                break;
-            case PlayerState.Jumping:
-                Move();
-                ApplyGravity();
-                CheckJump();
-                break;
-            case PlayerState.Attacking:
-                Move();
-                ApplyGravity();
-                CheckJump();
-                CheckRoll();
-                break;
-            case PlayerState.Downed:
-                ApplyGravity();
-                break;
-            case PlayerState.Dead:
-                ApplyGravity();
-                break;
-            case PlayerState.LossOfControl:
-                ApplyGravity();
-                break;
-            case PlayerState.LossOfControlNoGravity:
-                break;
-            case PlayerState.CastingNoMovement:
-                anim.SetFloat("Speed", 0);
-                ApplyGravity();
-                break;
-            case PlayerState.CastingRollOut:
-                ApplyGravity();
-                CheckRoll();
-                break;
-            case PlayerState.CastingWithMovement:
-                Move();
-                ApplyGravity();
-                CheckJump();
-                CheckRoll();
-                break;
-            case PlayerState.CastingIgnoreGravity:
-                break;
-            case PlayerState.CastingAerial:
-                ApplyGravity();
-                break;
-            case PlayerState.Teleporting:
-                break;
-            default:
-                break;
+            switch (playerState)
+            {
+                case PlayerState.Idle:
+                    Move();
+                    ApplyGravity();
+                    CheckJump();
+                    CheckRoll();
+                    CheckAttack();
+                    CheckInteract();
+                    break;
+                case PlayerState.Moving:
+                    Move();
+                    ApplyGravity();
+                    CheckJump();
+                    CheckRoll();
+                    CheckAttack();
+                    CheckInteract();
+                    break;
+                case PlayerState.Airborne:
+                    Move();
+                    ApplyGravity();
+                    CheckJump();
+                    break;
+                case PlayerState.Rolling:
+                    ApplyGravity();
+                    break;
+                case PlayerState.Sprinting:
+                    Move();
+                    ApplyGravity();
+                    CheckJump();
+                    CheckRoll();
+                    CheckAttack();
+                    CheckInteract();
+                    break;
+                case PlayerState.Jumping:
+                    Move();
+                    ApplyGravity();
+                    CheckJump();
+                    break;
+                case PlayerState.Attacking:
+                    Move();
+                    ApplyGravity();
+                    CheckJump();
+                    CheckRoll();
+                    break;
+                case PlayerState.Downed:
+                    ApplyGravity();
+                    break;
+                case PlayerState.Dead:
+                    ApplyGravity();
+                    break;
+                case PlayerState.LossOfControl:
+                    ApplyGravity();
+                    break;
+                case PlayerState.LossOfControlNoGravity:
+                    break;
+                case PlayerState.CastingNoMovement:
+                    anim.SetFloat("Speed", 0);
+                    ApplyGravity();
+                    break;
+                case PlayerState.CastingRollOut:
+                    ApplyGravity();
+                    CheckRoll();
+                    break;
+                case PlayerState.CastingWithMovement:
+                    Move();
+                    ApplyGravity();
+                    CheckJump();
+                    CheckRoll();
+                    break;
+                case PlayerState.CastingIgnoreGravity:
+                    break;
+                case PlayerState.CastingAerial:
+                    ApplyGravity();
+                    break;
+                case PlayerState.Teleporting:
+                    break;
+                default:
+                    break;
+            }
+
+            navMeshPositionRay = new Ray(transform.position, Vector3.down * 50);
+            if (Physics.Raycast(navMeshPositionRay, out navMeshPositionRayHit, 100, groundingRayMask))
+                transformNavMeshPosition = navMeshPositionRayHit.point;
         }
         CheckMenuInputs();
-
-        navMeshPositionRay = new Ray(transform.position, Vector3.down * 50);
-        if (Physics.Raycast(navMeshPositionRay, out navMeshPositionRayHit, 100, groundingRayMask))
-            transformNavMeshPosition = navMeshPositionRayHit.point;
     }
 
     private void Move()
@@ -334,7 +339,7 @@ public class PlayerMovementController : MonoBehaviour
     // Used to check if the player's jump imput was pressed.
     private void CheckJump()
     {
-        if (Input.GetAxisRaw(inputs.jumpInput) != 0 && inputs.jumpReleased  && currentJumps > 0 && !menuOpen)
+        if (Input.GetAxisRaw(inputs.jumpInput) != 0 && inputs.jumpReleased  && currentJumps > 0 && !inventoryMenuOpen)
         {
             inputs.jumpReleased = false;
             if(jumpCoroutine != null)
@@ -380,7 +385,7 @@ public class PlayerMovementController : MonoBehaviour
     // Used to check and see if the player has started a roll action.
     private void CheckRoll()
     {
-        if (Input.GetAxisRaw(inputs.rollInput) != 0 && grounded && (playerState != PlayerState.Airborne && playerState != PlayerState.LossOfControl && playerState != PlayerState.LossOfControlNoGravity) && rollReady && !menuOpen)
+        if (Input.GetAxisRaw(inputs.rollInput) != 0 && grounded && (playerState != PlayerState.Airborne && playerState != PlayerState.LossOfControl && playerState != PlayerState.LossOfControlNoGravity) && rollReady && !inventoryMenuOpen)
         {
             rollCoroutine = Roll();
             anim.applyRootMotion = false;
@@ -497,7 +502,7 @@ public class PlayerMovementController : MonoBehaviour
     // Used to check if the basic attack input was pressed.
     private void CheckAttack()
     {
-        if (Input.GetAxisRaw(inputs.attackInput) != 0 && attackReady && !playerStats.stunned && !playerStats.asleep && !menuOpen)
+        if (Input.GetAxisRaw(inputs.attackInput) != 0 && attackReady && !playerStats.stunned && !playerStats.asleep && !inventoryMenuOpen)
         {
             attackCoroutine = Attack();
             StartCoroutine(attackCoroutine);
@@ -783,7 +788,7 @@ public class PlayerMovementController : MonoBehaviour
     private void CheckMenuInputs()
     {
         // If we have pressed the inventory window, 
-        if (Input.GetAxisRaw(inputs.inventoryInput) == 1 && inputs.inventoryReleased)
+        if (Input.GetAxisRaw(inputs.inventoryInput) == 1 && inputs.inventoryReleased && !playerStats.dead)
         {
             inputs.inventoryReleased = false;
             //Debug.Log("Inventory will be opened or closed");
@@ -793,8 +798,11 @@ public class PlayerMovementController : MonoBehaviour
                 inventoryWindow.SetActive(true);
                 inventoryWindow.GetComponent<InventoryUiManager>().audioManager.PlayAudio(2);
 
-                menuOpen = true;
+                inventoryMenuOpen = true;
+                freezePlayerMovementForMenu = true;
                 cameraControls.menuOpen = true;
+                Time.timeScale = 0;
+                Cursor.lockState = CursorLockMode.Confined;
                 Cursor.visible = true;
             }
             else
@@ -803,11 +811,18 @@ public class PlayerMovementController : MonoBehaviour
                 inventoryWindow.SetActive(false);
                 inventoryWindow.GetComponent<InventoryUiManager>().audioManager.PlayAudio(3);
 
+                
                 inventoryWindow.GetComponent<InventoryPopupTextManager>().lockPointer = false;
                 inventoryWindow.GetComponent<InventoryPopupTextManager>().HidePopups();
-                menuOpen = false;
-                cameraControls.menuOpen = false;
-                Cursor.visible = false;
+                inventoryMenuOpen = false;
+                if (!pauseMenuOpen)
+                {
+                    freezePlayerMovementForMenu = false;
+                    cameraControls.menuOpen = false;
+                    Time.timeScale = 1;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                }
             }
         }
     }
