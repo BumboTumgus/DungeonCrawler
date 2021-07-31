@@ -29,6 +29,7 @@ public class TeleporterBehaviour : MonoBehaviour
         teleporterActive = true;
         teleporterTriggerBox.SetActive(true);
         teleporterParticles.Play();
+        GetComponent<AudioSource>().Play();
     }
 
 }

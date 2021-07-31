@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
             instance = this;
 
-        //StartCoroutine(Initialization());
+        StartCoroutine(Initialization());
     }
 
     IEnumerator Initialization()
@@ -130,6 +130,10 @@ public class GameManager : MonoBehaviour
         {
             // Set up our teleporter here to work.
             teleporter.GetComponent<TeleporterBehaviour>().StartTeleporter();
+            foreach(GameObject player in currentPlayers)
+            {
+                player.GetComponent<AudioManager>().PlayAudio(30);
+            }
         }
     }
 
@@ -250,6 +254,7 @@ public class GameManager : MonoBehaviour
         {
             player.GetComponent<BuffsManager>().psSystems[30].Play();
             player.GetComponent<BuffsManager>().psSystems[31].Play();
+            player.GetComponent<AudioManager>().PlayAudio(31);
         }
 
         yield return new WaitForSeconds(5f);

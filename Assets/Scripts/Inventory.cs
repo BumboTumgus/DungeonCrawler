@@ -93,6 +93,7 @@ public class Inventory : MonoBehaviour
             targetItem.ComfirmDrop();
             targetItem.ItemPopIn(transform.position + transform.forward * Random.Range(0.5f, 1.5f));
             inventoryUI.UpdateInventorySlot(targetItem.inventoryIndex);
+            GetComponent<AudioManager>().PlayAudio(17);
         }
         // Debug.Log(inventory.Count);
     }

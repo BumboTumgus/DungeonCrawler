@@ -16,4 +16,14 @@ public class AudioManager : MonoBehaviour
     {
         audioSources[Random.Range(index, index + audioRangeSteps[index] + 1)].Play();
     }
+
+    public void StopAudio(int index)
+    {
+        audioSources[index].Stop();
+    }
+
+    public void MuteAudio(int index)
+    {
+        audioSources[index].volume = 0;
+    }
 }

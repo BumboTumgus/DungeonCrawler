@@ -180,38 +180,6 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
-            AddExp(1000);
-        if (Input.GetKeyDown(KeyCode.P) && CompareTag("Player"))
-            AddExp(25);
-        /*
-        //USed to bebug money and the economy
-        
-        if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
-            TakeDamage(50, false, HitBox.DamageType.Physical, 0, null);
-        if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
-            AddGold(25);
-        if (Input.GetKeyDown(KeyCode.J) && CompareTag("Player"))
-            AddGold((int)Random.Range(1, 100000));
-        if (Input.GetKeyDown(KeyCode.K) && CompareTag("Player"))
-            AddGold(-1 * gold);
-        if (Input.GetKeyDown(KeyCode.J) && CompareTag("Player"))
-            AddGold((int)Random.Range(1, 100000));
-        if (Input.GetKeyDown(KeyCode.H) && CompareTag("Player"))
-            ItemGenerator.instance.IncrementRcIndex();
-        
-        if (Input.GetKeyDown(KeyCode.KeypadPlus) && CompareTag("Enemy"))
-            GetComponent<EnemyCrowdControlManager>().KnockbackLaunch((transform.forward + Vector3.up) * 10, this);
-        //USed for debugging to add exp.
-        if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
-            AddExp(1000);
-        if (Input.GetKeyDown(KeyCode.P) && CompareTag("Player"))
-            AddExp(25);
-        if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
-            TakeDamage(50, false, HitBox.DamageType.Physical, 0, null);
-        if (Input.GetKeyDown(KeyCode.U) && CompareTag("Player"))
-            comboManager.AddComboCounter(1);
-
         if (Input.GetKeyDown(KeyCode.Keypad0) && CompareTag("Player"))
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Aflame, 1, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.Keypad1) && CompareTag("Player"))
@@ -237,29 +205,63 @@ public class PlayerStats : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.KeypadPeriod))
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.KeypadEnter) && CompareTag("Player"))
-            buffManager.NewBuff(BuffsManager.BuffType.ArmorBroken, baseDamage, this);
-        if (Input.GetKeyDown(KeyCode.KeypadMinus))
-            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.GreviousWounds, 1, baseDamage, this);
-        if (Input.GetKeyDown(KeyCode.KeypadMinus))
-            GetComponent<SkillsManager>().ReduceSkillCooldowns(2f, false);
-        if (Input.GetKeyDown(KeyCode.KeypadPlus))
-            GetComponent<SkillsManager>().ReduceSkillCooldowns(0.5f, true);
-        */
-        // Health and mana regen logic.
-        /*
-        if (!dead)
-        {
-            float revitalizeBonus = 0f;
-            if (revitalizeBuff)
-            {
-                //revitalizeBonus = (Vit * 0.2f + bonusHealthRegen) * (1 - (health / healthMax)) * 2f;
-                //healthRegen = Vit * 0.2f + bonusHealthRegen + (revitalizeBonus * revitalizeCount);
-                myStats.UpdateHealthManaBarValues(this);
-            }
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.ArmorBroken, 1, baseDamage, this);
+        if (Input.GetKeyDown(KeyCode.KeypadMinus) && CompareTag("Player"))
+            /*
+        if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
+            AddExp(1000);
+        if (Input.GetKeyDown(KeyCode.P) && CompareTag("Player"))
+            AddExp(25);
+            //USed to bebug money and the economy
 
-        }
-        */
-        if (!CompareTag("Hazard"))
+            if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
+                TakeDamage(50, false, HitBox.DamageType.Physical, 0, null);
+            if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
+                AddGold(25);
+            if (Input.GetKeyDown(KeyCode.J) && CompareTag("Player"))
+                AddGold((int)Random.Range(1, 100000));
+            if (Input.GetKeyDown(KeyCode.K) && CompareTag("Player"))
+                AddGold(-1 * gold);
+            if (Input.GetKeyDown(KeyCode.J) && CompareTag("Player"))
+                AddGold((int)Random.Range(1, 100000));
+            if (Input.GetKeyDown(KeyCode.H) && CompareTag("Player"))
+                ItemGenerator.instance.IncrementRcIndex();
+
+            if (Input.GetKeyDown(KeyCode.KeypadPlus) && CompareTag("Enemy"))
+                GetComponent<EnemyCrowdControlManager>().KnockbackLaunch((transform.forward + Vector3.up) * 10, this);
+            //USed for debugging to add exp.
+            if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
+                AddExp(1000);
+            if (Input.GetKeyDown(KeyCode.P) && CompareTag("Player"))
+                AddExp(25);
+            if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
+                TakeDamage(50, false, HitBox.DamageType.Physical, 0, null);
+            if (Input.GetKeyDown(KeyCode.U) && CompareTag("Player"))
+                comboManager.AddComboCounter(1);
+
+                buffManager.NewBuff(BuffsManager.BuffType.ArmorBroken, baseDamage, this);
+            if (Input.GetKeyDown(KeyCode.KeypadMinus))
+                buffManager.CheckResistanceToBuff(BuffsManager.BuffType.GreviousWounds, 1, baseDamage, this);
+            if (Input.GetKeyDown(KeyCode.KeypadMinus))
+                GetComponent<SkillsManager>().ReduceSkillCooldowns(2f, false);
+            if (Input.GetKeyDown(KeyCode.KeypadPlus))
+                GetComponent<SkillsManager>().ReduceSkillCooldowns(0.5f, true);
+            */
+            // Health and mana regen logic.
+            /*
+            if (!dead)
+            {
+                float revitalizeBonus = 0f;
+                if (revitalizeBuff)
+                {
+                    //revitalizeBonus = (Vit * 0.2f + bonusHealthRegen) * (1 - (health / healthMax)) * 2f;
+                    //healthRegen = Vit * 0.2f + bonusHealthRegen + (revitalizeBonus * revitalizeCount);
+                    myStats.UpdateHealthManaBarValues(this);
+                }
+
+            }
+            */
+            if (!CompareTag("Hazard"))
         {
             if (!dead)
                 health += healthRegen * Time.deltaTime;
@@ -342,7 +344,8 @@ public class PlayerStats : MonoBehaviour
         if (health > healthMax)
             health = healthMax;
 
-        attackSpeed = 1 + bonusAttackSpeed;
+        if(CompareTag("Player"))
+            attackSpeed = 1 + bonusAttackSpeed;
 
         traitPoisonFireSpellOnHitTargetTimer = 3 / attackSpeed;
 
@@ -2089,7 +2092,7 @@ public class PlayerStats : MonoBehaviour
         {
             case 0:
                 basicAttack2.gameObject.SetActive(false);
-                basicAttack1.damage = baseDamage;
+                basicAttack1.damage = baseDamage * 1.5f;
                 basicAttack1.damageType = HitBox.DamageType.Physical;
                 break;
             case 1:

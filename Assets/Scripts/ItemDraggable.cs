@@ -11,10 +11,12 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     public GameObject attachedItem;
 
     private InventoryPopupTextManager popupManager;
+    private AudioManager audioManager;
 
     private void Start()
     {
         popupManager = transform.parent.parent.GetComponent<InventoryPopupTextManager>();
+        audioManager = transform.root.GetComponent<AudioManager>();
     }
 
     // When we click and start dragging this dude around, set our parent and our parent to return to.
@@ -45,11 +47,15 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         popupManager.lockPointer = false;
 
         if (parentToInteractWith != null)
+        {
             transform.SetParent(parentToInteractWith);
+            audioManager.PlayAudio(1);
+        }
         else
         {
             transform.SetParent(myParent);
             popupManager.HidePopups();
+            audioManager.PlayAudio(4);
         }
         transform.localPosition = Vector3.zero;
         parentToInteractWith = null;
@@ -66,6 +72,7 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         {
             transform.parent.SetAsLastSibling();
             popupManager.ShowPopup(transform, transform.parent.GetComponent<ItemDropZone>().popUpDirection);
+            audioManager.PlayAudio(0);
         }
     }
 

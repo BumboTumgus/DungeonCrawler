@@ -9,6 +9,7 @@ public class BuffsManager : MonoBehaviour
     public List<GameObject> activeIcons = new List<GameObject>();
     public Transform canvasParent;
     public GameObject buffIconPrefab;
+    public AudioManager audioManager;
 
     public List<ParticleSystem> weaponEffectsLeft = new List<ParticleSystem>();
     public List<ParticleSystem> weaponEffectsRight = new List<ParticleSystem>();
@@ -44,6 +45,8 @@ public class BuffsManager : MonoBehaviour
 
         if (CompareTag("Player"))
             playerTraitManager = GetComponent<PlayerTraitManager>();
+
+        audioManager = GetComponent<AudioManager>();
 
         StopAllParticles();
     }
@@ -181,6 +184,53 @@ public class BuffsManager : MonoBehaviour
         // Debug.Log("Addding buffs");
         bool buffDealtWith = false;
 
+        // Play the associated sound with the buff
+        switch (buff)
+        {
+            case BuffType.Aflame:
+                audioManager.PlayAudio(20);
+                break;
+            case BuffType.Frostbite:
+                audioManager.PlayAudio(21);
+                break;
+            case BuffType.Overcharge:
+                audioManager.PlayAudio(22);
+                break;
+            case BuffType.Overgrown:
+                audioManager.PlayAudio(23);
+                break;
+            case BuffType.Sunder:
+                audioManager.PlayAudio(24);
+                break;
+            case BuffType.Windshear:
+                audioManager.PlayAudio(25);
+                break;
+            case BuffType.Knockback:
+                audioManager.PlayAudio(27);
+                break;
+            case BuffType.Asleep:
+                audioManager.PlayAudio(26);
+                break;
+            case BuffType.Stunned:
+                audioManager.PlayAudio(27);
+                break;
+            case BuffType.Bleeding:
+                audioManager.PlayAudio(18);
+                break;
+            case BuffType.Poisoned:
+                audioManager.PlayAudio(19);
+                break;
+            case BuffType.Frozen:
+                audioManager.PlayAudio(29);
+                break;
+            case BuffType.ArmorBroken:
+                audioManager.PlayAudio(28);
+                break;
+            default:
+                break;
+        }
+
+
         // Check to see if any of our buffs match this buff, and if the source matches then we reset the duration.
         for (int index = 0; index < activeBuffs.Count; index++)
         {
@@ -188,6 +238,7 @@ public class BuffsManager : MonoBehaviour
             if (activeBuff.myType == buff)
             {
                 buffDealtWith = true;
+
                 if (activeBuff.stackable)
                 {
                     if (buffInflictor.CompareTag("Player") && buff == BuffType.Bleeding && activeBuff.currentStacks >= 50 && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceBleedBleedDoesDamageInstantlyOnThreshold) > 0 && PollForBuffStacks(BuffType.Frostbite) >= 32 - buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceBleedBleedDoesDamageInstantlyOnThreshold))
