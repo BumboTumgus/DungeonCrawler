@@ -1719,6 +1719,14 @@ public class BuffsManager : MonoBehaviour
         Destroy(buffToRemove);
     }
 
+    // Remove all buffs and debuffs
+    public void RemoveAllBuffs()
+    {
+        Debug.Log("removing all buffs. there are " + activeBuffs.Count);
+        for (int index = 0; index < activeBuffs.Count; index++)
+            activeBuffs[0].EndBuff();
+    }
+
     // Checks through all our buffs, if we find one that buff will be removed.
     public void AttemptRemovalOfBuff(BuffType buffTypeToCheckFor, bool removeNextFrame)
     {

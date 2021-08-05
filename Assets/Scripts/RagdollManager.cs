@@ -17,7 +17,7 @@ public class RagdollManager : MonoBehaviour
 
     [SerializeField] private Collider[] colliders;
     private Animator animator;
-    private GameObject entityModel;
+    [SerializeField] public GameObject entityModel;
     private Transform rootTransform;
     private Transform playerHips;
     private Vector3 startingEntityModelRotation = Vector3.zero;

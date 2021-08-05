@@ -11,7 +11,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] Transform[] enemySpawns;
     [SerializeField] float enemyPoints = 0;
     [SerializeField] float currentTimer = 0f;
-    [SerializeField] float targetTimer = 120f;
+    [SerializeField] float targetTimer = 80f;
     [SerializeField] private int enemyLevel = 0;
 
     [SerializeField] private GameObject[] enemyBank;
@@ -51,24 +51,37 @@ public class EnemyManager : MonoBehaviour
         if (currentTimer >= targetTimer)
         {
             currentTimer -= targetTimer;
+            enemyLevel++;
+            Debug.Log("------------------- Enemy Level Up -------------------");
             //Debug.Log("upgrading all the enemies stats");
             foreach (PlayerStats stats in enemyStats)
             {
-                stats.LevelUpEnemy(enemyLevel);
+                stats.level = enemyLevel;
+                stats.StatSetup(true, true);
             }
         }
 
+        /*
         if (Input.GetKeyDown(KeyCode.Semicolon))
         {
             GameObject enemy = Instantiate(enemyBank[0], new Vector3(Random.Range(-15, 15), 0, Random.Range(25,30)), Quaternion.identity);
         }
+        */
     }
 
     public void StartEnemyBatchSpawnCoroutine()
     {
         // if we have a routine, dont do anything.
-        if(enemySpawnRoutine == null)
-            enemySpawnRoutine = StartCoroutine(SpawnEnemyBatch());
+        if (enemySpawnRoutine != null)
+            StopCoroutine(enemySpawnRoutine);
+            
+        enemySpawnRoutine = StartCoroutine(SpawnEnemyBatch());
+    }
+
+    public void WipeAllEnemyAudioSources()
+    {
+        foreach (PlayerStats enemy in enemyStats)
+            enemy.GetComponent<AudioManager>().WipeAllAudioSources();
     }
 
     IEnumerator SpawnEnemyBatch()
@@ -135,6 +148,7 @@ public class EnemyManager : MonoBehaviour
                 //Debug.Log("Created an enemy:  " + enemy);
                 GameObject enemyGO = Instantiate(enemy, spawnPoint, Quaternion.identity);
                 enemyGO.GetComponent<DamageNumberManager>().primaryCanvas = GameManager.instance.playerUis[0].transform;
+                enemyGO.GetComponent<PlayerStats>().level = enemyLevel;
                 Instantiate(spawnEffectSmall, spawnPoint, Quaternion.identity);
             }
             //Debug.Log("Chilling before we loop back to the top or end");

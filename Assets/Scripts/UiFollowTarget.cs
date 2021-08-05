@@ -34,6 +34,7 @@ public class UiFollowTarget : MonoBehaviour
         if (ignoreDistanceCullCoroutine != null)
             StopCoroutine(ignoreDistanceCullCoroutine);
 
+        gameObject.SetActive(true);
         ignoreDistanceCullCoroutine = StartCoroutine(IgnoreCameraDistanceCull());
     }
 

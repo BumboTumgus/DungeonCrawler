@@ -12,6 +12,7 @@ public class PlayerStats : MonoBehaviour
     public float baseDamage = 1;
     public float baseBaseDamage = 8;
     public float baseDamageGrowth = 1;
+    private float baseDamageMultiplier = 1;
 
     public float health = 100;
     public float healthMax = 100;
@@ -180,9 +181,9 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Keypad0) && CompareTag("Player"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Aflame, 1, baseDamage, this);
         /*
-    if (Input.GetKeyDown(KeyCode.Keypad0) && CompareTag("Player"))
-        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Aflame, 1, baseDamage, this);
     if (Input.GetKeyDown(KeyCode.Keypad1) && CompareTag("Player"))
         buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, 1, baseDamage, this);
     if (Input.GetKeyDown(KeyCode.Keypad2) && CompareTag("Player"))
@@ -338,7 +339,21 @@ public class PlayerStats : MonoBehaviour
     // Used to set up the stats at the start of the game and every time we level.
     public void StatSetup(bool LeveledUp, bool changeHealthBars)
     {
-        baseDamage = baseBaseDamage + baseDamageGrowth * level;
+        if (LeveledUp && CompareTag("Enemy"))
+        {
+            float damageMultiplier = 1;
+            float healthMultiplier = 1;
+            for (int index = 0; index < level - 1; index++)
+            {
+                damageMultiplier *= 1.1f;
+                healthMultiplier *= 1.1f;
+            }
+
+            bonusPercentHealth = healthMultiplier;
+            baseDamageMultiplier = damageMultiplier;
+        }
+
+        baseDamage = baseBaseDamage + baseDamageGrowth * level * baseDamageMultiplier;
 
         healthMax = (baseHealth + baseHealthGrowth * level + bonusHealth) * bonusPercentHealth;
         if (health > healthMax)
@@ -418,18 +433,6 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    //USed to ugrade the enemies base stats of the enemies
-    public void LevelUpEnemy(int currentLevel)
-    {
-        int levelDifference = currentLevel - level;
-        for(int index = 0; index < levelDifference; index++)
-        {
-            baseDamage *= 1.1f;
-            bonusHealth *= 1.1f;
-        }
-        level = currentLevel;
-        StatSetup(false, true);
-    }
 
     // Used to heal Health
     public void HealHealth(float amount, HitBox.DamageType damage)
@@ -465,6 +468,15 @@ public class PlayerStats : MonoBehaviour
     {
         if (health > 0)
         {
+            if (CompareTag("Enemy"))
+            {
+                healthBar.transform.parent.GetComponent<UiFollowTarget>().TriggerIgnoreCameraDistanceCull();
+                if (!crit)
+                    playerThatLastHitUs.audioManager.PlayAudio(9);
+                else
+                    playerThatLastHitUs.audioManager.PlayAudio(10);
+            }
+
             lastHitBy = playerThatLastHitUs;
 
             if (counter)
@@ -525,15 +537,6 @@ public class PlayerStats : MonoBehaviour
             if (CompareTag("Enemy") && GetComponent<EnemyCombatController>() != null && GetComponent<EnemyCombatController>().onHitActionHierarchy.Length > 0)
                 GetComponent<EnemyCombatController>().CheckOnHitActionHierarchy();
 
-            if (CompareTag("Enemy"))
-            {
-                healthBar.transform.parent.GetComponent<UiFollowTarget>().TriggerIgnoreCameraDistanceCull();
-                if(!crit)
-                    playerThatLastHitUs.audioManager.PlayAudio(9);
-                else
-                    playerThatLastHitUs.audioManager.PlayAudio(10);
-
-            }
 
             // Update the health bar.
             healthBar.targetValue = health;
@@ -630,11 +633,8 @@ public class PlayerStats : MonoBehaviour
             Destroy(GetComponent<EnemyCombatController>());
             Destroy(GetComponent<EnemyCrowdControlManager>());
             Destroy(GetComponent<EnemyAbilityBank>());
+            Destroy(GetComponent<RagdollManager>().entityModel, 5);
             Destroy(GetComponent<RagdollManager>());
-
-            Destroy(transform.Find("EntityModel").gameObject, 5);
-            //Destroy(transform.Find("UiFollowTarget_Name").gameObject);
-            //Destroy(transform.Find("UiFollowTarget_Damage").gameObject);
             Destroy(transform.Find("HitBoxes").gameObject);
             Destroy(transform.Find("BuffContainer").gameObject);
 
@@ -664,7 +664,7 @@ public class PlayerStats : MonoBehaviour
             if (!healthBar)
             {
                 // Spawn one and set its follow target and then grab it's healthbar script for updates.
-                GameObject healthBarParent = Instantiate(enemyHealthBar, new Vector3(1000, 1000, 1000), new Quaternion(0, 0, 0, 0), GameManager.instance.playerUis[0].transform);
+                GameObject healthBarParent = Instantiate(enemyHealthBar, new Vector3(1000, 1000, 1000), new Quaternion(0, 0, 0, 0), GameManager.instance.playerUis[0].transform.Find("TemporaryUi"));
                 healthBarParent.GetComponent<UiFollowTarget>().target = transform.Find("UiFollowTarget_Name");
                 GetComponent<BuffsManager>().canvasParent = healthBarParent.transform.Find("BuffIconParents");
                 healthBarParent.transform.SetAsFirstSibling();
@@ -1988,7 +1988,7 @@ public class PlayerStats : MonoBehaviour
     // Used wehn we want to force a stat value reset for when we are no logner hovering with an item.
     public void ForceStatRecheck()
     {
-        Debug.Log(" we have forced a stat recheck");
+        //Debug.Log(" we have forced a stat recheck");
         myStats.mouseWithItemHovered = false;
         StatSetup(false, false);
     }

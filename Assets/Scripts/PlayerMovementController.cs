@@ -81,6 +81,7 @@ public class PlayerMovementController : MonoBehaviour
         inventory = GetComponent<Inventory>();
         ragdollManager = GetComponent<RagdollManager>();
         audioManager = GetComponent<AudioManager>();
+
     }
 
     // Update is called once per frame
@@ -267,23 +268,94 @@ public class PlayerMovementController : MonoBehaviour
     private void ApplyGravity()
     {
         Ray groundRay = new Ray(transform.position + Vector3.up * 0.5f, Vector3.down);
-        RaycastHit groundRayHit;
 
-        // Shoot a ray, if it we hit we are grounded if not we are no longer grounded. If we just jumped ignore this and set us as not grounded.
-        if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
+        RaycastHit groundRayHit;
+        bool rayHitGround = false;
+        Vector3 groundRayHitPoint = Vector3.zero;
+        bool primaryRayHit = false;
+
+        // Shoot all the rays here
+        for(int index = 0; index < 5; index++)
         {
+            switch (index)
+            {
+                case 0:
+                    groundRay = new Ray(transform.position + Vector3.up * 0.5f, Vector3.down);
+                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
+                    {
+                        rayHitGround = true;
+                        groundRayHitPoint = groundRayHit.point;
+                        primaryRayHit = true;
+                    }
+                    Debug.DrawRay(transform.position + Vector3.up * 0.5f, Vector3.down, Color.yellow);
+                    break;
+                case 1:
+                    groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(0.45f, -1f, 0));
+                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
+                    {
+                        rayHitGround = true;
+                        groundRayHitPoint = groundRayHit.point;
+                    }
+                    Debug.DrawRay(transform.position + Vector3.up * 0.5f, new Vector3(0.45f, -1f, 0), Color.yellow);
+                    break;
+                case 2:
+                    groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(-0.45f, -1f, 0));
+                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
+                    {
+                        rayHitGround = true;
+                        groundRayHitPoint = groundRayHit.point;
+                    }
+                    Debug.DrawRay(transform.position + Vector3.up * 0.5f, new Vector3(-0.45f, -1f, 0), Color.yellow);
+                    break;
+                case 3:
+                    groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, 0.45f));
+                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
+                    {
+                        rayHitGround = true;
+                        groundRayHitPoint = groundRayHit.point;
+                    }
+                    Debug.DrawRay(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, 0.45f), Color.yellow);
+                    break;
+                case 4:
+                    groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, -0.45f));
+                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
+                    {
+                        rayHitGround = true;
+                        groundRayHitPoint = groundRayHit.point;
+                    }
+                    Debug.DrawRay(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, -0.45f), Color.yellow);
+                    break;
+                default:
+                    break;
+            }
+
+            if (rayHitGround)
+                break;
+        }
+
+        //Debug.Log("we have hit the ground with one of our 15 rays? " + rayHitGround);
+        // Shoot a ray, if it we hit we are grounded if not we are no longer grounded. If we just jumped ignore this and set us as not grounded.
+        if (rayHitGround)
+        {
+            gravityVectorStrength = 0;
+
+            //Debug.Log("check if were grounded");
             if (!grounded)
             {
+                //Debug.Log(" we arent grounded so now we should be");
+
                 // if the ray hit the ground, set us as grounded, snap us to the ground, and change the state while updating the aniamtion.
                 grounded = true;
-                gravityVectorStrength = 0;
                 gravityModifier = 1;
 
                 audioManager.PlayAudio(13);
 
-                Vector3 positionalDifference = groundRayHit.point - transform.position;
-                //positionalDifference.y -= POSITIONAL_DIFFERENCE_OFFSET;
-                controller.Move(positionalDifference);
+                if (primaryRayHit)
+                {
+                    Vector3 positionalDifference = groundRayHitPoint - transform.position;
+                    //positionalDifference.y -= POSITIONAL_DIFFERENCE_OFFSET;
+                    controller.Move(positionalDifference);
+                }
 
                 //Debug.Log("The positional difference is: " + positionalDifference + ". Our transform is: " + transform.position);
 
@@ -301,13 +373,20 @@ public class PlayerMovementController : MonoBehaviour
             // if we are np longer grounded switch the state and and animation.
             if (!playerStats.stunned && !playerStats.knockedBack && !playerStats.asleep && !playerStats.frozen)
             {
-                grounded = false;
-                anim.SetBool("Grounded", false);
-
-                if (playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
+                // shoot a ray down to see if were just slightly off the ground. if so we will ignore the airborne switch
+                // this is done to avoid awkward movement going down hills.
+                groundRay = new Ray(transform.position + Vector3.up * 0.5f, Vector3.down * 5);
+                if (!Physics.Raycast(groundRay, GROUNDING_RAY_LENGTH + 0.4f, groundingRayMask))
                 {
-                    //Debug.Log("we were jumping or casting an aeril skill so set us to airborne");
-                    playerState = PlayerState.Airborne;
+                    //Debug.Log("The ray missed, we are now airborne");
+                    grounded = false;
+                    anim.SetBool("Grounded", false);
+
+                    if (playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
+                    {
+                        //Debug.Log("we were jumping or casting an aeril skill so set us to airborne");
+                        playerState = PlayerState.Airborne;
+                    }
                 }
             }
 
@@ -320,6 +399,7 @@ public class PlayerMovementController : MonoBehaviour
         }
 
     }
+
 
     // Used to snap our character to the floor is possible.
     public void SnapToFloor()

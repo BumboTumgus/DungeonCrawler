@@ -26,18 +26,7 @@ public class PauseMenuController : MonoBehaviour
         {
             if(paused)
             {
-                paused = false;
-                pauseMenu.SetActive(false);
-                if (!pmc.inventoryMenuOpen)
-                {
-                    Camera.main.transform.parent.GetComponent<CameraControls>().menuOpen = false;
-                    pmc.freezePlayerMovementForMenu = false;
-                    Time.timeScale = 1;
-                    Cursor.lockState = CursorLockMode.Locked;
-                    Cursor.visible = false;
-                }
-                pmc.pauseMenuOpen = false;
-                menuCloseAudio.Play();
+                HideMenu();
             }
             else
             {
@@ -53,6 +42,22 @@ public class PauseMenuController : MonoBehaviour
                 menuOpenAudio.Play();
             }
         }
+    }
+
+    public void HideMenu()
+    {
+        paused = false;
+        pauseMenu.SetActive(false);
+        if (!pmc.inventoryMenuOpen)
+        {
+            Camera.main.transform.parent.GetComponent<CameraControls>().menuOpen = false;
+            pmc.freezePlayerMovementForMenu = false;
+            Time.timeScale = 1;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        pmc.pauseMenuOpen = false;
+        menuCloseAudio.Play();
     }
 
     // Used by the restart button to relaunch the scene.

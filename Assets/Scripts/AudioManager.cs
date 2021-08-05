@@ -26,4 +26,10 @@ public class AudioManager : MonoBehaviour
     {
         audioSources[index].volume = 0;
     }
+
+    public void WipeAllAudioSources()
+    {
+        for (int index = 0; index < audioSources.Length; index++)
+            Destroy(audioSources[index]);
+    }
 }

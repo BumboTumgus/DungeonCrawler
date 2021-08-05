@@ -30,7 +30,7 @@ public class AudioFader : MonoBehaviour
 
         while(currentTimer < targetTimer)
         {
-            currentTimer += Time.deltaTime;
+            currentTimer += Time.unscaledDeltaTime;
             audioSource.volume = (1 - currentTimer / targetTimer) * originalVolume;
 
             yield return null;

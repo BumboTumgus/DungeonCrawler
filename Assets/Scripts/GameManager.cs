@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
             instance = this;
 
-        StartCoroutine(Initialization());
+        //StartCoroutine(Initialization());
     }
 
     IEnumerator Initialization()
@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
 
         while (!levelOne.isDone)
         {
-            Debug.Log(levelOne.progress);
+            //Debug.Log(levelOne.progress);
             yield return null;
         }
 
@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
         playerUis = new List<GameObject>();
         playerCameras = new List<GameObject>();
 
-        Debug.Log("creating EVERYTHING");
+        //Debug.Log("creating EVERYTHING");
         // Here we create a player, their ui and a camera and connect everything.
         GameObject player = Instantiate(playerCharacterPrefab);
         GameObject camera = Instantiate(playerCameraPrefab);
@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
         player.GetComponent<PlayerMovementController>().mainCameraTransform = camera.transform.Find("RotateAroundPlayer");
         player.GetComponent<ComboManager>().comboAnim = playerUi.transform.Find("ComboMeterParent").Find("ComboMeter").GetComponent<Animator>();
         player.GetComponent<RagdollManager>().cameraFollow = camera.GetComponent<FollowPlayer>();
-        player.GetComponent<DamageNumberManager>().primaryCanvas = playerUi.transform;
+        player.GetComponent<DamageNumberManager>().primaryCanvas = playerUi.transform.Find("TemporaryUi");
         player.GetComponent<CameraShakeManager>().cameraToShake = camera.transform.Find("RotateAroundPlayer").Find("Main Camera");
 
         currentPlayers = GameObject.FindGameObjectsWithTag("Player");
@@ -214,10 +214,10 @@ public class GameManager : MonoBehaviour
                 foreach(GameObject player in currentPlayers)
                 {
                     //Debug.Log("setting the players position");
-                    Debug.Log("player position before: " + player.transform.position);
+                    //Debug.Log("player position before: " + player.transform.position);
                     player.transform.position = spawnSelected + new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
                     player.GetComponent<CameraShakeManager>().cameraToShake.root.GetComponent<FollowPlayer>().ResetCameraOrientation();
-                    Debug.Log("player position after: " + player.transform.position);
+                    //Debug.Log("player position after: " + player.transform.position);
                 }
                 //Debug.Log("spawn found");
                 spawnedGrabbed = true;
@@ -267,6 +267,7 @@ public class GameManager : MonoBehaviour
             Instantiate(player.GetComponent<SkillsManager>().skillProjectiles[83], player.transform.position + Vector3.up, Quaternion.identity);
             player.GetComponent<PlayerMovementController>().enabled = false;
             player.GetComponent<CharacterController>().enabled = false;
+            player.GetComponent<BuffsManager>().RemoveAllBuffs();
             player.transform.Find("EntityModel").gameObject.SetActive(false);
 
         }
@@ -280,6 +281,22 @@ public class GameManager : MonoBehaviour
         foreach(GameObject camera in playerCameras)
         {
             camera.GetComponentInChildren<UiHideBehindPlayer>().targets = new List<UiFollowTarget>();
+        }
+
+        // REmove all the old uis from the temporary ui tab like damage numbers and health bars
+        foreach(GameObject ui in playerUis)
+        {
+            Debug.Log("The ui should be wiped here");
+            Transform parentToWipe = ui.transform.Find("TemporaryUi");
+            Debug.Log(parentToWipe);
+            Debug.Log(parentToWipe.childCount);
+
+            foreach(Transform child in parentToWipe)
+            {
+                Debug.Log(child.name);
+                Destroy(child.gameObject);
+            }
+
         }
 
         //Debug.Log("zoom to next level");
@@ -338,6 +355,7 @@ public class GameManager : MonoBehaviour
         // If all the players are dead, call a function for each of them that fades to black and end the game.
         if(allPlayersDead)
         {
+
             levelMusic.FadeOut(0.5f);
             GetComponent<AudioSource>().Play();
             deathMusic.FadeOut(15f);

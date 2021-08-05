@@ -58,6 +58,7 @@ public class PauseMenuBehaviour : MonoBehaviour
         graphicsDropdown.value = QualitySettings.GetQualityLevel();
 
         bloom = ppp.GetSetting<Bloom>();
+        //Debug.Log("boolm is now: " + bloom);
 
 
 

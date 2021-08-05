@@ -154,7 +154,7 @@ public class EnemyCrowdControlManager : MonoBehaviour
 
         for (int index = 0; index < 6; index++)
         {
-            Debug.Log(anim.GetLayerName(index));
+            //Debug.Log(anim.GetLayerName(index));
             if(anim.GetLayerName(index) != "GettingUp")
                 anim.SetLayerWeight(index, 0);
         }
