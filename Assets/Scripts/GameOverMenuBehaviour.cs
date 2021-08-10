@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameOverMenuBehaviour : MonoBehaviour
 {
     [SerializeField] Animator fadeOutAnimGameOver;
     [SerializeField] Animator fadeOutAnimSwitchScenes;
     [SerializeField] GameObject gameOverMenu;
+    [SerializeField] string[] gameOverMessages;
+    [SerializeField] Text gameOverMessageText;
 
 
     // Used to launch the game into the prep scene before we load scene 1
@@ -44,6 +47,7 @@ public class GameOverMenuBehaviour : MonoBehaviour
         gameOverMenu.SetActive(true);
         gameOverMenu.GetComponent<CanvasGroup>().interactable = true;
         gameOverMenu.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        gameOverMessageText.text = gameOverMessages[Random.Range(0, gameOverMessages.Length)];
         fadeOutAnimGameOver.SetTrigger("GameOver");
     }
 

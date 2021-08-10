@@ -2907,7 +2907,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: -8.0000305}
+  m_AnchoredPosition: {x: 0, y: -8.000061}
   m_SizeDelta: {x: 0, y: 16}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &824884123874038921
@@ -4647,7 +4647,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 8.0000305}
+  m_AnchoredPosition: {x: 0, y: 8.000061}
   m_SizeDelta: {x: 0, y: 16}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &824884124029775534
@@ -8811,7 +8811,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 12.5, y: 12.5000305}
+  m_AnchoredPosition: {x: 12.5, y: 12.500061}
   m_SizeDelta: {x: 256, y: 256}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &824884124539966011
@@ -11001,7 +11001,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -12.5, y: -12.5000305}
+  m_AnchoredPosition: {x: -12.5, y: -12.500061}
   m_SizeDelta: {x: 256, y: 256}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &824884124894026712
@@ -11262,7 +11262,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -12.5, y: 12.5000305}
+  m_AnchoredPosition: {x: -12.5, y: 12.500061}
   m_SizeDelta: {x: 256, y: 256}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &824884124935904582
@@ -15704,7 +15704,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 12.5, y: -12.5000305}
+  m_AnchoredPosition: {x: 12.5, y: -12.500061}
   m_SizeDelta: {x: 256, y: 256}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &824884125582675046
@@ -94146,6 +94146,18 @@ MonoBehaviour:
   fadeOutAnimGameOver: {fileID: 5248071245680911730}
   fadeOutAnimSwitchScenes: {fileID: 6048438239969256325}
   gameOverMenu: {fileID: 5248071245680911727}
+  gameOverMessages:
+  - Avoid doing that in the future my friend.
+  - Avoid death by keeping your hp above 0.
+  - You were smashed to a pulp.
+  - Your broken body collapses to the floor.
+  - Oof.
+  - Your lifeblood ebbs low.
+  - Return to earth from whence you came.
+  - Death comes for all... eventually.
+  - The only certainty of life is death.
+  - You met your untimely demise.
+  gameOverMessageText: {fileID: 5248071245747308670}
 --- !u!114 &3736790557413946106
 MonoBehaviour:
   m_ObjectHideFlags: 0

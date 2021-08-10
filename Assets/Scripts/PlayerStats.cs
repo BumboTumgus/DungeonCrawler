@@ -183,6 +183,8 @@ public class PlayerStats : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Keypad0) && CompareTag("Player"))
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Aflame, 1, baseDamage, this);
+        if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
+            TakeDamage(50, false, HitBox.DamageType.Physical, 0, null);
         /*
     if (Input.GetKeyDown(KeyCode.Keypad1) && CompareTag("Player"))
         buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, 1, baseDamage, this);
@@ -215,8 +217,6 @@ public class PlayerStats : MonoBehaviour
         AddExp(25);
         //USed to bebug money and the economy
 
-        if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
-            TakeDamage(50, false, HitBox.DamageType.Physical, 0, null);
         if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
             AddGold(25);
         if (Input.GetKeyDown(KeyCode.J) && CompareTag("Player"))
