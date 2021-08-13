@@ -30,7 +30,7 @@ Transform:
   m_LocalPosition: {x: -13.474827, y: 0, z: 8.497791}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1914811436267591397}
+  - {fileID: 8448216743861410979}
   - {fileID: 6563614739752202019}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -142,7 +142,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1372557518585728385}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.09899998, y: 0, z: 0.049999986}
+  m_LocalPosition: {x: 0, y: 0, z: 0.049999986}
   m_LocalScale: {x: 2.141375, y: 2.447286, z: 2.1413765}
   m_Children: []
   m_Father: {fileID: 6563614739752202019}
@@ -166,7 +166,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 1
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -209,7 +209,7 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!1 &4665449027809553633
+--- !u!1 &9112410365612623385
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -217,45 +217,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1914811436267591397}
-  - component: {fileID: 6733857626052136969}
-  - component: {fileID: 2280038017636300199}
+  - component: {fileID: 8448216743861410979}
+  - component: {fileID: 4796830356740428550}
+  - component: {fileID: 7310807305728174028}
   m_Layer: 0
-  m_Name: Dagger_11
+  m_Name: Dagger_Legendary_Stiletto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1914811436267591397
+--- !u!4 &8448216743861410979
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4665449027809553633}
+  m_GameObject: {fileID: 9112410365612623385}
   m_LocalRotation: {x: -0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.018, z: 0}
   m_LocalScale: {x: -0.98212105, y: -0.98212093, z: -0.98212004}
   m_Children: []
   m_Father: {fileID: 2295228044243792241}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: -90}
---- !u!33 &6733857626052136969
+--- !u!33 &4796830356740428550
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4665449027809553633}
-  m_Mesh: {fileID: 4300000, guid: c1e7a974798fd434787b45df668357ee, type: 3}
---- !u!23 &2280038017636300199
+  m_GameObject: {fileID: 9112410365612623385}
+  m_Mesh: {fileID: -1172394545168454724, guid: 183724d938f0da341b927031fa7f74ca, type: 3}
+--- !u!23 &7310807305728174028
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4665449027809553633}
+  m_GameObject: {fileID: 9112410365612623385}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -267,7 +267,10 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 71e41e43b459a244abaf5acca76b89ee, type: 2}
+  - {fileID: 2100000, guid: cca64d0ae9d55d448b183194de77befd, type: 2}
+  - {fileID: 2100000, guid: 2377c2889c8afda44b3550ee7c816933, type: 2}
+  - {fileID: 2100000, guid: cec953e8b69e989478e14fc1e1589790, type: 2}
+  - {fileID: 2100000, guid: 9b269cac5c894ff4c8eaa8524e26332d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
