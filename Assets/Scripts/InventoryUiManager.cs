@@ -18,6 +18,7 @@ public class InventoryUiManager : MonoBehaviour
     public GameObject legsSlot;
 
     public Color[] itemOutlineColors;
+    public Color[] itemBackgroundColors;
     public Color[] skillIconColors;
 
     public Color[] iconAffintiyColors;
@@ -62,7 +63,7 @@ public class InventoryUiManager : MonoBehaviour
         targetImage.color = new Color(255, 255, 255, 255);
         targetImage.sprite = item.artwork;
 
-        if(item.itemType == Item.ItemType.Skill)
+        if (item.itemType == Item.ItemType.Skill)
         {
             switch (item.damageType)
             {
@@ -103,22 +104,28 @@ public class InventoryUiManager : MonoBehaviour
             slotToUpdate.transform.Find("ItemPanel").Find("ItemCount").GetComponent<Text>().text = "";
         
         Image outlineImage = slotToUpdate.transform.Find("ItemPanel").Find("Outline").GetComponent<Image>();
+        Image backgroundImage = slotToUpdate.transform.Find("ItemPanel").Find("Background").GetComponent<Image>();
         switch (item.itemRarity)
         {
             case Item.ItemRarity.Common:
                 outlineImage.color = itemOutlineColors[0];
+                backgroundImage.color = itemBackgroundColors[0];
                 break;
             case Item.ItemRarity.Uncommon:
                 outlineImage.color = itemOutlineColors[1];
+                backgroundImage.color = itemBackgroundColors[1];
                 break;
             case Item.ItemRarity.Rare:
                 outlineImage.color = itemOutlineColors[2];
+                backgroundImage.color = itemBackgroundColors[2];
                 break;
             case Item.ItemRarity.Legendary:
                 outlineImage.color = itemOutlineColors[3];
+                backgroundImage.color = itemBackgroundColors[3];
                 break;
             case Item.ItemRarity.Masterwork:
                 outlineImage.color = itemOutlineColors[4];
+                backgroundImage.color = itemBackgroundColors[4];
                 break;
             default:
                 break;
@@ -484,7 +491,8 @@ public class InventoryUiManager : MonoBehaviour
         slot.transform.Find("ItemPanel").Find("ItemImage").Find("Affinity_Secondary").gameObject.SetActive(false);
         slot.transform.Find("ItemPanel").Find("ItemImage").Find("Affinity_Tertiary").gameObject.SetActive(false);
 
-        slot.transform.Find("ItemPanel").Find("Outline").GetComponent<Image>().color = new Color(255, 255, 255, 0);
+        slot.transform.Find("ItemPanel").Find("Outline").GetComponent<Image>().color = new Color(255, 255, 255, 0); 
+        slot.transform.Find("ItemPanel").Find("Background").GetComponent<Image>().color = new Color(255, 255, 255, 0);
     }
 
     public ItemDraggable GetNextEmptySlot()

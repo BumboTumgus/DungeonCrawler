@@ -14,6 +14,7 @@ public class UiItemPopUpResizer : MonoBehaviour
     public Text countText;
     public Text itemTypeText;
     public Image popUpImage;
+    public Image imageBackground;
     public Image popUpImageOutline;
     public Image itemTypeImage;
     public RectTransform traitContainer;
@@ -25,6 +26,7 @@ public class UiItemPopUpResizer : MonoBehaviour
 
     public Color[] iconAffintiyColors;
     public Color[] iconAffintiyBackgroundColors;
+    public Color[] backgroundRarityColor;
     public Sprite[] iconAffinityIcons;
 
     private SkillBank skillBank;
@@ -283,26 +285,31 @@ public class UiItemPopUpResizer : MonoBehaviour
             case Item.ItemRarity.Common:
                 popUpImageOutline.color = itemOutlineColors[0];
                 itemTypeImage.color = itemOutlineColors[0];
+                imageBackground.color = backgroundRarityColor[0];
                 itemName.color = new Color(itemOutlineColors[0].r, itemOutlineColors[0].g, itemOutlineColors[0].b, 1);
                 break;
             case Item.ItemRarity.Uncommon:
                 popUpImageOutline.color = itemOutlineColors[1];
                 itemTypeImage.color = itemOutlineColors[1];
+                imageBackground.color = backgroundRarityColor[1];
                 itemName.color = new Color(itemOutlineColors[1].r, itemOutlineColors[1].g, itemOutlineColors[1].b, 1);
                 break;
             case Item.ItemRarity.Rare:
                 popUpImageOutline.color = itemOutlineColors[2];
                 itemTypeImage.color = itemOutlineColors[2];
+                imageBackground.color = backgroundRarityColor[2];
                 itemName.color = new Color(itemOutlineColors[2].r, itemOutlineColors[2].g, itemOutlineColors[2].b, 1);
                 break;
             case Item.ItemRarity.Legendary:
                 popUpImageOutline.color = itemOutlineColors[3];
                 itemTypeImage.color = itemOutlineColors[3];
+                imageBackground.color = backgroundRarityColor[3];
                 itemName.color = new Color(itemOutlineColors[3].r, itemOutlineColors[3].g, itemOutlineColors[3].b, 1);
                 break;
             case Item.ItemRarity.Masterwork:
                 popUpImageOutline.color = itemOutlineColors[4];
                 itemTypeImage.color = itemOutlineColors[4];
+                imageBackground.color = backgroundRarityColor[4];
                 itemName.color = new Color(itemOutlineColors[4].r, itemOutlineColors[4].g, itemOutlineColors[4].b, 1);
                 break;
             default:
@@ -312,7 +319,7 @@ public class UiItemPopUpResizer : MonoBehaviour
         if(targetItem.itemType != Item.ItemType.Skill)
         {
 
-            Image primaryAffinityBackground = popUpImage.transform.Find("Affinity_Primary").GetComponent<Image>();
+            Image primaryAffinityBackground = imageBackground.transform.Find("Affinity_Primary").GetComponent<Image>();
             switch (targetItem.affinityPrimary)
             {
                 case Item.AffinityType.None:
@@ -376,7 +383,7 @@ public class UiItemPopUpResizer : MonoBehaviour
                     break;
             }
 
-            Image secondaryAffinityBackground = popUpImage.transform.Find("Affinity_Secondary").GetComponent<Image>();
+            Image secondaryAffinityBackground = imageBackground.transform.Find("Affinity_Secondary").GetComponent<Image>();
             switch (targetItem.affinitySecondary)
             {
                 case Item.AffinityType.None:
@@ -440,7 +447,7 @@ public class UiItemPopUpResizer : MonoBehaviour
                     break;
             }
 
-            Image tertiaryAffinityBackground = popUpImage.transform.Find("Affinity_Tertiary").GetComponent<Image>();
+            Image tertiaryAffinityBackground = imageBackground.transform.Find("Affinity_Tertiary").GetComponent<Image>();
             switch (targetItem.affinityTertiary)
             {
                 case Item.AffinityType.None:
@@ -504,7 +511,7 @@ public class UiItemPopUpResizer : MonoBehaviour
                     break;
             }
 
-            Image secondaryAffinityBackgroundTwo = popUpImage.transform.Find("Affinity_Secondary").Find("Mask").Find("Affinity_Secondary_LeftHalf").GetComponent<Image>();
+            Image secondaryAffinityBackgroundTwo = imageBackground.transform.Find("Affinity_Secondary").Find("Mask").Find("Affinity_Secondary_LeftHalf").GetComponent<Image>();
             if (targetItem.affinitySecondaryMultiElement)
             {
                 secondaryAffinityBackgroundTwo.gameObject.SetActive(true);
@@ -574,7 +581,7 @@ public class UiItemPopUpResizer : MonoBehaviour
             else
                 secondaryAffinityBackgroundTwo.gameObject.SetActive(false);
 
-            Image tertiaryAffinityBackgroundTwo = popUpImage.transform.Find("Affinity_Tertiary").Find("Mask").Find("Affinity_Secondary_LeftHalf").GetComponent<Image>();
+            Image tertiaryAffinityBackgroundTwo = imageBackground.transform.Find("Affinity_Tertiary").Find("Mask").Find("Affinity_Secondary_LeftHalf").GetComponent<Image>();
             if (targetItem.affinityTertiaryMultiElement)
             {
                 tertiaryAffinityBackgroundTwo.gameObject.SetActive(true);
@@ -646,9 +653,9 @@ public class UiItemPopUpResizer : MonoBehaviour
         }
         else
         {
-            popUpImage.transform.Find("Affinity_Primary").GetComponent<Image>().gameObject.SetActive(false);
-            popUpImage.transform.Find("Affinity_Secondary").GetComponent<Image>().gameObject.SetActive(false); 
-            popUpImage.transform.Find("Affinity_Tertiary").GetComponent<Image>().gameObject.SetActive(false);
+            imageBackground.transform.Find("Affinity_Primary").GetComponent<Image>().gameObject.SetActive(false);
+            imageBackground.transform.Find("Affinity_Secondary").GetComponent<Image>().gameObject.SetActive(false);
+            imageBackground.transform.Find("Affinity_Tertiary").GetComponent<Image>().gameObject.SetActive(false);
         }
 
 
