@@ -11,11 +11,13 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     public GameObject attachedItem;
 
     private InventoryPopupTextManager popupManager;
+    private InventoryUiManager inventoryUiManager;
     private AudioManager audioManager;
 
     private void Start()
     {
         popupManager = transform.parent.parent.GetComponent<InventoryPopupTextManager>();
+        inventoryUiManager = transform.parent.parent.GetComponent<InventoryUiManager>();
         audioManager = transform.root.GetComponent<AudioManager>();
     }
 
@@ -31,6 +33,8 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         transform.SetAsLastSibling();
 
         GetComponent<CanvasGroup>().blocksRaycasts = false;
+
+
     }
 
     // While moving around, set our position to the mouse so we follow it.
@@ -38,6 +42,7 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     {
         transform.position = eventData.position;
         popupManager.lockPointer = true;
+        inventoryUiManager.HighlightSlotType(attachedItem.GetComponent<Item>().itemType);
     }
 
     // When we end, set us back to our original parent unless we were dropped on a valid slot.
@@ -62,6 +67,8 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
         myParent = transform.parent;
         GetComponent<CanvasGroup>().blocksRaycasts = true;
+
+        inventoryUiManager.HighlightHideAll();
     }
 
     // Used when the mouse hovers over this item.
@@ -73,6 +80,8 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             transform.parent.SetAsLastSibling();
             popupManager.ShowPopup(transform, transform.parent.GetComponent<ItemDropZone>().popUpDirection);
             audioManager.PlayAudio(0);
+
+            inventoryUiManager.HighlightSlotType(attachedItem.GetComponent<Item>().itemType);
         }
     }
 
@@ -80,5 +89,6 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     public void OnPointerExit(PointerEventData eventData)
     {
         popupManager.HidePopups();
+        inventoryUiManager.HighlightHideAll();
     }
 }

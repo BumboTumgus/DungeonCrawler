@@ -18,6 +18,7 @@ public class SkillsManager : MonoBehaviour
     public LayerMask targettingRayMask;
     public LayerMask targettingRayMaskHitEnemies;
     public InventoryUiManager inventory;
+    public AudioManager audioManager;
 
     public enum SkillNames { SweepingBlow, Rapislash, SkywardSlash, BladeVolley, BlinkStrike, TremorStab, LeapStrike, Takedown, Impale, Counter, SeveringStrike, Whirlwind, ShatteredEarth, FallingSword, SenateSlash, 
         Firebolt, Ignition, EmboldeningEmbers, Firebeads, HeatPulse, FlameStrike, Flamewalker, WitchPyre, Combustion, RingOfFire, BlessingOfFlames, Immolate, Firestorm, Fireweave, Fireball,
@@ -48,6 +49,7 @@ public class SkillsManager : MonoBehaviour
         hitBoxes = GetComponent<HitBoxManager>();
         cameraControls = Camera.main.GetComponent<CameraControls>();
         characterController = GetComponent<CharacterController>();
+        audioManager = GetComponent<AudioManager>();
 
         StartCoroutine(SpellMirrorTargetUpdater());
     }

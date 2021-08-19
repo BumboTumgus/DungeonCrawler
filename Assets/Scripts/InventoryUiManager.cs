@@ -103,7 +103,7 @@ public class InventoryUiManager : MonoBehaviour
         else
             slotToUpdate.transform.Find("ItemPanel").Find("ItemCount").GetComponent<Text>().text = "";
         
-        Image outlineImage = slotToUpdate.transform.Find("ItemPanel").Find("Outline").GetComponent<Image>();
+        Image outlineImage = slotToUpdate.transform.Find("ItemPanel").Find("ItemImage").Find("Outline").GetComponent<Image>();
         Image backgroundImage = slotToUpdate.transform.Find("ItemPanel").Find("Background").GetComponent<Image>();
         switch (item.itemRarity)
         {
@@ -491,8 +491,9 @@ public class InventoryUiManager : MonoBehaviour
         slot.transform.Find("ItemPanel").Find("ItemImage").Find("Affinity_Secondary").gameObject.SetActive(false);
         slot.transform.Find("ItemPanel").Find("ItemImage").Find("Affinity_Tertiary").gameObject.SetActive(false);
 
-        slot.transform.Find("ItemPanel").Find("Outline").GetComponent<Image>().color = new Color(255, 255, 255, 0); 
+        slot.transform.Find("ItemPanel").Find("ItemImage").Find("Outline").GetComponent<Image>().color = new Color(255, 255, 255, 0); 
         slot.transform.Find("ItemPanel").Find("Background").GetComponent<Image>().color = new Color(255, 255, 255, 0);
+        slot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(false);
     }
 
     public ItemDraggable GetNextEmptySlot()
@@ -549,6 +550,77 @@ public class InventoryUiManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void HighlightSlotType(Item.ItemType itemType)
+    {
+
+        switch (itemType)
+        {
+            case Item.ItemType.TrinketRing:
+                foreach (GameObject slot in trinketSlots)
+                    slot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                break;
+            case Item.ItemType.Weapon:
+                leftHandSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                rightHandSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                break;
+            case Item.ItemType.TwoHandWeapon:
+                rightHandSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                break;
+            case Item.ItemType.Helmet:
+                helmetSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                break;
+            case Item.ItemType.Legs:
+                legsSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                break;
+            case Item.ItemType.Armor:
+                chestSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                break;
+            case Item.ItemType.Shield:
+                leftHandSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                rightHandSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                break;
+            case Item.ItemType.MagicBooster:
+                leftHandSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                rightHandSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                break;
+            case Item.ItemType.Skill:
+                foreach (GameObject slot in skillSlots)
+                    slot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                break;
+            case Item.ItemType.TrinketCape:
+                foreach (GameObject slot in trinketSlots)
+                    slot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                break;
+            case Item.ItemType.TrinketBracelet:
+                foreach (GameObject slot in trinketSlots)
+                    slot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                break;
+            case Item.ItemType.TrinketWaistItem:
+                foreach (GameObject slot in trinketSlots)
+                    slot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void HighlightHideAll()
+    {
+
+        foreach (GameObject slot in inventorySlots)
+            if(slot.transform.Find("ItemPanel") != null)
+                slot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(false);
+        foreach (GameObject slot in trinketSlots)
+            slot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(false);
+        foreach (GameObject slot in skillSlots)
+            slot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(false);
+        legsSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(false);
+        chestSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(false);
+        helmetSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(false);
+        leftHandSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(false);
+        rightHandSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(false);
     }
 
 

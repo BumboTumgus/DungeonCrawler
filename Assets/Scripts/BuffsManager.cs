@@ -666,7 +666,7 @@ public class BuffsManager : MonoBehaviour
 
                     if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonPoisonReducesFireResist) > 0)
                         poisoned.ChangeResistanceStats(true, buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonPoisonReducesFireResist) * -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-                    if (PollForBuffStacks(BuffType.Aflame) > 0 && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) > 0)
+                    if (buffInflictor.CompareTag("Player") && PollForBuffStacks(BuffType.Aflame) > 0 && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) > 0)
                         poisoned.DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflamePoisonFireAmpsPoison) * PollForBuffStacks(BuffType.Aflame);
                     if (PollForBuff(BuffType.PoisonDamageAmp))
                         poisoned.DPSMultiplier += 0.5f;

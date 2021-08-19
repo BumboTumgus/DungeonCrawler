@@ -493,6 +493,7 @@ public class Skill : MonoBehaviour
 
         pc.playerState = PlayerMovementController.PlayerState.CastingNoMovement;
         pc.SnapToFaceCamera();
+        myManager.audioManager.PlayAudio(38);
 
         myManager.hitBoxes.hitboxes[6].GetComponent<HitBox>().damage = stats.baseDamage * 4f;
         myManager.hitBoxes.PlayParticles(9);
@@ -586,7 +587,7 @@ public class Skill : MonoBehaviour
             currentTimer += Time.deltaTime;
             yield return null;
         }
-
+        anim.SetBool("Grounded", false);
         //wait until we hit the ground
         while(!anim.GetBool("Grounded"))
         {
@@ -815,6 +816,7 @@ public class Skill : MonoBehaviour
             {
                 maxDamage = true;
                 myManager.hitBoxes.PlayParticles(25);
+                myManager.audioManager.PlayAudio(49);
             }
             // Check for an attack input, if so release this attack.
             if (Input.GetAxisRaw(myManager.inputs.attackInput) == 1 && myManager.inputs.attackReleased)
@@ -861,6 +863,7 @@ public class Skill : MonoBehaviour
         float targetTimer = 0.467f / stats.attackSpeed;
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingAerial;
+        myManager.audioManager.PlayAudio(41);
 
         myManager.hitBoxes.hitboxes[18].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 2f;
 
@@ -2252,12 +2255,12 @@ public class Skill : MonoBehaviour
         bool rayHitObject = false;
         RaycastHit rayHit;
 
-        Debug.DrawRay(ray.origin, ray.direction * length, Color.red);
-        Debug.Log("Shooting The Ray on layer: " + (1 << layerToCheck));
+       // Debug.DrawRay(ray.origin, ray.direction * length, Color.red);
+        //Debug.Log("Shooting The Ray on layer: " + (1 << layerToCheck));
         if(Physics.Raycast(ray, out rayHit, length, 1 << layerToCheck))
         {
-            if (rayHit.collider.gameObject.CompareTag("Enemy"))
-                Debug.Log("WE hit an enemy");
+            //if (rayHit.collider.gameObject.CompareTag("Enemy"))
+                //Debug.Log("WE hit an enemy");
             rayHitObject = true;
         }
 

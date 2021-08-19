@@ -407,6 +407,10 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                 transform.parent.GetComponent<InventoryUiManager>().playerInventory.DropItem(movedItem.attachedItem.GetComponent<Item>().inventoryIndex);
             }
 
+            // If we transfer a shield or magic booster to the left hand while we have a two handed weapon in the right slot, this isnt valid.
+            if(slotType == SlotType.Weapon && slotIndex == 1 && connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem != null && connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon)
+                validTarget = false;
+
             // WE HAVE A VALID TARGET BEGIN SHIFTING IT OVER BELOW
             // If the target was valid, beign our replacement or move logic.
             if (validTarget)
