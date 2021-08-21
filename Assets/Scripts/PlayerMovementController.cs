@@ -256,6 +256,7 @@ public class PlayerMovementController : MonoBehaviour
             {
                 flameWalkerDistance -= flameWalkerDistanceTarget;
 
+                audioManager.PlayAudio(64);
                 GameObject flamewalkerDamage = Instantiate(GetComponent<SkillsManager>().skillProjectiles[5], transform.position + Vector3.up * 0.1f, Quaternion.identity);
                 flamewalkerDamage.GetComponent<HitBox>().damage = playerStats.baseDamage * 0.8f;
                 flamewalkerDamage.GetComponent<HitBox>().myStats = playerStats;

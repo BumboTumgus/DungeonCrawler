@@ -2032,6 +2032,7 @@ public class BuffsManager : MonoBehaviour
                 case BuffType.IceArmor:
                     if (target.CompareTag("Player"))
                     {
+                        target.GetComponent<AudioManager>().PlayAudio(85);
                         target.GetComponent<SkillsManager>().SpawnDisjointedSkillEffect(SkillsManager.SkillNames.IceArmor);
                     }
                     break;

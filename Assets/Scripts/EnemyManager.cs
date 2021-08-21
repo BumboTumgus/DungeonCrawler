@@ -61,11 +61,11 @@ public class EnemyManager : MonoBehaviour
             }
         }
 
-        /*
         if (Input.GetKeyDown(KeyCode.Semicolon))
         {
-            GameObject enemy = Instantiate(enemyBank[0], new Vector3(Random.Range(-15, 15), 0, Random.Range(25,30)), Quaternion.identity);
+            GameObject enemy = Instantiate(enemyBank[0], new Vector3(Random.Range(-15, 15), 0, Random.Range(25, 30)), Quaternion.identity);
         }
+        /*
         */
     }
 
