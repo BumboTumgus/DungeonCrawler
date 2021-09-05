@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public Transform[] spawnsChest;
     public int currentLevel = 0;
     public int currentLevelEnemyKillCount = 0;
+    public float combinedPlayerLuck = 0;
     //public Transform[] spawnsEnemy;
     //public NavMeshSurface walkableFloor;
     //public int enemyCount = 3;
@@ -52,7 +53,8 @@ public class GameManager : MonoBehaviour
         if (instance == null)
             instance = this;
 
-        //StartCoroutine(Initialization());
+        if(SceneManager.GetActiveScene().name == "MainMenu")
+            StartCoroutine(Initialization());
     }
 
     IEnumerator Initialization()
@@ -95,6 +97,7 @@ public class GameManager : MonoBehaviour
         player.GetComponent<PlayerStats>().healthBar = playerUi.transform.Find("PlayerStats").Find("HealthBar").Find("HealthBarBackground").GetComponent<BarManager>();
         player.GetComponent<PlayerStats>().moneyCounter = playerUi.GetComponent<MoneyUiCounterBehaviour>();
         player.GetComponent<Inventory>().interactPrompt = playerUi.transform.Find("InteractPrompt").GetComponent<InteractPromptController>();
+        player.GetComponent<Inventory>().hintPrompt = playerUi.transform.Find("HintBox").GetComponent<InteractPromptController>();
         player.GetComponent<Inventory>().inventoryUI = playerUi.transform.Find("InventoryPanel").GetComponent<InventoryUiManager>();
         player.GetComponent<BuffsManager>().canvasParent = playerUi.transform.Find("PlayerStats").Find("BuffIconParents");
         player.GetComponent<SkillsManager>().iconParent = playerUi.transform.Find("SkillsIcons");
@@ -368,6 +371,15 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 0;
             }
         }
+    }
+
+    // USed when a player luck value changes, add it to the total when we spawn loot
+    public void GrabPlayerLuckValues()
+    {
+        combinedPlayerLuck = 0;
+
+        foreach (GameObject player in currentPlayers)
+            combinedPlayerLuck += player.GetComponent<PlayerStats>().luck;
     }
 }
 

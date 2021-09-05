@@ -559,47 +559,47 @@ public class InventoryUiManager : MonoBehaviour
         {
             case Item.ItemType.TrinketRing:
                 foreach (GameObject slot in trinketSlots)
-                    slot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                    slot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(true);
                 break;
             case Item.ItemType.Weapon:
-                leftHandSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
-                rightHandSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                leftHandSlot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(true);
+                rightHandSlot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(true);
                 break;
             case Item.ItemType.TwoHandWeapon:
-                rightHandSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                rightHandSlot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(true);
                 break;
             case Item.ItemType.Helmet:
-                helmetSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                helmetSlot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(true);
                 break;
             case Item.ItemType.Legs:
-                legsSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                legsSlot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(true);
                 break;
             case Item.ItemType.Armor:
-                chestSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                chestSlot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(true);
                 break;
             case Item.ItemType.Shield:
-                leftHandSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
-                rightHandSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                leftHandSlot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(true);
+                rightHandSlot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(true);
                 break;
             case Item.ItemType.MagicBooster:
-                leftHandSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
-                rightHandSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                leftHandSlot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(true);
+                rightHandSlot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(true);
                 break;
             case Item.ItemType.Skill:
                 foreach (GameObject slot in skillSlots)
-                    slot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                    slot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(true);
                 break;
             case Item.ItemType.TrinketCape:
                 foreach (GameObject slot in trinketSlots)
-                    slot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                    slot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(true);
                 break;
             case Item.ItemType.TrinketBracelet:
                 foreach (GameObject slot in trinketSlots)
-                    slot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                    slot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(true);
                 break;
             case Item.ItemType.TrinketWaistItem:
                 foreach (GameObject slot in trinketSlots)
-                    slot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(true);
+                    slot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(true);
                 break;
             default:
                 break;
@@ -613,14 +613,14 @@ public class InventoryUiManager : MonoBehaviour
             if(slot.transform.Find("ItemPanel") != null)
                 slot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(false);
         foreach (GameObject slot in trinketSlots)
-            slot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(false);
+            slot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(false);
         foreach (GameObject slot in skillSlots)
-            slot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(false);
-        legsSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(false);
-        chestSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(false);
-        helmetSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(false);
-        leftHandSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(false);
-        rightHandSlot.transform.Find("ItemPanel").Find("HighlightImage").gameObject.SetActive(false);
+            slot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(false);
+        legsSlot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(false);
+        chestSlot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(false);
+        helmetSlot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(false);
+        leftHandSlot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(false);
+        rightHandSlot.transform.Find("ItemPanel")?.Find("HighlightImage").gameObject.SetActive(false);
     }
 
 

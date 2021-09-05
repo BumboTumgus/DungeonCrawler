@@ -14416,7 +14416,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 1.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4291591021809893474
 MonoBehaviour:
@@ -14431,6 +14431,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Earthern Urchin
+  itemNameAffinitySuffix: 
+  itemNameModifiersPrefix: 
   description: Cause a rock explosion at the location MOVE
   itemGearID: 92
   itemtorsoID: 0
@@ -14465,6 +14467,13 @@ MonoBehaviour:
   itemMoveset: 0
   garenteedTraits: 
   garenteedTraitValues: []
+  garenteedTraitMultipliers: 
+  affinityPrimary: 0
+  affinitySecondary: 0
+  affinityTertiary: 0
+  affinitySecondaryMultiElement: 0
+  affinityTertiaryMultiElement: 0
+  itemModifiers: 
 --- !u!114 &4291591021809893473
 MonoBehaviour:
   m_ObjectHideFlags: 0

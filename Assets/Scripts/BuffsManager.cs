@@ -241,6 +241,11 @@ public class BuffsManager : MonoBehaviour
 
                 if (activeBuff.stackable)
                 {
+                    // Switch the active buffs damage source to us.
+                    activeBuff.playerDamageSource = buffInflictor;
+                    activeBuff.connectedPlayer = stats;
+
+                    // Check to see if we should do anything on threshold.
                     if (buffInflictor.CompareTag("Player") && buff == BuffType.Bleeding && activeBuff.currentStacks >= 50 && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceBleedBleedDoesDamageInstantlyOnThreshold) > 0 && PollForBuffStacks(BuffType.Frostbite) >= 32 - buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceBleedBleedDoesDamageInstantlyOnThreshold))
                     {
                         stats.TakeDamage((activeBuff.DPS + activeBuff.bonusDPS) * activeBuff.DPSMultiplier * 5, false, HitBox.DamageType.Bleed, buffInflictor.comboManager.currentcombo, buffInflictor);
@@ -1935,13 +1940,13 @@ public class BuffsManager : MonoBehaviour
                 case BuffType.FlameStrike:
                     GameObject flamestrikeHit = Instantiate(GetComponent<SkillsManager>().skillProjectiles[4], target.transform.position + Vector3.up + new Vector3(Random.Range(-0.25f, 0.25f), Random.Range(-0.25f, 0.25f), Random.Range(-0.25f, 0.25f)), Quaternion.identity);
                     flamestrikeHit.GetComponent<HitBox>().myStats = stats;
-                    flamestrikeHit.GetComponent<HitBox>().damage = stats.baseDamage * 0.7f;
+                    flamestrikeHit.GetComponent<HitBox>().damage = stats.baseDamage * 0.7f * stats.spellDamageMultiplier;
                     break;
 
                 case BuffType.FrostsKiss:
                     GameObject frostsKissProjectile = Instantiate(GetComponent<SkillsManager>().skillProjectiles[18], transform.position + Vector3.up * 2, Quaternion.Euler(Random.Range(-75, -90), Random.Range(0, 360), 0));
                     frostsKissProjectile.GetComponent<HitBox>().myStats = stats;
-                    frostsKissProjectile.GetComponent<HitBox>().damage = stats.baseDamage * 1f;
+                    frostsKissProjectile.GetComponent<HitBox>().damage = stats.baseDamage * 1f * stats.spellDamageMultiplier;
                     frostsKissProjectile.GetComponent<ProjectileBehaviour>().target = target.transform;
 
                     if (skillManager.spellMirrors.Count > 0)
@@ -1950,7 +1955,7 @@ public class BuffsManager : MonoBehaviour
                         {
                             GameObject frostsKissProjectileMirror = Instantiate(GetComponent<SkillsManager>().skillProjectiles[18], spellMirror.transform.position, spellMirror.transform.rotation);
                             frostsKissProjectileMirror.GetComponent<HitBox>().myStats = stats;
-                            frostsKissProjectileMirror.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f;
+                            frostsKissProjectileMirror.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f * stats.spellDamageMultiplier;
                             frostsKissProjectileMirror.GetComponent<ProjectileBehaviour>().target = target.transform;
                         }
                     }
@@ -1958,11 +1963,11 @@ public class BuffsManager : MonoBehaviour
 
                 case BuffType.StoneStrike:
                     target.GetComponent<EnemyCrowdControlManager>().KnockbackLaunch((transform.forward + Vector3.up * 0.5f) * 15, stats);
-                    target.GetComponent<PlayerStats>().TakeDamage(stats.baseDamage, false, HitBox.DamageType.Earth, stats.comboManager.currentcombo, stats);
+                    target.GetComponent<PlayerStats>().TakeDamage(stats.baseDamage * stats.spellDamageMultiplier, false, HitBox.DamageType.Earth, stats.comboManager.currentcombo, stats);
                     StartCoroutine(RemoveBuffNextFrame(buff));
                     break;
                 case BuffType.Multislash:
-                    StartCoroutine(MultislashDamage(hitbox.damage / 2, hitbox.crit, target.GetComponentInChildren<PlayerStats>()));
+                    StartCoroutine(MultislashDamage(hitbox.damage / 2 * stats.spellDamageMultiplier, hitbox.crit, target.GetComponentInChildren<PlayerStats>()));
                     Instantiate(GetComponent<SkillsManager>().skillProjectiles[42], target.transform.position + Vector3.up, Quaternion.identity); 
                     StartCoroutine(RemoveBuffNextFrame(buff));
                     break;

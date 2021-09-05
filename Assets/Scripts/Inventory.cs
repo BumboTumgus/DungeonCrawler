@@ -11,6 +11,7 @@ public class Inventory : MonoBehaviour
     public List<GameObject> interactablesInRange = new List<GameObject>();
 
     public InteractPromptController interactPrompt;
+    public InteractPromptController hintPrompt;
     public InventoryUiManager inventoryUI;
 
     public bool showPromptUI = true;
@@ -23,6 +24,7 @@ public class Inventory : MonoBehaviour
     private PlayerInputs playerInputs;
     private PlayerStats stats;
     private PlayerGearManager gearManager;
+    private bool firstItemPickup = true;
 
 
     // USed to set up the inventory transform parent.
@@ -41,6 +43,13 @@ public class Inventory : MonoBehaviour
     // USed to pickup the item we are closest to.
     public void PickUpItem(Item item)
     {
+        if(firstItemPickup)
+        {
+            firstItemPickup = false;
+            // Launch our hint here.
+            StartCoroutine(ShowInventoryHint());
+        }
+
         if (item != null)
         {
             // Debug.Log("the inventory coutn is: " + inventory.Count);
@@ -74,6 +83,13 @@ public class Inventory : MonoBehaviour
                     Destroy(item.gameObject);
             }
         }
+    }
+
+    IEnumerator ShowInventoryHint()
+    {
+        hintPrompt.SetText("Press I to access your inventory.");
+        yield return new WaitForSecondsRealtime(3f);
+        hintPrompt.SetText("");
     }
 
     // Used to drop a specific item.

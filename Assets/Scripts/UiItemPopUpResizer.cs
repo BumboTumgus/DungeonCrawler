@@ -68,7 +68,10 @@ public class UiItemPopUpResizer : MonoBehaviour
             //Debug.Log("cjheck item base stats texts" + itemBaseStatsText[0]);
             itemBaseStatsText[0].text = string.Format("{0}", targetItem.baseDamageScaling * stats.baseDamage);
             itemBaseStatsText[1].text = string.Format("{0:0.0}", targetItem.attacksPerSecond);
-            itemBaseStatsText[2].text = string.Format("{0}", targetItem.stacksToAddOnHit);
+            if(stats.bonusStacksOnHit > 0)
+                itemBaseStatsText[2].text = string.Format("{0}+{1}", targetItem.stacksToAddOnHit,stats.bonusStacksOnHit);
+            else
+                itemBaseStatsText[2].text = string.Format("{0}", targetItem.stacksToAddOnHit);
 
             int primaryColorIndex = 0;
             int secondaryColorIndex = 0;

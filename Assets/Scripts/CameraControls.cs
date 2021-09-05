@@ -18,11 +18,11 @@ public class CameraControls : MonoBehaviour
     private const float CAMERA_UPPER_Y = 3.5f;
 
     private const float CAMERA_ZOOM_MIN = -0.5f;
-    private const float CAMERA_ZOOM_MAX = -5;
+    private const float CAMERA_ZOOM_MAX = -7;
     private const float CAMERA_ZOOM_SENSITIVTY = 6;
 
-    private const float CAMERA_PITCH_MIN = 40;
-    private const float CAMERA_PITCH_MAX = 40;
+    private const float CAMERA_PITCH_MIN = 60;
+    private const float CAMERA_PITCH_MAX = 60;
     private const float CAMERA_PITCH_SENSITIVITY = 2;
     private const float CAMERA_YAW_SENSITIVITY = 2;
     

@@ -284,6 +284,7 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
             {
                 if(myPanel.GetComponent<ItemDraggable>().attachedItem != null && connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem != null)
                 {
+                    Debug.Log("TWO HAND WEAPON with two items in the slots");
                     // Check to see if we have two slots open in our inventory, remove an extra because the weapon has not been removed from the ivnentory yet.
                     if (transform.parent.GetComponent<InventoryUiManager>().playerInventory.inventory.Count <= transform.parent.GetComponent<InventoryUiManager>().playerInventory.INVENTORY_MAX - 1)
                     {
@@ -408,17 +409,18 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
             }
 
             // If we transfer a shield or magic booster to the left hand while we have a two handed weapon in the right slot, this isnt valid.
-            if(slotType == SlotType.Weapon && slotIndex == 1 && connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem != null && connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon)
+            if (slotType == SlotType.Weapon && slotIndex == 1 && connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem != null && connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon)
+            {
+                Debug.Log("not a valid choice");
                 validTarget = false;
+            }
 
             // WE HAVE A VALID TARGET BEGIN SHIFTING IT OVER BELOW
             // If the target was valid, beign our replacement or move logic.
             if (validTarget)
             {
-
-
                 // This is called if we try to add a weapon to our left hand before there is one in the right hand
-                if (slotType == SlotType.Weapon && slotIndex == 1 && transform.parent.GetComponent<InventoryUiManager>().playerInventory.weapons.Count < 2 && (movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon || movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.Weapon))
+                if (slotType == SlotType.Weapon && slotIndex == 1 && transform.parent.GetComponent<InventoryUiManager>().playerInventory.weapons.Count < 2 && (movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon || movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.Weapon || movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.Shield))
                 {
                     // If we tried to put a weapon on the left hand and there is nothing on the right hand this weapon will be placed on the right hand instead.
                     // First we check if the connected slot's panel is null, if so then we are switching our items from left to right.
@@ -432,12 +434,13 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                     }
                     else if(movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon && connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem != null)
                     {
-                        //Debug.Log("a two handed weapon was dropped on the left side so we have switched the panels it is interacting with.");
+                        Debug.Log("a two handed weapon was dropped on the left side so we have switched the panels it is interacting with.");
                         myPanel = connectedSlot.transform.Find("ItemPanel");
                         dropZoneItem = myPanel.GetComponent<ItemDraggable>();
                         //Debug.Log("myPanel is currently: " + myPanel.name + ". The dropzone item is: " + dropZoneItem);
                     }
                 }
+                /*
                 // This is called if we try to add a shield to our right hand before there is one in the left hand
                 if (slotType == SlotType.Weapon && slotIndex == 0 && transform.parent.GetComponent<InventoryUiManager>().playerInventory.weapons.Count < 2 && (movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.Shield || movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.MagicBooster))
                 {
@@ -446,12 +449,14 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                     Debug.Log("a shield was dropped on the right side and shhould be switched to the left side.");
                     if (connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>() != null && connectedSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem == null)
                     {
-                        Debug.Log(" we have swithced the panels and the objects interacting with shit");
+                        Debug.Log(" we have swithced the panels for the SHIELD and the objects interacting with shit");
                         myPanel = connectedSlot.transform.Find("ItemPanel");
                         dropZoneItem = myPanel.GetComponent<ItemDraggable>();
                         Debug.Log("myPanel is currently: " + myPanel.name + ". The dropzone item is: " + dropZoneItem);
                     }
+                    Debug.Log("here we should check if we have a 2h weapon on the right, if we do unequip it.");
                 }
+                */
 
 
                 // make the items switch their indexes (case only works for two items)
@@ -470,10 +475,12 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                 SlotType otherSlotType = movedItem.myParent.GetComponent<ItemDropZone>().slotType;
                 if (slotType != otherSlotType)
                 {
-                    if (slotType == SlotType.Weapon && slotIndex == 1 && transform.parent.GetComponent<InventoryUiManager>().playerInventory.weapons.Count < 1 && (movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon || movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.Weapon))
+                    // Switch weapons to right hand prio
+                    if (slotType == SlotType.Weapon && slotIndex == 1 && transform.parent.GetComponent<InventoryUiManager>().playerInventory.weapons.Count < 1 && (movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.TwoHandWeapon || movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.Weapon || movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.Shield))
                         movedItem.attachedItem.GetComponent<Item>().equippedToRightHand = true;
-                    else if (slotType == SlotType.Weapon && slotIndex == 0 && transform.parent.GetComponent<InventoryUiManager>().playerInventory.weapons.Count < 1 && (movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.Shield || movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.MagicBooster))
-                        movedItem.attachedItem.GetComponent<Item>().equippedToRightHand = false;
+                    // Switch shields to left hand prio if we have no other items, OR we only have only one 1 handed item in our weapon slots.
+                    //else if (slotType == SlotType.Weapon && slotIndex == 0 && transform.parent.GetComponent<InventoryUiManager>().playerInventory.weapons.Count < 1 && (movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.Shield || movedItem.attachedItem.GetComponent<Item>().itemType == Item.ItemType.MagicBooster))
+                        //movedItem.attachedItem.GetComponent<Item>().equippedToRightHand = false;
                     else
                     {
                         if (slotType == SlotType.Weapon && slotIndex == 0)

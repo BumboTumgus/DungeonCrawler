@@ -60,7 +60,7 @@ public class PlayerMovementController : MonoBehaviour
 
     private const float GRAVITY = 0.4f;
     private const float GROUNDING_RAY_LENGTH = 0.7f;
-    private const float JUMP_POWER = 0.18f;
+    private const float JUMP_POWER = 0.14f;
     private const float ROLL_SPEED_MULTIPLIER = 2f;
     private const float ROLL_ANIMSPEED_MULITPLIER = 0.6f;
 
@@ -258,7 +258,7 @@ public class PlayerMovementController : MonoBehaviour
 
                 audioManager.PlayAudio(64);
                 GameObject flamewalkerDamage = Instantiate(GetComponent<SkillsManager>().skillProjectiles[5], transform.position + Vector3.up * 0.1f, Quaternion.identity);
-                flamewalkerDamage.GetComponent<HitBox>().damage = playerStats.baseDamage * 0.8f;
+                flamewalkerDamage.GetComponent<HitBox>().damage = playerStats.baseDamage * 0.8f * playerStats.spellDamageMultiplier;
                 flamewalkerDamage.GetComponent<HitBox>().myStats = playerStats;
             }
         }
@@ -422,6 +422,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (Input.GetAxisRaw(inputs.jumpInput) != 0 && inputs.jumpReleased  && currentJumps > 0 && !inventoryMenuOpen)
         {
+            //Debug.Log("we jumped here");
             inputs.jumpReleased = false;
             if(jumpCoroutine != null)
                 StopCoroutine(jumpCoroutine);
@@ -436,12 +437,14 @@ public class PlayerMovementController : MonoBehaviour
     //USed to apply the jump force.
     public void ApplyJumpForce(float jumpStrength)
     {
+        //Debug.Log("we added jump force");
         StartCoroutine(Jump(jumpStrength, 0.3f, false));
     }
 
     // Used to complete the jump logic 
     IEnumerator Jump(float jumpPower, float timeAppliedFor, bool setTrigger)
     {
+        //Debug.Log("jump coroutine started");
         //Debug.Log("we have launched with a force of " + jumpPower + " and and bool of: " + setTrigger);
         if (setTrigger)
         {

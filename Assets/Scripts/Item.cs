@@ -299,7 +299,7 @@ public class Item : MonoBehaviour
                 break;
         }
 
-        if(itemType == ItemType.TwoHandWeapon)
+        if (itemType == ItemType.TwoHandWeapon)
         {
             traitCountAffinity *= 2;
             traitCountModifiers *= 2;
@@ -498,7 +498,7 @@ public class Item : MonoBehaviour
         itemNameAffinitySuffix = "of";
         itemNameModifiersPrefix = "";
 
-        if(affinityTertiary != AffinityType.None)
+        if (affinityTertiary != AffinityType.None)
         {
             AffinityType affinitySuffixToAdd = affinityTertiary;
 
@@ -619,7 +619,7 @@ public class Item : MonoBehaviour
         }
 
 
-        foreach(ModifierType modifer in itemModifiers)
+        foreach (ModifierType modifer in itemModifiers)
         {
             switch (modifer)
             {
@@ -689,7 +689,7 @@ public class Item : MonoBehaviour
         }
 
         // Start adding traits based on our trait counts for affinities and modifiers
-        for(int modifierIndex = 0; modifierIndex < itemModifiers.Count; modifierIndex++)
+        for (int modifierIndex = 0; modifierIndex < itemModifiers.Count; modifierIndex++)
         {
             //Debug.Log("adding traits for modifier: " + itemModifiers[modifierIndex]);
 
@@ -755,6 +755,50 @@ public class Item : MonoBehaviour
                 tempTrait.GetTraitForAffinity(affinityChosen, affinityChosenSplit);
 
                 AddTrait(tempTrait);
+            }
+        }
+
+        // Change our damage type if we are a weapon to match the primary trait.
+        if (itemType == ItemType.Weapon || itemType == ItemType.TwoHandWeapon)
+        {
+            switch (affinityPrimary)
+            {
+                case AffinityType.None:
+                    damageType = HitBox.DamageType.Physical;
+                    stacksToAddOnHit = 0;
+                    break;
+                case AffinityType.Fire:
+                    damageType = HitBox.DamageType.Fire;
+                    break;
+                case AffinityType.Ice:
+                    damageType = HitBox.DamageType.Ice;
+                    break;
+                case AffinityType.Earth:
+                    damageType = HitBox.DamageType.Earth;
+                    break;
+                case AffinityType.Wind:
+                    damageType = HitBox.DamageType.Wind;
+                    break;
+                case AffinityType.Physical:
+                    damageType = HitBox.DamageType.Physical;
+                    stacksToAddOnHit = 0;
+                    break;
+                case AffinityType.Bleed:
+                    damageType = HitBox.DamageType.Bleed;
+                    break;
+                case AffinityType.Poison:
+                    damageType = HitBox.DamageType.Poison;
+                    break;
+                case AffinityType.Stun:
+                    damageType = HitBox.DamageType.Physical;
+                    stacksToAddOnHit = 0;
+                    break;
+                case AffinityType.Knockback:
+                    damageType = HitBox.DamageType.Physical;
+                    stacksToAddOnHit = 0;
+                    break;
+                default:
+                    break;
             }
         }
     }

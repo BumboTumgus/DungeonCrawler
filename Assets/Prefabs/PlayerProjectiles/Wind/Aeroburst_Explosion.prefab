@@ -14494,6 +14494,8 @@ MonoBehaviour:
   damage: 5
   stacksToAdd: 3
   crit: 0
+  canCrit: 1
+  critRolled: 0
   procsOnHits: 1
   hitEnemies: 1
   hitPlayers: 0
@@ -14502,7 +14504,8 @@ MonoBehaviour:
   projectile: 0
   projectileAOE: 1
   disjointedHitbox: 1
-  bypassCrit: 0
+  trap: 0
+  screenShakeAmount: 0
 --- !u!114 &2038774252039959735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19382,6 +19385,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buff: 0
   applyBuff: 0
+  disjointedHitbox: 1
+  buffOrigin: {fileID: 0}
   hitEnemies: 1
   hitPlayers: 0
   hitSelf: 0
@@ -19399,8 +19404,8 @@ MonoBehaviour:
   knockback: 1
   knockbackStrength: -15
   knockbackFromCenter: 1
+  knockForwardFromLocalTransform: 0
   knockbackDirection: {x: 0, y: 0, z: 0}
-  baseDamage: 0
 --- !u!114 &4031588609931267865
 MonoBehaviour:
   m_ObjectHideFlags: 0

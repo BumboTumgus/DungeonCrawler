@@ -116,7 +116,8 @@ public class ItemGenerator : MonoBehaviour
 
         float itemDiceRoll = Random.Range(0, 9);
         Item.ItemType itemType = Item.ItemType.Weapon;
-        float itemRarityDiceRoll = Random.Range(0, 100) - bonusToRarityRoll;
+        Debug.Log("PlayerLuck is now: " + GameManager.instance.combinedPlayerLuck);
+        float itemRarityDiceRoll = Random.Range(0, 100) - bonusToRarityRoll - GameManager.instance.combinedPlayerLuck;
         Item.ItemRarity itemRarity = Item.ItemRarity.Common;
 
             if (itemDiceRoll == 0 || itemDiceRoll == 1)

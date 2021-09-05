@@ -32,11 +32,15 @@ public class PlayerStats : MonoBehaviour
 
     public float currentAttackDelay = 13; // 10 is fast, 100 is really slow.
     
-    public float attackRange = 2; 
+    public float attackRange = 2;
+
+    public float basicAttackDamageMultiplier = 1;
+    public float spellDamageMultiplier = 1;
 
     public float attackSpeed = 1;
     public float weaponAttacksPerSecond = 1;
     public float bonusAttackSpeed = 0;
+    public int bonusStacksOnHit = 0;
 
     public float armor = 0;
     public float armorReductionMultiplier = 1;
@@ -68,6 +72,8 @@ public class PlayerStats : MonoBehaviour
     public float critDamageMultiplier = 1.5f;
 
     public float gold = 0;
+
+    public float luck = 0;
 
     public MoneyUiCounterBehaviour moneyCounter;
 
@@ -280,7 +286,7 @@ public class PlayerStats : MonoBehaviour
                 {
                     immolateCurrentTimer -= immolateTargetTimer;
                     // flicker the hit box.
-                    hitboxManager.hitboxes[22].GetComponent<HitBox>().damage = baseDamage * 0.5f;
+                    hitboxManager.hitboxes[22].GetComponent<HitBox>().damage = baseDamage * 0.5f * spellDamageMultiplier;
                     foreach (Buff buff in buffManager.activeBuffs)
                     {
                         if (buff.myType == BuffsManager.BuffType.Aflame)
@@ -676,29 +682,6 @@ public class PlayerStats : MonoBehaviour
     // Adds the item stats to our current Stats
     public void AddItemStats(Item item, bool compelteStatSetup, bool statCompare)
     {
-        //Debug.Log("adding stats");
-        if(item.itemType == Item.ItemType.Weapon || item.itemType == Item.ItemType.TwoHandWeapon)
-        {
-
-            weaponBaseAttacksPerSecond.Add(item.attacksPerSecond);
-
-            float totalWeaponAttackSpeeds = 0f;
-            if (weaponBaseAttacksPerSecond.Count > 0)
-            {
-                foreach (float value in weaponBaseAttacksPerSecond)
-                    totalWeaponAttackSpeeds += value;
-                if (weaponBaseAttacksPerSecond.Count >= 2)
-                    totalWeaponAttackSpeeds /= 2;
-                weaponAttacksPerSecond = totalWeaponAttackSpeeds;
-            }
-            else
-                weaponAttacksPerSecond = 1;
-
-            //Debug.Log("adding the weapon to the list");
-            weaponsToHitWith.Add(item);
-            //Debug.Log("the count should increase here : " + weaponsToHitWith.Count);
-            UpdateWeaponsToHitWith();
-        }
 
         foreach(ItemTrait trait in item.itemTraits)
         {
@@ -1303,42 +1286,57 @@ public class PlayerStats : MonoBehaviour
                 case ItemTrait.TraitType.KnockbackReducesResistances:
                     playerTraitManager.AddIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
                     break;
+                case ItemTrait.TraitType.BonusStacksOnHit:
+                    bonusStacksOnHit += Mathf.RoundToInt(trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.Luck:
+                    luck += trait.traitBonus * trait.traitBonusMultiplier;
+                    GameManager.instance.GrabPlayerLuckValues();
+                    break;
+                case ItemTrait.TraitType.SpellDamage:
+                    spellDamageMultiplier += trait.traitBonus * trait.traitBonusMultiplier;
+                    break;
+                case ItemTrait.TraitType.BasicAttackAmp:
+                    basicAttackDamageMultiplier += trait.traitBonus * trait.traitBonusMultiplier;
+                    UpdateWeaponsToHitWith();
+                    break;
                 default:
                     break;
             }
         }
-            if (compelteStatSetup)
-                StatSetup(false, true);
-            if (statCompare)
-                StatSetup(false, false);
-    }
-
-    //Remvoes the item stats from our current Stats
-    public void RemoveItemStats(Item item, bool completeStatSetup, bool statCompare)
-    {
-        //Debug.Log("removing stats");
+        //Debug.Log("adding stats");
         if (item.itemType == Item.ItemType.Weapon || item.itemType == Item.ItemType.TwoHandWeapon)
         {
 
-            weaponBaseAttacksPerSecond.Remove(item.attacksPerSecond);
+            weaponBaseAttacksPerSecond.Add(item.attacksPerSecond);
 
             float totalWeaponAttackSpeeds = 0f;
             if (weaponBaseAttacksPerSecond.Count > 0)
             {
                 foreach (float value in weaponBaseAttacksPerSecond)
                     totalWeaponAttackSpeeds += value;
-                if (weaponBaseAttacksPerSecond.Count > 2)
-                    totalWeaponAttackSpeeds -= 1;
+                if (weaponBaseAttacksPerSecond.Count >= 2)
+                    totalWeaponAttackSpeeds /= 2;
                 weaponAttacksPerSecond = totalWeaponAttackSpeeds;
             }
             else
-            {
                 weaponAttacksPerSecond = 1;
-            }
 
-            weaponsToHitWith.Remove(item);
+            //Debug.Log("adding the weapon to the list");
+            weaponsToHitWith.Add(item);
+            //Debug.Log("the count should increase here : " + weaponsToHitWith.Count);
             UpdateWeaponsToHitWith();
         }
+
+        if (compelteStatSetup)
+            StatSetup(false, true);
+        if (statCompare)
+            StatSetup(false, false);
+    }
+
+    //Remvoes the item stats from our current Stats
+    public void RemoveItemStats(Item item, bool completeStatSetup, bool statCompare)
+    {
 
         foreach (ItemTrait trait in item.itemTraits)
         {
@@ -1946,10 +1944,49 @@ public class PlayerStats : MonoBehaviour
                 case ItemTrait.TraitType.KnockbackReducesResistances:
                     playerTraitManager.RemoveIdleEffect(trait.traitType, trait.traitBonus * trait.traitBonusMultiplier);
                     break;
+                case ItemTrait.TraitType.BonusStacksOnHit:
+                    bonusStacksOnHit -= Mathf.RoundToInt(trait.traitBonus * trait.traitBonusMultiplier);
+                    break;
+                case ItemTrait.TraitType.Luck:
+                    luck -= trait.traitBonus * trait.traitBonusMultiplier;
+                    GameManager.instance.GrabPlayerLuckValues();
+                    break;
+                case ItemTrait.TraitType.SpellDamage:
+                    spellDamageMultiplier -= trait.traitBonus * trait.traitBonusMultiplier;
+                    break;
+                case ItemTrait.TraitType.BasicAttackAmp:
+                    basicAttackDamageMultiplier -= trait.traitBonus * trait.traitBonusMultiplier;
+                    UpdateWeaponsToHitWith();
+                    break;
                 default:
                     break;
             }
         }
+
+        //Debug.Log("removing stats");
+        if (item.itemType == Item.ItemType.Weapon || item.itemType == Item.ItemType.TwoHandWeapon)
+        {
+
+            weaponBaseAttacksPerSecond.Remove(item.attacksPerSecond);
+
+            float totalWeaponAttackSpeeds = 0f;
+            if (weaponBaseAttacksPerSecond.Count > 0)
+            {
+                foreach (float value in weaponBaseAttacksPerSecond)
+                    totalWeaponAttackSpeeds += value;
+                if (weaponBaseAttacksPerSecond.Count > 2)
+                    totalWeaponAttackSpeeds -= 1;
+                weaponAttacksPerSecond = totalWeaponAttackSpeeds;
+            }
+            else
+            {
+                weaponAttacksPerSecond = 1;
+            }
+
+            weaponsToHitWith.Remove(item);
+            UpdateWeaponsToHitWith();
+        }
+
         if (completeStatSetup)
             StatSetup(false, true);
         if (statCompare)
@@ -2093,22 +2130,23 @@ public class PlayerStats : MonoBehaviour
         {
             case 0:
                 basicAttack2.gameObject.SetActive(false);
-                basicAttack1.damage = baseDamage * 1.5f;
+                basicAttack1.damage = baseDamage * 2f * basicAttackDamageMultiplier;
                 basicAttack1.damageType = HitBox.DamageType.Physical;
+                basicAttack1.stacksToAdd = 0;
                 break;
             case 1:
                 basicAttack2.gameObject.SetActive(false);
-                basicAttack1.damage = weaponsToHitWith[0].baseDamageScaling * baseDamage;
-                basicAttack1.stacksToAdd = weaponsToHitWith[0].stacksToAddOnHit;
+                basicAttack1.damage = weaponsToHitWith[0].baseDamageScaling * baseDamage * basicAttackDamageMultiplier;
+                basicAttack1.stacksToAdd = weaponsToHitWith[0].stacksToAddOnHit + bonusStacksOnHit;
                 basicAttack1.damageType = weaponsToHitWith[0].damageType;
                 break;
             case 2:
                 basicAttack2.gameObject.SetActive(true);
-                basicAttack1.damage = weaponsToHitWith[0].baseDamageScaling * baseDamage;
-                basicAttack1.stacksToAdd = weaponsToHitWith[0].stacksToAddOnHit;
+                basicAttack1.damage = weaponsToHitWith[0].baseDamageScaling * baseDamage * basicAttackDamageMultiplier;
+                basicAttack1.stacksToAdd = weaponsToHitWith[0].stacksToAddOnHit + bonusStacksOnHit;
                 basicAttack1.damageType = weaponsToHitWith[0].damageType;
-                basicAttack2.damage = weaponsToHitWith[1].baseDamageScaling * baseDamage;
-                basicAttack2.stacksToAdd = weaponsToHitWith[1].stacksToAddOnHit;
+                basicAttack2.damage = weaponsToHitWith[1].baseDamageScaling * baseDamage * basicAttackDamageMultiplier;
+                basicAttack2.stacksToAdd = weaponsToHitWith[1].stacksToAddOnHit + bonusStacksOnHit;
                 basicAttack2.damageType = weaponsToHitWith[1].damageType;
                 break;
             default:
