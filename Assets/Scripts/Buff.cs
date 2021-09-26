@@ -228,8 +228,8 @@ public class Buff : MonoBehaviour
                 if (myType == BuffsManager.BuffType.Aflame && currentStacks >= 25 && bonusDPS == 0 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BurnDoesMaxHpDamageAtThreshold) > 0)
                 {
                     bonusDPS = (connectedPlayer.healthMax / 100) * playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BurnDoesMaxHpDamageAtThreshold);
-                    if (bonusDPS > playerDamageSource.baseDamage * 5)
-                        bonusDPS = playerDamageSource.baseDamage * 5;
+                    if (bonusDPS > playerDamageSource.baseDamage * 10)
+                        bonusDPS = playerDamageSource.baseDamage * 10;
                 }
 
                 if (myType == BuffsManager.BuffType.Aflame && DPSMultiplier == 1 && currentStacks >= 30 && connectedPlayer.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Bleeding) >= 30 && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameBleedDamageAmpOnDoubleThreshhold) > 0)

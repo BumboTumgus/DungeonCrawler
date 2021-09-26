@@ -30,6 +30,6 @@ public class InventoryRemovalDropZone : MonoBehaviour, IDropHandler
         inventory.DropItem(movedItem.attachedItem.GetComponent<Item>().inventoryIndex);
 
         popupManager.lockPointer = false;
-        popupManager.HidePopups();
+        popupManager.HidePopups(true);
     }
 }

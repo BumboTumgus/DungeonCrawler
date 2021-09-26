@@ -10,6 +10,8 @@ public class InventoryPopupTextManager : MonoBehaviour
     
     public GameObject itemPopUp;
 
+    public GameObject moreInfoPopUp;
+
     public MoreInfoPopUpManager[] moreInfoPanels;
 
     private const float POPUP_OFFSET = 10;
@@ -22,6 +24,10 @@ public class InventoryPopupTextManager : MonoBehaviour
         itemPopUp = transform.Find("ItemPopUp").gameObject;
         itemPopUp.GetComponent<UiItemPopUpResizer>().Initialize();
         itemPopUp.SetActive(false);
+
+        moreInfoPopUp = transform.Find("ItemAdvancedDescription").gameObject;
+        moreInfoPopUp.GetComponent<UiMoreInfoPopup>().Initialize();
+        moreInfoPopUp.SetActive(false);
     }
     
     // Used to enable the popup.
@@ -29,6 +35,7 @@ public class InventoryPopupTextManager : MonoBehaviour
     {
         itemPopUp.transform.SetParent(popUpParent);
         itemPopUp.transform.SetAsLastSibling();
+        moreInfoPopUp.transform.SetAsLastSibling();
         itemPopUp.transform.localPosition = Vector3.zero;
 
         //Hide the hotbar number if there is one in the parent.
@@ -73,9 +80,16 @@ public class InventoryPopupTextManager : MonoBehaviour
         itemPopUp.SetActive(true);
     }
 
+    // USed to show the advanced info popup
+    public void ShowMoreInfoPopup(Transform popUpParent)
+    {
+        moreInfoPopUp.transform.SetAsLastSibling();
+        moreInfoPopUp.GetComponent<UiMoreInfoPopup>().ShowPopUp(popUpParent.GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>());
+        moreInfoPopUp.SetActive(true);
+    }
 
     // Used to hide the Popups
-    public void HidePopups()
+    public void HidePopups(bool hideMoreInfoPanel)
     {
         //Show the hotbar number if there is one in the parent.
         if (itemPopUp.transform.parent.parent.Find("HotbarNumber") != null)
@@ -83,6 +97,9 @@ public class InventoryPopupTextManager : MonoBehaviour
 
         if (!lockPointer)
          itemPopUp.SetActive(false);
+
+        if(hideMoreInfoPanel)
+            moreInfoPopUp.SetActive(false);
 
         foreach (MoreInfoPopUpManager panel in moreInfoPanels)
             panel.HideElements();

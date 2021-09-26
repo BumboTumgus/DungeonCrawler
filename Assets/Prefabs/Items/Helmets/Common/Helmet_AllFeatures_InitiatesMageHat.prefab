@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1328064674074117610
+--- !u!1 &3775193963901004675
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,45 +8,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5190298860735577792}
-  - component: {fileID: 5512480476504292886}
-  - component: {fileID: 1874546993466244528}
-  m_Layer: 9
-  m_Name: Helmet_AllFeatures_02
-  m_TagString: Item
+  - component: {fileID: 8383298534353247806}
+  - component: {fileID: 8391850485278488687}
+  - component: {fileID: 3706727021103050974}
+  m_Layer: 0
+  m_Name: Chr_HeadCoverings_Base_Hair_02
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5190298860735577792
+--- !u!4 &8383298534353247806
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1328064674074117610}
-  m_LocalRotation: {x: 0.020311493, y: -0, z: -0, w: 0.9997937}
-  m_LocalPosition: {x: 0, y: 14.7, z: 0.6}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_GameObject: {fileID: 3775193963901004675}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -162.5, z: 1.0999918}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 1988427436886646502}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 2.328, y: 0, z: 0}
---- !u!33 &5512480476504292886
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &8391850485278488687
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1328064674074117610}
-  m_Mesh: {fileID: 4300000, guid: 23dfcc2f9b3c9ca408eb2def282e4cad, type: 3}
---- !u!23 &1874546993466244528
+  m_GameObject: {fileID: 3775193963901004675}
+  m_Mesh: {fileID: -6192955938837992217, guid: 710037f798b281b4db3190c03f6667fd, type: 3}
+--- !u!23 &3706727021103050974
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1328064674074117610}
+  m_GameObject: {fileID: 3775193963901004675}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -58,7 +58,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ea128b040f8b0af4c9d2de400aaff30a, type: 2}
+  - {fileID: 2100000, guid: eeb71c8355d478547ae0f91848d39141, type: 2}
+  - {fileID: 2100000, guid: ba2da9a66b7578c4d81cef1812bebb5d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4934,7 +4935,7 @@ Transform:
   - {fileID: 4264195341568052142}
   - {fileID: 2951298743380335965}
   m_Father: {fileID: 1988427436886646502}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &4170923975391216458
 ParticleSystem:
@@ -19424,8 +19425,8 @@ Transform:
   m_LocalPosition: {x: -6.378, y: 0, z: 2.939}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children:
-  - {fileID: 5190298860735577792}
   - {fileID: 4265778118166147380}
+  - {fileID: 8383298534353247806}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

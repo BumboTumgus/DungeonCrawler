@@ -897,7 +897,7 @@ public class PlayerMovementController : MonoBehaviour
 
                 
                 inventoryWindow.GetComponent<InventoryPopupTextManager>().lockPointer = false;
-                inventoryWindow.GetComponent<InventoryPopupTextManager>().HidePopups();
+                inventoryWindow.GetComponent<InventoryPopupTextManager>().HidePopups(true);
                 inventoryMenuOpen = false;
                 if (!pauseMenuOpen)
                 {

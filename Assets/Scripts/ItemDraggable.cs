@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
+public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public Transform parentToInteractWith = null;
     public Transform myParent = null;
@@ -59,7 +59,7 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         else
         {
             transform.SetParent(myParent);
-            popupManager.HidePopups();
+            popupManager.HidePopups(true);
             audioManager.PlayAudio(4);
         }
         transform.localPosition = Vector3.zero;
@@ -78,6 +78,7 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         if(!popupManager.lockPointer)
         {
             transform.parent.SetAsLastSibling();
+            popupManager.moreInfoPopUp.transform.SetAsLastSibling();
             popupManager.ShowPopup(transform, transform.parent.GetComponent<ItemDropZone>().popUpDirection);
             audioManager.PlayAudio(0);
 
@@ -88,7 +89,14 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     // Used when the mouse is no longer hovering over this item.
     public void OnPointerExit(PointerEventData eventData)
     {
-        popupManager.HidePopups();
+        popupManager.HidePopups(false);
         inventoryUiManager.HighlightHideAll();
+    }
+
+    //Called when we click on the item, check to see if it was a right click, if so we begin showing the advanced details popup of the item.
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Right)
+            popupManager.ShowMoreInfoPopup(transform);
     }
 }

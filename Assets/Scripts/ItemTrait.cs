@@ -124,11 +124,11 @@ public class ItemTrait
                 break;
             case 23:
                 traitType = TraitType.AflameSunderCritsSummonFireballs;
-                traitBonus = 1f;
+                traitBonus = 1.2f;
                 break;
             case 24:
                 traitType = TraitType.AflameWindshearWindAttacksGainCritOnBurningTarget;
-                traitBonus = 0.02f;
+                traitBonus = 0.005f;
                 break;
             case 25:
                 traitType = TraitType.AflameWindshearSummonFirePillarsOnHit;
@@ -156,7 +156,7 @@ public class ItemTrait
                 break;
             case 31:
                 traitType = TraitType.AflameBleedIncreasesFlameCritChance;
-                traitBonus = 0.03f;
+                traitBonus = 0.005f;
                 break;
             case 32:
                 traitType = TraitType.AflameBleedFireDamageAmpOnBleedThreshold;

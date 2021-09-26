@@ -2079,11 +2079,11 @@ public class BuffsManager : MonoBehaviour
                         }
                         break;
                     case ItemTrait.TraitType.BasicAttacksShredArmorOnAflame:
-                        if (hitbox.CompareTag("BasicAttack"))
+                        if (hitbox.CompareTag("BasicAttack") && target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Aflame) >= 15)
                             target.GetComponent<BuffsManager>().NewBuff(BuffType.BasicAttacksShredArmorOnAflame, stats.baseDamage, stats);
                         break;
                     case ItemTrait.TraitType.RingOfFireOnHit:
-                        if(randomChance < 20f)
+                        if(randomChance < 10f && hitbox.damageType == HitBox.DamageType.Fire)
                         {
                             GameObject ringOfFireTraitOnHit = Instantiate(GetComponent<SkillsManager>().skillProjectiles[50], target.transform.position, Quaternion.identity);
                             ringOfFireTraitOnHit.GetComponent<HitBox>().myStats = stats;
@@ -2105,7 +2105,7 @@ public class BuffsManager : MonoBehaviour
                         break;
                     case ItemTrait.TraitType.AflameSunderCritsSummonFireballs:
                         BuffsManager targetBuffManager = target.GetComponent<BuffsManager>();
-                        if (hitbox.GetComponent<HitBox>().crit && (targetBuffManager.PollForBuffStacks(BuffType.Aflame) + targetBuffManager.PollForBuffStacks(BuffType.Sunder)) >= 50 && targetBuffManager.PollForBuffStacks(BuffType.Aflame) > 0 && targetBuffManager.PollForBuffStacks(BuffType.Sunder) > 0)
+                        if (hitbox.GetComponent<HitBox>().crit && (targetBuffManager.PollForBuffStacks(BuffType.Aflame) + targetBuffManager.PollForBuffStacks(BuffType.Sunder)) >= 30 && targetBuffManager.PollForBuffStacks(BuffType.Aflame) > 0 && targetBuffManager.PollForBuffStacks(BuffType.Sunder) > 0)
                         {
                             GameObject aflameSunderCritFireball = Instantiate(GetComponent<SkillsManager>().skillProjectiles[51], target.transform.position + Vector3.up * 2, Quaternion.Euler(new Vector3(Random.Range(-60,-90),Random.Range(0,360),0)));
                             aflameSunderCritFireball.GetComponent<HitBox>().myStats = stats;

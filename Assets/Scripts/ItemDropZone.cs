@@ -398,7 +398,7 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                 Debug.Log("we should drop the item here");
                 popupManager.lockPointer = false;
                 movedItem.transform.SetParent(movedItem.myParent);
-                popupManager.HidePopups();
+                popupManager.HidePopups(true);
 
                 movedItem.transform.localPosition = Vector3.zero;
                 movedItem.parentToInteractWith = null;
@@ -607,7 +607,7 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                     myPanel.localPosition = Vector3.zero;
                 }
 
-                popupManager.HidePopups();
+                popupManager.HidePopups(true);
             }
         }
     }

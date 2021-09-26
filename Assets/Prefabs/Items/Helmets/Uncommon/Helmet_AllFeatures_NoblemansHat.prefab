@@ -30,8 +30,8 @@ Transform:
   m_LocalPosition: {x: -9.191542, y: 0, z: 3.205}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children:
-  - {fileID: 4938114599679147394}
   - {fileID: 1513341312566475669}
+  - {fileID: 4838118533659745791}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -213,7 +213,7 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!1 &5994191506276753812
+--- !u!1 &7992649425136889821
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -221,45 +221,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4938114599679147394}
-  - component: {fileID: 4171839971367601150}
-  - component: {fileID: 8002520801910616241}
-  m_Layer: 9
-  m_Name: Helmet_AllFeatures_06
-  m_TagString: Item
+  - component: {fileID: 4838118533659745791}
+  - component: {fileID: 261232151505494185}
+  - component: {fileID: 2806846950568941570}
+  m_Layer: 0
+  m_Name: Chr_HeadCoverings_Base_Hair_06
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4938114599679147394
+--- !u!4 &4838118533659745791
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5994191506276753812}
-  m_LocalRotation: {x: 0.032424748, y: -0, z: -0, w: 0.9994742}
-  m_LocalPosition: {x: 0, y: 16.62, z: 0.99}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_GameObject: {fileID: 7992649425136889821}
+  m_LocalRotation: {x: 0.03419238, y: -0, z: -0, w: 0.99941534}
+  m_LocalPosition: {x: 0, y: -166.3, z: -13.600016}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 7582762465974912590}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 3.716, y: 0, z: 0}
---- !u!33 &4171839971367601150
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &261232151505494185
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5994191506276753812}
-  m_Mesh: {fileID: 4300000, guid: 0a57df90295edf64fb0e71b2a1411b5b, type: 3}
---- !u!23 &8002520801910616241
+  m_GameObject: {fileID: 7992649425136889821}
+  m_Mesh: {fileID: 5781455881916685124, guid: 2a6e183599e661848b71054bb0b0abaf, type: 3}
+--- !u!23 &2806846950568941570
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5994191506276753812}
+  m_GameObject: {fileID: 7992649425136889821}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -271,7 +271,10 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ea128b040f8b0af4c9d2de400aaff30a, type: 2}
+  - {fileID: 2100000, guid: f67a90a6220223447bd9a72eb33c8917, type: 2}
+  - {fileID: 2100000, guid: 323bac7115be3f2449fd39bcadefe985, type: 2}
+  - {fileID: 2100000, guid: eeb71c8355d478547ae0f91848d39141, type: 2}
+  - {fileID: 2100000, guid: d7520eda337b1c44eb300f6711f91b8b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -305,7 +308,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4912329922116812, guid: 5e662c0a731c48047a2da679ac888605, type: 3}
       propertyPath: m_LocalScale.x
