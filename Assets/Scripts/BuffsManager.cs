@@ -1888,7 +1888,7 @@ public class BuffsManager : MonoBehaviour
                             stats.HealHealth(target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Bleeding) * trait.traitValue, HitBox.DamageType.Healing);
                         break;
                     case ItemTrait.TraitType.PoisonSpreadStacksOnDeath:
-                        if (target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Poisoned) > 0)
+                        if (target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Poisoned) > 0 && Mathf.RoundToInt((0.05f + trait.traitValue) * target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Poisoned)) > 0)
                         {
                             GameObject poisonSpreadStacks = Instantiate(GetComponent<SkillsManager>().skillProjectiles[79], target.transform.position + Vector3.up, Quaternion.identity);
                             poisonSpreadStacks.GetComponent<HitBoxBuff>().buffOrigin = stats;
@@ -2177,7 +2177,7 @@ public class BuffsManager : MonoBehaviour
                         {
                             GameObject iceBladeVortex = Instantiate(GetComponent<SkillsManager>().skillProjectiles[60], target.transform.position, Quaternion.identity);
                             iceBladeVortex.GetComponent<HitBox>().myStats = stats;
-                            iceBladeVortex.GetComponent<HitBox>().damage = stats.baseDamage * trait.traitValue / 3;
+                            iceBladeVortex.GetComponent<HitBox>().damage = stats.baseDamage * trait.traitValue;
                             target.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffType.Frostbite, true);
                         }
                         break;
@@ -2233,7 +2233,7 @@ public class BuffsManager : MonoBehaviour
                         if (target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Sunder) >= 20 - trait.traitValue && hitbox.damageType == HitBox.DamageType.Poison)
                         {
                             BuffsManager buffsManager = target.GetComponent<BuffsManager>();
-                            buffsManager.CheckResistanceToBuff(BuffType.Poisoned, Mathf.RoundToInt(buffsManager.PollForBuffStacks(BuffType.Sunder)), stats.baseDamage, stats);
+                            buffsManager.CheckResistanceToBuff(BuffType.Poisoned, Mathf.RoundToInt(buffsManager.PollForBuffStacks(BuffType.Sunder) + trait.traitValue) , stats.baseDamage, stats);
                             buffsManager.AttemptRemovalOfBuff(BuffType.Sunder, true);
                         }
                         break;

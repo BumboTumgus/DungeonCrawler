@@ -99,7 +99,7 @@ public class HitBox : MonoBehaviour
 
                 if (GetComponent<HitBoxBuff>() && GetComponent<HitBoxBuff>().stun && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindStunStunDealsTrueDamageAtThreshold) > 0 && other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Windshear) >= 50)
                 {
-                    damageDealt *= 1f + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindStunStunDealsTrueDamageAtThreshold);
+                    damageDealt *= 2f + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindStunStunDealsTrueDamageAtThreshold);
                     other.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffsManager.BuffType.Windshear, true);
                     damageType = DamageType.True;
                 }
@@ -142,7 +142,7 @@ public class HitBox : MonoBehaviour
                 }
 
                 if (damageType == DamageType.Earth && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthIncreasedDamageToLowerArmorTargets) > 0 && (myStats.armor * myStats.armorReductionMultiplier) / 3 >= (other.GetComponent<PlayerStats>().armor * other.GetComponent<PlayerStats>().armorReductionMultiplier))
-                    damageDealt *= 1.8f + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthIncreasedDamageToLowerArmorTargets);
+                    damageDealt *= 1.9f + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthIncreasedDamageToLowerArmorTargets);
 
                 if (damageType == DamageType.Earth && myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthAmpDamageOnHealthyTargets) > 0 && other.GetComponent<PlayerStats>().health / other.GetComponent<PlayerStats>().healthMax >= 0.9f)
                     damageDealt *= 1.25f + myStats.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthAmpDamageOnHealthyTargets);

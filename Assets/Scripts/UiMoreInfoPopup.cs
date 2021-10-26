@@ -720,6 +720,7 @@ public class UiMoreInfoPopup : MonoBehaviour
         }
     }
 
+
     // Used to populate the popup with the traits we have.
     private void PopulatePopUp(Item item)
     {
@@ -727,7 +728,7 @@ public class UiMoreInfoPopup : MonoBehaviour
         for (int index = 0; index < item.itemTraits.Count; index++)
         {
             GameObject traitText = Instantiate(popUpTextPrefab, traitContainer.transform);
-            traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 11f);
+            traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
             float traitWidth = 100;
 
             switch (item.itemTraits[index].traitType)
@@ -738,7 +739,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Armor increases your characters resistance to damage. Armor reduces damage by a percentage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[0];
                     if (item.itemType == Item.ItemType.Helmet || item.itemType == Item.ItemType.Armor || item.itemType == Item.ItemType.Legs || item.itemType == Item.ItemType.Shield)
@@ -753,7 +754,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Health regeneration is the rate at which your character regains hitpoints.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[3];
                     break;
@@ -763,6 +764,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the cooldown time of skills by a percentage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[16];
                     break;
@@ -770,8 +772,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Fire Resist - ", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the aflame debuff by a percentage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the <color=#FF932E>Aflame</color> debuff by a percentage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -779,9 +782,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Frostbite Resist - ", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the frostbite debuff by a percentage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the <color=#5AD9F5>Frostbite</color> debuff by a percentage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
@@ -789,9 +792,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Lightning Resist - ", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the overcharge debuff by a percentage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the <color=#CA65FF>Overcharge</color> debuff by a percentage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[6];
                     break;
@@ -799,9 +802,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Nature Resist - ", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the overgrowth debuff by a percentage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the <color=#4ED477>Overgrowth</color> debuff by a percentage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[7];
                     break;
@@ -809,9 +812,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Wind Resist - ", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the windhear debuff by a percentage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the <color=#ABD1E0>Windshear</color> debuff by a percentage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
@@ -819,9 +822,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Earth Resist - ", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the sunder debuff by a percentage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the <color=#B0946C>Sunder</color> debuff by a percentage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
@@ -829,9 +832,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Bleed Resist - ", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the bleed debuff by a percentage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the <color=#AB181D>Bleed</color> debuff by a percentage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 11f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
@@ -839,9 +842,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Poison Resist - ", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the poison debuff by a percentage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the <color=#93D916>Poison</color> debuff by a percentage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
                     break;
@@ -849,9 +852,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Sleep Resist - ", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the asleep debuff by a percentage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the <color=#6D4880>Asleep</color> debuff by a percentage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[12];
                     break;
@@ -859,7 +862,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Stun Resist - ", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the stun debuff by a percentage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the <color=#FFF04F>Stun</color> debuff by a percentage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
@@ -868,9 +871,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Knockback Resist - ", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the knockback debuff by a percentage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Reduces the chance of recieving the <color=#1F86CA>Knockback</color> debuff by a percentage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
                     break;
@@ -878,7 +881,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Attack Speed - ", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Increases the speed you attack and cast spells and attacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Increases the speed you perform basic attacks and cast skills.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[15];
@@ -912,7 +915,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Amount of hitpoints restored upon striking a target with a non damage over time source of damage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[2];
                     break;
@@ -954,7 +957,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "The percent chance the player has to critically strike on their attacks, dealing bonus damage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
@@ -964,7 +967,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "The percent damage increase when the player critically strikes.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
@@ -974,7 +977,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "The amount of flat reduced damage your character mitigates from attacks.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[17];
                     if (item.itemType == Item.ItemType.Helmet || item.itemType == Item.ItemType.Armor || item.itemType == Item.ItemType.Legs || item.itemType == Item.ItemType.Shield)
@@ -984,12 +987,12 @@ public class UiMoreInfoPopup : MonoBehaviour
                     }
                     break;
                 case ItemTrait.TraitType.SpellDamage:
-                    traitText.transform.Find("TraitName").GetComponent<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Increased Spell Damage - ", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = string.Format(GetTraitPrefix(item.itemTraits[index].traitBonus) + "{0:0}% Increased Skill Damage - ", item.itemTraits[index].traitBonus * item.itemTraits[index].traitBonusMultiplier * 100);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Increases the damage done by your spells and kills by a percentage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Increases the damage done by your skills by a percentage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[16];
                     break;
@@ -999,7 +1002,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Increases the damage done by your basic attacks by a percentage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
@@ -1018,7 +1021,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "The amount of extra affliction stacks added on a basic attack. Has no effect if the weapon does not inflict an affliction.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[19];
                     break;
@@ -1026,9 +1029,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Consuming Blaze" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing an enemy causes an explosion that deals 100% + 1% base damage per stack of aflame.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing an enemy causes an explosion that deals <color=#FFFFFF>100% + 1% base damage</color> per <color=#FF932E>stack of Aflame.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1036,9 +1039,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Raging Inferno" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Summon a pulse of flame when the target reaches 15 aflame stacks, adding 1 aflame stack to nearby enemies ";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Summon a pulse of flame when the target reaches <color=#FF932E>15+ Aflame stacks</color>, adding <color=#FF932E>1 Aflame stack</color> to nearby enemies.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1046,9 +1049,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Fire Overwhelming" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with over 25 aflame stacks take additional burn damage equal to 1% of the targets max health as bonus damage per second, capped at 1000% base damage per second.";
-                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 80);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 44f);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with <color=#FF932E>25+ Aflame stacks</color> take additional burn damage equal to <color=#AD2A2A>1% of the targets max health</color> as bonus damage per second, capped at <color=#FFFFFF>1000% base damage</color> per second.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1056,9 +1059,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Shredding Flames" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Basic attacks on targets with over 15 aflame stacks remove 5% of the target's armor for 10 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Basic attacks on targets with <color=#FF932E>15+ Aflame stacks</color> remove <color=#FAFF00>5% of the target's armor</color> for 10 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1066,9 +1069,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Flame Vamperism" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Heal 1 hitpoint per 10 aflame stacks every tick of aflame on the afflicted target.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#60D46D>Heal 1 hitpoint</color> per <color=#FF932E>10 Aflame stacks</color> every second per afflicted target.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1076,9 +1079,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Matrimony of Flame" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Fire damage gains a 10% chance to summon a ring of fire, dealing 50% base damage a second for 5 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FF932E>Fire damage</color> gains a 10% chance to summon a ring of fire, dealing <color=#FFFFFF>50% base damage</color> a second for 5 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1086,9 +1089,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Wrath of the <color=#B0946C>Blazing Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Earth spells add 10% of current aflame stacks as bonus sunder stacks on hit.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#B0946C>Earth skills</color> add <color=#FF932E>10% of current Aflame stacks</color> as <color=#B0946C>bonus Sunder stacks</color> on hit.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1096,9 +1099,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Deep Rooted <color=#B0946C>Flames" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Sunder further reduces the target's aflame resistance by 1% per sunder stack.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#B0946C>Sunder</color> further reduces the target's <color=#FF932E>Aflame resistance by 1%</color> per <color=#B0946C>Sunder stack.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1106,9 +1109,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Devasting Flame <color=#B0946C>Geyser" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Critical strikes on targets with 30+ combined aflame and sunder stacks summons a fireball that deals 120% base damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Critical strikes</color> on targets with <color=#FF932E>30+ combined Aflame</color> <color=#B0946C>and Sunder stacks</color> summons a fireball that deals <color=#FFFFFF>120% base damage.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 33f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1116,9 +1119,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Blazing <color=#ABD1E0>Exposure" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Wind attacks gain a bonus 0.5% crit chance per stack of aflame on the target.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#ABD1E0>Wind attacks</color> gain a bonus <color=#E94453>0.5% crit chance</color> per <color=#FF932E>stack of Aflame</color> on the target.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1126,9 +1129,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Flaring <color=#ABD1E0>Winds" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Wind spells have a 20% chance to summon a fire geyser on hit against targets with 30+ aflame stacks, dealing 100% base damage a second for 5 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#ABD1E0>Wind skills</color> have a 20% chance to summon a fire geyser on hit against targets with <color=#FF932E>30+ Aflame stacks</color>, dealing <color=#FFFFFF>100% base damage</color> a second for 5 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 33f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1136,49 +1139,49 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Roaring <color=#ABD1E0>Blaze" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Wind attacks have a 10% chance to summon a fire pulse, adding 20% of the targets current aflame stacks to all nearby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#ABD1E0>Wind attacks</color> have a 10% chance to summon a fire pulse, adding <color=#FF932E>20% of the targets current Aflame stacks</color> to all nearby enemies.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
                 case ItemTrait.TraitType.AflamePhysicalAddFireStacksOnHit:
-                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Searing <color=#E94453>Metal" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Searing <color=#E94653>Metal" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical damage adds 1 aflame stack on hit.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Physical damage</color> adds <color=#FF932E>1 Aflame stack</color> on hit.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 11f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
                 case ItemTrait.TraitType.AflamePhysicalDamageAmpOnBurningTarget:
-                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Smoldering <color=#E94453>Steel" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Smoldering <color=#E94653>Steel" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical damage deals 5% more damage per stack of aflame on the target.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Physical damage</color> deals <color=#FF932E>5% more damage per stack of Aflame</color> on the target.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
                 case ItemTrait.TraitType.AflamePhysicalBladeExplosionOnKill:
-                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Red-hot <color=#E94453>Metallic Implosion" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Red-hot <color=#E94653>Metallic Implosion" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a target with 25+ aflame stacks causes a blade explosion, dealing 100% base damage to nearby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a target with <color=#FF932E>25+ Aflame stacks</color> causes a blade explosion, dealing <color=#FFFFFF>100% base damage</color> to nearby enemies.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 33f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
                 case ItemTrait.TraitType.AflamePhysicalBigHitsAddAflame:
-                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Searing <color=#E94453>Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Searing <color=#E94653>Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical damage that deals over 400% base damage adds 50% of the current aflame stacks as bonus aflame stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Physical damage</color> that deals <color=#FFFFFF>over 400% base damage</color> adds <color=#FF932E>50% of the current Aflame stacks as bonus Aflame stacks.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1186,9 +1189,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Searing <color=#AB181D>Wounds" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Fire damage gains a bonus 0.5% critical strike chance per stack of bleed on the target.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FF932E>Fire damage</color> gains a bonus <color=#E94453>0.5% critical strike chance</color> per <color=#AB181D>stack of Bleed</color> on the target.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1196,9 +1199,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Boiling <color=#AB181D>Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Hitting a target with 25+ bleed stacks with a fire attack consumes the bleed stacks to deal 10% more damage per bleed stack.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FF932E>Fire attacks</color> consumes the target's <color=#AB181D>Bleed stacks</color> to deal <color=#AB181D>10% more damage per Bleed stack</color> consumed.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1206,9 +1209,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Blaze of <color=#AB181D>Exsanguination" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Aflame stacks on a target with 30+ aflame stacks adds a bonus bleed stack.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Adding <color=#FF932E>Aflame stacks</color> on a target with <color=#FF932E>30+ Aflame stacks</color> adds a <color=#AB181D>bonus Bleed stack.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1216,9 +1219,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Flames of <color=#AB181D>Hemorrhage" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Aflame stacks remove 1% of the targets bleed resist per stack.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FF932E>Aflame stacks</color> remove <color=#AB181D>1% of the targets Bleed resist</color> per stack.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1226,9 +1229,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Consuming <color=#AB181D>Blaze" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with 30+ aflame stacks and 30+ bleed stacks take an additional 50% damage from both afflictions.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with <color=#FF932E>30+ Aflame stacks</color> and <color=#AB181D>30+ Bleed stacks</color> take an additional 50% damage from both afflictions.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1238,7 +1241,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a target with 20+ aflame stacks summons a poison pulse, spreading 50% of their current poison stacks to nearby enemies.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1248,7 +1251,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with 40+ combined aflame and poisoned stacks are greviously wounded, reducing healing by 75% for 10 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1258,7 +1261,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poison reduces the target's fire resistance by 1% per stack of poison affliction.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1268,7 +1271,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Your first fire attack on a target with 30+ poison stacks summons a poison cloud, adding 5 poison stacks to nearby enemies.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 33);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1278,7 +1281,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Aflame stacks increase the damage of poison by 1% per stack of aflame.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1288,7 +1291,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a poisoned enemy with a fire attack causes a posion cloud to erupt, dealing 10% base damage a second for 10 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22f);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1298,7 +1301,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets that gain Aflame stacks are stunned once every 20 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 11);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1308,7 +1311,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stun a target that reaches 15 stacks of Aflame.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 11);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1318,7 +1321,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned enemy has it's fire resistance reduced by 20% for the duration.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1328,7 +1331,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target recieves 200% more damage from the Aflame damage over time.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1338,7 +1341,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Aflame reduces the target's knockback resistance by 1% per stack of Aflame.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1348,7 +1351,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knocking back a target with 20+ aflame stacks causes an explosion, dealing 125% base damage to nearby targets.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1358,7 +1361,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knocking back a target causes them to recieve 25% more damage from the Aflame damage over time for the duration of the knockback.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 33);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[4];
                     break;
@@ -1368,7 +1371,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Freeze a target once they reach 20+ Frostbite stacks.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 11);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
@@ -1378,7 +1381,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A target with 40+ frostbite stacks recieves 25% increased damage from all sources.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 22);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
@@ -1388,7 +1391,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Basic attacks on a target with 30+ Frostbite stacks consume the stakcs to summon an icicle explosion, dealing 100% base damage, plus an additional 10% base damage per Frostbite stack consumed.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 33);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
@@ -1398,7 +1401,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Enemies with 30+ Frostbite stacks deal 50% reduced damage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 11);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
@@ -1408,556 +1411,1378 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Enemies that strike you recieve 3 Frostbite stacks.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 11);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IceAddStacksToNearbyEnemies:
-                    traitText.GetComponentInChildren<Text>().text = "Arctic Aura" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Arctic Aura" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Add 1 Frostbite stack to nearby enemies every 2 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IceAmpFrostbiteDamage:
-                    traitText.GetComponentInChildren<Text>().text = "Bone Chilling Frost" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Bone Chilling Frost" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Increases Frostbite's damage over time by 25%";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IceEarthFrostToEarthBonusDamage:
-                    traitText.GetComponentInChildren<Text>().text = "Frosted <color=#B0946C>Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Frosted <color=#B0946C>Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Earth attacks consume Frostbite on their target, dealing 5% more damage per stack consumed and adding half of the initial Frostbite stacks as Sunder stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IceEarthSunderAmpsIceDamage:
-                    traitText.GetComponentInChildren<Text>().text = "Brittle <color=#B0946C>Flesh" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Brittle <color=#B0946C>Flesh" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Ice attacks consume Sunder stacks on the target, deaing a bonus 10% more damage per stack consumed.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IceEarthIceDOTAtThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Icy <color=#B0946C>Reverberations" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Icy <color=#B0946C>Reverberations" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Ice attacks deal an additional 80% damage as a damage over time effect over 5 seconds on targets with 50+ Sunder stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IceEarthEarthSpellBonusCritDamage:
-                    traitText.GetComponentInChildren<Text>().text = "Devasting <color=#B0946C>Thaw" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Devasting <color=#B0946C>Thaw" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Earth attacks gain an additional 2.5% critical strike damage per stack of Frostbite on the target.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IceWindWindAmpsFrostbiteDamage:
-                    traitText.GetComponentInChildren<Text>().text = "Biting <color=#ABD1E0>Winds" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Biting <color=#ABD1E0>Winds" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Frostbite's damage over time deals an additional 10% bonus damage per stack of Windshear.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IceWindWindSpellsDamageAmp:
-                    traitText.GetComponentInChildren<Text>().text = "Howling <color=#ABD1E0>Frostbite" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Howling <color=#ABD1E0>Frostbite" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Wind attacks deal an 3% increased damage per stack of Frostbite.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IceWindIncreaseArmorShredPerFrostbite:
-                    traitText.GetComponentInChildren<Text>().text = "Shreddings Winds <color=#ABD1E0>of Frost" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Shreddings Winds <color=#ABD1E0>of Frost" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Windshear shreds an additional 2.5% of the targets armor per stack of Frostbite.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IceWindSummonTornadoOnHit:
-                    traitText.GetComponentInChildren<Text>().text = "Polar <color=#ABD1E0>Vortex" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Polar <color=#ABD1E0>Vortex" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Wind attacks on a target with 25+ Frostbite stacks have a 10% chance to summon a wind tornado, dealing 125% base damage over 2 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IcePhysicalFrostbiteAmpsPhysicalCritDamage:
-                    traitText.GetComponentInChildren<Text>().text = "Shattering <color=#E94453>Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Shattering <color=#E94653>Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks deal 2% more critical strike damage per stack of Frostbite.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IcePhysicalPhysicalVampOnFrostbite:
-                    traitText.GetComponentInChildren<Text>().text = "Vamperic <color=#E94453>Frost" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Vamperic <color=#E94653>Frost" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks heal for 1% of their damage dealt if the target is Frostbitten.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IcePhysicalBladeVortexOnHit:
-                    traitText.GetComponentInChildren<Text>().text = "Icy <color=#AB181D>Blades" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Icy <color=#AB181D>Blades" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks on target's with 30+ Frostbite stacks consume the stacks to summon a blade vortex, dealing 120% base damage over 3 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IceBleedFrostbiteAmpsBleed:
-                    traitText.GetComponentInChildren<Text>().text = "Frosted <color=#AB181D>Veins" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Frosted <color=#AB181D>Veins" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Windshear shreds an additional 2.5% of the targets armor per stack of Frostbite.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IceBleedBleedDoesDamageInstantlyOnThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Winter's Bloody<color=#AB181D> Vengeance" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Winter's Bloody<color=#AB181D> Vengeance" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Frosbite stacks increase Bleed's damage over time by 2% per stack of Frostbite.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IcePoisonFreezingPoison:
-                    traitText.GetComponentInChildren<Text>().text = "Icy<color=#93D916> Toxins" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Icy<color=#93D916> Toxins" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Every Poison damage tick has a 5% chance to add a Frostbite stack.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IcePoisonFrostbiteResetsPoisonAndAmps:
-                    traitText.GetComponentInChildren<Text>().text = "Toxic <color=#93D916>Frost" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Toxic <color=#93D916>Frost" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Frostbite resets Poison's duration, and increases the damage it deals by 50% for 5 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IcePoisonSummonPoisonPillarOnThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Frozen Relic <color=#93D916>of Plagues" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Frozen Relic <color=#93D916>of Plagues" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Klling a target with Poison stacks and 25+ Frostbite stacks summons a txoic pillar, adding 1 Poison and Frostbite to nearby enemies for 13 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IceStunRudeAwakening:
-                    traitText.GetComponentInChildren<Text>().text = "Shattering <color=#FFF04F>Awakening" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Shattering <color=#FFF04F>Awakening" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Hitting a stunned target with an ice attack adds 2 extra Frostbite stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IceStunIceRefreshesStun:
-                    traitText.GetComponentInChildren<Text>().text = "Stunning <color=#FFF04F>Cold" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Stunning <color=#FFF04F>Cold" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Your first ice attack on a stunned target deals 75% additional damage and resets the stun's duration.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IceKnockbackFrostbiteIncreasesKnockbackForce:
-                    traitText.GetComponentInChildren<Text>().text = "Aval<color=#1F86CA>anche" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Aval<color=#1F86CA>anche" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knockback force is increased by 5% per stack of Frostbite.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IceKnockbackSnowEruptionOnKnockback:
-                    traitText.GetComponentInChildren<Text>().text = "Staggering <color=#1F86CA>Snow" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Staggering <color=#1F86CA>Snow" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knocking back a target with 25+ Frostbite stacks summons a pulse of snow dealing 60% base damage to neearby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.IceKnockbackBonusStacksOnDownedTargets:
-                    traitText.GetComponentInChildren<Text>().text = "Shivering <color=#1F86CA>Shock" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Shivering <color=#1F86CA>Shock" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Ice Attacks on targets that are knocked back add 3 additional Frostbite stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[5];
                     break;
                 case ItemTrait.TraitType.EarthMaxHpDamageAtThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Sundering Blows" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Sundering Blows" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "When a target reaches 25+ Sunder stacks, they take 10% of their maximum health as true damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthAmpAllAfflictionsOnThreshhold:
-                    traitText.GetComponentInChildren<Text>().text = "Exposing Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Exposing Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with 20+ Sunder stacks take 20% more damage from all Afflictions.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthSunderedEnemiesDealLessDamage:
-                    traitText.GetComponentInChildren<Text>().text = "Earthern Decay" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Earthern Decay" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Sundered Targets deal 10% reduced damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthRockRingExplosionOnKill:
-                    traitText.GetComponentInChildren<Text>().text = "Rumbling Rocks" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Rumbling Rocks" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a Sundered target causes a rock ring explosion, shooting out 8 - 28 rock spears in a circle depending on the target's Sunder stacks. Each spear deals 125% base damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthTrueDamageAtThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Weathering Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Weathering Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with 50+ Sunder stacks convert all damage they take to true damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthSunderFurtherReducesResistances:
-                    traitText.GetComponentInChildren<Text>().text = "Surging Silt" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Surging Silt" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Sunder reduces the target's Resistances by an additional 15%.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthIncreasedDamageToLowerArmorTargets:
-                    traitText.GetComponentInChildren<Text>().text = "Splintered Defences" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Splintered Defences" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Earth attacks deal 200% increased damage to targets with less than 35% of your total armor.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthAmpDamageOnHealthyTargets:
-                    traitText.GetComponentInChildren<Text>().text = "Subdueing Sands" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Subdueing Sands" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Earth attacks deal 150% increased damage to targets above 90% hp.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthHealOnCritAtSunderThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Renewing Earths" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Renewing Earths" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Critting a target with 25+ Sunder stacks heals you for 25% of the damage dealt.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthPhysicalBonusSunderStacksOnThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Sundering <color=#E94453>Steel" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Sundering <color=#E94653>Steel" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks on targets with 20+ Sunder stacks adds an additional 3 Sunder stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthPhysicalSunderAmpsCrits:
-                    traitText.GetComponentInChildren<Text>().text = "Devasting Dance <color=#E94453>of Stone" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Devasting Dance <color=#E94653>of Stone" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks that critically strike deal an additional 2% increased critical damage per stack of Sunder.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthPhysicalSunderAmpsDamage:
-                    traitText.GetComponentInChildren<Text>().text = "Brutal Ballad <color=#E94453>of Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Brutal Ballad <color=#E94653>of Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks deal 1% increased damage per stack of Sunder.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthBleedBonusCritChanceOnBleedingTarget:
-                    traitText.GetComponentInChildren<Text>().text = "Exposing <color=#AB181D>Stones" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Exposing <color=#AB181D>Stones" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Earth attacks on a target with both Bleeding and Sunder gains 1% critical strike chance per stack of Sunder.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthBleedSunderAddsPercentageOfBleed:
-                    traitText.GetComponentInChildren<Text>().text = "Shards of <color=#AB181D>Shredding Stone" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Shards of <color=#AB181D>Shredding Stone" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Earth attacks add 5% of the current Bleeding stacks as new Bleeding stacks, rounded down.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthBleedBonusEarthDamageToBleeding:
-                    traitText.GetComponentInChildren<Text>().text = "Muddled <color=#AB181D>Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Muddled <color=#AB181D>Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Earth attacks on a target with Bleeding deals 3% more damage per stack of Bleeding.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthBleedBloodExplosionOnBleed:
-                    traitText.GetComponentInChildren<Text>().text = "Well of <color=#AB181D>Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Well of <color=#AB181D>Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Bleed atatcks on a target with 20+ Sunder stacks summons a blood explosion, dealing 125% base damage to nearby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthPoisonAddSunderedOnPoisonTick:
-                    traitText.GetComponentInChildren<Text>().text = "Sundering <color=#93D916>Venom" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Sundering <color=#93D916>Venom" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poison damage over time has a 5% chance to add a Sunder stack every tick.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthPoisonSummonPillarOnThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Pillar of <color=#93D916>Plagues" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Pillar of <color=#93D916>Plagues" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "The first earth attack that hits a target with 20+ Poison stacks summons a poison pillar, adding 1 Sunder and Poison stacks to nearby enemies every second for 13 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthPoisonSunderToPoisonConversion:
-                    traitText.GetComponentInChildren<Text>().text = "Plagued <color=#93D916>Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Plagued <color=#93D916>Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poison attacks on a target with 20+ Sunder stacks convert all sunder stacks into Poison stacks, plus 1 additional Poison stack.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthPoisonSunderToPoisonOnCrit:
-                    traitText.GetComponentInChildren<Text>().text = "Toxic Mud <color=#93D916>of Devastation" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Toxic Mud <color=#93D916>of Devastation" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poison attacks that critically strike a target with Sunder stacks add bonus Poison stacks equal to the Sunder stacks + 1.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthStunStunOnThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Stunning <color=#FFF04F>Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Stunning <color=#FFF04F>Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stun a target that reaches 10+ Sunder stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthStunBonusDamageOnStun:
-                    traitText.GetComponentInChildren<Text>().text = "Dazing <color=#FFF04F>Dirt" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Dazing <color=#FFF04F>Dirt" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Attacks on a Sundered target that is also stunned deal a bonus 75% base damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthStunKillingStunnedWithEarthRefundsCooldowns:
-                    traitText.GetComponentInChildren<Text>().text = "Barraging <color=#FFF04F>Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Barraging <color=#FFF04F>Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a Stunned target with an earth attack refunds 25% of your ability cooldowns.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthStunStunningAddsSunder:
-                    traitText.GetComponentInChildren<Text>().text = "Stone Strikes <color=#FFF04F>of Confoundment" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Stone Strikes <color=#FFF04F>of Confoundment" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning a target adds 1 Sunder stack.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthStunSunderAmpsStunDamageLength:
-                    traitText.GetComponentInChildren<Text>().text = "Earth <color=#FFF04F>Amplification" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Earth <color=#FFF04F>Amplification" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Increase duration of Stuns by 1% for every Sunder stack.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthKnockbackTremorsOnKnockback:
-                    traitText.GetComponentInChildren<Text>().text = "Revirbe<color=#1F86CA>rations" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Revirbe<color=#1F86CA>rations" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knocking back a target with 10+ Sunder stacks creates revirberations on the target, dealing 60% base damage every second for 4 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthKnockbackSunderReducesKnockbackResistance:
-                    traitText.GetComponentInChildren<Text>().text = "Unstable <color=#1F86CA>Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Unstable <color=#1F86CA>Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Sundering a target shreds an additional 5% Knockback Resistance, stacking up to 2 times.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.EarthKnockbackSummonRocksOnRecentKnockbackTarget:
-                    traitText.GetComponentInChildren<Text>().text = "Stone <color=#1F86CA>Reverberation" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Stone <color=#1F86CA>Reverberation" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Your first earth attack on a Knocked back target summons an rock pulse, dealing 300% base damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[9];
                     break;
                 case ItemTrait.TraitType.WindAmpsDamageTaken:
-                    traitText.GetComponentInChildren<Text>().text = "Cutting Winds" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Cutting Winds" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Windshear increases all damage taken by 0.5% per stack of windshear.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindAmpsComboArmorShred:
-                    traitText.GetComponentInChildren<Text>().text = "Raging Gusts" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Raging Gusts" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Combos ignore 20% more armor for targets with 20+ Windshear stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindTargetGainsBleedOnAttack:
-                    traitText.GetComponentInChildren<Text>().text = "Singing Slices" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Singing Slices" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets that attack with 20+ Windshear stacks gain 1 Bleeding stack.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindSummonAerobladesOnThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Song of Dancing Blades" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Song of Dancing Blades" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Wind spells on targets with 20+ Windshear stacks summon 3 airblades that deal 35% base damage to targets";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindWindshearAmpsTrueDamage:
-                    traitText.GetComponentInChildren<Text>().text = "Rending Galestorm" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Rending Galestorm" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets take 1% more true damage from all sources per stack of Windshear.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindAddMoreStacksOnInitialStack:
-                    traitText.GetComponentInChildren<Text>().text = "Sudden Gails" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Sudden Gails" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Your first application of Windshear on a target applies an extra 3 Windshear stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindMoreDamageOnMaximumStacks:
-                    traitText.GetComponentInChildren<Text>().text = "Exposing Zephyr" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Exposing Zephyr" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with maximum Windshear stacks recieve 200% more damage from all sources.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindPhysicalSummonWhirlwindOnSkillHit:
-                    traitText.GetComponentInChildren<Text>().text = "Steel <color=#E94453>Whirlwind" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Steel <color=#E94653>Whirlwind" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical skills that strike a target with Windshear stacks summons a whirlwind, dealing 80% base damage a second for 4 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindPhysicalWindshearAmpsBasicAttacks:
-                    traitText.GetComponentInChildren<Text>().text = "Wrath of the <color=#E94453>Biting Wind" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Wrath of the <color=#E94653>Biting Wind" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Basic attacks deal 3% more damage per stack of Windshear.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindPhysicalCritsDealArmorAsDamage:
-                    traitText.GetComponentInChildren<Text>().text = "Devasting <color=#E94453>Rend" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Devasting <color=#E94653>Rend" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical Critical strikes deal 5% of the target's armor as bonus damage per stack of Windshear.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindBleedAmpBleedAtThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Maiming <color=#AB181D>Gusts" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Maiming <color=#AB181D>Gusts" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with 25+ Windshear stacks recieve 35% more damage from Bleeding.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindBleedMoreBleedStacksAThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Rending <color=#AB181D>Currents" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Rending <color=#AB181D>Currents" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Bleeding a target with 50+ Windshear stacks adds 50% of the current Bleeding stacks as bonus Bleeding stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindBleedBleedGrantsWindCritChance:
-                    traitText.GetComponentInChildren<Text>().text = "Gouging <color=#AB181D>Gale" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Gouging <color=#AB181D>Gale" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Wind attacks gain 1% increased critical strike chance per stack of Bleeding on the target.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindBleedAddBleedOnWindCrit:
-                    traitText.GetComponentInChildren<Text>().text = "Razer <color=#AB181D>Zephyr" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Razer <color=#AB181D>Zephyr" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Wind Critical Strikes add 2 bonus Bleeding stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindPoisonTransferPoisonStacksOnKill:
-                    traitText.GetComponentInChildren<Text>().text = "Toxic <color=#93D916>Front" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Toxic <color=#93D916>Front" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a target with 10+ stacks of Poison causes your next attack to add bonus Poison stacks equal to the number of Poison stacks the target had when they died.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindPoisonWindAddsPercentageOfPoisonOnHit:
-                    traitText.GetComponentInChildren<Text>().text = "Plagued <color=#93D916>Winds" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Plagued <color=#93D916>Winds" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Wind attacks on a target add 20% o the target's current Poison stacks as bonus Poison stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindPoisonPoisonBurstAtWindThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Venomous <color=#93D916>Pulse" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Venomous <color=#93D916>Pulse" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poison attacks on a target with 15+ Windshear stacks summons a poison burst, adding 1 poison stack to nearby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindStunStunDealsTrueDamageAtThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Stunning <color=#FFF04F>Gale" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Stunning <color=#FFF04F>Gale" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning attacks deal 300% more damage on a traget with 50+ Windshear stacks and consumes the stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindStunWindblastOnStun:
-                    traitText.GetComponentInChildren<Text>().text = "Dazing <color=#FFF04F>Blast" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Dazing <color=#FFF04F>Blast" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning attacks ona  target with 30+ windshear stacks summons a wind burst, dealing 100% base damage to nearby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindStunStunAmpsWindshearGain:
-                    traitText.GetComponentInChildren<Text>().text = "Exposing <color=#FFF04F>Stuns" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Exposing <color=#FFF04F>Stuns" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunned targets recieve 100% more stacks of Windshear.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindKnockbackKnockbackSummonsMiniCyclone:
-                    traitText.GetComponentInChildren<Text>().text = "Howling <color=#1F86CA>Gales" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Howling <color=#1F86CA>Gales" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knocking back a target with 15+ Windshear stacks summons a whirlwind dealing 66% base damage a second for 4 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindKnockbackLoseKnockbackResistanceOnThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Unstable <color=#1F86CA>Footing" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Unstable <color=#1F86CA>Footing" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with 10+ Windshear stacks have their Knockback Resistance reduced by 25%";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.WindKnockbackWindshearDoesDamageIfKnockedBack:
-                    traitText.GetComponentInChildren<Text>().text = "Unending <color=#1F86CA>Gusts" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Unending <color=#1F86CA>Gusts" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Adding Windshear to a knocked back target deals a bonus 20% base damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[8];
                     break;
                 case ItemTrait.TraitType.PhysicalPhysicalAmpsCritChance:
-                    traitText.GetComponentInChildren<Text>().text = "Calculated Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Calculated Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks grant you 2% Critical Strike chance for 10 seconds, stacking up to 10 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.PhysicalPhysicalSkillsComboAmp:
-                    traitText.GetComponentInChildren<Text>().text = "Press the Advantage" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Press the Advantage" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical skills ignore 35% more armor from combos.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.PhysicalLifestealAmp:
-                    traitText.GetComponentInChildren<Text>().text = "Hungering Steel" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Hungering Steel" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Lifesteal on a physical attack is increased by 35%.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.PhysicalSkillAmpArmorOnKill:
-                    traitText.GetComponentInChildren<Text>().text = "Bolstering Blades" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Bolstering Blades" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing an enemy with a Physical attack increases your Armor by 5% for 5 seconds, stacking up to 3 times.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.PhysicalAmpDamageBelowHalfHp:
-                    traitText.GetComponentInChildren<Text>().text = "Beserker Rage" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Beserker Rage" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks deal 50% increased damage if you are below 50% your maximum health total.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.PhysicalBleedBleedAmpsPhysicalDamage:
-                    traitText.GetComponentInChildren<Text>().text = "Wounding <color=#AB181D>Gusts" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Wounding <color=#AB181D>Cuts" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical damage deals 1% more damage per stack of Bleeding on the target.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.PhysicalBleedPhysicalSkillsAddBleed:
-                    traitText.GetComponentInChildren<Text>().text = "Evice<color=#AB181D>rate" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Evice<color=#AB181D>rate" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical skills add 1 Bleeding stack to targets on hit.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.PhysicalBleedSkillsDoTrueDamageAtThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Rending <color=#AB181D>Assault" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Rending <color=#AB181D>Assault" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical skills on a target with 50+ Bleeding stacks deal true damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.PhysicalPoisonPhysicalAmpsPoisonDamage:
-                    traitText.GetComponentInChildren<Text>().text = "Poison Coa<color=#93D916>ted Steel" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Poison Coa<color=#93D916>ted Steel" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks amp poison damage by 10% for 5 seconds, stacking up to 5 times.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.PhysicalPoisonPlayerMaxHpDamageOnThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Virulent <color=#93D916>Toxins" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Virulent <color=#93D916>Toxins" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks to targets with 25+ Poison stacks deal 5% of the target's maximum health as bonus damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.PhysicalPoisonPoisonAmpsPhysicalDamage:
-                    traitText.GetComponentInChildren<Text>().text = "Weakening <color=#93D916>Venom" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Weakening <color=#93D916>Venom" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poison damage amplifies Physical damage by 10% for 5 seconds, stacking up to 5 times.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.PhysicalStunAmpDamageOnStunned:
-                    traitText.GetComponentInChildren<Text>().text = "Oppurtune <color=#FFF04F>Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Oppurtune <color=#FFF04F>Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks on a stunned target deal 200% increased damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.PhysicalStunBladeRiftOnStun:
-                    traitText.GetComponentInChildren<Text>().text = "Whirling <color=#FFF04F>Blades" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Whirling <color=#FFF04F>Blades" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning a target summons a blade rift, dealing 100% base damage a second for 5 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.PhysicalKnockbackKnockbackKillAmpsPhysicalDamage:
-                    traitText.GetComponentInChildren<Text>().text = "Rising <color=#1F86CA>Force" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Rising <color=#1F86CA>Force" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a Knocked back target with a Physical damage attack causes your next Physical attack within 10 seconds to deal 400% increased damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.PhysicalKnockbackPhysicalAttacksGainInnateKnockback:
-                    traitText.GetComponentInChildren<Text>().text = "Crushing <color=#1F86CA>Blows" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Crushing <color=#1F86CA>Blows" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks have a 10% chance to Knockback their targets.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.PhysicalKnockbackSummonKnivesOnKnockbackHit:
-                    traitText.GetComponentInChildren<Text>().text = "Dancing <color=#1F86CA>Blades" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Dancing <color=#1F86CA>Blades" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knocking back a target summons 3 tracking knives that deal 50% base damage each.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[1];
                     break;
                 case ItemTrait.TraitType.BleedReducesResistances:
-                    traitText.GetComponentInChildren<Text>().text = "Vulnerable Cuts" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Vulnerable Cuts" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Bleeding stacks now reduce the target's Resistances by 0.2% a stack.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.BleedAmpsCritHitsAddsBleedToNearby:
-                    traitText.GetComponentInChildren<Text>().text = "Rushing Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Rushing Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Critical strikes deal 2.5% increased damage per stack of Bleeding, and summon a blood explosion adding bleed to neaarby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.BleedSlowsTargets:
-                    traitText.GetComponentInChildren<Text>().text = "Crippling Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Crippling Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Bleeding stacks slow the target by 2% per stack of Bleeding.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.BleedAmpDamageTakenOnAttack:
-                    traitText.GetComponentInChildren<Text>().text = "Deep Wounds" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Deep Wounds" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets that attack while Bleeding take 50% more damage from the Bleeding affliction.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.BleedHealOnBleedingEnemyKill:
-                    traitText.GetComponentInChildren<Text>().text = "Sanguine Pact" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Sanguine Pact" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a target heals you for 1hp per stack of Bleeding on the target.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.BleedCritsConsumeBleed:
-                    traitText.GetComponentInChildren<Text>().text = "Expunging Strike" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Expunging Strike" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Critical strikes consume bleeding stacks to increase crit damage by 10% per stack of bleeding.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.BleedAmpDamageAtThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Flowing Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Flowing Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with 10+ stacks of bleeding take 25% increased damage from all sources.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.BleedBloodWellAtThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Tides Of Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Tides Of Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Striking a target with 20+ bleeding stacks summons a bloodwell, dealing 100% base damage a second for 7 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.BleedExpungeBleedAtThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Torrential Blood Letting" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Torrential Blood Letting" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets that reach 100+ stacks of bleeding will expunge the bleed, removing the affliction and dealing it's damage over time instantly.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.BleedPoisonReduceOtherResistances:
-                    traitText.GetComponentInChildren<Text>().text = "Immunocompro<color=#93D916>misation" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Immunocompro<color=#93D916>misation" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poison reduce bleed resistance by 1% per stack of Poison. Bleeding reduces Poison resistance by 1% per stack of Bleeding.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.BleedPoisonChanceOfPoisonCloudOnBleed:
-                    traitText.GetComponentInChildren<Text>().text = "Vaporizing <color=#93D916>Toxins" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Vaporizing <color=#93D916>Toxins" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Striking  a target with 10+ Poison stacks and 10+ Bleeding stacks has a 20% chance to summon a poison cloud adding 2 poison to nearby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.BleedStunStunReducesBleedResistance:
-                    traitText.GetComponentInChildren<Text>().text = "Exposing <color=#FFF04F>Wounds" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Exposing <color=#FFF04F>Wounds" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target has is bleeding resistance reduced by 20% for the stun's duration.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.BleedStunStunAtThresholdBelowHalfHP:
-                    traitText.GetComponentInChildren<Text>().text = "Dazing <color=#FFF04F>Cuts" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Dazing <color=#FFF04F>Cuts" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Adding bleeding to a target with 10+ bleeding stacks below 50% max health stuns the target.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.BleedStunStunAddsBleed:
-                    traitText.GetComponentInChildren<Text>().text = "Egregious <color=#FFF04F>Stun" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Egregious <color=#FFF04F>Stun" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning a target adds 3 Bleeding stacks over 3 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.BleedKnockbackBonusBleed:
-                    traitText.GetComponentInChildren<Text>().text = "Lacerating <color=#1F86CA>Knockbacks" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Lacerating <color=#1F86CA>Knockbacks" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Bleed attacks on a knocked back target adds 1 bonus Bleeding stack.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.BleedKnockbackKnockbackExposionOfBlood:
-                    traitText.GetComponentInChildren<Text>().text = "Pulse of <color=#1F86CA>Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Pulse of <color=#1F86CA>Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knocking back a target with 15+ Bleeding stacks causes a blood explosion, dealing 150% base damage and adding 3 Bleeding stacks to enemies hit.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.BleedKnockbackKnockbackAmpsDamage:
-                    traitText.GetComponentInChildren<Text>().text = "Sanguine <color=#1F86CA>Force" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Sanguine <color=#1F86CA>Force" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knocking back a target with 10+ Bleeding stacks causes the target to recieve 25% more damage from all sources for 10 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[10];
                     break;
                 case ItemTrait.TraitType.PoisonSpreadStacksOnDeath:
-                    traitText.GetComponentInChildren<Text>().text = "Decaying Flesh" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Decaying Flesh" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a target summons a poison pulse, transferring 10% of the target's Poisoned stacks to nearby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
                     break;
                 case ItemTrait.TraitType.PoisonAmpsLifesteal:
-                    traitText.GetComponentInChildren<Text>().text = "Rejuvinating Venom" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Rejuvinating Venom" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Lifesteal is 25% more effective on targets with 10+ Poisoned stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
                     break;
                 case ItemTrait.TraitType.PoisonAmpNextAttackAfterPoisonKill:
-                    traitText.GetComponentInChildren<Text>().text = "Contagion" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Contagion" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a target with poison damage causes your next poison attack within 15 seconds to instantly criticaly strike and has it's critical strike damage increased by 100%.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
                     break;
                 case ItemTrait.TraitType.PoisonAmpDamageOnFirstStack:
-                    traitText.GetComponentInChildren<Text>().text = "Patient Zero" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Patient Zero" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poisoning a target with no previous Poisoned stakcs causes the target to take 50% increased damage from Poison's damage over time for 10 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
                     break;
                 case ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison:
-                    traitText.GetComponentInChildren<Text>().text = "Multi-front Contagion" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Multi-front Contagion" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poisoned deals 50% more damage over time for every other primary trait the target is afflicted with.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
                     break;
                 case ItemTrait.TraitType.PoisonShredArmorOnThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Corrosive Toxins" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Corrosive Toxins" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poisoning a target with 30+ Poisoned stacks reduces their armor by 40% for 10 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
                     break;
                 case ItemTrait.TraitType.PoisonEnemiesAmpPoisonOnKill:
-                    traitText.GetComponentInChildren<Text>().text = "Plagued Corpses" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Plagued Corpses" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing an enemy makes all nearby enemies take 100% increased damage from Poison's damage over time effect for 10 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
                     break;
                 case ItemTrait.TraitType.PoisonTrueDamageAtThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Lethal Venom" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Lethal Venom" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Target's below 25% maximum health take true damage from Poison's damage over time effect.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
                     break;
                 case ItemTrait.TraitType.PoisonVamperism:
-                    traitText.GetComponentInChildren<Text>().text = "Toxic Predator" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Toxic Predator" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Heal for 5% of the damage dealt by Poison's damage over time effect.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
                     break;
                 case ItemTrait.TraitType.PoisonStunPoisonReducesStunResist:
-                    traitText.GetComponentInChildren<Text>().text = "Dazing <color=#FFF04F>Pestilence" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Dazing <color=#FFF04F>Pestilence" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A Poisoned target's stun resistance is reduced by 2% per stack of poison.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
                     break;
                 case ItemTrait.TraitType.PoisonStunPoisonSpreadOnThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Virulent <color=#FFF04F>Pestilence" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Virulent <color=#FFF04F>Pestilence" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunning attack on a target with 20+ Poisoned stacks consumes the stacks to summon a poison pulse, dealing 245% bas damage and adding half of the consumed stacks to nearby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 80);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 46);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
                     break;
                 case ItemTrait.TraitType.PoisonKnockbackPoisonReducesKnockbackResistance:
-                    traitText.GetComponentInChildren<Text>().text = "Knockback of <color=#1F86CA>Plagues" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Knockback of <color=#1F86CA>Plagues" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poisoned targets have their knockback Resistance reduced by 2% per stack of Poisoned.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
                     break;
                 case ItemTrait.TraitType.PoisonKnockbackConsumePoisonStacksForTrueDamage:
-                    traitText.GetComponentInChildren<Text>().text = "Venomous <color=#1F86CA>Blow" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Venomous <color=#1F86CA>Blow" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knocking back a poisoned target consumes the poison to deal 50% bse damage per stack of Poisoned as true damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[11];
                     break;
                 case ItemTrait.TraitType.StunReducesArmor:
-                    traitText.GetComponentInChildren<Text>().text = "Armor Rending Stuns" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Armor Rending Stuns" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning a target reduces their armor by 25% for the stun's duration.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
                     break;
                 case ItemTrait.TraitType.StunAmpsDamageTaken:
-                    traitText.GetComponentInChildren<Text>().text = "Expose Vulnerbilities" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Expose Vulnerbilities" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunned targets recieve 10% more damage from all sources.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
                     break;
                 case ItemTrait.TraitType.StunAmpsAfflictionGain:
-                    traitText.GetComponentInChildren<Text>().text = "Calamity Rising" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Calamity Rising" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target recieves 25% more stacks of primary Afflictions.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
                     break;
                 case ItemTrait.TraitType.StunAmpDuration:
-                    traitText.GetComponentInChildren<Text>().text = "Enchanced Stupor" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Enchanced Stupor" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Increased stun duration by 25%";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 11);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
                     break;
                 case ItemTrait.TraitType.StunShockwaveOnStunningStunned:
-                    traitText.GetComponentInChildren<Text>().text = "Dazing Wave" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Dazing Wave" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning a target that is currently stunned summons a shockwave dealing 80% based damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
                     break;
                 case ItemTrait.TraitType.StunOnStunDealsAdditionalBaseDamage:
-                    traitText.GetComponentInChildren<Text>().text = "True Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Echoeing Trauma" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning a target that is currently stunned causes the target to take 150% base damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
                     break;
                 case ItemTrait.TraitType.StunAmpDurationOnThreshold:
-                    traitText.GetComponentInChildren<Text>().text = "Misery's Company" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Misery's Company" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning a target with 50+ stacks of any primary Affliction increases the stun duration by 66%.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
                     break;
                 case ItemTrait.TraitType.StunAmpCritDamage:
-                    traitText.GetComponentInChildren<Text>().text = "Mighty Slashes" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Mighty Slashes" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Critical strikes on a stunned target have their critical strike dmage increased by 25%.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
                     break;
                 case ItemTrait.TraitType.StunAmpsMovespeed:
-                    traitText.GetComponentInChildren<Text>().text = "Tactical Repositioning" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Tactical Repositioning" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning a target increases your movespeed by 15% for 8 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
                     break;
                 case ItemTrait.TraitType.StunKnockbackStunReduceResistance:
-                    traitText.GetComponentInChildren<Text>().text = "Unstable <color=#1F86CA>Footing" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Unstable <color=#1F86CA>Footing" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target has it's knockback resistance reduced by 50% for the duration of the stun.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
                     break;
                 case ItemTrait.TraitType.KnockbackReducesSpellCooldowns:
-                    traitText.GetComponentInChildren<Text>().text = "Press the Assault" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Press the Assault" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target has it's knockback resistance reduced by 50% for the duration of the stun.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
                     break;
                 case ItemTrait.TraitType.KnockBackAmpsBasicAttacks:
-                    traitText.GetComponentInChildren<Text>().text = "Nimble Duelist" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Nimble Duelist" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target has it's knockback resistance reduced by 50% for the duration of the stun.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
                     break;
                 case ItemTrait.TraitType.KnockbackAmpKnockbackForce:
-                    traitText.GetComponentInChildren<Text>().text = "Mountains Strength" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Mountains Strength" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target has it's knockback resistance reduced by 50% for the duration of the stun.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
                     break;
                 case ItemTrait.TraitType.KnockbackAmpsDamageTaken:
-                    traitText.GetComponentInChildren<Text>().text = "Shredded Armor" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Shredded Armor" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target has it's knockback resistance reduced by 50% for the duration of the stun.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
                     break;
                 case ItemTrait.TraitType.KnockbackAmpsArmor:
-                    traitText.GetComponentInChildren<Text>().text = "Barricade" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Barricade" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target has it's knockback resistance reduced by 50% for the duration of the stun.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
                     break;
                 case ItemTrait.TraitType.KnockbackDoesBonusDamageOnKnockbacked:
-                    traitText.GetComponentInChildren<Text>().text = "Chained Blows" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Chained Blows" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target has it's knockback resistance reduced by 50% for the duration of the stun.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
                     break;
                 case ItemTrait.TraitType.KnockbackReducesResistances:
-                    traitText.GetComponentInChildren<Text>().text = "Violent Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitText.transform.Find("TraitName").GetComponent<Text>().text = "Violent Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]);
+                    traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
+                    traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target has it's knockback resistance reduced by 50% for the duration of the stun.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
                     break;
                 default:

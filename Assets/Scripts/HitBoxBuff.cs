@@ -145,7 +145,7 @@ public class HitBoxBuff : MonoBehaviour
                 {
                     GameObject knockbackSnowPulse = Instantiate(buffOrigin.GetComponent<SkillsManager>().skillProjectiles[62], other.transform.position + Vector3.up, Quaternion.identity);
                     knockbackSnowPulse.GetComponent<HitBox>().myStats = buffOrigin;
-                    knockbackSnowPulse.GetComponent<HitBox>().damage = (1 + buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceKnockbackSnowEruptionOnKnockback)) * buffOrigin.baseDamage;
+                    knockbackSnowPulse.GetComponent<HitBox>().damage = (0.5f + buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceKnockbackSnowEruptionOnKnockback)) * buffOrigin.baseDamage;
                 }
                 if (buffOrigin.CompareTag("Player") && buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthKnockbackTremorsOnKnockback) > 0 && other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Sunder) >= 10)
                 {

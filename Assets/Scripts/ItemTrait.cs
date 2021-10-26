@@ -256,15 +256,15 @@ public class ItemTrait
                 break;
             case 56:
                 traitType = TraitType.IceEarthFrostToEarthBonusDamage;
-                traitBonus = 0.02f;
+                traitBonus = 0.05f;
                 break;
             case 57:
                 traitType = TraitType.IceEarthSunderAmpsIceDamage;
-                traitBonus = 0.04f;
+                traitBonus = 0.1f;
                 break;
             case 58:
                 traitType = TraitType.IceEarthIceDOTAtThreshold;
-                traitBonus = 0.25f;
+                traitBonus = 0.8f;
                 break;
             case 59:
                 traitType = TraitType.IceEarthEarthSpellBonusCritDamage;
@@ -296,7 +296,7 @@ public class ItemTrait
                 break;
             case 66:
                 traitType = TraitType.IcePhysicalBladeVortexOnHit;
-                traitBonus = 0.33f;
+                traitBonus = 1.2f;
                 break;
             case 67:
                 traitType = TraitType.IceBleedFrostbiteAmpsBleed;
@@ -628,7 +628,7 @@ public class ItemTrait
                 break;
             case 149:
                 traitType = TraitType.BleedCritsConsumeBleed;
-                traitBonus = 0.05f;
+                traitBonus = 0.1f;
                 break;
             case 150:
                 traitType = TraitType.BleedAmpDamageAtThreshold;
@@ -679,7 +679,7 @@ public class ItemTrait
                 traitBonus = 0.05f;
                 break;
             case 162:
-                traitType = TraitType.PoisonSpreadStacksOnDeath;
+                traitType = TraitType.PoisonAmpsLifesteal;
                 traitBonus = 0.25f;
                 break;
             case 163:
@@ -748,7 +748,7 @@ public class ItemTrait
                 break;
             case 180:
                 traitType = TraitType.StunOnStunDealsAdditionalBaseDamage;
-                traitBonus = 0.25f;
+                traitBonus = 1.5f;
                 break;
             case 181:
                 traitType = TraitType.StunAmpDurationOnThreshold;
@@ -1385,7 +1385,7 @@ public class ItemTrait
                             break;
                         case 5:
                             traitType = TraitType.BleedCritsConsumeBleed;
-                            traitBonus = 0.05f;
+                            traitBonus = 0.1f;
                             break;
                         case 6:
                             traitType = TraitType.BleedAmpDamageAtThreshold;
@@ -1409,7 +1409,7 @@ public class ItemTrait
                             traitBonus = 0.05f;
                             break;
                         case 1:
-                            traitType = TraitType.PoisonSpreadStacksOnDeath;
+                            traitType = TraitType.PoisonAmpsLifesteal;
                             traitBonus = 0.25f;
                             break;
                         case 2:
@@ -1467,7 +1467,7 @@ public class ItemTrait
                             break;
                         case 6:
                             traitType = TraitType.StunOnStunDealsAdditionalBaseDamage;
-                            traitBonus = 0.25f;
+                            traitBonus = 1.5f;
                             break;
                         case 7:
                             traitType = TraitType.StunAmpDurationOnThreshold;
@@ -1688,15 +1688,15 @@ public class ItemTrait
                             {
                                 case 0:
                                     traitType = TraitType.IceEarthFrostToEarthBonusDamage;
-                                    traitBonus = 0.02f;
+                                    traitBonus = 0.05f;
                                     break;
                                 case 1:
                                     traitType = TraitType.IceEarthSunderAmpsIceDamage;
-                                    traitBonus = 0.04f;
+                                    traitBonus = 0.1f;
                                     break;
                                 case 2:
                                     traitType = TraitType.IceEarthIceDOTAtThreshold;
-                                    traitBonus = 0.25f;
+                                    traitBonus = 0.8f;
                                     break;
                                 case 3:
                                     traitType = TraitType.IceEarthEarthSpellBonusCritDamage;
@@ -1738,7 +1738,7 @@ public class ItemTrait
                                     break;
                                 case 2:
                                     traitType = TraitType.IcePhysicalBladeVortexOnHit;
-                                    traitBonus = 0.33f;
+                                    traitBonus = 1.2f;
                                     break;
                             }
                             break;
@@ -1831,15 +1831,15 @@ public class ItemTrait
                             {
                                 case 0:
                                     traitType = TraitType.IceEarthFrostToEarthBonusDamage;
-                                    traitBonus = 0.02f;
+                                    traitBonus = 0.05f;
                                     break;
                                 case 1:
                                     traitType = TraitType.IceEarthSunderAmpsIceDamage;
-                                    traitBonus = 0.04f;
+                                    traitBonus = 0.1f;
                                     break;
                                 case 2:
                                     traitType = TraitType.IceEarthIceDOTAtThreshold;
-                                    traitBonus = 0.25f;
+                                    traitBonus = 0.8f;
                                     break;
                                 case 3:
                                     traitType = TraitType.IceEarthEarthSpellBonusCritDamage;
@@ -2123,7 +2123,7 @@ public class ItemTrait
                                     break;
                                 case 2:
                                     traitType = TraitType.IcePhysicalBladeVortexOnHit;
-                                    traitBonus = 0.33f;
+                                    traitBonus = 1.2f;
                                     break;
                             }
                             break;
