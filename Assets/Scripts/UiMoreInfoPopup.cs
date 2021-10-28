@@ -1219,7 +1219,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Flames of <color=#AB181D>Hemorrhage" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FF932E>Aflame stacks</color> remove <color=#AB181D>1% of the targets Bleed resist</color> per stack.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FF932E>Aflame stacks</color> remove <color=#AB181D>1% of the targets Bleed resistance</color> per stack.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
@@ -1239,7 +1239,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Fiery <color=#93D916>Contagion" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a target with 20+ aflame stacks summons a poison pulse, spreading 50% of their current poison stacks to nearby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a target with <color=#FF932E>20+ Aflame stacks</color> summons a poison pulse, spreading <color=#93D916>50% of their current Poison stacks</color> to nearby enemies.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
@@ -1249,7 +1249,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Virulent <color=#93D916>Toxins" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with 40+ combined aflame and poisoned stacks are greviously wounded, reducing healing by 75% for 10 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with <color=#FF932E>40+ combined Aflame</color> and <color=#93D916>Poisoned stacks</color> are greviously wounded, <color=#60D46D>reducing healing by 75%</color> for 10 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
@@ -1259,7 +1259,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Incendiary <color=#93D916>Plague" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poison reduces the target's fire resistance by 1% per stack of poison affliction.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#93D916>Poison</color> reduces the target's <color=#FF932E>Aflame resistance by 1%</color> per <color=#93D916>stack of Poison.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
@@ -1269,7 +1269,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Infernal <color=#93D916>Epidemic" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Your first fire attack on a target with 30+ poison stacks summons a poison cloud, adding 5 poison stacks to nearby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Your first <color=#FF932E>fire attack</color> on a target with <color=#93D916>30+ Poison stacks</color> summons a poison cloud, adding <color=#93D916>5 Poison stacks</color> to nearby enemies.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
@@ -1279,7 +1279,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Scalding <color=#93D916>Poison" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Aflame stacks increase the damage of poison by 1% per stack of aflame.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FF932E>Aflame stacks</color> increase the damage of <color=#93D916>Poison by 1%</color> per <color=#FF932E>stack of Aflame.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
@@ -1289,7 +1289,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Toxic <color=#93D916>Smoke" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a poisoned enemy with a fire attack causes a posion cloud to erupt, dealing 10% base damage a second for 10 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing an enemy with <color=#93D916>Poison stacks</color> with a <color=#FF932E>fire attack</color> causes a posion cloud to erupt, dealing <color=#FFFFFF>10% base damage a second</color> for 10 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24f);
 
@@ -1299,7 +1299,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Dazing <color=#FFF04F>Flames" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets that gain Aflame stacks are stunned once every 20 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets that gain <color=#FF932E>Aflame stacks</color> are <color=#FFF04F>Stunned</color> once every 20 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -1309,7 +1309,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Stunning <color=#FFF04F>Inferno" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stun a target that reaches 15 stacks of Aflame.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FFF04F>Stun</color> a target that reaches <color=#FF932E>15+ stacks of Aflame.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -1319,7 +1319,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Confounding <color=#FFF04F>Conflagration" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned enemy has it's fire resistance reduced by 20% for the duration.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A <color=#FFF04F>Stunned</color> enemy has it's <color=#FF932E>Fire resistance reduced by 20%</color> for the duration.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1329,7 +1329,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Dazing Flare <color=#FFF04F>Amplification" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target recieves 200% more damage from the Aflame damage over time.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A <color=#FFF04F>Stunned</color> target recieves <color=#FF932E>200% more damage from the Aflame damage over time.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1339,7 +1339,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Staggering <color=#1F86CA>Flames" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Aflame reduces the target's knockback resistance by 1% per stack of Aflame.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FF932E>Aflame</color> reduces the target's <color=#1F86CA>Knockback resistance by 1%</color> per <color=#FF932E>stack of Aflame.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1349,7 +1349,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Infernal <color=#1F86CA>Waves" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knocking back a target with 20+ aflame stacks causes an explosion, dealing 125% base damage to nearby targets.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#1F86CA>Knocking back</color> a target with <color=#FF932E>20+ Aflame stacks</color> causes an explosion, dealing <color=#FFFFFF>125% base damage</color> to nearby targets.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1359,7 +1359,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Searing <color=#1F86CA>Impulse" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knocking back a target causes them to recieve 25% more damage from the Aflame damage over time for the duration of the knockback.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#1F86CA>Knocking back</color> a target causes them to recieve 25% more damage from the <color=#FF932E>Aflame damage over time</color> for the <color=#1F86CA>duration of the Knockback.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
@@ -1369,7 +1369,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Deep Freeze" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Freeze a target once they reach 20+ Frostbite stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#5AD9F5>Freeze</color> a target once they reach <color=#5AD9F5>20+ Frostbite stacks.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -1379,7 +1379,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Biting Cold" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A target with 40+ frostbite stacks recieves 25% increased damage from all sources.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A target with <color=#5AD9F5>40+ Frostbite stacks</color> recieves 25% increased damage from all sources.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1389,7 +1389,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Shattered Ice" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Basic attacks on a target with 30+ Frostbite stacks consume the stakcs to summon an icicle explosion, dealing 100% base damage, plus an additional 10% base damage per Frostbite stack consumed.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Basic attacks on a target with <color=#5AD9F5>30+ Frostbite stacks</color> consume the stacks to summon an icicle explosion, dealing <color=#FFFFFF>100% base damage</color>, plus an additional <color=#FFFFFF>10% base damage</color> per <color=#5AD9F5>Frostbite stack consumed.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
@@ -1399,7 +1399,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Brittle Steel" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Enemies with 30+ Frostbite stacks deal 50% reduced damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Enemies with <color=#5AD9F5>30+ Frostbite stacks</color> deal 50% reduced damage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -1409,7 +1409,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Frigid Armor" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Enemies that strike you recieve 3 Frostbite stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Enemies that strike you recieve <color=#5AD9F5>3 Frostbite stacks.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -1419,7 +1419,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Arctic Aura" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Add 1 Frostbite stack to nearby enemies every 2 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Add <color=#5AD9F5>1 Frostbite stack</color> to nearby enemies every 2 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -1429,7 +1429,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Bone Chilling Frost" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Increases Frostbite's damage over time by 25%";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Increases <color=#5AD9F5>Frostbite's damage over time</color> by 25%";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -1439,7 +1439,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Frosted <color=#B0946C>Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Earth attacks consume Frostbite on their target, dealing 5% more damage per stack consumed and adding half of the initial Frostbite stacks as Sunder stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#B0946C>Earth attacks</color> consume <color=#5AD9F5>Frostbite on their target</color>, dealing 5% more damage per stack consumed and adding <color=#5AD9F5>half of the initial Frostbite stacks</color> as <color=#B0946C>Sunder stacks.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
@@ -1449,7 +1449,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Brittle <color=#B0946C>Flesh" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Ice attacks consume Sunder stacks on the target, deaing a bonus 10% more damage per stack consumed.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#5AD9F5>Ice attacks</color> <color=#B0946C>consume Sunder stacks</color> on the target, deaing a bonus 10% more damage per stack consumed.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1459,7 +1459,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Icy <color=#B0946C>Reverberations" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Ice attacks deal an additional 80% damage as a damage over time effect over 5 seconds on targets with 50+ Sunder stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#5AD9F5>Ice attacks</color> deal an additional 80% damage as a damage over time effect over 5 seconds on targets with <color=#B0946C>50+ Sunder stacks.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1469,7 +1469,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Devasting <color=#B0946C>Thaw" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Earth attacks gain an additional 2.5% critical strike damage per stack of Frostbite on the target.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#B0946C>Earth attacks</color> <color=#E94453>gain an additional 2.5% critical strike damage</color> per <color=#5AD9F5>stack of Frostbite</color> on the target.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1479,7 +1479,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Biting <color=#ABD1E0>Winds" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Frostbite's damage over time deals an additional 10% bonus damage per stack of Windshear.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#5AD9F5>Frostbite's damage over time</color> deals an additional 10% bonus damage per <color=#ABD1E0>stack of Windshear.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1489,7 +1489,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Howling <color=#ABD1E0>Frostbite" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Wind attacks deal an 3% increased damage per stack of Frostbite.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#ABD1E0>Wind attacks</color> deal an 3% increased damage per <color=#5AD9F5>stack of Frostbite.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1499,7 +1499,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Shreddings Winds <color=#ABD1E0>of Frost" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Windshear shreds an additional 2.5% of the targets armor per stack of Frostbite.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#ABD1E0>Windshear</color> shreds an additional <color=#FAFF00>2.5% of the targets armor</color> per <color=#5AD9F5>stack of Frostbite.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1509,7 +1509,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Polar <color=#ABD1E0>Vortex" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Wind attacks on a target with 25+ Frostbite stacks have a 10% chance to summon a wind tornado, dealing 125% base damage over 2 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#ABD1E0>Wind attacks</color> on a target with <color=#5AD9F5>25+ Frostbite stacks</color> have a 10% chance to summon a wind tornado, dealing <color=#FFFFFF>125% base damage</color> over 2 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
@@ -1519,7 +1519,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Shattering <color=#E94653>Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks deal 2% more critical strike damage per stack of Frostbite.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94653>Physical attacks deal 2% more critical strike damage</color> per <color=#5AD9F5>stack of Frostbite.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1529,7 +1529,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Vamperic <color=#E94653>Frost" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks heal for 1% of their damage dealt if the target is Frostbitten.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94653>Physical attacks</color><color=#60D46D> heal for 1% of their damage dealt</color> if the target is <color=#5AD9F5>Frostbitten.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1539,7 +1539,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Icy <color=#AB181D>Blades" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks on target's with 30+ Frostbite stacks consume the stacks to summon a blade vortex, dealing 120% base damage over 3 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Physical attacks</color> on target's with <color=#5AD9F5>30+ Frostbite stacks</color> consume the stacks to summon a blade vortex, dealing <color=#FFFFFF>120% base damage over 3 seconds.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
@@ -1549,7 +1549,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Frosted <color=#AB181D>Veins" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Windshear shreds an additional 2.5% of the targets armor per stack of Frostbite.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#AB181D>Bleeding</color> <color=#FFF00>shreds an additional 2.5% of the targets armor</color> per <color=#5AD9F5>stack of Frostbite.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1559,7 +1559,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Winter's Bloody<color=#AB181D> Vengeance" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Frosbite stacks increase Bleed's damage over time by 2% per stack of Frostbite.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#5AD9F5>Frosbite stacks</color> increase <color=#AB181D>Bleed's damage over time by 2%</color> <color=#5AD9F5>per stack of Frostbite.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1569,7 +1569,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Icy<color=#93D916> Toxins" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Every Poison damage tick has a 5% chance to add a Frostbite stack.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Every <color=#93D916>Poison damage tick</color> has a <color=#5AD9F5>5% chance to add a Frostbite stack.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -1579,7 +1579,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Toxic <color=#93D916>Frost" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Frostbite resets Poison's duration, and increases the damage it deals by 50% for 5 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#5AD9F5>Frostbite</color> <color=#93D916>resets Poison's duration,</color> and increases the damage it deals by 50% for 5 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1589,7 +1589,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Frozen Relic <color=#93D916>of Plagues" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Klling a target with Poison stacks and 25+ Frostbite stacks summons a txoic pillar, adding 1 Poison and Frostbite to nearby enemies for 13 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Klling a target with <color=#93D916>Poison stacks</color> and <color=#5AD9F5>25+ Frostbite stacks</color> summons a toxic pillar, adding <color=#93D916>1 Poison</color> and <color=#5AD9F5>Frostbite</color> to nearby enemies for 13 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
@@ -1599,7 +1599,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Shattering <color=#FFF04F>Awakening" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Hitting a stunned target with an ice attack adds 2 extra Frostbite stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Hitting a <color=#FFF04F>Stunned target</color> with an <color=#5AD9F5>ice attack adds 2 extra Frostbite stacks.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1609,7 +1609,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Stunning <color=#FFF04F>Cold" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Your first ice attack on a stunned target deals 75% additional damage and resets the stun's duration.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Your first <color=#5AD9F5>ice attack</color> on a <color=#FFF04F>Stunned target</color> deals 75% additional damage and <color=#FFF04F>resets the Stun's duration.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1619,7 +1619,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Aval<color=#1F86CA>anche" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knockback force is increased by 5% per stack of Frostbite.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#1F86CA>Knockback force</color> is increased by <color=#5AD9F5>5% per stack of Frostbite.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -1629,7 +1629,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Staggering <color=#1F86CA>Snow" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knocking back a target with 25+ Frostbite stacks summons a pulse of snow dealing 60% base damage to neearby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#1F86CA>Knocking back</color> a target with <color=#5AD9F5>25+ Frostbite stacks</color> summons a pulse of snow dealing <color=#FFFFFF>60% base damage</color> to neearby enemies.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1639,7 +1639,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Shivering <color=#1F86CA>Shock" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Ice Attacks on targets that are knocked back add 3 additional Frostbite stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#5AD9F5>Ice Attacks</color> on targets that are <color=#1F86CA>Knocked back</color> add <color=#5AD9F5>3 additional Frostbite stacks.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1649,7 +1649,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Sundering Blows" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "When a target reaches 25+ Sunder stacks, they take 10% of their maximum health as true damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "When a target reaches <color=#B0946C>25+ Sunder stacks</color>, they take <color=#AD2A2A>10% of their maximum health</color> as <color=#FFFFFF>True damage</color>.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1659,7 +1659,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Exposing Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with 20+ Sunder stacks take 20% more damage from all Afflictions.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with <color=#B0946C>20+ Sunder stacks</color> take 20% more damage from <color=#AD88C5>all Afflictions.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1669,7 +1669,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Earthern Decay" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Sundered Targets deal 10% reduced damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#B0946C>Sundered Targets</color> deal 10% reduced damage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -1679,7 +1679,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Rumbling Rocks" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a Sundered target causes a rock ring explosion, shooting out 8 - 28 rock spears in a circle depending on the target's Sunder stacks. Each spear deals 125% base damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a <color=#B0946C>Sundered target</color> causes a rock ring explosion, shooting out 8 - 28 rock spears in a circle depending on the <color=#B0946C>target's Sunder stacks</color>. Each spear deals <color=#FFFFFF>125% base damage.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
@@ -1689,7 +1689,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Weathering Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with 50+ Sunder stacks convert all damage they take to true damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with <color=#B0946C>50+ Sunder stacks</color> convert all damage they take to <color=#FFFFFF>True damage.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -1699,7 +1699,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Surging Silt" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Sunder reduces the target's Resistances by an additional 15%.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#B0946C>Sunder</color> reduces the <color=#C353AC>target's Resistances by an additional 15%.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -1709,7 +1709,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Splintered Defences" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Earth attacks deal 200% increased damage to targets with less than 35% of your total armor.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#B0946C>Earth attacks</color> deal 200% increased damage to targets with <color=#FAFF00>less than 35% of your total armor.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1719,7 +1719,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Subdueing Sands" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Earth attacks deal 150% increased damage to targets above 90% hp.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#B0946C>Earth attacks</color> deal 150% increased damage to <color=#AD2A2A>targets above 90% hp.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1729,7 +1729,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Renewing Earths" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Critting a target with 25+ Sunder stacks heals you for 25% of the damage dealt.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94653>Critting</color> a target with <color=#B0946C>25+ Sunder stacks</color> <color=#60D46D>heals you for 25% of the damage dealt.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1739,7 +1739,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Sundering <color=#E94653>Steel" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks on targets with 20+ Sunder stacks adds an additional 3 Sunder stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94653>Physical attacks</color> on targets with <color=#B0946C>20+ Sunder stacks</color> adds an <color=#B0946C>additional 3 Sunder stacks.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1749,7 +1749,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Devasting Dance <color=#E94653>of Stone" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks that critically strike deal an additional 2% increased critical damage per stack of Sunder.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94653>Physical attacks that critically strike</color> deal an additional <color=#E94653>2% increased critical damage</color> per <color=#B0946C>stack of Sunder.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1759,7 +1759,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Brutal Ballad <color=#E94653>of Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks deal 1% increased damage per stack of Sunder.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94653>Physical attacks deal 1% increased damage</color> per <color=#B0946C>stack of Sunder.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1769,7 +1769,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Exposing <color=#AB181D>Stones" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Earth attacks on a target with both Bleeding and Sunder gains 1% critical strike chance per stack of Sunder.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#B0946C>Earth attacks</color> on a target with both <color=#AB181D>Bleeding</color> and <color=#B0946C>Sunder</color> gains <color=#E94653>1% critical strike chance</color> <color=#B0946C>per stack of Sunder.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1779,7 +1779,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Shards of <color=#AB181D>Shredding Stone" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Earth attacks add 5% of the current Bleeding stacks as new Bleeding stacks, rounded down.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#B0946C>Earth attacks</color> add <color=#AB181D>5% of the current Bleeding stacks as new Bleeding stacks</color>, rounded down.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1789,7 +1789,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Muddled <color=#AB181D>Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Earth attacks on a target with Bleeding deals 3% more damage per stack of Bleeding.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#B0946C>Earth attacks</color> on a <color=#AB181D>target with Bleeding deals 3% more damage per stack of Bleeding.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1799,7 +1799,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Well of <color=#AB181D>Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Bleed atatcks on a target with 20+ Sunder stacks summons a blood explosion, dealing 125% base damage to nearby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#AB181D>Bleed attacks</color> on a target with <color=#B0946C>20+ Sunder stacks</color> summons a blood explosion, dealing <color=#FFFFFF>125% base damage</color> to nearby enemies.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1809,7 +1809,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Sundering <color=#93D916>Venom" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poison damage over time has a 5% chance to add a Sunder stack every tick.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#93D916>Poison damage</color> over time has a 5% chance to add a <color=#B0946C>Sunder stack</color> every tick.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1819,7 +1819,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Pillar of <color=#93D916>Plagues" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "The first earth attack that hits a target with 20+ Poison stacks summons a poison pillar, adding 1 Sunder and Poison stacks to nearby enemies every second for 13 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "The first <color=#B0946C>Earth attack</color> that hits a target with <color=#93D916>20+ Poison stacks</color> summons a poison pillar, adding <color=#B0946C>1 Sunder</color> and <color=#93D916>Poison stacks</color> to nearby enemies every second for 13 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
@@ -1829,7 +1829,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Plagued <color=#93D916>Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poison attacks on a target with 20+ Sunder stacks convert all sunder stacks into Poison stacks, plus 1 additional Poison stack.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#93D916>Poison attacks</color> on a target with <color=#B0946C>20+ Sunder stacks</color> convert all <color=#B0946C>Sunder stacks</color> into <color=#93D916>Poison stacks, plus 1 additional Poison stack.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1839,7 +1839,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Toxic Mud <color=#93D916>of Devastation" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poison attacks that critically strike a target with Sunder stacks add bonus Poison stacks equal to the Sunder stacks + 1.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#93D916>Poison attacks</color> that <color=#E94453>critically strike</color> a target with <color=#B0946C>Sunder stacks</color> add <color=#93D916>bonus Poison stacks</color> equal to the <color=#B0946C>Sunder stacks + 1.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
@@ -1849,7 +1849,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Stunning <color=#FFF04F>Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stun a target that reaches 10+ Sunder stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FFF04F>Stun a target</color> that reaches <color=#B0946C>10+ Sunder stacks.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -1859,7 +1859,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Dazing <color=#FFF04F>Dirt" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Attacks on a Sundered target that is also stunned deal a bonus 75% base damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Attacks on a <color=#B0946C>Sundered target</color> that is also <color=#FFF04F>Stunned</color> deal a bonus 75% base damage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1869,7 +1869,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Barraging <color=#FFF04F>Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a Stunned target with an earth attack refunds 25% of your ability cooldowns.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a <color=#FFF04F>Stunned target</color> with an <color=#B0946C>Earth attack</color> refunds <color=#5DB1E5>25% of your ability cooldowns.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1879,7 +1879,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Stone Strikes <color=#FFF04F>of Confoundment" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning a target adds 1 Sunder stack.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FFF04F>Stunning</color> a target adds <color=#B0946C>1 Sunder stack.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -1889,7 +1889,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Earth <color=#FFF04F>Amplification" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Increase duration of Stuns by 1% for every Sunder stack.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Increase duration of <color=#FFF04F>Stuns by 1%</color> for every <color=#B0946C>Sunder stack.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -1899,7 +1899,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Revirbe<color=#1F86CA>rations" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knocking back a target with 10+ Sunder stacks creates revirberations on the target, dealing 60% base damage every second for 4 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#1F86CA>Knocking back</color> a target with <color=#B0946C>10+ Sunder stacks</color> creates revirberations on the target, dealing <color=#FFFFFF>60% base damage</color> every second for 4 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
@@ -1909,7 +1909,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Unstable <color=#1F86CA>Earth" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Sundering a target shreds an additional 5% Knockback Resistance, stacking up to 2 times.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#B0946C>Sundering</color> a target shreds an additional <color=#1F86CA>5% Knockback Resistance</color>, stacking up to 2 times.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1919,7 +1919,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Stone <color=#1F86CA>Reverberation" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Your first earth attack on a Knocked back target summons an rock pulse, dealing 300% base damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Your first <color=#B0946C>earth attack</color> on a <color=#1F86CA>Knocked back</color> target summons an rock pulse, dealing <color=#FFFFFF>300% base damage.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1929,7 +1929,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Cutting Winds" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Windshear increases all damage taken by 0.5% per stack of windshear.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#ABD1E0>Windshear</color> increases all damage taken by 0.5% per stack of windshear.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1939,7 +1939,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Raging Gusts" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Combos ignore 20% more armor for targets with 20+ Windshear stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Combos ignore <color=#FAFF00>20% more armor</color> for targets with <color=#ABD1E0>20+ Windshear stacks.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1949,7 +1949,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Singing Slices" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets that attack with 20+ Windshear stacks gain 1 Bleeding stack.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets that attack with <color=#ABD1E0>20+ Windshear stacks</color> gain <color=#AB181D>1 Bleeding stack.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -1959,7 +1959,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Song of Dancing Blades" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Wind spells on targets with 20+ Windshear stacks summon 3 airblades that deal 35% base damage to targets";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#ABD1E0>Wind spells</color> on targets with <color=#ABD1E0>20+ Windshear stacks</color> summon 3 airblades that deal <color=#FFFFFF>35% base damage</color> to targets";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1969,7 +1969,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Rending Galestorm" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets take 1% more true damage from all sources per stack of Windshear.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets take <color=#FFFFFF>1% more True damage</color> from all sources per <color=#ABD1E0>stack of Windshear.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1979,7 +1979,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Sudden Gails" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Your first application of Windshear on a target applies an extra 3 Windshear stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Your first application of <color=#ABD1E0>Windshear</color> on a target applies an <color=#ABD1E0>extra 3 Windshear stacks.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1989,7 +1989,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Exposing Zephyr" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with maximum Windshear stacks recieve 200% more damage from all sources.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with <color=#ABD1E0>maximum Windshear stacks</color> recieve 200% more damage from all sources.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -1999,7 +1999,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Steel <color=#E94653>Whirlwind" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical skills that strike a target with Windshear stacks summons a whirlwind, dealing 80% base damage a second for 4 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94653>Physical skills</color> that strike a target with <color=#ABD1E0>Windshear stacks</color> summons a whirlwind, dealing <color=#FFFFFF>80% base damage</color> a second for 4 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2009,7 +2009,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Wrath of the <color=#E94653>Biting Wind" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Basic attacks deal 3% more damage per stack of Windshear.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Basic attacks deal 3% more damage per <color=#ABD1E0>stack of Windshear.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2019,7 +2019,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Devasting <color=#E94653>Rend" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical Critical strikes deal 5% of the target's armor as bonus damage per stack of Windshear.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94653>Physical Critical strikes</color> deal <color=#FAFF00>5% of the target's armor</color> as bonus damage per <color=#ABD1E0>stack of Windshear.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2029,7 +2029,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Maiming <color=#AB181D>Gusts" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with 25+ Windshear stacks recieve 35% more damage from Bleeding.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with <color=#ABD1E0>25+ Windshear stacks</color> recieve <color=#AB181D>35% more damage from Bleeding.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2039,7 +2039,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Rending <color=#AB181D>Currents" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Bleeding a target with 50+ Windshear stacks adds 50% of the current Bleeding stacks as bonus Bleeding stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#AB181D>Bleeding a target</color> with <color=#ABD1E0>50+ Windshear stacks</color> adds <color=#AB181D>50% of the current Bleeding stacks as bonus Bleeding stacks.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2049,7 +2049,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Gouging <color=#AB181D>Gale" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Wind attacks gain 1% increased critical strike chance per stack of Bleeding on the target.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#ABD1E0>Wind attacks</color> gain <color=#E94453>1% increased critical strike chance</color> per <color=#AB181D>stack of Bleeding on the target.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2059,7 +2059,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Razer <color=#AB181D>Zephyr" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Wind Critical Strikes add 2 bonus Bleeding stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#ABD1E0>Wind Critical Strikes</color> add <color=#AB181D>2 bonus Bleeding stacks.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -2069,7 +2069,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Toxic <color=#93D916>Front" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a target with 10+ stacks of Poison causes your next attack to add bonus Poison stacks equal to the number of Poison stacks the target had when they died.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a target with <color=#ABD1E0>10+ stacks of Windshear</color> causes your next attack to add <color=#93D916>bonus Poison stacks</color> equal to the number of <color=#93D916>Poison stacks</color> the target had when they died.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
@@ -2079,7 +2079,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Plagued <color=#93D916>Winds" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Wind attacks on a target add 20% o the target's current Poison stacks as bonus Poison stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#ABD1E0>Wind attacks</color> on a target add <color=#93D916>20% of the target's current Poison stacks as bonus Poison stacks.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2089,7 +2089,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Venomous <color=#93D916>Pulse" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poison attacks on a target with 15+ Windshear stacks summons a poison burst, adding 1 poison stack to nearby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#93D916>Poison attacks</color> on a target with <color=#ABD1E0>15+ Windshear stacks</color> summons a poison burst, adding <color=#93D916>1 poison stack</color> to nearby enemies.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2099,7 +2099,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Stunning <color=#FFF04F>Gale" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning attacks deal 300% more damage on a traget with 50+ Windshear stacks and consumes the stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FFF04F>Stunning attacks</color> deal 300% more damage on a traget with <color=#ABD1E0>50+ Windshear stacks</color> and consumes the stacks.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2109,7 +2109,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Dazing <color=#FFF04F>Blast" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning attacks ona  target with 30+ windshear stacks summons a wind burst, dealing 100% base damage to nearby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FFF04F>Stunning attacks</color> on a target with <color=#ABD1E0>30+ Windshear stacks</color> summons a wind burst, dealing <color=#FFFFFF>100% base damage</color> to nearby enemies.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2119,7 +2119,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Exposing <color=#FFF04F>Stuns" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunned targets recieve 100% more stacks of Windshear.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FFF04F>Stunned targets</color> recieve <color=#ABD1E0>100% more stacks of Windshear.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -2129,7 +2129,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Howling <color=#1F86CA>Gales" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knocking back a target with 15+ Windshear stacks summons a whirlwind dealing 66% base damage a second for 4 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#1F86CA>Knocking back</color> a target with <color=#ABD1E0>15+ Windshear stacks</color> summons a whirlwind dealing <color=#FFFFFF>66% base damage</color> a second for 4 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2139,7 +2139,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Unstable <color=#1F86CA>Footing" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with 10+ Windshear stacks have their Knockback Resistance reduced by 25%";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with <color=#ABD1E0>10+ Windshear stacks</color> have their <color=#1F86CA>Knockback Resistance reduced by 25%</color>.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2149,7 +2149,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Unending <color=#1F86CA>Gusts" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Adding Windshear to a knocked back target deals a bonus 20% base damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Adding <color=#ABD1E0>Windshear</color> to a <color=#1F86CA>Knocked back target</color> deals a bonus <color=#FFFFFF>20% base damage.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2159,7 +2159,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Calculated Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks grant you 2% Critical Strike chance for 10 seconds, stacking up to 10 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Physical attacks</color> grant you <color=#E94453>2% Critical Strike chance</color> for 10 seconds, stacking up to 10 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2169,7 +2169,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Press the Advantage" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical skills ignore 35% more armor from combos.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Physical skills</color> ignore <color=#FAFF00>35% more armor</color> from combos.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -2179,7 +2179,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Hungering Steel" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Lifesteal on a physical attack is increased by 35%.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#60D46D>Lifesteal</color> on a <color=#E94453>Physical attack</color> is increased by 35%.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -2189,7 +2189,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Bolstering Blades" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing an enemy with a Physical attack increases your Armor by 5% for 5 seconds, stacking up to 3 times.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing an enemy with a <color=#E94453>Physical attack</color> increases your <color=#FAFF00>Armor by 5%</color> for 5 seconds, stacking up to 3 times.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2199,7 +2199,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Beserker Rage" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks deal 50% increased damage if you are below 50% your maximum health total.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Physical attacks</color> deal 50% increased damage if you are below <color=#AD2A2A>50% your maximum health</color> total.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2209,7 +2209,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Wounding <color=#AB181D>Cuts" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical damage deals 1% more damage per stack of Bleeding on the target.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Physical damage deals 1% more damage</color> per <color=#AB181D>stack of Bleeding</color> on the target.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2219,7 +2219,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Evice<color=#AB181D>rate" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical skills add 1 Bleeding stack to targets on hit.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Physical skills</color> add <color=#AB181D>1 Bleeding stack</color> to targets on hit.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -2229,7 +2229,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Rending <color=#AB181D>Assault" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical skills on a target with 50+ Bleeding stacks deal true damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Physical skills</color> on a target with <color=#AB181D>50+ Bleeding stacks</color> deal <color=#FFFFFF>True damage.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2239,7 +2239,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Poison Coa<color=#93D916>ted Steel" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks amp poison damage by 10% for 5 seconds, stacking up to 5 times.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Physical attacks</color> amp <color=#93D916>Poison damage</color> by 10% for 5 seconds, stacking up to 5 times.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2249,7 +2249,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Virulent <color=#93D916>Toxins" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks to targets with 25+ Poison stacks deal 5% of the target's maximum health as bonus damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Physical attacks</color> to targets with <color=#93D916>25+ Poison stacks</color> deal <color=#AD2A2A>5% of the target's maximum health</color> as bonus damage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2259,7 +2259,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Weakening <color=#93D916>Venom" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poison damage amplifies Physical damage by 10% for 5 seconds, stacking up to 5 times.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#93D916>Poison damage</color> amplifies <color=#E94453>Physical damage</color> by 10% for 5 seconds, stacking up to 5 times.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2269,7 +2269,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Oppurtune <color=#FFF04F>Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks on a stunned target deal 200% increased damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Physical attacks</color> on a <color=#FFF04F>Stunned</color> target deal 200% increased damage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2279,7 +2279,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Whirling <color=#FFF04F>Blades" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning a target summons a blade rift, dealing 100% base damage a second for 5 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Stunning</color> a target summons a blade rift, dealing <color=#FFFFFF>100% base damage</color> a second for 5 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2289,7 +2289,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Rising <color=#1F86CA>Force" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a Knocked back target with a Physical damage attack causes your next Physical attack within 10 seconds to deal 400% increased damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a <color=#1F86CA>Knocked back</color> target with a <color=#E94453>Physical damage</color> attack causes your next <color=#E94453>Physical attack</color> within 10 seconds to deal 400% increased damage.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
@@ -2299,7 +2299,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Crushing <color=#1F86CA>Blows" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Physical attacks have a 10% chance to Knockback their targets.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Physical attacks</color> have a 10% chance to <color=#1F86CA>Knockback</color> their targets.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -2309,7 +2309,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Dancing <color=#1F86CA>Blades" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knocking back a target summons 3 tracking knives that deal 50% base damage each.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Knocking back</color> a target summons 3 tracking knives that deal <color=#FFFFFF>50% base damage</color> each.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2319,7 +2319,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Vulnerable Cuts" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Bleeding stacks now reduce the target's Resistances by 0.2% a stack.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#AB181D>Bleed stacks</color> now reduce the target's <color=#C353AC>Resistances by 0.2%</color> a stack.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2329,7 +2329,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Rushing Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Critical strikes deal 2.5% increased damage per stack of Bleeding, and summon a blood explosion adding bleed to neaarby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Critical strikes</color> deal 2.5% increased damage per <color=#AB181D>stack of Bleed,</color> and summon a blood explosion adding <color=#AB181D>Bleed</color> to neaarby enemies.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2339,7 +2339,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Crippling Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Bleeding stacks slow the target by 2% per stack of Bleeding.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#AB181D>Bleed stacks</color> <color=#5DB1E5>slow the target</color> by 2% per stack of <color=#AB181D>Bleed.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -2349,7 +2349,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Deep Wounds" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets that attack while Bleeding take 50% more damage from the Bleeding affliction.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets that attack with <color=#AB181D>stacks of Bleed</color> take 50% more damage from the <color=#AB181D>Bleed affliction.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2359,7 +2359,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Sanguine Pact" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a target heals you for 1hp per stack of Bleeding on the target.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a target <color=#60D46D>heals you for 1hp</color> per <color=#AB181D>stack of Bleed</color> on the target.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -2369,7 +2369,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Expunging Strike" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Critical strikes consume bleeding stacks to increase crit damage by 10% per stack of bleeding.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Critical strikes</color> consume <color=#AB181D>Bleed stacks</color> to increase <color=#E94453>Crit damage by 10%</color> per <color=#AB181D>stack of Bleed.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2379,7 +2379,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Flowing Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with 10+ stacks of bleeding take 25% increased damage from all sources.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets with <color=#AB181D>10+ stacks of Bleed</color> take 25% increased damage from all sources.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -2389,7 +2389,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Tides Of Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Striking a target with 20+ bleeding stacks summons a bloodwell, dealing 100% base damage a second for 7 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Striking a target with <color=#AB181D>20+ Bleed stacks</color> summons a bloodwell, dealing <color=#FFFFFF>100% base damage</color> a second for 7 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2399,7 +2399,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Torrential Blood Letting" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets that reach 100+ stacks of bleeding will expunge the bleed, removing the affliction and dealing it's damage over time instantly.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Targets that reach <color=#AB181D>100+ stacks of Bleed</color> will expunge the bleed, removing the affliction and dealing it's damage over time instantly.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
@@ -2409,7 +2409,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Immunocompro<color=#93D916>misation" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poison reduce bleed resistance by 1% per stack of Poison. Bleeding reduces Poison resistance by 1% per stack of Bleeding.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#93D916>Poison</color> reduces <color=#AB181D>Bleed resistance</color> by 1% per <color=#93D916>stack of Poison.</color> <color=#AB181D>Bleeding</color> reduces <color=#93D916>Poison resistance</color> by 1% per <color=#AB181D>stack of Bleeding.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
@@ -2419,7 +2419,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Vaporizing <color=#93D916>Toxins" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Striking  a target with 10+ Poison stacks and 10+ Bleeding stacks has a 20% chance to summon a poison cloud adding 2 poison to nearby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Striking a target with <color=#93D916>10+ Poison stacks</color> and <color=#AB181D>10+ Bleeding stacks</color> has a 20% chance to summon a poison cloud adding <color=#93D916>2 Poison stacks<color> to nearby enemies.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
@@ -2429,7 +2429,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Exposing <color=#FFF04F>Wounds" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target has is bleeding resistance reduced by 20% for the stun's duration.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A <color=#FFF04F>Stunned</color> target has is <color=#AB181D>Bleed resistance</color> reduced by 20% for the <color=#FFF04F>stun's duration.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2439,7 +2439,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Dazing <color=#FFF04F>Cuts" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Adding bleeding to a target with 10+ bleeding stacks below 50% max health stuns the target.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Adding <color=#AB181D>Bleed</color> to a target with <color=#AB181D>10+ Bleed stacks</color> <color=#AD2A2A>below 50% max health</color> <color=#FFF04F>Stuns the target.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2449,7 +2449,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Egregious <color=#FFF04F>Stun" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning a target adds 3 Bleeding stacks over 3 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FFF04F>Stunning</color> a target adds <color=#AB181D>3 Bleed stacks</color> over 3 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -2459,7 +2459,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Lacerating <color=#1F86CA>Knockbacks" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Bleed attacks on a knocked back target adds 1 bonus Bleeding stack.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#AB181D>Bleed attacks</color> on a <color=#1F86CA>Knocked back</color> target adds <color=#AB181D>1 bonus Bleed stack.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2469,7 +2469,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Pulse of <color=#1F86CA>Blood" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knocking back a target with 15+ Bleeding stacks causes a blood explosion, dealing 150% base damage and adding 3 Bleeding stacks to enemies hit.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#1F86CA>Knocking back</color> a target with <color=#AB181D>15+ Bleed stacks</color> causes a blood explosion, dealing <color=#FFFFFF>150% base damage</color> and adding <color=#AB181D>3 Bleed stacks</color> to enemies hit.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
@@ -2479,7 +2479,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Sanguine <color=#1F86CA>Force" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knocking back a target with 10+ Bleeding stacks causes the target to recieve 25% more damage from all sources for 10 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#1F86CA>Knocking back</color> a target with <color=#AB181D>10+ Bleed stacks</color> causes the target to recieve 25% more damage from all sources for 10 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2489,7 +2489,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Decaying Flesh" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a target summons a poison pulse, transferring 10% of the target's Poisoned stacks to nearby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a target summons a poison pulse, transferring <color=#93D916>10% of the target's Poison stacks</color> to nearby enemies.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2499,7 +2499,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Rejuvinating Venom" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Lifesteal is 25% more effective on targets with 10+ Poisoned stacks.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#60D46D>Lifesteal is 25% more effective</color> on targets with <color=#93D916>10+ Poison stacks.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2509,7 +2509,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Contagion" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a target with poison damage causes your next poison attack within 15 seconds to instantly criticaly strike and has it's critical strike damage increased by 100%.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing a target with <color=#93D916>Poison damage</color> causes your next <color=#93D916>Poison attack</color> within 15 seconds to <color=#E94453>instantly criticaly strike and have it's critical strike damage increased by 100%.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
@@ -2519,7 +2519,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Patient Zero" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poisoning a target with no previous Poisoned stakcs causes the target to take 50% increased damage from Poison's damage over time for 10 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#93D916>Poisoning</color> a target with no previous <color=#93D916>Poisoned stacks</color> causes the target to take 50% increased damage from <color=#93D916>Poison's damage over time</color> for 10 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 
@@ -2529,7 +2529,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Multi-front Contagion" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poisoned deals 50% more damage over time for every other primary trait the target is afflicted with.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#93D916>Poison deals 50% more damage over time</color> for every other <color=#AD88C5>primary trait the target is afflicted with.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2539,7 +2539,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Corrosive Toxins" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poisoning a target with 30+ Poisoned stacks reduces their armor by 40% for 10 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#93D916>Poisoning a target with 30+ Poison stacks</color> <color=#FAFF00>reduces their armor by 40%</color> for 10 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2549,7 +2549,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Plagued Corpses" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing an enemy makes all nearby enemies take 100% increased damage from Poison's damage over time effect for 10 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Killing an enemy makes all nearby enemies take <color=#93D916>100% increased damage from Poison's damage over time</color> effect for 10 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2559,7 +2559,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Lethal Venom" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Target's below 25% maximum health take true damage from Poison's damage over time effect.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Target's below <color=#AD2A2A>25% maximum health</color> take <color=#FFFFFF>True damage</color> from <color=#93D916>Poison's damage over time</color> effect.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2569,7 +2569,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Toxic Predator" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Heal for 5% of the damage dealt by Poison's damage over time effect.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#60D46D>Heal for 5% of the damage dealt</color> by <color=#93D916>Poison's damage over time effect.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2579,7 +2579,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Dazing <color=#FFF04F>Pestilence" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A Poisoned target's stun resistance is reduced by 2% per stack of poison.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A <color=#93D916>Poisoned</color> target's <color=#FFF04F>Stun resistance</color> is reduced by <color=#93D916>2% per stack of Poison.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2589,7 +2589,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Virulent <color=#FFF04F>Pestilence" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunning attack on a target with 20+ Poisoned stacks consumes the stacks to summon a poison pulse, dealing 245% bas damage and adding half of the consumed stacks to nearby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A <color=#FFF04F>Stunning attack</color> on a target with <color=#93D916>20+ Poison stacks</color> consumes the stacks to summon a poison pulse, dealing <color=#FFFFFF>245% base damage</color> and adding <color=#93D916>half of the consumed stacks to nearby enemies.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 80);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 46);
 
@@ -2599,7 +2599,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Knockback of <color=#1F86CA>Plagues" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Poisoned targets have their knockback Resistance reduced by 2% per stack of Poisoned.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#93D916>Poisoned</color> targets have their <color=#1F86CA>Knockback resistance</color> reduced by 2% per <color=#93D916>stack of Poisoned.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2609,7 +2609,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Venomous <color=#1F86CA>Blow" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Knocking back a poisoned target consumes the poison to deal 50% bse damage per stack of Poisoned as true damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#93D916>Knocking back</color> a <color=#93D916>Poisoned target consumes the poison</color> to deal <color=#FFFFFF>50% base damage</color> <color=#93D916>per stack of Poison</color> as <color=#FFFFFF>True damage.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2619,7 +2619,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Armor Rending Stuns" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning a target reduces their armor by 25% for the stun's duration.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FFF04F>Stunning</color> a target <color=#FAFF00>reduces their armor by 25%</color> for the <color=#FFF04F>Stun's</color> duration.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2629,7 +2629,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Expose Vulnerbilities" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunned targets recieve 10% more damage from all sources.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FFF04F>Stunned targets</color> recieve 10% more damage from all sources.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -2639,7 +2639,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Calamity Rising" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target recieves 25% more stacks of primary Afflictions.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A <color=#FFF04F>Stunned target</color> recieves <color=#AD88C5>25% more stacks of primary Afflictions.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
 
@@ -2649,7 +2649,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Enchanced Stupor" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Increased stun duration by 25%";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Increased <color=#FFF04F>Stun duration by 25%</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 11);
 
@@ -2659,7 +2659,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Dazing Wave" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning a target that is currently stunned summons a shockwave dealing 80% based damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FFF04F>Stunning a target</color> that is currently <color=#FFF04F>Stunned</color> summons a shockwave dealing <color=#FFFFFF>80% base damage.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2669,7 +2669,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Echoeing Trauma" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning a target that is currently stunned causes the target to take 150% base damage.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FFF04F>Stunning a target</color> that is currently <color=#FFF04F>Stunned</color> causes the target to take <color=#FFFFFF>150% base damage.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2679,7 +2679,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Misery's Company" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning a target with 50+ stacks of any primary Affliction increases the stun duration by 66%.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FFF04F>Stunning a target</color> with <color=#AD88C5>50+ stacks of any primary Affliction</color> increases the <color=#FFF04F>Stun duration by 66%.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2689,7 +2689,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Mighty Slashes" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Critical strikes on a stunned target have their critical strike dmage increased by 25%.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#E94453>Critical strikes</color> on a <color=#FFF04F>Stunned target</color> have their <color=#E94453>critical strike damage increased by 25%.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2699,7 +2699,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Tactical Repositioning" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Stunning a target increases your movespeed by 15% for 8 seconds.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#FFF04F>Stunning a target </color><color=#5DB1E5>increases your movespeed by 15%</color> for 8 seconds.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2709,7 +2709,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Unstable <color=#1F86CA>Footing" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target has it's knockback resistance reduced by 50% for the duration of the stun.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A <color=#FFF04F>Stunned target</color> has it's <color=#1F86CA>Knockback resistance reduced by 50%</color> for the duration of the <color=#FFF04F>Stun.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2719,7 +2719,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Press the Assault" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target has it's knockback resistance reduced by 50% for the duration of the stun.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A <color=#FFF04F>Stunned target</color> has it's <color=#1F86CA>Knockback resistance reduced by 50%</color> for the duration of the stun.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2729,7 +2729,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Nimble Duelist" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target has it's knockback resistance reduced by 50% for the duration of the stun.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#1F86CA>Knocking back</color> a target increases basic attack damage by 100% for the next three basic attacks.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2739,9 +2739,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Mountains Strength" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target has it's knockback resistance reduced by 50% for the duration of the stun.";
-                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#1F86CA>Knockback force</color> is increased by 10%.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
                     break;
@@ -2749,9 +2749,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Shredded Armor" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target has it's knockback resistance reduced by 50% for the duration of the stun.";
-                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A <color=#1F86CA>Knocked back targe</color>t takes 25% more damage from all sources.";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
                     break;
@@ -2759,7 +2759,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Barricade" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target has it's knockback resistance reduced by 50% for the duration of the stun.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#1F86CA>Knocking back</color> a target <color=#FAFF00>increases your armor by 5% for 8 seconds</color>, stacks up to 20 times.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2769,7 +2769,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Chained Blows" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target has it's knockback resistance reduced by 50% for the duration of the stun.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#1F86CA>Knocking back</color> a target that is <color=#1F86CA>Knocked back</color> deals an additional <color=#FFFFFF>33% base damage.</color>";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
@@ -2779,9 +2779,9 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Violent Strikes" + GetTraitValueRomanNumeral(item.itemTraits[index]);
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A stunned target has it's knockback resistance reduced by 50% for the duration of the stun.";
-                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "<color=#1F86CA>Knocking back</color> a target also <color=#C353AC>reduces it's resistances by 33%.</color>";
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[14];
                     break;

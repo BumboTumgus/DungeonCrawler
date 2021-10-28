@@ -1872,7 +1872,7 @@ public class BuffsManager : MonoBehaviour
                             GetComponent<SkillsManager>().ReduceSkillCooldowns(0.2f + trait.traitValue, true);
                         break;
                     case ItemTrait.TraitType.WindPoisonTransferPoisonStacksOnKill:
-                        if (target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Poisoned) > 0 && target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Poisoned) >= 10 - trait.traitValue)
+                        if (target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Poisoned) > 0 && target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Windshear) >= 10 - trait.traitValue)
                             CheckResistanceToBuff(BuffType.PoisonAddStacksOnNextAttack, Mathf.RoundToInt(target.GetComponent<BuffsManager>().PollForBuff(BuffType.Poisoned).currentStacks), stats.baseDamage, stats);
                         break;
                     case ItemTrait.TraitType.PhysicalSkillAmpArmorOnKill:

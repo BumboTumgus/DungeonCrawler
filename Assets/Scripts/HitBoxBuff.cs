@@ -187,7 +187,7 @@ public class HitBoxBuff : MonoBehaviour
                 if (buffOrigin.CompareTag("Player") && buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.KnockbackAmpsArmor) > 0)
                     buffOrigin.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.KnockbackAmpsArmor, buffOrigin.baseDamage, buffOrigin);
 
-                if (buffOrigin.CompareTag("Player") && buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.KnockbackDoesBonusDamageOnKnockbacked) > 0)
+                if (buffOrigin.CompareTag("Player") && buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.KnockbackDoesBonusDamageOnKnockbacked) > 0 && other.GetComponent<PlayerStats>().knockedBack)
                     other.GetComponent<PlayerStats>().TakeDamage(buffOrigin.baseDamage * buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.KnockbackDoesBonusDamageOnKnockbacked), false, HitBox.DamageType.Physical, buffOrigin.comboManager.currentcombo, buffOrigin);
 
 
