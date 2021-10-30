@@ -401,7 +401,7 @@ public class Skill : MonoBehaviour
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
 
-        myManager.hitBoxes.hitboxes[4].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 1.4f * myManager.stats.spellDamageMultiplier;
+        myManager.hitBoxes.hitboxes[4].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 1.2f * myManager.stats.spellDamageMultiplier;
 
         //Vector3 directionToMove = transform.forward;
         //float distance = 2;
@@ -655,7 +655,7 @@ public class Skill : MonoBehaviour
         float currentTimer = 0;
         pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
 
-        myManager.hitBoxes.hitboxes[13].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 4f * myManager.stats.spellDamageMultiplier;
+        myManager.hitBoxes.hitboxes[13].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 3f * myManager.stats.spellDamageMultiplier;
 
         //Vector3 directionToMove = transform.forward;
         //float distance = 3;
@@ -734,7 +734,6 @@ public class Skill : MonoBehaviour
             counterDamage = stats.baseDamage;
         else if (counterDamage > stats.baseDamage * 20)
             counterDamage = stats.baseDamage * 20;
-        Debug.Log("the damag absorbed is: " + stats.counterDamage + ". the damage we will deal is: " + counterDamage);
 
         myManager.hitBoxes.hitboxes[14].GetComponent<HitBox>().damage = counterDamage;
 
@@ -868,7 +867,7 @@ public class Skill : MonoBehaviour
         pc.playerState = PlayerMovementController.PlayerState.CastingAerial;
         myManager.audioManager.PlayAudio(41);
 
-        myManager.hitBoxes.hitboxes[18].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 2f * myManager.stats.spellDamageMultiplier;
+        myManager.hitBoxes.hitboxes[18].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 4f * myManager.stats.spellDamageMultiplier;
 
         Vector3 desiredMoveDirection = transform.forward.normalized;
         desiredMoveDirection.y = 0;
@@ -2123,7 +2122,7 @@ public class Skill : MonoBehaviour
         stats.movespeedPercentMultiplier -= 0.5f;
         myManager.stats.channeling = true;
 
-        myManager.hitBoxes.hitboxes[27].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 5f * myManager.stats.spellDamageMultiplier;
+        //myManager.hitBoxes.hitboxes[27].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 5f * myManager.stats.spellDamageMultiplier;
 
         while (currentTimer < targetTimer)
         {
@@ -2236,7 +2235,8 @@ public class Skill : MonoBehaviour
 
         float targetTimer = 2.167f / stats.attackSpeed;
         float currentTimer = 0;
-        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement;
+        pc.playerState = PlayerMovementController.PlayerState.CastingWithMovement; 
+        myManager.hitBoxes.hitboxes[27].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 5f * myManager.stats.spellDamageMultiplier;
 
         while (currentTimer < targetTimer)
         {

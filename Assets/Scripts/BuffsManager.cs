@@ -1077,7 +1077,7 @@ public class BuffsManager : MonoBehaviour
                     giantStrength.playerDamageSource = buffInflictor;
                     giantStrength.ChangeSize(true, 0.5f);
                     giantStrength.ChangeDefensiveStats(true, 0, 0, 0, -0.25f, 0);
-                    giantStrength.ChangeOffensiveStats(true, stats.attackSpeed * -0.4f, stats.movespeedPercentMultiplier * -0.4f, stats.damageIncreaseMultiplier * 0.5f, 0, 0);
+                    giantStrength.ChangeOffensiveStats(true, stats.attackSpeed * -0.4f, stats.movespeedPercentMultiplier * -0.4f, stats.damageIncreaseMultiplier * 1f, 0, 0);
 
                     giantStrength.effectParticleSystem.Add(psSystems[26]);
 
@@ -1140,7 +1140,7 @@ public class BuffsManager : MonoBehaviour
                     wrathOfTheWind.duration = 15f;
                     wrathOfTheWind.connectedPlayer = stats;
                     wrathOfTheWind.playerDamageSource = buffInflictor;
-                    wrathOfTheWind.ChangeOffensiveStats(true, stats.attackSpeed, 0, stats.damageIncreaseMultiplier * -0.5f, 0, 0);
+                    wrathOfTheWind.ChangeOffensiveStats(true, stats.attackSpeed, 0, stats.damageIncreaseMultiplier * -0.33f, 0, 0);
 
                     wrathOfTheWind.effectParticleSystem.Add(weaponEffectsLeft[11]);
                     wrathOfTheWind.effectParticleSystem.Add(weaponEffectsRight[11]);
@@ -1946,7 +1946,7 @@ public class BuffsManager : MonoBehaviour
                 case BuffType.FrostsKiss:
                     GameObject frostsKissProjectile = Instantiate(GetComponent<SkillsManager>().skillProjectiles[18], transform.position + Vector3.up * 2, Quaternion.Euler(Random.Range(-75, -90), Random.Range(0, 360), 0));
                     frostsKissProjectile.GetComponent<HitBox>().myStats = stats;
-                    frostsKissProjectile.GetComponent<HitBox>().damage = stats.baseDamage * 1f * stats.spellDamageMultiplier;
+                    frostsKissProjectile.GetComponent<HitBox>().damage = stats.baseDamage * 0.35f * stats.spellDamageMultiplier;
                     frostsKissProjectile.GetComponent<ProjectileBehaviour>().target = target.transform;
 
                     if (skillManager.spellMirrors.Count > 0)
@@ -1955,7 +1955,7 @@ public class BuffsManager : MonoBehaviour
                         {
                             GameObject frostsKissProjectileMirror = Instantiate(GetComponent<SkillsManager>().skillProjectiles[18], spellMirror.transform.position, spellMirror.transform.rotation);
                             frostsKissProjectileMirror.GetComponent<HitBox>().myStats = stats;
-                            frostsKissProjectileMirror.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f * stats.spellDamageMultiplier;
+                            frostsKissProjectileMirror.GetComponent<HitBox>().damage = stats.baseDamage * 0.175f * stats.spellDamageMultiplier;
                             frostsKissProjectileMirror.GetComponent<ProjectileBehaviour>().target = target.transform;
                         }
                     }

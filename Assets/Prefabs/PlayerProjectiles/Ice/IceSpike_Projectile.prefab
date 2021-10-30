@@ -14515,8 +14515,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageType: 2
   damage: 5
-  stacksToAdd: 1
+  stacksToAdd: 2
   crit: 0
+  canCrit: 1
+  critRolled: 0
   procsOnHits: 1
   hitEnemies: 1
   hitPlayers: 0
@@ -14525,7 +14527,8 @@ MonoBehaviour:
   projectile: 1
   projectileAOE: 0
   disjointedHitbox: 0
-  bypassCrit: 0
+  trap: 0
+  screenShakeAmount: 0
 --- !u!114 &8887749238332611871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14539,11 +14542,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileSpeed: 10
+  projectileSpeedDecay: 0
   projectileLifetime: 20
-  piercing: 0
+  piercesTargets: 0
+  piercesWalls: 0
   hitAOE: 0
   trackTarget: 0
   YSpin: 0
+  gravModifier: 0
   trackingStrength: 0
   target: {fileID: 0}
   particleTrails: []

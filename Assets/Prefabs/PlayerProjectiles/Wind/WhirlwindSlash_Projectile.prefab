@@ -24146,6 +24146,7 @@ MonoBehaviour:
   hitAOE: 1
   trackTarget: 0
   YSpin: 0
+  gravModifier: 0
   trackingStrength: 0
   target: {fileID: 0}
   particleTrails: []
@@ -24168,6 +24169,8 @@ MonoBehaviour:
   damage: 0
   stacksToAdd: 0
   crit: 0
+  canCrit: 1
+  critRolled: 0
   procsOnHits: 0
   hitEnemies: 1
   hitPlayers: 0
@@ -24176,7 +24179,8 @@ MonoBehaviour:
   projectile: 1
   projectileAOE: 0
   disjointedHitbox: 0
-  bypassCrit: 0
+  trap: 0
+  screenShakeAmount: 0
 --- !u!54 &7736682680712091141
 Rigidbody:
   m_ObjectHideFlags: 0

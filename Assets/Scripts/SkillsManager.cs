@@ -364,7 +364,7 @@ public class SkillsManager : MonoBehaviour
                     float scaleModifier = Random.Range(0.5f, 1f);
                     firepillar.transform.localScale = new Vector3(scaleModifier, scaleModifier, scaleModifier);
 
-                    firepillar.GetComponent<HitBox>().damage = stats.baseDamage * 0.5f * scaleModifier * stats.spellDamageMultiplier;
+                    firepillar.GetComponent<HitBox>().damage = stats.baseDamage * 1f * scaleModifier * stats.spellDamageMultiplier;
                     firepillar.GetComponent<HitBox>().myStats = stats;
                 }
                 break;
@@ -431,7 +431,7 @@ public class SkillsManager : MonoBehaviour
 
             case SkillNames.Airgust:
                 GameObject airgust = Instantiate(skillProjectiles[37], transform.position + transform.forward + Vector3.up, transform.rotation);
-                airgust.GetComponent<HitBox>().damage = stats.baseDamage * 1f * stats.spellDamageMultiplier;
+                airgust.GetComponent<HitBox>().damage = stats.baseDamage * 1.5f * stats.spellDamageMultiplier;
                 airgust.GetComponent<HitBox>().myStats = stats;
                 airgust.GetComponent<HitBoxBuff>().knockbackDirection = transform.forward + (Vector3.up * 0.25f);
                 airgust.GetComponent<HitBoxBuff>().buffOrigin = stats;
@@ -587,7 +587,7 @@ public class SkillsManager : MonoBehaviour
 
                     case SkillNames.UnstableEarth:
                         GameObject unstableEarth = Instantiate(skillProjectiles[32], downwardsTargetPosition, Quaternion.identity);
-                        unstableEarth.GetComponent<HitBox>().damage = stats.baseDamage * 2.5f * stats.spellDamageMultiplier;
+                        unstableEarth.GetComponent<HitBox>().damage = stats.baseDamage * 4f * stats.spellDamageMultiplier;
                         unstableEarth.GetComponent<HitBox>().myStats = stats;
                         unstableEarth.GetComponent<HitBoxBuff>().buffOrigin = stats;
                         break;
@@ -664,7 +664,7 @@ public class SkillsManager : MonoBehaviour
             case SkillNames.WitchPyre:
                 GameObject witchPyre = Instantiate(skillProjectiles[6], targetPosition, Quaternion.identity);
                 witchPyre.transform.localScale = new Vector3(2, 2, 2);
-                witchPyre.GetComponent<HitBox>().damage = stats.baseDamage * 0.7f * stats.spellDamageMultiplier;
+                witchPyre.GetComponent<HitBox>().damage = stats.baseDamage * 1f * stats.spellDamageMultiplier;
                 witchPyre.GetComponent<HitBox>().myStats = stats;
                 break;
             case SkillNames.Combustion:
@@ -684,7 +684,7 @@ public class SkillsManager : MonoBehaviour
                 rotation.y -= Random.Range(0, 360);
                 harshWinds.transform.rotation = Quaternion.Euler(rotation);
 
-                harshWinds.GetComponent<HitBox>().damage = stats.baseDamage * 1f * stats.spellDamageMultiplier;
+                harshWinds.GetComponent<HitBox>().damage = stats.baseDamage * 0.8f * stats.spellDamageMultiplier;
                 harshWinds.GetComponent<HitBox>().myStats = stats;
                 break;
             case SkillNames.Blizzard:
@@ -713,14 +713,14 @@ public class SkillsManager : MonoBehaviour
             case SkillNames.EarthernUrchin:
                 GameObject earthernUrchin = Instantiate(skillProjectiles[26], targetPosition + Vector3.up, Quaternion.identity);
 
-                earthernUrchin.GetComponent<HitBox>().damage = stats.baseDamage * 3f * stats.spellDamageMultiplier;
+                earthernUrchin.GetComponent<HitBox>().damage = stats.baseDamage * 5f * stats.spellDamageMultiplier;
                 earthernUrchin.GetComponent<HitBox>().myStats = stats;
                 break;
 
             case SkillNames.IdolOfTremors:
                 GameObject idolOfTremors = Instantiate(skillProjectiles[27], targetPosition, Quaternion.identity);
 
-                idolOfTremors.GetComponentInChildren<HitBox>().damage = stats.baseDamage * 1f * stats.spellDamageMultiplier;
+                idolOfTremors.GetComponentInChildren<HitBox>().damage = stats.baseDamage * 1.6f * stats.spellDamageMultiplier;
                 idolOfTremors.GetComponentInChildren<HitBox>().myStats = stats;
                 break;
 
@@ -956,7 +956,7 @@ public class SkillsManager : MonoBehaviour
                 rotation.x -= 3;
                 firebolt.transform.rotation = Quaternion.Euler(rotation);
 
-                firebolt.GetComponent<HitBox>().damage = stats.baseDamage * 0.33f * stats.spellDamageMultiplier;
+                firebolt.GetComponent<HitBox>().damage = stats.baseDamage * 1f * stats.spellDamageMultiplier;
                 firebolt.GetComponent<HitBox>().myStats = stats;
                 break;
 
@@ -993,7 +993,7 @@ public class SkillsManager : MonoBehaviour
                 fireballRotation.x -= 3;
                 fireball.transform.rotation = Quaternion.Euler(fireballRotation);
 
-                fireball.GetComponent<HitBox>().damage = stats.baseDamage * 8f * stats.spellDamageMultiplier;
+                fireball.GetComponent<HitBox>().damage = stats.baseDamage * 10f * stats.spellDamageMultiplier;
                 fireball.GetComponent<HitBox>().myStats = stats;
                 break;
 
@@ -1010,7 +1010,7 @@ public class SkillsManager : MonoBehaviour
                     iceSpikeRotation.x -= 3;
                     iceSpike.transform.rotation = Quaternion.Euler(iceSpikeRotation);
 
-                    iceSpike.GetComponent<HitBox>().damage = stats.baseDamage * 1f * stats.spellDamageMultiplier;
+                    iceSpike.GetComponent<HitBox>().damage = stats.baseDamage * 1.8f * stats.spellDamageMultiplier;
                     iceSpike.GetComponent<HitBox>().myStats = stats;
                 }
                 break;
@@ -1057,7 +1057,7 @@ public class SkillsManager : MonoBehaviour
                 spearRotation.x -= 3;
                 earthernSpear.transform.rotation = Quaternion.Euler(spearRotation);
 
-                earthernSpear.GetComponent<HitBox>().damage = stats.baseDamage * 1f * stats.spellDamageMultiplier;
+                earthernSpear.GetComponent<HitBox>().damage = stats.baseDamage * 1.5f * stats.spellDamageMultiplier;
                 earthernSpear.GetComponent<HitBox>().myStats = stats;
                 break;
 
@@ -1085,7 +1085,7 @@ public class SkillsManager : MonoBehaviour
                 airbladeRotation.x -= 3;
                 airblade.transform.rotation = Quaternion.Euler(airbladeRotation);
 
-                airblade.GetComponent<HitBox>().damage = stats.baseDamage * 4f * stats.spellDamageMultiplier;
+                airblade.GetComponent<HitBox>().damage = stats.baseDamage * 3f * stats.spellDamageMultiplier;
                 airblade.GetComponent<HitBox>().myStats = stats;
                 break;
 

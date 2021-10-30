@@ -291,7 +291,7 @@ public class PlayerStats : MonoBehaviour
                     {
                         if (buff.myType == BuffsManager.BuffType.Aflame)
                         {
-                            hitboxManager.hitboxes[22].GetComponent<HitBox>().damage = ((buff.currentStacks * 0.045f) + 0.5f) * baseDamage;
+                            hitboxManager.hitboxes[22].GetComponent<HitBox>().damage = ((buff.currentStacks * 0.05f) + 0.5f) * baseDamage;
                             break;
                         }
                     }
