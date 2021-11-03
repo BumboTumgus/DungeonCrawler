@@ -2640,8 +2640,8 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
                     traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "A <color=#FFF04F>Stunned target</color> recieves <color=#AD88C5>25% more stacks of primary Afflictions.</color>";
-                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 20);
-                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 13f);
+                    traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 40);
+                    traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 24);
 
                     traitText.GetComponentInChildren<Text>().color = traitTextColors[13];
                     break;

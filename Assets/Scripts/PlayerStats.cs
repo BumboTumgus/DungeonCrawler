@@ -670,7 +670,7 @@ public class PlayerStats : MonoBehaviour
             if (!healthBar)
             {
                 // Spawn one and set its follow target and then grab it's healthbar script for updates.
-                GameObject healthBarParent = Instantiate(enemyHealthBar, new Vector3(1000, 1000, 1000), new Quaternion(0, 0, 0, 0), GameManager.instance.playerUis[0].transform.Find("TemporaryUi"));
+                GameObject healthBarParent = Instantiate(enemyHealthBar, new Vector3(-99999, -99999, -99999), new Quaternion(0, 0, 0, 0), GameManager.instance.playerUis[0].transform.Find("TemporaryUi"));
                 healthBarParent.GetComponent<UiFollowTarget>().target = transform.Find("UiFollowTarget_Name");
                 GetComponent<BuffsManager>().canvasParent = healthBarParent.transform.Find("BuffIconParents");
                 healthBarParent.transform.SetAsFirstSibling();

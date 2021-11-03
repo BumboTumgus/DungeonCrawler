@@ -29,14 +29,17 @@ public class BuffsManager : MonoBehaviour
     private DamageNumberManager uiPopupManager;
     private PlayerTraitManager playerTraitManager;
 
-    private List<ParticleSystem.MinMaxCurve> weaponEffectRateOverTime = new List<ParticleSystem.MinMaxCurve>();
+    [SerializeField] private List<ParticleSystem.MinMaxCurve> weaponEffectRateOverTime = new List<ParticleSystem.MinMaxCurve>();
 
 
     // Grabs the players stats for use when calculating buff strength.
-    private void Start()
+    private void Awake()
     {
         foreach (ParticleSystem ps in weaponEffectsRight)
+        {
+            Debug.Log("The rate over time emission we are adding is: " + ps.emission.rateOverTime);
             weaponEffectRateOverTime.Add(ps.emission.rateOverTime);
+        }
 
         stats = GetComponent<PlayerStats>();
         uiPopupManager = GetComponent<DamageNumberManager>();
@@ -894,7 +897,7 @@ public class BuffsManager : MonoBehaviour
                     flameStrike.connectedPlayer = stats;
                     flameStrike.playerDamageSource = buffInflictor;
                     flameStrike.infiniteDuration = false;
-                    flameStrike.duration = 15;
+                    flameStrike.duration = 10;
 
                     flameStrike.effectParticleSystem.Add(weaponEffectsLeft[0]);
                     flameStrike.effectParticleSystem.Add(weaponEffectsRight[0]);

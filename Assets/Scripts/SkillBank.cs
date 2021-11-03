@@ -160,7 +160,7 @@ public class SkillBank : MonoBehaviour
                 skillToSet.skillBackgroundColor = skillBackgroundColors[1];
                 break;
             case SkillsManager.SkillNames.FlameStrike:
-                skillToSet.targetCooldown = 15f;
+                skillToSet.targetCooldown = 25f;
                 skillToSet.skillIcon = skillIcons[20];
                 skillToSet.skillIconColor = skillIconElementColors[1];
                 skillToSet.rarityBorderColor = skillRarityBorderColors[1];
