@@ -37,7 +37,6 @@ public class BuffsManager : MonoBehaviour
     {
         foreach (ParticleSystem ps in weaponEffectsRight)
         {
-            Debug.Log("The rate over time emission we are adding is: " + ps.emission.rateOverTime);
             weaponEffectRateOverTime.Add(ps.emission.rateOverTime);
         }
 
@@ -251,7 +250,7 @@ public class BuffsManager : MonoBehaviour
                     // Check to see if we should do anything on threshold.
                     if (buffInflictor.CompareTag("Player") && buff == BuffType.Bleeding && activeBuff.currentStacks >= 50 && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceBleedBleedDoesDamageInstantlyOnThreshold) > 0 && PollForBuffStacks(BuffType.Frostbite) >= 32 - buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceBleedBleedDoesDamageInstantlyOnThreshold))
                     {
-                        stats.TakeDamage((activeBuff.DPS + activeBuff.bonusDPS) * activeBuff.DPSMultiplier * 5, false, HitBox.DamageType.Bleed, buffInflictor.comboManager.currentcombo, buffInflictor);
+                        stats.TakeDamage((activeBuff.DPS + activeBuff.bonusDPS) * activeBuff.DPSMultiplier * 5, false, HitBox.DamageType.Bleed, buffInflictor.comboManager.currentcombo, buffInflictor, false);
                         activeBuff.currentTimer = 0;
                         break;
                     }
@@ -266,7 +265,7 @@ public class BuffsManager : MonoBehaviour
                         PollForBuff(BuffType.Poisoned).currentTimer = 0;
                     }
                     if (buffInflictor.CompareTag("Player") && buff == BuffType.Windshear && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindKnockbackWindshearDoesDamageIfKnockedBack) > 0 && stats.knockedBack)
-                        stats.TakeDamage(buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindKnockbackWindshearDoesDamageIfKnockedBack) * buffInflictor.baseDamage, false, HitBox.DamageType.Wind, buffInflictor.comboManager.currentcombo, buffInflictor);
+                        stats.TakeDamage(buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindKnockbackWindshearDoesDamageIfKnockedBack) * buffInflictor.baseDamage, false, HitBox.DamageType.Wind, buffInflictor.comboManager.currentcombo, buffInflictor, false);
                     if (buffInflictor.CompareTag("Player") && buff == BuffType.Stunned && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedStunStunReducesBleedResistance) > 0)
                         NewBuff(BuffType.BleedStunReduceBleedResistance, buffInflictor.baseDamage, buffInflictor);
                 }
@@ -280,7 +279,7 @@ public class BuffsManager : MonoBehaviour
                         if (buff == BuffType.Asleep || buff == BuffType.Stunned || buff == BuffType.Frozen)
                             GetComponent<EnemyMovementManager>().StopMovement();
                         if (buff == BuffType.Stunned && buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthStunBonusDamageOnStun) > 0 && PollForBuff(BuffType.Sunder))
-                            stats.TakeDamage(buffInflictor.baseDamage * (0.5f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthStunBonusDamageOnStun)), false, HitBox.DamageType.Earth, buffInflictor.comboManager.currentcombo, buffInflictor);
+                            stats.TakeDamage(buffInflictor.baseDamage * (0.5f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthStunBonusDamageOnStun)), false, HitBox.DamageType.Earth, buffInflictor.comboManager.currentcombo, buffInflictor, false);
                         if (buff == BuffType.Stunned && buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthStunStunningAddsSunder) > 0)
                             CheckResistanceToBuff(BuffType.Sunder, Mathf.RoundToInt(buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthStunStunningAddsSunder)), buffInflictor.baseDamage, buffInflictor);
                     }
@@ -545,7 +544,7 @@ public class BuffsManager : MonoBehaviour
                         windshear.ChangeDefensiveStats(true, 0f, 0f, -0.01f, 0f, 0f);
 
                     if (buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindKnockbackWindshearDoesDamageIfKnockedBack) > 0 && stats.knockedBack)
-                        stats.TakeDamage(buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindKnockbackWindshearDoesDamageIfKnockedBack) * buffInflictor.baseDamage, false, HitBox.DamageType.Wind, buffInflictor.comboManager.currentcombo, buffInflictor);
+                        stats.TakeDamage(buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindKnockbackWindshearDoesDamageIfKnockedBack) * buffInflictor.baseDamage, false, HitBox.DamageType.Wind, buffInflictor.comboManager.currentcombo, buffInflictor, false);
 
                     if (PollForBuffStacks(BuffType.Poisoned) > 0 && buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison) > 0)
                         PollForBuff(BuffType.Poisoned).DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison);
@@ -773,7 +772,7 @@ public class BuffsManager : MonoBehaviour
                         PollForBuff(BuffType.Aflame).bonusDPS += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.AflameStunStunAmpsBurnDamage);
 
                     if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthStunBonusDamageOnStun) > 0 && PollForBuff(BuffType.Sunder))
-                        stats.TakeDamage(buffInflictor.baseDamage * (0.5f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthStunBonusDamageOnStun)), false, HitBox.DamageType.Earth, buffInflictor.comboManager.currentcombo, buffInflictor);
+                        stats.TakeDamage(buffInflictor.baseDamage * (0.5f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthStunBonusDamageOnStun)), false, HitBox.DamageType.Earth, buffInflictor.comboManager.currentcombo, buffInflictor, false);
 
                     if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthStunStunningAddsSunder) > 0)
                     {
@@ -1966,7 +1965,7 @@ public class BuffsManager : MonoBehaviour
 
                 case BuffType.StoneStrike:
                     target.GetComponent<EnemyCrowdControlManager>().KnockbackLaunch((transform.forward + Vector3.up * 0.5f) * 15, stats);
-                    target.GetComponent<PlayerStats>().TakeDamage(stats.baseDamage * stats.spellDamageMultiplier, false, HitBox.DamageType.Earth, stats.comboManager.currentcombo, stats);
+                    target.GetComponent<PlayerStats>().TakeDamage(stats.baseDamage * stats.spellDamageMultiplier, false, HitBox.DamageType.Earth, stats.comboManager.currentcombo, stats, false);
                     StartCoroutine(RemoveBuffNextFrame(buff));
                     break;
                 case BuffType.Multislash:
@@ -2003,7 +2002,7 @@ public class BuffsManager : MonoBehaviour
                     {
                         // proc the lightning blast.
                         targetBM.psSystems[4].Play();
-                        target.GetComponent<PlayerStats>().TakeDamage(0.4f * stats.baseDamage * buff.currentStacks, false, HitBox.DamageType.Lightning, stats.comboManager.currentcombo, stats);
+                        target.GetComponent<PlayerStats>().TakeDamage(0.4f * stats.baseDamage * buff.currentStacks, false, HitBox.DamageType.Lightning, stats.comboManager.currentcombo, stats, false);
                         // remove the buff
                         buff.EndBuff();
                         index--;
@@ -2015,9 +2014,9 @@ public class BuffsManager : MonoBehaviour
                         // proc the nature blast
                         targetBM.psSystems[6].Play();
                         if (target.GetComponent<PlayerStats>().healthMax / 100 >= stats.baseDamage * 0.8f)
-                            target.GetComponent<PlayerStats>().TakeDamage(0.8f * stats.baseDamage * buff.currentStacks, false, HitBox.DamageType.Nature, stats.comboManager.currentcombo, stats);
+                            target.GetComponent<PlayerStats>().TakeDamage(0.8f * stats.baseDamage * buff.currentStacks, false, HitBox.DamageType.Nature, stats.comboManager.currentcombo, stats, false);
                         else
-                            target.GetComponent<PlayerStats>().TakeDamage(target.GetComponent<PlayerStats>().healthMax / 100 * buff.currentStacks, false, HitBox.DamageType.Nature, stats.comboManager.currentcombo, stats);
+                            target.GetComponent<PlayerStats>().TakeDamage(target.GetComponent<PlayerStats>().healthMax / 100 * buff.currentStacks, false, HitBox.DamageType.Nature, stats.comboManager.currentcombo, stats, false);
                         // remove the buff
                         buff.EndBuff();
                         index--;
@@ -2154,7 +2153,7 @@ public class BuffsManager : MonoBehaviour
                         if (target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Frostbite) >= 30)
                         {
                             GameObject iceBurst = Instantiate(GetComponent<SkillsManager>().skillProjectiles[58], target.transform.position + Vector3.up, Quaternion.identity);
-                            target.GetComponent<PlayerStats>().TakeDamage((1 + trait.traitValue * target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Frostbite)) * stats.baseDamage, false, HitBox.DamageType.Ice, stats.comboManager.currentcombo, stats);
+                            target.GetComponent<PlayerStats>().TakeDamage((1 + trait.traitValue * target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Frostbite)) * stats.baseDamage, false, HitBox.DamageType.Ice, stats.comboManager.currentcombo, stats, false);
                             target.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffType.Frostbite, true);
                         }
                         break;
@@ -2319,7 +2318,7 @@ public class BuffsManager : MonoBehaviour
                     case ItemTrait.TraitType.PhysicalPoisonPlayerMaxHpDamageOnThreshold:
                         if (hitbox.damageType == HitBox.DamageType.Physical && target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Poisoned) >= 25)
                         {
-                            target.GetComponent<PlayerStats>().TakeDamage(trait.traitValue * stats.healthMax, false, HitBox.DamageType.Poison, stats.comboManager.currentcombo, stats);
+                            target.GetComponent<PlayerStats>().TakeDamage(trait.traitValue * stats.healthMax, false, HitBox.DamageType.Poison, stats.comboManager.currentcombo, stats, false);
                             target.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffType.Poisoned, true);
                         }
                         break;
@@ -2378,7 +2377,7 @@ public class BuffsManager : MonoBehaviour
                         if (target.GetComponent<BuffsManager>().PollForBuffStacks(BuffType.Bleeding) >= 105 - trait.traitValue)
                         {
                             Buff bleed = target.GetComponent<BuffsManager>().PollForBuff(BuffType.Bleeding);
-                            target.GetComponent<PlayerStats>().TakeDamage(bleed.DPS * bleed.currentStacks * 10, false, HitBox.DamageType.Bleed, stats.comboManager.currentcombo, stats);
+                            target.GetComponent<PlayerStats>().TakeDamage(bleed.DPS * bleed.currentStacks * 10, false, HitBox.DamageType.Bleed, stats.comboManager.currentcombo, stats, false);
                             target.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffType.Bleeding, true); 
                             Instantiate(GetComponent<SkillsManager>().skillProjectiles[77], target.transform.position + Vector3.up, Quaternion.identity);
                         }
@@ -2463,7 +2462,7 @@ public class BuffsManager : MonoBehaviour
                     if (stats.lastHitBy.CompareTag("Player") && stats.lastHitBy.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedAmpDamageTakenOnAttack) > 0)
                         dpsMultiplier += stats.lastHitBy.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedAmpDamageTakenOnAttack);
 
-                    stats.TakeDamage(buff.DPS * buff.currentStacks * dpsMultiplier, false, buff.damageType, 0, buff.playerDamageSource);
+                    stats.TakeDamage(buff.DPS * buff.currentStacks * dpsMultiplier, false, buff.damageType, 0, buff.playerDamageSource, false);
                     break;
                 case BuffType.Windshear:
                     if (buff.currentStacks >= 20 && buff.playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindTargetGainsBleedOnAttack) > 0)
@@ -2484,7 +2483,7 @@ public class BuffsManager : MonoBehaviour
             {
                 case BuffType.Bleeding:
                     psSystems[10].Play();
-                    stats.TakeDamage(buff.DPS * buff.currentStacks, false, buff.damageType, 0, stats);
+                    stats.TakeDamage(buff.DPS * buff.currentStacks, false, buff.damageType, 0, stats, false);
                     break;
                 default:
                     break;
@@ -2591,7 +2590,7 @@ public class BuffsManager : MonoBehaviour
         for (int index = 0; index < 3; index++)
         {
             stats.comboManager.AddComboCounter(1);
-            target.TakeDamage(damage, crit, HitBox.DamageType.Wind, stats.comboManager.currentcombo, stats);
+            target.TakeDamage(damage, crit, HitBox.DamageType.Wind, stats.comboManager.currentcombo, stats, false);
             yield return new WaitForSeconds(0.33f);
         }
     }

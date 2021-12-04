@@ -144,7 +144,7 @@ public class EnemyCombatController : MonoBehaviour
             if(usePrimaryAttack && CheckDistance(myStats.attackRange, myTarget.transform))
             {
                 // Can we currently attack?
-                if (myStats.currentAttackDelay > 1 / myStats.attackSpeed)
+                if (myStats.currentAttackDelay > 1 / myStats.attackSpeed )
                 {
                     // Launch the attack.
                     myStats.currentAttackDelay = 0;
@@ -160,12 +160,14 @@ public class EnemyCombatController : MonoBehaviour
                         currentTimer += Time.deltaTime;
 
                         // Rotate towards the target.
-                        movementManager.RotateToTarget(myTarget.transform.position);
+                        //movementManager.RotateToTarget(myTarget.transform.position);
                         yield return new WaitForEndOfFrame();
                     }
 
                     CheckActionHierarchy();
                 }
+                else
+                    movementManager.RotateToTarget(myTarget.transform.position);
             }
             else
             {

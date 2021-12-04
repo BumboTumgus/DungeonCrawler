@@ -289,14 +289,14 @@ public class GameManager : MonoBehaviour
         // REmove all the old uis from the temporary ui tab like damage numbers and health bars
         foreach(GameObject ui in playerUis)
         {
-            Debug.Log("The ui should be wiped here");
+            //Debug.Log("The ui should be wiped here");
             Transform parentToWipe = ui.transform.Find("TemporaryUi");
-            Debug.Log(parentToWipe);
-            Debug.Log(parentToWipe.childCount);
+            //Debug.Log(parentToWipe);
+            //.Log(parentToWipe.childCount);
 
             foreach(Transform child in parentToWipe)
             {
-                Debug.Log(child.name);
+                //Debug.Log(child.name);
                 Destroy(child.gameObject);
             }
 

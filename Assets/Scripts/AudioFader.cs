@@ -8,6 +8,8 @@ public class AudioFader : MonoBehaviour
 
     private AudioSource audioSource;
 
+    [SerializeField] private float audioVolumeOveride = 0;
+
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +49,9 @@ public class AudioFader : MonoBehaviour
     {
         float targetTimer = timer;
         float currentTimer = 0;
-        float originalVolume = audioSource.volume;
+        float originalVolume = audioVolumeOveride;
+        if (audioVolumeOveride != 0)
+            originalVolume = audioSource.volume;
         if (originalVolume == 0)
             originalVolume = 1;
 

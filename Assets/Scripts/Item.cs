@@ -51,6 +51,12 @@ public class Item : MonoBehaviour
     public enum ItemRarity { Common, Uncommon, Rare, Legendary, Masterwork }
     public ItemRarity itemRarity = ItemRarity.Common;
 
+    public enum StartingStatValue { None, Low, Medium, High, VeryHigh, Ultra, LowNeg, MedNeg, HighNeg, VeryHighNeg, UltraNeg };
+    [SerializeField] private StartingStatValue baseItemArmor = StartingStatValue.None;
+    [SerializeField] private StartingStatValue baseItemHealth = StartingStatValue.None;
+    [SerializeField] private StartingStatValue baseItemFlatDamageReduction = StartingStatValue.None;
+    [SerializeField] private StartingStatValue baseItemMovespeed = StartingStatValue.None;
+
     public float attacksPerSecond;
     public float baseDamageScaling;
 
@@ -72,14 +78,114 @@ public class Item : MonoBehaviour
     public enum ModifierType { None, Devastating, Dull, Hardened, Cracked, Nimble, Sluggish, Vamperic, Cursed, Magic, Mundane, Lucky, Unfavoured, Strong, Brittle, Illustrious, Rusty, Brawny, Meager, Resistant, Vulnerable }
     public List<ModifierType> itemModifiers = new List<ModifierType>();
 
+    private readonly int[] VALUE_RANGES_ARMOR = { 5,20  ,20,40  ,40,60  ,60,80  ,80,100};
+    private readonly int[] VALUE_RANGE_HEALTH = { 10,20  ,20,40  ,40,80  ,80,120  ,120,200};
+    private readonly int[] VALUE_RANGE_FLAT_DAMAGE_REDUCTION = { 1,1,  2,3,  3,5, 5,10, 10,20};
+    private readonly float[] VALUE_RANGE_MOVESPEED = { 0.01f,0.04f  ,0.04f,0.08f  ,0.08f,0.12f  ,0.12f,0.16f  ,0.16f,0.20f};
+
 
     private void Start()
     {
         for (int index = 0; index < garenteedTraits.Length; index++)
         {
-            //Debug.Log("we added a garenteed trait of: " + garenteedTraits[index]);
             AddTrait(garenteedTraits[index], garenteedTraitValues[index], garenteedTraitMultipliers[index]);
         }
+        switch (baseItemArmor)
+        {
+            case StartingStatValue.Low:
+                AddTrait(ItemTrait.TraitType.Armor, Random.Range(VALUE_RANGES_ARMOR[0], VALUE_RANGES_ARMOR[1] + 1), 1);
+                break;
+            case StartingStatValue.Medium:
+                AddTrait(ItemTrait.TraitType.Armor, Random.Range(VALUE_RANGES_ARMOR[2], VALUE_RANGES_ARMOR[3] + 1), 1);
+                break;
+            case StartingStatValue.High:
+                AddTrait(ItemTrait.TraitType.Armor, Random.Range(VALUE_RANGES_ARMOR[4], VALUE_RANGES_ARMOR[5] + 1), 1);
+                break;
+            case StartingStatValue.VeryHigh:
+                AddTrait(ItemTrait.TraitType.Armor, Random.Range(VALUE_RANGES_ARMOR[6], VALUE_RANGES_ARMOR[7] + 1), 1);
+                break;
+            case StartingStatValue.Ultra:
+                AddTrait(ItemTrait.TraitType.Armor, Random.Range(VALUE_RANGES_ARMOR[8], VALUE_RANGES_ARMOR[9] + 1), 1);
+                break;
+            default:
+                break;
+        }
+        switch (baseItemHealth)
+        {
+            case StartingStatValue.Low:
+                AddTrait(ItemTrait.TraitType.HealthFlat, Random.Range(VALUE_RANGE_HEALTH[0], VALUE_RANGE_HEALTH[1] + 1), 1);
+                break;
+            case StartingStatValue.Medium:
+                AddTrait(ItemTrait.TraitType.HealthFlat, Random.Range(VALUE_RANGE_HEALTH[2], VALUE_RANGE_HEALTH[3] + 1), 1);
+                break;
+            case StartingStatValue.High:
+                AddTrait(ItemTrait.TraitType.HealthFlat, Random.Range(VALUE_RANGE_HEALTH[4], VALUE_RANGE_HEALTH[5] + 1), 1);
+                break;
+            case StartingStatValue.VeryHigh:
+                AddTrait(ItemTrait.TraitType.HealthFlat, Random.Range(VALUE_RANGE_HEALTH[6], VALUE_RANGE_HEALTH[7] + 1), 1);
+                break;
+            case StartingStatValue.Ultra:
+                AddTrait(ItemTrait.TraitType.HealthFlat, Random.Range(VALUE_RANGE_HEALTH[8], VALUE_RANGE_HEALTH[9] + 1), 1);
+                break;
+            default:
+                break;
+        }
+        switch (baseItemFlatDamageReduction)
+        {
+            case StartingStatValue.Low:
+                AddTrait(ItemTrait.TraitType.FlatDamageReduction, Random.Range(VALUE_RANGE_FLAT_DAMAGE_REDUCTION[0], VALUE_RANGE_FLAT_DAMAGE_REDUCTION[1] + 1), 1);
+                break;
+            case StartingStatValue.Medium:
+                AddTrait(ItemTrait.TraitType.FlatDamageReduction, Random.Range(VALUE_RANGE_FLAT_DAMAGE_REDUCTION[2], VALUE_RANGE_FLAT_DAMAGE_REDUCTION[3] + 1), 1);
+                break;
+            case StartingStatValue.High:
+                AddTrait(ItemTrait.TraitType.FlatDamageReduction, Random.Range(VALUE_RANGE_FLAT_DAMAGE_REDUCTION[4], VALUE_RANGE_FLAT_DAMAGE_REDUCTION[5] + 1), 1);
+                break;
+            case StartingStatValue.VeryHigh:
+                AddTrait(ItemTrait.TraitType.FlatDamageReduction, Random.Range(VALUE_RANGE_FLAT_DAMAGE_REDUCTION[6], VALUE_RANGE_FLAT_DAMAGE_REDUCTION[7] + 1), 1);
+                break;
+            case StartingStatValue.Ultra:
+                AddTrait(ItemTrait.TraitType.FlatDamageReduction, Random.Range(VALUE_RANGE_FLAT_DAMAGE_REDUCTION[8], VALUE_RANGE_FLAT_DAMAGE_REDUCTION[9] + 1), 1);
+                break;
+            default:
+                break;
+        }
+        switch (baseItemMovespeed)
+        {
+            case StartingStatValue.Low:
+                AddTrait(ItemTrait.TraitType.MoveSpeed, Random.Range(VALUE_RANGE_MOVESPEED[0], VALUE_RANGE_MOVESPEED[1]), 1);
+                break;
+            case StartingStatValue.Medium:
+                AddTrait(ItemTrait.TraitType.MoveSpeed, Random.Range(VALUE_RANGE_MOVESPEED[2], VALUE_RANGE_MOVESPEED[3]), 1);
+                break;
+            case StartingStatValue.High:
+                AddTrait(ItemTrait.TraitType.MoveSpeed, Random.Range(VALUE_RANGE_MOVESPEED[4], VALUE_RANGE_MOVESPEED[5]), 1);
+                break;
+            case StartingStatValue.VeryHigh:
+                AddTrait(ItemTrait.TraitType.MoveSpeed, Random.Range(VALUE_RANGE_MOVESPEED[6], VALUE_RANGE_MOVESPEED[7]), 1);
+                break;
+            case StartingStatValue.Ultra:
+                AddTrait(ItemTrait.TraitType.MoveSpeed, Random.Range(VALUE_RANGE_MOVESPEED[8], VALUE_RANGE_MOVESPEED[9]), 1);
+                break;
+            case StartingStatValue.LowNeg:
+                AddTrait(ItemTrait.TraitType.MoveSpeed, Random.Range(VALUE_RANGE_MOVESPEED[0], VALUE_RANGE_MOVESPEED[1]) * -1, 1);
+                break;
+            case StartingStatValue.MedNeg:
+                AddTrait(ItemTrait.TraitType.MoveSpeed, Random.Range(VALUE_RANGE_MOVESPEED[2], VALUE_RANGE_MOVESPEED[3]) * -1, 1);
+                break;
+            case StartingStatValue.HighNeg:
+                AddTrait(ItemTrait.TraitType.MoveSpeed, Random.Range(VALUE_RANGE_MOVESPEED[4], VALUE_RANGE_MOVESPEED[5]) * -1, 1);
+                break;
+            case StartingStatValue.VeryHighNeg:
+                AddTrait(ItemTrait.TraitType.MoveSpeed, Random.Range(VALUE_RANGE_MOVESPEED[6], VALUE_RANGE_MOVESPEED[7]) * -1, 1);
+                break;
+            case StartingStatValue.UltraNeg:
+                AddTrait(ItemTrait.TraitType.MoveSpeed, Random.Range(VALUE_RANGE_MOVESPEED[8], VALUE_RANGE_MOVESPEED[9]) * -1, 1);
+                break;
+            default:
+                break;
+        }
+
     }
 
     // This is called when the item can be picked up. The item will set it's parent as the player's ivnentory, hide itself and disable collisions.
@@ -191,6 +297,7 @@ public class Item : MonoBehaviour
         if (!traitExists)
             itemTraits.Add(new ItemTrait(selectedTrait, value, multiplierValue));
     }
+
     // Overload that uses a full item trait instead of components
     private void AddTrait(ItemTrait previousItemTrait)
     {
@@ -205,45 +312,6 @@ public class Item : MonoBehaviour
         if (!traitExists)
             itemTraits.Add(previousItemTrait);
     }
-
-    /*
-    // Used to add random traits to the item. These are added on top of any garenteed traits the item would have.
-    public void AddRandomTraits()
-    {
-        // How many traits will this item have.
-        int traitCount = 0;
-        switch (itemRarity)
-        {
-            case ItemRarity.Common:
-                traitCount = Random.Range(1, 2);
-                break;
-            case ItemRarity.Uncommon:
-                traitCount = Random.Range(2, 3);
-                break;
-            case ItemRarity.Rare:
-                traitCount = Random.Range(3, 5);
-                break;
-            case ItemRarity.Legendary:
-                traitCount = Random.Range(5, 7);
-                break;
-            case ItemRarity.Masterwork:
-                traitCount = Random.Range(7, 11);
-                break;
-            default:
-                break;
-        }
-        if (itemType == ItemType.TwoHandWeapon)
-            traitCount *= 2;
-
-        for (int index = 0; index < traitCount; index++)
-        {
-            ItemTrait tempTrait = new ItemTrait();
-            tempTrait.GetRandomTrait();
-            //tempTrait.GetRandomTraitValue(itemRarity);
-            AddTrait(tempTrait);
-        }
-    }
-    */
 
     // This method assigns the item a primary secondary and tertiary trait for the item and assigns traits for each. We also assign the modifiers and assign traits for those too.
     public void RollItemTraitsAffinityAndModifiers()

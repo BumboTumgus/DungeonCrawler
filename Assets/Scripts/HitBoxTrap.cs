@@ -68,7 +68,7 @@ public class HitBoxTrap : MonoBehaviour
                             break;
                     }
                 }
-                enemyStats.TakeDamage(damageDealt, false, damageType, 0, null);
+                enemyStats.TakeDamage(damageDealt, false, damageType, 0, null, false);
             }
             else
                 enemyStats.HealHealth(damageDealt, damageType);

@@ -97,15 +97,15 @@ public class Buff : MonoBehaviour
                 //connectedPlayer.TakeDamage(DPS * targetDamageTickTimer, false, damageColor);
                 //else
                 if (!stackable)
-                    connectedPlayer.TakeDamage((DPS * targetDamageTickTimer + bonusDPS) * DPSMultiplier, false, damageType, 0, playerDamageSource);
+                    connectedPlayer.TakeDamage((DPS * targetDamageTickTimer + bonusDPS) * DPSMultiplier, false, damageType, 0, playerDamageSource, true);
                 else if (myType != BuffsManager.BuffType.Poisoned)
-                    connectedPlayer.TakeDamage((DPS * currentStacks * targetDamageTickTimer + bonusDPS) * DPSMultiplier, false, damageType, 0, playerDamageSource);
+                    connectedPlayer.TakeDamage((DPS * currentStacks * targetDamageTickTimer + bonusDPS) * DPSMultiplier, false, damageType, 0, playerDamageSource, true);
                 else
                 {
                     if(playerDamageSource.CompareTag("Player") && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonTrueDamageAtThreshold) > 0 && connectedPlayer.health / connectedPlayer.healthMax <= 0.225f + playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonTrueDamageAtThreshold))
-                        connectedPlayer.TakeDamage((DPS * currentStacks * targetDamageTickTimer + bonusDPS) * DPSMultiplier, false, HitBox.DamageType.True, 0, playerDamageSource);
+                        connectedPlayer.TakeDamage((DPS * currentStacks * targetDamageTickTimer + bonusDPS) * DPSMultiplier, false, HitBox.DamageType.True, 0, playerDamageSource, true);
                     else
-                        connectedPlayer.TakeDamage((DPS * currentStacks * targetDamageTickTimer + bonusDPS) * DPSMultiplier, false, damageType, 0, playerDamageSource);
+                        connectedPlayer.TakeDamage((DPS * currentStacks * targetDamageTickTimer + bonusDPS) * DPSMultiplier, false, damageType, 0, playerDamageSource, true);
                 }
 
                 if (myType == BuffsManager.BuffType.Aflame && playerDamageSource.CompareTag("Player") && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.FlameVamperism) > 0 && currentStacks >= 10)
@@ -275,7 +275,7 @@ public class Buff : MonoBehaviour
 
                 if (myType == BuffsManager.BuffType.Sunder && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthMaxHpDamageAtThreshold) > 0 && connectedPlayer.traitEarthMaxHpDamageReady && currentStacks >= 25)
                 {
-                    connectedPlayer.TakeDamage(connectedPlayer.healthMax * (0.09f + playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthMaxHpDamageAtThreshold)), false, HitBox.DamageType.True, playerDamageSource.comboManager.currentcombo, playerDamageSource);
+                    connectedPlayer.TakeDamage(connectedPlayer.healthMax * (0.09f + playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthMaxHpDamageAtThreshold)), false, HitBox.DamageType.True, playerDamageSource.comboManager.currentcombo, playerDamageSource, false);
                     connectedPlayer.traitEarthMaxHpDamageReady = false;
                 }
                 if (myType == BuffsManager.BuffType.Sunder && playerDamageSource.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthAmpAllAfflictionsOnThreshhold) > 0 && currentStacks >= 20 && connectedPlayer.traitEarthAfflictionDamageAmpReady)

@@ -190,7 +190,7 @@ public class PlayerStats : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Keypad0) && CompareTag("Player"))
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Aflame, 1, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
-            TakeDamage(50, false, HitBox.DamageType.Physical, 0, null);
+            TakeDamage(50, false, HitBox.DamageType.Physical, 0, null, false);
         /*
     if (Input.GetKeyDown(KeyCode.Keypad1) && CompareTag("Player"))
         buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, 1, baseDamage, this);
@@ -470,7 +470,7 @@ public class PlayerStats : MonoBehaviour
     }
 
     // Used to take damage
-    public void TakeDamage(float amount, bool crit, HitBox.DamageType damage, float comboCount, PlayerStats playerThatLastHitUs)
+    public void TakeDamage(float amount, bool crit, HitBox.DamageType damage, float comboCount, PlayerStats playerThatLastHitUs, bool damageOverTime)
     {
         if (health > 0)
         {
@@ -532,7 +532,10 @@ public class PlayerStats : MonoBehaviour
                 if (armor * armorReductionMultiplier - comboCount > 0)
                     amount *= 100 / (100 + (armor * armorReductionMultiplier - comboCount));
 
-                amount -= flatDamageReduction;
+                if (damageOverTime)
+                    amount -= flatDamageReduction * 0.25f;
+                else
+                    amount -= flatDamageReduction;
             }
 
             if (amount > 0)

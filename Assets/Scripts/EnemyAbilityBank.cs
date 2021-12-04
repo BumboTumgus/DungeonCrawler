@@ -90,9 +90,13 @@ public class EnemyAbilityBank : MonoBehaviour
                 // Instantiate the obhect, set it's damage and aim it at the player.
                 for (int i = 0; i < 5; i++)
                 {
-                    Vector3 altForward = (combatController.myTarget.transform.position + combatController.myTarget.transform.right * (-2 + i)) - transform.position;
-                    GameObject snakeShot = Instantiate(spellProjectiles[0], transform.position + Vector3.up, Quaternion.LookRotation(altForward, Vector3.up));
-                    snakeShot.GetComponent<HitBox>().damage = myStats.baseDamage * 1;
+                    GameObject snakeShot = Instantiate(spellProjectiles[0], transform.position + Vector3.up, Quaternion.LookRotation(forward, Vector3.up));
+
+                    Vector3 rotation = snakeShot.transform.rotation.eulerAngles;
+                    rotation.y += (i - 2) * 6;
+                    snakeShot.transform.rotation = Quaternion.Euler(rotation);
+
+                    snakeShot.GetComponent<HitBox>().damage = myStats.baseDamage * 2;
                     snakeShot.GetComponent<HitBox>().myStats = myStats;
                 }
                 break;

@@ -269,7 +269,7 @@ public class HitBox : MonoBehaviour
                                 break;
                         }
                     }
-                    enemyStats.TakeDamage(damageDealt * myStats.damageIncreaseMultiplier, crit, damageType, myStats.comboManager.currentcombo, myStats);
+                    enemyStats.TakeDamage(damageDealt * myStats.damageIncreaseMultiplier, crit, damageType, myStats.comboManager.currentcombo, myStats, false);
 
                     myStats.comboManager.AddComboCounter(1);
                 }
@@ -345,7 +345,7 @@ public class HitBox : MonoBehaviour
                                 break;
                         }
                     }
-                    enemyStats.TakeDamage(damageDealt * myStats.damageIncreaseMultiplier, crit, damageType, 0, myStats);
+                    enemyStats.TakeDamage(damageDealt * myStats.damageIncreaseMultiplier, crit, damageType, 0, myStats, false);
                 }
                 else
                     enemyStats.HealHealth(damageDealt, damageType);

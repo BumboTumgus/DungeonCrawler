@@ -172,7 +172,7 @@ public class HitBoxBuff : MonoBehaviour
                     other.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.BleedKnockbackKnockbackAmpsDamage, buffOrigin.baseDamage, buffOrigin);
                 if (buffOrigin.CompareTag("Player") && buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonKnockbackConsumePoisonStacksForTrueDamage) > 0 && other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Poisoned) > 0)
                 {
-                    other.GetComponent<PlayerStats>().TakeDamage(buffOrigin.baseDamage * buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonKnockbackConsumePoisonStacksForTrueDamage) * other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Poisoned), false, HitBox.DamageType.True, buffOrigin.comboManager.currentcombo, buffOrigin);
+                    other.GetComponent<PlayerStats>().TakeDamage(buffOrigin.baseDamage * buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonKnockbackConsumePoisonStacksForTrueDamage) * other.GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Poisoned), false, HitBox.DamageType.True, buffOrigin.comboManager.currentcombo, buffOrigin, false);
                     other.GetComponent<BuffsManager>().AttemptRemovalOfBuff(BuffsManager.BuffType.Poisoned, true);
                 }
                 if (buffOrigin.CompareTag("Player") && buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.KnockbackReducesSpellCooldowns) > 0)
@@ -188,7 +188,7 @@ public class HitBoxBuff : MonoBehaviour
                     buffOrigin.GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.KnockbackAmpsArmor, buffOrigin.baseDamage, buffOrigin);
 
                 if (buffOrigin.CompareTag("Player") && buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.KnockbackDoesBonusDamageOnKnockbacked) > 0 && other.GetComponent<PlayerStats>().knockedBack)
-                    other.GetComponent<PlayerStats>().TakeDamage(buffOrigin.baseDamage * buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.KnockbackDoesBonusDamageOnKnockbacked), false, HitBox.DamageType.Physical, buffOrigin.comboManager.currentcombo, buffOrigin);
+                    other.GetComponent<PlayerStats>().TakeDamage(buffOrigin.baseDamage * buffOrigin.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.KnockbackDoesBonusDamageOnKnockbacked), false, HitBox.DamageType.Physical, buffOrigin.comboManager.currentcombo, buffOrigin, false);
 
 
 
