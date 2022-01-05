@@ -65,6 +65,9 @@ MonoBehaviour:
   currentLevel: 0
   currentLevelEnemyKillCount: 0
   combinedPlayerLuck: 0
+  objectiveCurrentProgress: 0
+  objectiveTarget: 0
+  objectiveType: 0
   chestPrefabs:
   - {fileID: 5236343418791042390, guid: e4fa0ffccf24698458e6615466f721c6, type: 3}
   - {fileID: 4184417356780227451, guid: 459ef193a8e4a1141a01d246b577163d, type: 3}
@@ -87,6 +90,8 @@ MonoBehaviour:
   teleporter: {fileID: 0}
   levelMusic: {fileID: 0}
   deathMusic: {fileID: 0}
+  artifactObjective: {fileID: 5156821045081103734, guid: 895f9c5365754cf478e556754a40532f,
+    type: 3}
 --- !u!114 &8260746983355512490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -976,6 +981,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeInOnAwake: 0
+  audioVolumeOveride: 0
 --- !u!82 &6294634684160330281
 AudioSource:
   m_ObjectHideFlags: 0

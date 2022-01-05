@@ -63,6 +63,7 @@ public class PlayerMovementController : MonoBehaviour
     private const float JUMP_POWER = 0.14f;
     private const float ROLL_SPEED_MULTIPLIER = 2f;
     private const float ROLL_ANIMSPEED_MULITPLIER = 0.6f;
+    private const float GRAVITY_VECTOR_DAMAGE_THRESHOLD = 0.27f;
 
 
     //private const float POSITIONAL_DIFFERENCE_OFFSET = 0.1f;
@@ -338,12 +339,14 @@ public class PlayerMovementController : MonoBehaviour
         // Shoot a ray, if it we hit we are grounded if not we are no longer grounded. If we just jumped ignore this and set us as not grounded.
         if (rayHitGround)
         {
-            gravityVectorStrength = 0;
-
             //Debug.Log("check if were grounded");
             if (!grounded)
             {
-                //Debug.Log(" we arent grounded so now we should be");
+                //Debug.Log("Apply gravity damage here, our gravity vector is: " + gravityVectorStrength);
+                if(Mathf.Abs(gravityVectorStrength) - GRAVITY_VECTOR_DAMAGE_THRESHOLD > 0)
+                {
+                    playerStats.TakeDamage(playerStats.healthMax * (Mathf.Abs(gravityVectorStrength) - GRAVITY_VECTOR_DAMAGE_THRESHOLD), false, HitBox.DamageType.True, 0, null, false);
+                }
 
                 // if the ray hit the ground, set us as grounded, snap us to the ground, and change the state while updating the aniamtion.
                 grounded = true;
@@ -368,6 +371,8 @@ public class PlayerMovementController : MonoBehaviour
                         playerState = PlayerState.Idle;
                 }
             }
+
+            gravityVectorStrength = 0;
         }
         else
         {
@@ -856,6 +861,12 @@ public class PlayerMovementController : MonoBehaviour
                     interactable.transform.root.GetComponent<TeleporterBehaviour>().teleporterActive = false;
                     GameManager.instance.LaunchPlayerTeleport();
                 }
+                else if(interactable.GetComponent<ArtifactBehaviour>() != null)
+                {
+                    interactable.GetComponent<ArtifactBehaviour>().ActivateArtifact();
+                }
+
+
                 if(removeInteractable)
                     inventory.interactablesInRange.Remove(interactable);
             }

@@ -20,6 +20,12 @@ public class GameManager : MonoBehaviour
     public int currentLevel = 0;
     public int currentLevelEnemyKillCount = 0;
     public float combinedPlayerLuck = 0;
+
+    public float objectiveCurrentProgress;
+    public float objectiveTarget;
+    public enum ObjectiveType { GatherArtifacts, KillEnemies, KillSpecificEnemy, KillBoss, KingOfHill};
+    public ObjectiveType objectiveType;
+
     //public Transform[] spawnsEnemy;
     //public NavMeshSurface walkableFloor;
     //public int enemyCount = 3;
@@ -34,6 +40,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject teleporter;
     [SerializeField] AudioFader levelMusic;
     [SerializeField] AudioFader deathMusic;
+    [SerializeField] GameObject artifactObjective;
 
     //public int roomTarget = 20;
 
@@ -131,13 +138,54 @@ public class GameManager : MonoBehaviour
         currentLevelEnemyKillCount++;
         if(currentLevelEnemyKillCount == targetLevelEnemyKillCount)
         {
-            // Set up our teleporter here to work.
-            teleporter.GetComponent<TeleporterBehaviour>().StartTeleporter();
-            foreach(GameObject player in currentPlayers)
-            {
-                player.GetComponent<AudioManager>().PlayAudio(30);
-            }
+            StartTeleporter();
         }
+    }
+
+    private void StartTeleporter()
+    {
+        // Set up our teleporter here to work.
+        teleporter.GetComponent<TeleporterBehaviour>().StartTeleporter();
+        foreach (GameObject player in currentPlayers)
+        {
+            player.GetComponent<AudioManager>().PlayAudio(30);
+        }
+    }
+
+    public void UpdateObjectiveCount(float newValue)
+    {
+        objectiveCurrentProgress = newValue;
+
+        if (objectiveCurrentProgress >= objectiveTarget)
+        {
+            StartTeleporter();
+            foreach (GameObject ui in playerUis)
+                ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("Objective Complete:", $"Get to the teleporter to proceed.");
+        }
+        else
+            foreach (GameObject ui in playerUis)
+            {
+                switch (objectiveType)
+                {
+                    case ObjectiveType.GatherArtifacts:
+                        ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Gather the artifacts:\nTotal Gathered: {objectiveCurrentProgress} / {objectiveTarget}");
+                        break;
+                    case ObjectiveType.KillEnemies:
+                        ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Kill any enemies:\nEnemies Vaporized: {objectiveCurrentProgress} / {objectiveTarget}");
+                        break;
+                    case ObjectiveType.KillSpecificEnemy:
+                        ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Kill specific enemies:\nSnakes Slayed: {objectiveCurrentProgress} / {objectiveTarget}");
+                        break;
+                    case ObjectiveType.KillBoss:
+                        ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Slay the boss:\nBosses Killed: {objectiveCurrentProgress} / {objectiveTarget}");
+                        break;
+                    case ObjectiveType.KingOfHill:
+                        ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Hold the point:\nPoint Progress: {objectiveCurrentProgress} / {objectiveTarget}");
+                        break;
+                    default:
+                        break;
+                }
+            }
     }
 
     // Used to set up the level we are on
@@ -237,6 +285,72 @@ public class GameManager : MonoBehaviour
         EnemyManager.instance.LevelSetup();
 
         levelMusic = GameObject.Find("Audio_LevelTheme").GetComponent<AudioFader>();
+
+        switch (Random.Range(0,1))
+        {
+            case 0:
+                objectiveType = ObjectiveType.GatherArtifacts;
+                Debug.Log("The objective for this level is collection, GATHER THE ARTIFACTS");
+                objectiveCurrentProgress = 0;
+                objectiveTarget = 8;
+
+                foreach(GameObject ui in playerUis)
+                    ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("New Objective:", $"Gather the artifacts:\nTotal Gathered: {objectiveCurrentProgress} / {objectiveTarget}");
+
+                Transform[] artifactSpawns = GameObject.Find("ArtifactSpawns").GetComponentsInChildren<Transform>();
+
+                // Spawn the artifacts.
+                for(int index = 0; index < objectiveTarget; index++)
+                {
+                    int artifactSpawnIndex = Random.Range(0, artifactSpawns.Length);
+
+                    if (artifactSpawns[artifactSpawnIndex] != null)
+                    {
+                        Instantiate(artifactObjective, artifactSpawns[artifactSpawnIndex].position, artifactSpawns[artifactSpawnIndex].rotation);
+                        artifactSpawns[artifactSpawnIndex] = null;
+                    }
+                }
+
+                break;
+            case 1:
+                objectiveType = ObjectiveType.KillEnemies;
+                Debug.Log("The objective for this level is killing any enemy, KILL THEM MFS");
+                objectiveCurrentProgress = 0;
+                objectiveTarget = 25;
+
+                foreach (GameObject ui in playerUis)
+                    ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("New Objective:", $"Kill any enemies:\nEnemies Vaporized: {objectiveCurrentProgress} / {objectiveTarget}");
+                break;
+            case 2:
+                objectiveType = ObjectiveType.KillSpecificEnemy;
+                Debug.Log("The objective for this level is killing a specific type of enemy... HUNT THEM DOWN");
+                objectiveCurrentProgress = 0;
+                objectiveTarget = 5;
+
+                foreach (GameObject ui in playerUis)
+                    ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("New Objective:", $"Kill specific enemies:\nSnakes Slayed: {objectiveCurrentProgress} / {objectiveTarget}");
+                break;
+            case 3:
+                objectiveType = ObjectiveType.KillBoss;
+                Debug.Log("The objective for this level is killing a boss... FIND HIM NEAR THE PORTAL");
+                objectiveCurrentProgress = 0;
+                objectiveTarget = 1;
+
+                foreach (GameObject ui in playerUis)
+                    ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("New Objective:", $"Slay the boss:\nBosses Killed: {objectiveCurrentProgress} / {objectiveTarget}");
+                break;
+            case 4:
+                objectiveType = ObjectiveType.KingOfHill;
+                Debug.Log("The objective for this level is Holding a point... KING OF THE HILL");
+                objectiveCurrentProgress = 0;
+                objectiveTarget = 60;
+
+                foreach (GameObject ui in playerUis)
+                    ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("New Objective:", $"Hold the point:\nPoint Progress: {objectiveCurrentProgress} / {objectiveTarget}");
+                break;
+            default:
+                break;
+        }
     }
 
     public void LaunchPlayerTeleport()
