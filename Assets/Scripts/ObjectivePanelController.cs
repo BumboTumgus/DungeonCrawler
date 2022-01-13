@@ -18,7 +18,7 @@ public class ObjectivePanelController : MonoBehaviour
     {
         titleText.text = TitleText;
         descText.text = DescText;
-        anim.Play("ShowObjective");
+        anim.SetTrigger("ShowObjective");
     }
 
     /// <summary>

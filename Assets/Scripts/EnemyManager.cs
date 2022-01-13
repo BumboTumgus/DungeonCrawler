@@ -157,6 +157,21 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    public void SpawnTargetedBoss()
+    {
+        Debug.Log("The targeted boss has been spawned now");
+        GameObject selectedBossEnemy = enemyBossBank[Random.Range(0, enemyBossBank.Length)];
+
+        Vector3 spawnPoint = enemySpawns[Random.Range(0, enemySpawns.Length)].position;
+
+        //Debug.Log("Created an enemy:  " + enemy);
+        GameObject enemyGO = Instantiate(selectedBossEnemy, spawnPoint, Quaternion.identity);
+        enemyGO.GetComponent<DamageNumberManager>().primaryCanvas = GameManager.instance.playerUis[0].transform;
+        enemyGO.GetComponent<PlayerStats>().level = enemyLevel;
+        enemyGO.GetComponent<PlayerStats>().entityType = PlayerStats.EnemyEntityType.TargetBoss;
+        Instantiate(spawnEffectSmall, spawnPoint, Quaternion.identity);
+    }
+
     public void LevelSetup()
     {
         //Debug.Log("Enemy manager setup compelte");

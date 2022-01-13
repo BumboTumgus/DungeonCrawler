@@ -130,6 +130,8 @@ public class PlayerStats : MonoBehaviour
     public PlayerStats lastHitBy;
     private AudioManager audioManager;
 
+    Transform uiTargetBossWaypoint;
+
     public bool traitMoreAflameStacksOnHitThresholdFatigue = false;
     public bool traitPoisonFireSpellOnHitReady = true;
     private float traitPoisonFireSpellOnHitCurrentTimer = 0;
@@ -151,7 +153,11 @@ public class PlayerStats : MonoBehaviour
     public bool traitBleedBloodWellOnThresholdReady = true;
     public bool traitBleedStunStunBelowHalfHPReady = true;
 
+    public enum EnemyEntityType { None, Goblin, Bee, Snake, Wolf, Brute, TargetBoss}
+    public EnemyEntityType entityType = EnemyEntityType.None;
+
     [SerializeField] private GameObject enemyHealthBar;
+    [SerializeField] private GameObject enemyTargetBossPointer;
 
     private SkillsManager skills;
 
@@ -187,11 +193,11 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.Keypad0) && CompareTag("Player"))
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Aflame, 1, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
             TakeDamage(50, false, HitBox.DamageType.Physical, 0, null, false);
-        /*
     if (Input.GetKeyDown(KeyCode.Keypad1) && CompareTag("Player"))
         buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, 1, baseDamage, this);
     if (Input.GetKeyDown(KeyCode.Keypad2) && CompareTag("Player"))
@@ -370,15 +376,22 @@ public class PlayerStats : MonoBehaviour
 
         traitPoisonFireSpellOnHitTargetTimer = 3 / attackSpeed;
 
-        // If we level up set the health to the max.
-        if (LeveledUp)
-            health = healthMax;
 
         // Ste up our health and manaRegen;
         healthRegen = (baseHealthRegen + baseHealthRegenGrowth * level + bonusHealthRegen) * healingMultiplier;
 
         if (transform.CompareTag("Enemy"))
             GetComponent<UnityEngine.AI.NavMeshAgent>().speed = speed * movespeedPercentMultiplier;
+
+        if (entityType == EnemyEntityType.TargetBoss && LeveledUp)
+        {
+            Debug.Log("THIS IS THE TARGET BOSS BEEF EM UP.");
+            baseDamage *= 1.5f;
+            healthMax *= 2f;
+
+            transform.localScale = transform.localScale * 1.5f;
+            buffManager.psSystems[18].Play();
+        }
 
         cooldownReduction = 0;
 
@@ -394,6 +407,10 @@ public class PlayerStats : MonoBehaviour
 
         if(CompareTag("Player"))
             skills.UpdateCooldownSkillCooldowns();
+
+        // If we level up set the health to the max.
+        if (LeveledUp)
+            health = healthMax;
 
         if (changeHealthBars)
         {
@@ -604,7 +621,7 @@ public class PlayerStats : MonoBehaviour
         if(gameObject.CompareTag("Enemy"))
         {
             // Debug.Log("EnemyDeath");
-            GameManager.instance.IncrementLevelEnemyDeathCount();
+            GameManager.instance.EntityDeath(entityType);
 
             // Find the player, and give them exp. If they were in combat with us, end the combat. Start the death coroutine (for a death animation).
             // Create an array of all players.
@@ -623,6 +640,12 @@ public class PlayerStats : MonoBehaviour
             // Destroy the health bar, queue the destruction of all children and set their parents to null, then destroy ourself.
             healthBar.transform.parent.GetComponent<UiFollowTarget>().RemoveFromCullList();
             Destroy(healthBar.transform.parent.gameObject);
+
+            if(uiTargetBossWaypoint)
+            {
+                uiTargetBossWaypoint.GetComponent<UiFollowTarget>().RemoveFromCullList();
+                Destroy(uiTargetBossWaypoint.gameObject);
+            }
 
             GetComponent<Animator>().SetTrigger("Downed"); 
             EnemyManager.instance.enemyStats.Remove(this);
@@ -678,6 +701,13 @@ public class PlayerStats : MonoBehaviour
                 GetComponent<BuffsManager>().canvasParent = healthBarParent.transform.Find("BuffIconParents");
                 healthBarParent.transform.SetAsFirstSibling();
                 healthBar = healthBarParent.GetComponentInChildren<BarManager>();
+            }
+            if(entityType == EnemyEntityType.TargetBoss)
+            {
+                // Set up our waypoint here that persists no matter the distance.
+                uiTargetBossWaypoint = Instantiate(enemyTargetBossPointer, new Vector3(-99999, -99999, -99999), new Quaternion(0, 0, 0, 0), GameManager.instance.playerUis[0].transform.Find("TemporaryUi")).transform;
+                uiTargetBossWaypoint.GetComponent<UiFollowTarget>().target = transform.Find("UiFollowTarget_Name");
+                uiTargetBossWaypoint.transform.SetAsFirstSibling();
             }
         }
     }
