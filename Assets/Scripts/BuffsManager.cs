@@ -532,18 +532,18 @@ public class BuffsManager : MonoBehaviour
                     windshear.infiniteDuration = false;
                     windshear.duration = 10;
 
-                    if (buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceWindWindAmpsFrostbiteDamage) > 0 && PollForBuffStacks(BuffType.Frostbite) > 0)
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceWindWindAmpsFrostbiteDamage) > 0 && PollForBuffStacks(BuffType.Frostbite) > 0)
                         PollForBuff(BuffType.Frostbite).DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceWindWindAmpsFrostbiteDamage);
 
-                    if (buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceWindIncreaseArmorShredPerFrostbite) > 0 && PollForBuffStacks(BuffType.Frostbite) > 0)
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceWindIncreaseArmorShredPerFrostbite) > 0 && PollForBuffStacks(BuffType.Frostbite) > 0)
                         windshear.ChangeArmorScMultiplier(buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceWindIncreaseArmorShredPerFrostbite) * PollForBuffStacks(BuffType.Frostbite));
 
-                    if (buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindAmpsDamageTaken) > 0)
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindAmpsDamageTaken) > 0)
                         windshear.ChangeDefensiveStats(true, 0f, 0f, -0.01f, buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindAmpsDamageTaken), 0f);
                     else
                         windshear.ChangeDefensiveStats(true, 0f, 0f, -0.01f, 0f, 0f);
 
-                    if (buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindKnockbackWindshearDoesDamageIfKnockedBack) > 0 && stats.knockedBack)
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindKnockbackWindshearDoesDamageIfKnockedBack) > 0 && stats.knockedBack)
                         stats.TakeDamage(buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindKnockbackWindshearDoesDamageIfKnockedBack) * buffInflictor.baseDamage, false, HitBox.DamageType.Wind, buffInflictor.comboManager.currentcombo, buffInflictor, false);
 
                     if (PollForBuffStacks(BuffType.Poisoned) > 0 && buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison) > 0)
@@ -583,13 +583,13 @@ public class BuffsManager : MonoBehaviour
                     else
                         sundered.ChangeResistanceStats(true, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f, -0.01f);
 
-                    if (buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthSunderedEnemiesDealLessDamage) > 0)
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthSunderedEnemiesDealLessDamage) > 0)
                         NewBuff(BuffType.EarthernDecay, baseDamage, buffInflictor);
 
-                    if (buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthSunderFurtherReducesResistances) > 0)
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthSunderFurtherReducesResistances) > 0)
                         NewBuff(BuffType.EarthBonusResistanceLoss, baseDamage, buffInflictor);
 
-                    if (buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthKnockbackSunderReducesKnockbackResistance) > 0)
+                    if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthKnockbackSunderReducesKnockbackResistance) > 0)
                         NewBuff(BuffType.EarthKnockbackResistanceLoss, baseDamage, buffInflictor);
                     if (PollForBuffStacks(BuffType.Poisoned) > 0 && buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison) > 0)
                         PollForBuff(BuffType.Poisoned).DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison);

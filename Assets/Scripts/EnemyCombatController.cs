@@ -9,29 +9,27 @@ public class EnemyCombatController : MonoBehaviour
 
     public EnemyAbilityBank.EnemyAbility specialOneAbility;
     public EnemyAbilityBank.EnemyAbility specialTwoAbility;
+    public EnemyAbilityBank.EnemyAbility specialThreeAbility;
     public float specialOneRange = 100;
     public float specialTwoRange = 100;
+    public float specialThreeRange = 100;
 
     public float specialOneCooldown = 5f;
     public float specialTwoCooldown = 5f;
-    public float onHitSpecialOneCooldown = 5f;
-
-    public EnemyAbilityBank.EnemyAbility onHitSpecialOne;
+    public float specialThreeCooldown = 5f;
 
     [SerializeField] private float specialOneCurrentCooldown = 0f;
     [SerializeField] private float specialTwoCurrentCooldown = 0f;
-    [SerializeField] private float onHitSpecialOneCurrentCooldown = 0f;
+    [SerializeField] private float specialThreeCurrentCooldown = 0f;
 
     public GameObject myTarget;
     // A list of potential actions or behaviours
-    public enum ActionType { Attack, ChaseTarget, SpecialOne, SpecialTwo, SpecialThree, SpecialFour, OnHitSpecialOne, LossOfControl};
+    public enum ActionType { Attack, ChaseTarget, SpecialOne, SpecialTwo, SpecialThree, LossOfControl};
     public ActionType myCurrentAction = ActionType.ChaseTarget;
 
     // This is the action hierarchy List, The actions go in in order of importance.s
     public ActionType[] actionHierarchy;
     public float[] actionChances;
-    public ActionType[] onHitActionHierarchy;
-    public float[] onHitActionChances;
     public LayerMask wallColMask;
 
     private EnemyMovementManager movementManager;
@@ -63,7 +61,7 @@ public class EnemyCombatController : MonoBehaviour
         myStats.currentAttackDelay += Time.deltaTime;
         specialOneCurrentCooldown += Time.deltaTime;
         specialTwoCurrentCooldown += Time.deltaTime;
-        onHitSpecialOneCurrentCooldown += Time.deltaTime;
+        specialThreeCurrentCooldown += Time.deltaTime;
     }
 
     // This method is called when we need to revaluate what state we are in and what to do next.
@@ -93,13 +91,9 @@ public class EnemyCombatController : MonoBehaviour
                 abilityBank.CastSpell(specialTwoAbility);
                 break;
             case ActionType.SpecialThree:
-                break;
-            case ActionType.SpecialFour:
-                break;
-            case ActionType.OnHitSpecialOne:
-                onHitSpecialOneCurrentCooldown = 0;
-                myCurrentAction = ActionType.OnHitSpecialOne;
-                abilityBank.CastSpell(onHitSpecialOne);
+                specialThreeCurrentCooldown = 0;
+                myCurrentAction = ActionType.SpecialThree;
+                abilityBank.CastSpell(specialThreeAbility);
                 break;
             default:
                 break;
@@ -116,7 +110,6 @@ public class EnemyCombatController : MonoBehaviour
             movementManager.SetTarget(myTarget.transform.position, Vector3.zero);
         movementManager.enableMovement = true;
         myCurrentAction = ActionType.ChaseTarget;
-        anim.SetFloat("Speed", 1);
 
         float currentTimer = 0;
         float targetTimer = 0.05f;
@@ -271,43 +264,16 @@ public class EnemyCombatController : MonoBehaviour
                 else if (specialTwoAbility == EnemyAbilityBank.EnemyAbility.None)
                     actionReady = false;
                 break;
+            case ActionType.SpecialThree:
+                if (specialThreeCurrentCooldown < specialThreeCooldown)
+                    actionReady = false;
+                else if (specialThreeAbility == EnemyAbilityBank.EnemyAbility.None)
+                    actionReady = false;
+                break;
             default:
                 break;
         }
         return actionReady;
-    }
-
-    // Used when this object is hit. Check to see if we have any on hit actions we want to do like a retaliation.
-    public void CheckOnHitActionHierarchy()
-    {
-        bool actionFound = false;
-        //Debug.Log("There are " + onHitActionHierarchy.Length + " different actions i could take");
-        // check each action in the action hierachy.
-        for (int index = 0; index < onHitActionHierarchy.Length; index++)
-        {
-            //Debug.Log("Checking at index " + index);
-            // Compare this action to what we need to do.
-            ActionType currentActionToCheck = onHitActionHierarchy[index];
-            switch (currentActionToCheck)
-            {
-                case ActionType.OnHitSpecialOne:
-                    //Debug.Log(" on hit special one is being tested: " + onHitSpecialOneCurrentCooldown + "/" + onHitSpecialOneCooldown + "   This has a %" + onHitActionChances[index] + " of goinf off");
-                    if (onHitSpecialOneCurrentCooldown > onHitSpecialOneCooldown && Random.Range(0, 100) > 100 - onHitActionChances[index])
-                        actionFound = true;
-                    break;
-                default:
-                    break;
-            }
-
-            // if we found an action to commit to break from this.
-            if (actionFound)
-            {
-                //Debug.Log("We have found an action");
-                SwitchAction(currentActionToCheck);
-                break;
-            }
-        }
-
     }
 
     // Used When the player we were fighting dies.
@@ -360,8 +326,8 @@ public class EnemyCombatController : MonoBehaviour
                         actionFound = true;
                     break;
                 case ActionType.SpecialThree:
-                    break;
-                case ActionType.SpecialFour:
+                    if (specialThreeCurrentCooldown > specialThreeCooldown && Random.Range(0, 100) > 100 - actionChances[index] && CheckDistance(specialThreeRange, myTarget.transform))
+                        actionFound = true;
                     break;
                 default:
                     break;

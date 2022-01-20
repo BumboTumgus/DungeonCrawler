@@ -153,7 +153,7 @@ public class PlayerStats : MonoBehaviour
     public bool traitBleedBloodWellOnThresholdReady = true;
     public bool traitBleedStunStunBelowHalfHPReady = true;
 
-    public enum EnemyEntityType { None, Goblin, Bee, Snake, Wolf, Brute, TargetBoss}
+    public enum EnemyEntityType { None, Goblin, Bee, Snake, Wolf, Brute, IceWolf, TargetBoss}
     public EnemyEntityType entityType = EnemyEntityType.None;
 
     [SerializeField] private GameObject enemyHealthBar;
@@ -193,35 +193,41 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
-        /*
-        if (Input.GetKeyDown(KeyCode.Keypad0) && CompareTag("Player"))
+        if (Input.GetKeyDown(KeyCode.Keypad0) && CompareTag("Enemy"))
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Aflame, 1, baseDamage, this);
-        if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
+        if (Input.GetKeyDown(KeyCode.O) && CompareTag("Enemy"))
             TakeDamage(50, false, HitBox.DamageType.Physical, 0, null, false);
-    if (Input.GetKeyDown(KeyCode.Keypad1) && CompareTag("Player"))
-        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, 1, baseDamage, this);
-    if (Input.GetKeyDown(KeyCode.Keypad2) && CompareTag("Player"))
-        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, 1, baseDamage, this);
-    if (Input.GetKeyDown(KeyCode.Keypad3) && CompareTag("Player"))
-        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Overgrown, 1, baseDamage, this);
-    if (Input.GetKeyDown(KeyCode.Keypad4) && CompareTag("Player"))
-        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Windshear, 1, baseDamage, this);
-    if (Input.GetKeyDown(KeyCode.Keypad5) && CompareTag("Player"))
-        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Sunder, 1, baseDamage, this);
-    if (Input.GetKeyDown(KeyCode.Keypad6) && CompareTag("Player"))
-        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Bleeding, 1, baseDamage, this);
-    if (Input.GetKeyDown(KeyCode.Keypad7) && CompareTag("Player"))
-        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, 1, baseDamage, this);
+        if (Input.GetKeyDown(KeyCode.Keypad1) && CompareTag("Enemy"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, 1, baseDamage, this);
+        if (Input.GetKeyDown(KeyCode.Keypad2) && CompareTag("Enemy"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, 1, baseDamage, this);
+        if (Input.GetKeyDown(KeyCode.Keypad3) && CompareTag("Enemy"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Overgrown, 1, baseDamage, this);
+        if (Input.GetKeyDown(KeyCode.Keypad4) && CompareTag("Enemy"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Windshear, 1, baseDamage, this);
+        if (Input.GetKeyDown(KeyCode.Keypad5) && CompareTag("Enemy"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Sunder, 1, baseDamage, this);
+        if (Input.GetKeyDown(KeyCode.Keypad6) && CompareTag("Enemy"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Bleeding, 1, baseDamage, this);
+        if (Input.GetKeyDown(KeyCode.Keypad7) && CompareTag("Enemy"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, 1, baseDamage, this);
+        if (Input.GetKeyDown(KeyCode.Keypad8) && CompareTag("Enemy"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Frozen, 1, baseDamage, this);
+        if (Input.GetKeyDown(KeyCode.Keypad9) && CompareTag("Enemy"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Asleep, 1, baseDamage, this);
+        if (Input.GetKeyDown(KeyCode.KeypadPeriod) && CompareTag("Enemy"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, baseDamage, this);
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) && CompareTag("Enemy"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.ArmorBroken, 1, baseDamage, this);
+        if (Input.GetKeyDown(KeyCode.KeypadPlus) && CompareTag("Enemy"))
+            GetComponent<EnemyCrowdControlManager>().KnockbackLaunch((transform.forward + Vector3.up) * 10, this);
+        if (Input.GetKeyDown(KeyCode.KeypadMultiply) && CompareTag("Enemy"))
+            GetComponent<EnemyCrowdControlManager>().KnockbackLaunch((transform.forward * -10 + Vector3.up), this);
+        if (Input.GetKeyDown(KeyCode.KeypadMinus) && CompareTag("Player"))
+            GetComponent<PlayerMovementController>().KnockbackLaunch((transform.forward + Vector3.up) * 10, this);
+        /*
 
 
-    if (Input.GetKeyDown(KeyCode.Keypad8))
-        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Frozen, 1, baseDamage, this);
-    if (Input.GetKeyDown(KeyCode.Keypad9))
-        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Asleep, 1, baseDamage, this);
-    if (Input.GetKeyDown(KeyCode.KeypadPeriod))
-        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, baseDamage, this);
-    if (Input.GetKeyDown(KeyCode.KeypadEnter) && CompareTag("Player"))
-        buffManager.CheckResistanceToBuff(BuffsManager.BuffType.ArmorBroken, 1, baseDamage, this);
     if (Input.GetKeyDown(KeyCode.KeypadMinus) && CompareTag("Player"))
     if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
         AddExp(1000);
@@ -259,20 +265,6 @@ public class PlayerStats : MonoBehaviour
             GetComponent<SkillsManager>().ReduceSkillCooldowns(2f, false);
         if (Input.GetKeyDown(KeyCode.KeypadPlus))
             GetComponent<SkillsManager>().ReduceSkillCooldowns(0.5f, true);
-        */
-        // Health and mana regen logic.
-        /*
-        if (!dead)
-        {
-            float revitalizeBonus = 0f;
-            if (revitalizeBuff)
-            {
-                //revitalizeBonus = (Vit * 0.2f + bonusHealthRegen) * (1 - (health / healthMax)) * 2f;
-                //healthRegen = Vit * 0.2f + bonusHealthRegen + (revitalizeBonus * revitalizeCount);
-                myStats.UpdateHealthManaBarValues(this);
-            }
-
-        }
         */
         if (!CompareTag("Hazard"))
         {
@@ -559,9 +551,6 @@ public class PlayerStats : MonoBehaviour
                 health -= amount;
             if (health < 0)
                 health = 0;
-
-            if (CompareTag("Enemy") && GetComponent<EnemyCombatController>() != null && GetComponent<EnemyCombatController>().onHitActionHierarchy.Length > 0)
-                GetComponent<EnemyCombatController>().CheckOnHitActionHierarchy();
 
 
             // Update the health bar.

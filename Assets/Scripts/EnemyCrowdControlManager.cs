@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyCrowdControlManager : MonoBehaviour
 {
+    [SerializeField] private float knockbackGetUpTimer = 0.5f;
+
     private PlayerStats myStats;
     private EnemyCombatController combatController;
     private Animator anim;
@@ -57,6 +59,7 @@ public class EnemyCrowdControlManager : MonoBehaviour
     IEnumerator Asleep()
     {
         movementManager.StopMovement();
+        movementManager.enableMovement = false;
 
         myStats.asleep = true;
         combatController.SwitchAction(EnemyCombatController.ActionType.LossOfControl);
@@ -81,6 +84,7 @@ public class EnemyCrowdControlManager : MonoBehaviour
     IEnumerator Frozen()
     {
         movementManager.StopMovement();
+        movementManager.enableMovement = false;
 
         myStats.frozen = true;
         combatController.SwitchAction(EnemyCombatController.ActionType.LossOfControl);
@@ -104,6 +108,7 @@ public class EnemyCrowdControlManager : MonoBehaviour
         if (Random.Range(0, 100) > myStats.knockbackResistance * 100)
         {
             movementManager.StopMovement();
+            movementManager.enableMovement = false;
 
             ragdollManager.StopAllCoroutines();
             anim.ResetTrigger("GettingUpFacingDown");
@@ -150,20 +155,22 @@ public class EnemyCrowdControlManager : MonoBehaviour
         yield return new WaitForSeconds(ragdollManager.lerpTime);
 
         currentTimer = 0f;
-        targetTimer = 0.5f;
+        targetTimer = knockbackGetUpTimer;
 
-        for (int index = 0; index < 6; index++)
+        anim.enabled = true;
+        /*
+        for (int index = 0; index < anim.layerCount; index++)
         {
-            //Debug.Log(anim.GetLayerName(index));
+            Debug.Log(anim.GetLayerName(index));
             if(anim.GetLayerName(index) != "GettingUp")
                 anim.SetLayerWeight(index, 0);
         }
+        */
 
         if (ragdollManager.getUpFaceUp)
             anim.SetTrigger("GettingUpFacingDown");
         else
             anim.SetTrigger("GettingUpFacingUp");
-        anim.enabled = true;
 
         // player is getting up.
         while (myStats.knockedBack)
@@ -175,11 +182,13 @@ public class EnemyCrowdControlManager : MonoBehaviour
             yield return null;
         }
 
-        for (int index = 0; index < 6; index++)
+        /*
+        for (int index = 0; index < anim.layerCount; index++)
         {
             //Debug.Log(anim.GetLayerName(index));
             anim.SetLayerWeight(index, 1);
         }
+        */
 
         CheckForOtherLoseOfControlEffects();
     }

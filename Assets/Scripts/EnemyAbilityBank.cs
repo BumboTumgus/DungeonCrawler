@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class EnemyAbilityBank : MonoBehaviour
 {
-    public enum EnemyAbility { None, ThrowingAxe, GroundSlam, SummonGoblins, GoblinSeeker, AcidShot, SnakeCurseShot, Ephemeral, RockGolemSlamAOE, RockGolemSlamShockwave};
+    public enum EnemyAbility { None, ThrowingAxe, GroundSlam, SummonGoblins, GoblinSeeker, AcidShot, SnakeCurseShot, Ephemeral, RockGolemSlamAOE, RockGolemSlamShockwave, SummonIceWolf, GolemTriplePunch, GolemBellyflop, GolemRockThrow};
 
     public GameObject[] spellProjectiles;
     public GameObject[] spellSummons;
     public ParticleSystem[] spellParticles;
     public GameObject[] ephemeralObjectsToHide;
+
+    public GameObject targetDesignator;
 
     private PlayerStats myStats;
     private EnemyCombatController combatController;
@@ -62,6 +64,18 @@ public class EnemyAbilityBank : MonoBehaviour
                 break;
             case EnemyAbility.RockGolemSlamShockwave:
                 StartCoroutine(RockGolemSlamShockwave());
+                break;
+            case EnemyAbility.SummonIceWolf:
+                StartCoroutine(SummonIceWolf());
+                break;
+            case EnemyAbility.GolemTriplePunch:
+                StartCoroutine(GolemTriplePunch());
+                break;
+            case EnemyAbility.GolemBellyflop:
+                StartCoroutine(GolemBellyflop());
+                break;
+            case EnemyAbility.GolemRockThrow:
+                StartCoroutine(GolemRockThrow());
                 break;
             default:
                 break;
@@ -116,6 +130,24 @@ public class EnemyAbilityBank : MonoBehaviour
                 Instantiate(spellSummons[0], transform.position + transform.forward * 1.5f + transform.right * -1.5f, transform.rotation);
                 Instantiate(spellSummons[0], transform.position + transform.forward * -1.5f + transform.right * -1.5f, transform.rotation);
                 // Instantiate the goblins.
+                break;
+            case 5:
+                Instantiate(spellSummons[0], transform.position + transform.right * 1.5f, transform.rotation);
+                break;
+            case 6:
+                // Instantiate the obhect, set it's damage and aim it at the player.
+                for (int i = 0; i < 7; i++)
+                {
+                    GameObject rockShot = Instantiate(spellProjectiles[0], transform.position + Vector3.up * 1.3f + transform.forward * 1.3f, Quaternion.LookRotation(forward, Vector3.up));
+
+                    Vector3 rotation = rockShot.transform.rotation.eulerAngles;
+                    rotation.y += Random.Range(-15f, 15f);
+                    rotation.x += Random.Range(-20f, 5f);
+                    rockShot.transform.rotation = Quaternion.Euler(rotation);
+
+                    rockShot.GetComponent<HitBox>().damage = myStats.baseDamage;
+                    rockShot.GetComponent<HitBox>().myStats = myStats;
+                }
                 break;
             default:
                 break;
@@ -346,10 +378,95 @@ public class EnemyAbilityBank : MonoBehaviour
 
     IEnumerator SnakeCurseShot()
     {
-        anim.SetTrigger("AcidShot");
         movementManager.StopMovement();
         float currentTimer = 0;
-        float targetTimer = 1;
+        float targetTimer = 2.8f;
+
+        // Create the target Indicator
+        TargetIndicatorController targetIndicatorController = Instantiate(targetDesignator).GetComponent<TargetIndicatorController>();
+        targetIndicatorController.originAnchor = transform;
+        targetIndicatorController.targetAnchor = combatController.myTarget.transform;
+
+        while(currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        anim.SetTrigger("AcidShot");
+        currentTimer = 0;
+        targetTimer = 1;
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            movementManager.RotateToTarget(combatController.myTarget.transform.position);
+            yield return new WaitForEndOfFrame();
+        }
+
+        combatController.CheckActionHierarchy();
+    }
+
+    IEnumerator SummonIceWolf()
+    {
+        anim.SetTrigger("SummonIceWolf");
+        movementManager.StopMovement();
+        float currentTimer = 0;
+        float targetTimer = 1.333f;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            movementManager.RotateToTarget(combatController.myTarget.transform.position);
+            yield return new WaitForEndOfFrame();
+        }
+
+        combatController.CheckActionHierarchy();
+
+    }
+
+    IEnumerator GolemTriplePunch()
+    {
+        anim.SetTrigger("TriplePunch");
+        movementManager.StopMovement();
+        float currentTimer = 0;
+        float targetTimer = 2.334f;
+        GetComponent<HitBoxManager>().hitboxes[1].GetComponent<HitBox>().damage = myStats.baseDamage;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            movementManager.RotateToTarget(combatController.myTarget.transform.position);
+            yield return new WaitForEndOfFrame();
+        }
+
+        combatController.CheckActionHierarchy();
+    }
+
+    IEnumerator GolemBellyflop()
+    {
+        Debug.Log("BELLLLLLLY FLOP");
+        anim.SetTrigger("BellyFlop");
+        movementManager.StopMovement();
+        float currentTimer = 0;
+        float targetTimer = 4f;
+        GetComponent<HitBoxManager>().hitboxes[2].GetComponent<HitBox>().damage = myStats.baseDamage * 2;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        combatController.CheckActionHierarchy();
+    }
+
+    IEnumerator GolemRockThrow()
+    {
+        Debug.Log("ROCK THROW OF DOOOOOM");
+        anim.SetTrigger("RockThrow");
+        movementManager.StopMovement();
+        float currentTimer = 0;
+        float targetTimer = 3.834f;
 
         while (currentTimer < targetTimer)
         {

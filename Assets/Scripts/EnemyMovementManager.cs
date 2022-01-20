@@ -10,6 +10,7 @@ public class EnemyMovementManager : MonoBehaviour
 
     public float spinSpeed = 0.05f;
     public int currentStance = 0;
+    public bool multipleStances = true;
     public float animWalkSpeed = 1;
 
     public NavMeshAgent agent;
@@ -24,8 +25,11 @@ public class EnemyMovementManager : MonoBehaviour
         myStats = GetComponent<PlayerStats>();
         rb = GetComponent<Rigidbody>();
         combatController = GetComponent<EnemyCombatController>();
-        GetComponent<Animator>().SetInteger("CurrentStance", currentStance);
-        GetComponent<Animator>().SetFloat("AnimSpeed", animWalkSpeed);
+        if (multipleStances)
+        {
+            GetComponent<Animator>().SetInteger("CurrentStance", currentStance);
+            GetComponent<Animator>().SetFloat("AnimSpeed", animWalkSpeed);
+        }
 
     }
 
@@ -36,6 +40,7 @@ public class EnemyMovementManager : MonoBehaviour
         if (enableMovement && !arrivedAtTarget && (agent.destination - transform.position).sqrMagnitude <= myStats.attackRange * myStats.attackRange)
         {
             arrivedAtTarget = true;
+            GetComponent<Animator>().SetFloat("Speed", 0);
             agent.speed = 0;
         }
     }
@@ -43,6 +48,7 @@ public class EnemyMovementManager : MonoBehaviour
     // Used to set the target position as well as the destination marker.
     public void SetTarget(Vector3 position, Vector3 secondaryPosition)
     {
+        //Debug.Log("Our Destination was set");
         //Debug.Log(agent.SetDestination(position));
         if (!agent.SetDestination(position))
             agent.destination = secondaryPosition;
@@ -53,8 +59,12 @@ public class EnemyMovementManager : MonoBehaviour
             Debug.Log("I DONT HAVE A PATHHHHH");
         }
         */
-        agent.speed = myStats.speed * myStats.movespeedPercentMultiplier;
-        arrivedAtTarget = false;
+        if ((agent.destination - transform.position).sqrMagnitude >= myStats.attackRange * myStats.attackRange)
+        {
+            GetComponent<Animator>().SetFloat("Speed", 1);
+            agent.speed = myStats.speed * myStats.movespeedPercentMultiplier;
+            arrivedAtTarget = false;
+        }
     }
 
     // used to stop us from moving 

@@ -6,7 +6,7 @@ public class RagdollManager : MonoBehaviour
 {
     public FollowPlayer cameraFollow;
 
-    public enum BoneProfile {Humanoid, Bee, Snek, Wolf};
+    public enum BoneProfile {Humanoid, Bee, Snek, Wolf, Golem};
     public BoneProfile myBoneProfile = BoneProfile.Humanoid;
 
     public bool ragdollEnabled = false;
@@ -551,6 +551,70 @@ public class RagdollManager : MonoBehaviour
     private Vector3 originalWolfFRFoot2Position = Vector3.zero;
     private Vector3 originalWolfFRFoot2Rotation = Vector3.zero;
 
+    private Vector3 Golem_GetUpFromFront_Hips_Position = new Vector3(0, 0.24f, 1.17f);
+    private Vector3 Golem_GetUpFromBack_Hips_Position = new Vector3(0, 0.22f, -0.97f);
+    private Vector3 Golem_GetUp_UpperLeg_L_Position = new Vector3(-0.13f, 0, 0);
+    private Vector3 Golem_GetUp_UpperLeg_R_Position = new Vector3(0.1f, -0.08f, 0);
+    private Vector3 Golem_GetUp_LowerLeg_L_Position = new Vector3(-0.37f, 0, 0);
+    private Vector3 Golem_GetUp_LowerLeg_R_Position = new Vector3(0.37f, 0, 0);
+    private Vector3 Golem_GetUp_Ankle_L_Position = new Vector3(-0.38f, 0, 0);
+    private Vector3 Golem_GetUp_Ankle_R_Position = new Vector3(-0.38f, 0, 0);
+    private Vector3 Golem_GetUp_Spine_01_Position = new Vector3(0.03f, 0.09f, -0.02f);
+    private Vector3 Golem_GetUp_Spine_02_Position = new Vector3(-0.18f, 0, 0);
+    private Vector3 Golem_GetUp_Spine_03_Position = new Vector3(-0.18f, 0, 0);
+    private Vector3 Golem_GetUp_Clavicle_L_Position = new Vector3(-0.07f, 0, -0.17f);
+    private Vector3 Golem_GetUp_Clavicle_R_Position = new Vector3(-0.07f, 0, 0.17f);
+    private Vector3 Golem_GetUp_Neck_Position = new Vector3(-0.18f, 0.02f, 0);
+    private Vector3 Golem_GetUp_Head_Position = new Vector3(-0.09f, 0.04f, 0);
+    private Vector3 Golem_GetUp_Shoulder_L_Position = new Vector3(-0.16f, 0, 0);
+    private Vector3 Golem_GetUp_Shoulder_R_Position = new Vector3(0.16f, 0, 0);
+    private Vector3 Golem_GetUp_Elbow_L_Position = new Vector3(-0.46f, 0, 0);
+    private Vector3 Golem_GetUp_Elbow_R_Position = new Vector3(0.46f, 0, 0);
+    private Vector3 Golem_GetUp_Hand_L_Position = new Vector3(-0.32f, 0, 0);
+    private Vector3 Golem_GetUp_Hand_R_Position = new Vector3(0.32f, 0, 0);
+
+    private Vector3 Golem_GetUpFromFront_Hips_Rotation = new Vector3(100, 0, 19);
+    private Vector3 Golem_GetUpFromFront_UpperLeg_L_Rotation = new Vector3(-110, 80, -56);
+    private Vector3 Golem_GetUpFromFront_UpperLeg_R_Rotation = new Vector3(19, -116, -66);
+    private Vector3 Golem_GetUpFromFront_LowerLeg_L_Rotation = new Vector3(-25, -53, -12);
+    private Vector3 Golem_GetUpFromFront_LowerLeg_R_Rotation = new Vector3(2, -32, -17);
+    private Vector3 Golem_GetUpFromFront_Ankle_L_Rotation = new Vector3(134, -32, -52);
+    private Vector3 Golem_GetUpFromFront_Ankle_R_Rotation = new Vector3(141, -9, -59);
+    private Vector3 Golem_GetUpFromFront_Spine_01_Rotation = new Vector3(18, 90, -88);
+    private Vector3 Golem_GetUpFromFront_Spine_02_Rotation = new Vector3(180, -1.3f, 12);
+    private Vector3 Golem_GetUpFromFront_Spine_03_Rotation = new Vector3(-179, 0, 24);
+    private Vector3 Golem_GetUpFromFront_Clavicle_L_Rotation = new Vector3(73, -117, -20);
+    private Vector3 Golem_GetUpFromFront_Clavicle_R_Rotation = new Vector3(-107, -63, -20);
+    private Vector3 Golem_GetUpFromFront_Neck_Rotation = new Vector3(0, 1, -4);
+    private Vector3 Golem_GetUpFromFront_Head_Rotation = new Vector3(1, 1, -27);
+    private Vector3 Golem_GetUpFromFront_Shoulder_L_Rotation = new Vector3(-31, 67, -59);
+    private Vector3 Golem_GetUpFromFront_Shoulder_R_Rotation = new Vector3(-31, 69, -60);
+    private Vector3 Golem_GetUpFromFront_Elbow_L_Rotation = new Vector3(-8, 66, -38);
+    private Vector3 Golem_GetUpFromFront_Elbow_R_Rotation = new Vector3(-8, 66, -38);
+    private Vector3 Golem_GetUpFromFront_Hand_L_Rotation = new Vector3(5, 30, 24);
+    private Vector3 Golem_GetUpFromFront_Hand_R_Rotation = new Vector3(5, 30, 28);
+
+    private Vector3 Golem_GetUpFromBack_Hips_Rotation = new Vector3(-89, 0, 19);
+    private Vector3 Golem_GetUpFromBack_UpperLeg_L_Rotation = new Vector3(-36, -42, 79);
+    private Vector3 Golem_GetUpFromBack_UpperLeg_R_Rotation = new Vector3(2, -132, -76);
+    private Vector3 Golem_GetUpFromBack_LowerLeg_L_Rotation = new Vector3(0, -37, -23);
+    private Vector3 Golem_GetUpFromBack_LowerLeg_R_Rotation = new Vector3(2, -28, -18);
+    private Vector3 Golem_GetUpFromBack_Ankle_L_Rotation = new Vector3(136, -5, -89);
+    private Vector3 Golem_GetUpFromBack_Ankle_R_Rotation = new Vector3(133, -7, -45);
+    private Vector3 Golem_GetUpFromBack_Spine_01_Rotation = new Vector3(24, 84, -90);
+    private Vector3 Golem_GetUpFromBack_Spine_02_Rotation = new Vector3(-173, 3, 12);
+    private Vector3 Golem_GetUpFromBack_Spine_03_Rotation = new Vector3(-178, -1, 24);
+    private Vector3 Golem_GetUpFromBack_Clavicle_L_Rotation = new Vector3(73, -117, 20);
+    private Vector3 Golem_GetUpFromBack_Clavicle_R_Rotation = new Vector3(-107, -63, -20);
+    private Vector3 Golem_GetUpFromBack_Neck_Rotation = new Vector3(-6, 11, 6);
+    private Vector3 Golem_GetUpFromBack_Head_Rotation = new Vector3(7, 11, -16);
+    private Vector3 Golem_GetUpFromBack_Shoulder_L_Rotation = new Vector3(-43, -1, 29);
+    private Vector3 Golem_GetUpFromBack_Shoulder_R_Rotation = new Vector3(-31, -39, -20);
+    private Vector3 Golem_GetUpFromBack_Elbow_L_Rotation = new Vector3(-19, 90, -51);
+    private Vector3 Golem_GetUpFromBack_Elbow_R_Rotation = new Vector3(-26, 106, -48);
+    private Vector3 Golem_GetUpFromBack_Hand_L_Rotation = new Vector3(-10, 59, 7);
+    private Vector3 Golem_GetUpFromBack_Hand_R_Rotation = new Vector3(-3, 41, -23);
+
     private const float KNOCKBACK_MULTIPLIER = 45f;
     private const float BREAKOUT_MIN_VELOCITY = 0.025f;
 
@@ -588,6 +652,11 @@ public class RagdollManager : MonoBehaviour
                 playerHips = entityModel.transform.Find("Root").Find("RigPelvis").transform;
                 colliders = entityModel.transform.Find("Root").GetComponentsInChildren<Collider>();
                 break;
+            case BoneProfile.Golem:
+                rootTransform = entityModel.transform.Find("Root");
+                playerHips = entityModel.transform.Find("Root").Find("Hips").transform;
+                colliders = entityModel.transform.Find("Root").GetComponentsInChildren<Collider>();
+                break;
             default:
                 break;
         }
@@ -597,6 +666,9 @@ public class RagdollManager : MonoBehaviour
 
     private void Update()
     {
+        Debug.DrawRay(transform.position, colliders[0].transform.right * -4, Color.blue);
+        Debug.DrawRay(transform.position, colliders[0].transform.forward * -4, Color.red);
+        Debug.DrawRay(transform.position, colliders[0].transform.up * -4, Color.green);
         if (ragdollEnabled)
             transform.position = playerHips.position;
     }
@@ -674,38 +746,78 @@ public class RagdollManager : MonoBehaviour
         }
 
 
-        // Rotates the priamry transform to face the direction of the hips.
-        if (Vector3.Angle(Vector3.up, colliders[0].transform.up) > 90)
+        if (myBoneProfile == BoneProfile.Golem)
         {
-            Debug.DrawRay(transform.position, colliders[0].transform.right * -4, Color.blue);
+            Debug.Log("The angular difference is " + Vector3.Angle(Vector3.up, colliders[0].transform.forward));
+            // Rotates the priamry transform to face the direction of the hips.
+            if (Vector3.Angle(Vector3.up, colliders[0].transform.forward) > 90)
+            {
+                Debug.DrawRay(transform.position, colliders[0].transform.right * -4, Color.blue, 2f);
 
-            Quaternion rotationChange = Quaternion.FromToRotation(transform.forward, colliders[0].transform.right * -1);
-            transform.rotation = rotationChange * transform.rotation;
+                Quaternion rotationChange = Quaternion.FromToRotation(transform.forward, colliders[0].transform.up);
+                transform.rotation = rotationChange * transform.rotation;
 
-            // Zero out the x and z on the quaternion
-            Vector3 newRotation = transform.rotation.eulerAngles;
-            newRotation.x = 0;
-            newRotation.z = 0;
+                // Zero out the x and z on the quaternion
+                Vector3 newRotation = transform.rotation.eulerAngles;
+                newRotation.x = 0;
+                newRotation.z = 0;
 
-            transform.rotation = Quaternion.Euler(newRotation);
+                transform.rotation = Quaternion.Euler(newRotation);
 
-            Debug.DrawRay(transform.position, transform.forward * 4, Color.green);
+                Debug.DrawRay(transform.position, transform.forward * 4, Color.green, 2f);
+            }
+            else
+            {
+                Debug.DrawRay(transform.position, colliders[0].transform.right * 4, Color.blue, 2f);
+
+                Quaternion rotationChange = Quaternion.FromToRotation(transform.forward, colliders[0].transform.up* -1);
+                transform.rotation = rotationChange * transform.rotation;
+
+                // Zero out the x and z on the quaternion
+                Vector3 newRotation = transform.rotation.eulerAngles;
+                newRotation.x = 0;
+                newRotation.z = 0;
+
+                transform.rotation = Quaternion.Euler(newRotation);
+
+                Debug.DrawRay(transform.position, transform.forward * 4, Color.green, 2f);
+            }
         }
         else
         {
-            Debug.DrawRay(transform.position, colliders[0].transform.right * 4, Color.blue);
+            // Rotates the priamry transform to face the direction of the hips.
+            if (Vector3.Angle(Vector3.up, colliders[0].transform.up) > 90)
+            {
+                Debug.DrawRay(transform.position, colliders[0].transform.right * -4, Color.blue, 2f);
 
-            Quaternion rotationChange = Quaternion.FromToRotation(transform.forward, colliders[0].transform.right);
-            transform.rotation = rotationChange * transform.rotation;
+                Quaternion rotationChange = Quaternion.FromToRotation(transform.forward, colliders[0].transform.right * -1);
+                transform.rotation = rotationChange * transform.rotation;
 
-            // Zero out the x and z on the quaternion
-            Vector3 newRotation = transform.rotation.eulerAngles;
-            newRotation.x = 0;
-            newRotation.z = 0;
+                // Zero out the x and z on the quaternion
+                Vector3 newRotation = transform.rotation.eulerAngles;
+                newRotation.x = 0;
+                newRotation.z = 0;
 
-            transform.rotation = Quaternion.Euler(newRotation);
+                transform.rotation = Quaternion.Euler(newRotation);
 
-            Debug.DrawRay(transform.position, transform.forward * 4, Color.green);
+                Debug.DrawRay(transform.position, transform.forward * 4, Color.green, 2f);
+            }
+            else
+            {
+                Debug.DrawRay(transform.position, colliders[0].transform.right * 4, Color.blue, 2f);
+
+                Quaternion rotationChange = Quaternion.FromToRotation(transform.forward, colliders[0].transform.right);
+                transform.rotation = rotationChange * transform.rotation;
+
+                // Zero out the x and z on the quaternion
+                Vector3 newRotation = transform.rotation.eulerAngles;
+                newRotation.x = 0;
+                newRotation.z = 0;
+
+                transform.rotation = Quaternion.Euler(newRotation);
+
+                Debug.DrawRay(transform.position, transform.forward * 4, Color.green, 2f);
+            }
         }
 
         // Move the root outside the player model so they dont rotate with it.
@@ -1590,6 +1702,148 @@ public class RagdollManager : MonoBehaviour
                         boneToLerp.localRotation = Quaternion.Slerp(initialRotation, targetRotation, currentTimer / targetTimer);
                     }
                     break;
+                case BoneProfile.Golem:
+                    for (int index = 0; index < bonesToLerp.Length; index++)
+                    {
+                        Transform boneToLerp = bonesToLerp[index];
+                        Vector3 targetPosition = Vector3.zero;
+                        Vector3 initialPosition = Vector3.zero;
+                        Quaternion targetRotation = Quaternion.identity;
+                        Quaternion initialRotation = Quaternion.identity;
+
+                        // Set our target
+                        switch (index)
+                        {
+                            case 0:
+                                targetPosition = Golem_GetUpFromBack_Hips_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_Hips_Rotation);
+                                initialPosition = originalHipsPosition;
+                                initialRotation = Quaternion.Euler(originalHipsRotation);
+                                break;
+                            case 1:
+                                targetPosition = Golem_GetUp_UpperLeg_L_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_UpperLeg_L_Rotation);
+                                initialPosition = originalUpperLegLPosition;
+                                initialRotation = Quaternion.Euler(originalUpperLegLRotation);
+                                break;
+                            case 2:
+                                targetPosition = Golem_GetUp_UpperLeg_R_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_UpperLeg_R_Rotation);
+                                initialPosition = originalUpperLegRPosition;
+                                initialRotation = Quaternion.Euler(originalUpperLegRRotation);
+                                break;
+                            case 3:
+                                targetPosition = Golem_GetUp_LowerLeg_L_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_LowerLeg_L_Rotation);
+                                initialPosition = originalLowerLegLPosition;
+                                initialRotation = Quaternion.Euler(originalLowerLegLRotation);
+                                break;
+                            case 4:
+                                targetPosition = Golem_GetUp_LowerLeg_R_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_LowerLeg_R_Rotation);
+                                initialPosition = originalLowerLegRPosition;
+                                initialRotation = Quaternion.Euler(originalLowerLegRRotation);
+                                break;
+                            case 5:
+                                targetPosition = Golem_GetUp_Ankle_L_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_Ankle_L_Rotation);
+                                initialPosition = originalAnkleLPosition;
+                                initialRotation = Quaternion.Euler(originalAnkleLRotation);
+                                break;
+                            case 6:
+                                targetPosition = Golem_GetUp_Ankle_R_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_Ankle_R_Rotation);
+                                initialPosition = originalAnkleRPosition;
+                                initialRotation = Quaternion.Euler(originalAnkleRRotation);
+                                break;
+                            case 7:
+                                targetPosition = Golem_GetUp_Spine_01_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_Spine_01_Rotation);
+                                initialPosition = originalSpine1Position;
+                                initialRotation = Quaternion.Euler(originalSpine1Rotation);
+                                break;
+                            case 8:
+                                targetPosition = Golem_GetUp_Spine_02_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_Spine_02_Rotation);
+                                initialPosition = originalSpine2Position;
+                                initialRotation = Quaternion.Euler(originalSpine2Rotation);
+                                break;
+                            case 9:
+                                targetPosition = Golem_GetUp_Spine_03_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_Spine_03_Rotation);
+                                initialPosition = originalSpine3Position;
+                                initialRotation = Quaternion.Euler(originalSpine3Rotation);
+                                break;
+                            case 10:
+                                targetPosition = Golem_GetUp_Clavicle_L_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_Clavicle_L_Rotation);
+                                initialPosition = originalClavicleLPosition;
+                                initialRotation = Quaternion.Euler(originalClavicleLRotation);
+                                break;
+                            case 11:
+                                targetPosition = Golem_GetUp_Clavicle_R_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_Clavicle_R_Rotation);
+                                initialPosition = originalClavicleRPosition;
+                                initialRotation = Quaternion.Euler(originalClavicleRRotation);
+                                break;
+                            case 12:
+                                targetPosition = Golem_GetUp_Neck_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_Neck_Rotation);
+                                initialPosition = originalNeckPosition;
+                                initialRotation = Quaternion.Euler(originalNeckRotation);
+                                break;
+                            case 13:
+                                targetPosition = Golem_GetUp_Head_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_Head_Rotation);
+                                initialPosition = originalHeadPosition;
+                                initialRotation = Quaternion.Euler(originalHeadRotation);
+                                break;
+                            case 14:
+                                targetPosition = Golem_GetUp_Shoulder_L_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_Shoulder_L_Rotation);
+                                initialPosition = originalShoulderLPosition;
+                                initialRotation = Quaternion.Euler(originalShoulderLRotation);
+                                break;
+                            case 15:
+                                targetPosition = Golem_GetUp_Shoulder_R_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_Shoulder_R_Rotation);
+                                initialPosition = originalShoulderRPosition;
+                                initialRotation = Quaternion.Euler(originalShoulderRRotation);
+                                break;
+                            case 16:
+                                targetPosition = Golem_GetUp_Elbow_L_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_Elbow_L_Rotation);
+                                initialPosition = originalElbowLPosition;
+                                initialRotation = Quaternion.Euler(originalElbowLRotation);
+                                break;
+                            case 17:
+                                targetPosition = Golem_GetUp_Elbow_R_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_Elbow_R_Rotation);
+                                initialPosition = originalElbowRPosition;
+                                initialRotation = Quaternion.Euler(originalElbowRRotation);
+                                break;
+                            case 18:
+                                targetPosition = Golem_GetUp_Hand_L_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_Hand_L_Rotation);
+                                initialPosition = originalHandLPosition;
+                                initialRotation = Quaternion.Euler(originalHandLRotation);
+                                break;
+                            case 19:
+                                targetPosition = Golem_GetUp_Hand_R_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromBack_Hand_R_Rotation);
+                                initialPosition = originalHandRPosition;
+                                initialRotation = Quaternion.Euler(originalHandRRotation);
+                                break;
+                            default:
+                                break;
+                        }
+
+                        // Begin the lerp 
+
+                        boneToLerp.localPosition = Vector3.Lerp(initialPosition, targetPosition, currentTimer / targetTimer);
+                        boneToLerp.localRotation = Quaternion.Slerp(initialRotation, targetRotation, currentTimer / targetTimer);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -1610,146 +1864,297 @@ public class RagdollManager : MonoBehaviour
         {
             currentTimer += Time.deltaTime;
 
-            for (int index = 0; index < bonesToLerp.Length; index++)
+            switch (myBoneProfile)
             {
-                Transform boneToLerp = bonesToLerp[index];
-                Vector3 targetPosition = Vector3.zero;
-                Vector3 initialPosition = Vector3.zero;
-                Quaternion targetRotation = Quaternion.identity;
-                Quaternion initialRotation = Quaternion.identity;
+                case BoneProfile.Humanoid:
+                    for (int index = 0; index < bonesToLerp.Length; index++)
+                    {
+                        Transform boneToLerp = bonesToLerp[index];
+                        Vector3 targetPosition = Vector3.zero;
+                        Vector3 initialPosition = Vector3.zero;
+                        Quaternion targetRotation = Quaternion.identity;
+                        Quaternion initialRotation = Quaternion.identity;
 
-                // Set our target
-                switch (index)
-                {
-                    case 0:
-                        targetPosition = faceupGetUpHipsPosition;
-                        targetRotation = Quaternion.Euler(faceupGetUpHipsRotation);
-                        initialPosition = originalHipsPosition;
-                        initialRotation = Quaternion.Euler(originalHipsRotation);
-                        break;
-                    case 1:
-                        targetPosition = faceupGetUpUpperLegLPosition;
-                        targetRotation = Quaternion.Euler(faceupGetUpUpperLegLRotation);
-                        initialPosition = originalUpperLegLPosition;
-                        initialRotation = Quaternion.Euler(originalUpperLegLRotation);
-                        break;
-                    case 2:
-                        targetPosition = faceupGetUpUpperLegRPosition;
-                        targetRotation = Quaternion.Euler(faceupGetUpUpperLegRRotation);
-                        initialPosition = originalUpperLegRPosition;
-                        initialRotation = Quaternion.Euler(originalUpperLegRRotation);
-                        break;
-                    case 3:
-                        targetPosition = faceupGetUpLowerLegLPosition;
-                        targetRotation = Quaternion.Euler(faceupGetUpLowerLegLRotation);
-                        initialPosition = originalLowerLegLPosition;
-                        initialRotation = Quaternion.Euler(originalLowerLegLRotation);
-                        break;
-                    case 4:
-                        targetPosition = faceupGetUpLowerLegRPosition;
-                        targetRotation = Quaternion.Euler(faceupGetUpLowerLegRRotation);
-                        initialPosition = originalLowerLegRPosition;
-                        initialRotation = Quaternion.Euler(originalLowerLegRRotation);
-                        break;
-                    case 5:
-                        targetPosition = faceupGetUpAnkleLPosition;
-                        targetRotation = Quaternion.Euler(faceupGetUpAnkleLRotation);
-                        initialPosition = originalAnkleLPosition;
-                        initialRotation = Quaternion.Euler(originalAnkleLRotation);
-                        break;
-                    case 6:
-                        targetPosition = faceupGetUpAnkleRPosition;
-                        targetRotation = Quaternion.Euler(faceupGetUpAnkleRRotation);
-                        initialPosition = originalAnkleRPosition;
-                        initialRotation = Quaternion.Euler(originalAnkleRRotation);
-                        break;
-                    case 7:
-                        targetPosition = faceupGetUpSpine1Position;
-                        targetRotation = Quaternion.Euler(faceupGetUpSpine1Rotation);
-                        initialPosition = originalSpine1Position;
-                        initialRotation = Quaternion.Euler(originalSpine1Rotation);
-                        break;
-                    case 8:
-                        targetPosition = faceupGetUpSpine2Position;
-                        targetRotation = Quaternion.Euler(faceupGetUpSpine2Rotation);
-                        initialPosition = originalSpine2Position;
-                        initialRotation = Quaternion.Euler(originalSpine2Rotation);
-                        break;
-                    case 9:
-                        targetPosition = faceupGetUpSpine3Position;
-                        targetRotation = Quaternion.Euler(faceupGetUpSpine3Rotation);
-                        initialPosition = originalSpine3Position;
-                        initialRotation = Quaternion.Euler(originalSpine3Rotation);
-                        break;
-                    case 10:
-                        targetPosition = faceupGetUpClavicleLPosition;
-                        targetRotation = Quaternion.Euler(faceupGetUpClavicleLRotation);
-                        initialPosition = originalClavicleLPosition;
-                        initialRotation = Quaternion.Euler(originalClavicleLRotation);
-                        break;
-                    case 11:
-                        targetPosition = faceupGetUpClavicleRPosition;
-                        targetRotation = Quaternion.Euler(faceupGetUpClavicleRRotation);
-                        initialPosition = originalClavicleRPosition;
-                        initialRotation = Quaternion.Euler(originalClavicleRRotation);
-                        break;
-                    case 12:
-                        targetPosition = faceupGetUpNeckPosition;
-                        targetRotation = Quaternion.Euler(faceupGetUpNeckRotation);
-                        initialPosition = originalNeckPosition;
-                        initialRotation = Quaternion.Euler(originalNeckRotation);
-                        break;
-                    case 13:
-                        targetPosition = faceupGetUpHeadPosition;
-                        targetRotation = Quaternion.Euler(faceupGetUpHeadRotation);
-                        initialPosition = originalHeadPosition;
-                        initialRotation = Quaternion.Euler(originalHeadRotation);
-                        break;
-                    case 14:
-                        targetPosition = faceupGetUpShoulderLPosition;
-                        targetRotation = Quaternion.Euler(faceupGetUpShoulderLRotation);
-                        initialPosition = originalShoulderLPosition;
-                        initialRotation = Quaternion.Euler(originalShoulderLRotation);
-                        break;
-                    case 15:
-                        targetPosition = faceupGetUpShoulderRPosition;
-                        targetRotation = Quaternion.Euler(faceupGetUpShoulderRRotation);
-                        initialPosition = originalShoulderRPosition;
-                        initialRotation = Quaternion.Euler(originalShoulderRRotation);
-                        break;
-                    case 16:
-                        targetPosition = faceupGetUpElbowLPosition;
-                        targetRotation = Quaternion.Euler(faceupGetUpElbowLRotation);
-                        initialPosition = originalElbowLPosition;
-                        initialRotation = Quaternion.Euler(originalElbowLRotation);
-                        break;
-                    case 17:
-                        targetPosition = faceupGetUpElbowRPosition;
-                        targetRotation = Quaternion.Euler(faceupGetUpElbowRRotation);
-                        initialPosition = originalElbowRPosition;
-                        initialRotation = Quaternion.Euler(originalElbowRRotation);
-                        break;
-                    case 18:
-                        targetPosition = faceupGetUpHandLPosition;
-                        targetRotation = Quaternion.Euler(faceupGetUpHandLRotation);
-                        initialPosition = originalHandLPosition;
-                        initialRotation = Quaternion.Euler(originalHandLRotation);
-                        break;
-                    case 19:
-                        targetPosition = faceupGetUpHandRPosition;
-                        targetRotation = Quaternion.Euler(faceupGetUpHandRRotation);
-                        initialPosition = originalHandRPosition;
-                        initialRotation = Quaternion.Euler(originalHandRRotation);
-                        break;
-                    default:
-                        break;
-                }
+                        // Set our target
+                        switch (index)
+                        {
+                            case 0:
+                                targetPosition = faceupGetUpHipsPosition;
+                                targetRotation = Quaternion.Euler(faceupGetUpHipsRotation);
+                                initialPosition = originalHipsPosition;
+                                initialRotation = Quaternion.Euler(originalHipsRotation);
+                                break;
+                            case 1:
+                                targetPosition = faceupGetUpUpperLegLPosition;
+                                targetRotation = Quaternion.Euler(faceupGetUpUpperLegLRotation);
+                                initialPosition = originalUpperLegLPosition;
+                                initialRotation = Quaternion.Euler(originalUpperLegLRotation);
+                                break;
+                            case 2:
+                                targetPosition = faceupGetUpUpperLegRPosition;
+                                targetRotation = Quaternion.Euler(faceupGetUpUpperLegRRotation);
+                                initialPosition = originalUpperLegRPosition;
+                                initialRotation = Quaternion.Euler(originalUpperLegRRotation);
+                                break;
+                            case 3:
+                                targetPosition = faceupGetUpLowerLegLPosition;
+                                targetRotation = Quaternion.Euler(faceupGetUpLowerLegLRotation);
+                                initialPosition = originalLowerLegLPosition;
+                                initialRotation = Quaternion.Euler(originalLowerLegLRotation);
+                                break;
+                            case 4:
+                                targetPosition = faceupGetUpLowerLegRPosition;
+                                targetRotation = Quaternion.Euler(faceupGetUpLowerLegRRotation);
+                                initialPosition = originalLowerLegRPosition;
+                                initialRotation = Quaternion.Euler(originalLowerLegRRotation);
+                                break;
+                            case 5:
+                                targetPosition = faceupGetUpAnkleLPosition;
+                                targetRotation = Quaternion.Euler(faceupGetUpAnkleLRotation);
+                                initialPosition = originalAnkleLPosition;
+                                initialRotation = Quaternion.Euler(originalAnkleLRotation);
+                                break;
+                            case 6:
+                                targetPosition = faceupGetUpAnkleRPosition;
+                                targetRotation = Quaternion.Euler(faceupGetUpAnkleRRotation);
+                                initialPosition = originalAnkleRPosition;
+                                initialRotation = Quaternion.Euler(originalAnkleRRotation);
+                                break;
+                            case 7:
+                                targetPosition = faceupGetUpSpine1Position;
+                                targetRotation = Quaternion.Euler(faceupGetUpSpine1Rotation);
+                                initialPosition = originalSpine1Position;
+                                initialRotation = Quaternion.Euler(originalSpine1Rotation);
+                                break;
+                            case 8:
+                                targetPosition = faceupGetUpSpine2Position;
+                                targetRotation = Quaternion.Euler(faceupGetUpSpine2Rotation);
+                                initialPosition = originalSpine2Position;
+                                initialRotation = Quaternion.Euler(originalSpine2Rotation);
+                                break;
+                            case 9:
+                                targetPosition = faceupGetUpSpine3Position;
+                                targetRotation = Quaternion.Euler(faceupGetUpSpine3Rotation);
+                                initialPosition = originalSpine3Position;
+                                initialRotation = Quaternion.Euler(originalSpine3Rotation);
+                                break;
+                            case 10:
+                                targetPosition = faceupGetUpClavicleLPosition;
+                                targetRotation = Quaternion.Euler(faceupGetUpClavicleLRotation);
+                                initialPosition = originalClavicleLPosition;
+                                initialRotation = Quaternion.Euler(originalClavicleLRotation);
+                                break;
+                            case 11:
+                                targetPosition = faceupGetUpClavicleRPosition;
+                                targetRotation = Quaternion.Euler(faceupGetUpClavicleRRotation);
+                                initialPosition = originalClavicleRPosition;
+                                initialRotation = Quaternion.Euler(originalClavicleRRotation);
+                                break;
+                            case 12:
+                                targetPosition = faceupGetUpNeckPosition;
+                                targetRotation = Quaternion.Euler(faceupGetUpNeckRotation);
+                                initialPosition = originalNeckPosition;
+                                initialRotation = Quaternion.Euler(originalNeckRotation);
+                                break;
+                            case 13:
+                                targetPosition = faceupGetUpHeadPosition;
+                                targetRotation = Quaternion.Euler(faceupGetUpHeadRotation);
+                                initialPosition = originalHeadPosition;
+                                initialRotation = Quaternion.Euler(originalHeadRotation);
+                                break;
+                            case 14:
+                                targetPosition = faceupGetUpShoulderLPosition;
+                                targetRotation = Quaternion.Euler(faceupGetUpShoulderLRotation);
+                                initialPosition = originalShoulderLPosition;
+                                initialRotation = Quaternion.Euler(originalShoulderLRotation);
+                                break;
+                            case 15:
+                                targetPosition = faceupGetUpShoulderRPosition;
+                                targetRotation = Quaternion.Euler(faceupGetUpShoulderRRotation);
+                                initialPosition = originalShoulderRPosition;
+                                initialRotation = Quaternion.Euler(originalShoulderRRotation);
+                                break;
+                            case 16:
+                                targetPosition = faceupGetUpElbowLPosition;
+                                targetRotation = Quaternion.Euler(faceupGetUpElbowLRotation);
+                                initialPosition = originalElbowLPosition;
+                                initialRotation = Quaternion.Euler(originalElbowLRotation);
+                                break;
+                            case 17:
+                                targetPosition = faceupGetUpElbowRPosition;
+                                targetRotation = Quaternion.Euler(faceupGetUpElbowRRotation);
+                                initialPosition = originalElbowRPosition;
+                                initialRotation = Quaternion.Euler(originalElbowRRotation);
+                                break;
+                            case 18:
+                                targetPosition = faceupGetUpHandLPosition;
+                                targetRotation = Quaternion.Euler(faceupGetUpHandLRotation);
+                                initialPosition = originalHandLPosition;
+                                initialRotation = Quaternion.Euler(originalHandLRotation);
+                                break;
+                            case 19:
+                                targetPosition = faceupGetUpHandRPosition;
+                                targetRotation = Quaternion.Euler(faceupGetUpHandRRotation);
+                                initialPosition = originalHandRPosition;
+                                initialRotation = Quaternion.Euler(originalHandRRotation);
+                                break;
+                            default:
+                                break;
+                        }
 
-                // Begin the lerp 
+                        // Begin the lerp 
 
-                boneToLerp.localPosition = Vector3.Lerp(initialPosition, targetPosition, currentTimer / targetTimer);
-                boneToLerp.localRotation = Quaternion.Slerp(initialRotation, targetRotation, currentTimer / targetTimer);
+                        boneToLerp.localPosition = Vector3.Lerp(initialPosition, targetPosition, currentTimer / targetTimer);
+                        boneToLerp.localRotation = Quaternion.Slerp(initialRotation, targetRotation, currentTimer / targetTimer);
+                    }
+                    break;
+                case BoneProfile.Golem:
+                    for (int index = 0; index < bonesToLerp.Length; index++)
+                    {
+                        Transform boneToLerp = bonesToLerp[index];
+                        Vector3 targetPosition = Vector3.zero;
+                        Vector3 initialPosition = Vector3.zero;
+                        Quaternion targetRotation = Quaternion.identity;
+                        Quaternion initialRotation = Quaternion.identity;
+
+                        // Set our target
+                        switch (index)
+                        {
+                            case 0:
+                                targetPosition = Golem_GetUpFromFront_Hips_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_Hips_Rotation);
+                                initialPosition = originalHipsPosition;
+                                initialRotation = Quaternion.Euler(originalHipsRotation);
+                                break;
+                            case 1:
+                                targetPosition = Golem_GetUp_UpperLeg_L_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_UpperLeg_L_Rotation);
+                                initialPosition = originalUpperLegLPosition;
+                                initialRotation = Quaternion.Euler(originalUpperLegLRotation);
+                                break;
+                            case 2:
+                                targetPosition = Golem_GetUp_UpperLeg_R_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_UpperLeg_R_Rotation);
+                                initialPosition = originalUpperLegRPosition;
+                                initialRotation = Quaternion.Euler(originalUpperLegRRotation);
+                                break;
+                            case 3:
+                                targetPosition = Golem_GetUp_LowerLeg_L_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_LowerLeg_L_Rotation);
+                                initialPosition = originalLowerLegLPosition;
+                                initialRotation = Quaternion.Euler(originalLowerLegLRotation);
+                                break;
+                            case 4:
+                                targetPosition = Golem_GetUp_LowerLeg_R_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_LowerLeg_R_Rotation);
+                                initialPosition = originalLowerLegRPosition;
+                                initialRotation = Quaternion.Euler(originalLowerLegRRotation);
+                                break;
+                            case 5:
+                                targetPosition = Golem_GetUp_Ankle_L_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_Ankle_L_Rotation);
+                                initialPosition = originalAnkleLPosition;
+                                initialRotation = Quaternion.Euler(originalAnkleLRotation);
+                                break;
+                            case 6:
+                                targetPosition = Golem_GetUp_Ankle_R_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_Ankle_R_Rotation);
+                                initialPosition = originalAnkleRPosition;
+                                initialRotation = Quaternion.Euler(originalAnkleRRotation);
+                                break;
+                            case 7:
+                                targetPosition = Golem_GetUp_Spine_01_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_Spine_01_Rotation);
+                                initialPosition = originalSpine1Position;
+                                initialRotation = Quaternion.Euler(originalSpine1Rotation);
+                                break;
+                            case 8:
+                                targetPosition = Golem_GetUp_Spine_02_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_Spine_02_Rotation);
+                                initialPosition = originalSpine2Position;
+                                initialRotation = Quaternion.Euler(originalSpine2Rotation);
+                                break;
+                            case 9:
+                                targetPosition = Golem_GetUp_Spine_03_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_Spine_03_Rotation);
+                                initialPosition = originalSpine3Position;
+                                initialRotation = Quaternion.Euler(originalSpine3Rotation);
+                                break;
+                            case 10:
+                                targetPosition = Golem_GetUp_Clavicle_L_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_Clavicle_L_Rotation);
+                                initialPosition = originalClavicleLPosition;
+                                initialRotation = Quaternion.Euler(originalClavicleLRotation);
+                                break;
+                            case 11:
+                                targetPosition = Golem_GetUp_Clavicle_R_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_Clavicle_R_Rotation);
+                                initialPosition = originalClavicleRPosition;
+                                initialRotation = Quaternion.Euler(originalClavicleRRotation);
+                                break;
+                            case 12:
+                                targetPosition = Golem_GetUp_Neck_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_Neck_Rotation);
+                                initialPosition = originalNeckPosition;
+                                initialRotation = Quaternion.Euler(originalNeckRotation);
+                                break;
+                            case 13:
+                                targetPosition = Golem_GetUp_Head_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_Head_Rotation);
+                                initialPosition = originalHeadPosition;
+                                initialRotation = Quaternion.Euler(originalHeadRotation);
+                                break;
+                            case 14:
+                                targetPosition = Golem_GetUp_Shoulder_L_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_Shoulder_L_Rotation);
+                                initialPosition = originalShoulderLPosition;
+                                initialRotation = Quaternion.Euler(originalShoulderLRotation);
+                                break;
+                            case 15:
+                                targetPosition = Golem_GetUp_Shoulder_R_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_Shoulder_R_Rotation);
+                                initialPosition = originalShoulderRPosition;
+                                initialRotation = Quaternion.Euler(originalShoulderRRotation);
+                                break;
+                            case 16:
+                                targetPosition = Golem_GetUp_Elbow_L_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_Elbow_L_Rotation);
+                                initialPosition = originalElbowLPosition;
+                                initialRotation = Quaternion.Euler(originalElbowLRotation);
+                                break;
+                            case 17:
+                                targetPosition = Golem_GetUp_Elbow_R_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_Elbow_R_Rotation);
+                                initialPosition = originalElbowRPosition;
+                                initialRotation = Quaternion.Euler(originalElbowRRotation);
+                                break;
+                            case 18:
+                                targetPosition = Golem_GetUp_Hand_L_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_Hand_L_Rotation);
+                                initialPosition = originalHandLPosition;
+                                initialRotation = Quaternion.Euler(originalHandLRotation);
+                                break;
+                            case 19:
+                                targetPosition = Golem_GetUp_Hand_R_Position;
+                                targetRotation = Quaternion.Euler(Golem_GetUpFromFront_Hand_R_Rotation);
+                                initialPosition = originalHandRPosition;
+                                initialRotation = Quaternion.Euler(originalHandRRotation);
+                                break;
+                            default:
+                                break;
+                        }
+
+                        // Begin the lerp 
+
+                        boneToLerp.localPosition = Vector3.Lerp(initialPosition, targetPosition, currentTimer / targetTimer);
+                        boneToLerp.localRotation = Quaternion.Slerp(initialRotation, targetRotation, currentTimer / targetTimer);
+                    }
+                    break;
+                default:
+                    break;
             }
+
+           
 
             yield return null;
         }
@@ -2278,6 +2683,99 @@ public class RagdollManager : MonoBehaviour
                         case 35:
                             originalWolfFRFoot2Position = boneToMarkDown.localPosition;
                             originalWolfFRFoot2Rotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                    }
+                }
+                break;
+            case BoneProfile.Golem:
+                for (int index = 0; index < bonesToLerp.Length; index++)
+                {
+                    Transform boneToMarkDown = bonesToLerp[index];
+
+                    // Ste our target
+                    switch (index)
+                    {
+                        case 0:
+                            originalHipsPosition = boneToMarkDown.localPosition;
+                            originalHipsRotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        case 1:
+                            originalUpperLegLPosition = boneToMarkDown.localPosition;
+                            originalUpperLegLRotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        case 2:
+                            originalUpperLegRPosition = boneToMarkDown.localPosition;
+                            originalUpperLegRRotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        case 3:
+                            originalLowerLegLPosition = boneToMarkDown.localPosition;
+                            originalLowerLegLRotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        case 4:
+                            originalLowerLegRPosition = boneToMarkDown.localPosition;
+                            originalLowerLegRRotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        case 5:
+                            originalAnkleLPosition = boneToMarkDown.localPosition;
+                            originalAnkleLRotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        case 6:
+                            originalAnkleRPosition = boneToMarkDown.localPosition;
+                            originalAnkleRRotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        case 7:
+                            originalSpine1Position = boneToMarkDown.localPosition;
+                            originalSpine1Rotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        case 8:
+                            originalSpine2Position = boneToMarkDown.localPosition;
+                            originalSpine2Rotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        case 9:
+                            originalSpine3Position = boneToMarkDown.localPosition;
+                            originalSpine3Rotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        case 10:
+                            originalClavicleLPosition = boneToMarkDown.localPosition;
+                            originalClavicleLRotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        case 11:
+                            originalClavicleRPosition = boneToMarkDown.localPosition;
+                            originalClavicleRRotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        case 12:
+                            originalNeckPosition = boneToMarkDown.localPosition;
+                            originalNeckRotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        case 13:
+                            originalHeadPosition = boneToMarkDown.localPosition;
+                            originalHeadRotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        case 14:
+                            originalShoulderLPosition = boneToMarkDown.localPosition;
+                            originalShoulderLRotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        case 15:
+                            originalShoulderRPosition = boneToMarkDown.localPosition;
+                            originalShoulderRRotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        case 16:
+                            originalElbowLPosition = boneToMarkDown.localPosition;
+                            originalElbowLRotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        case 17:
+                            originalElbowRPosition = boneToMarkDown.localPosition;
+                            originalElbowRRotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        case 18:
+                            originalHandLPosition = boneToMarkDown.localPosition;
+                            originalHandLRotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        case 19:
+                            originalHandRPosition = boneToMarkDown.localPosition;
+                            originalHandRRotation = boneToMarkDown.localRotation.eulerAngles;
+                            break;
+                        default:
                             break;
                     }
                 }
