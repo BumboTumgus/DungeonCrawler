@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyAbilityBank : MonoBehaviour
 {
-    public enum EnemyAbility { None, ThrowingAxe, GroundSlam, SummonGoblins, GoblinSeeker, AcidShot, SnakeCurseShot, Ephemeral, RockGolemSlamAOE, RockGolemSlamShockwave, SummonIceWolf, GolemTriplePunch, GolemBellyflop, GolemRockThrow};
+    public enum EnemyAbility { None, ThrowingAxe, GroundSlam, SummonGoblins, GoblinSeeker, AcidShot, SnakeCurseShot, Ephemeral, RockGolemSlamAOE, RockGolemSlamShockwave, SummonIceWolf, GolemTriplePunch, GolemBellyflop, GolemRockThrow, ForgeGiantStomp, ForgeGiantTracerOrb, ForgeGiantChestLaser};
 
     public GameObject[] spellProjectiles;
     public GameObject[] spellSummons;
@@ -12,6 +12,11 @@ public class EnemyAbilityBank : MonoBehaviour
     public GameObject[] ephemeralObjectsToHide;
 
     public GameObject targetDesignator;
+    public Transform designatorOrigin;
+
+    [SerializeField] private LayerMask rayMask;
+
+    [SerializeField] private Transform[] projectileSpawnReferences;
 
     private PlayerStats myStats;
     private EnemyCombatController combatController;
@@ -76,6 +81,15 @@ public class EnemyAbilityBank : MonoBehaviour
                 break;
             case EnemyAbility.GolemRockThrow:
                 StartCoroutine(GolemRockThrow());
+                break;
+            case EnemyAbility.ForgeGiantStomp:
+                StartCoroutine(ForgeGiantStomp());
+                break;
+            case EnemyAbility.ForgeGiantTracerOrb:
+                StartCoroutine(ForgeGiantTracerOrb());
+                break;
+            case EnemyAbility.ForgeGiantChestLaser:
+                StartCoroutine(ForgeGiantChestLaser());
                 break;
             default:
                 break;
@@ -148,6 +162,34 @@ public class EnemyAbilityBank : MonoBehaviour
                     rockShot.GetComponent<HitBox>().damage = myStats.baseDamage;
                     rockShot.GetComponent<HitBox>().myStats = myStats;
                 }
+                break;
+            case 7:
+                // Create the Tracer orb spawner.
+                GameObject tracerOrb = Instantiate(spellProjectiles[0], projectileSpawnReferences[0].position, Quaternion.LookRotation(forward, Vector3.up));
+                tracerOrb.GetComponent<HitBox>().damage = myStats.baseDamage * 0.5f;
+                tracerOrb.GetComponent<HitBox>().myStats = myStats;
+                tracerOrb.GetComponent<HitBox>().enemyStats = combatController.myTarget.GetComponent<PlayerStats>();
+                break;
+            case 8:
+                // Shoot a ray and check to see what it hits.
+                RaycastHit rayhit;
+                Vector3 beamTarget = combatController.myTarget.transform.position;
+                float magnitude = (combatController.myTarget.transform.position - designatorOrigin.position).magnitude;
+
+                if (magnitude > 100)
+                    magnitude = 100;
+
+                // Snapping to target Logic.
+                if (Physics.Raycast(new Ray(designatorOrigin.position, combatController.myTarget.transform.position - designatorOrigin.position), out rayhit, magnitude, rayMask))
+                    beamTarget = rayhit.point;
+
+
+                GameObject beam = Instantiate(spellProjectiles[1], transform.position, Quaternion.identity);
+                beam.GetComponent<LineRenderer>().SetPositions(new Vector3[] { designatorOrigin.position, beamTarget });
+
+                GameObject beamExplosion = Instantiate(spellProjectiles[2], beamTarget, Quaternion.identity);
+                beamExplosion.GetComponent<HitBox>().damage = myStats.baseDamage * 5f;
+                beamExplosion.GetComponent<HitBox>().myStats = myStats;
                 break;
             default:
                 break;
@@ -467,6 +509,68 @@ public class EnemyAbilityBank : MonoBehaviour
         movementManager.StopMovement();
         float currentTimer = 0;
         float targetTimer = 3.834f;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            movementManager.RotateToTarget(combatController.myTarget.transform.position);
+            yield return new WaitForEndOfFrame();
+        }
+
+        combatController.CheckActionHierarchy();
+    }
+
+    IEnumerator ForgeGiantStomp()
+    {
+        Debug.Log("STOMPING");
+        anim.SetTrigger("Stomping");
+        movementManager.StopMovement();
+        float currentTimer = 0;
+        float targetTimer = 5.034f;
+
+
+        GetComponent<HitBoxManager>().hitboxes[1].GetComponent<HitBox>().damage = myStats.baseDamage;
+        GetComponent<HitBoxManager>().hitboxes[2].GetComponent<HitBox>().damage = myStats.baseDamage;
+        GetComponent<HitBoxManager>().hitboxes[3].GetComponent<HitBox>().damage = myStats.baseDamage;
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        combatController.CheckActionHierarchy();
+    }
+
+    IEnumerator ForgeGiantTracerOrb()
+    {
+        Debug.Log("SUMMON TRACER ORB");
+        anim.SetTrigger("SummonTracerOrb");
+        movementManager.StopMovement();
+        float currentTimer = 0;
+        float targetTimer = 4f;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            movementManager.RotateToTarget(combatController.myTarget.transform.position);
+            yield return new WaitForEndOfFrame();
+        }
+
+        combatController.CheckActionHierarchy();
+    }
+
+    IEnumerator ForgeGiantChestLaser()
+    {
+        Debug.Log("CHEST LASER");
+        anim.SetTrigger("ChestLaser");
+        movementManager.StopMovement();
+        float currentTimer = 0;
+        float targetTimer = 7.833f;
+
+        // Create the target Indicator
+        TargetIndicatorController targetIndicatorController = Instantiate(targetDesignator).GetComponent<TargetIndicatorController>();
+        targetIndicatorController.originAnchor = designatorOrigin;
+        targetIndicatorController.targetAnchor = combatController.myTarget.transform;
 
         while (currentTimer < targetTimer)
         {

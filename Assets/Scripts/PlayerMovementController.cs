@@ -790,9 +790,6 @@ public class PlayerMovementController : MonoBehaviour
         }
 
         playerState = PlayerState.LossOfControl;
-        ragdollManager.LerpBonesToGetUpAnim();
-
-        yield return new WaitForSeconds(ragdollManager.lerpTime);
 
         currentTimer = 0f;
         targetTimer = 0.5f;

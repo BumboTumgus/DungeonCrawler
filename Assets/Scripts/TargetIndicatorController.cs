@@ -17,6 +17,8 @@ public class TargetIndicatorController : MonoBehaviour
 
     [SerializeField] private LayerMask rayMask;
 
+    [SerializeField] private float range = 20f;
+
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -29,14 +31,14 @@ public class TargetIndicatorController : MonoBehaviour
         Vector3 lineRendererTarget = targetAnchor.transform.position;
         float magnitude = (targetAnchor.transform.position - originAnchor.transform.position).magnitude;
 
-        if (magnitude > 20)
-            magnitude = 20;
+        if (magnitude > range)
+            magnitude = range;
 
         // Snapping to target Logic.
         if (Physics.Raycast(new Ray(originAnchor.position, targetAnchor.position - originAnchor.position), out rayhit, magnitude, rayMask))
             lineRendererTarget = rayhit.point;
 
-        lineRenderer.SetPositions(new Vector3[] { originAnchor.position + Vector3.up, lineRendererTarget + Vector3.up });
+        lineRenderer.SetPositions(new Vector3[] { originAnchor.position, lineRendererTarget + Vector3.up });
 
 
 

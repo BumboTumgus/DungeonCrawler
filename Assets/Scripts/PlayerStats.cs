@@ -153,7 +153,7 @@ public class PlayerStats : MonoBehaviour
     public bool traitBleedBloodWellOnThresholdReady = true;
     public bool traitBleedStunStunBelowHalfHPReady = true;
 
-    public enum EnemyEntityType { None, Goblin, Bee, Snake, Wolf, Brute, IceWolf, TargetBoss}
+    public enum EnemyEntityType { None, Goblin, Bee, Snake, Wolf, Brute, IceWolf, Golem, ForgeGiant, TargetBoss}
     public EnemyEntityType entityType = EnemyEntityType.None;
 
     [SerializeField] private GameObject enemyHealthBar;

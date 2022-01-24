@@ -150,10 +150,6 @@ public class EnemyCrowdControlManager : MonoBehaviour
             yield return null;
         }
 
-        ragdollManager.LerpBonesToGetUpAnim();
-
-        yield return new WaitForSeconds(ragdollManager.lerpTime);
-
         currentTimer = 0f;
         targetTimer = knockbackGetUpTimer;
 
