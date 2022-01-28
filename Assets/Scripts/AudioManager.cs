@@ -5,7 +5,8 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public AudioSource[] audioSources;
-    public int[] audioRangeSteps;
+    public List<int> audioRangeStartIndexes;
+    public List<int> audioRangeStopIndexes;
 
     public void PlayAudio(int index)
     {
@@ -14,7 +15,9 @@ public class AudioManager : MonoBehaviour
 
     public void PlayAudioInRange(int index)
     {
-        audioSources[Random.Range(index, index + audioRangeSteps[index] + 1)].Play();
+        int audioIndex = Random.Range(audioRangeStartIndexes[index], audioRangeStopIndexes[index] + 1);
+
+        audioSources[audioIndex].Play();
     }
 
     public void StopAudio(int index)

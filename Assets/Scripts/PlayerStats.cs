@@ -37,7 +37,7 @@ public class PlayerStats : MonoBehaviour
     public float basicAttackDamageMultiplier = 1;
     public float spellDamageMultiplier = 1;
 
-    public float attackSpeed = 1;
+    [HideInInspector] public float attackSpeed = 1;
     public float weaponAttacksPerSecond = 1;
     public float bonusAttackSpeed = 0;
     public int bonusStacksOnHit = 0;
@@ -363,8 +363,7 @@ public class PlayerStats : MonoBehaviour
         if (health > healthMax)
             health = healthMax;
 
-        if(CompareTag("Player"))
-            attackSpeed = 1 + bonusAttackSpeed;
+        attackSpeed = 1 + bonusAttackSpeed;
 
         traitPoisonFireSpellOnHitTargetTimer = 3 / attackSpeed;
 

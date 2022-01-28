@@ -6,6 +6,7 @@ public class ProjectileBehaviour : MonoBehaviour
 {
     public float projectileSpeed = 5;
     public float projectileSpeedDecay = 0f;
+    public float projectileSizeIncrease = 0f;
     public float projectileLifetime = 10f;
     public bool piercesTargets = false;
     public bool piercesWalls = false;
@@ -61,6 +62,11 @@ public class ProjectileBehaviour : MonoBehaviour
             }
         }
 
+        if(projectileSizeIncrease != 0)
+        {
+            transform.localScale *= 1 + (projectileSizeIncrease * Time.deltaTime);
+        }
+
         currentLifetime += Time.deltaTime;
         if (currentLifetime > projectileLifetime)
             DestroyProjectile();
@@ -69,14 +75,17 @@ public class ProjectileBehaviour : MonoBehaviour
     // Used to destroy this projectile.
     public void DestroyProjectile()
     {
-        GameObject hitEffects = Instantiate(particleHitEffects, transform.position, transform.rotation);
-        if(hitAOE && hitEffects.GetComponent<DestroyAfterTime>().attachedHitBox == true)
+        if (particleHitEffects)
         {
-            hitEffects.GetComponent<HitBox>().damage = GetComponent<HitBox>().damage;
-            hitEffects.GetComponent<HitBox>().myStats = GetComponent<HitBox>().myStats;
+            GameObject hitEffects = Instantiate(particleHitEffects, transform.position, transform.rotation);
+            if (hitAOE && hitEffects.GetComponent<DestroyAfterTime>().attachedHitBox == true)
+            {
+                hitEffects.GetComponent<HitBox>().damage = GetComponent<HitBox>().damage;
+                hitEffects.GetComponent<HitBox>().myStats = GetComponent<HitBox>().myStats;
 
-            if (hitEffects.GetComponent<HitBoxBuff>() != null)
-                hitEffects.GetComponent<HitBoxBuff>().buffOrigin = GetComponent<HitBox>().myStats;
+                if (hitEffects.GetComponent<HitBoxBuff>() != null)
+                    hitEffects.GetComponent<HitBoxBuff>().buffOrigin = GetComponent<HitBox>().myStats;
+            }
         }
         Destroy(gameObject);
     }

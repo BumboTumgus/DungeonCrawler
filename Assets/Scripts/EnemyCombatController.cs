@@ -6,25 +6,32 @@ public class EnemyCombatController : MonoBehaviour
 {
     public float agroRange = 20f;
     public bool usePrimaryAttack = true;
+    [SerializeField] private float basicAttackDuration = 0.8f;
+    [SerializeField] private float basicAttackDelay = 3f;
 
     public EnemyAbilityBank.EnemyAbility specialOneAbility;
     public EnemyAbilityBank.EnemyAbility specialTwoAbility;
     public EnemyAbilityBank.EnemyAbility specialThreeAbility;
+    public EnemyAbilityBank.EnemyAbility specialFourAbility;
     public float specialOneRange = 100;
     public float specialTwoRange = 100;
     public float specialThreeRange = 100;
+    public float specialFourRange = 100;
 
     public float specialOneCooldown = 5f;
     public float specialTwoCooldown = 5f;
     public float specialThreeCooldown = 5f;
+    public float specialFourCooldown = 5f;
 
     [SerializeField] private float specialOneCurrentCooldown = 0f;
     [SerializeField] private float specialTwoCurrentCooldown = 0f;
     [SerializeField] private float specialThreeCurrentCooldown = 0f;
+    [SerializeField] private float specialFourCurrentCooldown = 0f;
+
 
     public GameObject myTarget;
     // A list of potential actions or behaviours
-    public enum ActionType { Attack, ChaseTarget, SpecialOne, SpecialTwo, SpecialThree, LossOfControl};
+    public enum ActionType { Attack, ChaseTarget, SpecialOne, SpecialTwo, SpecialThree, SpecialFour, LossOfControl};
     public ActionType myCurrentAction = ActionType.ChaseTarget;
 
     // This is the action hierarchy List, The actions go in in order of importance.s
@@ -62,6 +69,7 @@ public class EnemyCombatController : MonoBehaviour
         specialOneCurrentCooldown += Time.deltaTime;
         specialTwoCurrentCooldown += Time.deltaTime;
         specialThreeCurrentCooldown += Time.deltaTime;
+        specialFourCurrentCooldown += Time.deltaTime;
     }
 
     // This method is called when we need to revaluate what state we are in and what to do next.
@@ -94,6 +102,11 @@ public class EnemyCombatController : MonoBehaviour
                 specialThreeCurrentCooldown = 0;
                 myCurrentAction = ActionType.SpecialThree;
                 abilityBank.CastSpell(specialThreeAbility);
+                break;
+            case ActionType.SpecialFour:
+                specialFourCurrentCooldown = 0;
+                myCurrentAction = ActionType.SpecialFour;
+                abilityBank.CastSpell(specialFourAbility);
                 break;
             default:
                 break;
@@ -133,12 +146,15 @@ public class EnemyCombatController : MonoBehaviour
         // Check to see if our attack is ready and if the enemy is in range.
         while(movementManager.arrivedAtTarget)
         {
+            Debug.Log("We arrived at our destination are we in range to attack here?");
             // Check the attack range distance, if we are out of range, start chasing.
             if(usePrimaryAttack && CheckDistance(myStats.attackRange, myTarget.transform))
             {
+                Debug.Log("We can attack and are in range");
                 // Can we currently attack?
-                if (myStats.currentAttackDelay > 1 / myStats.attackSpeed )
+                if (myStats.currentAttackDelay > basicAttackDelay / myStats.attackSpeed )
                 {
+                    Debug.Log("We have waited long enough to attack");
                     // Launch the attack.
                     myStats.currentAttackDelay = 0;
                     anim.SetTrigger("Attack");
@@ -146,8 +162,9 @@ public class EnemyCombatController : MonoBehaviour
 
                     // Set up the timers.
                     float currentTimer = 0;
-                    float targetTimer = 0.8f / myStats.attackSpeed;
+                    float targetTimer = basicAttackDuration / myStats.attackSpeed;
 
+                    Debug.Log($"our duration is {basicAttackDuration} / {myStats.attackSpeed} to equal {basicAttackDuration / myStats.attackSpeed}");
                     while(currentTimer < targetTimer)
                     {
                         currentTimer += Time.deltaTime;
@@ -270,6 +287,12 @@ public class EnemyCombatController : MonoBehaviour
                 else if (specialThreeAbility == EnemyAbilityBank.EnemyAbility.None)
                     actionReady = false;
                 break;
+            case ActionType.SpecialFour:
+                if (specialFourCurrentCooldown < specialFourCooldown)
+                    actionReady = false;
+                else if (specialFourAbility == EnemyAbilityBank.EnemyAbility.None)
+                    actionReady = false;
+                break;
             default:
                 break;
         }
@@ -327,6 +350,10 @@ public class EnemyCombatController : MonoBehaviour
                     break;
                 case ActionType.SpecialThree:
                     if (specialThreeCurrentCooldown > specialThreeCooldown && Random.Range(0, 100) > 100 - actionChances[index] && CheckDistance(specialThreeRange, myTarget.transform))
+                        actionFound = true;
+                    break;
+                case ActionType.SpecialFour:
+                    if (specialFourCurrentCooldown > specialFourCooldown && Random.Range(0, 100) > 100 - actionChances[index] && CheckDistance(specialFourRange, myTarget.transform))
                         actionFound = true;
                     break;
                 default:

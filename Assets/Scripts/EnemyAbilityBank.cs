@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EnemyAbilityBank : MonoBehaviour
 {
-    public enum EnemyAbility { None, ThrowingAxe, GroundSlam, SummonGoblins, GoblinSeeker, AcidShot, SnakeCurseShot, Ephemeral, RockGolemSlamAOE, RockGolemSlamShockwave, SummonIceWolf, GolemTriplePunch, GolemBellyflop, GolemRockThrow, ForgeGiantStomp, ForgeGiantTracerOrb, ForgeGiantChestLaser};
+    public enum EnemyAbility { None, ThrowingAxe, GroundSlam, SummonGoblins, GoblinSeeker, AcidShot, SnakeCurseShot, Ephemeral, RockGolemSlamAOE, RockGolemSlamShockwave, SummonIceWolf, GolemTriplePunch, GolemBellyflop, GolemRockThrow, ForgeGiantStomp, ForgeGiantTracerOrb,
+        ForgeGiantChestLaser, DragonScorchedEarth, DragonBreathAttack, DragonWingFlap, DragonRoar};
 
     public GameObject[] spellProjectiles;
     public GameObject[] spellSummons;
@@ -90,6 +91,18 @@ public class EnemyAbilityBank : MonoBehaviour
                 break;
             case EnemyAbility.ForgeGiantChestLaser:
                 StartCoroutine(ForgeGiantChestLaser());
+                break;
+            case EnemyAbility.DragonScorchedEarth:
+                StartCoroutine(DragonScorchedEarth());
+                break;
+            case EnemyAbility.DragonBreathAttack:
+                StartCoroutine(DragonBreathAttack());
+                break;
+            case EnemyAbility.DragonRoar:
+                StartCoroutine(DragonRoar());
+                break;
+            case EnemyAbility.DragonWingFlap:
+                StartCoroutine(DragonWingFlap());
                 break;
             default:
                 break;
@@ -190,6 +203,12 @@ public class EnemyAbilityBank : MonoBehaviour
                 GameObject beamExplosion = Instantiate(spellProjectiles[2], beamTarget, Quaternion.identity);
                 beamExplosion.GetComponent<HitBox>().damage = myStats.baseDamage * 5f;
                 beamExplosion.GetComponent<HitBox>().myStats = myStats;
+                break;
+            case 9:
+                // Instantiate the obhect, set it's damage and aim it at the player.
+                GameObject dragonBreath = Instantiate(spellProjectiles[0], projectileSpawnReferences[0].position, Quaternion.LookRotation(forward, Vector3.up));
+                dragonBreath.GetComponent<HitBox>().damage = myStats.baseDamage * 0.2f;
+                dragonBreath.GetComponent<HitBox>().myStats = myStats;
                 break;
             default:
                 break;
@@ -486,7 +505,6 @@ public class EnemyAbilityBank : MonoBehaviour
 
     IEnumerator GolemBellyflop()
     {
-        Debug.Log("BELLLLLLLY FLOP");
         anim.SetTrigger("BellyFlop");
         movementManager.StopMovement();
         float currentTimer = 0;
@@ -504,7 +522,6 @@ public class EnemyAbilityBank : MonoBehaviour
 
     IEnumerator GolemRockThrow()
     {
-        Debug.Log("ROCK THROW OF DOOOOOM");
         anim.SetTrigger("RockThrow");
         movementManager.StopMovement();
         float currentTimer = 0;
@@ -522,12 +539,10 @@ public class EnemyAbilityBank : MonoBehaviour
 
     IEnumerator ForgeGiantStomp()
     {
-        Debug.Log("STOMPING");
         anim.SetTrigger("Stomping");
         movementManager.StopMovement();
         float currentTimer = 0;
         float targetTimer = 5.034f;
-
 
         GetComponent<HitBoxManager>().hitboxes[1].GetComponent<HitBox>().damage = myStats.baseDamage;
         GetComponent<HitBoxManager>().hitboxes[2].GetComponent<HitBox>().damage = myStats.baseDamage;
@@ -543,7 +558,6 @@ public class EnemyAbilityBank : MonoBehaviour
 
     IEnumerator ForgeGiantTracerOrb()
     {
-        Debug.Log("SUMMON TRACER ORB");
         anim.SetTrigger("SummonTracerOrb");
         movementManager.StopMovement();
         float currentTimer = 0;
@@ -561,7 +575,6 @@ public class EnemyAbilityBank : MonoBehaviour
 
     IEnumerator ForgeGiantChestLaser()
     {
-        Debug.Log("CHEST LASER");
         anim.SetTrigger("ChestLaser");
         movementManager.StopMovement();
         float currentTimer = 0;
@@ -576,6 +589,78 @@ public class EnemyAbilityBank : MonoBehaviour
         {
             currentTimer += Time.deltaTime;
             movementManager.RotateToTarget(combatController.myTarget.transform.position);
+            yield return new WaitForEndOfFrame();
+        }
+
+        combatController.CheckActionHierarchy();
+    }
+
+    IEnumerator DragonScorchedEarth()
+    {
+        Debug.Log("SCORCHED EARTH");
+        anim.SetTrigger("ScorchedEarth");
+        movementManager.StopMovement();
+        float currentTimer = 0;
+        float targetTimer = 7.2f;
+
+        GetComponent<HitBoxManager>().hitboxes[2].GetComponent<HitBox>().damage = myStats.baseDamage * 0.15f;
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        combatController.CheckActionHierarchy();
+    }
+
+    IEnumerator DragonRoar()
+    {
+        Debug.Log("DO THE ROAR");
+        anim.SetTrigger("Roar");
+        movementManager.StopMovement();
+        float currentTimer = 0;
+        float targetTimer = 3f;
+
+        GetComponent<HitBoxManager>().hitboxes[1].GetComponent<HitBox>().damage = myStats.baseDamage * 0.5f;
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            movementManager.RotateToTarget(combatController.myTarget.transform.position);
+            yield return new WaitForEndOfFrame();
+        }
+
+        combatController.CheckActionHierarchy();
+    }
+
+    IEnumerator DragonBreathAttack()
+    {
+        Debug.Log("BreathAttack");
+        anim.SetTrigger("BreathAttack");
+        movementManager.StopMovement();
+        float currentTimer = 0;
+        float targetTimer = 5f;
+
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            movementManager.RotateToTarget(combatController.myTarget.transform.position);
+            yield return new WaitForEndOfFrame();
+        }
+
+        combatController.CheckActionHierarchy();
+    }
+    IEnumerator DragonWingFlap()
+    {
+        Debug.Log("FLAP FLAP MF");
+        anim.SetTrigger("WingFlap");
+        movementManager.StopMovement();
+        float currentTimer = 0;
+        float targetTimer = 6.667f;
+
+        GetComponent<HitBoxManager>().hitboxes[3].GetComponent<HitBox>().damage = myStats.baseDamage * 0.8f;
+        while (currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
 

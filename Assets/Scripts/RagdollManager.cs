@@ -6,7 +6,7 @@ public class RagdollManager : MonoBehaviour
 {
     public FollowPlayer cameraFollow;
 
-    public enum BoneProfile {Humanoid, Bee, Snek, Wolf, Golem};
+    public enum BoneProfile {Humanoid, Bee, Snek, Wolf, Golem, Dragon};
     public BoneProfile myBoneProfile = BoneProfile.Humanoid;
 
     public bool ragdollEnabled = false;
@@ -62,6 +62,11 @@ public class RagdollManager : MonoBehaviour
             case BoneProfile.Golem:
                 rootTransform = entityModel.transform.Find("Root");
                 playerHips = entityModel.transform.Find("Root").Find("Hips").transform;
+                colliders = entityModel.transform.Find("Root").GetComponentsInChildren<Collider>();
+                break;
+            case BoneProfile.Dragon:
+                rootTransform = entityModel.transform.Find("Root");
+                playerHips = entityModel.transform.Find("Root").Find("RigPelvis").transform;
                 colliders = entityModel.transform.Find("Root").GetComponentsInChildren<Collider>();
                 break;
             default:
