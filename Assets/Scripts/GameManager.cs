@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     public Transform[] spawnsChest;
     public int currentLevel = 0;
     public float combinedPlayerLuck = 0;
+    public PlayerStats trapStats;
+    private HitBoxTrap[] trapHitboxes;
 
     public float objectiveCurrentProgress;
     public float objectiveTarget;
@@ -285,6 +287,12 @@ public class GameManager : MonoBehaviour
             chest.transform.Find("MoneyCostCanvas").GetComponent<FaceNearestPlayerBehaviour>().playerToFace = currentPlayers[0].transform;
         }
 
+        // Sets up the traps and the trap stats.
+        trapStats = GameObject.Find("Hazards").GetComponent<PlayerStats>();
+        trapStats.StatSetup(true, false);
+        trapHitboxes = trapStats.GetComponentsInChildren<HitBoxTrap>();
+        InitializeTraps();
+
         EnemyManager.instance.LevelSetup();
 
         levelMusic = GameObject.Find("Audio_LevelTheme").GetComponent<AudioFader>();
@@ -387,6 +395,24 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    private void InitializeTraps()
+    {
+        if (trapHitboxes.Length > 0)
+            foreach (HitBoxTrap trap in trapHitboxes)
+            {
+                trap.connectedStats = trapStats;
+                trap.baseDamage = trapStats.baseDamage;
+            }
+    }
+
+    public void SetTrapDamage()
+    {
+        Debug.Log("The traps will have their base damage here set to liek " + trapStats.baseDamage);
+        if(trapHitboxes.Length > 0)
+            foreach (HitBoxTrap trap in trapHitboxes)
+                trap.baseDamage = trapStats.baseDamage;
     }
 
     public void LaunchPlayerTeleport()

@@ -10,20 +10,19 @@ public class HitBoxTrap : MonoBehaviour
     public float damageMultiplier = 0;
     public int stacksToAdd = 0;
 
+    public bool damageOverTime = true;
+
     public bool hitEnemies = false;
     public bool hitPlayers = false;
 
     private PlayerStats enemyStats;
+    [HideInInspector] public PlayerStats connectedStats;
 
 
     private void OnTriggerEnter(Collider other)
     {
-        // Enemy Logic
-        if (other.CompareTag("Enemy") && hitEnemies)
-        {
-        }
-        // Player Logic
-        else if (other.CompareTag("Player") && hitPlayers)
+        // Player Logic and enemy logic... ITS THE SAME :O
+        if (other.CompareTag("Player") && hitPlayers || other.CompareTag("Enemy") && hitEnemies)
         {
             enemyStats = other.GetComponent<PlayerStats>();
 
@@ -41,34 +40,34 @@ public class HitBoxTrap : MonoBehaviour
                     switch (damageType)
                     {
                         case HitBox.DamageType.Fire:
-                            enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Aflame, stacksToAdd, baseDamage, null);
+                            enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Aflame, stacksToAdd, baseDamage, connectedStats);
                             break;
                         case HitBox.DamageType.Ice:
-                            enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, stacksToAdd, baseDamage, null);
+                            enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Frostbite, stacksToAdd, baseDamage, connectedStats);
                             break;
                         case HitBox.DamageType.Lightning:
-                            enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, stacksToAdd, baseDamage, null);
+                            enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overcharge, stacksToAdd, baseDamage, connectedStats);
                             break;
                         case HitBox.DamageType.Nature:
-                            enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overgrown, stacksToAdd, baseDamage, null);
+                            enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Overgrown, stacksToAdd, baseDamage, connectedStats);
                             break;
                         case HitBox.DamageType.Earth:
-                            enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Sunder, stacksToAdd, baseDamage, null);
+                            enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Sunder, stacksToAdd, baseDamage, connectedStats);
                             break;
                         case HitBox.DamageType.Wind:
-                            enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Windshear, stacksToAdd, baseDamage, null);
+                            enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Windshear, stacksToAdd, baseDamage, connectedStats);
                             break;
                         case HitBox.DamageType.Poison:
-                            enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, stacksToAdd, baseDamage, null);
+                            enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Poisoned, stacksToAdd, baseDamage, connectedStats);
                             break;
                         case HitBox.DamageType.Bleed:
-                            enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Bleeding, stacksToAdd, baseDamage, null);
+                            enemyStats.GetComponent<BuffsManager>().CheckResistanceToBuff(BuffsManager.BuffType.Bleeding, stacksToAdd, baseDamage, connectedStats);
                             break;
                         default:
                             break;
                     }
                 }
-                enemyStats.TakeDamage(damageDealt, false, damageType, 0, null, false);
+                enemyStats.TakeDamage(damageDealt, false, damageType, 0, null, damageOverTime);
             }
             else
                 enemyStats.HealHealth(damageDealt, damageType);

@@ -59,13 +59,16 @@ public class EnemyManager : MonoBehaviour
                 stats.level = enemyLevel;
                 stats.StatSetup(true, true);
             }
+            GameManager.instance.trapStats.level = enemyLevel;
+            GameManager.instance.trapStats.StatSetup(true, true);
+            GameManager.instance.SetTrapDamage();
         }
 
+        /*
         if (Input.GetKeyDown(KeyCode.Semicolon))
         {
             GameObject enemy = Instantiate(enemyBank[0], new Vector3(Random.Range(-15, 15), 0, Random.Range(25, 30)), Quaternion.identity);
         }
-        /*
         */
     }
 

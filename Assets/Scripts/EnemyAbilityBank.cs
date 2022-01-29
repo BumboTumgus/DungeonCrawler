@@ -131,7 +131,7 @@ public class EnemyAbilityBank : MonoBehaviour
                 // Instantiate the obhect, set it's damage and aim it at the player.
                 for (int i = 0; i < 5; i++)
                 {
-                    GameObject snakeShot = Instantiate(spellProjectiles[0], transform.position + Vector3.up, Quaternion.LookRotation(forward, Vector3.up));
+                    GameObject snakeShot = Instantiate(spellProjectiles[0], projectileSpawnReferences[0].position, Quaternion.LookRotation(forward, Vector3.up));
 
                     Vector3 rotation = snakeShot.transform.rotation.eulerAngles;
                     rotation.y += (i - 2) * 6;
@@ -445,7 +445,7 @@ public class EnemyAbilityBank : MonoBehaviour
 
         // Create the target Indicator
         TargetIndicatorController targetIndicatorController = Instantiate(targetDesignator).GetComponent<TargetIndicatorController>();
-        targetIndicatorController.originAnchor = transform;
+        targetIndicatorController.originAnchor = designatorOrigin;
         targetIndicatorController.targetAnchor = combatController.myTarget.transform;
 
         while(currentTimer < targetTimer)

@@ -485,13 +485,17 @@ public class PlayerStats : MonoBehaviour
             if (CompareTag("Enemy"))
             {
                 healthBar.transform.parent.GetComponent<UiFollowTarget>().TriggerIgnoreCameraDistanceCull();
-                if (!crit)
-                    playerThatLastHitUs.audioManager.PlayAudio(9);
-                else
-                    playerThatLastHitUs.audioManager.PlayAudio(10);
+                if (playerThatLastHitUs)
+                {
+                    if (!crit)
+                        playerThatLastHitUs.audioManager.PlayAudio(9);
+                    else
+                        playerThatLastHitUs.audioManager.PlayAudio(10);
+                }
             }
 
-            lastHitBy = playerThatLastHitUs;
+            if(playerThatLastHitUs)
+                lastHitBy = playerThatLastHitUs;
 
             if (counter)
             {
@@ -520,7 +524,7 @@ public class PlayerStats : MonoBehaviour
             {
                 if (GetComponent<BuffsManager>().PollForBuffStacks(BuffsManager.BuffType.Windshear) >= 20 && lastHitBy.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindAmpsComboArmorShred) > 0)
                     comboCount *= 1 + lastHitBy.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.WindAmpsComboArmorShred);
-                if (damage == HitBox.DamageType.Physical && playerThatLastHitUs.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PhysicalPhysicalSkillsComboAmp) > 0)
+                if (playerThatLastHitUs && damage == HitBox.DamageType.Physical && playerThatLastHitUs.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PhysicalPhysicalSkillsComboAmp) > 0)
                     comboCount *= 1 + playerThatLastHitUs.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PhysicalPhysicalSkillsComboAmp);
                 //Debug.Log("current combo count is: " + comboCount);
             }
@@ -613,7 +617,8 @@ public class PlayerStats : MonoBehaviour
 
             // Find the player, and give them exp. If they were in combat with us, end the combat. Start the death coroutine (for a death animation).
             // Create an array of all players.
-            lastHitBy.GetComponent<BuffsManager>().ProcOnKill(gameObject, damageType);
+            if(lastHitBy)
+                lastHitBy.GetComponent<BuffsManager>().ProcOnKill(gameObject, damageType);
 
             // If any player was agrod onto us, end their combat. and add exp to all players.
             foreach (GameObject player in GameManager.instance.currentPlayers)
