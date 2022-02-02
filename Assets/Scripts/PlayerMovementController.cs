@@ -60,6 +60,7 @@ public class PlayerMovementController : MonoBehaviour
 
     private const float GRAVITY = 0.4f;
     private const float GROUNDING_RAY_LENGTH = 0.7f;
+    private const float GROUNDING_RAY_BONUS_TO_AVOID_MICROHOPS = 0.4f;
     private const float JUMP_POWER = 0.14f;
     private const float ROLL_SPEED_MULTIPLIER = 2f;
     private const float ROLL_ANIMSPEED_MULITPLIER = 0.6f;
@@ -292,40 +293,40 @@ public class PlayerMovementController : MonoBehaviour
                     Debug.DrawRay(transform.position + Vector3.up * 0.5f, Vector3.down, Color.yellow);
                     break;
                 case 1:
-                    groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(0.45f, -1f, 0));
+                    groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(1f, -1f, 0));
                     if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
                     {
                         rayHitGround = true;
                         groundRayHitPoint = groundRayHit.point;
                     }
-                    Debug.DrawRay(transform.position + Vector3.up * 0.5f, new Vector3(0.45f, -1f, 0), Color.yellow);
+                    Debug.DrawRay(transform.position + Vector3.up * 0.5f, new Vector3(1f, -1f, 0), Color.yellow);
                     break;
                 case 2:
-                    groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(-0.45f, -1f, 0));
+                    groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(-1f, -1f, 0));
                     if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
                     {
                         rayHitGround = true;
                         groundRayHitPoint = groundRayHit.point;
                     }
-                    Debug.DrawRay(transform.position + Vector3.up * 0.5f, new Vector3(-0.45f, -1f, 0), Color.yellow);
+                    Debug.DrawRay(transform.position + Vector3.up * 0.5f, new Vector3(-1f, -1f, 0), Color.yellow);
                     break;
                 case 3:
-                    groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, 0.45f));
+                    groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, 1f));
                     if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
                     {
                         rayHitGround = true;
                         groundRayHitPoint = groundRayHit.point;
                     }
-                    Debug.DrawRay(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, 0.45f), Color.yellow);
+                    Debug.DrawRay(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, 1f), Color.yellow);
                     break;
                 case 4:
-                    groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, -0.45f));
+                    groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, -1f));
                     if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
                     {
                         rayHitGround = true;
                         groundRayHitPoint = groundRayHit.point;
                     }
-                    Debug.DrawRay(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, -0.45f), Color.yellow);
+                    Debug.DrawRay(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, -1f), Color.yellow);
                     break;
                 default:
                     break;
@@ -381,8 +382,16 @@ public class PlayerMovementController : MonoBehaviour
             {
                 // shoot a ray down to see if were just slightly off the ground. if so we will ignore the airborne switch
                 // this is done to avoid awkward movement going down hills.
-                groundRay = new Ray(transform.position + Vector3.up * 0.5f, Vector3.down * 5);
-                if (!Physics.Raycast(groundRay, GROUNDING_RAY_LENGTH + 0.4f, groundingRayMask))
+                groundRay = new Ray(transform.position + Vector3.up * 0.5f, Vector3.down);
+                Ray groundRay02 = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(1f, -1f, 0));
+                Ray groundRay03 = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(-1f, -1f, 0));
+                Ray groundRay04 = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, 1f));
+                Ray groundRay05 = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, -1f));
+                if (!Physics.Raycast(groundRay, GROUNDING_RAY_LENGTH + GROUNDING_RAY_BONUS_TO_AVOID_MICROHOPS, groundingRayMask) &&
+                    !Physics.Raycast(groundRay02, GROUNDING_RAY_LENGTH + GROUNDING_RAY_BONUS_TO_AVOID_MICROHOPS, groundingRayMask) &&
+                    !Physics.Raycast(groundRay03, GROUNDING_RAY_LENGTH + GROUNDING_RAY_BONUS_TO_AVOID_MICROHOPS, groundingRayMask) &&
+                    !Physics.Raycast(groundRay04, GROUNDING_RAY_LENGTH + GROUNDING_RAY_BONUS_TO_AVOID_MICROHOPS, groundingRayMask) &&
+                    !Physics.Raycast(groundRay05, GROUNDING_RAY_LENGTH + GROUNDING_RAY_BONUS_TO_AVOID_MICROHOPS, groundingRayMask))
                 {
                     //Debug.Log("The ray missed, we are now airborne");
                     grounded = false;
