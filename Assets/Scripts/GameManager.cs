@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public GameObject eventSystemReference;
     public Transform[] spawnsPlayer;
     public Transform[] spawnsChest;
+    public Transform[] teleporterSpawns;
     public int currentLevel = 0;
     public float combinedPlayerLuck = 0;
     public PlayerStats trapStats;
@@ -24,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     public float objectiveCurrentProgress;
     public float objectiveTarget;
-    public enum ObjectiveType { None, GatherArtifacts, KillEnemies, KillSpecificEnemy, KillBoss, KingOfHill};
+    public enum ObjectiveType { None, GatherArtifacts, KillEnemies, KillSpecificEnemy, KillBoss, KingOfHill };
     public ObjectiveType objectiveType;
     private PlayerStats.EnemyEntityType targetObjectiveEntityType = PlayerStats.EnemyEntityType.None;
 
@@ -42,7 +43,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject artifactObjective;
     [SerializeField] GameObject hillObjective;
 
-    private const float MINIMUM_DISTANCE_FROM_TELEPORTER = 10000f;
+    private const float MINIMUM_DISTANCE_FROM_TELEPORTER = 5000f;
 
     // Start is called before the first frame update
     void Awake()
@@ -52,13 +53,13 @@ public class GameManager : MonoBehaviour
         if (instance == null)
             instance = this;
 
-        if(SceneManager.GetActiveScene().name == "MainMenu")
+        if (SceneManager.GetActiveScene().name == "MainMenu")
             StartCoroutine(Initialization());
     }
 
     IEnumerator Initialization()
     {
-        AsyncOperation levelOne = SceneManager.LoadSceneAsync(sceneNames[0]);
+        AsyncOperation levelOne = SceneManager.LoadSceneAsync(sceneNames[1]);
 
         while (!levelOne.isDone)
         {
@@ -122,6 +123,44 @@ public class GameManager : MonoBehaviour
 
         deathMusic = GetComponent<AudioFader>();
         LevelSetup();
+
+        yield return new WaitForSeconds(0.05f);
+
+        player.GetComponent<PlayerMovementController>().enabled = true;
+
+        // Give each player some random starting gear.
+        foreach (GameObject selectedPlayer in currentPlayers)
+        {
+            List<Item> startingItems = new List<Item>();
+            startingItems.Add(Instantiate(ItemGenerator.instance.RollItem(Item.ItemType.Skill, Item.ItemRarity.Common)).GetComponent<Item>());
+            startingItems.Add(Instantiate(ItemGenerator.instance.RollItem(Item.ItemType.Skill, Item.ItemRarity.Common)).GetComponent<Item>());
+            startingItems.Add(Instantiate(ItemGenerator.instance.RollItem(Item.ItemType.Skill, Item.ItemRarity.Uncommon)).GetComponent<Item>());
+            startingItems.Add(Instantiate(ItemGenerator.instance.RollItem(Item.ItemType.Weapon, Item.ItemRarity.Common)).GetComponent<Item>());
+
+            foreach (Item item in startingItems)
+            {
+                selectedPlayer.GetComponent<Inventory>().PickUpItem(item);
+            }
+        }
+    }
+
+    public void SnapToNearestTPLocation(GameObject player)
+    {
+        Vector3 targetPosition = Vector3.zero;
+        float currentMinSquareMag = 9999;
+
+        foreach(Transform spawn in teleporterSpawns)
+        {
+            if((player.transform.position - spawn.position).sqrMagnitude < currentMinSquareMag)
+            {
+                currentMinSquareMag = (player.transform.position - spawn.position).sqrMagnitude;
+                targetPosition = spawn.position;
+            }
+        }
+
+        player.transform.position = targetPosition + new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
+        //player.GetComponent<CameraShakeManager>().cameraToShake.root.GetComponent<FollowPlayer>().ResetCameraOrientation();
+
     }
 
     public void EntityDeath(PlayerStats.EnemyEntityType entityType)
@@ -200,10 +239,7 @@ public class GameManager : MonoBehaviour
     {
         currentLevel++;
 
-        if(currentLevel == 1)
-            Instantiate(ItemGenerator.instance.RollItem(Item.ItemType.Skill, Item.ItemRarity.Common), GameObject.Find("GarenteedSkillSpawn").transform.position, Quaternion.identity);
-
-        Transform[] teleporterSpawns = GameObject.Find("TeleporterSpawns").GetComponentsInChildren<Transform>();
+        teleporterSpawns = GameObject.Find("TeleporterSpawns").GetComponentsInChildren<Transform>();
         Transform[] chestSpawns = GameObject.Find("ChestSpawns").GetComponentsInChildren<Transform>();
 
         chestRarityRC = ItemGenerator.instance.ReturnRarityRollRCs();
@@ -270,10 +306,10 @@ public class GameManager : MonoBehaviour
                 foreach(GameObject player in currentPlayers)
                 {
                     //Debug.Log("setting the players position");
-                    //Debug.Log("player position before: " + player.transform.position);
+                    Debug.Log("player position before: " + player.transform.position);
                     player.transform.position = spawnSelected + new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
                     player.GetComponent<CameraShakeManager>().cameraToShake.root.GetComponent<FollowPlayer>().ResetCameraOrientation();
-                    //Debug.Log("player position after: " + player.transform.position);
+                    Debug.Log("player position after: " + player.transform.position);
                 }
                 //Debug.Log("spawn found");
                 spawnedGrabbed = true;
@@ -395,6 +431,7 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
+
     }
 
     private void InitializeTraps()

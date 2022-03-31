@@ -8,7 +8,7 @@ public class InteractPromptController : MonoBehaviour
     Text text;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         text = GetComponent<Text>();
         text.text = "";

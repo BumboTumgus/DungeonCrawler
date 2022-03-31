@@ -10,14 +10,25 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField] Transform[] enemySpawns;
     [SerializeField] float enemyPoints = 0;
+    [SerializeField] float enemyPointsBonusMultiplier = 1;
     [SerializeField] float currentTimer = 0f;
     [SerializeField] float targetTimer = 80f;
     [SerializeField] private int enemyLevel = 0;
+    [SerializeField] private float enemyEliteChance = 0.1f;
 
     [SerializeField] private GameObject[] enemyBank;
     [SerializeField] private GameObject[] enemyBossBank;
     [SerializeField] private List<GameObject> spawnableEnemies = new List<GameObject>();
     [SerializeField] private GameObject spawnEffectSmall;
+
+    [SerializeField] private GameObject[] enemyBankBeeElites;
+    [SerializeField] private GameObject[] enemyBankBruteElites;
+    [SerializeField] private GameObject[] enemyBankCobraElites;
+    [SerializeField] private GameObject[] enemyBankDragonElites;
+    [SerializeField] private GameObject[] enemyBankForgeGiantElites;
+    [SerializeField] private GameObject[] enemyBankGoblinElites;
+    [SerializeField] private GameObject[] enemyBankGolemElites;
+    [SerializeField] private GameObject[] enemyBankWolfElites;
 
     Coroutine enemySpawnRoutine;
 
@@ -46,7 +57,7 @@ public class EnemyManager : MonoBehaviour
     private void Update()
     {
         currentTimer += Time.deltaTime;
-        enemyPoints += Time.deltaTime;
+        enemyPoints += Time.deltaTime * enemyPointsBonusMultiplier;
 
         if (currentTimer >= targetTimer)
         {
@@ -59,6 +70,9 @@ public class EnemyManager : MonoBehaviour
                 stats.level = enemyLevel;
                 stats.StatSetup(true, true);
             }
+            enemyEliteChance += 0.025f;
+            enemyPointsBonusMultiplier *= 1.2f;
+
             GameManager.instance.trapStats.level = enemyLevel;
             GameManager.instance.trapStats.StatSetup(true, true);
             GameManager.instance.SetTrapDamage();
@@ -102,6 +116,41 @@ public class EnemyManager : MonoBehaviour
             for (int index = 0; index < enemyBatchEnemyCount; index++)
             {
                 GameObject enemyToAddToBatch = spawnableEnemies[Random.Range(0, spawnableEnemies.Count)];
+
+                //Check to see if we rolled an elite, if not continue on.
+                if(Random.Range(0f,1f) < enemyEliteChance)
+                {
+                    switch (enemyToAddToBatch.GetComponent<PlayerStats>().entityType)
+                    {
+                        case PlayerStats.EnemyEntityType.Goblin:
+                            enemyToAddToBatch = enemyBankGoblinElites[Random.Range(0, spawnableEnemies.Count)];
+                            break;
+                        case PlayerStats.EnemyEntityType.Bee:
+                            enemyToAddToBatch = enemyBankBeeElites[Random.Range(0, spawnableEnemies.Count)];
+                            break;
+                        case PlayerStats.EnemyEntityType.Snake:
+                            enemyToAddToBatch = enemyBankCobraElites[Random.Range(0, spawnableEnemies.Count)];
+                            break;
+                        case PlayerStats.EnemyEntityType.Wolf:
+                            enemyToAddToBatch = enemyBankWolfElites[Random.Range(0, spawnableEnemies.Count)];
+                            break;
+                        case PlayerStats.EnemyEntityType.Brute:
+                            enemyToAddToBatch = enemyBankBruteElites[Random.Range(0, spawnableEnemies.Count)];
+                            break;
+                        case PlayerStats.EnemyEntityType.Dragon:
+                            enemyToAddToBatch = enemyBankDragonElites[Random.Range(0, spawnableEnemies.Count)];
+                            break;
+                        case PlayerStats.EnemyEntityType.Golem:
+                            enemyToAddToBatch = enemyBankGolemElites[Random.Range(0, spawnableEnemies.Count)];
+                            break;
+                        case PlayerStats.EnemyEntityType.ForgeGiant:
+                            enemyToAddToBatch = enemyBankForgeGiantElites[Random.Range(0, spawnableEnemies.Count)];
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
                 enemyBatch.Add(enemyToAddToBatch);
                 batchCost += enemyToAddToBatch.GetComponent<PlayerStats>().enemyBatchCost;
             }

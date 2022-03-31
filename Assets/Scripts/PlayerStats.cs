@@ -153,7 +153,7 @@ public class PlayerStats : MonoBehaviour
     public bool traitBleedBloodWellOnThresholdReady = true;
     public bool traitBleedStunStunBelowHalfHPReady = true;
 
-    public enum EnemyEntityType { None, Goblin, Bee, Snake, Wolf, Brute, IceWolf, Golem, ForgeGiant, TargetBoss}
+    public enum EnemyEntityType { None, Goblin, Bee, Snake, Wolf, Brute, IceWolf, Golem, ForgeGiant, Dragon, TargetBoss}
     public EnemyEntityType entityType = EnemyEntityType.None;
 
     [SerializeField] private GameObject enemyHealthBar;
@@ -403,7 +403,7 @@ public class PlayerStats : MonoBehaviour
         if (LeveledUp)
             health = healthMax;
 
-        if (changeHealthBars)
+        if (changeHealthBars && healthBar)
         {
             // Sets up the health and mana Bars.
             healthBar.Initialize(healthMax, false, true, health);
@@ -447,7 +447,6 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-
     // Used to heal Health
     public void HealHealth(float amount, HitBox.DamageType damage)
     {
@@ -485,7 +484,7 @@ public class PlayerStats : MonoBehaviour
             if (CompareTag("Enemy"))
             {
                 healthBar.transform.parent.GetComponent<UiFollowTarget>().TriggerIgnoreCameraDistanceCull();
-                if (playerThatLastHitUs)
+                if (playerThatLastHitUs && !playerThatLastHitUs.CompareTag("Hazard"))
                 {
                     if (!crit)
                         playerThatLastHitUs.audioManager.PlayAudio(9);
@@ -631,8 +630,11 @@ public class PlayerStats : MonoBehaviour
             GetComponent<DamageNumberManager>().SpawnEXPValue(exp);
 
             // Destroy the health bar, queue the destruction of all children and set their parents to null, then destroy ourself.
-            healthBar.transform.parent.GetComponent<UiFollowTarget>().RemoveFromCullList();
-            Destroy(healthBar.transform.parent.gameObject);
+            if (healthBar)
+            {
+                healthBar.transform.parent.GetComponent<UiFollowTarget>().RemoveFromCullList();
+                Destroy(healthBar.transform.parent.gameObject);
+            }
 
             if(uiTargetBossWaypoint)
             {
@@ -689,6 +691,7 @@ public class PlayerStats : MonoBehaviour
             if (!healthBar)
             {
                 // Spawn one and set its follow target and then grab it's healthbar script for updates.
+                Debug.Log($"{gameObject.name} has a healthbar? {enemyHealthBar}");
                 GameObject healthBarParent = Instantiate(enemyHealthBar, new Vector3(-99999, -99999, -99999), new Quaternion(0, 0, 0, 0), GameManager.instance.playerUis[0].transform.Find("TemporaryUi"));
                 healthBarParent.GetComponent<UiFollowTarget>().target = transform.Find("UiFollowTarget_Name");
                 GetComponent<BuffsManager>().canvasParent = healthBarParent.transform.Find("BuffIconParents");

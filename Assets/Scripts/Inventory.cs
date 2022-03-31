@@ -50,11 +50,14 @@ public class Inventory : MonoBehaviour
             StartCoroutine(ShowInventoryHint());
         }
 
+        Debug.Log("Checking if our item is null here");
         if (item != null)
         {
+            Debug.Log("It is not null");
             // Debug.Log("the inventory coutn is: " + inventory.Count);
             if (inventory.Count >= INVENTORY_MAX)
             {
+                Debug.Log("Calling distribute stack");
                 // Debug.Log("Your inventory is full!");
                 DistributeStacks(item);
 
@@ -69,14 +72,17 @@ public class Inventory : MonoBehaviour
             {
                 // set the item as part of our inventory if it cant combine with a similar stackable item with the same name.
                 // Debug.Log("We have picked up " + item.gameObject.name);
+                Debug.Log("Calling distribute stack");
                 DistributeStacks(item);
                 
                 // After we are done distributing into stacks, check to see if we have any leftover and need to make a new stack.
                 itemsInRange.Remove(item);
                 if (item.currentStack != 0)
                 {
+                    Debug.Log("we are going to comfirm the item pickup");
                     item.ComfirmPickup(inventoryContainer, FindFirstAvaibleSlot());
                     inventory.Add(item);
+                    Debug.Log("I am updating my inventory slot here. Our inventory slot shouldn;t be null? " + inventoryUI);
                     inventoryUI.UpdateInventorySlot(item);
                 }
                 else

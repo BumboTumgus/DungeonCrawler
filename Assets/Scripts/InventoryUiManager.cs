@@ -34,6 +34,7 @@ public class InventoryUiManager : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("ALL OF THE SLOTS ARE BEING WIPED HERE");
         foreach (GameObject slot in inventorySlots)
             WipeSlot(slot);
         foreach (GameObject slot in trinketSlots)

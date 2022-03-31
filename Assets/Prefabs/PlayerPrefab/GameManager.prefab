@@ -52,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneNames:
   - The Abandoned Forge
+  - The Drowned Temple
   currentPlayers:
   - {fileID: 0}
   playerUis:
@@ -219,9 +220,11 @@ MonoBehaviour:
   allowEnemySpawns: 1
   enemySpawns: []
   enemyPoints: 0
+  enemyPointsBonusMultiplier: 1.25
   currentTimer: 0
   targetTimer: 90
   enemyLevel: 0
+  enemyEliteChance: 0.1
   enemyBank:
   - {fileID: 2877460510107680418, guid: 6a2bee86a3175854ea498899c6257b31, type: 3}
   - {fileID: 6822938928849400433, guid: b1c7dfe9b9f17b04c8fa0434665cfedd, type: 3}
@@ -230,9 +233,75 @@ MonoBehaviour:
   - {fileID: 6137548840379338347, guid: 8bf3ebf9b26b07b4791affaaabe58fa3, type: 3}
   enemyBossBank:
   - {fileID: 4891070359460032020, guid: 9fab04cc8434aa84daac194f58f1ed16, type: 3}
+  - {fileID: 4667935829605148563, guid: e80d67dde5e5680479e2121a17425026, type: 3}
+  - {fileID: 223627196485407175, guid: 4f96a7df2b71a1c45b7845cc8d5e83a9, type: 3}
   spawnableEnemies: []
   spawnEffectSmall: {fileID: 7610123971736949332, guid: 3a4ccae92cc7fe64eb1485ae7fd9e4d4,
     type: 3}
+  enemyBankBeeElites:
+  - {fileID: 1127812531402398881, guid: fa53f4313c6502341bb558b99b200b8e, type: 3}
+  - {fileID: 4694056816012256803, guid: 29bfc98e97d9dc1438e831bd678943bf, type: 3}
+  - {fileID: 6060173569238564361, guid: bc81fd91064eea047b32d18e6b475dac, type: 3}
+  - {fileID: 6177110227950003738, guid: e8324a05052d9254abe1935a35884c18, type: 3}
+  - {fileID: 4700872071080691632, guid: 979c4a8f8a94d224c95aec3e2180a41c, type: 3}
+  - {fileID: 6139400212429526131, guid: 2f3f1c375f5bdc347af273cc94528a95, type: 3}
+  - {fileID: 866977376556701370, guid: 52e8572e8e2c712459091f187d00e1df, type: 3}
+  enemyBankBruteElites:
+  - {fileID: 361224315824314422, guid: 5a033e7dd42f5ff48801815472bd0fc3, type: 3}
+  - {fileID: 5957145012378298751, guid: 00962c7ea64e7414ea90331c82e1afce, type: 3}
+  - {fileID: 6577271674670150900, guid: e3327e86b8d9de948a10a7278149cf0d, type: 3}
+  - {fileID: 8373438142336862923, guid: 109a3f991db794a4cbe4acc76e874179, type: 3}
+  - {fileID: 1587292551393570432, guid: 3097111f6cd8de349958fc2a5ff7f67f, type: 3}
+  - {fileID: 2547818159701939767, guid: 364a12875add0fb438946d496e17e64c, type: 3}
+  - {fileID: 8971813318918549283, guid: 8b6ffc7fd228bea4db6bd084d6a19d48, type: 3}
+  enemyBankCobraElites:
+  - {fileID: 7759327344738323182, guid: 52f38b20b0b2516468e181fd0c062c81, type: 3}
+  - {fileID: 8940744626700694093, guid: ed4188b7493e57e4e825dad093313cd5, type: 3}
+  - {fileID: 1893816338927987297, guid: e6fb35caba5c9de429c67de243d788ef, type: 3}
+  - {fileID: 2445289171343623186, guid: 66357a0e17fbdfc4899be68761984962, type: 3}
+  - {fileID: 5344980836277038163, guid: 237cb1b47fba20d478f8f9855674e878, type: 3}
+  - {fileID: 4329577323455098674, guid: f085e4c85d5f3f7468189f5cdcef5792, type: 3}
+  - {fileID: 5997510110940540608, guid: e225bb1502c4ab3428e977e7ab481a37, type: 3}
+  enemyBankDragonElites:
+  - {fileID: 5545997116074046723, guid: e4a1dbffbabd2a449a72150ccbc5e6e5, type: 3}
+  - {fileID: 3666287598578195061, guid: ceecd97dffe08b74aa9b2a08a2a4bb51, type: 3}
+  - {fileID: 1909802010571489723, guid: e79b7810255f7014db09ec89b6187bd9, type: 3}
+  - {fileID: 1839555326980575967, guid: 8421cfefc47321044b1d3d877313a4e1, type: 3}
+  - {fileID: 5915527354363844539, guid: 2904605eeec35b248b0ed87b2f2b430a, type: 3}
+  - {fileID: 2064061648757693536, guid: b10bfe4f56c36c6478de5d1c305d64df, type: 3}
+  - {fileID: 3467599281886965245, guid: 9c7d4073538daf8419c2c3ceb32562f0, type: 3}
+  enemyBankForgeGiantElites:
+  - {fileID: 3772019525542247032, guid: e37e399d2fff63c43a46d942ed892a60, type: 3}
+  - {fileID: 8586520702861818692, guid: b8ffc048f81bfd64991d010e9e1f9dff, type: 3}
+  - {fileID: 2901187866441492061, guid: 06a145f4ffda88f49a21aa17f5c5d16d, type: 3}
+  - {fileID: 2239713381695236841, guid: 486338dd0c316214a837008226589f6d, type: 3}
+  - {fileID: 4671164756454335001, guid: fc8c8bccc077aba448e4483fedac8ef4, type: 3}
+  - {fileID: 7111282492206901585, guid: cd87071a99aa2384b99fd62a7a9e7f17, type: 3}
+  - {fileID: 6031619087699581012, guid: b860d20c5be2847468532e6eee1794f7, type: 3}
+  enemyBankGoblinElites:
+  - {fileID: 5674527855110411838, guid: 4eb572850e4614443869f088e2e5f301, type: 3}
+  - {fileID: 4279575602029928001, guid: f69e7376e92d43c4ab59d7a526b3d651, type: 3}
+  - {fileID: 1357386740694807456, guid: 48bb1ea4ccf9c3f4182f5558ed719841, type: 3}
+  - {fileID: 681264687712045720, guid: 8f5b9b2f2aff86047aa31550127c01eb, type: 3}
+  - {fileID: 530984099181186204, guid: a2b735f767b99644bb93657b90180005, type: 3}
+  - {fileID: 5754970776701900244, guid: 94d0456dc500e5942a7892b210608c55, type: 3}
+  - {fileID: 8405741251441127034, guid: 35ec86da9e0a8c64baa86e14a44e97d0, type: 3}
+  enemyBankGolemElites:
+  - {fileID: 5396913012542782713, guid: a10a948ef8a7ecd4fa15191790f01c12, type: 3}
+  - {fileID: 6362985631187034972, guid: 83fde7b341a408741b6f6e095b95411a, type: 3}
+  - {fileID: 4688860667121346342, guid: c56e457ee9b364b41a3f0e2246455a70, type: 3}
+  - {fileID: 8614094063007682324, guid: c6c681972ea5bf94db8809d1bce53f46, type: 3}
+  - {fileID: 7014892168288737254, guid: f03778827db7eb547af5ed749d2c7bb2, type: 3}
+  - {fileID: 325613147899934099, guid: 73d2f67648892aa408304ad744705c4f, type: 3}
+  - {fileID: 5549549535681004264, guid: 2236a8b2722884744adf0f220690e416, type: 3}
+  enemyBankWolfElites:
+  - {fileID: 4855217006606739130, guid: f12f4d425ce29624a94c1e75a59d91f8, type: 3}
+  - {fileID: 2859117717192877660, guid: afef41200b049984e81a49b219abb834, type: 3}
+  - {fileID: 1813444000028522982, guid: 137ac300ef9642d4a9108a6e159d62ea, type: 3}
+  - {fileID: 1352393320114016966, guid: 7d3341a72147768499cfe160e70b0376, type: 3}
+  - {fileID: 6816064251307281341, guid: 8db34375aad2f464aae3008a910a94f1, type: 3}
+  - {fileID: 3269329411536241980, guid: 418fe556cae00c04590dae1caed06435, type: 3}
+  - {fileID: 2424851909705431681, guid: 0284c92fd79a22f4da56a793ee3b50c4, type: 3}
 --- !u!114 &5630014055116276028
 MonoBehaviour:
   m_ObjectHideFlags: 0

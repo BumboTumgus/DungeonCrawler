@@ -91,6 +91,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (!freezePlayerMovementForMenu)
         {
+            //Debug.Log($"Current position = {transform.position}");
             // This is logic to ensure our character rotates towards the proper target.
             if (recentlyAttacked && !playerStats.channeling)
             {
@@ -214,6 +215,8 @@ public class PlayerMovementController : MonoBehaviour
         // Create the desired movement direction vector, a combination of both times thir respective inputs normalized to give us a direction.
         Vector3 desiredMoveDirection = (forward * movementInput.y + right * movementInput.x).normalized;
 
+        //Debug.Log("The desired movement vector's normalzied square magnitude is " + desiredMoveDirection.sqrMagnitude);
+
         // Rotate towards the target move direction. Set the animation speed in the animator so the character walks properly.
         if (desiredMoveDirection != Vector3.zero)
         {
@@ -241,13 +244,18 @@ public class PlayerMovementController : MonoBehaviour
         // Set up the players speed.
         float targetSpeed = 0;
         if (playerStats.movespeedPercentMultiplier > 0.1f)
-            targetSpeed = movementSpeed * desiredMoveDirection.magnitude * playerStats.movespeedPercentMultiplier;
+            targetSpeed = movementSpeed * desiredMoveDirection.sqrMagnitude * playerStats.movespeedPercentMultiplier;
         else
-            targetSpeed = movementSpeed * desiredMoveDirection.magnitude * 0.1f;
+            targetSpeed = movementSpeed * desiredMoveDirection.sqrMagnitude * 0.1f;
 
         currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
 
-        controller.Move(desiredMoveDirection * currentSpeed * Time.deltaTime);
+        if (desiredMoveDirection != Vector3.zero)
+        {
+            //Debug.Log("The previous position is: " + transform.position);
+            controller.Move(desiredMoveDirection * currentSpeed * Time.deltaTime);
+            //Debug.Log("The new position is: " + transform.position);
+        }
 
         // If we have the flamewalker buff active, increase this the more we move.
         if (playerStats.flameWalkerEnabled)
@@ -338,6 +346,7 @@ public class PlayerMovementController : MonoBehaviour
 
         //Debug.Log("we have hit the ground with one of our 15 rays? " + rayHitGround);
         // Shoot a ray, if it we hit we are grounded if not we are no longer grounded. If we just jumped ignore this and set us as not grounded.
+        //Debug.Log("did our ray hit the ground");
         if (rayHitGround)
         {
             //Debug.Log("check if were grounded");
@@ -358,7 +367,6 @@ public class PlayerMovementController : MonoBehaviour
                 if (primaryRayHit)
                 {
                     Vector3 positionalDifference = groundRayHitPoint - transform.position;
-                    //positionalDifference.y -= POSITIONAL_DIFFERENCE_OFFSET;
                     controller.Move(positionalDifference);
                 }
 
@@ -410,7 +418,9 @@ public class PlayerMovementController : MonoBehaviour
             gravityVectorStrength -= GRAVITY * gravityModifier * Time.deltaTime;
             gravityVector.y = gravityVectorStrength;
 
+            //Debug.Log("GRAVITY MOVEMENT PRE: " + transform.position);
             controller.Move(gravityVector);
+            //Debug.Log("GRAVITY MOVEMENT POST: " + transform.position);
         }
 
     }
@@ -988,5 +998,16 @@ public class PlayerMovementController : MonoBehaviour
     public void ChangeGravityModifier(float value)
     {
         gravityModifier = value;
+    }
+
+    // Have we entered an out of bounds box? If so take damage then make the game manager snap us to a new location.
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("The layer is: " + other.gameObject.layer);
+        if(other.gameObject.layer == 7)
+        {
+            //playerStats.TakeDamage(playerStats.healthMax * 0.2f, false, HitBox.DamageType.True, 0, null, false);
+            GameManager.instance.SnapToNearestTPLocation(gameObject);
+        }
     }
 }
