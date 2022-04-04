@@ -400,7 +400,7 @@ public class PlayerStats : MonoBehaviour
             skills.UpdateCooldownSkillCooldowns();
 
         // If we level up set the health to the max.
-        if (LeveledUp)
+        if (LeveledUp && !CompareTag("Enemy"))
             health = healthMax;
 
         if (changeHealthBars && healthBar)

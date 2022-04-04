@@ -12,7 +12,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] float enemyPoints = 0;
     [SerializeField] float enemyPointsBonusMultiplier = 1;
     [SerializeField] float currentTimer = 0f;
-    [SerializeField] float targetTimer = 80f;
+    [SerializeField] float targetTimer = 120f;
     [SerializeField] private int enemyLevel = 0;
     [SerializeField] private float enemyEliteChance = 0.1f;
 
