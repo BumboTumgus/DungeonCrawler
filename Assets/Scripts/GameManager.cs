@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Initialization()
     {
-        AsyncOperation levelOne = SceneManager.LoadSceneAsync(sceneNames[1]);
+        AsyncOperation levelOne = SceneManager.LoadSceneAsync(sceneNames[2]);
 
         while (!levelOne.isDone)
         {
