@@ -616,7 +616,7 @@ public class PlayerStats : MonoBehaviour
 
             // Find the player, and give them exp. If they were in combat with us, end the combat. Start the death coroutine (for a death animation).
             // Create an array of all players.
-            if(lastHitBy)
+            if(lastHitBy && lastHitBy.CompareTag("Player"))
                 lastHitBy.GetComponent<BuffsManager>().ProcOnKill(gameObject, damageType);
 
             // If any player was agrod onto us, end their combat. and add exp to all players.

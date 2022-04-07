@@ -490,70 +490,81 @@ public class Item : MonoBehaviour
 
             while (!chosenModifierIsValid)
             {
-                switch (Random.Range(0, 20))
+                if (Random.Range(0, 100f) > 20)
                 {
-                    case 0:
-                        chosenModifier = ModifierType.Brawny;
-                        break;
-                    case 1:
-                        chosenModifier = ModifierType.Brittle;
-                        break;
-                    case 2:
-                        chosenModifier = ModifierType.Cracked;
-                        break;
-                    case 3:
-                        chosenModifier = ModifierType.Cursed;
-                        break;
-                    case 4:
-                        chosenModifier = ModifierType.Devastating;
-                        break;
-                    case 5:
-                        chosenModifier = ModifierType.Dull;
-                        break;
-                    case 6:
-                        chosenModifier = ModifierType.Hardened;
-                        break;
-                    case 7:
-                        chosenModifier = ModifierType.Illustrious;
-                        break;
-                    case 8:
-                        chosenModifier = ModifierType.Lucky;
-                        break;
-                    case 9:
-                        chosenModifier = ModifierType.Magic;
-                        break;
-                    case 10:
-                        chosenModifier = ModifierType.Meager;
-                        break;
-                    case 11:
-                        chosenModifier = ModifierType.Mundane;
-                        break;
-                    case 12:
-                        chosenModifier = ModifierType.Nimble;
-                        break;
-                    case 13:
-                        chosenModifier = ModifierType.Rusty;
-                        break;
-                    case 14:
-                        chosenModifier = ModifierType.Sluggish;
-                        break;
-                    case 15:
-                        chosenModifier = ModifierType.Strong;
-                        break;
-                    case 16:
-                        chosenModifier = ModifierType.Unfavoured;
-                        break;
-                    case 17:
-                        chosenModifier = ModifierType.Vamperic;
-                        break;
-                    case 18:
-                        chosenModifier = ModifierType.Resistant;
-                        break;
-                    case 19:
-                        chosenModifier = ModifierType.Vulnerable;
-                        break;
-                    default:
-                        break;
+                    switch (Random.Range(0, 10))
+                    {
+                        case 0:
+                            chosenModifier = ModifierType.Brawny;
+                            break;
+                        case 1:
+                            chosenModifier = ModifierType.Devastating;
+                            break;
+                        case 2:
+                            chosenModifier = ModifierType.Hardened;
+                            break;
+                        case 3:
+                            chosenModifier = ModifierType.Illustrious;
+                            break;
+                        case 4:
+                            chosenModifier = ModifierType.Lucky;
+                            break;
+                        case 5:
+                            chosenModifier = ModifierType.Magic;
+                            break;
+                        case 6:
+                            chosenModifier = ModifierType.Nimble;
+                            break;
+                        case 7:
+                            chosenModifier = ModifierType.Strong;
+                            break;
+                        case 8:
+                            chosenModifier = ModifierType.Vamperic;
+                            break;
+                        case 9:
+                            chosenModifier = ModifierType.Resistant;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (Random.Range(0, 10))
+                    {
+                        case 0:
+                            chosenModifier = ModifierType.Brittle;
+                            break;
+                        case 1:
+                            chosenModifier = ModifierType.Cracked;
+                            break;
+                        case 2:
+                            chosenModifier = ModifierType.Cursed;
+                            break;
+                        case 3:
+                            chosenModifier = ModifierType.Dull;
+                            break;
+                        case 4:
+                            chosenModifier = ModifierType.Meager;
+                            break;
+                        case 5:
+                            chosenModifier = ModifierType.Mundane;
+                            break;
+                        case 6:
+                            chosenModifier = ModifierType.Rusty;
+                            break;
+                        case 7:
+                            chosenModifier = ModifierType.Sluggish;
+                            break;
+                        case 8:
+                            chosenModifier = ModifierType.Unfavoured;
+                            break;
+                        case 9:
+                            chosenModifier = ModifierType.Vulnerable;
+                            break;
+                        default:
+                            break;
+                    }
                 }
 
                 chosenModifierIsValid = IsSelectedModifierValid(chosenModifier);

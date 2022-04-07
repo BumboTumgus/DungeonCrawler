@@ -23,11 +23,14 @@ public class GameManager : MonoBehaviour
     public PlayerStats trapStats;
     private HitBoxTrap[] trapHitboxes;
 
+    private int currentLevelIndex = 0;
+
     public float objectiveCurrentProgress;
     public float objectiveTarget;
     public enum ObjectiveType { None, GatherArtifacts, KillEnemies, KillSpecificEnemy, KillBoss, KingOfHill };
     public ObjectiveType objectiveType;
     private PlayerStats.EnemyEntityType targetObjectiveEntityType = PlayerStats.EnemyEntityType.None;
+    private bool objectiveComplete = false;
 
     [SerializeField] GameObject[] chestPrefabs;
     public float[] chestRarityRC;
@@ -59,7 +62,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Initialization()
     {
-        AsyncOperation levelOne = SceneManager.LoadSceneAsync(sceneNames[2]);
+        AsyncOperation levelOne = SceneManager.LoadSceneAsync(sceneNames[0]);
 
         while (!levelOne.isDone)
         {
@@ -198,12 +201,16 @@ public class GameManager : MonoBehaviour
 
     public void UpdateObjectiveCount(float newValue)
     {
+        if (objectiveComplete)
+            return;
+
         objectiveCurrentProgress = newValue;
 
         if (objectiveCurrentProgress >= objectiveTarget)
         {
             StartTeleporter();
             targetObjectiveEntityType = PlayerStats.EnemyEntityType.None;
+            objectiveComplete = true;
 
             foreach (GameObject ui in playerUis)
                 ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("Objective Complete:", $"Get to the teleporter to proceed.");
@@ -239,13 +246,17 @@ public class GameManager : MonoBehaviour
     {
         currentLevel++;
 
+        currentLevelIndex++;
+        if (currentLevelIndex >= sceneNames.Length)
+            currentLevelIndex = 0;
+
         teleporterSpawns = GameObject.Find("TeleporterSpawns").GetComponentsInChildren<Transform>();
         Transform[] chestSpawns = GameObject.Find("ChestSpawns").GetComponentsInChildren<Transform>();
 
         chestRarityRC = ItemGenerator.instance.ReturnRarityRollRCs();
 
         // Spawn all the chests
-        int chestCount = Random.Range(5 + currentPlayers.Length * 2, 10 + currentPlayers.Length * 4);
+        int chestCount = Random.Range(10 + currentPlayers.Length * 2, 20 + currentPlayers.Length * 4);
         for(int index = 0; index < chestCount; index++)
         {
             bool chestSuccessfullySpawned = false;
@@ -333,6 +344,7 @@ public class GameManager : MonoBehaviour
 
         levelMusic = GameObject.Find("Audio_LevelTheme").GetComponent<AudioFader>();
 
+        objectiveComplete = false;
         switch (Random.Range(0,5))
         {
             case 0:
@@ -347,7 +359,7 @@ public class GameManager : MonoBehaviour
                 Transform[] artifactSpawns = GameObject.Find("ArtifactSpawns").GetComponentsInChildren<Transform>();
 
                 // Spawn the artifacts.
-                for(int index = 0; index < objectiveTarget; index++)
+                for(int index = 0; index < objectiveTarget + 4; index++)
                 {
                     int artifactSpawnIndex = Random.Range(0, artifactSpawns.Length);
 
@@ -396,7 +408,7 @@ public class GameManager : MonoBehaviour
                 }
 
                 objectiveCurrentProgress = 0;
-                objectiveTarget = 1;
+                objectiveTarget = 5;
 
                 foreach (GameObject ui in playerUis)
                     ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("New Objective:", $"Kill {enemyName}:\n{enemyName} Slayed: {objectiveCurrentProgress} / {objectiveTarget}");
@@ -416,7 +428,7 @@ public class GameManager : MonoBehaviour
                 objectiveType = ObjectiveType.KingOfHill;
                 Debug.Log("The objective for this level is Holding a point... KING OF THE HILL");
                 objectiveCurrentProgress = 0;
-                objectiveTarget = 100;
+                objectiveTarget = 40;
 
                 // Create my hill objective somewhere from an array of spawns.
 
@@ -461,7 +473,7 @@ public class GameManager : MonoBehaviour
     IEnumerator StartTeleporting()
     {
         //Debug.Log("Starting the teleport logic");
-        AsyncOperation sceneToLoad = SceneManager.LoadSceneAsync(sceneNames[0]);
+        AsyncOperation sceneToLoad = SceneManager.LoadSceneAsync(sceneNames[currentLevelIndex]);
         sceneToLoad.allowSceneActivation = false;
         EnemyManager.instance.allowEnemySpawns = false;
 

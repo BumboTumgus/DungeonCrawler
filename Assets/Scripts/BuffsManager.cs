@@ -388,7 +388,11 @@ public class BuffsManager : MonoBehaviour
                     if (PollForBuffStacks(BuffType.Poisoned) > 0 && buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison) > 0)
                         PollForBuff(BuffType.Poisoned).DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonPrimaryTraitsAmpPoison);
 
-                    aflame.DPS = baseDamage * 0.2f;
+                    if(buffInflictor.CompareTag("Enemy"))
+                        aflame.DPS = baseDamage * 0.1f;
+                    else
+                        aflame.DPS = baseDamage * 0.2f;
+
                     aflame.damageType = HitBox.DamageType.Fire;
 
                     aflame.effectParticleSystem.Add(psSystems[0]);
@@ -414,7 +418,11 @@ public class BuffsManager : MonoBehaviour
                     frostbite.infiniteDuration = false;
                     frostbite.duration = 10;
 
-                    frostbite.DPS = baseDamage * 0.05f;
+                    if (buffInflictor.CompareTag("Enemy"))
+                        frostbite.DPS = baseDamage * 0.025f;
+                    else
+                        frostbite.DPS = baseDamage * 0.05f;
+
                     frostbite.damageType = HitBox.DamageType.Ice;
                     frostbite.ChangeOffensiveStats(true, -0.01f, -0.01f, 0, 0, 0);
 
@@ -620,7 +628,11 @@ public class BuffsManager : MonoBehaviour
                     bleeding.infiniteDuration = false;
                     bleeding.duration = 5;
 
-                    bleeding.DPS = baseDamage * 0.3f;
+                    if (buffInflictor.CompareTag("Enemy"))
+                        bleeding.DPS = baseDamage * 0.15f;
+                    else
+                        bleeding.DPS = baseDamage * 0.3f;
+
                     bleeding.damageType = HitBox.DamageType.Bleed;
 
                     if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceBleedFrostbiteAmpsBleed) > 0 && PollForBuffStacks(BuffType.Frostbite) > 0)
@@ -704,13 +716,25 @@ public class BuffsManager : MonoBehaviour
                         poisoned.ChangeResistanceStats(true, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PoisonKnockbackPoisonReducesKnockbackResistance) * -1);
 
 
-
-                    if (stats.healthMax * 0.001f < baseDamage * 0.1f)
-                        poisoned.DPS = baseDamage * 0.1f;
-                    else if (stats.healthMax * 0.001f > baseDamage * 5)
-                        poisoned.DPS = baseDamage * 5f;
+                    if (buffInflictor.CompareTag("Enemy"))
+                    {
+                        if (stats.healthMax * 0.001f < baseDamage * 0.05f)
+                            poisoned.DPS = baseDamage * 0.05f;
+                        else if (stats.healthMax * 0.001f > baseDamage * 2.5)
+                            poisoned.DPS = baseDamage * 2.5f;
+                        else
+                            poisoned.DPS = stats.healthMax * 0.001f;
+                    }
                     else
-                        poisoned.DPS = stats.healthMax * 0.001f;
+                    {
+                        if (stats.healthMax * 0.001f < baseDamage * 0.1f)
+                            poisoned.DPS = baseDamage * 0.1f;
+                        else if (stats.healthMax * 0.001f > baseDamage * 5)
+                            poisoned.DPS = baseDamage * 5f;
+                        else
+                            poisoned.DPS = stats.healthMax * 0.001f;
+                    }
+
 
                     poisoned.damageType = HitBox.DamageType.Poison;
 

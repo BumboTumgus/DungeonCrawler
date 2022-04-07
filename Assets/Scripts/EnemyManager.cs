@@ -14,7 +14,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] float currentTimer = 0f;
     [SerializeField] float targetTimer = 120f;
     [SerializeField] private int enemyLevel = 0;
-    [SerializeField] private float enemyEliteChance = 0.1f;
+    [SerializeField] private float enemyEliteChance = 0.05f;
 
     [SerializeField] private GameObject[] enemyBank;
     [SerializeField] private GameObject[] enemyBossBank;
