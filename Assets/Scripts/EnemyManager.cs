@@ -68,7 +68,7 @@ public class EnemyManager : MonoBehaviour
             foreach (PlayerStats stats in enemyStats)
             {
                 stats.level = enemyLevel;
-                stats.StatSetup(true, true);
+                stats.LevelEnemyCalculation();
             }
             enemyEliteChance += 0.025f;
             enemyPointsBonusMultiplier *= 1.2f;

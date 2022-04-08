@@ -136,8 +136,8 @@ public class GameManager : MonoBehaviour
         {
             List<Item> startingItems = new List<Item>();
             startingItems.Add(Instantiate(ItemGenerator.instance.RollItem(Item.ItemType.Skill, Item.ItemRarity.Common)).GetComponent<Item>());
-            startingItems.Add(Instantiate(ItemGenerator.instance.RollItem(Item.ItemType.Skill, Item.ItemRarity.Common)).GetComponent<Item>());
             startingItems.Add(Instantiate(ItemGenerator.instance.RollItem(Item.ItemType.Skill, Item.ItemRarity.Uncommon)).GetComponent<Item>());
+            startingItems.Add(Instantiate(ItemGenerator.instance.RollItem(Item.ItemType.Skill, Item.ItemRarity.Rare)).GetComponent<Item>());
             startingItems.Add(Instantiate(ItemGenerator.instance.RollItem(Item.ItemType.Weapon, Item.ItemRarity.Common)).GetComponent<Item>());
 
             foreach (Item item in startingItems)
@@ -296,7 +296,7 @@ public class GameManager : MonoBehaviour
             }
 
             // SHould we add standard bosses to the spawn list?
-            if (currentLevel == 5)
+            if (currentLevel == 4)
                 EnemyManager.instance.AddEligibleEnemiesToSpawn();
 
         }

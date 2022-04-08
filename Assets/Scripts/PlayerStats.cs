@@ -193,6 +193,8 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
+        /*
+        
         if (Input.GetKeyDown(KeyCode.Keypad0) && CompareTag("Enemy"))
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Aflame, 1, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.O) && CompareTag("Enemy"))
@@ -225,8 +227,6 @@ public class PlayerStats : MonoBehaviour
             GetComponent<EnemyCrowdControlManager>().KnockbackLaunch((transform.forward * -10 + Vector3.up), this);
         if (Input.GetKeyDown(KeyCode.KeypadMinus) && CompareTag("Player"))
             GetComponent<PlayerMovementController>().KnockbackLaunch((transform.forward + Vector3.up) * 10, this);
-        /*
-
 
     if (Input.GetKeyDown(KeyCode.KeypadMinus) && CompareTag("Player"))
     if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
@@ -340,6 +340,29 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    // USed when an existing enemy levels up, just amp its max health and damage.
+    public void LevelEnemyCalculation()
+    {
+        float damageMultiplier = 1;
+        float healthMultiplier = 1;
+        for (int index = 0; index < level - 1; index++)
+        {
+            damageMultiplier *= 1.1f;
+            healthMultiplier *= 1.1f;
+        }
+
+        bonusPercentHealth = healthMultiplier;
+        baseDamageMultiplier = damageMultiplier;
+
+        float currentHealthPercentage = health / healthMax;
+
+        baseDamage = baseBaseDamage + baseDamageGrowth * level * baseDamageMultiplier;
+        healthMax = (baseHealth + baseHealthGrowth * level + bonusHealth) * bonusPercentHealth;
+        health = healthMax * currentHealthPercentage;
+
+        healthBar.Initialize(healthMax, false, true, health);
+    }
+
     // Used to set up the stats at the start of the game and every time we level.
     public void StatSetup(bool LeveledUp, bool changeHealthBars)
     {
@@ -400,7 +423,7 @@ public class PlayerStats : MonoBehaviour
             skills.UpdateCooldownSkillCooldowns();
 
         // If we level up set the health to the max.
-        if (LeveledUp && !CompareTag("Enemy"))
+        if (LeveledUp)
             health = healthMax;
 
         if (changeHealthBars && healthBar)
