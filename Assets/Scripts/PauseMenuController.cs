@@ -24,9 +24,13 @@ public class PauseMenuController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape) && !pmc.GetComponent<PlayerStats>().dead)
         {
-            if(paused)
+            if (paused)
             {
                 HideMenu();
+            }
+            else if (pmc.inventoryMenuOpen)
+            {
+                pmc.HideInventoryWindow();
             }
             else
             {

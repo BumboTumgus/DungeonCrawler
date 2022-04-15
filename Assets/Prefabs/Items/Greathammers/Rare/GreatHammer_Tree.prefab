@@ -55,6 +55,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,6 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &4148885375881243246
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,8 +174,12 @@ MonoBehaviour:
   itemType: 2
   skillName: 0
   itemRarity: 2
+  baseItemArmor: 0
+  baseItemHealth: 0
+  baseItemFlatDamageReduction: 0
+  baseItemMovespeed: 0
   attacksPerSecond: 1
-  baseDamageScaling: 4
+  baseDamageScaling: 6
   itemMoveset: 2
   garenteedTraits: 
   garenteedTraitValues: []
@@ -286,6 +292,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1001 &4824697443006264145

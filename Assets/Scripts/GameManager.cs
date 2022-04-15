@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public float combinedPlayerLuck = 0;
     public PlayerStats trapStats;
     private HitBoxTrap[] trapHitboxes;
+    public float hillChargeTime = 40f;
 
     private int currentLevelIndex = 0;
 
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
     public ObjectiveType objectiveType;
     private PlayerStats.EnemyEntityType targetObjectiveEntityType = PlayerStats.EnemyEntityType.None;
     private bool objectiveComplete = false;
+    private List<GameObject> levelObjectives = new List<GameObject>();
 
     [SerializeField] GameObject[] chestPrefabs;
     public float[] chestRarityRC;
@@ -47,6 +49,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject hillObjective;
 
     private const float MINIMUM_DISTANCE_FROM_TELEPORTER = 5000f;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -139,6 +142,11 @@ public class GameManager : MonoBehaviour
             startingItems.Add(Instantiate(ItemGenerator.instance.RollItem(Item.ItemType.Skill, Item.ItemRarity.Uncommon)).GetComponent<Item>());
             startingItems.Add(Instantiate(ItemGenerator.instance.RollItem(Item.ItemType.Skill, Item.ItemRarity.Rare)).GetComponent<Item>());
             startingItems.Add(Instantiate(ItemGenerator.instance.RollItem(Item.ItemType.Weapon, Item.ItemRarity.Common)).GetComponent<Item>());
+            startingItems[3].RollItemTraitsAffinityAndModifiers();
+            startingItems.Add(Instantiate(ItemGenerator.instance.RollItem(Item.ItemType.Armor, Item.ItemRarity.Common)).GetComponent<Item>());
+            startingItems[4].RollItemTraitsAffinityAndModifiers();
+            startingItems.Add(Instantiate(ItemGenerator.instance.RollItem(Item.ItemType.Legs, Item.ItemRarity.Common)).GetComponent<Item>());
+            startingItems[5].RollItemTraitsAffinityAndModifiers();
 
             foreach (Item item in startingItems)
             {
@@ -197,6 +205,12 @@ public class GameManager : MonoBehaviour
         {
             player.GetComponent<AudioManager>().PlayAudio(30);
         }
+
+        foreach (GameObject objective in levelObjectives)
+            if (objective != null)
+                Destroy(objective);
+
+        levelObjectives.Clear();
     }
 
     public void UpdateObjectiveCount(float newValue)
@@ -227,13 +241,37 @@ public class GameManager : MonoBehaviour
                         ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Kill any enemies:\nEnemies Vaporized: {objectiveCurrentProgress} / {objectiveTarget}");
                         break;
                     case ObjectiveType.KillSpecificEnemy:
-                        ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Kill specific enemies:\nSnakes Slayed: {objectiveCurrentProgress} / {objectiveTarget}");
+                        switch (targetObjectiveEntityType)
+                        {
+                            case PlayerStats.EnemyEntityType.Goblin:
+                                ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Kill Goblins:\nGoblins Slayed: {objectiveCurrentProgress} / {objectiveTarget}");
+                                break;
+                            case PlayerStats.EnemyEntityType.Bee:
+                                ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Kill Bees:\nBees Slayed: {objectiveCurrentProgress} / {objectiveTarget}");
+                                break;
+                            case PlayerStats.EnemyEntityType.Snake:
+                                ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Kill Snakes:\nSnakes Slayed: {objectiveCurrentProgress} / {objectiveTarget}");
+                                break;
+                            case PlayerStats.EnemyEntityType.Wolf:
+                                ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Kill Wolves:\nWolves Slayed: {objectiveCurrentProgress} / {objectiveTarget}");
+                                break;
+                            case PlayerStats.EnemyEntityType.Brute:
+                                break;
+                            case PlayerStats.EnemyEntityType.Golem:
+                                break;
+                            case PlayerStats.EnemyEntityType.ForgeGiant:
+                                break;
+                            case PlayerStats.EnemyEntityType.Dragon:
+                                break;
+                            default:
+                                break;
+                        }
                         break;
                     case ObjectiveType.KillBoss:
                         ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Slay the boss:\nBosses Killed: {objectiveCurrentProgress} / {objectiveTarget}");
                         break;
                     case ObjectiveType.KingOfHill:
-                        ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Hold the point:\nPoint Progress: {(int)objectiveCurrentProgress}% / {(int)objectiveTarget}%");
+                        ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Hold the point:\nPoint Progress: {(int)(objectiveCurrentProgress / objectiveTarget * 100)}% / 100%");
                         break;
                     default:
                         break;
@@ -351,21 +389,22 @@ public class GameManager : MonoBehaviour
                 objectiveType = ObjectiveType.GatherArtifacts;
                 Debug.Log("The objective for this level is collection, GATHER THE ARTIFACTS");
                 objectiveCurrentProgress = 0;
-                objectiveTarget = 8;
+                objectiveTarget = 6;
 
                 foreach(GameObject ui in playerUis)
-                    ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("New Objective:", $"Gather the artifacts:\nTotal Gathered: {objectiveCurrentProgress} / {objectiveTarget}");
+                    ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("Main Objective:", $"Gather the artifacts:\nTotal Gathered: {objectiveCurrentProgress} / {objectiveTarget}");
 
                 Transform[] artifactSpawns = GameObject.Find("ArtifactSpawns").GetComponentsInChildren<Transform>();
 
                 // Spawn the artifacts.
-                for(int index = 0; index < objectiveTarget + 4; index++)
+                for(int index = 0; index < objectiveTarget + 6; index++)
                 {
                     int artifactSpawnIndex = Random.Range(0, artifactSpawns.Length);
 
                     if (artifactSpawns[artifactSpawnIndex] != null)
                     {
-                        Instantiate(artifactObjective, artifactSpawns[artifactSpawnIndex].position, artifactSpawns[artifactSpawnIndex].rotation);
+                        GameObject artifact = Instantiate(artifactObjective, artifactSpawns[artifactSpawnIndex].position, artifactSpawns[artifactSpawnIndex].rotation);
+                        levelObjectives.Add(artifact);
                         artifactSpawns[artifactSpawnIndex] = null;
                     }
                 }
@@ -375,10 +414,10 @@ public class GameManager : MonoBehaviour
                 objectiveType = ObjectiveType.KillEnemies;
                 Debug.Log("The objective for this level is killing any enemy, KILL THEM MFS");
                 objectiveCurrentProgress = 0;
-                objectiveTarget = 15;
+                objectiveTarget = 20;
 
                 foreach (GameObject ui in playerUis)
-                    ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("New Objective:", $"Kill any enemies:\nEnemies Vaporized: {objectiveCurrentProgress} / {objectiveTarget}");
+                    ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("Main Objective:", $"Kill any enemies:\nEnemies Vaporized: {objectiveCurrentProgress} / {objectiveTarget}");
                 break;
             case 2:
                 objectiveType = ObjectiveType.KillSpecificEnemy;
@@ -411,7 +450,7 @@ public class GameManager : MonoBehaviour
                 objectiveTarget = 5;
 
                 foreach (GameObject ui in playerUis)
-                    ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("New Objective:", $"Kill {enemyName}:\n{enemyName} Slayed: {objectiveCurrentProgress} / {objectiveTarget}");
+                    ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("Main Objective:", $"Kill {enemyName}:\n{enemyName} Slayed: {objectiveCurrentProgress} / {objectiveTarget}");
                 break;
             case 3:
                 objectiveType = ObjectiveType.KillBoss;
@@ -422,23 +461,24 @@ public class GameManager : MonoBehaviour
                 GetComponent<EnemyManager>().SpawnTargetedBoss();
 
                 foreach (GameObject ui in playerUis)
-                    ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("New Objective:", $"Slay the boss:\nBosses Killed: {objectiveCurrentProgress} / {objectiveTarget}");
+                    ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("Main Objective:", $"Slay the boss:\nBosses Killed: {objectiveCurrentProgress} / {objectiveTarget}");
                 break;
             case 4:
                 objectiveType = ObjectiveType.KingOfHill;
                 Debug.Log("The objective for this level is Holding a point... KING OF THE HILL");
                 objectiveCurrentProgress = 0;
-                objectiveTarget = 40;
+                objectiveTarget = hillChargeTime;
 
                 // Create my hill objective somewhere from an array of spawns.
 
                 Transform[] hillSpawns = GameObject.Find("HillSpawns").GetComponentsInChildren<Transform>();
 
                 int hillSpawnIndex = Random.Range(0, hillSpawns.Length);
-                Instantiate(hillObjective, hillSpawns[hillSpawnIndex].position, hillSpawns[hillSpawnIndex].rotation);
+                GameObject hill = Instantiate(hillObjective, hillSpawns[hillSpawnIndex].position, hillSpawns[hillSpawnIndex].rotation);
+                levelObjectives.Add(hill);
 
                 foreach (GameObject ui in playerUis)
-                    ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("New Objective:", $"Hold the point:\nPoint Progress: {objectiveCurrentProgress}% / {objectiveTarget}%");
+                    ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("Main Objective:", $"Hold the point:\nPoint Progress: {objectiveCurrentProgress}% / 100%");
                 break;
             default:
                 break;
@@ -466,6 +506,7 @@ public class GameManager : MonoBehaviour
 
     public void LaunchPlayerTeleport()
     {
+        teleporter.GetComponent<TeleporterBehaviour>().DisableTriggerBox();
         StartCoroutine(StartTeleporting());
     }
 
@@ -481,6 +522,7 @@ public class GameManager : MonoBehaviour
         foreach(GameObject player in currentPlayers)
         {
             player.GetComponent<PlayerStats>().AddExp(player.GetComponent<PlayerStats>().gold);
+            player.GetComponent<DamageNumberManager>().SpawnEXPValue(player.GetComponent<PlayerStats>().gold);
             player.GetComponent<PlayerStats>().AddGold(player.GetComponent<PlayerStats>().gold * -1);
             player.GetComponent<BuffsManager>().psSystems[30].Play();
             player.GetComponent<BuffsManager>().psSystems[31].Play();
@@ -494,6 +536,7 @@ public class GameManager : MonoBehaviour
         {
             Instantiate(player.GetComponent<SkillsManager>().skillProjectiles[83], player.transform.position + Vector3.up, Quaternion.identity);
             player.GetComponent<PlayerMovementController>().enabled = false;
+            player.GetComponent<PlayerMovementController>().ResetCurrentHighestPoint();
             player.GetComponent<CharacterController>().enabled = false;
             player.GetComponent<BuffsManager>().RemoveAllBuffs();
             player.transform.Find("EntityModel").gameObject.SetActive(false);
@@ -606,6 +649,7 @@ public class GameManager : MonoBehaviour
         foreach (GameObject player in currentPlayers)
             combinedPlayerLuck += player.GetComponent<PlayerStats>().luck;
     }
+
 }
 
 

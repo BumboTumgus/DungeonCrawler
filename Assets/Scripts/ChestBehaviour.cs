@@ -7,12 +7,10 @@ public class ChestBehaviour : MonoBehaviour
 {
     public enum ChestRarity { Common, Uncommon, Rare, Legendary, Cursed, Masterwork}
     public ChestRarity chestRarity = ChestRarity.Common;
-    public int itemCount = 0;
 
     public float chestCost = 10;
-    [SerializeField] float itemBonusRarity = 0;
 
-    public List<GameObject> itemDrops;
+    public List<GameObject> itemDrops = new List<GameObject>();
 
     [SerializeField] Text chestCostText;
 
@@ -29,33 +27,54 @@ public class ChestBehaviour : MonoBehaviour
     // Used to check what the contents of this chest will be.
     private void RollChestContents()
     {
-            // Check the rarity of the chest and base the contents of it off the rarity.
+        if((chestRarity != ChestRarity.Masterwork || chestRarity != ChestRarity.Cursed) && Random.Range(0f,100f) + GameManager.instance.combinedPlayerLuck > 90)
+        {
+            Debug.Log("Item tiered UPGRADE");
             switch (chestRarity)
             {
                 case ChestRarity.Common:
-                    itemCount = 1;
+                    chestRarity = ChestRarity.Uncommon;
                     break;
                 case ChestRarity.Uncommon:
-                    itemCount = 1;
+                    chestRarity = ChestRarity.Rare;
                     break;
                 case ChestRarity.Rare:
-                    itemCount = Random.Range(1, 3);
+                    chestRarity = ChestRarity.Legendary;
                     break;
                 case ChestRarity.Legendary:
-                    itemCount = Random.Range(1, 3);
-                    break;
-                case ChestRarity.Masterwork:
-                    itemCount = Random.Range(1, 4);
-                    break;
-                case ChestRarity.Cursed:
-                    itemCount = Random.Range(0, 8);
+                    chestRarity = ChestRarity.Masterwork;
                     break;
                 default:
                     break;
             }
+        }
 
-            for (int index = 0; index < itemCount; index++)
-                itemDrops.Add(ItemGenerator.instance.RollItem(itemBonusRarity));
+        switch (chestRarity)
+        {
+            case ChestRarity.Common:
+                itemDrops.Add(ItemGenerator.instance.RollItem(Item.ItemRarity.Common));
+                break;
+            case ChestRarity.Uncommon:
+                itemDrops.Add(ItemGenerator.instance.RollItem(Item.ItemRarity.Uncommon));
+                break;
+            case ChestRarity.Rare:
+                itemDrops.Add(ItemGenerator.instance.RollItem(Item.ItemRarity.Rare));
+                break;
+            case ChestRarity.Legendary:
+                itemDrops.Add(ItemGenerator.instance.RollItem(Item.ItemRarity.Legendary));
+                break;
+            case ChestRarity.Cursed:
+                itemDrops.Add(ItemGenerator.instance.RollItem(Item.ItemRarity.Legendary));
+                itemDrops.Add(ItemGenerator.instance.RollItem(Item.ItemRarity.Legendary));
+                itemDrops.Add(ItemGenerator.instance.RollItem(Item.ItemRarity.Legendary));
+                break;
+            case ChestRarity.Masterwork:
+                itemDrops.Add(ItemGenerator.instance.RollItem(Item.ItemRarity.Masterwork));
+                break;
+            default:
+                break;
+        }
+
     }
 
     // Grab the contents of the chest, and spawn them as treasure that flies upwards then out towards the player.

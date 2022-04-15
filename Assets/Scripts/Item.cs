@@ -192,7 +192,7 @@ public class Item : MonoBehaviour
     public void ComfirmPickup(Transform targetParent, int index)
     {
         // GetComponent<MeshRenderer>().enabled = false;
-        Debug.Log("We are picking it up now");
+        //Debug.Log("We are picking it up now");
         MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
         foreach (MeshRenderer renderer in meshRenderers)
             renderer.enabled = false;

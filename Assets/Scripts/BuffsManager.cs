@@ -991,7 +991,7 @@ public class BuffsManager : MonoBehaviour
                     immolation.duration = 10;
                     immolation.ChangeResistanceStats(true, -10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-                    for (int index = 0; index < 30; index++)
+                    for (int index = 0; index < 100; index++)
                         NewBuff(BuffType.Aflame, stats.baseDamage, stats);
 
                     stats.immolationEnabled = true;
@@ -1126,7 +1126,7 @@ public class BuffsManager : MonoBehaviour
                     stonePrison.duration = 1f;
                     stonePrison.connectedPlayer = stats;
                     stonePrison.playerDamageSource = buffInflictor;
-                    stonePrison.ChangeDefensiveStats(true, 0, 0, 0, 0.5f, 0);
+                    stonePrison.ChangeDefensiveStats(true, 0, 0, 0, 5f, 0);
 
                     break;
 
@@ -1209,7 +1209,7 @@ public class BuffsManager : MonoBehaviour
                     pressureDrop.duration = 10f;
                     pressureDrop.connectedPlayer = stats;
                     pressureDrop.playerDamageSource = buffInflictor;
-                    pressureDrop.ChangeDefensiveStats(true, 0, 0, 0, 1.5f, 0);
+                    pressureDrop.ChangeDefensiveStats(true, 0, 0, 0, 10f, 0);
                     pressureDrop.ChangeOffensiveStats(true, 0, stats.movespeedPercentMultiplier * -0.5f, 0, 0, 0);
 
                     break;
@@ -1966,13 +1966,13 @@ public class BuffsManager : MonoBehaviour
                 case BuffType.FlameStrike:
                     GameObject flamestrikeHit = Instantiate(GetComponent<SkillsManager>().skillProjectiles[4], target.transform.position + Vector3.up + new Vector3(Random.Range(-0.25f, 0.25f), Random.Range(-0.25f, 0.25f), Random.Range(-0.25f, 0.25f)), Quaternion.identity);
                     flamestrikeHit.GetComponent<HitBox>().myStats = stats;
-                    flamestrikeHit.GetComponent<HitBox>().damage = stats.baseDamage * 0.7f * stats.spellDamageMultiplier;
+                    flamestrikeHit.GetComponent<HitBox>().damage = stats.baseDamage * 1f * stats.spellDamageMultiplier;
                     break;
 
                 case BuffType.FrostsKiss:
                     GameObject frostsKissProjectile = Instantiate(GetComponent<SkillsManager>().skillProjectiles[18], transform.position + Vector3.up * 2, Quaternion.Euler(Random.Range(-75, -90), Random.Range(0, 360), 0));
                     frostsKissProjectile.GetComponent<HitBox>().myStats = stats;
-                    frostsKissProjectile.GetComponent<HitBox>().damage = stats.baseDamage * 0.35f * stats.spellDamageMultiplier;
+                    frostsKissProjectile.GetComponent<HitBox>().damage = stats.baseDamage * 1.5f * stats.spellDamageMultiplier;
                     frostsKissProjectile.GetComponent<ProjectileBehaviour>().target = target.transform;
 
                     if (skillManager.spellMirrors.Count > 0)
@@ -1981,7 +1981,7 @@ public class BuffsManager : MonoBehaviour
                         {
                             GameObject frostsKissProjectileMirror = Instantiate(GetComponent<SkillsManager>().skillProjectiles[18], spellMirror.transform.position, spellMirror.transform.rotation);
                             frostsKissProjectileMirror.GetComponent<HitBox>().myStats = stats;
-                            frostsKissProjectileMirror.GetComponent<HitBox>().damage = stats.baseDamage * 0.175f * stats.spellDamageMultiplier;
+                            frostsKissProjectileMirror.GetComponent<HitBox>().damage = stats.baseDamage * 0.75f * stats.spellDamageMultiplier;
                             frostsKissProjectileMirror.GetComponent<ProjectileBehaviour>().target = target.transform;
                         }
                     }
@@ -1989,7 +1989,7 @@ public class BuffsManager : MonoBehaviour
 
                 case BuffType.StoneStrike:
                     target.GetComponent<EnemyCrowdControlManager>().KnockbackLaunch((transform.forward + Vector3.up * 0.5f) * 15, stats);
-                    target.GetComponent<PlayerStats>().TakeDamage(stats.baseDamage * stats.spellDamageMultiplier, false, HitBox.DamageType.Earth, stats.comboManager.currentcombo, stats, false);
+                    target.GetComponent<PlayerStats>().TakeDamage(stats.baseDamage * 4f * stats.spellDamageMultiplier, false, HitBox.DamageType.Earth, stats.comboManager.currentcombo, stats, false);
                     StartCoroutine(RemoveBuffNextFrame(buff));
                     break;
                 case BuffType.Multislash:

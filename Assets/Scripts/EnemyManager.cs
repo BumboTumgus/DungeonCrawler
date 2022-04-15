@@ -12,7 +12,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] float enemyPoints = 0;
     [SerializeField] float enemyPointsBonusMultiplier = 1;
     [SerializeField] float currentTimer = 0f;
-    [SerializeField] float targetTimer = 120f;
+    [SerializeField] float targetTimer = 100f;
     [SerializeField] private int enemyLevel = 0;
     [SerializeField] private float enemyEliteChance = 0.05f;
 
@@ -34,6 +34,7 @@ public class EnemyManager : MonoBehaviour
 
     const float MAXIMUM_DISTANCE_FROM_PLAYER = 200;
     const float MAXIMUM_ATTEMPTED_SPAWNS = 10;
+    const float BONUS_POINT_MULTIPLIER_GROWTH = 1.3f;
 
 
     // Start is called before the first frame update
@@ -71,7 +72,7 @@ public class EnemyManager : MonoBehaviour
                 stats.LevelEnemyCalculation();
             }
             enemyEliteChance += 0.025f;
-            enemyPointsBonusMultiplier *= 1.2f;
+            enemyPointsBonusMultiplier *= BONUS_POINT_MULTIPLIER_GROWTH;
 
             GameManager.instance.trapStats.level = enemyLevel;
             GameManager.instance.trapStats.StatSetup(true, true);
@@ -232,5 +233,13 @@ public class EnemyManager : MonoBehaviour
         enemyPoints = 5;
         enemyStats = new List<PlayerStats>();
         StartEnemyBatchSpawnCoroutine();
+    }
+
+    public void SpawnGoblin()
+    {
+        GameObject enemyGO = Instantiate(spawnableEnemies[0], new Vector3(0,0,45), Quaternion.identity);
+        enemyGO.GetComponent<DamageNumberManager>().primaryCanvas = GameManager.instance.playerUis[0].transform;
+        enemyGO.GetComponent<PlayerStats>().level = enemyLevel;
+        Instantiate(spawnEffectSmall, new Vector3(0, 0, 45), Quaternion.identity);
     }
 }

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class InventoryPopupTextManager : MonoBehaviour
 {
     public bool lockPointer = false;
+
+    public bool allowPopupsToAppear = true;
     public enum PopUpDirection { TL, TR, BL, BR }
     
     public GameObject itemPopUp;
@@ -33,6 +35,12 @@ public class InventoryPopupTextManager : MonoBehaviour
     // Used to enable the popup.
     public void ShowPopup(Transform popUpParent, PopUpDirection direction)
     {
+        if (!allowPopupsToAppear)
+        {
+            //Debug.Log("This popup cannot be shown right now");
+            return;
+        }
+
         itemPopUp.transform.SetParent(popUpParent);
         itemPopUp.transform.SetAsLastSibling();
         moreInfoPopUp.transform.SetAsLastSibling();

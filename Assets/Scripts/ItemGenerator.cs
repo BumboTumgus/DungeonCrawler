@@ -68,11 +68,11 @@ public class ItemGenerator : MonoBehaviour
 
     public int currentRcIndex = -1;
 
-    private float[] commonRcValues = { 75, 56, 22, 10, 8, 7, 0, 0, 0 };
-    private float[] uncommonRcValues = { 20, 30, 50, 40, 20, 15, 10, 0, 0 };
-    private float[] rareRcValues = { 4, 10, 22, 40, 50, 40, 38, 34, 20 };
-    private float[] legendarytRcValues = { 1, 4, 6, 10, 20, 30, 40, 50, 60 };
-    private float[] masterworkRcValues = { 0, 0, 0, 0, 2, 8, 12, 16, 20 };
+    private float[] commonRcValues =     { 75, 60, 45, 25, 10, 00, 00, 00 };
+    private float[] uncommonRcValues =   { 25, 30, 40, 40, 35, 20, 10, 00 };
+    private float[] rareRcValues =       { 00, 10, 15, 25, 30, 30, 30, 20 };
+    private float[] legendarytRcValues = { 00, 00, 00, 10, 20, 30, 40, 50 };
+    private float[] masterworkRcValues = { 00, 00, 00, 00, 10, 20, 20, 30 };
 
     private float commonRC = 40;
     private float uncommonRC = 30;
@@ -110,64 +110,48 @@ public class ItemGenerator : MonoBehaviour
         }
     }
 
-    public GameObject RollItem(float bonusToRarityRoll)
+    public GameObject RollItem(Item.ItemRarity rarity)
     {
         GameObject itemRolled = null;
 
         float itemDiceRoll = Random.Range(0, 9);
         Item.ItemType itemType = Item.ItemType.Weapon;
-        //Debug.Log("PlayerLuck is now: " + GameManager.instance.combinedPlayerLuck);
-        float itemRarityDiceRoll = Random.Range(0, 100) - bonusToRarityRoll - GameManager.instance.combinedPlayerLuck;
-        Item.ItemRarity itemRarity = Item.ItemRarity.Common;
+        Item.ItemRarity itemRarity = rarity;
 
-            if (itemDiceRoll == 0 || itemDiceRoll == 1)
-                if (Random.Range(0, 100) < 66)
-                    itemType = Item.ItemType.Weapon;
-                else
-                    itemType = Item.ItemType.TwoHandWeapon;
-            else if (itemDiceRoll == 2 || itemDiceRoll == 3)
+        if (itemDiceRoll == 0 || itemDiceRoll == 1)
+            if (Random.Range(0, 100) < 66)
+                itemType = Item.ItemType.Weapon;
+            else
+                itemType = Item.ItemType.TwoHandWeapon;
+        else if (itemDiceRoll == 2 || itemDiceRoll == 3)
+        {
+            int randomIndex = Random.Range(0, 4);
+            switch (randomIndex)
             {
-                int randomIndex = Random.Range(0, 4);
-                switch (randomIndex)
-                {
-                    case 0:
-                        itemType = Item.ItemType.TrinketCape;
-                        break;
-                    case 1:
-                        itemType = Item.ItemType.TrinketBracelet;
-                        break;
-                    case 2:
-                        itemType = Item.ItemType.TrinketRing;
-                        break;
-                    case 3:
-                        itemType = Item.ItemType.TrinketWaistItem;
-                        break;
-                    default:
-                        break;
-                }
+                case 0:
+                    itemType = Item.ItemType.TrinketCape;
+                    break;
+                case 1:
+                    itemType = Item.ItemType.TrinketBracelet;
+                    break;
+                case 2:
+                    itemType = Item.ItemType.TrinketRing;
+                    break;
+                case 3:
+                    itemType = Item.ItemType.TrinketWaistItem;
+                    break;
+                default:
+                    break;
             }
-            else if (itemDiceRoll == 4 || itemDiceRoll == 5)
-                itemType = Item.ItemType.Skill;
-            else if (itemDiceRoll == 6)
-                itemType = Item.ItemType.Helmet;
-            else if (itemDiceRoll == 7)
-                itemType = Item.ItemType.Armor;
-            else if (itemDiceRoll == 8)
-                itemType = Item.ItemType.Legs;
-        //Debug.Log(itemDiceRoll + " | this means we have a " + itemType);
-
-        if (itemRarityDiceRoll <= masterworkRC && masterworkRC != 0)
-            itemRarity = Item.ItemRarity.Masterwork;
-        else if (itemRarityDiceRoll <= masterworkRC + legendaryRC && legendaryRC != 0)
-            itemRarity = Item.ItemRarity.Legendary;
-        else if (itemRarityDiceRoll <= masterworkRC + legendaryRC + rareRC && rareRC != 0)
-            itemRarity = Item.ItemRarity.Rare;
-        else if (itemRarityDiceRoll <= masterworkRC + legendaryRC + rareRC + uncommonRC && uncommonRC != 0)
-            itemRarity = Item.ItemRarity.Uncommon;
-        else if (itemRarityDiceRoll <= masterworkRC + legendaryRC + rareRC + uncommonRC + commonRC && commonRC != 0)
-            itemRarity = Item.ItemRarity.Common;
-
-        //Debug.Log(itemRarityDiceRoll + " | this means our rarity is " + itemRarity);
+        }
+        else if (itemDiceRoll == 4 || itemDiceRoll == 5)
+            itemType = Item.ItemType.Skill;
+        else if (itemDiceRoll == 6)
+            itemType = Item.ItemType.Helmet;
+        else if (itemDiceRoll == 7)
+            itemType = Item.ItemType.Armor;
+        else if (itemDiceRoll == 8)
+            itemType = Item.ItemType.Legs;
 
         // This assigns us a bank of items for us to use.
         switch (itemType)

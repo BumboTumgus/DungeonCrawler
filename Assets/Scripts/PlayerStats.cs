@@ -193,6 +193,13 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha8) && CompareTag("Player"))
+            EnemyManager.instance.SpawnGoblin();
+        if (Input.GetKeyDown(KeyCode.J) && CompareTag("Player"))
+            AddGold((int)Random.Range(1, 100000));
+        if (Input.GetKeyDown(KeyCode.KeypadPeriod) && CompareTag("Player"))
+            buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, baseDamage, this);
+
         /*
         
         if (Input.GetKeyDown(KeyCode.Keypad0) && CompareTag("Enemy"))
@@ -347,8 +354,8 @@ public class PlayerStats : MonoBehaviour
         float healthMultiplier = 1;
         for (int index = 0; index < level - 1; index++)
         {
-            damageMultiplier *= 1.1f;
-            healthMultiplier *= 1.1f;
+            damageMultiplier *= 1.15f;
+            healthMultiplier *= 1.15f;
         }
 
         bonusPercentHealth = healthMultiplier;
@@ -372,8 +379,8 @@ public class PlayerStats : MonoBehaviour
             float healthMultiplier = 1;
             for (int index = 0; index < level - 1; index++)
             {
-                damageMultiplier *= 1.1f;
-                healthMultiplier *= 1.1f;
+                damageMultiplier *= 1.15f;
+                healthMultiplier *= 1.15f;
             }
 
             bonusPercentHealth = healthMultiplier;
@@ -714,7 +721,7 @@ public class PlayerStats : MonoBehaviour
             if (!healthBar)
             {
                 // Spawn one and set its follow target and then grab it's healthbar script for updates.
-                Debug.Log($"{gameObject.name} has a healthbar? {enemyHealthBar}");
+                //Debug.Log($"{gameObject.name} has a healthbar? {enemyHealthBar}");
                 GameObject healthBarParent = Instantiate(enemyHealthBar, new Vector3(-99999, -99999, -99999), new Quaternion(0, 0, 0, 0), GameManager.instance.playerUis[0].transform.Find("TemporaryUi"));
                 healthBarParent.GetComponent<UiFollowTarget>().target = transform.Find("UiFollowTarget_Name");
                 GetComponent<BuffsManager>().canvasParent = healthBarParent.transform.Find("BuffIconParents");

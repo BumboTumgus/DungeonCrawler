@@ -466,6 +466,7 @@ public class InventoryUiManager : MonoBehaviour
 
     }
 
+
     public void UpdateInventorySlot(int index)
     {
         // Used if we are clearing this inventory slot.
@@ -549,6 +550,34 @@ public class InventoryUiManager : MonoBehaviour
                         WipeSlot(skillSlots[index]);
                     }
                 }
+            }
+        }
+    }
+
+    public void AttemptSnapEquipmentToSlot(ItemDropZone itemSlot)
+    {
+        Item attachedItem = itemSlot.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem.GetComponent<Item>();
+
+        Debug.Log($"Attempted to snap {attachedItem} to a relevant slot.");
+        // Check if this item dropzone is an inventory or an equipped item.
+        if (itemSlot.slotType == ItemDropZone.SlotType.Inventory)
+        {
+            // Validate to see if we can move this item into an equipped slot here
+        }
+        else
+        {
+            Debug.Log("This item will be placed in an empty inventory slot.");
+            // Validate that we have an open inventory slot to move this item to.
+            if(playerInventory.inventory.Count < playerInventory.INVENTORY_MAX)
+            {
+                // Unequip our item and move it into the inventory slot
+                Debug.Log("Moving out current item to the new slot. Unequipping it too.");
+            }
+            else
+            {
+                // Not enough room cancel the action here
+                Debug.Log("We didnt have one cancel this movement");
+                return;
             }
         }
     }

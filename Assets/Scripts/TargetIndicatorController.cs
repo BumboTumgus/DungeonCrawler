@@ -38,6 +38,9 @@ public class TargetIndicatorController : MonoBehaviour
         if (Physics.Raycast(new Ray(originAnchor.position, targetAnchor.position - originAnchor.position), out rayhit, magnitude, rayMask))
             lineRendererTarget = rayhit.point;
 
+
+        Debug.DrawRay(originAnchor.position, targetAnchor.position - originAnchor.position, Color.green);
+
         lineRenderer.SetPositions(new Vector3[] { originAnchor.position, lineRendererTarget + Vector3.up });
 
 

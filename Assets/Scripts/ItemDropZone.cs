@@ -223,7 +223,7 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
     public void OnDrop(PointerEventData eventData)
     {
         //Debug.Log("item was dropped on " + gameObject.name);
-
+         
         ItemDraggable movedItem = eventData.pointerDrag.GetComponent<ItemDraggable>();
         if(movedItem != null && movedItem.myParent != gameObject.transform)
         {

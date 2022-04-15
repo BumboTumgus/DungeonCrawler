@@ -348,6 +348,7 @@ public class PlayerGearManager : MonoBehaviour
     }
     public void HideItem(Item item)
     {
+        //Debug.Log($"Hiding the item {item.itemName}");
         switch (item.itemType)
         {
             case Item.ItemType.TrinketCape:
@@ -447,12 +448,14 @@ public class PlayerGearManager : MonoBehaviour
                 rightLegs[item.itemLowerRightArmID].GetComponent<SkinnedMeshRenderer>().materials = previousMaterial_RightLegs;
                 leftLegs[item.itemLowerLeftArmID].SetActive(false);
                 leftLegs[item.itemLowerLeftArmID].GetComponent<SkinnedMeshRenderer>().materials = previousMaterial_LeftLegs;
+
                 rightKnees[item.itemRightElbowID].SetActive(false);
                 if(rightKnees[item.itemRightElbowID].GetComponent<SkinnedMeshRenderer>() != null)
-                    rightKnees[item.itemRightElbowID].GetComponent<SkinnedMeshRenderer>().materials = previousMaterial_RightElbow;
+                    rightKnees[item.itemRightElbowID].GetComponent<SkinnedMeshRenderer>().materials = previousMaterial_RightKnee;
+
                 leftKnees[item.itemLeftElbowID].SetActive(false);
                 if (leftKnees[item.itemLeftElbowID].GetComponent<SkinnedMeshRenderer>() != null)
-                    leftKnees[item.itemLeftElbowID].GetComponent<SkinnedMeshRenderer>().materials = previousMaterial_LeftElbow;
+                    leftKnees[item.itemLeftElbowID].GetComponent<SkinnedMeshRenderer>().materials = previousMaterial_LeftKnee;
 
                 hips[0].SetActive(true);
                 previousMaterial_Hips = hips[0].GetComponent<SkinnedMeshRenderer>().materials;
@@ -517,6 +520,7 @@ public class PlayerGearManager : MonoBehaviour
     // Used to show the specific weapon in question based on that weapons index.
     public void ShowItem(Item item)
     {
+        //Debug.Log($"Shwoing the item {item.itemName}");
         switch (item.itemType)
         {
             case Item.ItemType.TrinketCape:

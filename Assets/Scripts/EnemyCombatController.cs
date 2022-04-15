@@ -146,15 +146,15 @@ public class EnemyCombatController : MonoBehaviour
         // Check to see if our attack is ready and if the enemy is in range.
         while(movementManager.arrivedAtTarget)
         {
-            Debug.Log("We arrived at our destination are we in range to attack here?");
+            //Debug.Log("We arrived at our destination are we in range to attack here?");
             // Check the attack range distance, if we are out of range, start chasing.
             if(usePrimaryAttack && CheckDistance(myStats.attackRange, myTarget.transform))
             {
-                Debug.Log("We can attack and are in range");
+                //Debug.Log("We can attack and are in range");
                 // Can we currently attack?
                 if (myStats.currentAttackDelay > basicAttackDelay / myStats.attackSpeed )
                 {
-                    Debug.Log("We have waited long enough to attack");
+                    //Debug.Log("We have waited long enough to attack");
                     // Launch the attack.
                     myStats.currentAttackDelay = 0;
                     anim.SetTrigger("Attack");
@@ -164,7 +164,7 @@ public class EnemyCombatController : MonoBehaviour
                     float currentTimer = 0;
                     float targetTimer = basicAttackDuration / myStats.attackSpeed;
 
-                    Debug.Log($"our duration is {basicAttackDuration} / {myStats.attackSpeed} to equal {basicAttackDuration / myStats.attackSpeed}");
+                    //Debug.Log($"our duration is {basicAttackDuration} / {myStats.attackSpeed} to equal {basicAttackDuration / myStats.attackSpeed}");
                     while(currentTimer < targetTimer)
                     {
                         currentTimer += Time.deltaTime;

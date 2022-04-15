@@ -14,6 +14,10 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     private InventoryUiManager inventoryUiManager;
     private AudioManager audioManager;
 
+    private Coroutine waitingForSecondClick;
+
+    private const float DOUBLECLICK_MAX_DELAY = 0.3f;
+
     private void Start()
     {
         popupManager = transform.parent.parent.GetComponent<InventoryPopupTextManager>();
@@ -31,6 +35,9 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
         transform.SetParent(transform.parent.parent);
         transform.SetAsLastSibling();
+
+        popupManager.HidePopups(false);
+        popupManager.allowPopupsToAppear = false;
 
         GetComponent<CanvasGroup>().blocksRaycasts = false;
 
@@ -50,6 +57,7 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     {
         //Debug.Log("On End Drag");
         popupManager.lockPointer = false;
+        popupManager.allowPopupsToAppear = true;
 
         if (parentToInteractWith != null)
         {
@@ -89,6 +97,7 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     // Used when the mouse is no longer hovering over this item.
     public void OnPointerExit(PointerEventData eventData)
     {
+        //Debug.Log("WE have exitied the item, hide the popup");
         popupManager.HidePopups(false);
         inventoryUiManager.HighlightHideAll();
     }
@@ -98,5 +107,23 @@ public class ItemDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     {
         if (eventData.button == PointerEventData.InputButton.Right)
             popupManager.ShowMoreInfoPopup(transform);
+
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            //Debug.Log("A STANDARD CLICK");
+            if (waitingForSecondClick != null)
+            {
+                //Debug.Log("A DOUBLE CLICK");
+                // Check if we have a slot for this item it can be transfered to. We prioritize empty slots then the right hand. For trinkets prioritze slot 1.
+            }
+            else
+                waitingForSecondClick = StartCoroutine("waitForSecondClick");
+        }
+    }
+
+    IEnumerator waitForSecondClick()
+    {
+        yield return new WaitForSecondsRealtime(DOUBLECLICK_MAX_DELAY);
+        waitingForSecondClick = null;
     }
 }

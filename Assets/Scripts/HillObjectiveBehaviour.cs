@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class HillObjectiveBehaviour : MonoBehaviour
 {
+    [SerializeField] GameObject dissapearParticles;
+    [SerializeField] GameObject waypoint;
+    GameObject waypointReference;
+
     private int currentPlayerCount = 0;
     private int maximumPlayerCount = 1;
 
@@ -16,6 +20,11 @@ public class HillObjectiveBehaviour : MonoBehaviour
     private void Start()
     {
         maximumPlayerCount = GameManager.instance.currentPlayers.Length;
+
+        waypointReference = Instantiate(waypoint, new Vector3(9999, 9999, 9999), Quaternion.identity, GameManager.instance.playerUis[0].transform.Find("TemporaryUi"));
+        waypointReference.GetComponent<UiFollowTarget>().target = transform.Find("HillWaypointTarget");
+        waypointReference.transform.SetAsFirstSibling();
+        targetValue = GameManager.instance.hillChargeTime;
     }
 
     // Update is called once per frame
@@ -26,9 +35,12 @@ public class HillObjectiveBehaviour : MonoBehaviour
             currentValue += chargeRate * Time.deltaTime;
             GameManager.instance.UpdateObjectiveCount(currentValue / targetValue * 100);
 
-            if (currentValue >= targetValue)
-                Destroy(gameObject);
+            //if (currentValue >= targetValue)
+                //Destroy(gameObject);
         }
+
+        //if (Input.GetKeyDown(KeyCode.Alpha9))
+            //Destroy(gameObject);
     }
 
     /// <summary>
@@ -58,5 +70,12 @@ public class HillObjectiveBehaviour : MonoBehaviour
             currentPlayerCount--;
 
         UpdateCounterSpeed();
+    }
+
+    private void OnDestroy()
+    {
+        waypointReference.GetComponent<UiFollowTarget>().RemoveFromCullList();
+        Destroy(waypointReference);
+        Instantiate(dissapearParticles, transform.position, transform.rotation);
     }
 }

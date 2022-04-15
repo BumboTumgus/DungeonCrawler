@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovementController : MonoBehaviour
 {
     // a state machine that dictates the actions the player can take.
-    public enum PlayerState { Idle, Moving, Airborne, Rolling, Sprinting, Attacking, Downed, Dead, LossOfControl, LossOfControlNoGravity, CastingNoMovement, CastingRollOut, CastingWithMovement, CastingAerial, CastingIgnoreGravity, Jumping, Teleporting}
+    public enum PlayerState { Idle, Moving, Airborne, Rolling, Sprinting, Attacking, Downed, Dead, LossOfControl, LossOfControlNoGravity, CastingNoMovement, CastingRollOut, CastingWithMovement, CastingAerial, CastingAerialWithMovement, CastingIgnoreGravity, Jumping, Teleporting}
     public PlayerState playerState = PlayerState.Idle;
 
     [HideInInspector] public bool inventoryMenuOpen = false;          // USed to lock movement if the menu is open.
@@ -56,6 +56,8 @@ public class PlayerMovementController : MonoBehaviour
     private float flameWalkerDistance = 0;
     private float flameWalkerDistanceTarget = 10f;
 
+    private float currentHighestYValue = 0;
+
     public int currentJumps = 1;
 
     private const float GRAVITY = 0.4f;
@@ -64,7 +66,9 @@ public class PlayerMovementController : MonoBehaviour
     private const float JUMP_POWER = 0.14f;
     private const float ROLL_SPEED_MULTIPLIER = 2f;
     private const float ROLL_ANIMSPEED_MULITPLIER = 0.6f;
-    private const float GRAVITY_VECTOR_DAMAGE_THRESHOLD = 0.27f;
+    //private const float GRAVITY_VECTOR_DAMAGE_THRESHOLD = 0.27f;
+    private const float GRAVITY_DAMAGE_THRESHOLD = 15f;
+    private const float GRAVITY_MAX_DISTANCE_TO_FALL = 55f;
 
 
     //private const float POSITIONAL_DIFFERENCE_OFFSET = 0.1f;
@@ -179,6 +183,10 @@ public class PlayerMovementController : MonoBehaviour
                 case PlayerState.CastingAerial:
                     ApplyGravity();
                     break;
+                case PlayerState.CastingAerialWithMovement:
+                    Move();
+                    ApplyGravity();
+                    break;
                 case PlayerState.Teleporting:
                     break;
                 default:
@@ -268,7 +276,7 @@ public class PlayerMovementController : MonoBehaviour
 
                 audioManager.PlayAudio(64);
                 GameObject flamewalkerDamage = Instantiate(GetComponent<SkillsManager>().skillProjectiles[5], transform.position + Vector3.up * 0.1f, Quaternion.identity);
-                flamewalkerDamage.GetComponent<HitBox>().damage = playerStats.baseDamage * 0.8f * playerStats.spellDamageMultiplier;
+                flamewalkerDamage.GetComponent<HitBox>().damage = playerStats.baseDamage * 3f * playerStats.spellDamageMultiplier;
                 flamewalkerDamage.GetComponent<HitBox>().myStats = playerStats;
             }
         }
@@ -286,13 +294,13 @@ public class PlayerMovementController : MonoBehaviour
         bool primaryRayHit = false;
 
         // Shoot all the rays here
-        for(int index = 0; index < 5; index++)
+        for(int index = 0; index < 1; index++)
         {
             switch (index)
             {
                 case 0:
                     groundRay = new Ray(transform.position + Vector3.up * 0.5f, Vector3.down);
-                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
+                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial && playerState != PlayerState.CastingAerialWithMovement)
                     {
                         rayHitGround = true;
                         groundRayHitPoint = groundRayHit.point;
@@ -302,7 +310,7 @@ public class PlayerMovementController : MonoBehaviour
                     break;
                 case 1:
                     groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(1f, -1f, 0));
-                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
+                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial && playerState != PlayerState.CastingAerialWithMovement)
                     {
                         rayHitGround = true;
                         groundRayHitPoint = groundRayHit.point;
@@ -311,7 +319,7 @@ public class PlayerMovementController : MonoBehaviour
                     break;
                 case 2:
                     groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(-1f, -1f, 0));
-                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
+                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial && playerState != PlayerState.CastingAerialWithMovement)
                     {
                         rayHitGround = true;
                         groundRayHitPoint = groundRayHit.point;
@@ -320,7 +328,7 @@ public class PlayerMovementController : MonoBehaviour
                     break;
                 case 3:
                     groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, 1f));
-                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
+                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial && playerState != PlayerState.CastingAerialWithMovement)
                     {
                         rayHitGround = true;
                         groundRayHitPoint = groundRayHit.point;
@@ -329,7 +337,7 @@ public class PlayerMovementController : MonoBehaviour
                     break;
                 case 4:
                     groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, -1f));
-                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
+                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial && playerState != PlayerState.CastingAerialWithMovement)
                     {
                         rayHitGround = true;
                         groundRayHitPoint = groundRayHit.point;
@@ -352,15 +360,17 @@ public class PlayerMovementController : MonoBehaviour
             //Debug.Log("check if were grounded");
             if (!grounded)
             {
+                //Debug.Log($"WE fell a total of {currentHighestYValue - transform.position.y}");
                 //Debug.Log("Apply gravity damage here, our gravity vector is: " + gravityVectorStrength);
-                if(Mathf.Abs(gravityVectorStrength) - GRAVITY_VECTOR_DAMAGE_THRESHOLD > 0)
+                if(currentHighestYValue - transform.position.y > GRAVITY_DAMAGE_THRESHOLD)
                 {
-                    playerStats.TakeDamage(playerStats.healthMax * (Mathf.Abs(gravityVectorStrength) - GRAVITY_VECTOR_DAMAGE_THRESHOLD), false, HitBox.DamageType.True, 0, null, false);
+                    playerStats.TakeDamage(playerStats.healthMax * ((currentHighestYValue - transform.position.y - GRAVITY_DAMAGE_THRESHOLD) /  GRAVITY_MAX_DISTANCE_TO_FALL), false, HitBox.DamageType.True, 0, null, false);
                 }
 
                 // if the ray hit the ground, set us as grounded, snap us to the ground, and change the state while updating the aniamtion.
                 grounded = true;
                 gravityModifier = 1;
+                currentHighestYValue = -999;
 
                 audioManager.PlayAudio(13);
 
@@ -372,10 +382,10 @@ public class PlayerMovementController : MonoBehaviour
 
                 //Debug.Log("The positional difference is: " + positionalDifference + ". Our transform is: " + transform.position);
 
+                anim.SetBool("Grounded", true);
+                currentJumps = playerStats.jumps;
                 if (!playerStats.stunned && !playerStats.knockedBack && !playerStats.asleep && !playerStats.frozen)
                 {
-                    anim.SetBool("Grounded", true);
-                    currentJumps = playerStats.jumps;
                     if (playerState == PlayerState.Airborne)
                         playerState = PlayerState.Idle;
                 }
@@ -395,17 +405,19 @@ public class PlayerMovementController : MonoBehaviour
                 Ray groundRay03 = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(-1f, -1f, 0));
                 Ray groundRay04 = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, 1f));
                 Ray groundRay05 = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, -1f));
-                if (!Physics.Raycast(groundRay, GROUNDING_RAY_LENGTH + GROUNDING_RAY_BONUS_TO_AVOID_MICROHOPS, groundingRayMask) &&
-                    !Physics.Raycast(groundRay02, GROUNDING_RAY_LENGTH + GROUNDING_RAY_BONUS_TO_AVOID_MICROHOPS, groundingRayMask) &&
+                //!Physics.Raycast(groundRay, GROUNDING_RAY_LENGTH + GROUNDING_RAY_BONUS_TO_AVOID_MICROHOPS, groundingRayMask) &&
+                if (!Physics.Raycast(groundRay02, GROUNDING_RAY_LENGTH + GROUNDING_RAY_BONUS_TO_AVOID_MICROHOPS, groundingRayMask) &&
                     !Physics.Raycast(groundRay03, GROUNDING_RAY_LENGTH + GROUNDING_RAY_BONUS_TO_AVOID_MICROHOPS, groundingRayMask) &&
                     !Physics.Raycast(groundRay04, GROUNDING_RAY_LENGTH + GROUNDING_RAY_BONUS_TO_AVOID_MICROHOPS, groundingRayMask) &&
-                    !Physics.Raycast(groundRay05, GROUNDING_RAY_LENGTH + GROUNDING_RAY_BONUS_TO_AVOID_MICROHOPS, groundingRayMask))
+                    !Physics.Raycast(groundRay05, GROUNDING_RAY_LENGTH + GROUNDING_RAY_BONUS_TO_AVOID_MICROHOPS, groundingRayMask) ||
+                    !Physics.Raycast(groundRay, GROUNDING_RAY_LENGTH + GROUNDING_RAY_BONUS_TO_AVOID_MICROHOPS * 3, groundingRayMask))
                 {
+
                     //Debug.Log("The ray missed, we are now airborne");
                     grounded = false;
                     anim.SetBool("Grounded", false);
 
-                    if (playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial)
+                    if (playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial && playerState != PlayerState.CastingAerialWithMovement)
                     {
                         //Debug.Log("we were jumping or casting an aeril skill so set us to airborne");
                         playerState = PlayerState.Airborne;
@@ -415,12 +427,16 @@ public class PlayerMovementController : MonoBehaviour
 
             Vector3 gravityVector = Vector3.zero;
 
+
             gravityVectorStrength -= GRAVITY * gravityModifier * Time.deltaTime;
             gravityVector.y = gravityVectorStrength;
 
             //Debug.Log("GRAVITY MOVEMENT PRE: " + transform.position);
             controller.Move(gravityVector);
             //Debug.Log("GRAVITY MOVEMENT POST: " + transform.position);
+
+            if (currentHighestYValue < transform.position.y)
+                currentHighestYValue = transform.position.y;
         }
 
     }
@@ -475,6 +491,7 @@ public class PlayerMovementController : MonoBehaviour
             anim.SetTrigger("Jump");
             playerState = PlayerState.Jumping;
         }
+        currentHighestYValue = transform.position.y;
 
         grounded = false;
         gravityVectorStrength = jumpPower;
@@ -692,7 +709,8 @@ public class PlayerMovementController : MonoBehaviour
     // The stunned coroutine. Makes the player unable to take action.
     IEnumerator Stunned()
     {
-        if(!playerStats.frozen)
+        GetComponent<SkillsManager>().InterruptSkills();
+        if (!playerStats.frozen)
             anim.SetFloat("FrozenMultiplier", 1f);
         playerStats.stunned = true;
         playerState = PlayerState.LossOfControl;
@@ -715,6 +733,7 @@ public class PlayerMovementController : MonoBehaviour
     // The asleep coroutine. Makes the player unable to take action.
     IEnumerator Asleep()
     {
+        GetComponent<SkillsManager>().InterruptSkills();
         playerStats.asleep = true;
         playerState = PlayerState.LossOfControl;
         anim.SetBool("Sleeping", true);
@@ -737,6 +756,7 @@ public class PlayerMovementController : MonoBehaviour
     // The asleep coroutine. Makes the player unable to take action.
     IEnumerator Frozen()
     {
+        GetComponent<SkillsManager>().InterruptSkills();
         playerStats.frozen = true;
         playerState = PlayerState.LossOfControl;
         anim.SetBool("Stunned", true);
@@ -758,6 +778,7 @@ public class PlayerMovementController : MonoBehaviour
         // Check to see if the knockback works and goes through.
         if (Random.Range(0, 100) > playerStats.knockbackResistance * 100)
         {
+            GetComponent<SkillsManager>().InterruptSkills();
             ragdollManager.StopAllCoroutines();
             anim.ResetTrigger("GettingUpFacingDown");
             anim.ResetTrigger("GettingUpFacingUp");
@@ -918,23 +939,28 @@ public class PlayerMovementController : MonoBehaviour
             }
             else
             {
-                // Remvoe the lock for our movement and camera controls after we press and open the inventory.
-                inventoryWindow.SetActive(false);
-                inventoryWindow.GetComponent<InventoryUiManager>().audioManager.PlayAudio(3);
-
-                
-                inventoryWindow.GetComponent<InventoryPopupTextManager>().lockPointer = false;
-                inventoryWindow.GetComponent<InventoryPopupTextManager>().HidePopups(true);
-                inventoryMenuOpen = false;
-                if (!pauseMenuOpen)
-                {
-                    freezePlayerMovementForMenu = false;
-                    cameraControls.menuOpen = false;
-                    Time.timeScale = 1;
-                    Cursor.lockState = CursorLockMode.Locked;
-                    Cursor.visible = false;
-                }
+                HideInventoryWindow();
             }
+        }
+    }
+
+    public void HideInventoryWindow()
+    {
+        // Remvoe the lock for our movement and camera controls after we press and open the inventory.
+        inventoryWindow.SetActive(false);
+        inventoryWindow.GetComponent<InventoryUiManager>().audioManager.PlayAudio(3);
+
+
+        inventoryWindow.GetComponent<InventoryPopupTextManager>().lockPointer = false;
+        inventoryWindow.GetComponent<InventoryPopupTextManager>().HidePopups(true);
+        inventoryMenuOpen = false;
+        if (!pauseMenuOpen)
+        {
+            freezePlayerMovementForMenu = false;
+            cameraControls.menuOpen = false;
+            Time.timeScale = 1;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 
@@ -994,6 +1020,12 @@ public class PlayerMovementController : MonoBehaviour
         anim.SetBool("FaceAttackDirection", true);
     }
 
+    public void SnapToFaceVector(Vector3 directionToSnapTo)
+    {
+        directionToSnapTo.y = 0;
+        transform.rotation = Quaternion.LookRotation(directionToSnapTo, Vector3.up);
+    }
+
     // USed to change the gravity modifier so we fall faster. Must be in a method so the animation clips can access it.
     public void ChangeGravityModifier(float value)
     {
@@ -1003,11 +1035,16 @@ public class PlayerMovementController : MonoBehaviour
     // Have we entered an out of bounds box? If so take damage then make the game manager snap us to a new location.
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("The layer is: " + other.gameObject.layer);
+        //Debug.Log("The layer is: " + other.gameObject.layer);
         if(other.gameObject.layer == 7)
         {
             //playerStats.TakeDamage(playerStats.healthMax * 0.2f, false, HitBox.DamageType.True, 0, null, false);
             GameManager.instance.SnapToNearestTPLocation(gameObject);
         }
+    }
+
+    public void ResetCurrentHighestPoint()
+    {
+        currentHighestYValue = -999;
     }
 }
