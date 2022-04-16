@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovementController : MonoBehaviour
 {
     // a state machine that dictates the actions the player can take.
-    public enum PlayerState { Idle, Moving, Airborne, Rolling, Sprinting, Attacking, Downed, Dead, LossOfControl, LossOfControlNoGravity, CastingNoMovement, CastingRollOut, CastingWithMovement, CastingAerial, CastingAerialWithMovement, CastingIgnoreGravity, Jumping, Teleporting}
+    public enum PlayerState { Idle, Moving, Airborne, Rolling, Attacking, Downed, Dead, LossOfControl, LossOfControlNoGravity, CastingNoMovement, CastingRollOut, CastingWithMovement, CastingAerial, CastingAerialWithMovement, CastingIgnoreGravity, Jumping, Teleporting}
     public PlayerState playerState = PlayerState.Idle;
 
     [HideInInspector] public bool inventoryMenuOpen = false;          // USed to lock movement if the menu is open.
@@ -44,6 +44,10 @@ public class PlayerMovementController : MonoBehaviour
     private IEnumerator attackCoroutine;
     private IEnumerator knockbackCoroutine;
     private IEnumerator jumpCoroutine;
+    private IEnumerator sprintCooldownCoroutine;
+
+    private bool sprinting = false;
+    private bool canSprint = true;
 
     private bool grounded = true;                                     // is the character on walkable ground. Used for jumping, rlling, and other movement
     private float gravityVectorStrength = 0f;                         // the current downward force of gravity, so the player accelerates towards the ground.
@@ -69,6 +73,8 @@ public class PlayerMovementController : MonoBehaviour
     //private const float GRAVITY_VECTOR_DAMAGE_THRESHOLD = 0.27f;
     private const float GRAVITY_DAMAGE_THRESHOLD = 15f;
     private const float GRAVITY_MAX_DISTANCE_TO_FALL = 55f;
+    private const float SPRINT_SPEED_INCREASE = 1.5f;
+    private const float SPRINT_DELAY_FROM_DAMAGE = 3f;
 
 
     //private const float POSITIONAL_DIFFERENCE_OFFSET = 0.1f;
@@ -117,6 +123,7 @@ public class PlayerMovementController : MonoBehaviour
                     CheckRoll();
                     CheckAttack();
                     CheckInteract();
+                    CheckSprint();
                     break;
                 case PlayerState.Moving:
                     Move();
@@ -125,27 +132,22 @@ public class PlayerMovementController : MonoBehaviour
                     CheckRoll();
                     CheckAttack();
                     CheckInteract();
+                    CheckSprint();
                     break;
                 case PlayerState.Airborne:
                     Move();
                     ApplyGravity();
                     CheckJump();
+                    CheckSprint();
                     break;
                 case PlayerState.Rolling:
                     ApplyGravity();
-                    break;
-                case PlayerState.Sprinting:
-                    Move();
-                    ApplyGravity();
-                    CheckJump();
-                    CheckRoll();
-                    CheckAttack();
-                    CheckInteract();
                     break;
                 case PlayerState.Jumping:
                     Move();
                     ApplyGravity();
                     CheckJump();
+                    CheckSprint();
                     break;
                 case PlayerState.Attacking:
                     Move();
@@ -200,6 +202,17 @@ public class PlayerMovementController : MonoBehaviour
         CheckMenuInputs();
     }
 
+    private void CheckSprint()
+    {
+        if (canSprint && Input.GetAxisRaw(inputs.sprintInput) == 1 && inputs.sprintReleased && !playerStats.dead)
+        {
+            Debug.Log("Begin Sprinting");
+            sprinting = true;
+            inputs.sprintReleased = false;
+            anim.SetBool("Sprinting", true);
+        }
+    }
+
     private void Move()
     {
         if (playerStats.movespeedPercentMultiplier >= 0.1f)
@@ -231,13 +244,16 @@ public class PlayerMovementController : MonoBehaviour
             if (!recentlyAttacked)
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMoveDirection), rotationSpeed);
 
-            if(playerStats.movespeedPercentMultiplier > 0.1f)
+            if (playerStats.movespeedPercentMultiplier > 0.1f)
                 anim.SetFloat("Speed", 1 * playerStats.movespeedPercentMultiplier);
             else
                 anim.SetFloat("Speed", 1 * 0.1f);
         }
         else
+        {
             anim.SetFloat("Speed", 0);
+            CancelSprint(false);
+        }
 
         if(recentlyAttacked)
         {
@@ -258,19 +274,26 @@ public class PlayerMovementController : MonoBehaviour
 
         currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
 
+
         if (desiredMoveDirection != Vector3.zero)
         {
             //Debug.Log("The previous position is: " + transform.position);
-            controller.Move(desiredMoveDirection * currentSpeed * Time.deltaTime);
+            if (sprinting)
+                controller.Move(desiredMoveDirection * currentSpeed * Time.deltaTime * SPRINT_SPEED_INCREASE);
+            else
+                controller.Move(desiredMoveDirection * currentSpeed * Time.deltaTime);
             //Debug.Log("The new position is: " + transform.position);
         }
 
         // If we have the flamewalker buff active, increase this the more we move.
         if (playerStats.flameWalkerEnabled)
         {
-            flameWalkerDistance += currentSpeed * Time.deltaTime;
+            if(sprinting)
+                flameWalkerDistance += currentSpeed * Time.deltaTime * SPRINT_SPEED_INCREASE;
+            else
+                flameWalkerDistance += currentSpeed * Time.deltaTime;
 
-            if(flameWalkerDistance >= flameWalkerDistanceTarget)
+            if (flameWalkerDistance >= flameWalkerDistanceTarget)
             {
                 flameWalkerDistance -= flameWalkerDistanceTarget;
 
@@ -441,7 +464,6 @@ public class PlayerMovementController : MonoBehaviour
 
     }
 
-
     // Used to snap our character to the floor is possible.
     public void SnapToFloor()
     {
@@ -528,6 +550,7 @@ public class PlayerMovementController : MonoBehaviour
     IEnumerator Roll()
     {
         rollReady = false;
+        GetComponent<SkillsManager>().InterruptSkills();
 
         buffsManager.ProcOnRoll();
         audioManager.PlayAudio(12);
@@ -542,6 +565,7 @@ public class PlayerMovementController : MonoBehaviour
 
         // Ensures we face forward after a roll.
         recentlyAttacked = false;
+        CancelSprint(false);
         anim.SetBool("FaceAttackDirection", false);
         currentTimeSinceLastAttack = 0;
 
@@ -638,6 +662,7 @@ public class PlayerMovementController : MonoBehaviour
     IEnumerator Attack()
     {
         buffsManager.ProcOnAttack();
+        CancelSprint(true);
         attackReady = false;
 
         recentlyAttacked = true;
@@ -710,6 +735,7 @@ public class PlayerMovementController : MonoBehaviour
     IEnumerator Stunned()
     {
         GetComponent<SkillsManager>().InterruptSkills();
+        CancelSprint(true);
         if (!playerStats.frozen)
             anim.SetFloat("FrozenMultiplier", 1f);
         playerStats.stunned = true;
@@ -734,6 +760,7 @@ public class PlayerMovementController : MonoBehaviour
     IEnumerator Asleep()
     {
         GetComponent<SkillsManager>().InterruptSkills();
+        CancelSprint(true);
         playerStats.asleep = true;
         playerState = PlayerState.LossOfControl;
         anim.SetBool("Sleeping", true);
@@ -757,6 +784,7 @@ public class PlayerMovementController : MonoBehaviour
     IEnumerator Frozen()
     {
         GetComponent<SkillsManager>().InterruptSkills();
+        CancelSprint(true);
         playerStats.frozen = true;
         playerState = PlayerState.LossOfControl;
         anim.SetBool("Stunned", true);
@@ -863,6 +891,30 @@ public class PlayerMovementController : MonoBehaviour
         }
 
         CheckForOtherLoseOfControlEffects();
+    }
+
+    // USed when we need to cancel the sprint. Happens when we cast a spell, attack, take damage.
+    public void CancelSprint(bool startSprintCountdown)
+    {
+        sprinting = false;
+        anim.SetBool("Sprinting", false);
+        Debug.Log("Cancel Sprinting");
+
+        if (startSprintCountdown)
+        {
+            Debug.Log("... AND START OUR DELAY");
+            if (sprintCooldownCoroutine != null)
+                StopCoroutine(sprintCooldownCoroutine);
+            sprintCooldownCoroutine = DelayUntilCanSprintAgain();
+            StartCoroutine(sprintCooldownCoroutine);
+        }
+    }
+
+    private IEnumerator DelayUntilCanSprintAgain()
+    {
+        canSprint = false;
+        yield return new WaitForSeconds(SPRINT_DELAY_FROM_DAMAGE);
+        canSprint = true;
     }
 
     // Used to make the player do a pickup animation.

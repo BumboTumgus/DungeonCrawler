@@ -14,6 +14,7 @@ public class EnemyAbilityBank : MonoBehaviour
 
     public GameObject targetDesignator;
     public Transform designatorOrigin;
+    public TargetIndicatorController targetIndicatorController;
 
     [SerializeField] private LayerMask rayMask;
 
@@ -23,6 +24,8 @@ public class EnemyAbilityBank : MonoBehaviour
     private EnemyCombatController combatController;
     private EnemyMovementManager movementManager;
     private Animator anim;
+    private HitBoxManager hitBoxes;
+    private AudioManager audioManager;
 
     // Start is called before the first frame update
     void Start()
@@ -33,8 +36,34 @@ public class EnemyAbilityBank : MonoBehaviour
         combatController = GetComponent<EnemyCombatController>();
         movementManager = GetComponent<EnemyMovementManager>();
         anim = GetComponent<Animator>();
+        hitBoxes = GetComponent<HitBoxManager>();
+        audioManager = GetComponent<AudioManager>();
     }
-    
+
+    public void InterruptSkills()
+    {
+        Debug.Log("Interrupt the skills");
+
+        StopAllCoroutines();
+
+        foreach (ParticleSystem ps in hitBoxes.hiteffects)
+            ps.Stop();
+
+        for(int layerIndex = 0; layerIndex < anim.layerCount; layerIndex++)
+        {
+            if(anim.GetLayerName(layerIndex) == "Skills" || anim.GetLayerName(layerIndex) == "SkillsLayerMasked")
+                anim.Play("Idle", layerIndex);
+        }
+
+        if (targetIndicatorController)
+            Destroy(targetIndicatorController.gameObject);
+
+
+        //audioManager.StopAudio(48);
+        //audioManager.StopAudio(60);
+        //audioManager.StopAudio(81);
+    }
+
     // Depending on the spell, start the proper coroutine.
     public void CastSpell(EnemyAbility spellType)
     {
@@ -444,7 +473,7 @@ public class EnemyAbilityBank : MonoBehaviour
         float targetTimer = 2.8f;
 
         // Create the target Indicator
-        TargetIndicatorController targetIndicatorController = Instantiate(targetDesignator).GetComponent<TargetIndicatorController>();
+        targetIndicatorController = Instantiate(targetDesignator).GetComponent<TargetIndicatorController>();
         targetIndicatorController.originAnchor = designatorOrigin;
         targetIndicatorController.targetAnchor = combatController.myTarget.transform;
 
@@ -581,7 +610,7 @@ public class EnemyAbilityBank : MonoBehaviour
         float targetTimer = 7.833f;
 
         // Create the target Indicator
-        TargetIndicatorController targetIndicatorController = Instantiate(targetDesignator).GetComponent<TargetIndicatorController>();
+        targetIndicatorController = Instantiate(targetDesignator).GetComponent<TargetIndicatorController>();
         targetIndicatorController.originAnchor = designatorOrigin;
         targetIndicatorController.targetAnchor = combatController.myTarget.transform;
 

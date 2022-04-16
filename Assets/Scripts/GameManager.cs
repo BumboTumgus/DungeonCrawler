@@ -537,6 +537,9 @@ public class GameManager : MonoBehaviour
             Instantiate(player.GetComponent<SkillsManager>().skillProjectiles[83], player.transform.position + Vector3.up, Quaternion.identity);
             player.GetComponent<PlayerMovementController>().enabled = false;
             player.GetComponent<PlayerMovementController>().ResetCurrentHighestPoint();
+            player.GetComponent<SkillsManager>().InterruptSkills();
+            PlayerStats stats = player.GetComponent<PlayerStats>();
+            stats.health = stats.healthMax;
             player.GetComponent<CharacterController>().enabled = false;
             player.GetComponent<BuffsManager>().RemoveAllBuffs();
             player.transform.Find("EntityModel").gameObject.SetActive(false);

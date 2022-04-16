@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Inventory : MonoBehaviour
 {
@@ -116,6 +117,13 @@ public class Inventory : MonoBehaviour
             targetItem.ItemPopIn(transform.position + transform.forward * Random.Range(0.5f, 1.5f));
             inventoryUI.UpdateInventorySlot(targetItem.inventoryIndex);
             GetComponent<AudioManager>().PlayAudio(17);
+
+            for(int sceneIndex = 0; sceneIndex < SceneManager.sceneCount; sceneIndex++)
+            {
+                Debug.Log("The scene name is: " + SceneManager.GetSceneAt(sceneIndex).name);
+                if (SceneManager.GetSceneAt(sceneIndex).name != "DontDestroyOnLoad")
+                    SceneManager.MoveGameObjectToScene(targetItem.gameObject, SceneManager.GetSceneAt(sceneIndex));
+            }
         }
         // Debug.Log(inventory.Count);
     }

@@ -28,8 +28,8 @@ public class TargetIndicatorController : MonoBehaviour
     void Update()
     {
         RaycastHit rayhit;
-        Vector3 lineRendererTarget = targetAnchor.transform.position;
-        float magnitude = (targetAnchor.transform.position - originAnchor.transform.position).magnitude;
+        Vector3 lineRendererTarget = targetAnchor.transform.position + Vector3.up;
+        float magnitude = (targetAnchor.transform.position + Vector3.up - originAnchor.transform.position).magnitude;
 
         if (magnitude > range)
             magnitude = range;
@@ -41,7 +41,7 @@ public class TargetIndicatorController : MonoBehaviour
 
         Debug.DrawRay(originAnchor.position, targetAnchor.position - originAnchor.position, Color.green);
 
-        lineRenderer.SetPositions(new Vector3[] { originAnchor.position, lineRendererTarget + Vector3.up });
+        lineRenderer.SetPositions(new Vector3[] { originAnchor.position, lineRendererTarget  });
 
 
 

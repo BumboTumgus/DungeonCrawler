@@ -197,7 +197,7 @@ public class PlayerStats : MonoBehaviour
             EnemyManager.instance.SpawnGoblin();
         if (Input.GetKeyDown(KeyCode.J) && CompareTag("Player"))
             AddGold((int)Random.Range(1, 100000));
-        if (Input.GetKeyDown(KeyCode.KeypadPeriod) && CompareTag("Player"))
+        if (Input.GetKeyDown(KeyCode.KeypadPeriod) && CompareTag("Enemy"))
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, baseDamage, this);
 
         /*
@@ -557,7 +557,11 @@ public class PlayerStats : MonoBehaviour
                     comboCount *= 1 + playerThatLastHitUs.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.PhysicalPhysicalSkillsComboAmp);
                 //Debug.Log("current combo count is: " + comboCount);
             }
-
+            else
+            {
+                if(!damageOverTime)
+                    GetComponent<PlayerMovementController>().CancelSprint(true);
+            }
 
             //Debug.Log("the combo count is: " + comboCount);
             if (damage != HitBox.DamageType.True)

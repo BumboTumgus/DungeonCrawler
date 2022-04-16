@@ -451,7 +451,10 @@ public class SkillsManager : MonoBehaviour
 
             case SkillNames.RayOfIce:
 
-                Ray iceRayRay = new Ray(transform.position + Vector3.up, transform.forward);
+                Vector3 rayOfIceLookTowardsPoint = pmc.mainCameraTransform.position + pmc.mainCameraTransform.forward * 25;
+                Vector3 iceRayRayCastDirection = rayOfIceLookTowardsPoint - (transform.position + Vector3.up);
+
+                Ray iceRayRay = new Ray(transform.position + Vector3.up, iceRayRayCastDirection);
                 RaycastHit iceRayhit = new RaycastHit();
                 Vector3 iceRayTargetPosition = Vector3.zero;
 

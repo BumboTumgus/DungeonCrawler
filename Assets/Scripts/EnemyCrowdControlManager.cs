@@ -12,6 +12,7 @@ public class EnemyCrowdControlManager : MonoBehaviour
     private BuffsManager buffsManager;
     private RagdollManager ragdollManager;
     private EnemyMovementManager movementManager;
+    private EnemyAbilityBank myAbilityBank;
 
     private IEnumerator knockbackCoroutine;
 
@@ -23,6 +24,7 @@ public class EnemyCrowdControlManager : MonoBehaviour
         buffsManager = GetComponent<BuffsManager>();
         ragdollManager = GetComponent<RagdollManager>();
         movementManager = GetComponent<EnemyMovementManager>();
+        myAbilityBank = GetComponent<EnemyAbilityBank>();
     }
 
     // Used when the player gets stunned
@@ -34,6 +36,7 @@ public class EnemyCrowdControlManager : MonoBehaviour
     // The stunned coroutine. Makes the player unable to take action.
     IEnumerator Stunned()
     {
+        myAbilityBank.InterruptSkills();
         movementManager.StopMovement();
         movementManager.enableMovement = false;
 
@@ -58,6 +61,7 @@ public class EnemyCrowdControlManager : MonoBehaviour
     // The asleep coroutine. Makes the player unable to take action.
     IEnumerator Asleep()
     {
+        myAbilityBank.InterruptSkills();
         movementManager.StopMovement();
         movementManager.enableMovement = false;
 
@@ -83,6 +87,7 @@ public class EnemyCrowdControlManager : MonoBehaviour
     // The asleep coroutine. Makes the player unable to take action.
     IEnumerator Frozen()
     {
+        myAbilityBank.InterruptSkills();
         movementManager.StopMovement();
         movementManager.enableMovement = false;
 
@@ -107,6 +112,7 @@ public class EnemyCrowdControlManager : MonoBehaviour
         // Check to see if the knockback works and goes through.
         if (Random.Range(0, 100) > myStats.knockbackResistance * 100)
         {
+            myAbilityBank.InterruptSkills();
             movementManager.StopMovement();
             movementManager.enableMovement = false;
 

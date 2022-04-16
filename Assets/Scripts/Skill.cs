@@ -137,6 +137,7 @@ public class Skill : MonoBehaviour
             //Debug.Log("The skill " + skillName + " has been used");
 
             pc.SkillCastCoroutineClear();
+            pc.CancelSprint(true);
             bool successfulSkillUse = true;
 
             switch (skillName)
@@ -1620,6 +1621,8 @@ public class Skill : MonoBehaviour
         {
             currentTimer += Time.deltaTime;
 
+            Vector3 rayOfIceLookTowardsPoint = pc.mainCameraTransform.position + pc.mainCameraTransform.forward * 25;
+            myManager.hitBoxes.hiteffects[53].transform.LookAt(rayOfIceLookTowardsPoint);
             yield return null;
         }
 
@@ -2393,21 +2396,6 @@ public class Skill : MonoBehaviour
                 break;
             case 2:
                 inputToReturn = myManager.inputs.skill2Input;
-                break;
-            case 3:
-                inputToReturn = myManager.inputs.skill3Input;
-                break;
-            case 4:
-                inputToReturn = myManager.inputs.skill4Input;
-                break;
-            case 5:
-                inputToReturn = myManager.inputs.skill5Input;
-                break;
-            case 6:
-                inputToReturn = myManager.inputs.skill6Input;
-                break;
-            case 7:
-                inputToReturn = myManager.inputs.skill7Input;
                 break;
         }
 

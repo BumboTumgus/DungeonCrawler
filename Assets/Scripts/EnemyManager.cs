@@ -124,28 +124,28 @@ public class EnemyManager : MonoBehaviour
                     switch (enemyToAddToBatch.GetComponent<PlayerStats>().entityType)
                     {
                         case PlayerStats.EnemyEntityType.Goblin:
-                            enemyToAddToBatch = enemyBankGoblinElites[Random.Range(0, spawnableEnemies.Count)];
+                            enemyToAddToBatch = enemyBankGoblinElites[Random.Range(0, enemyBankGoblinElites.Length)];
                             break;
                         case PlayerStats.EnemyEntityType.Bee:
-                            enemyToAddToBatch = enemyBankBeeElites[Random.Range(0, spawnableEnemies.Count)];
+                            enemyToAddToBatch = enemyBankBeeElites[Random.Range(0, enemyBankBeeElites.Length)];
                             break;
                         case PlayerStats.EnemyEntityType.Snake:
-                            enemyToAddToBatch = enemyBankCobraElites[Random.Range(0, spawnableEnemies.Count)];
+                            enemyToAddToBatch = enemyBankCobraElites[Random.Range(0, enemyBankCobraElites.Length)];
                             break;
                         case PlayerStats.EnemyEntityType.Wolf:
-                            enemyToAddToBatch = enemyBankWolfElites[Random.Range(0, spawnableEnemies.Count)];
+                            enemyToAddToBatch = enemyBankWolfElites[Random.Range(0, enemyBankWolfElites.Length)];
                             break;
                         case PlayerStats.EnemyEntityType.Brute:
-                            enemyToAddToBatch = enemyBankBruteElites[Random.Range(0, spawnableEnemies.Count)];
+                            enemyToAddToBatch = enemyBankBruteElites[Random.Range(0, enemyBankBruteElites.Length)];
                             break;
                         case PlayerStats.EnemyEntityType.Dragon:
-                            enemyToAddToBatch = enemyBankDragonElites[Random.Range(0, spawnableEnemies.Count)];
+                            enemyToAddToBatch = enemyBankDragonElites[Random.Range(0, enemyBankDragonElites.Length)];
                             break;
                         case PlayerStats.EnemyEntityType.Golem:
-                            enemyToAddToBatch = enemyBankGolemElites[Random.Range(0, spawnableEnemies.Count)];
+                            enemyToAddToBatch = enemyBankGolemElites[Random.Range(0, enemyBankGolemElites.Length)];
                             break;
                         case PlayerStats.EnemyEntityType.ForgeGiant:
-                            enemyToAddToBatch = enemyBankForgeGiantElites[Random.Range(0, spawnableEnemies.Count)];
+                            enemyToAddToBatch = enemyBankForgeGiantElites[Random.Range(0, enemyBankForgeGiantElites.Length)];
                             break;
                         default:
                             break;
