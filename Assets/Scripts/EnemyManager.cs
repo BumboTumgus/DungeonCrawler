@@ -7,18 +7,19 @@ public class EnemyManager : MonoBehaviour
     public static EnemyManager instance;
     public List<PlayerStats> enemyStats = new List<PlayerStats>();
     public bool allowEnemySpawns = true;
+    public bool canRollBosses = false;
 
     [SerializeField] Transform[] enemySpawns;
     [SerializeField] float enemyPoints = 0;
     [SerializeField] float enemyPointsBonusMultiplier = 1;
     [SerializeField] float currentTimer = 0f;
-    [SerializeField] float targetTimer = 100f;
+    [SerializeField] float targetTimer = 120;
     [SerializeField] private int enemyLevel = 0;
     [SerializeField] private float enemyEliteChance = 0.05f;
+    [SerializeField] private float bossSpawnChance = 0;
 
     [SerializeField] private GameObject[] enemyBank;
     [SerializeField] private GameObject[] enemyBossBank;
-    [SerializeField] private List<GameObject> spawnableEnemies = new List<GameObject>();
     [SerializeField] private GameObject spawnEffectSmall;
 
     [SerializeField] private GameObject[] enemyBankBeeElites;
@@ -44,16 +45,8 @@ public class EnemyManager : MonoBehaviour
             instance = this;
         else
             Destroy(this);
-
-        foreach (GameObject enemy in enemyBank)
-            spawnableEnemies.Add(enemy);
     }
 
-    public void AddEligibleEnemiesToSpawn()
-    {
-        foreach (GameObject boss in enemyBossBank)
-            spawnableEnemies.Add(boss);
-    }
 
     private void Update()
     {
@@ -72,6 +65,7 @@ public class EnemyManager : MonoBehaviour
                 stats.LevelEnemyCalculation();
             }
             enemyEliteChance += 0.025f;
+            bossSpawnChance += 0.01f;
             enemyPointsBonusMultiplier *= BONUS_POINT_MULTIPLIER_GROWTH;
 
             GameManager.instance.trapStats.level = enemyLevel;
@@ -116,7 +110,10 @@ public class EnemyManager : MonoBehaviour
 
             for (int index = 0; index < enemyBatchEnemyCount; index++)
             {
-                GameObject enemyToAddToBatch = spawnableEnemies[Random.Range(0, spawnableEnemies.Count)];
+                GameObject enemyToAddToBatch = enemyBank[Random.Range(0, enemyBank.Length)];
+
+                if (canRollBosses && Random.Range(0f, 1f) < bossSpawnChance)
+                    enemyToAddToBatch = enemyBossBank[Random.Range(0, enemyBossBank.Length)];
 
                 //Check to see if we rolled an elite, if not continue on.
                 if(Random.Range(0f,1f) < enemyEliteChance)
@@ -237,7 +234,7 @@ public class EnemyManager : MonoBehaviour
 
     public void SpawnGoblin()
     {
-        GameObject enemyGO = Instantiate(spawnableEnemies[0], new Vector3(0,0,45), Quaternion.identity);
+        GameObject enemyGO = Instantiate(enemyBank[0], new Vector3(0,0,45), Quaternion.identity);
         enemyGO.GetComponent<DamageNumberManager>().primaryCanvas = GameManager.instance.playerUis[0].transform;
         enemyGO.GetComponent<PlayerStats>().level = enemyLevel;
         Instantiate(spawnEffectSmall, new Vector3(0, 0, 45), Quaternion.identity);

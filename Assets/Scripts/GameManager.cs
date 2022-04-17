@@ -102,6 +102,7 @@ public class GameManager : MonoBehaviour
         player.GetComponent<PlayerStats>().myStats = playerUi.transform.Find("InventoryPanel").Find("Stats").GetComponent<StatUpdater>();
         player.GetComponent<PlayerStats>().healthBar = playerUi.transform.Find("PlayerStats").Find("HealthBar").Find("HealthBarBackground").GetComponent<BarManager>();
         player.GetComponent<PlayerStats>().moneyCounter = playerUi.GetComponent<MoneyUiCounterBehaviour>();
+        player.GetComponent<PlayerStats>().bloodyScreenController = playerUi.transform.Find("BloodyOverlay").GetComponent<BloodyScreenController>();
         player.GetComponent<Inventory>().interactPrompt = playerUi.transform.Find("InteractPrompt").GetComponent<InteractPromptController>();
         player.GetComponent<Inventory>().hintPrompt = playerUi.transform.Find("HintBox").GetComponent<InteractPromptController>();
         player.GetComponent<Inventory>().inventoryUI = playerUi.transform.Find("InventoryPanel").GetComponent<InventoryUiManager>();
@@ -335,7 +336,7 @@ public class GameManager : MonoBehaviour
 
             // SHould we add standard bosses to the spawn list?
             if (currentLevel == 4)
-                EnemyManager.instance.AddEligibleEnemiesToSpawn();
+                EnemyManager.instance.canRollBosses = true;
 
         }
 

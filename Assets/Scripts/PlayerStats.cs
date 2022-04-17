@@ -129,6 +129,7 @@ public class PlayerStats : MonoBehaviour
     public ComboManager comboManager;
     public PlayerStats lastHitBy;
     private AudioManager audioManager;
+    public BloodyScreenController bloodyScreenController;
 
     Transform uiTargetBossWaypoint;
 
@@ -199,6 +200,8 @@ public class PlayerStats : MonoBehaviour
             AddGold((int)Random.Range(1, 100000));
         if (Input.GetKeyDown(KeyCode.KeypadPeriod) && CompareTag("Enemy"))
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Stunned, 1, baseDamage, this);
+        if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
+            TakeDamage(20, false, HitBox.DamageType.Physical, 0, null, false);
 
         /*
         
@@ -344,6 +347,10 @@ public class PlayerStats : MonoBehaviour
                     traitAflameStunPeriodicallyCurrentTimer = 0;
                 }
             }
+
+            // IF we are a player update our alpha value.
+            if(CompareTag("Player"))
+                bloodyScreenController.SetScreenAlpha(health / healthMax);
         }
     }
 
@@ -426,8 +433,11 @@ public class PlayerStats : MonoBehaviour
             cooldownReduction += totalAmountToReduce;
         }
 
-        if(CompareTag("Player"))
+        if (CompareTag("Player"))
+        {
+            bloodyScreenController.SetScreenAlpha(health / healthMax);
             skills.UpdateCooldownSkillCooldowns();
+        }
 
         // If we level up set the health to the max.
         if (LeveledUp)
@@ -501,6 +511,9 @@ public class PlayerStats : MonoBehaviour
                     break;
             }
 
+            if (CompareTag("Player"))
+                bloodyScreenController.SetScreenAlpha(health / healthMax);
+
             // Spawn the damage number.
             SpawnFlavorText(amount, false, chosenColor);
         }
@@ -561,6 +574,7 @@ public class PlayerStats : MonoBehaviour
             {
                 if(!damageOverTime)
                     GetComponent<PlayerMovementController>().CancelSprint(true);
+                bloodyScreenController.SetScreenAlpha(health / healthMax);
             }
 
             //Debug.Log("the combo count is: " + comboCount);

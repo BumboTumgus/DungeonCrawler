@@ -662,10 +662,6 @@ public class Skill : MonoBehaviour
 
         myManager.hitBoxes.hitboxes[11].GetComponent<HitBox>().damage = myManager.stats.baseDamage * 10f * myManager.stats.spellDamageMultiplier;
 
-        Vector3 desiredMoveDirection = transform.forward.normalized;
-        desiredMoveDirection.y = 0;
-        desiredMoveDirection = desiredMoveDirection.normalized;
-
         while (currentTimer < targetTimer)
         {
             //pc.SkillMovement(directionToMove, distancePerSecond);
@@ -676,6 +672,8 @@ public class Skill : MonoBehaviour
         anim.SetBool("Grounded", false);
         stats.movespeedPercentMultiplier += 5;
         statChanged = true;
+        pc.playerState = PlayerMovementController.PlayerState.Airborne;
+
         //wait until we hit the ground
         while (!anim.GetBool("Grounded"))
         {
@@ -1919,10 +1917,11 @@ public class Skill : MonoBehaviour
 
         float targetTimer = 1.167f / 2 / stats.attackSpeed;
         float currentTimer = 0;
-        pc.playerState = PlayerMovementController.PlayerState.CastingAerial;
+        //pc.playerState = PlayerMovementController.PlayerState.Airborne;
 
-        while (anim.GetBool("Grounded") == false)
+        while (!anim.GetBool("Grounded"))
         {
+            pc.SnapToFaceCamera();
             yield return null;
         }
 

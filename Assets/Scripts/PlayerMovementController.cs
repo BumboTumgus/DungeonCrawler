@@ -23,6 +23,7 @@ public class PlayerMovementController : MonoBehaviour
     private float rotationSpeed = 0.1f;                               // how fast the player rotates towards a target
 
     public Transform mainCameraTransform = null;                      // The position of the camera follwing us
+    public ParticleSystem sprintingSpeedLines;                        // The speed line particles that are a child to the camera.
 
     private CharacterController controller = null;                    // Other connected components we grab at launch
     private PlayerInputs inputs = null;
@@ -49,7 +50,7 @@ public class PlayerMovementController : MonoBehaviour
     private bool sprinting = false;
     private bool canSprint = true;
 
-    private bool grounded = true;                                     // is the character on walkable ground. Used for jumping, rlling, and other movement
+    public bool grounded = true;                                     // is the character on walkable ground. Used for jumping, rlling, and other movement
     private float gravityVectorStrength = 0f;                         // the current downward force of gravity, so the player accelerates towards the ground.
     private Ray groundRay;                                            // an uncreated ray used to check to see if are near / on the ground
     private RaycastHit groundRayHit;
@@ -73,7 +74,7 @@ public class PlayerMovementController : MonoBehaviour
     //private const float GRAVITY_VECTOR_DAMAGE_THRESHOLD = 0.27f;
     private const float GRAVITY_DAMAGE_THRESHOLD = 15f;
     private const float GRAVITY_MAX_DISTANCE_TO_FALL = 55f;
-    private const float SPRINT_SPEED_INCREASE = 1.5f;
+    private const float SPRINT_SPEED_INCREASE = 1.75f;
     private const float SPRINT_DELAY_FROM_DAMAGE = 3f;
 
 
@@ -90,6 +91,7 @@ public class PlayerMovementController : MonoBehaviour
         buffsManager = GetComponent<BuffsManager>();
         playerStats = GetComponent<PlayerStats>();
         cameraControls = mainCameraTransform.GetComponentInChildren<CameraControls>();
+        sprintingSpeedLines = mainCameraTransform.GetComponentInChildren<ParticleSystem>();
         inventory = GetComponent<Inventory>();
         ragdollManager = GetComponent<RagdollManager>();
         audioManager = GetComponent<AudioManager>();
@@ -206,10 +208,11 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (canSprint && Input.GetAxisRaw(inputs.sprintInput) == 1 && inputs.sprintReleased && !playerStats.dead)
         {
-            Debug.Log("Begin Sprinting");
+            //Debug.Log("Begin Sprinting");
             sprinting = true;
             inputs.sprintReleased = false;
             anim.SetBool("Sprinting", true);
+            sprintingSpeedLines.Play();
         }
     }
 
@@ -316,64 +319,14 @@ public class PlayerMovementController : MonoBehaviour
         Vector3 groundRayHitPoint = Vector3.zero;
         bool primaryRayHit = false;
 
-        // Shoot all the rays here
-        for(int index = 0; index < 1; index++)
+        groundRay = new Ray(transform.position + Vector3.up * 0.5f, Vector3.down);
+        if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial && playerState != PlayerState.CastingAerialWithMovement)
         {
-            switch (index)
-            {
-                case 0:
-                    groundRay = new Ray(transform.position + Vector3.up * 0.5f, Vector3.down);
-                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial && playerState != PlayerState.CastingAerialWithMovement)
-                    {
-                        rayHitGround = true;
-                        groundRayHitPoint = groundRayHit.point;
-                        primaryRayHit = true;
-                    }
-                    Debug.DrawRay(transform.position + Vector3.up * 0.5f, Vector3.down, Color.yellow);
-                    break;
-                case 1:
-                    groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(1f, -1f, 0));
-                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial && playerState != PlayerState.CastingAerialWithMovement)
-                    {
-                        rayHitGround = true;
-                        groundRayHitPoint = groundRayHit.point;
-                    }
-                    Debug.DrawRay(transform.position + Vector3.up * 0.5f, new Vector3(1f, -1f, 0), Color.yellow);
-                    break;
-                case 2:
-                    groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(-1f, -1f, 0));
-                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial && playerState != PlayerState.CastingAerialWithMovement)
-                    {
-                        rayHitGround = true;
-                        groundRayHitPoint = groundRayHit.point;
-                    }
-                    Debug.DrawRay(transform.position + Vector3.up * 0.5f, new Vector3(-1f, -1f, 0), Color.yellow);
-                    break;
-                case 3:
-                    groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, 1f));
-                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial && playerState != PlayerState.CastingAerialWithMovement)
-                    {
-                        rayHitGround = true;
-                        groundRayHitPoint = groundRayHit.point;
-                    }
-                    Debug.DrawRay(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, 1f), Color.yellow);
-                    break;
-                case 4:
-                    groundRay = new Ray(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, -1f));
-                    if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial && playerState != PlayerState.CastingAerialWithMovement)
-                    {
-                        rayHitGround = true;
-                        groundRayHitPoint = groundRayHit.point;
-                    }
-                    Debug.DrawRay(transform.position + Vector3.up * 0.5f, new Vector3(0, -1f, -1f), Color.yellow);
-                    break;
-                default:
-                    break;
-            }
-
-            if (rayHitGround)
-                break;
+            rayHitGround = true;
+            groundRayHitPoint = groundRayHit.point;
+            primaryRayHit = true;
         }
+        Debug.DrawRay(transform.position + Vector3.up * 0.5f, Vector3.down, Color.yellow);
 
         //Debug.Log("we have hit the ground with one of our 15 rays? " + rayHitGround);
         // Shoot a ray, if it we hit we are grounded if not we are no longer grounded. If we just jumped ignore this and set us as not grounded.
@@ -521,7 +474,7 @@ public class PlayerMovementController : MonoBehaviour
 
         yield return new WaitForSeconds(timeAppliedFor);
 
-        if (playerState == PlayerState.LossOfControl || playerState == PlayerState.LossOfControlNoGravity )
+        if (playerState == PlayerState.LossOfControl || playerState == PlayerState.LossOfControlNoGravity || playerState == PlayerState.CastingAerial || playerState == PlayerState.CastingAerialWithMovement)
         {
             //Debug.Log("we have some sort of cc on us");
         }
@@ -898,11 +851,12 @@ public class PlayerMovementController : MonoBehaviour
     {
         sprinting = false;
         anim.SetBool("Sprinting", false);
-        Debug.Log("Cancel Sprinting");
+        sprintingSpeedLines.Stop();
+        //Debug.Log("Cancel Sprinting");
 
         if (startSprintCountdown)
         {
-            Debug.Log("... AND START OUR DELAY");
+            //Debug.Log("... AND START OUR DELAY");
             if (sprintCooldownCoroutine != null)
                 StopCoroutine(sprintCooldownCoroutine);
             sprintCooldownCoroutine = DelayUntilCanSprintAgain();
