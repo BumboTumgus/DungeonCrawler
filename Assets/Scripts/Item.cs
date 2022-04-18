@@ -78,9 +78,9 @@ public class Item : MonoBehaviour
     public enum ModifierType { None, Devastating, Dull, Hardened, Cracked, Nimble, Sluggish, Vamperic, Cursed, Magic, Mundane, Lucky, Unfavoured, Strong, Brittle, Illustrious, Rusty, Brawny, Meager, Resistant, Vulnerable }
     public List<ModifierType> itemModifiers = new List<ModifierType>();
 
-    private readonly int[] VALUE_RANGES_ARMOR = { 5,20  ,20,40  ,40,60  ,60,80  ,80,100};
-    private readonly int[] VALUE_RANGE_HEALTH = { 10,20  ,20,40  ,40,80  ,80,120  ,120,200};
-    private readonly int[] VALUE_RANGE_FLAT_DAMAGE_REDUCTION = { 1,1,  2,3,  3,5, 5,10, 10,20};
+    private readonly int[] VALUE_RANGES_ARMOR = { 5,20  ,20,40  ,40,80  ,80,160  ,160,320};
+    private readonly int[] VALUE_RANGE_HEALTH = { 10,50  ,50,100  ,100,200  ,200,400  ,400,800};
+    private readonly int[] VALUE_RANGE_FLAT_DAMAGE_REDUCTION = { 1,3,  2,5,  5,10, 10,20, 20,50};
     private readonly float[] VALUE_RANGE_MOVESPEED = { 0.01f,0.04f  ,0.04f,0.08f  ,0.08f,0.12f  ,0.12f,0.16f  ,0.16f,0.20f};
 
 

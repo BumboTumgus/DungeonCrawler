@@ -48,7 +48,7 @@ public class ItemTrait
         {
             case 0:
                 traitType = TraitType.HealthFlat;
-                traitBonus = 20;
+                traitBonus = 50;
                 break;
             case 1:
                 traitType = TraitType.HealthPercent;
@@ -56,7 +56,7 @@ public class ItemTrait
                 break;
             case 2:
                 traitType = TraitType.HealthRegen;
-                traitBonus = 2;
+                traitBonus = 3;
                 break;
             case 3:
                 traitType = TraitType.HealingOnHit;
@@ -68,19 +68,19 @@ public class ItemTrait
                 break;
             case 5:
                 traitType = TraitType.Armor;
-                traitBonus = 10;
+                traitBonus = 25;
                 break;
             case 6:
                 traitType = TraitType.CooldownReduction;
-                traitBonus = 0.05f;
+                traitBonus = 0.1f;
                 break;
             case 7:
                 traitType = TraitType.AttackSpeed;
-                traitBonus = 0.10f;
+                traitBonus = 0.25f;
                 break;
             case 8:
                 traitType = TraitType.MoveSpeed;
-                traitBonus = 0.03f;
+                traitBonus = 0.1f;
                 break;
             case 9:
                 traitType = TraitType.CritChance;

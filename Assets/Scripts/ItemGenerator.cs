@@ -68,10 +68,10 @@ public class ItemGenerator : MonoBehaviour
 
     public int currentRcIndex = -1;
 
-    private float[] commonRcValues =     { 75, 60, 45, 25, 10, 00, 00, 00 };
-    private float[] uncommonRcValues =   { 25, 30, 40, 40, 35, 20, 10, 00 };
-    private float[] rareRcValues =       { 00, 10, 15, 25, 30, 30, 30, 20 };
-    private float[] legendarytRcValues = { 00, 00, 00, 10, 20, 30, 40, 50 };
+    private float[] commonRcValues =     { 75, 60, 40, 20, 00, 00, 00, 00 };
+    private float[] uncommonRcValues =   { 25, 30, 40, 40, 35, 10, 0, 00 };
+    private float[] rareRcValues =       { 00, 10, 20, 30, 40, 40, 30, 20 };
+    private float[] legendarytRcValues = { 00, 00, 00, 10, 20, 30, 50, 50 };
     private float[] masterworkRcValues = { 00, 00, 00, 00, 10, 20, 20, 30 };
 
     private float commonRC = 40;
@@ -85,7 +85,7 @@ public class ItemGenerator : MonoBehaviour
     {
         if (instance == null)
             instance = this;
-        IncrementRcIndex();
+        //IncrementRcIndex();
     }
 
     public float[] ReturnRarityRollRCs()

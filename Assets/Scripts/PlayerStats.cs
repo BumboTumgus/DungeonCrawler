@@ -361,8 +361,8 @@ public class PlayerStats : MonoBehaviour
         float healthMultiplier = 1;
         for (int index = 0; index < level - 1; index++)
         {
-            damageMultiplier *= 1.15f;
-            healthMultiplier *= 1.15f;
+            damageMultiplier *= 1.1f;
+            healthMultiplier *= 1.1f;
         }
 
         bonusPercentHealth = healthMultiplier;
@@ -386,8 +386,8 @@ public class PlayerStats : MonoBehaviour
             float healthMultiplier = 1;
             for (int index = 0; index < level - 1; index++)
             {
-                damageMultiplier *= 1.15f;
-                healthMultiplier *= 1.15f;
+                damageMultiplier *= 1.1f;
+                healthMultiplier *= 1.1f;
             }
 
             bonusPercentHealth = healthMultiplier;
@@ -591,10 +591,7 @@ public class PlayerStats : MonoBehaviour
                 if (armor * armorReductionMultiplier - comboCount > 0)
                     amount *= 100 / (100 + (armor * armorReductionMultiplier - comboCount));
 
-                if (damageOverTime)
-                    amount -= flatDamageReduction * 0.25f;
-                else
-                    amount -= flatDamageReduction;
+                amount -= flatDamageReduction;
             }
 
             if (amount > 0)
@@ -676,6 +673,7 @@ public class PlayerStats : MonoBehaviour
 
             // Create the exp value text the player sees when an enmy dies.
             GetComponent<DamageNumberManager>().SpawnEXPValue(exp);
+            GetComponent<EnemyAbilityBank>().InterruptSkills();
 
             // Destroy the health bar, queue the destruction of all children and set their parents to null, then destroy ourself.
             if (healthBar)
@@ -719,6 +717,7 @@ public class PlayerStats : MonoBehaviour
         {
             Debug.Log("PlayerDeath");
             GetComponent<PlayerMovementController>().PlayerDowned();
+            GetComponent<SkillsManager>().InterruptSkills();
             GameManager.instance.PlayerDeath();
             Cursor.visible = true;
         }

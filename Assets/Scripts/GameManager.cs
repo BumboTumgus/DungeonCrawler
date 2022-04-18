@@ -292,6 +292,7 @@ public class GameManager : MonoBehaviour
         teleporterSpawns = GameObject.Find("TeleporterSpawns").GetComponentsInChildren<Transform>();
         Transform[] chestSpawns = GameObject.Find("ChestSpawns").GetComponentsInChildren<Transform>();
 
+        ItemGenerator.instance.IncrementRcIndex();
         chestRarityRC = ItemGenerator.instance.ReturnRarityRollRCs();
 
         // Spawn all the chests
@@ -302,7 +303,7 @@ public class GameManager : MonoBehaviour
 
             while (!chestSuccessfullySpawned)
             {
-                int chestSpawnIndex = Random.Range(0, chestSpawns.Length);
+                int chestSpawnIndex = Random.Range(1, chestSpawns.Length);
 
                 if (chestSpawns[chestSpawnIndex] != null)
                 {
@@ -341,7 +342,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Spawn the teleporter
-        int teleporterIndex = Random.Range(0, teleporterSpawns.Length);
+        int teleporterIndex = Random.Range(1, teleporterSpawns.Length);
         teleporter = Instantiate(teleporterPrefab, teleporterSpawns[teleporterIndex].position, teleporterSpawns[teleporterIndex].rotation);
 
         // Grab the player spawns 
@@ -349,7 +350,7 @@ public class GameManager : MonoBehaviour
         while(!spawnedGrabbed)
         {
             //Debug.Log("checking spawns");
-            Vector3 spawnSelected = teleporterSpawns[Random.Range(0, teleporterSpawns.Length)].position;
+            Vector3 spawnSelected = teleporterSpawns[Random.Range(1, teleporterSpawns.Length)].position;
 
             if((spawnSelected - teleporterSpawns[teleporterIndex].position).sqrMagnitude >= MINIMUM_DISTANCE_FROM_TELEPORTER)
             {
@@ -400,7 +401,7 @@ public class GameManager : MonoBehaviour
                 // Spawn the artifacts.
                 for(int index = 0; index < objectiveTarget + 6; index++)
                 {
-                    int artifactSpawnIndex = Random.Range(0, artifactSpawns.Length);
+                    int artifactSpawnIndex = Random.Range(1, artifactSpawns.Length);
 
                     if (artifactSpawns[artifactSpawnIndex] != null)
                     {
@@ -474,7 +475,7 @@ public class GameManager : MonoBehaviour
 
                 Transform[] hillSpawns = GameObject.Find("HillSpawns").GetComponentsInChildren<Transform>();
 
-                int hillSpawnIndex = Random.Range(0, hillSpawns.Length);
+                int hillSpawnIndex = Random.Range(1, hillSpawns.Length);
                 GameObject hill = Instantiate(hillObjective, hillSpawns[hillSpawnIndex].position, hillSpawns[hillSpawnIndex].rotation);
                 levelObjectives.Add(hill);
 

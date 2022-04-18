@@ -13,7 +13,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] float enemyPoints = 0;
     [SerializeField] float enemyPointsBonusMultiplier = 1;
     [SerializeField] float currentTimer = 0f;
-    [SerializeField] float targetTimer = 120;
+    [SerializeField] float targetTimer = 180;
     [SerializeField] private int enemyLevel = 0;
     [SerializeField] private float enemyEliteChance = 0.05f;
     [SerializeField] private float bossSpawnChance = 0;
@@ -64,7 +64,7 @@ public class EnemyManager : MonoBehaviour
                 stats.level = enemyLevel;
                 stats.LevelEnemyCalculation();
             }
-            enemyEliteChance += 0.025f;
+            enemyEliteChance += 0.01f;
             bossSpawnChance += 0.01f;
             enemyPointsBonusMultiplier *= BONUS_POINT_MULTIPLIER_GROWTH;
 
