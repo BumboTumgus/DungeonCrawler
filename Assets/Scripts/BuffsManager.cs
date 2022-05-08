@@ -19,7 +19,7 @@ public class BuffsManager : MonoBehaviour
         Aflame, Frostbite, Overcharge, Overgrown, Sunder, Windshear, Knockback, Asleep, Stunned, Bleeding, Poisoned, Frozen, ArmorBroken, EmboldeningEmbers, FlameStrike, FlameWalker, BlessingOfFlames, Immolation, Glacier, FrostsKiss, IceArmor, StoneStrike,
         GiantStrength, StonePrison, SecondWind, WrathOftheWind, Multislash, PressureDrop, BasicAttacksShredArmorOnAflame, GreviousWounds, IceDamageAmp, IceDamageReverb, PoisonDamageAmp, EarthernDecay, EarthTrueDamageConversion, EarthBonusResistanceLoss, EarthKnockbackResistanceLoss,
         WindAmpDamageAtMaxStacks, PoisonAddStacksOnNextAttack, KnockbackLoseResistance, PhysicalAmpCrit, PhysicalSkillArmorAmp, PhysicalPoisonAmp, PhysicalPhysicalAmp, PhysicalKnockbackAmpNextAttack, BleedSlow, BleedAmpDamage, BleedStunReduceBleedResistance, BleedKnockbackKnockbackAmpsDamage,
-        PoisonInstantCrit, PoisonAmpInitialDamage, PoisonAmpDamageOnKill, StunMovespeedAmp, KnockbackAmpBasicAttacks, KnockbackAmpsArmor
+        PoisonInstantCrit, PoisonAmpInitialDamage, PoisonAmpDamageOnKill, StunMovespeedAmp, KnockbackAmpBasicAttacks, KnockbackAmpsArmor, WispsDamage, WispsSpeed, WispsInvulnerbility, WispsCooldownReduction, Curse
     };
 
     public ParticleSystem[] psSystems;
@@ -424,7 +424,7 @@ public class BuffsManager : MonoBehaviour
                         frostbite.DPS = baseDamage * 0.05f;
 
                     frostbite.damageType = HitBox.DamageType.Ice;
-                    frostbite.ChangeOffensiveStats(true, -0.01f, -0.01f, 0, 0, 0);
+                    frostbite.ChangeOffensiveStats(true, -0.01f, -0.01f, 0, 0, 0, 0);
 
                     if (buffInflictor.CompareTag("Player") && buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceAmpFrostbiteDamage) > 0)
                         frostbite.DPSMultiplier += buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.IceAmpFrostbiteDamage);
@@ -898,7 +898,7 @@ public class BuffsManager : MonoBehaviour
                     embers.connectedPlayer = stats;
                     embers.playerDamageSource = buffInflictor;
                     embers.infiniteDuration = false;
-                    embers.ChangeOffensiveStats(true, 0.5f, 0.25f, 0, 0, 0);
+                    embers.ChangeOffensiveStats(true, 0.5f, 0.25f, 0, 0, 0, 0);
                     embers.ChangeDefensiveStats(true, stats.healthMax * 0.2f, 0, 0, 0, 0);
                     embers.duration = 15;
 
@@ -942,7 +942,7 @@ public class BuffsManager : MonoBehaviour
                     flameWalker.playerDamageSource = buffInflictor;
                     flameWalker.infiniteDuration = false;
                     flameWalker.duration = 15;
-                    flameWalker.ChangeOffensiveStats(true, 0, 0.5f, 0, 0, 0);
+                    flameWalker.ChangeOffensiveStats(true, 0, 0.5f, 0, 0, 0, 0);
 
                     stats.flameWalkerEnabled = true;
 
@@ -968,8 +968,8 @@ public class BuffsManager : MonoBehaviour
                     blessingOfFlames.playerDamageSource = buffInflictor;
                     blessingOfFlames.infiniteDuration = false;
                     blessingOfFlames.duration = 15;
-                    blessingOfFlames.ChangeDefensiveStats(true, 0, 5, 0, 0.25f, 0);
-                    blessingOfFlames.ChangeResistanceStats(true, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f);
+                    blessingOfFlames.ChangeDefensiveStats(true, 0, stats.healthMax * 0.02f, 0, 0.25f, 0);
+                    blessingOfFlames.ChangeResistanceStats(true, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f);
 
                     blessingOfFlames.effectParticleSystem.Add(psSystems[23]);
 
@@ -1016,7 +1016,7 @@ public class BuffsManager : MonoBehaviour
                     glacier.infiniteDuration = false;
                     glacier.duration = 5;
                     glacier.ChangeDefensiveStats(true, 0, stats.healthMax / 10, 0, 0, 0);
-                    glacier.ChangePlayerStatusLocks(true, 1, 0, 0);
+                    glacier.ChangePlayerStatusLocks(true, 1, 0, 0, 0);
 
                     NewBuff(BuffType.Frozen, 0, stats);
 
@@ -1058,7 +1058,7 @@ public class BuffsManager : MonoBehaviour
                     iceArmor.infiniteDuration = false;
                     iceArmor.duration = 15;
                     iceArmor.ChangeDefensiveStats(true, 0, 0, stats.armor * 0.3f, 0.25f, 0);
-                    iceArmor.ChangeOffensiveStats(true, 0, -0.25f, 0, 0, 0);
+                    iceArmor.ChangeOffensiveStats(true, 0, -0.25f, 0, 0, 0, 0);
 
                     iceArmor.effectParticleSystem.Add(psSystems[25]);
 
@@ -1103,7 +1103,7 @@ public class BuffsManager : MonoBehaviour
                     giantStrength.playerDamageSource = buffInflictor;
                     giantStrength.ChangeSize(true, 0.5f);
                     giantStrength.ChangeDefensiveStats(true, 0, 0, 0, -0.25f, 0);
-                    giantStrength.ChangeOffensiveStats(true, stats.attackSpeed * -0.4f, stats.movespeedPercentMultiplier * -0.4f, stats.damageIncreaseMultiplier * 1f, 0, 0);
+                    giantStrength.ChangeOffensiveStats(true, stats.attackSpeed * -0.4f, stats.movespeedPercentMultiplier * -0.4f, stats.damageIncreaseMultiplier * 1f, 0, 0, 0);
 
                     giantStrength.effectParticleSystem.Add(psSystems[26]);
 
@@ -1143,7 +1143,7 @@ public class BuffsManager : MonoBehaviour
                     secondWind.duration = 6f;
                     secondWind.connectedPlayer = stats;
                     secondWind.playerDamageSource = buffInflictor;
-                    secondWind.ChangeOffensiveStats(true, 0.15f, 0.5f, 0, 0, 0);
+                    secondWind.ChangeOffensiveStats(true, 0.15f, 0.5f, 0, 0, 0, 0);
 
                     secondWind.effectParticleSystem.Add(psSystems[27]);
                     secondWind.effectParticleSystem.Add(psSystems[28]);
@@ -1166,7 +1166,7 @@ public class BuffsManager : MonoBehaviour
                     wrathOfTheWind.duration = 15f;
                     wrathOfTheWind.connectedPlayer = stats;
                     wrathOfTheWind.playerDamageSource = buffInflictor;
-                    wrathOfTheWind.ChangeOffensiveStats(true, stats.attackSpeed, 0, stats.damageIncreaseMultiplier * -0.33f, 0, 0);
+                    wrathOfTheWind.ChangeOffensiveStats(true, stats.attackSpeed, 0, stats.damageIncreaseMultiplier * -0.33f, 0, 0, 0);
 
                     wrathOfTheWind.effectParticleSystem.Add(weaponEffectsLeft[11]);
                     wrathOfTheWind.effectParticleSystem.Add(weaponEffectsRight[11]);
@@ -1210,7 +1210,7 @@ public class BuffsManager : MonoBehaviour
                     pressureDrop.connectedPlayer = stats;
                     pressureDrop.playerDamageSource = buffInflictor;
                     pressureDrop.ChangeDefensiveStats(true, 0, 0, 0, 10f, 0);
-                    pressureDrop.ChangeOffensiveStats(true, 0, stats.movespeedPercentMultiplier * -0.5f, 0, 0, 0);
+                    pressureDrop.ChangeOffensiveStats(true, 0, stats.movespeedPercentMultiplier * -0.5f, 0, 0, 0, 0);
 
                     break;
 
@@ -1314,7 +1314,7 @@ public class BuffsManager : MonoBehaviour
                     earthernDecay.stackable = false;
                     earthernDecay.connectedPlayer = stats;
                     earthernDecay.playerDamageSource = buffInflictor;
-                    earthernDecay.ChangeOffensiveStats(true, 0f, 0f, (0.08f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthSunderedEnemiesDealLessDamage)) * -1,0,0);
+                    earthernDecay.ChangeOffensiveStats(true, 0f, 0f, (0.08f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.EarthSunderedEnemiesDealLessDamage)) * -1,0,0, 0);
 
                     break;
                 case BuffType.EarthTrueDamageConversion:
@@ -1448,7 +1448,7 @@ public class BuffsManager : MonoBehaviour
                     physicalAmpsCrit.infiniteDuration = false;
                     physicalAmpsCrit.duration = 5;
 
-                    physicalAmpsCrit.ChangeOffensiveStats(true, 0, 0, 0, GetComponent<PlayerTraitManager>().CheckForOnHitValue(ItemTrait.TraitType.PhysicalPhysicalAmpsCritChance), 0);
+                    physicalAmpsCrit.ChangeOffensiveStats(true, 0, 0, 0, GetComponent<PlayerTraitManager>().CheckForOnHitValue(ItemTrait.TraitType.PhysicalPhysicalAmpsCritChance), 0, 0);
 
                     break;
 
@@ -1550,7 +1550,7 @@ public class BuffsManager : MonoBehaviour
                     bleedSlow.duration = 5;
                     bleedSlow.connectedPlayer = stats;
                     bleedSlow.playerDamageSource = buffInflictor;
-                    bleedSlow.ChangeOffensiveStats(true, 0, (0.225f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedSlowsTargets)) * -1, 0, 0, 0);
+                    bleedSlow.ChangeOffensiveStats(true, 0, (0.225f + buffInflictor.GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.BleedSlowsTargets)) * -1, 0, 0, 0, 0);
 
                     break;
 
@@ -1684,7 +1684,7 @@ public class BuffsManager : MonoBehaviour
                     stunMovespeedAmp.infiniteDuration = false;
                     stunMovespeedAmp.duration = 8;
 
-                    stunMovespeedAmp.ChangeOffensiveStats(true, 0, GetComponent<PlayerTraitManager>().CheckForOnHitValue(ItemTrait.TraitType.StunAmpsMovespeed), 0, 0, 0);
+                    stunMovespeedAmp.ChangeOffensiveStats(true, 0, GetComponent<PlayerTraitManager>().CheckForOnHitValue(ItemTrait.TraitType.StunAmpsMovespeed), 0, 0, 0, 0);
 
                     break;
                 case BuffType.KnockbackAmpBasicAttacks:
@@ -1728,6 +1728,125 @@ public class BuffsManager : MonoBehaviour
                     knockbackArmorAmp.duration = 8;
 
                     knockbackArmorAmp.ChangeDefensiveStats(true, 0, 0, GetComponent<PlayerTraitManager>().CheckForIdleEffectValue(ItemTrait.TraitType.KnockbackAmpsArmor), 0, 0);
+
+                    break;
+                case BuffType.WispsDamage:
+                    Buff wispsDamageAmp = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    wispsDamageAmp.connectedIcon = buffIcon;
+                    wispsDamageAmp.iconStacks = buffIcon.GetComponentInChildren<Text>();
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[31];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[13];
+
+                    activeBuffs.Add(wispsDamageAmp);
+
+                    wispsDamageAmp.myType = buff;
+                    wispsDamageAmp.stackSingleFalloff = false;
+                    wispsDamageAmp.stackable = false;
+                    wispsDamageAmp.connectedPlayer = stats;
+                    wispsDamageAmp.playerDamageSource = buffInflictor;
+                    wispsDamageAmp.infiniteDuration = false;
+                    wispsDamageAmp.duration = 60;
+
+                    wispsDamageAmp.effectParticleSystem.Add(psSystems[33]);
+                    psSystems[33].Play(); 
+                    psSystems[32].Play();
+
+                    wispsDamageAmp.ChangeOffensiveStats(true, 0, 0, 5f, 0, 0, 0);
+
+                    break;
+                case BuffType.WispsInvulnerbility:
+                    Buff wispsInvulnerbility = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    wispsInvulnerbility.connectedIcon = buffIcon;
+                    wispsInvulnerbility.iconStacks = buffIcon.GetComponentInChildren<Text>();
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[30];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[13];
+
+                    activeBuffs.Add(wispsInvulnerbility);
+
+                    wispsInvulnerbility.myType = buff;
+                    wispsInvulnerbility.stackSingleFalloff = false;
+                    wispsInvulnerbility.stackable = false;
+                    wispsInvulnerbility.connectedPlayer = stats;
+                    wispsInvulnerbility.playerDamageSource = buffInflictor;
+                    wispsInvulnerbility.infiniteDuration = false;
+                    wispsInvulnerbility.duration = 60;
+
+                    wispsInvulnerbility.effectParticleSystem.Add(psSystems[33]);
+                    psSystems[33].Play();
+                    psSystems[32].Play();
+
+                    wispsInvulnerbility.ChangePlayerStatusLocks(true, 1, 0, 0, 0);
+
+                    break;
+                case BuffType.WispsCooldownReduction:
+                    Buff wispsCooldownReduction = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    wispsCooldownReduction.connectedIcon = buffIcon;
+                    wispsCooldownReduction.iconStacks = buffIcon.GetComponentInChildren<Text>();
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[9];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[13];
+
+                    activeBuffs.Add(wispsCooldownReduction);
+
+                    wispsCooldownReduction.myType = buff;
+                    wispsCooldownReduction.stackSingleFalloff = false;
+                    wispsCooldownReduction.stackable = false;
+                    wispsCooldownReduction.connectedPlayer = stats;
+                    wispsCooldownReduction.playerDamageSource = buffInflictor;
+                    wispsCooldownReduction.infiniteDuration = false;
+                    wispsCooldownReduction.duration = 60;
+
+                    wispsCooldownReduction.effectParticleSystem.Add(psSystems[33]);
+                    psSystems[33].Play();
+                    psSystems[32].Play();
+
+                    wispsCooldownReduction.ChangeOffensiveStats(true, 0, 0, 0, 0, 0, 0.95f);
+
+                    break;
+                case BuffType.WispsSpeed:
+                    Buff wispsSpeedAmp = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    wispsSpeedAmp.connectedIcon = buffIcon;
+                    wispsSpeedAmp.iconStacks = buffIcon.GetComponentInChildren<Text>();
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[14];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[13];
+
+                    activeBuffs.Add(wispsSpeedAmp);
+
+                    wispsSpeedAmp.myType = buff;
+                    wispsSpeedAmp.stackSingleFalloff = false;
+                    wispsSpeedAmp.stackable = false;
+                    wispsSpeedAmp.connectedPlayer = stats;
+                    wispsSpeedAmp.playerDamageSource = buffInflictor;
+                    wispsSpeedAmp.infiniteDuration = false;
+                    wispsSpeedAmp.duration = 60;
+
+                    wispsSpeedAmp.effectParticleSystem.Add(psSystems[33]);
+                    psSystems[33].Play();
+                    psSystems[32].Play();
+
+                    wispsSpeedAmp.ChangeOffensiveStats(true, 5f, 3f, 0, 0, 0, 0);
+
+                    break;
+                case BuffType.Curse:
+                    Buff curse = transform.Find("BuffContainer").gameObject.AddComponent<Buff>();
+                    curse.connectedIcon = buffIcon;
+                    curse.iconStacks = buffIcon.GetComponentInChildren<Text>();
+                    buffIcon.GetComponent<Image>().sprite = BuffIconBank.instance.buffIcons[11];
+                    buffIcon.GetComponent<Image>().color = BuffIconBank.instance.buffColors[11];
+
+                    activeBuffs.Add(curse);
+
+                    curse.myType = buff;
+                    curse.stackSingleFalloff = false;
+                    curse.stackable = false;
+                    curse.connectedPlayer = stats;
+                    curse.playerDamageSource = buffInflictor;
+                    curse.infiniteDuration = true;
+
+                    curse.effectParticleSystem.Add(psSystems[35]);
+                    psSystems[34].Play();
+                    psSystems[35].Play();
+
+                    curse.ChangePlayerStatusLocks(true, 0, 0, 0, 1);
 
                     break;
 

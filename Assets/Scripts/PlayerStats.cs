@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -64,7 +65,7 @@ public class PlayerStats : MonoBehaviour
 
     public int level = 1;
     public float exp = 0;
-    public float expTarget = 100;
+    public float expTarget = 150;
 
     public float sizeMultiplier = 1f;
 
@@ -72,6 +73,7 @@ public class PlayerStats : MonoBehaviour
     public float critDamageMultiplier = 1.5f;
 
     public float gold = 0;
+    public float goldMultiplier = 1f;
 
     public float luck = 0;
 
@@ -91,10 +93,15 @@ public class PlayerStats : MonoBehaviour
     public float slowResistance = 0f;
 
     public BarManager healthBar;
+    public Animator healthBarFlashAnim;
+    public BarManager expBar;
+    public Animator levelUpAnim;
+    public Text levelUpText;
     public StatUpdater myStats;
 
     [HideInInspector] public bool invulnerable = false;
     [HideInInspector] public bool untargetable = false;
+    [HideInInspector] public bool cursed = false;
     [HideInInspector] public bool invisibile = false;
     [HideInInspector] public bool stunned = false;
     [HideInInspector] public bool knockedBack = false;
@@ -112,6 +119,7 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public float untargetableCount = 0;
     [HideInInspector] public float invisibleCount = 0;
     [HideInInspector] public float ephemeralCount = 0;
+    [HideInInspector] public float curseCount = 0;
     //[HideInInspector] public float revitalizeCount = 0;
     //[HideInInspector] public bool revitalizeBuff = false;
 
@@ -162,6 +170,9 @@ public class PlayerStats : MonoBehaviour
 
     private SkillsManager skills;
 
+    private const float ENEMY_PERCENT_LEVEL_SCALING = 1.15f;
+    private const float PLAYER_EXP_GROWTH = 1.25f;
+
     private void Start()
     {
         if (!CompareTag("Hazard"))
@@ -194,6 +205,12 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.KeypadMultiply) && CompareTag("Player"))
+            GetComponent<PlayerMovementController>().KnockbackLaunch((transform.forward * 25  + Vector3.up * 10), this);
+        if (Input.GetKeyDown(KeyCode.J) && CompareTag("Player"))
+            AddGold(1000);
+        /*
+        
         if (Input.GetKeyDown(KeyCode.Alpha8) && CompareTag("Player"))
             EnemyManager.instance.SpawnGoblin();
         if (Input.GetKeyDown(KeyCode.J) && CompareTag("Player"))
@@ -203,8 +220,8 @@ public class PlayerStats : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.O) && CompareTag("Player"))
             TakeDamage(20, false, HitBox.DamageType.Physical, 0, null, false);
 
-        /*
-        
+        if (Input.GetKeyDown(KeyCode.L) && CompareTag("Player"))
+            AddExp(88f);
         if (Input.GetKeyDown(KeyCode.Keypad0) && CompareTag("Enemy"))
             buffManager.CheckResistanceToBuff(BuffsManager.BuffType.Aflame, 1, baseDamage, this);
         if (Input.GetKeyDown(KeyCode.O) && CompareTag("Enemy"))
@@ -349,8 +366,14 @@ public class PlayerStats : MonoBehaviour
             }
 
             // IF we are a player update our alpha value.
-            if(CompareTag("Player"))
+            if (CompareTag("Player"))
+            {
                 bloodyScreenController.SetScreenAlpha(health / healthMax);
+                if (health / healthMax < 0.4f)
+                    healthBarFlashAnim.SetBool("HealthLow", true);
+                else
+                    healthBarFlashAnim.SetBool("HealthLow", false);
+            }
         }
     }
 
@@ -361,8 +384,8 @@ public class PlayerStats : MonoBehaviour
         float healthMultiplier = 1;
         for (int index = 0; index < level - 1; index++)
         {
-            damageMultiplier *= 1.1f;
-            healthMultiplier *= 1.1f;
+            damageMultiplier *= ENEMY_PERCENT_LEVEL_SCALING;
+            healthMultiplier *= ENEMY_PERCENT_LEVEL_SCALING;
         }
 
         bonusPercentHealth = healthMultiplier;
@@ -377,6 +400,25 @@ public class PlayerStats : MonoBehaviour
         healthBar.Initialize(healthMax, false, true, health);
     }
 
+    public void SwapCDRSourceValue(float originalValue, float newValue)
+    {
+        if (originalValue == 0)
+            cooldownReductionSources.Add(newValue);
+
+        for (int index = 0; index < cooldownReductionSources.Count; index++)
+        {
+            if (cooldownReductionSources[index] == originalValue)
+            {
+                if (newValue != 0)
+                    cooldownReductionSources[index] = newValue;
+                else
+                    cooldownReductionSources.RemoveAt(index);
+
+                return;
+            }
+        }
+    }
+
     // Used to set up the stats at the start of the game and every time we level.
     public void StatSetup(bool LeveledUp, bool changeHealthBars)
     {
@@ -386,8 +428,8 @@ public class PlayerStats : MonoBehaviour
             float healthMultiplier = 1;
             for (int index = 0; index < level - 1; index++)
             {
-                damageMultiplier *= 1.1f;
-                healthMultiplier *= 1.1f;
+                damageMultiplier *= ENEMY_PERCENT_LEVEL_SCALING;
+                healthMultiplier *= ENEMY_PERCENT_LEVEL_SCALING;
             }
 
             bonusPercentHealth = healthMultiplier;
@@ -397,6 +439,10 @@ public class PlayerStats : MonoBehaviour
         baseDamage = baseBaseDamage + baseDamageGrowth * level * baseDamageMultiplier;
 
         healthMax = (baseHealth + baseHealthGrowth * level + bonusHealth) * bonusPercentHealth;
+
+        if (cursed)
+            healthMax *= 0.01f;
+
         if (health > healthMax)
             health = healthMax;
 
@@ -415,7 +461,7 @@ public class PlayerStats : MonoBehaviour
         {
             Debug.Log("THIS IS THE TARGET BOSS BEEF EM UP.");
             baseDamage *= 1.5f;
-            healthMax *= 2f;
+            healthMax *= 5f;
 
             transform.localScale = transform.localScale * 1.5f;
             buffManager.psSystems[18].Play();
@@ -458,6 +504,9 @@ public class PlayerStats : MonoBehaviour
     // USed to add gold to the players
     public void AddGold(float amount)
     {
+        if (amount > 0)
+            amount *= goldMultiplier;
+
         gold += amount;
         moneyCounter.ChangeGoldValue(gold);
         myStats.UpdateGoldCounter(this);
@@ -473,13 +522,24 @@ public class PlayerStats : MonoBehaviour
         if (myStats != null)
             myStats.SetStatValues(this);
         //Debug.Log("+" + value + " || " + exp + " / " + expTarget);
+        bool leveledUp = false;
         while (exp >= expTarget)
         {
             exp -= expTarget;
             level++;
-            expTarget = level * 100;
+            expTarget = 150 * Mathf.Pow(PLAYER_EXP_GROWTH, level -1);
+            leveledUp = true;
+        }
+
+        expBar.SetValue(exp, false);
+
+        if(leveledUp)
+        {
             GetComponent<DamageNumberManager>().SpawnFlavorText("Level Up!", UiPopUpTextColorBank.instance.damageColors[0]);
             audioManager.PlayAudio(16);
+            expBar.Initialize(expTarget, false, false, exp);
+            levelUpText.text = level + "";
+            levelUpAnim.SetTrigger("LevelUp");
             StatSetup(true, true);
             UpdateWeaponsToHitWith();
             GetComponent<HitBoxManager>().PlayParticles(8);
@@ -512,7 +572,14 @@ public class PlayerStats : MonoBehaviour
             }
 
             if (CompareTag("Player"))
+            {
                 bloodyScreenController.SetScreenAlpha(health / healthMax);
+
+                if (health / healthMax < 0.4f)
+                    healthBarFlashAnim.SetBool("HealthLow", true);
+                else
+                    healthBarFlashAnim.SetBool("HealthLow", false);
+            }
 
             // Spawn the damage number.
             SpawnFlavorText(amount, false, chosenColor);
@@ -575,6 +642,12 @@ public class PlayerStats : MonoBehaviour
                 if(!damageOverTime)
                     GetComponent<PlayerMovementController>().CancelSprint(true);
                 bloodyScreenController.SetScreenAlpha(health / healthMax);
+
+                if (health / healthMax < 0.4f)
+                    healthBarFlashAnim.SetBool("HealthLow", true);
+                else
+                    healthBarFlashAnim.SetBool("HealthLow", false);
+
             }
 
             //Debug.Log("the combo count is: " + comboCount);
@@ -2145,6 +2218,22 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    public void AddCurseSource(float amount)
+    {
+        if (amount > 0)
+        {
+            cursed = true;
+            curseCount += amount;
+        }
+        else if (amount < 0)
+        {
+            curseCount += amount;
+            if (curseCount <= 0)
+                cursed = false;
+        }
+        StatSetup(false,true);
+    }
+
     // USed to add a source of invisibility
     public void AddInvisibilitySource(float amount)
     {
@@ -2173,13 +2262,17 @@ public class PlayerStats : MonoBehaviour
         if (amount > 0)
         {
             untargetable = true;
+            //Debug.Log("Im untargetable now");
             untargetableCount += amount;
         }
         else if (amount < 0)
         {
             untargetableCount += amount;
             if (untargetableCount <= 0)
+            {
                 untargetable = false;
+                //Debug.Log("Im NOT untargetable now");
+            }
         }
     }
 

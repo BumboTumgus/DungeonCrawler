@@ -2419,7 +2419,7 @@ public class UiMoreInfoPopup : MonoBehaviour
                     traitText.transform.Find("TraitName").GetComponent<Text>().text = "Vaporizing <color=#93D916>Toxins" + GetTraitValueRomanNumeral(item.itemTraits[index]) + "</color>";
                     traitWidth = traitText.transform.Find("TraitName").GetComponent<Text>().preferredWidth;
                     traitText.transform.Find("TraitName").GetComponent<RectTransform>().sizeDelta = new Vector2(traitWidth, 20);
-                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Striking a target with <color=#93D916>10+ Poison stacks</color> and <color=#AB181D>10+ Bleeding stacks</color> has a 20% chance to summon a poison cloud adding <color=#93D916>2 Poison stacks<color> to nearby enemies.";
+                    traitText.transform.Find("TraitDesc").GetComponent<Text>().text = "Striking a target with <color=#93D916>10+ Poison stacks</color> and <color=#AB181D>10+ Bleeding stacks</color> has a 20% chance to summon a poison cloud adding <color=#93D916>2 Poison stacks</color> to nearby enemies.";
                     traitText.transform.Find("TraitDesc").GetComponent<RectTransform>().sizeDelta = new Vector2(700 - traitWidth, 60);
                     traitText.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 35);
 

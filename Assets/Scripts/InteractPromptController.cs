@@ -19,4 +19,9 @@ public class InteractPromptController : MonoBehaviour
     {
         text.text = value;
     }
+
+    public void SetColor(Color color)
+    {
+        text.color = color;
+    }
 }

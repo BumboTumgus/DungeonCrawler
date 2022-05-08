@@ -860,6 +860,7 @@ public class Item : MonoBehaviour
                     break;
                 case AffinityType.Physical:
                     damageType = HitBox.DamageType.Physical;
+                    baseDamageScaling *= 2;
                     stacksToAddOnHit = 0;
                     break;
                 case AffinityType.Bleed:
@@ -870,10 +871,12 @@ public class Item : MonoBehaviour
                     break;
                 case AffinityType.Stun:
                     damageType = HitBox.DamageType.Physical;
+                    baseDamageScaling *= 2;
                     stacksToAddOnHit = 0;
                     break;
                 case AffinityType.Knockback:
                     damageType = HitBox.DamageType.Physical;
+                    baseDamageScaling *= 2;
                     stacksToAddOnHit = 0;
                     break;
                 default:

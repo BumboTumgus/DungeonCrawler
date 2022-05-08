@@ -815,7 +815,7 @@ public class Skill : MonoBehaviour
         float targetTimer = 1.6f / 4 / stats.attackSpeed;
         float currentTimer = 0f;
 
-        float counterDamage = myManager.stats.baseDamage * 10f * (stats.counterDamage / stats.healthMax * 0.2f) * myManager.stats.spellDamageMultiplier;
+        float counterDamage = myManager.stats.baseDamage * 25f * (stats.counterDamage / stats.healthMax * 0.2f) * myManager.stats.spellDamageMultiplier;
         if (counterDamage < stats.baseDamage * 3)
             counterDamage = stats.baseDamage;
         else if (counterDamage > stats.baseDamage * 100)
@@ -969,6 +969,7 @@ public class Skill : MonoBehaviour
             yield return null;
         }
 
+        pc.playerState = PlayerMovementController.PlayerState.Airborne;
         //wait until we hit the ground
         while (!anim.GetBool("Grounded"))
         {

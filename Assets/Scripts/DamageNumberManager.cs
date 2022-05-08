@@ -30,10 +30,23 @@ public class DamageNumberManager : MonoBehaviour
 
             // Check what kind of damage was dealt and set the target text color accordingly;
 
+            int number = Mathf.RoundToInt(value);
+            string numberSuffix = "";
+            if (value > 1000000)
+            {
+                number = (int)Mathf.RoundToInt(value / 1000000);
+                numberSuffix = "M";
+            }
+            else if (value > 1000)
+            {
+                number = (int)Mathf.RoundToInt(value / 1000);
+                numberSuffix = "K";
+            }
+
             if (crit)
-                damageNumber.GetComponent<DamageNumber>().SetDamageNumber(Mathf.Round(value) + "!", colorOveride, 1.5f);
+                damageNumber.GetComponent<DamageNumber>().SetDamageNumber(number + numberSuffix + "!", colorOveride, 1.5f);
             else
-                damageNumber.GetComponent<DamageNumber>().SetDamageNumber(Mathf.Round(value) + "", colorOveride, 1);
+                damageNumber.GetComponent<DamageNumber>().SetDamageNumber(number + numberSuffix + "", colorOveride, 1);
         }
     }
 

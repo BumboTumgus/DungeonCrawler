@@ -399,6 +399,7 @@ public class ItemDropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                 popupManager.lockPointer = false;
                 movedItem.transform.SetParent(movedItem.myParent);
                 popupManager.HidePopups(true);
+                popupManager.allowPopupsToAppear = true;
 
                 movedItem.transform.localPosition = Vector3.zero;
                 movedItem.parentToInteractWith = null;

@@ -73,7 +73,7 @@ public class SkillsManager : MonoBehaviour
 
     public void InterruptSkills()
     {
-        Debug.Log("Interrupt the skills");
+        //Debug.Log("Interrupt the skills");
         foreach (Skill skill in mySkills)
         {
             skill.ForceSkillCleanup();
@@ -81,8 +81,10 @@ public class SkillsManager : MonoBehaviour
         foreach (ParticleSystem ps in hitBoxes.hiteffects)
             ps.Stop();
 
-        GetComponent<Animator>().Play("Idle", 3);
-        GetComponent<Animator>().Play("Idle", 4);
+        Animator anim = GetComponent<Animator>();
+        anim.Play("Idle", 3);
+        anim.Play("Idle", 4);
+        anim.SetBool("FaceAttackDirection", false);
 
         audioManager.StopAudio(48);
         audioManager.StopAudio(60);

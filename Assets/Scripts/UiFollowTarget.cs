@@ -21,6 +21,8 @@ public class UiFollowTarget : MonoBehaviour
     // check where we shoudl be in regards to the camera.
     private void Update()
     {
+        if (target == null)
+            Destroy(gameObject);
         transform.position = mainCamera.WorldToScreenPoint(target.position);
     }
 
@@ -42,7 +44,7 @@ public class UiFollowTarget : MonoBehaviour
     {
         ignoreCameraDistanceCull = true;
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
 
         ignoreCameraDistanceCull = false;
     }

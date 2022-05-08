@@ -43,6 +43,7 @@ public class Buff : MonoBehaviour
     public float damagePercentageSC = 0;
     public float critChanceSC = 0;
     public float critDamageSC = 0;
+    public float cdrSC = 0;
 
     public float aflameResistSC = 0;
     public float frostbiteResistSC = 0;
@@ -59,12 +60,15 @@ public class Buff : MonoBehaviour
     public float invulnerabilitySC = 0;
     public float untargetabilitySC = 0;
     public float invisibilitySC = 0;
+    public float curseSC = 0;
 
     public float targetDamageTickTimer = 0.5f;
     public float currentDamageTick = 0;
     public bool almostDone = false;
 
     public float sizeSC = 0;
+
+    private float totalCDRChange = 0f;
 
 
     private void Update()
@@ -205,16 +209,16 @@ public class Buff : MonoBehaviour
                 ChangeDefensiveStats(false, healthSC * amount, healthRegenSC * amount, armorSC * amount, damageReductionSC * amount, healingMultiplierSC * amount);
 
             // If we changed offensive stats, add more stacks
-            if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0 || critChanceSC != 0 || critDamageSC != 0)
-                ChangeOffensiveStats(false, atkSpdSC * amount, movespeedSC * amount, damagePercentageSC * amount, critChanceSC * amount, critDamageSC * amount);
+            if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0 || critChanceSC != 0 || critDamageSC != 0 || cdrSC != 0)
+                ChangeOffensiveStats(false, atkSpdSC * amount, movespeedSC * amount, damagePercentageSC * amount, critChanceSC * amount, critDamageSC * amount, cdrSC * amount);
 
             // If we changed our resistance based stats, remove more stacks
             if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0 || overchargeResistSC != 0 || overgrowthResistSC != 0 || sunderResistSC != 0 || windshearResistSC != 0)
                 ChangeResistanceStats(false, aflameResistSC * amount, frostbiteResistSC * amount, overchargeResistSC * amount, overgrowthResistSC * amount, sunderResistSC * amount, frostbiteResistSC * amount, stunResistSC * amount, asleepResistSC * amount, bleedResistSC * amount, poisonResistSC * amount, knockBackResistSC * amount);
 
             // If we changed our invunerability, unatrgetability or invisibility
-            if (invulnerabilitySC != 0 || untargetabilitySC != 0 || invisibilitySC != 0)
-                ChangePlayerStatusLocks(false, invulnerabilitySC * amount, invisibilitySC * amount, untargetabilitySC * amount);
+            if (invulnerabilitySC != 0 || untargetabilitySC != 0 || invisibilitySC != 0 || curseSC != 0)
+                ChangePlayerStatusLocks(false, invulnerabilitySC * amount, invisibilitySC * amount, untargetabilitySC * amount, curseSC * amount);
 
             // If we changed the size, change them back.
             if (sizeSC != 0)
@@ -393,16 +397,16 @@ public class Buff : MonoBehaviour
             ChangeDefensiveStats(false, healthSC * amount, healthRegenSC * amount, armorSC * amount, damageReductionSC * amount, healingMultiplierSC * amount);
 
         // If we changed offensive stats, remove more stacks
-        if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0 || critChanceSC != 0 || critDamageSC != 0)
-            ChangeOffensiveStats(false, atkSpdSC * amount, movespeedSC * amount, damagePercentageSC * amount, critChanceSC * amount, critDamageSC * amount);
+        if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0 || critChanceSC != 0 || critDamageSC != 0 || cdrSC != 0)
+            ChangeOffensiveStats(false, atkSpdSC * amount, movespeedSC * amount, damagePercentageSC * amount, critChanceSC * amount, critDamageSC * amount, cdrSC * amount);
 
         // If we changed our resistance based stats, remove more stacks
         if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0 || overchargeResistSC != 0 || overgrowthResistSC != 0 || sunderResistSC != 0 || windshearResistSC != 0)
             ChangeResistanceStats(false, aflameResistSC * amount, frostbiteResistSC * amount, overchargeResistSC * amount, overgrowthResistSC * amount, sunderResistSC * amount, frostbiteResistSC * amount, stunResistSC * amount, asleepResistSC * amount, bleedResistSC * amount, poisonResistSC * amount, knockBackResistSC * amount);
 
         // If we changed our invunerability, unatrgetability or invisibility
-        if (invulnerabilitySC != 0 || untargetabilitySC != 0 || invisibilitySC != 0)
-            ChangePlayerStatusLocks(false, invulnerabilitySC * amount, invisibilitySC * amount, untargetabilitySC * amount);
+        if (invulnerabilitySC != 0 || untargetabilitySC != 0 || invisibilitySC != 0 | curseSC != 0)
+            ChangePlayerStatusLocks(false, invulnerabilitySC * amount, invisibilitySC * amount, untargetabilitySC * amount, curseSC * amount);
 
         // If we changed the size, change them back.
         if (sizeSC != 0)
@@ -413,17 +417,19 @@ public class Buff : MonoBehaviour
     }
 
     // Used to change if the player is invisible, invulnerable, etc. by changing their stats bool values.
-    public void ChangePlayerStatusLocks(bool changeStatsChangeValue, float invulnerabilityGain, float invisibilityGain, float untargetabilityGain)
+    public void ChangePlayerStatusLocks(bool changeStatsChangeValue, float invulnerabilityGain, float invisibilityGain, float untargetabilityGain, float curseGain)
     {
         connectedPlayer.AddInvisibilitySource(invisibilityGain);
         connectedPlayer.AddInvulnerablitySource(invulnerabilityGain);
         connectedPlayer.AddUntargetableSource(untargetabilityGain);
+        connectedPlayer.AddCurseSource(curseGain);
 
         if (changeStatsChangeValue)
         {
             invulnerabilitySC += invulnerabilityGain;
             invisibilitySC += invisibilityGain;
             untargetabilitySC += untargetabilityGain;
+            curseSC += curseGain;
         }
     }
 
@@ -437,8 +443,14 @@ public class Buff : MonoBehaviour
     }
 
     //USed to add offensive stast to the player
-    public void ChangeOffensiveStats(bool changeStatsChangeValue, float atkSpeedGain, float movespeedGain, float damagePercentageGain, float critChanceGain, float critDamageGain)
+    public void ChangeOffensiveStats(bool changeStatsChangeValue, float atkSpeedGain, float movespeedGain, float damagePercentageGain, float critChanceGain, float critDamageGain, float cdrGain)
     {
+        if (cdrGain != 0)
+        {
+            float previousTotalCDRChange = totalCDRChange;
+            totalCDRChange += cdrGain;
+            connectedPlayer.SwapCDRSourceValue(previousTotalCDRChange, totalCDRChange);
+        }
         connectedPlayer.bonusAttackSpeed += atkSpeedGain;
         connectedPlayer.movespeedPercentMultiplier += movespeedGain;
         connectedPlayer.damageIncreaseMultiplier += damagePercentageGain;
@@ -452,6 +464,7 @@ public class Buff : MonoBehaviour
             damagePercentageSC += damagePercentageGain;
             critChanceSC += critChanceGain;
             critDamageSC += critDamageGain;
+            cdrSC += cdrGain;
         }
 
         connectedPlayer.StatSetup(false, true);
@@ -723,16 +736,16 @@ public class Buff : MonoBehaviour
                 ChangeDefensiveStats(true, healthSC * -1, healthRegenSC * -1, armorSC * -1, damageReductionSC * -1, healingMultiplierSC * -1);
 
             // If we changed offensive stats, change em back.
-            if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0 || critChanceSC != 0 || critDamageSC != 0)
-                ChangeOffensiveStats(true,  atkSpdSC * -1, movespeedSC * -1, damagePercentageSC * -1, critChanceSC * -1, critDamageSC * -1);
+            if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0 || critChanceSC != 0 || critDamageSC != 0 || cdrSC != 0)
+                ChangeOffensiveStats(true,  atkSpdSC * -1, movespeedSC * -1, damagePercentageSC * -1, critChanceSC * -1, critDamageSC * -1, cdrSC * -1);
 
             // If we changed our resistance based stats, change em back.
             if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 ||  frostbiteResistSC != 0 || knockBackResistSC != 0 || overchargeResistSC != 0 || overgrowthResistSC != 0|| sunderResistSC != 0 || windshearResistSC != 0)
                 ChangeResistanceStats(true, aflameResistSC * -1, frostbiteResistSC * -1, overchargeResistSC * -1, overgrowthResistSC * -1, sunderResistSC * -1, frostbiteResistSC * -1, stunResistSC * -1, asleepResistSC * -1, bleedResistSC * -1, poisonResistSC * -1, knockBackResistSC * -1);
 
             // If we changed our invunerability, unatrgetability or invisibility
-            if (invulnerabilitySC != 0 || untargetabilitySC != 0 || invisibilitySC != 0)
-                ChangePlayerStatusLocks(true, invulnerabilitySC * -1, invisibilitySC * -1, untargetabilitySC * -1);
+            if (invulnerabilitySC != 0 || untargetabilitySC != 0 || invisibilitySC != 0 || curseSC != 0)
+                ChangePlayerStatusLocks(true, invulnerabilitySC * -1, invisibilitySC * -1, untargetabilitySC * -1, curseSC * -1);
 
             // If we changed the size, change them back.
             if (sizeSC != 0)
@@ -745,16 +758,16 @@ public class Buff : MonoBehaviour
                 ChangeDefensiveStats(true, healthSC * -1 * currentStacks, healthRegenSC * -1 * currentStacks, armorSC * -1 * currentStacks, damageReductionSC * -1 * currentStacks, healingMultiplierSC * -1 * currentStacks);
 
             // If we changed offensive stats, change em back.
-            if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0 || critChanceSC != 0 || critDamageSC != 0)
-                ChangeOffensiveStats(true, atkSpdSC * -1 * currentStacks, movespeedSC * -1 * currentStacks, damagePercentageSC * -1 * currentStacks, critChanceSC * -1 * currentStacks, critDamageSC * -1 * currentStacks);
+            if (atkSpdSC != 0 || movespeedSC != 0 || damagePercentageSC != 0 || critChanceSC != 0 || critDamageSC != 0 || cdrSC != 0)
+                ChangeOffensiveStats(true, atkSpdSC * -1 * currentStacks, movespeedSC * -1 * currentStacks, damagePercentageSC * -1 * currentStacks, critChanceSC * -1 * currentStacks, critDamageSC * -1 * currentStacks, cdrSC * -1 * currentStacks);
 
             // If we changed our resistance based stats, change em back.
             if (aflameResistSC != 0 || stunResistSC != 0 || asleepResistSC != 0 || bleedResistSC != 0 || poisonResistSC != 0 || frostbiteResistSC != 0 || knockBackResistSC != 0 || overchargeResistSC != 0 || overgrowthResistSC != 0 || sunderResistSC != 0 || windshearResistSC != 0)
                 ChangeResistanceStats(true, aflameResistSC * -1 * currentStacks, frostbiteResistSC * -1 * currentStacks, overchargeResistSC * -1 * currentStacks, overgrowthResistSC * -1 * currentStacks, sunderResistSC * -1 * currentStacks, frostbiteResistSC * -1 * currentStacks, stunResistSC * -1 * currentStacks, asleepResistSC * -1 * currentStacks, bleedResistSC * -1 * currentStacks, poisonResistSC * -1 * currentStacks, knockBackResistSC * -1 * currentStacks);
 
             // If we changed our invunerability, unatrgetability or invisibility
-            if (invulnerabilitySC != 0 || untargetabilitySC != 0 || invisibilitySC != 0)
-                ChangePlayerStatusLocks(true, invulnerabilitySC * -1 * currentStacks, invisibilitySC * -1 * currentStacks, untargetabilitySC * -1 * currentStacks);
+            if (invulnerabilitySC != 0 || untargetabilitySC != 0 || invisibilitySC != 0 || curseSC != 0)
+                ChangePlayerStatusLocks(true, invulnerabilitySC * -1 * currentStacks, invisibilitySC * -1 * currentStacks, untargetabilitySC * -1 * currentStacks, curseSC * -1);
 
             // If we changed the size, change them back.
             if (sizeSC != 0)

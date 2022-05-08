@@ -37,6 +37,13 @@ public class HitBox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //If we are an enemy or player, ad we are untargetable or invulnerable ignore this.
+        if ((other.gameObject.layer == 14 || other.gameObject.layer == 13) && (other.GetComponent<PlayerStats>().invulnerable || other.GetComponent<PlayerStats>().untargetable))
+        {
+            //Debug.Log("The target cant be hit");
+            return;
+        }
+
         //Debug.Log("we have colldied with collided with: " + other.name);
         // Projectile logic, we are a projectile and hit an object on the collidable envorioment or interactable layer.
         if ((projectile && other.gameObject.layer == 14 && hitEnemies) || (projectile && other.gameObject.layer == 13 && hitPlayers))

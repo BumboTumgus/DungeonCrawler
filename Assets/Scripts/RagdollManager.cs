@@ -22,8 +22,11 @@ public class RagdollManager : MonoBehaviour
 
     private bool playerEntity = true;
 
+    [SerializeField] public float breakoutVelocityMultiplier = 1;
+
     private const float KNOCKBACK_MULTIPLIER = 45f;
-    private const float BREAKOUT_MIN_VELOCITY = 0.025f;
+    private const float BREAKOUT_MIN_VELOCITY = 0.04f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -92,6 +95,8 @@ public class RagdollManager : MonoBehaviour
         ragdollEnabled = true;
         animator.enabled = false;
         entityModel.transform.parent = null;
+
+        breakoutVelocityMultiplier = 1;
 
         if (playerEntity)
         {
@@ -281,13 +286,20 @@ public class RagdollManager : MonoBehaviour
         bool canWeGetUp = false;
 
         //Debug.Log("our current speed is: " + colliders[0].GetComponent<Rigidbody>().velocity.sqrMagnitude);
-        if (colliders[0].GetComponent<Rigidbody>().velocity.sqrMagnitude < BREAKOUT_MIN_VELOCITY * BREAKOUT_MIN_VELOCITY)
+        if (colliders[0].GetComponent<Rigidbody>().velocity.sqrMagnitude < BREAKOUT_MIN_VELOCITY * breakoutVelocityMultiplier)
         {
             //Debug.Log("we got out.");
             canWeGetUp = true;
         }
 
+        breakoutVelocityMultiplier += 80f * Time.deltaTime;
+
         return canWeGetUp;
+    }
+
+    public void MoveHipsToPosition(Vector3 position)
+    {
+        playerHips.transform.position = position;
     }
 
     private void OnDestroy()

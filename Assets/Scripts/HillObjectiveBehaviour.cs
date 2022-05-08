@@ -16,6 +16,9 @@ public class HillObjectiveBehaviour : MonoBehaviour
     float currentValue = 0f;
     float targetValue = 60f;
 
+    private bool waveSpawnedPrimary = false;
+    private bool waveSpawnedSecondary = false;
+
 
     private void Start()
     {
@@ -35,8 +38,13 @@ public class HillObjectiveBehaviour : MonoBehaviour
             currentValue += chargeRate * Time.deltaTime;
             GameManager.instance.UpdateObjectiveCount(currentValue / targetValue * 100);
 
+            if (!waveSpawnedSecondary && currentValue/ targetValue > 0.5f)
+            {
+                waveSpawnedSecondary = true;
+                EnemyManager.instance.SpawnHillBatch();
+            }
             //if (currentValue >= targetValue)
-                //Destroy(gameObject);
+            //Destroy(gameObject);
         }
 
         //if (Input.GetKeyDown(KeyCode.Alpha9))
@@ -60,6 +68,11 @@ public class HillObjectiveBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player"))
             currentPlayerCount++;
+        if(!waveSpawnedPrimary)
+        {
+            waveSpawnedPrimary = true;
+            EnemyManager.instance.SpawnHillBatch();
+        }
 
         UpdateCounterSpeed();
     }

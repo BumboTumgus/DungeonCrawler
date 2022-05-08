@@ -27,6 +27,8 @@ public class Inventory : MonoBehaviour
     private PlayerGearManager gearManager;
     private bool firstItemPickup = true;
 
+    private IEnumerator hintCoroutine;
+
 
     // USed to set up the inventory transform parent.
     private void Start()
@@ -48,7 +50,7 @@ public class Inventory : MonoBehaviour
         {
             firstItemPickup = false;
             // Launch our hint here.
-            StartCoroutine(ShowInventoryHint());
+            ShowHint("Press I to access your inventory.");
         }
 
         //Debug.Log("Checking if our item is null here");
@@ -92,10 +94,31 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    IEnumerator ShowInventoryHint()
+    public void ShowHint(string text)
     {
-        hintPrompt.SetText("Press I to access your inventory.");
-        yield return new WaitForSecondsRealtime(5f);
+        if (hintCoroutine != null)
+            StopCoroutine(hintCoroutine);
+        hintCoroutine = ShowHintText(text);
+        StartCoroutine(hintCoroutine);
+
+    }
+
+    IEnumerator ShowHintText(string text)
+    {
+        hintPrompt.SetColor(Color.white);
+        hintPrompt.SetText(text);
+        float currentTimer = 0f;
+        float targetTimer = 5f;
+        float alpha = 1f;
+
+        while(currentTimer < targetTimer)
+        {
+            currentTimer += Time.deltaTime;
+            alpha = 1 - (currentTimer / targetTimer);
+            hintPrompt.SetColor(new Color(1, 1, 1, alpha));
+            yield return new WaitForFixedUpdate();
+        }
+
         hintPrompt.SetText("");
     }
 
@@ -342,7 +365,7 @@ public class Inventory : MonoBehaviour
     // make an item switch from the left hand to the right or vice versa, but do not recalculate stats for said item.
     public void SwitchHands(Item primaryItem, Item secondaryItem)
     {
-        Debug.Log("switching hands");
+        //Debug.Log("switching hands");
         gearManager.HideItem(primaryItem);
 
         if (primaryItem.equippedToRightHand)
@@ -480,11 +503,30 @@ public class Inventory : MonoBehaviour
                         interactPrompt.SetText("Press E to teleport");
                     else if (closestTarget.GetComponent<ArtifactBehaviour>() != null)
                         interactPrompt.SetText("Press E to gather this Artifact");
+                    else if (closestTarget.GetComponent<ShrineBehaviour_UnstableCrystal>() != null)
+                        interactPrompt.SetText("Press E to unbind the Unstable Crystal");
+                    else if (closestTarget.GetComponent<ShrineBehaviour_Wisps>() != null)
+                        interactPrompt.SetText("Press E to accept the Blessing of the Wisps");
+                    else if (closestTarget.GetComponent<ShrineBehaviour_Torment>() != null)
+                        interactPrompt.SetText("Press E to invite Torment to reap greater rewards");
+                    else if (closestTarget.GetComponent<ShrineBehaviour_Greed>() != null)
+                        interactPrompt.SetText("Press E to tempt fate for random gear.");
+                    else if (closestTarget.GetComponent<ShrineBehaviour_Obsidian>() != null)
+                        interactPrompt.SetText("Press E to take the Trial of Glass");
+                    else if (closestTarget.GetComponent<ShrineBehaviour_Veteran>() != null)
+                        interactPrompt.SetText("Press E to pay tribute to the Fallen");
                 }
                 else
                     interactPrompt.SetText("");
             }
             yield return new WaitForEndOfFrame();
         }
+    }
+
+    // Used when we teleport, clear all our interactables and items in range lists
+    public void ClearInteractablesItemLists()
+    {
+        interactablesInRange.Clear();
+        itemsInRange.Clear();
     }
 }

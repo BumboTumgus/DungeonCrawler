@@ -910,11 +910,11 @@ public class ItemTrait
                 {
                     case 0:
                         traitType = TraitType.Armor;
-                        traitBonus = 10f;
+                        traitBonus = 25f;
                         break;
                     case 1:
                         traitType = TraitType.FlatDamageReduction;
-                        traitBonus = 1f;
+                        traitBonus = 2f;
                         break;
                     default:
                         break;
@@ -940,11 +940,11 @@ public class ItemTrait
                 {
                     case 0:
                         traitType = TraitType.AttackSpeed;
-                        traitBonus = 0.1f;
+                        traitBonus = 0.25f;
                         break;
                     case 1:
                         traitType = TraitType.MoveSpeed;
-                        traitBonus = 0.03f;
+                        traitBonus = 0.05f;
                         break;
                     case 2:
                         traitType = TraitType.Jumps;
@@ -997,7 +997,7 @@ public class ItemTrait
                         break;
                     case 1:
                         traitType = TraitType.HealingOnKill;
-                        traitBonus = -10f;
+                        traitBonus = -5f;
                         break;
                     default:
                         break;
@@ -1008,11 +1008,11 @@ public class ItemTrait
                 {
                     case 0:
                         traitType = TraitType.SpellDamage;
-                        traitBonus = 0.05f;
+                        traitBonus = 0.1f;
                         break;
                     case 1:
                         traitType = TraitType.CooldownReduction;
-                        traitBonus = 0.05f;
+                        traitBonus = 0.1f;
                         break;
                     default:
                         break;
@@ -1043,7 +1043,7 @@ public class ItemTrait
                 break;
             case Item.ModifierType.Strong:
                 traitType = TraitType.BasicAttackAmp;
-                traitBonus = 0.05f;
+                traitBonus = 0.1f;
                 break;
             case Item.ModifierType.Brittle:
                 traitType = TraitType.BasicAttackAmp;
@@ -1062,7 +1062,7 @@ public class ItemTrait
                 {
                     case 0:
                         traitType = TraitType.HealthFlat;
-                        traitBonus = 20f;
+                        traitBonus = 50f;
                         break;
                     case 1:
                         traitType = TraitType.HealthPercent;
@@ -1070,7 +1070,7 @@ public class ItemTrait
                         break;
                     case 2:
                         traitType = TraitType.HealthRegen;
-                        traitBonus = 2f;
+                        traitBonus = 3f;
                         break;
                     default:
                         break;
@@ -1100,47 +1100,47 @@ public class ItemTrait
                 {
                     case 0:
                         traitType = TraitType.AflameResistance;
-                        traitBonus = 0.1f;
+                        traitBonus = 0.5f;
                         break;
                     case 1:
                         traitType = TraitType.FrostbiteResistance;
-                        traitBonus = 0.1f;
+                        traitBonus = 0.5f;
                         break;
                     case 2:
                         traitType = TraitType.WindshearResistance;
-                        traitBonus = 0.1f;
+                        traitBonus = 0.5f;
                         break;
                     case 3:
                         traitType = TraitType.SunderResistance;
-                        traitBonus = 0.1f;
+                        traitBonus = 0.5f;
                         break;
                     case 4:
                         traitType = TraitType.BleedResistance;
-                        traitBonus = 0.1f;
+                        traitBonus = 0.5f;
                         break;
                     case 5:
                         traitType = TraitType.PoisonResistance;
-                        traitBonus = 0.1f;
+                        traitBonus = 0.5f;
                         break;
                     case 6:
                         traitType = TraitType.AsleepResistance;
-                        traitBonus = 0.1f;
+                        traitBonus = 0.5f;
                         break;
                     case 7:
                         traitType = TraitType.StunResistance;
-                        traitBonus = 0.1f;
+                        traitBonus = 0.5f;
                         break;
                     case 8:
                         traitType = TraitType.KnockbackResistance;
-                        traitBonus = 0.1f;
+                        traitBonus = 0.5f;
                         break;
                     case 9:
                         traitType = TraitType.OverchargeResistance;
-                        traitBonus = 0.1f;
+                        traitBonus = 0.5f;
                         break;
                     case 10:
                         traitType = TraitType.OvergrowthResistance;
-                        traitBonus = 0.1f;
+                        traitBonus = 0.5f;
                         break;
                 }
                 break;
@@ -1149,47 +1149,47 @@ public class ItemTrait
                 {
                     case 0:
                         traitType = TraitType.AflameResistance;
-                        traitBonus = -0.1f;
+                        traitBonus = -0.5f;
                         break;
                     case 1:
                         traitType = TraitType.FrostbiteResistance;
-                        traitBonus = -0.1f;
+                        traitBonus = -0.5f;
                         break;
                     case 2:
                         traitType = TraitType.WindshearResistance;
-                        traitBonus = -0.1f;
+                        traitBonus = -0.5f;
                         break;
                     case 3:
                         traitType = TraitType.SunderResistance;
-                        traitBonus = -0.1f;
+                        traitBonus = -0.5f;
                         break;
                     case 4:
                         traitType = TraitType.BleedResistance;
-                        traitBonus = -0.1f;
+                        traitBonus = -0.5f;
                         break;
                     case 5:
                         traitType = TraitType.PoisonResistance;
-                        traitBonus = -0.1f;
+                        traitBonus = -0.5f;
                         break;
                     case 6:
                         traitType = TraitType.AsleepResistance;
-                        traitBonus = -0.1f;
+                        traitBonus = -0.5f;
                         break;
                     case 7:
                         traitType = TraitType.StunResistance;
-                        traitBonus = -0.1f;
+                        traitBonus = -0.5f;
                         break;
                     case 8:
                         traitType = TraitType.KnockbackResistance;
-                        traitBonus = -0.1f;
+                        traitBonus = -0.5f;
                         break;
                     case 9:
                         traitType = TraitType.OverchargeResistance;
-                        traitBonus = -0.1f;
+                        traitBonus = -0.5f;
                         break;
                     case 10:
                         traitType = TraitType.OvergrowthResistance;
-                        traitBonus = -0.1f;
+                        traitBonus = -0.5f;
                         break;
                 }
                 break;

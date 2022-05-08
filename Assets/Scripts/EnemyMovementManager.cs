@@ -39,9 +39,10 @@ public class EnemyMovementManager : MonoBehaviour
         // If the aggresive option is ticked, then we are in combat with this object.
         if (enableMovement && !arrivedAtTarget && (agent.destination - transform.position).sqrMagnitude <= myStats.attackRange * myStats.attackRange)
         {
-            arrivedAtTarget = true;
-            GetComponent<Animator>().SetFloat("Speed", 0);
-            agent.speed = 0;
+            StopMovement();
+            //arrivedAtTarget = true;
+            //GetComponent<Animator>().SetFloat("Speed", 0);
+            //agent.speed = 0;
         }
     }
 

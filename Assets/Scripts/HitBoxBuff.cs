@@ -96,10 +96,15 @@ public class HitBoxBuff : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
         knockbackMultiplier = 1;
         //Debug.Log("col detected");
         if (other.CompareTag("Enemy") && hitEnemies)
         {
+            // Invulnerable logic
+            if (other.GetComponent<PlayerStats>().invulnerable || other.GetComponent<PlayerStats>().untargetable)
+                return;
+
             if (applyBuff)
                 other.GetComponent<BuffsManager>().NewBuff(buff, buffOrigin.baseDamage, buffOrigin);
 
@@ -209,6 +214,10 @@ public class HitBoxBuff : MonoBehaviour
         }
         else if (other.CompareTag("Player") && hitPlayers)
         {
+            // Invulnerable logic
+            if (other.GetComponent<PlayerStats>().invulnerable || other.GetComponent<PlayerStats>().untargetable || other.GetComponent<PlayerStats>().counter)
+                return;
+
             if (applyBuff)
                 other.GetComponent<BuffsManager>().NewBuff(buff, buffOrigin.baseDamage, buffOrigin);
 
@@ -233,7 +242,7 @@ public class HitBoxBuff : MonoBehaviour
                 if (knockbackFromCenter)
                 {
                     knockbackDirection = (other.transform.position - transform.position).normalized;
-                    Debug.Log(knockbackDirection);
+                    //Debug.Log(knockbackDirection);
                 }
 
 

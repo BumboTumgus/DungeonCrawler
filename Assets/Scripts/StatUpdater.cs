@@ -8,8 +8,14 @@ public class StatUpdater : MonoBehaviour
     float healthMax;
     float healthRegen;
     float armor;
+    float flatDamageReduction;
     float attackSpeed;
     float baseDamage;
+    float critChance;
+    float critDamage;
+    float movespeed;
+    float jumps;
+    float luck;
     float aflameResistance;
     float overchargeResistance;
     float overgrowthResistance;
@@ -28,7 +34,7 @@ public class StatUpdater : MonoBehaviour
     public BarManager healthBar;
 
     public Text[] tooltips;
-    public Color[] uiColors;
+    //public Color[] uiColors;
 
     public bool mouseWithItemHovered = false;
 
@@ -46,6 +52,8 @@ public class StatUpdater : MonoBehaviour
 
         transform.Find("Armor_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.armor);
         transform.Find("Armor_Value").GetComponent<Text>().fontSize = 26;
+        transform.Find("FDR_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.flatDamageReduction);
+        transform.Find("FDR_Value").GetComponent<Text>().fontSize = 26;
 
         switch (stats.weaponsToHitWith.Count)
         {
@@ -76,10 +84,22 @@ public class StatUpdater : MonoBehaviour
         transform.Find("AttackDamageRightHand_Value").GetComponent<Text>().fontSize = 26;
         transform.Find("AttackDamageLeftHand_Value").GetComponent<Text>().fontSize = 26;
 
+        transform.Find("CritChance_Value").GetComponent<Text>().fontSize = 26;
+        transform.Find("CritDamage_Value").GetComponent<Text>().fontSize = 26;
+        transform.Find("CritChance_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.critChance * 100);
+        transform.Find("CritDamage_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.critDamageMultiplier * 100);
+
         transform.Find("AttackSpeed_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.attackSpeed * 100 );
         transform.Find("CooldownReduction_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.cooldownReduction * 100);
         transform.Find("AttackSpeed_Value").GetComponent<Text>().fontSize = 26;
         transform.Find("CooldownReduction_Value").GetComponent<Text>().fontSize = 26;
+
+        transform.Find("Movespeed_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.movespeedPercentMultiplier * 100);
+        transform.Find("Jumps_Value").GetComponent<Text>().text = string.Format("{0:0}", stats.jumps);
+        transform.Find("Luck_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.luck);
+        transform.Find("Movespeed_Value").GetComponent<Text>().fontSize = 26;
+        transform.Find("Jumps_Value").GetComponent<Text>().fontSize = 26;
+        transform.Find("Luck_Value").GetComponent<Text>().fontSize = 26;
 
         transform.Find("AsleepResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.sleepResistance * 100);
         transform.Find("StunResistance_Value").GetComponent<Text>().text = string.Format("{0:0}%", stats.stunResistance * 100);
@@ -175,6 +195,13 @@ public class StatUpdater : MonoBehaviour
         else
             transform.Find("Armor_Value").GetComponent<Text>().fontSize = 26;
 
+        DrawTextPlusStatChange(transform.Find("FDR_Value").GetComponent<Text>(), stats.flatDamageReduction, flatDamageReduction, 0);
+
+        if (flatDamageReduction - stats.flatDamageReduction != 0)
+            transform.Find("FDR_Value").GetComponent<Text>().fontSize = 20;
+        else
+            transform.Find("FDR_Value").GetComponent<Text>().fontSize = 26;
+
         float newRightHandWeapon = 0;
         float newLeftHandWeapon = 0;
         float currentRightHandWeapon = 0;
@@ -256,6 +283,35 @@ public class StatUpdater : MonoBehaviour
             transform.Find("CooldownReduction_Value").GetComponent<Text>().fontSize = 14;
         else
             transform.Find("CooldownReduction_Value").GetComponent<Text>().fontSize = 26;
+
+        DrawTextPlusStatChangePercentage(transform.Find("CritChance_Value").GetComponent<Text>(), stats.critChance * 100f, critChance * 100f);
+        DrawTextPlusStatChangePercentage(transform.Find("CritDamage_Value").GetComponent<Text>(), stats.critDamageMultiplier * 100f, critDamage * 100f);
+        if (critChance - stats.critChance != 0)
+            transform.Find("CritChance_Value").GetComponent<Text>().fontSize = 14;
+        else
+            transform.Find("CritChance_Value").GetComponent<Text>().fontSize = 26;
+        if (critDamage - stats.critDamageMultiplier != 0)
+            transform.Find("CritDamage_Value").GetComponent<Text>().fontSize = 14;
+        else
+            transform.Find("CritDamage_Value").GetComponent<Text>().fontSize = 26;
+
+        DrawTextPlusStatChangePercentage(transform.Find("Movespeed_Value").GetComponent<Text>(), stats.movespeedPercentMultiplier * 100f, movespeed * 100f);
+        DrawTextPlusStatChangePercentage(transform.Find("Luck_Value").GetComponent<Text>(), stats.luck, luck);
+        if (movespeed - stats.movespeedPercentMultiplier != 0)
+            transform.Find("Movespeed_Value").GetComponent<Text>().fontSize = 14;
+        else
+            transform.Find("Movespeed_Value").GetComponent<Text>().fontSize = 26;
+        if (luck - stats.luck != 0)
+            transform.Find("Luck_Value").GetComponent<Text>().fontSize = 14;
+        else
+            transform.Find("Luck_Value").GetComponent<Text>().fontSize = 26;
+
+        DrawTextPlusStatChange(transform.Find("Jumps_Value").GetComponent<Text>(), stats.jumps, jumps, 0);
+
+        if (jumps - stats.jumps != 0)
+            transform.Find("Jumps_Value").GetComponent<Text>().fontSize = 20;
+        else
+            transform.Find("Jumps_Value").GetComponent<Text>().fontSize = 26;
 
         DrawTextPlusStatChangePercentage(transform.Find("AsleepResistance_Value").GetComponent<Text>(), stats.sleepResistance * 100, asleepResistance * 100);
         DrawTextPlusStatChangePercentage(transform.Find("StunResistance_Value").GetComponent<Text>(), stats.stunResistance * 100, stunResistance * 100);
@@ -385,9 +441,16 @@ public class StatUpdater : MonoBehaviour
         healthMax = stats.healthMax;
         healthRegen = stats.healthRegen;
         armor = stats.armor;
+        flatDamageReduction = stats.flatDamageReduction;
 
         attackSpeed = stats.attackSpeed;
         baseDamage = stats.baseDamage;
+        critChance = stats.critChance;
+        critDamage = stats.critDamageMultiplier;
+
+        movespeed = stats.movespeedPercentMultiplier;
+        jumps = stats.jumps;
+        luck = stats.luck;
 
         aflameResistance = stats.aflameResistance;
         asleepResistance = stats.sleepResistance;
@@ -702,6 +765,30 @@ public class StatUpdater : MonoBehaviour
                     break;
                 case 16:
                     tooltips[index].text = string.Format("Beautiful wonderful money. Use it to buy better gear or upgrade existing gear. You currently have <color=#FFD605>{0:0} gold.</color>", stats.gold);
+                    break;
+                case 17:
+                    float minDamage = 0;
+                    if ((1 - (100 / (100 + stats.armor))) > 0)
+                    {
+                        //Debug.Log(string.Format("The percent damage reduction is {0}, the damage percentage we take is: {1}, the multiplier to the FDR is {2}, resulting in {3}", 1 - (100f / (100f + stats.armor)), 100f / (100f + stats.armor), 1f / (100f / (100f + stats.armor)), stats.flatDamageReduction * (1f / (100f / (100 + stats.armor)))));
+                        minDamage = stats.flatDamageReduction * (1f / (100f / (100 + stats.armor)));
+                    }
+                    tooltips[index].text = string.Format("<color=#554A73>Flat Damage reduction.</color> Reduces all damage taken, except for true damage, by {0:0}. Attacks must deal a pre-mitigation minimum of {1:0.0} damage for you to recieve any damage.", stats.flatDamageReduction, minDamage);
+                    break;
+                case 18:
+                    tooltips[index].text = string.Format("The percentage chance you have to <color=#BE2020>critically strike,</color> dealing bonus damage based on you critical damage. <color=#BE2020>{0:0}% of attacks will currently critically strike.</color>", stats.critChance * 100);
+                    break;
+                case 19:
+                    tooltips[index].text = string.Format("The percentage of bonus damage your attacks and spells will deal when you critically strike. <color=#BE2020>Critically striking makes the attack deal {0:0}% of it's original damage.</color>", stats.critDamageMultiplier * 100);
+                    break;
+                case 20:
+                    tooltips[index].text = string.Format("Your current speed multiplier. Currently you will move <color=#5DB1E5>{0:0}% of your base movespeed.</color> Sprinting increase your speed by an <color=#5DB1E5>additional 75%.</color>", stats.movespeedPercentMultiplier * 100);
+                    break;
+                case 21:
+                    tooltips[index].text = string.Format("The number of jumps your player character can perform. Resets upon landing. You can currently <color=#5DB1E5>jump {0:0} times.</color> The minimum amount of jumps will always be 1.", stats.jumps );
+                    break;
+                case 22:
+                    tooltips[index].text = string.Format("The bonus percent chance you have of recieving an item upgrade when opening a chest. Currently, you have a <color=#289F4F>{0:0}% chance of getting an item upgrade.</color>", stats.luck);
                     break;
                 default:
                     break;

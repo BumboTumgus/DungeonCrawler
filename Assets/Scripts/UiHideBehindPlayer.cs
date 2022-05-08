@@ -6,14 +6,15 @@ public class UiHideBehindPlayer : MonoBehaviour
 {
     public List<UiFollowTarget> targets = new List<UiFollowTarget>();
 
-    private const float DISTANCE_THRESHOLD = 1000;
+    private const float DISTANCE_THRESHOLD = 10;
 
     // Update is called once per frame
     void Update()
     {
-        foreach(UiFollowTarget ui in targets)
+        for(int index = 0; index < targets.Count; index++)
         {
-            if(ui != null)
+            UiFollowTarget ui = targets[index];
+            if(ui != null && ui.target != null)
             {
                 /**
                 Quaternion directionTowardsUI = Quaternion.Euler(Vector3.Normalize(ui.target.position - transform.position));
@@ -30,7 +31,7 @@ public class UiHideBehindPlayer : MonoBehaviour
 
                 if (Vector3.Dot(toTarget, transform.forward) > 0)
                 {
-                    if (distanceToTarget.sqrMagnitude <= DISTANCE_THRESHOLD || ui.GetComponent<UiFollowTarget>().ignoreCameraDistanceCull)
+                    if (distanceToTarget.sqrMagnitude <= DISTANCE_THRESHOLD * DISTANCE_THRESHOLD || ui.GetComponent<UiFollowTarget>().ignoreCameraDistanceCull)
                         ui.gameObject.SetActive(true);
                     else
                     {
@@ -46,6 +47,11 @@ public class UiHideBehindPlayer : MonoBehaviour
                     ui.transform.localPosition = new Vector3(1000, 1000, 0);
                 }
 
+            }
+            else
+            {
+                targets.RemoveAt(index);
+                index--;
             }
         }
     }

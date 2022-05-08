@@ -73,12 +73,14 @@ public class ItemGenerator : MonoBehaviour
     private float[] rareRcValues =       { 00, 10, 20, 30, 40, 40, 30, 20 };
     private float[] legendarytRcValues = { 00, 00, 00, 10, 20, 30, 50, 50 };
     private float[] masterworkRcValues = { 00, 00, 00, 00, 10, 20, 20, 30 };
+    private float[] shrineCostValues =   { 40, 60, 80, 125, 200, 300, 400, 600 };
 
     private float commonRC = 40;
     private float uncommonRC = 30;
     private float rareRC = 30;
     private float legendaryRC = 35;
     private float masterworkRC = 5;
+    private float shrineCost = 5;
     // by the 11th level, we cap it so the player only recieves legendary at 87.5% percent and masterwork at 12.5%;
 
     private void Awake()
@@ -90,7 +92,7 @@ public class ItemGenerator : MonoBehaviour
 
     public float[] ReturnRarityRollRCs()
     {
-        float[] rarities = {commonRC, uncommonRC, rareRC, legendaryRC, masterworkRC };
+        float[] rarities = {commonRC, uncommonRC, rareRC, legendaryRC, masterworkRC, shrineCost};
         return rarities;
     }
 
@@ -107,6 +109,7 @@ public class ItemGenerator : MonoBehaviour
             rareRC = rareRcValues[currentRcIndex];
             legendaryRC = legendarytRcValues[currentRcIndex];
             masterworkRC = masterworkRcValues[currentRcIndex];
+            shrineCost = shrineCostValues[currentRcIndex];
         }
     }
 

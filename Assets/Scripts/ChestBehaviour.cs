@@ -83,6 +83,9 @@ public class ChestBehaviour : MonoBehaviour
         RollChestContents();
         //Debug.Log(" The contetns of the chest are " + treasureCount + " treasure and " + itemCount + " items");
 
+        if(chestRarity == ChestRarity.Cursed)
+            GetComponent<AudioSource>().Play();
+
         GetComponent<Animator>().SetTrigger("OpenSesame");
         Destroy(GetComponent<SphereCollider>());
 

@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
 
     private int currentLevelIndex = 0;
 
+    public float shrineCost = 100f;
+
     public float objectiveCurrentProgress;
     public float objectiveTarget;
     public enum ObjectiveType { None, GatherArtifacts, KillEnemies, KillSpecificEnemy, KillBoss, KingOfHill };
@@ -47,6 +49,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioFader deathMusic;
     [SerializeField] GameObject artifactObjective;
     [SerializeField] GameObject hillObjective;
+    //[SerializeField] 
 
     private const float MINIMUM_DISTANCE_FROM_TELEPORTER = 5000f;
 
@@ -100,17 +103,26 @@ public class GameManager : MonoBehaviour
         playerUi.transform.Find("InventoryPanel").GetComponent<InventoryUiManager>().playerSkills = player.GetComponent<SkillsManager>();
 
         player.GetComponent<PlayerStats>().myStats = playerUi.transform.Find("InventoryPanel").Find("Stats").GetComponent<StatUpdater>();
+        player.GetComponent<PlayerStats>().healthBarFlashAnim = playerUi.transform.Find("PlayerStats").Find("HealthBar_RedFlash").GetComponent<Animator>();
         player.GetComponent<PlayerStats>().healthBar = playerUi.transform.Find("PlayerStats").Find("HealthBar").Find("HealthBarBackground").GetComponent<BarManager>();
+        player.GetComponent<PlayerStats>().expBar = playerUi.transform.Find("PlayerStats").Find("ExpBar").Find("ExpBarBackground").GetComponent<BarManager>();
+        player.GetComponent<PlayerStats>().levelUpAnim = playerUi.transform.Find("PlayerStats").Find("LevelBackground").GetComponent<Animator>();
+        player.GetComponent<PlayerStats>().levelUpText = playerUi.transform.Find("PlayerStats").Find("LevelBackground").Find("Level_Value").GetComponent<Text>();
         player.GetComponent<PlayerStats>().moneyCounter = playerUi.GetComponent<MoneyUiCounterBehaviour>();
         player.GetComponent<PlayerStats>().bloodyScreenController = playerUi.transform.Find("BloodyOverlay").GetComponent<BloodyScreenController>();
+
         player.GetComponent<Inventory>().interactPrompt = playerUi.transform.Find("InteractPrompt").GetComponent<InteractPromptController>();
         player.GetComponent<Inventory>().hintPrompt = playerUi.transform.Find("HintBox").GetComponent<InteractPromptController>();
         player.GetComponent<Inventory>().inventoryUI = playerUi.transform.Find("InventoryPanel").GetComponent<InventoryUiManager>();
+
         player.GetComponent<BuffsManager>().canvasParent = playerUi.transform.Find("PlayerStats").Find("BuffIconParents");
+
         player.GetComponent<SkillsManager>().iconParent = playerUi.transform.Find("SkillsIcons");
         player.GetComponent<SkillsManager>().inventory = playerUi.transform.Find("InventoryPanel").GetComponent<InventoryUiManager>();
+
         player.GetComponent<PlayerMovementController>().inventoryWindow = playerUi.transform.Find("InventoryPanel").gameObject;
         player.GetComponent<PlayerMovementController>().mainCameraTransform = camera.transform.Find("RotateAroundPlayer");
+
         player.GetComponent<ComboManager>().comboAnim = playerUi.transform.Find("ComboMeterParent").Find("ComboMeter").GetComponent<Animator>();
         player.GetComponent<RagdollManager>().cameraFollow = camera.GetComponent<FollowPlayer>();
         player.GetComponent<DamageNumberManager>().primaryCanvas = playerUi.transform.Find("TemporaryUi");
@@ -158,10 +170,15 @@ public class GameManager : MonoBehaviour
 
     public void SnapToNearestTPLocation(GameObject player)
     {
+        Debug.Log("player is snapping to nearest teleporter");
         Vector3 targetPosition = Vector3.zero;
-        float currentMinSquareMag = 9999;
+        float currentMinSquareMag = 99999;
 
-        foreach(Transform spawn in teleporterSpawns)
+        //player.GetComponent<PlayerMovementController>().enabled = false;
+        player.GetComponent<CharacterController>().enabled = false;
+        //Debug.Log("teleporter spawn count is: " + teleporterSpawns.Length);
+
+        foreach (Transform spawn in teleporterSpawns)
         {
             if((player.transform.position - spawn.position).sqrMagnitude < currentMinSquareMag)
             {
@@ -170,10 +187,23 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        player.transform.position = targetPosition + new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
+        if(player.GetComponent<RagdollManager>().ragdollEnabled)
+        {
+            //Debug.Log("We are in ragdoll mode tp our hips to the spot too.");
+            player.GetComponent<RagdollManager>().MoveHipsToPosition(targetPosition);
+        }
+
+        //Debug.Log("The player position before is: " + player.transform.position);
+        //Debug.Log("The targetPosition is: " + targetPosition);
+        Vector3 movement = targetPosition - player.transform.position;
+        player.transform.position = targetPosition; //+ new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
+        //Debug.Log("The player position after is: " + player.transform.position);
+
+        player.GetComponent<CharacterController>().enabled = true;
         //player.GetComponent<CameraShakeManager>().cameraToShake.root.GetComponent<FollowPlayer>().ResetCameraOrientation();
 
     }
+
 
     public void EntityDeath(PlayerStats.EnemyEntityType entityType)
     {
@@ -214,6 +244,21 @@ public class GameManager : MonoBehaviour
         levelObjectives.Clear();
     }
 
+    public void EnemyThreatIncrease(int value)
+    {
+        Debug.Log("The enemy threat is " + value);
+        if (value % 2 == 1)
+            foreach (GameObject ui in playerUis)
+                ui.GetComponentInChildren<ThreatLevelUIManager>().SetThreatLevel();
+
+        foreach (GameObject player in currentPlayers)
+        {
+            player.GetComponent<Inventory>().ShowHint("The creatures anger...");
+            player.GetComponent<AudioManager>().PlayAudio(120);
+            player.GetComponent<AudioManager>().PlayAudioInRange(2);
+        }
+    }
+
     public void UpdateObjectiveCount(float newValue)
     {
         if (objectiveComplete)
@@ -245,16 +290,16 @@ public class GameManager : MonoBehaviour
                         switch (targetObjectiveEntityType)
                         {
                             case PlayerStats.EnemyEntityType.Goblin:
-                                ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Kill Goblins:\nGoblins Slayed: {objectiveCurrentProgress} / {objectiveTarget}");
+                                ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Kill Goblins:\nGoblins Slain: {objectiveCurrentProgress} / {objectiveTarget}");
                                 break;
                             case PlayerStats.EnemyEntityType.Bee:
-                                ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Kill Bees:\nBees Slayed: {objectiveCurrentProgress} / {objectiveTarget}");
+                                ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Kill Bees:\nBees Slain: {objectiveCurrentProgress} / {objectiveTarget}");
                                 break;
                             case PlayerStats.EnemyEntityType.Snake:
-                                ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Kill Snakes:\nSnakes Slayed: {objectiveCurrentProgress} / {objectiveTarget}");
+                                ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Kill Snakes:\nSnakes Slain: {objectiveCurrentProgress} / {objectiveTarget}");
                                 break;
                             case PlayerStats.EnemyEntityType.Wolf:
-                                ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Kill Wolves:\nWolves Slayed: {objectiveCurrentProgress} / {objectiveTarget}");
+                                ui.GetComponent<ObjectivePanelController>().UpdateObjectiveDecription($"Kill Wolves:\nWolves Slain: {objectiveCurrentProgress} / {objectiveTarget}");
                                 break;
                             case PlayerStats.EnemyEntityType.Brute:
                                 break;
@@ -294,6 +339,7 @@ public class GameManager : MonoBehaviour
 
         ItemGenerator.instance.IncrementRcIndex();
         chestRarityRC = ItemGenerator.instance.ReturnRarityRollRCs();
+        shrineCost = chestRarityRC[5];
 
         // Spawn all the chests
         int chestCount = Random.Range(10 + currentPlayers.Length * 2, 20 + currentPlayers.Length * 4);
@@ -317,10 +363,11 @@ public class GameManager : MonoBehaviour
                         chestToSpawn = chestPrefabs[2];
                     else if (chestRarityRoll <= chestRarityRC[0] + chestRarityRC[1] + chestRarityRC[2] + chestRarityRC[3] && chestRarityRC[3] != 0)
                     {
-                        if (Random.Range(0, 100) <= 50)
-                            chestToSpawn = chestPrefabs[3];
-                        else
-                            chestToSpawn = chestPrefabs[4];
+                        chestToSpawn = chestPrefabs[3];
+                        //if (Random.Range(0, 100) <= 50)
+                        //chestToSpawn = chestPrefabs[3];
+                        //else
+                        //chestToSpawn = chestPrefabs[4];
                     }
                     else if (chestRarityRoll <= chestRarityRC[0] + chestRarityRC[1] + chestRarityRC[2] + chestRarityRC[3] + chestRarityRC[4] && chestRarityRC[4] != 0)
                         chestToSpawn = chestPrefabs[5];
@@ -452,7 +499,7 @@ public class GameManager : MonoBehaviour
                 objectiveTarget = 5;
 
                 foreach (GameObject ui in playerUis)
-                    ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("Main Objective:", $"Kill {enemyName}:\n{enemyName} Slayed: {objectiveCurrentProgress} / {objectiveTarget}");
+                    ui.GetComponent<ObjectivePanelController>().SetupObjectivePanel("Main Objective:", $"Kill {enemyName}:\n{enemyName} Slain: {objectiveCurrentProgress} / {objectiveTarget}");
                 break;
             case 3:
                 objectiveType = ObjectiveType.KillBoss;
@@ -520,18 +567,24 @@ public class GameManager : MonoBehaviour
         sceneToLoad.allowSceneActivation = false;
         EnemyManager.instance.allowEnemySpawns = false;
 
+        float expGained = 0;
         // STart loading shit here
         foreach(GameObject player in currentPlayers)
         {
             player.GetComponent<PlayerStats>().AddExp(player.GetComponent<PlayerStats>().gold);
-            player.GetComponent<DamageNumberManager>().SpawnEXPValue(player.GetComponent<PlayerStats>().gold);
+            expGained = player.GetComponent<PlayerStats>().gold;
             player.GetComponent<PlayerStats>().AddGold(player.GetComponent<PlayerStats>().gold * -1);
             player.GetComponent<BuffsManager>().psSystems[30].Play();
             player.GetComponent<BuffsManager>().psSystems[31].Play();
             player.GetComponent<AudioManager>().PlayAudio(31);
         }
+        yield return new WaitForSeconds(0.5f); 
+        foreach (GameObject player in currentPlayers)
+        {
+            player.GetComponent<DamageNumberManager>().SpawnEXPValue(expGained);
+        }
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(4.5f);
         //Debug.Log("teleport player here");
 
         foreach (GameObject player in currentPlayers)
@@ -544,6 +597,7 @@ public class GameManager : MonoBehaviour
             stats.health = stats.healthMax;
             player.GetComponent<CharacterController>().enabled = false;
             player.GetComponent<BuffsManager>().RemoveAllBuffs();
+            player.GetComponent<Inventory>().ClearInteractablesItemLists();
             player.transform.Find("EntityModel").gameObject.SetActive(false);
 
         }
@@ -553,27 +607,6 @@ public class GameManager : MonoBehaviour
         cameraFadeAnim.SetTrigger("FadeOut");
         yield return new WaitForSeconds(1f);
 
-        // Remove any of the ui cull behind camera list items from each camera
-        foreach(GameObject camera in playerCameras)
-        {
-            camera.GetComponentInChildren<UiHideBehindPlayer>().targets = new List<UiFollowTarget>();
-        }
-
-        // REmove all the old uis from the temporary ui tab like damage numbers and health bars
-        foreach(GameObject ui in playerUis)
-        {
-            //Debug.Log("The ui should be wiped here");
-            Transform parentToWipe = ui.transform.Find("TemporaryUi");
-            //Debug.Log(parentToWipe);
-            //.Log(parentToWipe.childCount);
-
-            foreach(Transform child in parentToWipe)
-            {
-                //Debug.Log(child.name);
-                Destroy(child.gameObject);
-            }
-
-        }
 
         //Debug.Log("zoom to next level");
         sceneToLoad.allowSceneActivation = true;
@@ -581,6 +614,28 @@ public class GameManager : MonoBehaviour
         while(!sceneToLoad.isDone)
         {
             yield return null;
+        }
+
+        // Remove any of the ui cull behind camera list items from each camera
+        foreach (GameObject camera in playerCameras)
+        {
+            camera.GetComponentInChildren<UiHideBehindPlayer>().targets.Clear();
+        }
+
+        // REmove all the old uis from the temporary ui tab like damage numbers and health bars
+        foreach (GameObject ui in playerUis)
+        {
+            //Debug.Log("The ui should be wiped here");
+            Transform parentToWipe = ui.transform.Find("TemporaryUi");
+            //Debug.Log(parentToWipe);
+            //.Log(parentToWipe.childCount);
+
+            foreach (Transform child in parentToWipe)
+            {
+                //Debug.Log(child.name);
+                Destroy(child.gameObject);
+            }
+
         }
 
         yield return new WaitForEndOfFrame();

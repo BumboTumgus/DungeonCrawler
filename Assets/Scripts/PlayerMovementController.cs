@@ -71,11 +71,15 @@ public class PlayerMovementController : MonoBehaviour
     private const float JUMP_POWER = 0.14f;
     private const float ROLL_SPEED_MULTIPLIER = 2f;
     private const float ROLL_ANIMSPEED_MULITPLIER = 0.6f;
+    private const float MOVEMENT_MULTIPLIER = 1.7f;
     //private const float GRAVITY_VECTOR_DAMAGE_THRESHOLD = 0.27f;
     private const float GRAVITY_DAMAGE_THRESHOLD = 15f;
     private const float GRAVITY_MAX_DISTANCE_TO_FALL = 55f;
     private const float SPRINT_SPEED_INCREASE = 1.75f;
     private const float SPRINT_DELAY_FROM_DAMAGE = 3f;
+    private const float ENEMY_PROXIMITY_SPEED_DISTANCE = 1.7f;
+    private const float ENEMY_PROXIMITY_FLOORSPEED_DISTANCE = 0.5f;
+    private const float ENEMY_PROXIMITY_RAY_SPREAD = 0.25f;
 
 
     //private const float POSITIONAL_DIFFERENCE_OFFSET = 0.1f;
@@ -212,6 +216,7 @@ public class PlayerMovementController : MonoBehaviour
             sprinting = true;
             inputs.sprintReleased = false;
             anim.SetBool("Sprinting", true);
+            anim.SetBool("FaceAttackDirection", false);
             sprintingSpeedLines.Play();
         }
     }
@@ -219,7 +224,7 @@ public class PlayerMovementController : MonoBehaviour
     private void Move()
     {
         if (playerStats.movespeedPercentMultiplier >= 0.1f)
-            anim.SetFloat("AnimSpeed", 1 * playerStats.movespeedPercentMultiplier);
+            anim.SetFloat("AnimSpeed", 1.5f * playerStats.movespeedPercentMultiplier);
         else
             anim.SetFloat("AnimSpeed", 1 * 0.1f);
 
@@ -242,15 +247,54 @@ public class PlayerMovementController : MonoBehaviour
         //Debug.Log("The desired movement vector's normalzied square magnitude is " + desiredMoveDirection.sqrMagnitude);
 
         // Rotate towards the target move direction. Set the animation speed in the animator so the character walks properly.
+        // Check to see if an enemy is directly in front of us. If they are, lower our speed to avoid the clipping to the top of the enemy.
+        float enemyProximitySpeedMultiplier = 1;
         if (desiredMoveDirection != Vector3.zero)
         {
             if (!recentlyAttacked)
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMoveDirection), rotationSpeed);
 
             if (playerStats.movespeedPercentMultiplier > 0.1f)
-                anim.SetFloat("Speed", 1 * playerStats.movespeedPercentMultiplier);
+                anim.SetFloat("Speed", 1.5f * playerStats.movespeedPercentMultiplier);
             else
                 anim.SetFloat("Speed", 1 * 0.1f);
+
+            Ray enemyRay = new Ray(transform.position + Vector3.up, desiredMoveDirection);
+            RaycastHit rayHit;
+            if (Physics.Raycast(enemyRay, out rayHit, ENEMY_PROXIMITY_SPEED_DISTANCE * playerStats.movespeedPercentMultiplier, 1 << 14))
+            {
+                float enemyProximitySpeedMultiplierForThisRay = (transform.position + Vector3.up - rayHit.point).magnitude / ENEMY_PROXIMITY_SPEED_DISTANCE;
+                if (enemyProximitySpeedMultiplierForThisRay < ENEMY_PROXIMITY_FLOORSPEED_DISTANCE)
+                    enemyProximitySpeedMultiplierForThisRay = 0;
+
+                if (enemyProximitySpeedMultiplier > enemyProximitySpeedMultiplierForThisRay)
+                    enemyProximitySpeedMultiplier = enemyProximitySpeedMultiplierForThisRay;
+            }
+            Debug.DrawRay(transform.position + Vector3.up, desiredMoveDirection * ENEMY_PROXIMITY_SPEED_DISTANCE * playerStats.movespeedPercentMultiplier, Color.yellow);
+
+            enemyRay = new Ray(transform.position + Vector3.up, desiredMoveDirection + transform.right * ENEMY_PROXIMITY_RAY_SPREAD);
+            if (Physics.Raycast(enemyRay, out rayHit, ENEMY_PROXIMITY_SPEED_DISTANCE * playerStats.movespeedPercentMultiplier, 1 << 14))
+            {
+                float enemyProximitySpeedMultiplierForThisRay = (transform.position + Vector3.up - rayHit.point).magnitude / ENEMY_PROXIMITY_SPEED_DISTANCE;
+                if (enemyProximitySpeedMultiplierForThisRay < ENEMY_PROXIMITY_FLOORSPEED_DISTANCE)
+                    enemyProximitySpeedMultiplierForThisRay = 0;
+
+                if (enemyProximitySpeedMultiplier > enemyProximitySpeedMultiplierForThisRay)
+                    enemyProximitySpeedMultiplier = enemyProximitySpeedMultiplierForThisRay;
+            }
+            Debug.DrawRay(transform.position + Vector3.up, (desiredMoveDirection + transform.right * ENEMY_PROXIMITY_RAY_SPREAD) * ENEMY_PROXIMITY_SPEED_DISTANCE * playerStats.movespeedPercentMultiplier, Color.yellow);
+
+            enemyRay = new Ray(transform.position + Vector3.up, desiredMoveDirection + transform.right * -ENEMY_PROXIMITY_RAY_SPREAD);
+            if (Physics.Raycast(enemyRay, out rayHit, ENEMY_PROXIMITY_SPEED_DISTANCE * playerStats.movespeedPercentMultiplier, 1 << 14))
+            {
+                float enemyProximitySpeedMultiplierForThisRay = (transform.position + Vector3.up - rayHit.point).magnitude / ENEMY_PROXIMITY_SPEED_DISTANCE;
+                if (enemyProximitySpeedMultiplierForThisRay < ENEMY_PROXIMITY_FLOORSPEED_DISTANCE)
+                    enemyProximitySpeedMultiplierForThisRay = 0;
+
+                if (enemyProximitySpeedMultiplier > enemyProximitySpeedMultiplierForThisRay)
+                    enemyProximitySpeedMultiplier = enemyProximitySpeedMultiplierForThisRay;
+            }
+            Debug.DrawRay(transform.position + Vector3.up, (desiredMoveDirection + transform.right * -ENEMY_PROXIMITY_RAY_SPREAD) * ENEMY_PROXIMITY_SPEED_DISTANCE * playerStats.movespeedPercentMultiplier, Color.yellow);
         }
         else
         {
@@ -268,6 +312,8 @@ public class PlayerMovementController : MonoBehaviour
             anim.SetFloat("RelativeZMovement", movementInput.y);
         }
 
+
+
         // Set up the players speed.
         float targetSpeed = 0;
         if (playerStats.movespeedPercentMultiplier > 0.1f)
@@ -282,9 +328,9 @@ public class PlayerMovementController : MonoBehaviour
         {
             //Debug.Log("The previous position is: " + transform.position);
             if (sprinting)
-                controller.Move(desiredMoveDirection * currentSpeed * Time.deltaTime * SPRINT_SPEED_INCREASE);
+                controller.Move(desiredMoveDirection * currentSpeed * Time.deltaTime * SPRINT_SPEED_INCREASE * enemyProximitySpeedMultiplier * MOVEMENT_MULTIPLIER);
             else
-                controller.Move(desiredMoveDirection * currentSpeed * Time.deltaTime);
+                controller.Move(desiredMoveDirection * currentSpeed * Time.deltaTime * enemyProximitySpeedMultiplier * MOVEMENT_MULTIPLIER);
             //Debug.Log("The new position is: " + transform.position);
         }
 
@@ -322,6 +368,7 @@ public class PlayerMovementController : MonoBehaviour
         groundRay = new Ray(transform.position + Vector3.up * 0.5f, Vector3.down);
         if (Physics.Raycast(groundRay, out groundRayHit, GROUNDING_RAY_LENGTH, groundingRayMask) && playerState != PlayerState.Jumping && playerState != PlayerState.CastingAerial && playerState != PlayerState.CastingAerialWithMovement)
         {
+            //Debug.Log("the ray hit something collidable : " + groundRayHit.collider.gameObject.name);
             rayHitGround = true;
             groundRayHitPoint = groundRayHit.point;
             primaryRayHit = true;
@@ -360,6 +407,8 @@ public class PlayerMovementController : MonoBehaviour
 
                 anim.SetBool("Grounded", true);
                 currentJumps = playerStats.jumps;
+                if (currentJumps < 1)
+                    currentJumps = 1;
                 if (!playerStats.stunned && !playerStats.knockedBack && !playerStats.asleep && !playerStats.frozen)
                 {
                     if (playerState == PlayerState.Airborne)
@@ -510,7 +559,7 @@ public class PlayerMovementController : MonoBehaviour
 
         anim.SetTrigger("Roll");
         if(playerStats.movespeedPercentMultiplier >= 0.25f)
-            anim.SetFloat("AnimSpeed", 1 * playerStats.movespeedPercentMultiplier);
+            anim.SetFloat("AnimSpeed", 1.5f * playerStats.movespeedPercentMultiplier);
         else
             anim.SetFloat("AnimSpeed", 1 * 0.25f);
 
@@ -586,7 +635,7 @@ public class PlayerMovementController : MonoBehaviour
 
             currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
 
-            controller.Move(desiredMoveDirection * currentSpeed * Time.deltaTime);
+            controller.Move(desiredMoveDirection * currentSpeed * Time.deltaTime * MOVEMENT_MULTIPLIER);
 
 
             yield return new WaitForFixedUpdate();
@@ -789,6 +838,7 @@ public class PlayerMovementController : MonoBehaviour
         playerStats.knockedBack = true;
         playerState = PlayerState.LossOfControlNoGravity;
         ragdollManager.EnableRagDollState(directionalKnockback);
+        sprintingSpeedLines.Stop();
 
         float currentTimer = 0;
         float targetTimer = 0.2f;
@@ -889,12 +939,16 @@ public class PlayerMovementController : MonoBehaviour
                     if (playerStats.gold >= interactable.GetComponent<ChestBehaviour>().chestCost)
                     {
                         interactable.GetComponent<ChestBehaviour>().OpenChest();
+                        if(interactable.GetComponent<ChestBehaviour>().chestRarity == ChestBehaviour.ChestRarity.Cursed)
+                            GetComponent<BuffsManager>().NewBuff(BuffsManager.BuffType.Curse, 0, null);
                         playerStats.AddGold(-1 * interactable.GetComponent<ChestBehaviour>().chestCost);
                         audioManager.PlayAudio(15);
                     }
                     else
                     {
                         removeInteractable = false;
+                        inventory.ShowHint("Not enough gold.");
+                        audioManager.PlayAudio(119);
                     }
                 }
                 else if (interactable.GetComponent<DoorOpenVolumeBehaviour>() != null)
@@ -908,6 +962,11 @@ public class PlayerMovementController : MonoBehaviour
                 {
                     interactable.GetComponent<ArtifactBehaviour>().ActivateArtifact();
                 }
+                else if(interactable.GetComponent<ShrineBehaviour>() != null)
+                {
+                    // Check what shrine it is
+                    interactable.GetComponent<ShrineBehaviour>().OnInteract(gameObject);
+                }
 
 
                 if(removeInteractable)
@@ -915,9 +974,17 @@ public class PlayerMovementController : MonoBehaviour
             }
             else if (inventory.itemsInRange.Count > 0)
             {
-                inventory.PickUpItem(inventory.GrabClosestItem());
-                anim.SetTrigger("PickUp");
-                audioManager.PlayAudio(14);
+                if (inventory.inventory.Count < inventory.INVENTORY_MAX)
+                {
+                    inventory.PickUpItem(inventory.GrabClosestItem());
+                    anim.SetTrigger("PickUp");
+                    audioManager.PlayAudio(14);
+                }
+                else
+                {
+                    inventory.ShowHint("Your inventory is full.");
+                    audioManager.PlayAudio(118);
+                }
             }
         }
     }
@@ -1041,9 +1108,10 @@ public class PlayerMovementController : MonoBehaviour
     // Have we entered an out of bounds box? If so take damage then make the game manager snap us to a new location.
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("The layer is: " + other.gameObject.layer);
+        // Debug.Log("The layer is: " + other.gameObject.layer);
         if(other.gameObject.layer == 7)
         {
+            //Debug.Log("We have hit an out of bounds area.");
             //playerStats.TakeDamage(playerStats.healthMax * 0.2f, false, HitBox.DamageType.True, 0, null, false);
             GameManager.instance.SnapToNearestTPLocation(gameObject);
         }
