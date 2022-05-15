@@ -12,6 +12,7 @@ public class ShrineBehaviour_Veteran : ShrineBehaviour
     {
         shrineCost = GameManager.instance.shrineCost * 5;
         moneyCostText.text = string.Format("{0:0}", shrineCost);
+        moneyCostText.transform.parent.GetComponent<FaceNearestPlayerBehaviour>().playerToFace = GameManager.instance.currentPlayers[0].transform;
     }
 
     public override void OnInteract(GameObject player)

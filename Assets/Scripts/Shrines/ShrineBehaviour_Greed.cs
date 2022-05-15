@@ -15,6 +15,7 @@ public class ShrineBehaviour_Greed : ShrineBehaviour
     {
         shrineCost = GameManager.instance.shrineCost;
         moneyCostText.text = string.Format("{0:0}", shrineCost);
+        moneyCostText.transform.parent.GetComponent<FaceNearestPlayerBehaviour>().playerToFace = GameManager.instance.currentPlayers[0].transform;
         audiomanager = GetComponent<AudioManager>();
     }
 

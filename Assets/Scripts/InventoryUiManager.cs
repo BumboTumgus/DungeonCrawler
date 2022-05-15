@@ -56,7 +56,66 @@ public class InventoryUiManager : MonoBehaviour
     {
         // If we have an item, set the picture to that associated with the item ans show thbe image.
         GameObject slotToUpdate = inventorySlots[item.inventoryIndex];
+        UpdateSlot(slotToUpdate, item);
+    }
 
+    public void UpdateEquipmentSlot(Item item)
+    {
+        // If we have an item, set the picture to that associated with the item ans show thbe image.
+        GameObject slotToUpdate = null;// = inventorySlots[item.inventoryIndex];
+        switch (item.itemType)
+        {
+            case Item.ItemType.Weapon:
+                if (item.equippedToRightHand)
+                    slotToUpdate = rightHandSlot;
+                else
+                    slotToUpdate = leftHandSlot;
+                break;
+            case Item.ItemType.TwoHandWeapon:
+                slotToUpdate = rightHandSlot;
+                break;
+            case Item.ItemType.Helmet:
+                slotToUpdate = helmetSlot;
+                break;
+            case Item.ItemType.Legs:
+                slotToUpdate = legsSlot;
+                break;
+            case Item.ItemType.Armor:
+                slotToUpdate = chestSlot;
+                break;
+            case Item.ItemType.Shield:
+                if (item.equippedToRightHand)
+                    slotToUpdate = rightHandSlot;
+                else
+                    slotToUpdate = leftHandSlot;
+                break;
+            case Item.ItemType.MagicBooster:
+                if (item.equippedToRightHand)
+                    slotToUpdate = rightHandSlot;
+                else
+                    slotToUpdate = leftHandSlot;
+                break;
+            case Item.ItemType.TrinketCape:
+                slotToUpdate = trinketSlots[item.inventoryIndex];
+                break;
+            case Item.ItemType.TrinketBracelet:
+                slotToUpdate = trinketSlots[item.inventoryIndex];
+                break;
+            case Item.ItemType.TrinketWaistItem:
+                slotToUpdate = trinketSlots[item.inventoryIndex];
+                break;
+            case Item.ItemType.TrinketRing:
+                slotToUpdate = trinketSlots[item.inventoryIndex];
+                break;
+            default:
+                break;
+        }
+
+        UpdateSlot(slotToUpdate, item);
+    }
+
+    public void UpdateSlot(GameObject slotToUpdate, Item item)
+    {
         slotToUpdate.transform.Find("ItemPanel").GetComponent<ItemDraggable>().enabled = true;
         slotToUpdate.transform.Find("ItemPanel").GetComponent<ItemDraggable>().attachedItem = item.gameObject;
 
@@ -103,7 +162,7 @@ public class InventoryUiManager : MonoBehaviour
             slotToUpdate.transform.Find("ItemPanel").Find("ItemCount").GetComponent<Text>().text = "x" + item.currentStack;
         else
             slotToUpdate.transform.Find("ItemPanel").Find("ItemCount").GetComponent<Text>().text = "";
-        
+
         Image outlineImage = slotToUpdate.transform.Find("ItemPanel").Find("ItemImage").Find("Outline").GetComponent<Image>();
         Image backgroundImage = slotToUpdate.transform.Find("ItemPanel").Find("Background").GetComponent<Image>();
         switch (item.itemRarity)
@@ -463,9 +522,7 @@ public class InventoryUiManager : MonoBehaviour
         }
         else
             tertiaryAffinityBackgroundTwo.gameObject.SetActive(false);
-
     }
-
 
     public void UpdateInventorySlot(int index)
     {

@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     private HitBoxTrap[] trapHitboxes;
     public float hillChargeTime = 40f;
 
+    public GameObject[] shrinePrefabs;
+
     private int currentLevelIndex = 0;
 
     public float shrineCost = 100f;
@@ -101,6 +103,8 @@ public class GameManager : MonoBehaviour
         playerUi.GetComponent<PauseMenuController>().pmc = player.GetComponent<PlayerMovementController>();
         playerUi.transform.Find("InventoryPanel").GetComponent<InventoryUiManager>().playerInventory = player.GetComponent<Inventory>();
         playerUi.transform.Find("InventoryPanel").GetComponent<InventoryUiManager>().playerSkills = player.GetComponent<SkillsManager>();
+        playerUi.transform.Find("ElementalFountainPanel").GetComponent<ElementalTranspotitionUiManager>().inventory = player.GetComponent<Inventory>();
+        playerUi.transform.Find("ElementalFountainPanel").GetComponent<ElementalTranspotitionUiManager>().connectedPlayerStats = player.GetComponent<PlayerStats>();
 
         player.GetComponent<PlayerStats>().myStats = playerUi.transform.Find("InventoryPanel").Find("Stats").GetComponent<StatUpdater>();
         player.GetComponent<PlayerStats>().healthBarFlashAnim = playerUi.transform.Find("PlayerStats").Find("HealthBar_RedFlash").GetComponent<Animator>();
@@ -121,6 +125,7 @@ public class GameManager : MonoBehaviour
         player.GetComponent<SkillsManager>().inventory = playerUi.transform.Find("InventoryPanel").GetComponent<InventoryUiManager>();
 
         player.GetComponent<PlayerMovementController>().inventoryWindow = playerUi.transform.Find("InventoryPanel").gameObject;
+        player.GetComponent<PlayerMovementController>().elementalFountainWindow = playerUi.transform.Find("ElementalFountainPanel").gameObject;
         player.GetComponent<PlayerMovementController>().mainCameraTransform = camera.transform.Find("RotateAroundPlayer");
 
         player.GetComponent<ComboManager>().comboAnim = playerUi.transform.Find("ComboMeterParent").Find("ComboMeter").GetComponent<Animator>();
@@ -203,7 +208,6 @@ public class GameManager : MonoBehaviour
         //player.GetComponent<CameraShakeManager>().cameraToShake.root.GetComponent<FollowPlayer>().ResetCameraOrientation();
 
     }
-
 
     public void EntityDeath(PlayerStats.EnemyEntityType entityType)
     {
@@ -363,11 +367,11 @@ public class GameManager : MonoBehaviour
                         chestToSpawn = chestPrefabs[2];
                     else if (chestRarityRoll <= chestRarityRC[0] + chestRarityRC[1] + chestRarityRC[2] + chestRarityRC[3] && chestRarityRC[3] != 0)
                     {
-                        chestToSpawn = chestPrefabs[3];
-                        //if (Random.Range(0, 100) <= 50)
                         //chestToSpawn = chestPrefabs[3];
-                        //else
-                        //chestToSpawn = chestPrefabs[4];
+                        if (Random.Range(0, 100) <= 80)
+                            chestToSpawn = chestPrefabs[3];
+                        else
+                            chestToSpawn = chestPrefabs[4];
                     }
                     else if (chestRarityRoll <= chestRarityRC[0] + chestRarityRC[1] + chestRarityRC[2] + chestRarityRC[3] + chestRarityRC[4] && chestRarityRC[4] != 0)
                         chestToSpawn = chestPrefabs[5];
@@ -391,6 +395,24 @@ public class GameManager : MonoBehaviour
         // Spawn the teleporter
         int teleporterIndex = Random.Range(1, teleporterSpawns.Length);
         teleporter = Instantiate(teleporterPrefab, teleporterSpawns[teleporterIndex].position, teleporterSpawns[teleporterIndex].rotation);
+        Destroy(teleporterSpawns[teleporterIndex].gameObject);
+
+        int shrineCount = Random.Range(2, 5);
+        for(int index = 0; index < shrineCount; index++)
+        {
+            int shrineIndex = 0;
+            bool legalSpawn = false;
+            while(!legalSpawn)
+            {
+                shrineIndex = Random.Range(1, teleporterSpawns.Length);
+                if (teleporterSpawns[shrineIndex] != null)
+                    legalSpawn = true;
+            }
+
+            int shrineToSpawn = Random.Range(0, shrinePrefabs.Length);
+            GameObject shrine = Instantiate(shrinePrefabs[shrineToSpawn], teleporterSpawns[shrineIndex].position, teleporterSpawns[shrineIndex].rotation);
+            Destroy(teleporterSpawns[shrineIndex].gameObject);
+        }
 
         // Grab the player spawns 
         bool spawnedGrabbed = false;

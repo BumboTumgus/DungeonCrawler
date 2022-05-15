@@ -8,6 +8,9 @@ public class Inventory : MonoBehaviour
     public List<Item> inventory = new List<Item>();
     public List<Item> trinkets = new List<Item>();
     public List<Item> weapons = new List<Item>();
+    public Item armor;
+    public Item leggings;
+    public Item helmet;
     public List<Item> itemsInRange = new List<Item>();
     public List<GameObject> interactablesInRange = new List<GameObject>();
 
@@ -310,14 +313,17 @@ public class Inventory : MonoBehaviour
             case ItemDropZone.SlotType.Armor:
                 stats.AddItemStats(item, true, false);
                 gearManager.ShowItem(item);
+                armor = item;
                 break;
             case ItemDropZone.SlotType.Helmet:
                 stats.AddItemStats(item, true, false);
                 gearManager.ShowItem(item);
+                helmet = item;
                 break;
             case ItemDropZone.SlotType.Leggings:
                 stats.AddItemStats(item, true, false);
                 gearManager.ShowItem(item);
+                leggings = item;
                 break;
             default:
                 break;
@@ -345,14 +351,20 @@ public class Inventory : MonoBehaviour
             case ItemDropZone.SlotType.Armor:
                 stats.RemoveItemStats(item, true, false);
                 gearManager.HideItem(item);
+                if (armor == item)
+                    armor = null;
                 break;
             case ItemDropZone.SlotType.Helmet:
                 stats.RemoveItemStats(item, true, false);
                 gearManager.HideItem(item);
+                if (helmet == item)
+                    helmet = null;
                 break;
             case ItemDropZone.SlotType.Leggings:
                 stats.RemoveItemStats(item, true, false);
                 gearManager.HideItem(item);
+                if (leggings == item)
+                    leggings = null;
                 break;
             default:
                 break;
@@ -515,6 +527,8 @@ public class Inventory : MonoBehaviour
                         interactPrompt.SetText("Press E to take the Trial of Glass");
                     else if (closestTarget.GetComponent<ShrineBehaviour_Veteran>() != null)
                         interactPrompt.SetText("Press E to pay tribute to the Fallen");
+                    else if (closestTarget.GetComponent<ShrineBehaviour_ElementalFountain>() != null)
+                        interactPrompt.SetText("Press E to transpose an item's elemental affinity");
                 }
                 else
                     interactPrompt.SetText("");
@@ -528,5 +542,45 @@ public class Inventory : MonoBehaviour
     {
         interactablesInRange.Clear();
         itemsInRange.Clear();
+    }
+
+    public List<Item> GetListOfAllItems()
+    {
+        List<Item> allItems = new List<Item>();
+
+        foreach (Item weapon in weapons)
+            allItems.Add(weapon);
+        foreach (Item trinket in trinkets)
+            allItems.Add(trinket);
+        if (helmet != null)
+            allItems.Add(helmet);
+        if (armor != null)
+            allItems.Add(armor);
+        if (leggings != null)
+            allItems.Add(leggings);
+
+        foreach (Item item in inventory)
+        {
+            if (item.itemType != Item.ItemType.Skill)
+                allItems.Add(item);
+        }
+
+        return allItems;
+    }
+
+    public bool DoIHaveSomethingEquipped()
+    {
+        if (helmet != null)
+            return true;
+        if (armor != null)
+            return true;
+        if (leggings != null)
+            return true;
+        if (weapons.Count > 0)
+            return true;
+        if (trinkets.Count > 0)
+            return true;
+
+        return false;
     }
 }

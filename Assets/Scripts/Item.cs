@@ -63,6 +63,7 @@ public class Item : MonoBehaviour
     public int itemMoveset = 0;
 
     public List<ItemTrait> itemTraits = new List<ItemTrait>();
+    public List<ItemTrait> baseTraits = new List<ItemTrait>();
     public ItemTrait.TraitType[] garenteedTraits;
     public float[] garenteedTraitValues;
     public int[] garenteedTraitMultipliers;
@@ -86,6 +87,12 @@ public class Item : MonoBehaviour
 
     private void Start()
     {
+        AddBaseItemTraits();
+    }
+
+    public void AddBaseItemTraits()
+    {
+        Debug.Log("Im rolling the base stats of the item");
         for (int index = 0; index < garenteedTraits.Length; index++)
         {
             AddTrait(garenteedTraits[index], garenteedTraitValues[index], garenteedTraitMultipliers[index]);
@@ -185,7 +192,6 @@ public class Item : MonoBehaviour
             default:
                 break;
         }
-
     }
 
     // This is called when the item can be picked up. The item will set it's parent as the player's ivnentory, hide itself and disable collisions.
@@ -311,6 +317,27 @@ public class Item : MonoBehaviour
 
         if (!traitExists)
             itemTraits.Add(previousItemTrait);
+    }
+
+    private void WipeTraits()
+    {
+        itemTraits = new List<ItemTrait>();
+        AddBaseItemTraits();
+
+        switch (affinityPrimary)
+        {
+            case AffinityType.Physical:
+                baseDamageScaling /= 2;
+                break;
+            case AffinityType.Stun:
+                baseDamageScaling /= 2;
+                break;
+            case AffinityType.Knockback:
+                baseDamageScaling /= 2;
+                break;
+            default:
+                break;
+        }
     }
 
     // This method assigns the item a primary secondary and tertiary trait for the item and assigns traits for each. We also assign the modifiers and assign traits for those too.
@@ -449,6 +476,531 @@ public class Item : MonoBehaviour
                     chosenAffinity = affinitySecondary;
                     chosenAffinityIsValid = true;
                 }
+            }
+
+            if (index == 1)
+            {
+                if (Random.Range(0, 100f) >= 50)
+                    affinitySecondaryMultiElement = true;
+            }
+
+            else if (index == 2)
+            {
+                if (!affinitySecondaryMultiElement)
+                    affinityTertiaryMultiElement = true;
+            }
+
+            switch (index)
+            {
+                case 0:
+                    affinityPrimary = chosenAffinity;
+                    break;
+                case 1:
+                    affinitySecondary = chosenAffinity;
+                    break;
+                case 2:
+                    affinityTertiary = chosenAffinity;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+
+        // Add modifiers to the list. WIpe the list first
+        itemModifiers = new List<ModifierType>();
+        for (int index = 0; index < modifierCount; index++)
+        {
+            bool chosenModifierIsValid = false;
+            ModifierType chosenModifier = ModifierType.None;
+
+            while (!chosenModifierIsValid)
+            {
+                if (Random.Range(0, 100f) > 20)
+                {
+                    switch (Random.Range(0, 10))
+                    {
+                        case 0:
+                            chosenModifier = ModifierType.Brawny;
+                            break;
+                        case 1:
+                            chosenModifier = ModifierType.Devastating;
+                            break;
+                        case 2:
+                            chosenModifier = ModifierType.Hardened;
+                            break;
+                        case 3:
+                            chosenModifier = ModifierType.Illustrious;
+                            break;
+                        case 4:
+                            chosenModifier = ModifierType.Lucky;
+                            break;
+                        case 5:
+                            chosenModifier = ModifierType.Magic;
+                            break;
+                        case 6:
+                            chosenModifier = ModifierType.Nimble;
+                            break;
+                        case 7:
+                            chosenModifier = ModifierType.Strong;
+                            break;
+                        case 8:
+                            chosenModifier = ModifierType.Vamperic;
+                            break;
+                        case 9:
+                            chosenModifier = ModifierType.Resistant;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (Random.Range(0, 10))
+                    {
+                        case 0:
+                            chosenModifier = ModifierType.Brittle;
+                            break;
+                        case 1:
+                            chosenModifier = ModifierType.Cracked;
+                            break;
+                        case 2:
+                            chosenModifier = ModifierType.Cursed;
+                            break;
+                        case 3:
+                            chosenModifier = ModifierType.Dull;
+                            break;
+                        case 4:
+                            chosenModifier = ModifierType.Meager;
+                            break;
+                        case 5:
+                            chosenModifier = ModifierType.Mundane;
+                            break;
+                        case 6:
+                            chosenModifier = ModifierType.Rusty;
+                            break;
+                        case 7:
+                            chosenModifier = ModifierType.Sluggish;
+                            break;
+                        case 8:
+                            chosenModifier = ModifierType.Unfavoured;
+                            break;
+                        case 9:
+                            chosenModifier = ModifierType.Vulnerable;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                chosenModifierIsValid = IsSelectedModifierValid(chosenModifier);
+            }
+
+            itemModifiers.Add(chosenModifier);
+        }
+
+        // Here we set up the prefixes and the suffixes based on our modifiers and affinities
+        itemNameAffinitySuffix = "of";
+        itemNameModifiersPrefix = "";
+
+        if (affinityTertiary != AffinityType.None)
+        {
+            AffinityType affinitySuffixToAdd = affinityTertiary;
+
+            if (affinityTertiaryMultiElement)
+                affinitySuffixToAdd = affinityPrimary;
+
+            switch (affinitySuffixToAdd)
+            {
+                case AffinityType.Fire:
+                    itemNameAffinitySuffix += " <color=#FF932E>Fiery</color>";
+                    break;
+                case AffinityType.Ice:
+                    itemNameAffinitySuffix += " <color=#5AD9F5>Icy</color>";
+                    break;
+                case AffinityType.Earth:
+                    itemNameAffinitySuffix += " <color=#B0946C>Sundered</color>";
+                    break;
+                case AffinityType.Wind:
+                    itemNameAffinitySuffix += " <color=#ABD1E0>Howling</color>";
+                    break;
+                case AffinityType.Physical:
+                    itemNameAffinitySuffix += " <color=#E45B5B>Hardened</color>";
+                    break;
+                case AffinityType.Bleed:
+                    itemNameAffinitySuffix += " <color=#AB181D>Bloody</color>";
+                    break;
+                case AffinityType.Poison:
+                    itemNameAffinitySuffix += " <color=#93D916>Toxic</color>";
+                    break;
+                case AffinityType.Stun:
+                    itemNameAffinitySuffix += " <color=#FFF04F>Stunning</color>";
+                    break;
+                case AffinityType.Knockback:
+                    itemNameAffinitySuffix += " <color=#1F86CA>Forceful</color>";
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (affinitySecondary != AffinityType.None)
+        {
+            AffinityType affinitySuffixToAdd = affinitySecondary;
+
+            if (affinitySecondaryMultiElement)
+                affinitySuffixToAdd = affinityPrimary;
+
+            switch (affinitySuffixToAdd)
+            {
+                case AffinityType.Fire:
+                    itemNameAffinitySuffix += " <color=#FF932E>Fiery</color>";
+                    break;
+                case AffinityType.Ice:
+                    itemNameAffinitySuffix += " <color=#5AD9F5>Icy</color>";
+                    break;
+                case AffinityType.Earth:
+                    itemNameAffinitySuffix += " <color=#B0946C>Sundered</color>";
+                    break;
+                case AffinityType.Wind:
+                    itemNameAffinitySuffix += " <color=#ABD1E0>Howling</color>";
+                    break;
+                case AffinityType.Physical:
+                    itemNameAffinitySuffix += " <color=#E45B5B>Hardened</color>";
+                    break;
+                case AffinityType.Bleed:
+                    itemNameAffinitySuffix += " <color=#AB181D>Bloody</color>";
+                    break;
+                case AffinityType.Poison:
+                    itemNameAffinitySuffix += " <color=#93D916>Toxic</color>";
+                    break;
+                case AffinityType.Stun:
+                    itemNameAffinitySuffix += " <color=#FFF04F>Stunning</color>";
+                    break;
+                case AffinityType.Knockback:
+                    itemNameAffinitySuffix += " <color=#1F86CA>Forceful</color>";
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (affinityPrimary != AffinityType.None)
+        {
+            AffinityType affinitySuffixToAdd = affinityPrimary;
+
+            switch (affinitySuffixToAdd)
+            {
+                case AffinityType.Fire:
+                    itemNameAffinitySuffix += " <color=#FF932E>Flame</color>";
+                    break;
+                case AffinityType.Ice:
+                    itemNameAffinitySuffix += " <color=#5AD9F5>Frost</color>";
+                    break;
+                case AffinityType.Earth:
+                    itemNameAffinitySuffix += " <color=#B0946C>Earth</color>";
+                    break;
+                case AffinityType.Wind:
+                    itemNameAffinitySuffix += " <color=#ABD1E0>Gales</color>";
+                    break;
+                case AffinityType.Physical:
+                    itemNameAffinitySuffix += " <color=#E45B5B>Steel</color>";
+                    break;
+                case AffinityType.Bleed:
+                    itemNameAffinitySuffix += " <color=#AB181D>Exsanguination</color>";
+                    break;
+                case AffinityType.Poison:
+                    itemNameAffinitySuffix += " <color=#93D916>Plagues</color>";
+                    break;
+                case AffinityType.Stun:
+                    itemNameAffinitySuffix += " <color=#FFF04F>Daze</color>";
+                    break;
+                case AffinityType.Knockback:
+                    itemNameAffinitySuffix += " <color=#1F86CA>Impact</color>";
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+        foreach (ModifierType modifer in itemModifiers)
+        {
+            switch (modifer)
+            {
+                case ModifierType.Devastating:
+                    itemNameModifiersPrefix += "<color=#E94453>Devastating</color> ";
+                    break;
+                case ModifierType.Dull:
+                    itemNameModifiersPrefix += "<color=#E94453>Dull</color> ";
+                    break;
+                case ModifierType.Hardened:
+                    itemNameModifiersPrefix += "<color=#FAFF00>Hardened</color> ";
+                    break;
+                case ModifierType.Cracked:
+                    itemNameModifiersPrefix += "<color=#FAFF00>Cracked</color> ";
+                    break;
+                case ModifierType.Nimble:
+                    itemNameModifiersPrefix += "<color=#5DB1E5>Nimble</color> ";
+                    break;
+                case ModifierType.Sluggish:
+                    itemNameModifiersPrefix += "<color=#5DB1E5>Sluggish</color> ";
+                    break;
+                case ModifierType.Vamperic:
+                    itemNameModifiersPrefix += "<color=#60D46D>Vamperic</color> ";
+                    break;
+                case ModifierType.Cursed:
+                    itemNameModifiersPrefix += "<color=#60D46D>Cursed</color> ";
+                    break;
+                case ModifierType.Magic:
+                    itemNameModifiersPrefix += "<color=#5DB1E5>Magic</color> ";
+                    break;
+                case ModifierType.Mundane:
+                    itemNameModifiersPrefix += "<color=#5DB1E5>Mundane</color> ";
+                    break;
+                case ModifierType.Lucky:
+                    itemNameModifiersPrefix += "<color=#299F50>Lucky</color> ";
+                    break;
+                case ModifierType.Unfavoured:
+                    itemNameModifiersPrefix += "<color=#299F50>Unfavoured</color> ";
+                    break;
+                case ModifierType.Strong:
+                    itemNameModifiersPrefix += "<color=#D8D99E>Strong</color> ";
+                    break;
+                case ModifierType.Brittle:
+                    itemNameModifiersPrefix += "<color=#D8D99E>Brittle</color> ";
+                    break;
+                case ModifierType.Illustrious:
+                    itemNameModifiersPrefix += "<color=#AE88C6>Illustrious</color> ";
+                    break;
+                case ModifierType.Rusty:
+                    itemNameModifiersPrefix += "<color=#AE88C6>Rusty</color> ";
+                    break;
+                case ModifierType.Brawny:
+                    itemNameModifiersPrefix += "<color=#AD2A2A>Brawny</color> ";
+                    break;
+                case ModifierType.Meager:
+                    itemNameModifiersPrefix += "<color=#AD2A2A>Meager</color> ";
+                    break;
+                case ModifierType.Resistant:
+                    itemNameModifiersPrefix += "<color=#C353AC>Resistant</color> ";
+                    break;
+                case ModifierType.Vulnerable:
+                    itemNameModifiersPrefix += "<color=#C353AC>Vulnerable</color> ";
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // Start adding traits based on our trait counts for affinities and modifiers
+        for (int modifierIndex = 0; modifierIndex < itemModifiers.Count; modifierIndex++)
+        {
+            //Debug.Log("adding traits for modifier: " + itemModifiers[modifierIndex]);
+
+            int traitsToAdd = traitCountModifiers;
+            ModifierType modType = itemModifiers[modifierIndex];
+
+            if (modifierIndex != itemModifiers.Count - 1)
+            {
+                traitsToAdd = Mathf.RoundToInt(traitCountModifiers * Random.Range(0.3f, 0.6f));
+                traitCountModifiers -= traitsToAdd;
+            }
+
+            for (int index = 0; index < traitsToAdd; index++)
+            {
+                ItemTrait tempTrait = new ItemTrait();
+                tempTrait.GetTraitForModifier(modType);
+
+                AddTrait(tempTrait);
+            }
+        }
+
+        int affinityTypeCount = 1;
+        if (affinitySecondary != AffinityType.None)
+            affinityTypeCount++;
+        if (affinityTertiary != AffinityType.None)
+            affinityTypeCount++;
+
+        // Start adding traits based on our trait counts for affinities and modifiers
+        for (int affinityIndex = 0; affinityIndex < affinityTypeCount; affinityIndex++)
+        {
+            AffinityType affinityChosen = affinityPrimary;
+            AffinityType affinityChosenSplit = AffinityType.None;
+            switch (affinityIndex)
+            {
+                case 0:
+                    affinityChosen = affinityPrimary;
+                    break;
+                case 1:
+                    affinityChosen = affinitySecondary;
+                    if (affinitySecondaryMultiElement)
+                        affinityChosenSplit = affinityPrimary;
+                    break;
+                case 2:
+                    affinityChosen = affinityTertiary;
+                    if (affinityTertiaryMultiElement)
+                        affinityChosenSplit = affinityPrimary;
+                    break;
+                default:
+                    break;
+            }
+
+            int traitsToAdd = traitCountAffinity;
+
+            if (affinityIndex != affinityTypeCount - 1)
+            {
+                traitsToAdd = Mathf.RoundToInt(traitCountAffinity * Random.Range(0.4f, 0.6f));
+                traitCountAffinity -= traitsToAdd;
+            }
+
+            for (int index = 0; index < traitsToAdd; index++)
+            {
+                ItemTrait tempTrait = new ItemTrait();
+                tempTrait.GetTraitForAffinity(affinityChosen, affinityChosenSplit);
+
+                AddTrait(tempTrait);
+            }
+        }
+
+        // Change our damage type if we are a weapon to match the primary trait.
+        if (itemType == ItemType.Weapon || itemType == ItemType.TwoHandWeapon)
+        {
+            switch (affinityPrimary)
+            {
+                case AffinityType.None:
+                    damageType = HitBox.DamageType.Physical;
+                    stacksToAddOnHit = 0;
+                    break;
+                case AffinityType.Fire:
+                    damageType = HitBox.DamageType.Fire;
+                    break;
+                case AffinityType.Ice:
+                    damageType = HitBox.DamageType.Ice;
+                    break;
+                case AffinityType.Earth:
+                    damageType = HitBox.DamageType.Earth;
+                    break;
+                case AffinityType.Wind:
+                    damageType = HitBox.DamageType.Wind;
+                    break;
+                case AffinityType.Physical:
+                    damageType = HitBox.DamageType.Physical;
+                    baseDamageScaling *= 2;
+                    stacksToAddOnHit = 0;
+                    break;
+                case AffinityType.Bleed:
+                    damageType = HitBox.DamageType.Bleed;
+                    break;
+                case AffinityType.Poison:
+                    damageType = HitBox.DamageType.Poison;
+                    break;
+                case AffinityType.Stun:
+                    damageType = HitBox.DamageType.Physical;
+                    baseDamageScaling *= 2;
+                    stacksToAddOnHit = 0;
+                    break;
+                case AffinityType.Knockback:
+                    damageType = HitBox.DamageType.Physical;
+                    baseDamageScaling *= 2;
+                    stacksToAddOnHit = 0;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    // This method assigns the item a primary secondary and tertiary trait for the item and assigns traits for each. We also assign the modifiers and assign traits for those too.
+    public void RollItemTraitsAffinityAndModifiers(AffinityType primaryAffinityOverride, AffinityType secondaryAffinityOverride)
+    {
+        WipeTraits();
+
+        if (itemType == ItemType.Skill)
+        {
+            affinityPrimary = AffinityType.None;
+            affinitySecondary = AffinityType.None;
+            affinityTertiary = AffinityType.None;
+            return;
+        }
+
+        //Debug.Log("Rolling TRaits And shit");
+        int modifierCount = 0;
+        int affinityCount = 0;
+        int traitCountAffinity = 0;
+        int traitCountModifiers = 0;
+
+
+        // Set our affinity count based on if the affinity overrides match.
+        if (primaryAffinityOverride == secondaryAffinityOverride)
+            affinityCount = 1;
+        else
+            affinityCount = Random.Range(2, 4);
+
+
+        // set up the trait counts based on our item rarity
+        switch (itemRarity)
+        {
+            case ItemRarity.Common:
+                modifierCount = Random.Range(0, 2);
+                traitCountAffinity = 2;
+                traitCountModifiers = 1;
+                break;
+            case ItemRarity.Uncommon:
+                modifierCount = Random.Range(1, 3);
+                traitCountAffinity = 4;
+                traitCountModifiers = 2;
+                break;
+            case ItemRarity.Rare:
+                modifierCount = Random.Range(1, 3);
+                traitCountAffinity = 8;
+                traitCountModifiers = 4;
+                break;
+            case ItemRarity.Legendary:
+                modifierCount = Random.Range(2, 4);
+                traitCountAffinity = 16;
+                traitCountModifiers = 8;
+                break;
+            case ItemRarity.Masterwork:
+                modifierCount = Random.Range(2, 4);
+                traitCountAffinity = 32;
+                traitCountModifiers = 16;
+                break;
+            default:
+                break;
+        }
+
+        if (itemType == ItemType.TwoHandWeapon)
+        {
+            traitCountAffinity *= 2;
+            traitCountModifiers *= 2;
+        }
+
+        //Debug.Log("assigning affinities");
+        // Add Affinities based on our affinity count, wipe them all first
+        affinityPrimary = AffinityType.None;
+        affinitySecondary = AffinityType.None;
+        affinityTertiary = AffinityType.None;
+        affinitySecondaryMultiElement = false;
+        affinityTertiaryMultiElement = false;
+        for (int index = 0; index < affinityCount; index++)
+        {
+            AffinityType chosenAffinity = AffinityType.None;
+            // Set the affinity based on the index
+            switch (index)
+            {
+                case 0:
+                    chosenAffinity = primaryAffinityOverride;
+                    break;
+                case 1:
+                    chosenAffinity = secondaryAffinityOverride;
+                    break;
+                case 2:
+                    chosenAffinity = secondaryAffinityOverride;
+                    break;
+                default:
+                    break;
             }
 
             if (index == 1)

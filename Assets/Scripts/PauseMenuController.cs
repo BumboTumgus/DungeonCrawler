@@ -28,6 +28,10 @@ public class PauseMenuController : MonoBehaviour
             {
                 HideMenu();
             }
+            else if (pmc.elementalWindowOpen)
+            {
+                pmc.HideElementalFountainWindow();
+            }
             else if (pmc.inventoryMenuOpen)
             {
                 pmc.HideInventoryWindow();
@@ -50,18 +54,17 @@ public class PauseMenuController : MonoBehaviour
 
     public void HideMenu()
     {
+        Debug.Log("Hiding the pause window.");
         paused = false;
         pauseMenu.SetActive(false);
-        if (!pmc.inventoryMenuOpen)
-        {
-            Camera.main.transform.parent.GetComponent<CameraControls>().menuOpen = false;
-            pmc.freezePlayerMovementForMenu = false;
-            Time.timeScale = 1;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
         pmc.pauseMenuOpen = false;
         menuCloseAudio.Play();
+        pmc.CheckWhichPanelsAreOpen();
+    }
+
+    public void HideElementalTranspositionPanel()
+    {
+        pmc.HideElementalFountainWindow();
     }
 
     // Used by the restart button to relaunch the scene.

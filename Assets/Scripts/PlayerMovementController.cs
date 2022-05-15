@@ -8,9 +8,11 @@ public class PlayerMovementController : MonoBehaviour
     public enum PlayerState { Idle, Moving, Airborne, Rolling, Attacking, Downed, Dead, LossOfControl, LossOfControlNoGravity, CastingNoMovement, CastingRollOut, CastingWithMovement, CastingAerial, CastingAerialWithMovement, CastingIgnoreGravity, Jumping, Teleporting}
     public PlayerState playerState = PlayerState.Idle;
 
-    [HideInInspector] public bool inventoryMenuOpen = false;          // USed to lock movement if the menu is open.
-    [HideInInspector] public bool pauseMenuOpen = false;              // USed to lock movement if the menu is open.
+    public bool inventoryMenuOpen = false;          // USed to lock movement if the menu is open.
+    public bool pauseMenuOpen = false;              // USed to lock movement if the menu is open.
+    public bool elementalWindowOpen = false;              // USed to lock movement if the menu is open.
     public GameObject inventoryWindow;                                // a public reference to the gameobject that is the inventory window.
+    public GameObject elementalFountainWindow;
     [HideInInspector] public bool freezePlayerMovementForMenu = false;
     public Vector3 transformNavMeshPosition;
     private Ray navMeshPositionRay;
@@ -962,6 +964,28 @@ public class PlayerMovementController : MonoBehaviour
                 {
                     interactable.GetComponent<ArtifactBehaviour>().ActivateArtifact();
                 }
+                else if(interactable.GetComponent<ShrineBehaviour_ElementalFountain>() != null )
+                {
+                    // Open the menu here.
+                    if (!elementalFountainWindow.activeSelf && (inventory.inventory.Count > 0 || inventory.DoIHaveSomethingEquipped()))
+                    {
+                        // Set the lock for our movement and camera controls after we press and open the inventory.
+                        elementalFountainWindow.SetActive(true);
+                        elementalFountainWindow.GetComponent<ElementalTranspotitionUiManager>().OnOpen(interactable.GetComponent<ShrineBehaviour_ElementalFountain>());
+                        //elementalFountainWindow.GetComponent<InventoryUiManager>().audioManager.PlayAudio(2);
+
+                        elementalWindowOpen = true;
+                        freezePlayerMovementForMenu = true;
+                        cameraControls.menuOpen = true;
+                        Time.timeScale = 0;
+                        Cursor.lockState = CursorLockMode.Confined;
+                        Cursor.visible = true;
+                    }
+                    else
+                    {
+                        HideElementalFountainWindow();
+                    }
+                }
                 else if(interactable.GetComponent<ShrineBehaviour>() != null)
                 {
                     // Check what shrine it is
@@ -995,6 +1019,10 @@ public class PlayerMovementController : MonoBehaviour
         // If we have pressed the inventory window, 
         if (Input.GetAxisRaw(inputs.inventoryInput) == 1 && inputs.inventoryReleased && !playerStats.dead)
         {
+            // The inventory cannot be opened if the elemental shrine window is openeed.
+            if (elementalFountainWindow.activeSelf)
+                return;
+
             inputs.inventoryReleased = false;
             //Debug.Log("Inventory will be opened or closed");
             if (!inventoryWindow.activeSelf)
@@ -1027,8 +1055,30 @@ public class PlayerMovementController : MonoBehaviour
         inventoryWindow.GetComponent<InventoryPopupTextManager>().lockPointer = false;
         inventoryWindow.GetComponent<InventoryPopupTextManager>().HidePopups(true);
         inventoryMenuOpen = false;
-        if (!pauseMenuOpen)
+        Debug.Log("Hiding the inventory window.");
+        CheckWhichPanelsAreOpen();
+    }
+
+    public void HideElementalFountainWindow()
+    {
+        // Remvoe the lock for our movement and camera controls after we press and open the inventory.
+        elementalFountainWindow.SetActive(false);
+        //elementalFountainWindow.GetComponent<InventoryUiManager>().audioManager.PlayAudio(3);
+
+
+        //elementalFountainWindow.GetComponent<InventoryPopupTextManager>().lockPointer = false;
+        //elementalFountainWindow.GetComponent<InventoryPopupTextManager>().HidePopups(true);
+        elementalWindowOpen = false;
+        Debug.Log("Hiding the elemental window.");
+        CheckWhichPanelsAreOpen();
+    }
+
+    public void CheckWhichPanelsAreOpen()
+    {
+        Debug.Log("Checking if all the panels are closed: " + pauseMenuOpen + " | " + inventoryMenuOpen + " | " + elementalWindowOpen);
+        if (!pauseMenuOpen && !inventoryMenuOpen && !elementalWindowOpen)
         {
+            Debug.Log("All are false, reset the cursor");
             freezePlayerMovementForMenu = false;
             cameraControls.menuOpen = false;
             Time.timeScale = 1;
@@ -1036,18 +1086,6 @@ public class PlayerMovementController : MonoBehaviour
             Cursor.visible = false;
         }
     }
-
-    /*
-    // Used when we enter a trigger and it has a room tag
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.CompareTag("RoomVolume"))
-        {
-            //Debug.Log("We have entered a new room");
-            GameManager.instance.ShowRoom(other.transform.parent.GetComponent<RoomManager>());
-        }
-    }
-    */
 
     // Called afetr any other negative effects end to see if we shoudl regain control of our player or not.
     public void CheckForOtherLoseOfControlEffects()

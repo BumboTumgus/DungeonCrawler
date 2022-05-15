@@ -69,6 +69,15 @@ MonoBehaviour:
   combinedPlayerLuck: 0
   trapStats: {fileID: 0}
   hillChargeTime: 40
+  shrinePrefabs:
+  - {fileID: 7195596502231215327, guid: 0efc68a68d0ed3b4195cac53fc8e6f17, type: 3}
+  - {fileID: 4251067939068617866, guid: 26ee4275734d9b842ae37229a7f5de93, type: 3}
+  - {fileID: 2994424217206622968, guid: f62efdfc2359eda459c6b9a773ca8412, type: 3}
+  - {fileID: 4402286595470252998, guid: d59d7357c92b1364f977f6bdb7a09004, type: 3}
+  - {fileID: 1946823251917409491, guid: 00134840601142c4d8c611026ee48553, type: 3}
+  - {fileID: 991037409653582234, guid: ad3b797b32e293d46aef59de87993c22, type: 3}
+  - {fileID: 1600689689962523336, guid: eacfe5c256354804eb4670c1847ae565, type: 3}
+  shrineCost: 100
   objectiveCurrentProgress: 0
   objectiveTarget: 0
   objectiveType: 0
@@ -79,7 +88,13 @@ MonoBehaviour:
   - {fileID: 3745763306811235450, guid: 8e2e27256ff082f4bb4a8b00e38182a1, type: 3}
   - {fileID: 1041247712668090354, guid: fdebe89686bb68540962bcd08e1abdec, type: 3}
   - {fileID: 5851592772034767187, guid: f8b9aa2fa8b21014384ddde81c6f96f1, type: 3}
-  chestRarityRC: []
+  chestRarityRC:
+  - 75
+  - 25
+  - 0
+  - 0
+  - 0
+  - 125
   teleporterPrefab: {fileID: 5133575608266632094, guid: b3330de817a212d4b81c3123111c7a45,
     type: 3}
   playerCharacterPrefab: {fileID: 6396177047700177099, guid: f573747d08b174d4c8eddb46d0bc91bf,
@@ -984,6 +999,7 @@ MonoBehaviour:
   - {r: 0.11961552, g: 0.52373874, b: 0.7924528, a: 1}
   - {r: 0.18796726, g: 0.2111259, b: 0.2264151, a: 1}
   - {r: 0.9150943, g: 0.2676219, b: 0.32482535, a: 1}
+  - {r: 0, g: 1, b: 0.8583193, a: 1}
   buffIcons:
   - {fileID: 21300000, guid: 2cd0a508ba350ce4a9883be5f9356dea, type: 3}
   - {fileID: 21300000, guid: 91112c07dbbb163419bdf37c144ab051, type: 3}
@@ -1016,6 +1032,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 05bc85a4296194648a7ce4ffbbc25b72, type: 3}
   - {fileID: 21300000, guid: fc78dd40bca884d40996753ba825f98b, type: 3}
   - {fileID: 21300000, guid: dd309a81894a2ce4a99e48838d88cfae, type: 3}
+  - {fileID: 21300000, guid: e7359c283e81bf145aa4e15ab98bcc26, type: 3}
 --- !u!114 &9092376479386915492
 MonoBehaviour:
   m_ObjectHideFlags: 0

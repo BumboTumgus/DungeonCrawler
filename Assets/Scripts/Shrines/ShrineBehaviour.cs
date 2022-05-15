@@ -6,8 +6,8 @@ public class ShrineBehaviour : MonoBehaviour
 {
     public bool interactable = true;
 
-    [SerializeField] GameObject[] gameObjectsToHideOnUse;
-    [SerializeField] ParticleSystem[] particleSystemsToPlayOnUse;
+    public GameObject[] gameObjectsToHideOnUse;
+    public ParticleSystem[] particleSystemsToPlayOnUse;
     [SerializeField] bool reusable = false;
 
     private const float REUSE_COOLDOWN = 1f;
