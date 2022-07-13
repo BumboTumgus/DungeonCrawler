@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HighQualityWater_ForestOfTheFallenWisps
+  m_Shader: {fileID: 4800000, guid: 8165be4dd0b12774d80426d906df9c38, type: 3}
+  m_ShaderKeywords: LPW_SHADOWS WATER_REFLECTIVE _EMISSION _HQFOAM_ON _LIGHTABS_ON
+    _SHADING_FLAT _WAVES_HIGHQUALITY _ZWRITE_ON
+  m_LightmapFlags: 1
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2500
+  stringTagMap:
+    QUEUE: AlphaTest+50
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpTex:
+        m_Texture: {fileID: 2800000, guid: 5172883f19560c34db24c164f824d406, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FresnelTex:
+        m_Texture: {fileID: 2800000, guid: bbe71c065be7eca47b24d1e03bf041b3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: 6a1c221a7d11eaa4e875ae74a888d906, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RefractionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Absorption: 7
+    - _BumpScale: 35
+    - _BumpScale_: 560
+    - _BumpSpeed: 0.2
+    - _Cull: 0
+    - _Cull_: 2
+    - _Diffuse: 0.401
+    - _Direction: 151
+    - _Distort: 0
+    - _Distortion: 1
+    - _EdgeBlend: 0
+    - _EnableShadows: 1
+    - _FoamScale: 20
+    - _FoamSpeed: 0.1
+    - _FoamSpread: 2
+    - _FresPower: 1
+    - _HQFoam: 0
+    - _Height: 0.01
+    - _Height_: 0.16
+    - _Length: 5
+    - _LightAbs: 1
+    - _NormalOffset: 1
+    - _Opacity: 0.7
+    - _PointLights: 0
+    - _RHeight: 0.01
+    - _RHeight_: 0.16
+    - _RSpeed: 1
+    - _RSpeed_: 16
+    - _Reflection: 1
+    - _Refraction: 2
+    - _Scale: 1
+    - _Scale_: 16
+    - _Shading: 0
+    - _Shadow: 0.523
+    - _ShoreDistance: 0.1
+    - _ShoreIntensity: 0.8
+    - _Specular: 216
+    - _Speed: 0.1
+    - _Speed_: 1.6
+    - _Steepness: 0.1
+    - _Stretch: 10
+    - _TexSize_: 1024
+    - _Time_: 323.62787
+    - _TransformScale_: 16
+    - _Waves: 2
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.46676043, g: 0.0779043, b: 0.9528302, a: 1}
+    - _DeepColor: {r: 0.18500023, g: 0.07450979, b: 0.27450982, a: 1}
+    - _Direction_: {r: -0.8746198, g: 0.48480955, b: -6.9969583, a: 3.8784764}
+    - _FresColor: {r: 0.73755366, g: 0.2508306, b: 0.8396226, a: 1}
+    - _ShoreColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecColor: {r: 0.7942518, g: 0.51572317, b: 1, a: 0}
+    - _Sun: {r: -0.13935868, g: 0.4390445, b: -0.8875917, a: 0}
+    - _SunColor: {r: 0.75245565, g: 0.34509802, b: 1, a: 1}
+  m_BuildTextureStacks: []
